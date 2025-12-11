@@ -1,0 +1,174 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Docente;
+use App\Models\Programa;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+class AdminDocenteController extends Controller
+{
+    /**
+     * Display a listing of docentes.
+     */
+    public function index(Request $request)
+    {
+        $query = Docente::with('programas');
+
+        // Search by name
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nombres', 'like', '%' . $search . '%')
+                    ->orWhere('apellidos', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter by grado
+        if ($request->filled('grado')) {
+            $query->where('grado', 'like', $request->grado . '%');
+        }
+
+        $docentes = $query->ordenados()->paginate(15)->withQueryString();
+
+        return view('admin.docentes.index', compact('docentes'));
+    }
+
+    /**
+     * Show the form for creating a new docente.
+     */
+    public function create()
+    {
+        $programas = Programa::activos()->orderBy('nombre')->get();
+        return view('admin.docentes.create', compact('programas'));
+    }
+
+    /**
+     * Store a newly created docente in storage.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nombres' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'grado' => 'nullable|string|max:100',
+            'especialidad' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'telefono' => 'nullable|string|max:50',
+            'orcid' => 'nullable|string|max:255',
+            'cti_vitae' => 'nullable|url',
+            'linkedin' => 'nullable|url',
+            'biografia' => 'nullable|string',
+            'lineas_investigacion' => 'nullable|string',
+            'grupo_investigacion' => 'nullable|string|max:255',
+            'foto' => 'nullable|image|max:2048',
+            'estado' => 'boolean',
+            'programas' => 'nullable|array',
+            'programas.*' => 'exists:programas,id',
+        ]);
+
+        // Handle photo upload
+        if ($request->hasFile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('docentes', 'public');
+        }
+
+        $docente = Docente::create($validated);
+
+        // Attach programs if provided
+        if ($request->has('programas')) {
+            $docente->programas()->attach($request->programas);
+        }
+
+        return redirect()->route('admin.docentes.index')
+            ->with('success', 'Docente creado exitosamente.');
+    }
+
+    /**
+     * Show the form for editing the specified docente.
+     */
+    public function edit(Docente $docente)
+    {
+        $programas = Programa::activos()->orderBy('nombre')->get();
+        $docente->load('programas');
+        return view('admin.docentes.edit', compact('docente', 'programas'));
+    }
+
+    /**
+     * Update the specified docente in storage.
+     */
+    public function update(Request $request, Docente $docente)
+    {
+        $validated = $request->validate([
+            'nombres' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'grado' => 'nullable|string|max:100',
+            'especialidad' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'telefono' => 'nullable|string|max:50',
+            'orcid' => 'nullable|string|max:255',
+            'cti_vitae' => 'nullable|url',
+            'linkedin' => 'nullable|url',
+            'biografia' => 'nullable|string',
+            'lineas_investigacion' => 'nullable|string',
+            'grupo_investigacion' => 'nullable|string|max:255',
+            'foto' => 'nullable|image|max:2048',
+            'estado' => 'boolean',
+            'programas' => 'nullable|array',
+            'programas.*' => 'exists:programas,id',
+        ]);
+
+        // Handle photo upload
+        if ($request->hasFile('foto')) {
+            // Delete old photo
+            if ($docente->foto) {
+                Storage::disk('public')->delete($docente->foto);
+            }
+            $validated['foto'] = $request->file('foto')->store('docentes', 'public');
+        }
+
+        $docente->update($validated);
+
+        // Sync programs
+        if ($request->has('programas')) {
+            $docente->programas()->sync($request->programas);
+        } else {
+            $docente->programas()->detach();
+        }
+
+        return redirect()->route('admin.docentes.index')
+            ->with('success', 'Docente actualizado exitosamente.');
+    }
+
+    /**
+     * Remove the specified docente from storage.
+     */
+    public function destroy(Docente $docente)
+    {
+        // Delete photo if exists
+        if ($docente->foto) {
+            Storage::disk('public')->delete($docente->foto);
+        }
+
+        // Detach all programs
+        $docente->programas()->detach();
+
+        $docente->delete();
+
+        return redirect()->route('admin.docentes.index')
+            ->with('success', 'Docente eliminado exitosamente.');
+    }
+
+    /**
+     * Toggle the active status of a docente.
+     */
+    public function toggleActive(Docente $docente)
+    {
+        $docente->update(['estado' => !$docente->estado]);
+
+        $status = $docente->estado ? 'activado' : 'desactivado';
+        return redirect()->route('admin.docentes.index')
+            ->with('success', "Docente {$status} exitosamente.");
+    }
+}
