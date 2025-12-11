@@ -27,8 +27,7 @@
                 <span>Directorio</span>
             </a>
             <span class="text-white/30">|</span>
-            <a href="{{ route('posgrado.directorio') }}" target="_blank"
-                class="flex items-center hover:text-gray-300 transition gap-2">
+            <a href="{{ route('directorio') }}" class="flex items-center hover:text-gray-300 transition gap-2">
                 <i class="fas fa-globe"></i>
                 <span>Directorio Posgrado</span>
             </a>

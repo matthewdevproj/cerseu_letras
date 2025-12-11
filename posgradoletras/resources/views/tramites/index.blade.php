@@ -1,112 +1,1065 @@
 @extends('layouts.public')
 
-@section('title', 'Trámites - Posgrado Letras UNMSM')
+@section('title', 'Trámites - Obtención de Grado - Posgrado Letras UNMSM')
+
+@push('styles')
+    <style>
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .prose ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .prose ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.4rem;
+            color: #374151;
+        }
+    </style>
+@endpush
 
 @section('content')
-    <div class="container mx-auto px-4 py-8">
 
-        <h2 class="text-2xl md:text-3xl font-bold text-unmsm-guinda mb-6 border-b-2 border-unmsm-dorado/30 pb-2 font-serif">
-            Trámites y Requisitos
-        </h2>
+    <!-- HERO DE SECCIÓN -->
+    <section class="relative w-full h-[50vh] min-h-[400px] flex items-center justify-center bg-gray-900 overflow-hidden">
+        <!-- Imagen de Fondo -->
+        <div class="absolute inset-0 opacity-50">
+            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1920&auto=format&fit=crop"
+                alt="Graduación" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-gray-900/90"></div>
+        </div>
 
-        <div class="space-y-8">
+        <!-- Texto Hero -->
+        <div class="relative z-10 text-center text-white px-4 mt-20">
+            <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-3">Trámites Académicos</p>
+            <h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 drop-shadow-lg">Obtención de Grado</h1>
+            <p class="text-gray-200 max-w-2xl mx-auto font-light text-lg leading-relaxed">
+                Guía completa de requisitos y procedimientos para la obtención de los grados académicos de Magíster y
+                Doctor.
+            </p>
+        </div>
+    </section>
 
-            <!-- Requisitos para Magíster -->
-            <div class="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 class="text-xl font-bold text-unmsm-guinda mb-4 flex items-center gap-2 font-serif">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="text-unmsm-dorado h-6 w-6" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Requisitos para la Obtención del Grado de Magíster
-                </h3>
-                <ul class="space-y-3 text-gray-600">
-                    <li class="flex gap-3">
-                        <span class="w-1.5 h-1.5 bg-unmsm-guinda rounded-full mt-2 shrink-0"></span>
-                        Haber aprobado los estudios de una duración mínima de dos (2) semestres académicos, con un contenido
-                        mínimo de cuarenta y ocho (48) créditos.
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="w-1.5 h-1.5 bg-unmsm-guinda rounded-full mt-2 shrink-0"></span>
-                        Dominio de un idioma extranjero o lengua nativa.
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="w-1.5 h-1.5 bg-unmsm-guinda rounded-full mt-2 shrink-0"></span>
-                        Elaboración de una tesis o trabajo de investigación en la especialidad respectiva.
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="w-1.5 h-1.5 bg-unmsm-guinda rounded-full mt-2 shrink-0"></span>
-                        Aprobación de la sustentación pública de la tesis.
-                    </li>
-                </ul>
-            </div>
+    <!-- LAYOUT SIDEBAR + CONTENIDO -->
+    <div class="container mx-auto px-4 py-12" x-data="{ currentTab: 'maestria' }">
+        <div class="grid lg:grid-cols-4 gap-8">
 
-            <!-- Requisitos para Doctor -->
-            <div class="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 class="text-xl font-bold text-unmsm-guinda mb-4 flex items-center gap-2 font-serif">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="text-unmsm-dorado h-6 w-6" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path
-                            d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-                    </svg>
-                    Requisitos para la Obtención del Grado de Doctor
-                </h3>
-                <ul class="space-y-3 text-gray-600">
-                    <li class="flex gap-3">
-                        <span class="w-1.5 h-1.5 bg-unmsm-guinda rounded-full mt-2 shrink-0"></span>
-                        Haber obtenido el grado de Magíster.
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="w-1.5 h-1.5 bg-unmsm-guinda rounded-full mt-2 shrink-0"></span>
-                        Haber aprobado los estudios de una duración mínima de seis (6) semestres académicos, con un
-                        contenido mínimo de sesenta y cuatro (64) créditos.
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="w-1.5 h-1.5 bg-unmsm-guinda rounded-full mt-2 shrink-0"></span>
-                        Dominio de dos idiomas extranjeros, uno de los cuales puede ser sustituido por una lengua nativa.
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="w-1.5 h-1.5 bg-unmsm-guinda rounded-full mt-2 shrink-0"></span>
-                        Elaboración de una tesis de máxima rigurosidad académica y de carácter original.
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="w-1.5 h-1.5 bg-unmsm-guinda rounded-full mt-2 shrink-0"></span>
-                        Aprobación de la sustentación pública de la tesis.
-                    </li>
-                </ul>
-            </div>
+            <!-- SIDEBAR: NAVEGACIÓN -->
+            <aside class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-2 sticky top-28">
+                    <nav class="flex flex-col space-y-1">
+                        <button @click="currentTab = 'maestria'"
+                            :class="{ 'bg-unmsm-guinda text-white shadow-md': currentTab === 'maestria', 'text-gray-600 hover:bg-gray-50': currentTab !== 'maestria' }"
+                            class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold transition-all w-full text-left">
+                            <i class="fas fa-graduation-cap text-lg"
+                                :class="{ 'text-unmsm-dorado': currentTab === 'maestria', 'text-gray-400': currentTab !== 'maestria' }"></i>
+                            Grado de Magíster
+                        </button>
 
-            <!-- Reglamentos y Directivas -->
-            <div class="bg-unmsm-guinda/5 border border-unmsm-guinda/20 rounded-lg p-6">
-                <h3 class="text-lg font-bold text-unmsm-guinda mb-4 font-serif">Reglamentos y Directivas</h3>
-                <p class="text-gray-600 mb-4">Consulta los documentos oficiales para más información sobre el proceso de
-                    obtención de grados.</p>
-                <div class="flex gap-3">
-                    <a href="#"
-                        class="inline-flex items-center gap-2 text-sm bg-unmsm-guinda text-white px-4 py-2 rounded hover:bg-unmsm-guinda/90 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Reglamento de Posgrado
-                    </a>
-                    <a href="#"
-                        class="inline-flex items-center gap-2 text-sm bg-white text-unmsm-guinda border border-unmsm-guinda px-4 py-2 rounded hover:bg-unmsm-guinda/5 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Directivas Académicas
-                    </a>
+                        <button @click="currentTab = 'doctorado'"
+                            :class="{ 'bg-gray-900 text-white shadow-md': currentTab === 'doctorado', 'text-gray-600 hover:bg-gray-50': currentTab !== 'doctorado' }"
+                            class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold transition-all w-full text-left">
+                            <i class="fas fa-user-graduate text-lg"
+                                :class="{ 'text-white': currentTab === 'doctorado', 'text-gray-400': currentTab !== 'doctorado' }"></i>
+                            Grado de Doctor
+                        </button>
+                    </nav>
+
+                    <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
+                        <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Informes</h4>
+                        <div class="space-y-3 text-sm">
+                            <a href="mailto:upg.letras@unmsm.edu.pe"
+                                class="flex items-center gap-2 text-gray-700 hover:text-unmsm-guinda">
+                                <i class="far fa-envelope text-unmsm-guinda"></i>
+                                <span class="truncate">upg.letras@unmsm.edu.pe</span>
+                            </a>
+                            <a href="https://wa.me/51982085037" target="_blank"
+                                class="flex items-center gap-2 text-gray-700 hover:text-green-600">
+                                <i class="fab fa-whatsapp text-green-500 text-lg"></i>
+                                <span>982 085 037</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Recursos Rápidos -->
+                    <div class="mt-4 p-4 bg-unmsm-guinda/5 rounded-lg border border-unmsm-guinda/10">
+                        <h4 class="text-xs font-bold text-unmsm-guinda uppercase mb-3">Documentos</h4>
+                        <div class="space-y-2 text-xs">
+                            <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
+                                target="_blank"
+                                class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
+                                <i class="fas fa-file-pdf text-red-500"></i>
+                                Plantilla Proyecto
+                            </a>
+                            <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/03/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-1-1.pdf"
+                                target="_blank"
+                                class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
+                                <i class="fas fa-file-pdf text-red-500"></i>
+                                Estructura de Tesis
+                            </a>
+                            <a href="https://sanmarket.unmsm.edu.pe/" target="_blank"
+                                class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
+                                <i class="fas fa-credit-card text-green-600"></i>
+                                SanMarket (Pagos)
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </aside>
+
+            <!-- CONTENIDO PRINCIPAL -->
+            <section class="lg:col-span-3 min-h-[500px]">
+
+                <!-- ======================= PESTAÑA MAESTRÍA ======================= -->
+                <div x-show="currentTab === 'maestria'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+                    class="space-y-8 fade-in">
+
+                    <div class="border-b pb-4 mb-6">
+                        <h2 class="text-2xl font-serif font-bold text-unmsm-guinda">
+                            Requisitos para la Obtención del Grado de Magíster
+                        </h2>
+                        <p class="text-gray-500 text-sm mt-1">
+                            Proceso completo: inscripción de proyecto, declaración de expedito, sustentación y trámite de
+                            diploma.
+                        </p>
+                    </div>
+
+                    <!-- PASO I - MAGÍSTER -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-unmsm-guinda text-white flex items-center justify-center font-bold text-sm">
+                                I
+                            </div>
+                            <h3 class="font-bold text-gray-800">
+                                Inscripción de proyecto de tesis y nombramiento de asesor
+                            </h3>
+                        </div>
+                        <div class="p-6 prose prose-sm max-w-none text-gray-600">
+                            <p>
+                                El postulante debe presentar <strong>Solicitud en FUT (Formato Único de Trámite)</strong>
+                                pidiendo la inscripción de proyecto de tesis y nombramiento de asesor, enviando en
+                                <strong>formato PDF</strong> al correo
+                                <strong>upg.letras@unmsm.edu.pe</strong> lo siguiente:
+                            </p>
+                            <ul class="marker:text-unmsm-guinda">
+                                <li>
+                                    <strong>1.1. Proyecto de tesis:</strong>
+                                    respetando la plantilla oficial de proyecto:
+                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
+                                        target="_blank" class="text-unmsm-guinda underline hover:text-unmsm-dorado">
+                                        Plantilla oficial de proyecto de tesis
+                                    </a>.
+                                </li>
+                                <li>
+                                    <strong>1.2. Carta simple del asesor</strong> aceptando la asesoría.
+                                </li>
+                            </ul>
+
+                            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4 not-prose rounded">
+                                <p class="text-xs text-blue-800 font-medium mb-2">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Indicaciones importantes:
+                                </p>
+                                <ul class="text-xs text-blue-900 list-disc pl-4 space-y-1">
+                                    <li>El nombre del proyecto debe ser el mismo para la tesis, hasta su sustentación.</li>
+                                    <li>
+                                        Si hubiera algún cambio, se deberá comunicar a la UPG para realizar el
+                                        trámite de cambio de nombre, antes de la fecha de revisión por el programa
+                                        de antiplagio <strong>Turnitin</strong>.
+                                    </li>
+                                    <li>
+                                        Adjuntar <strong>copia de DNI</strong> y <strong>partida de nacimiento</strong>.
+                                        De acuerdo con los requisitos de la SUNEDU, ambos documentos deben tener
+                                        correctamente colocadas las tildes en nombres y apellidos. Se devuelve el
+                                        expediente cuya partida no coincida con el DNI.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PASO II - MAGÍSTER -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-unmsm-guinda text-white flex items-center justify-center font-bold text-sm">
+                                II
+                            </div>
+                            <h3 class="font-bold text-gray-800">Declaración de expedito</h3>
+                        </div>
+                        <div class="p-6 text-gray-600 text-sm space-y-4">
+                            <p class="font-semibold text-unmsm-guinda">
+                                Requisitos académicos previos:
+                            </p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Haber concluido su plan de estudios con una nota promedio de <strong>14
+                                        (catorce)</strong> en escala vigesimal.</li>
+                                <li>
+                                    Tener concluida la tesis respetando la
+                                    <strong>DIRECTIVA DE MODELO DE ESTRUCTURA DE TESIS</strong> – Programas de maestría y
+                                    doctorado
+                                    (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
+                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/03/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-1-1.pdf"
+                                        target="_blank" class="text-unmsm-guinda hover:underline">
+                                        Ver directiva
+                                    </a>
+                                </li>
+                                <li>La tesis debe respetar el <strong>protocolo de presentación de tesis (R.D. N.º
+                                        283-D-FLCH-19)</strong>.</li>
+                                <li>Contar con <strong>informe final del asesor con firma</strong>.</li>
+                            </ul>
+
+                            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                <p class="text-xs text-blue-800">
+                                    El nombre de la tesis debe mantenerse igual hasta la sustentación. En caso de cambio,
+                                    se debe comunicar a la UPG antes de la revisión por Turnitin.
+                                </p>
+                            </div>
+
+                            <p class="mt-4">
+                                El alumno debe presentar <strong>Solicitud en FUT</strong> pidiendo se le declare expedito,
+                                enviando el expediente completo en formato PDF al correo
+                                <strong>upg.letras@unmsm.edu.pe</strong>, con los siguientes documentos:
+                            </p>
+
+                            <ul class="list-decimal pl-5 space-y-1">
+                                <li>Copia del grado de <strong>bachiller</strong>.</li>
+                                <li>Certificado de estudios (promedio ponderado 14).</li>
+                                <li>
+                                    Constancia original que acredite el dominio de <strong>un idioma</strong>, expedida
+                                    por la FLCH – Oficina de suficiencia de idiomas (vigencia: 3 años).
+                                </li>
+                                <li>
+                                    <strong>Pago de tasas a la Facultad para obtención del grado de Magíster</strong>
+                                    (TUPA 2008, R.R. N.º 01545-R-08); los pagos se realizan a través de
+                                    <a href="https://sanmarket.unmsm.edu.pe/#/" target="_blank"
+                                        class="text-blue-600 underline hover:text-blue-800">
+                                        SanMarket-UNMSM
+                                    </a>.
+                                    <span class="font-semibold block mt-1">
+                                        Cada pago debe realizarse por separado y generar su respectiva boleta de venta.
+                                    </span>
+                                </li>
+                            </ul>
+
+                            <!-- TABLAS DE PAGOS MAGÍSTER -->
+                            <div class="space-y-5 mt-4">
+                                <!-- 5.4.1 Trámite de Grado -->
+                                <div>
+                                    <p class="font-semibold mb-2">5.4.1. Trámite de Grado de Magíster</p>
+                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-unmsm-guinda">
+                                                <tr>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Concepto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Monto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Unidad
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                <tr>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        Grado de Magíster
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center font-bold text-unmsm-guinda">
+                                                        S/ 1,555.00
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        <p>Facultad de Letras y Ciencias Humanas</p>
+                                                        <p>Unidad de Posgrado</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- 5.4.2 Monitoreo -->
+                                <div>
+                                    <p class="font-semibold mb-2">
+                                        5.4.2. Pago por monitoreo de investigación, avances y ejecución de tesis – Tarifario
+                                        Descentralizado (R.D. N.º 1204-D-FLCH-17)
+                                    </p>
+                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-unmsm-guinda">
+                                                <tr>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Concepto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Monto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Unidad
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                <tr>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        Pago por monitoreo de investigación, avances y ejecución de tesis
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center font-bold text-unmsm-guinda">
+                                                        S/ 1,500.00
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        Tarifario Descentralizado
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- 5.4.3 Expedición Diploma -->
+                                <div>
+                                    <p class="font-semibold mb-2">
+                                        5.4.3. Expedición de Diplomas de Grado de Magíster – Sede Central (R.R. N.º
+                                        01545-R-08)
+                                    </p>
+                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-unmsm-guinda">
+                                                <tr>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Concepto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Monto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Unidad
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                <tr>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        Expedición de Diploma de Grado Académico de Magíster
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center font-bold text-unmsm-guinda">
+                                                        S/ 700.00
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        Oficina de Secretaría General
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- TOTAL (opcional visual) -->
+                                <div class="bg-unmsm-guinda/5 border border-unmsm-guinda/20 rounded-lg px-6 py-3">
+                                    <p class="text-sm font-semibold text-gray-800">
+                                        <span class="mr-2">Total referencial de tasas:</span>
+                                        <span class="text-unmsm-guinda text-base font-bold">S/ 3,755.00</span>
+                                    </p>
+                                    <p class="text-[11px] text-gray-500 mt-1 italic">
+                                        Los pagos y montos se rigen por las resoluciones y tarifarios vigentes de la UNMSM.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Artículo científico y documentos -->
+                            <div class="mt-6 space-y-2">
+                                <p>
+                                    <strong>5.</strong> Acreditar un <strong>artículo científico</strong> que deberá ser
+                                    parte de la
+                                    tesis (ingresantes desde 2009), publicado o aceptado para su publicación en revista
+                                    indexada
+                                    en las bases: <strong>Latindex 2.0, Scopus, SciELO, Web of Science</strong> (adjuntar el
+                                    artículo).
+                                </p>
+                                <p><strong>6.</strong> Partida de nacimiento: copia simple.</p>
+                                <p>
+                                    <strong>7.</strong> Copia del DNI.
+                                    <span class="block text-xs text-gray-700 mt-1 font-semibold">
+                                        Nota: En estos dos documentos deben figurar las tildes en nombres y apellidos por
+                                        igual,
+                                        la SUNEDU no expenderá el diploma si no están correctamente puestas las tildes.
+                                    </span>
+                                </p>
+                            </div>
+
+                            <!-- Turnitin -->
+                            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mt-4 rounded">
+                                <h4 class="text-sm font-bold text-amber-800 mb-2">
+                                    <i class="fas fa-shield-alt mr-1"></i>
+                                    Revisión antiplagio (Turnitin)
+                                </h4>
+                                <p class="text-xs text-amber-800 mb-2">
+                                    El graduando debe enviar la versión digital de la tesis al correo
+                                    <strong>upg.letras@unmsm.edu.pe</strong> para revisión en Turnitin, considerando:
+                                </p>
+                                <ul class="text-xs text-amber-900 list-disc pl-4 space-y-1">
+                                    <li>El nombre de la tesis debe ser igual al inscrito en el proyecto de tesis.</li>
+                                    <li>Indicar nombres y apellidos del asesor y su correo institucional.</li>
+                                    <li>A partir de los ingresantes 2016 debe hacerse desde su correo institucional y
+                                        personal.</li>
+                                </ul>
+                                <p class="text-xs text-amber-900 mt-2">
+                                    La aceptación de similitud para la UNMSM es de <strong>-20 o 20 %</strong>. De no ser
+                                    esa
+                                    la calificación, deberá revisarse la tesis. No se aceptan tesis con observaciones.
+                                </p>
+                            </div>
+
+                            <!-- Foto y Declaración -->
+                            <div class="bg-gray-50 rounded-lg p-4 mt-4 border border-gray-100">
+                                <h4 class="text-sm font-semibold text-gray-800 mb-2">
+                                    <i class="fas fa-camera mr-1 text-unmsm-dorado"></i>
+                                    Documentos adicionales:
+                                </h4>
+                                <ul class="text-xs text-gray-700 space-y-1">
+                                    <li>Adjuntar nuevamente copia del DNI.</li>
+                                    <li>
+                                        <strong>Foto tamaño pasaporte:</strong> foto digital de buena resolución, fondo
+                                        blanco,
+                                        no retocada, no borrosa ni anaranjada, de hombros hacia arriba (no medio cuerpo).
+                                        Caballeros: saco negro y corbata. Damas: blusa y saco negro.
+                                    </li>
+                                    <li>
+                                        <strong>Declaración Jurada</strong> de veracidad documentaria y de no adeudar dinero
+                                        ni libros
+                                        (solicitar los formatos a la UPG).
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <p class="text-xs text-gray-600 mt-4">
+                                Toda la documentación debe enviarse en formato PDF al correo
+                                <strong>upg.letras@unmsm.edu.pe</strong>. Con la confirmación de similitud y la
+                                documentación
+                                completa se procede a <strong>declarar expedito</strong> al graduando.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- PASO III - MAGÍSTER -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-unmsm-guinda text-white flex items-center justify-center font-bold text-sm">
+                                III
+                            </div>
+                            <h3 class="font-bold text-gray-800">Sustentación pública de la tesis</h3>
+                        </div>
+                        <div class="p-6 text-gray-600 text-sm">
+                            <ul class="space-y-3">
+                                <li class="flex gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>
+                                        Una vez declarado expedito, el tesista solicita en FUT se le nombre
+                                        <strong>Jurado Informante de Tesis</strong>, adjuntando la tesis en formato PDF
+                                        al correo <strong>upg.letras@unmsm.edu.pe</strong>.
+                                    </span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>
+                                        Si en los informes hay observaciones a la tesis, el graduando deberá levantarlas.
+                                    </span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>
+                                        Con el informe y el levantamiento de observaciones, de ser el caso, se procede a
+                                        solicitar <strong>Jurado Examinador</strong>, así como fecha y hora para la
+                                        sustentación.
+                                    </span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>
+                                        La determinación de la fecha de sustentación se comunica por correo electrónico
+                                        desde <strong>upg.letras@unmsm.edu.pe</strong> con una anticipación de
+                                        <strong>48 horas</strong>.
+                                    </span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>
+                                        La sustentación pública de la tesis será <strong>televisada</strong>.
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- PASO IV - MAGÍSTER -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-unmsm-guinda text-white flex items-center justify-center font-bold text-sm">
+                                IV
+                            </div>
+                            <h3 class="font-bold text-gray-800">Trámite del Diploma de Grado</h3>
+                        </div>
+                        <div class="p-6 text-gray-600 text-sm space-y-4">
+                            <p>
+                                El expediente de Grado Académico es aprobado por el <strong>Consejo de Facultad</strong>.
+                                Previamente, se deben adjuntar en PDF los siguientes archivos:
+                            </p>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>Autorización para publicación en <strong>Cybertesis</strong> (llenar formato).</li>
+                                <li>Hoja de metadatos (llenar formato).</li>
+                                <li>Tesis final.</li>
+                                <li>Informe de originalidad (<strong>Turnitin</strong>).</li>
+                                <li>Acta de sustentación.</li>
+                            </ul>
+
+                            <p class="text-xs text-gray-600">
+                                Este trámite lo realiza la Unidad de Posgrado ante la Biblioteca Central.
+                                Los formatos de Autorización y Hoja de metadatos deben solicitarse al correo
+                                <strong>upg.letras@unmsm.edu.pe</strong>, y luego remitirse debidamente llenos al mismo
+                                correo.
+                            </p>
+
+                            <ul class="space-y-2 text-sm mt-2">
+                                <li>
+                                    <span class="font-bold text-unmsm-guinda">2.</span>
+                                    Con la aprobación del Consejo de Facultad se emite la
+                                    <strong>Resolución de Decanato</strong> que otorga el Grado Académico de Magíster. A
+                                    partir
+                                    de la fecha de expedición, todo trámite corresponde a la Sede Central.
+                                </li>
+                                <li>
+                                    <span class="font-bold text-unmsm-guinda">3.</span>
+                                    Aprobado con <strong>Resolución Rectoral</strong>, el expediente regresa a la Unidad de
+                                    Posgrado
+                                    para iniciar el trámite de <strong>Expedición de Diploma de Grado Académico de
+                                        Magíster</strong>.
+                                </li>
+                            </ul>
+
+                            <div class="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                                <p class="text-sm font-semibold text-gray-800 mb-2">
+                                    Revisión de expedientes para la expedición del diploma:
+                                </p>
+                                <ul class="list-disc pl-5 text-xs space-y-1">
+                                    <li>
+                                        Verificar que el recibo de pago por
+                                        <strong>Expedición de Diplomas de Grado de Magíster</strong> se encuentre
+                                        incluido en el expediente.
+                                    </li>
+                                    <li>
+                                        Foto tamaño pasaporte, fondo blanco, en papel fotográfico
+                                        (mujeres: saco color negro y blusa blanca; varones: terno color negro).
+                                    </li>
+                                    <li>Copia simple del DNI.</li>
+                                </ul>
+                            </div>
+
+                            <ul class="space-y-1 text-sm mt-2">
+                                <li>
+                                    <span class="font-bold text-unmsm-guinda">4.</span>
+                                    La entrega del diploma es <strong>virtual</strong>.
+                                </li>
+                                <li>
+                                    <span class="font-bold text-unmsm-guinda">5.</span>
+                                    La inscripción en la <strong>SUNEDU</strong> la realiza la
+                                    <strong>Secretaría General</strong> de la universidad.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======================= PESTAÑA DOCTORADO ======================= -->
+                <div x-show="currentTab === 'doctorado'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+                    class="space-y-8 fade-in" style="display: none;">
+
+                    <div class="border-b pb-4 mb-6">
+                        <h2 class="text-2xl font-serif font-bold text-gray-900">
+                            Requisitos para la Obtención del Grado de Doctor
+                        </h2>
+                        <p class="text-gray-500 text-sm mt-1">
+                            Proceso académico para la obtención del máximo grado: Doctor.
+                        </p>
+                    </div>
+
+                    <!-- PASO I DOCTORADO -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm">
+                                I
+                            </div>
+                            <h3 class="font-bold text-gray-800">
+                                Inscripción de proyecto de tesis y nombramiento de asesor
+                            </h3>
+                        </div>
+                        <div class="p-6 prose prose-sm max-w-none text-gray-600">
+                            <p>
+                                El recurrente debe presentar <strong>Solicitud en FUT</strong> pidiendo inscripción de
+                                proyecto
+                                de tesis y nombramiento de asesor, enviando en formato PDF al correo
+                                <strong>upg.letras@unmsm.edu.pe</strong> lo siguiente:
+                            </p>
+                            <ul>
+                                <li>
+                                    <strong>1.1. Proyecto:</strong> respetando la plantilla oficial:
+                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
+                                        target="_blank" class="text-unmsm-guinda underline">
+                                        Plantilla oficial de proyecto de tesis
+                                    </a>.
+                                </li>
+                                <li>
+                                    <strong>1.2. Carta simple del asesor</strong> aceptando la asesoría.
+                                </li>
+                            </ul>
+                            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4 not-prose rounded">
+                                <p class="text-xs text-blue-800 font-medium mb-2">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Consideraciones:
+                                </p>
+                                <ul class="list-disc text-xs text-blue-900 pl-4 space-y-1">
+                                    <li>El nombre del proyecto debe ser el mismo para la tesis hasta su sustentación.</li>
+                                    <li>Si hubiera algún cambio, debe comunicarse a la UPG para el trámite de cambio de
+                                        nombre antes de la revisión por Turnitin.</li>
+                                    <li>
+                                        Adjuntar copia de DNI y partida de nacimiento. De acuerdo con los requisitos de la
+                                        SUNEDU,
+                                        ambos documentos deben tener correctamente colocadas las tildes en nombres y
+                                        apellidos.
+                                        Se devuelve el expediente cuya partida no coincida con el DNI.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PASO II DOCTORADO -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm">
+                                II
+                            </div>
+                            <h3 class="font-bold text-gray-800">Declaración de expedito</h3>
+                        </div>
+                        <div class="p-6 text-gray-600 text-sm space-y-4">
+                            <p class="font-semibold text-gray-800">
+                                Requisitos académicos previos:
+                            </p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Haber concluido su plan de estudios con una nota promedio de <strong>14
+                                        (catorce)</strong> en escala vigesimal.</li>
+                                <li>
+                                    Tener concluida la tesis, respetando la
+                                    <strong>DIRECTIVA DE MODELO DE ESTRUCTURA DE TESIS</strong> – Programas de maestría y
+                                    doctorado
+                                    (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
+                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/03/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-1-1.pdf"
+                                        target="_blank" class="text-unmsm-guinda hover:underline">
+                                        Ver directiva
+                                    </a>
+                                </li>
+                                <li>
+                                    La tesis debe respetar el protocolo de presentación de tesis
+                                    <strong>(R.D. N.º 283-D-FLCH-19)</strong>.
+                                </li>
+                                <li>Contar con el <strong>informe final del asesor</strong> con firma.</li>
+                            </ul>
+
+                            <p>
+                                El alumno presenta <strong>Solicitud en FUT</strong> pidiendo se le declare expedito y envía
+                                el expediente completo en PDF al correo electrónico
+                                <strong>upg.letras@unmsm.edu.pe</strong>, incluyendo:
+                            </p>
+
+                            <ul class="list-decimal pl-5 space-y-1">
+                                <li>Copia del grado de <strong>Magíster</strong>.</li>
+                                <li>Certificado de estudios (promedio ponderado 14).</li>
+                                <li>
+                                    Constancia original que acredite el dominio de <strong>dos idiomas</strong>, expedida
+                                    por la FLCH – Oficina de suficiencia de idiomas (vigencia: 3 años).
+                                </li>
+                                <li>
+                                    <strong>Pago de tasas a la Facultad para obtención del grado de Doctor</strong>
+                                    (vía <a href="https://sanmarket.unmsm.edu.pe/#/" target="_blank"
+                                        class="text-blue-600 underline hover:text-blue-800">SanMarket-UNMSM</a>),
+                                    cada pago por separado con su respectiva boleta:
+                                </li>
+                            </ul>
+
+                            <!-- TABLAS DOCTORADO -->
+                            <div class="space-y-5 mt-4">
+                                <!-- 5.4.1 Trámite de Grado de Doctor -->
+                                <div>
+                                    <p class="font-semibold mb-2">5.4.1. Trámite de Grado de Doctor</p>
+                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-gray-900">
+                                                <tr>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Concepto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Monto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Unidad
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                <tr>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        Grado de Doctor
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center font-bold text-gray-900">
+                                                        S/ 2,995.00
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        <p>Facultad de Letras y Ciencias Humanas</p>
+                                                        <p>Unidad de Posgrado</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- 5.4.2 Monitoreo Doctorado -->
+                                <div>
+                                    <p class="font-semibold mb-2">
+                                        5.4.2. Pago por monitoreo de investigación, avances y ejecución de tesis – Tarifario
+                                        Descentralizado (R.D. N.º 1204-D-FLCH-17)
+                                    </p>
+                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-gray-900">
+                                                <tr>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Concepto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Monto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Unidad
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                <tr>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        Pago por monitoreo de investigación, avances y ejecución de tesis
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center font-bold text-gray-900">
+                                                        S/ 2,000.00
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        Tarifario Descentralizado
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- 5.4.3 Expedición Diploma Doctor -->
+                                <div>
+                                    <p class="font-semibold mb-2">
+                                        5.4.3. Expedición de Diplomas de Grado de Doctor – Sede Central (R.R. N.º
+                                        01545-R-08)
+                                    </p>
+                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-gray-900">
+                                                <tr>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Concepto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Monto
+                                                    </th>
+                                                    <th
+                                                        class="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                                        Unidad
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                <tr>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        Expedición de Diploma de Grado Académico de Doctor
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center font-bold text-gray-900">
+                                                        S/ 1,200.00
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center text-sm">
+                                                        Oficina de Secretaría General
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4 border border-gray-100 mt-4">
+                                <p class="text-sm">
+                                    <strong>6.</strong> Acreditar un artículo científico que deberá ser parte de la tesis
+                                    (ingresantes desde 2009), publicado o aceptado para su publicación en revista indexada
+                                    en:
+                                    <strong>Latindex 2.0, Scopus, SciELO, Web of Science</strong> (adjuntar el artículo).
+                                </p>
+                                <p class="text-sm mt-2"><strong>7.</strong> Partida de nacimiento: copia simple.</p>
+                                <p class="text-sm mt-1">
+                                    <strong>8.</strong> Copia del DNI.
+                                    <span class="block text-xs font-semibold mt-1">
+                                        Nota: En ambos documentos deben figurar las tildes en nombres y apellidos por igual;
+                                        la SUNEDU no expenderá el diploma si no están correctamente puestas.
+                                    </span>
+                                </p>
+                            </div>
+
+                            <!-- Turnitin Doctorado -->
+                            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mt-4 rounded">
+                                <h4 class="text-sm font-bold text-amber-800 mb-2">
+                                    <i class="fas fa-shield-alt mr-1"></i>
+                                    Revisión Turnitin
+                                </h4>
+                                <p class="text-xs text-amber-800 mb-2">
+                                    El graduando debe enviar la versión digital de la tesis al correo
+                                    <strong>upg.letras@unmsm.edu.pe</strong> para revisión por el programa de antiplagio
+                                    Turnitin,
+                                    considerando:
+                                </p>
+                                <ul class="text-xs text-amber-900 list-disc pl-4 space-y-1">
+                                    <li>El nombre de la tesis debe ser igual al inscrito en el proyecto de tesis.</li>
+                                    <li>Indicar los nombres y apellidos completos del asesor y su correo institucional.</li>
+                                    <li>
+                                        A partir de los ingresantes 2016 el envío debe realizarse desde el correo
+                                        institucional
+                                        y personal del graduando.
+                                    </li>
+                                </ul>
+                                <p class="text-xs text-amber-900 mt-2">
+                                    La aceptación de similitud para la UNMSM es de <strong>-20 o 20 %</strong>. De no ser
+                                    esa la
+                                    calificación, deberá revisarse la tesis. No se aceptan tesis con observaciones.
+                                </p>
+                            </div>
+
+                            <!-- Documentos adicionales doctorado -->
+                            <div class="bg-gray-50 rounded-lg p-4 mt-4 border border-gray-100">
+                                <h4 class="text-sm font-semibold text-gray-800 mb-2">
+                                    Documentos adicionales:
+                                </h4>
+                                <ul class="text-xs text-gray-700 space-y-1">
+                                    <li>Adjuntar nuevamente copia de DNI.</li>
+                                    <li>
+                                        Foto tamaño pasaporte: foto digital de buena resolución, fondo blanco, no retocada,
+                                        no
+                                        borrosa ni anaranjada, de hombros hacia arriba. Caballeros: saco negro y corbata.
+                                        Damas: blusa y saco negro.
+                                    </li>
+                                    <li>
+                                        Declaración Jurada de veracidad documentaria y de no adeudar dinero ni libros
+                                        (solicitar los formatos a la UPG).
+                                    </li>
+                                </ul>
+                                <p class="text-xs text-gray-600 mt-3">
+                                    Enviar toda la documentación en formato PDF al correo
+                                    <strong>upg.letras@unmsm.edu.pe</strong>. Con la confirmación de similitud y la
+                                    documentación completa se procede a <strong>declarar expedito</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PASO III DOCTORADO -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm">
+                                III
+                            </div>
+                            <h3 class="font-bold text-gray-800">Sustentación pública de la tesis</h3>
+                        </div>
+                        <div class="p-6 text-gray-600 text-sm">
+                            <ul class="space-y-3">
+                                <li class="flex gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>
+                                        Una vez declarado expedito, el tesista solicita en FUT se le nombre
+                                        <strong>Jurado Informante de Tesis</strong>, adjuntando la tesis en formato PDF
+                                        al correo <strong>upg.letras@unmsm.edu.pe</strong>.
+                                    </span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>
+                                        Si en los informes hay observaciones a la tesis, el graduando deberá levantarlas.
+                                    </span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>
+                                        Con el informe y el levantamiento de observaciones, de ser el caso, se procede a
+                                        solicitar <strong>Jurado Examinador</strong>, fecha y hora para la sustentación de
+                                        la tesis.
+                                    </span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>
+                                        La fecha de sustentación se comunica por correo electrónico desde
+                                        <strong>upg.letras@unmsm.edu.pe</strong> de la Unidad de Posgrado de la Facultad,
+                                        con <strong>48 horas</strong> de anticipación.
+                                    </span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>
+                                        La sustentación pública de la tesis será <strong>televisada</strong>.
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- PASO IV DOCTORADO -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm">
+                                IV
+                            </div>
+                            <h3 class="font-bold text-gray-800">Trámite del Diploma de Grado</h3>
+                        </div>
+                        <div class="p-6 text-gray-600 text-sm space-y-4">
+                            <p>
+                                El expediente de Grado Académico de Doctor es aprobado por el <strong>Consejo de
+                                    Facultad</strong>.
+                                Previamente, se deben adjuntar los siguientes archivos en formato PDF:
+                            </p>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>Autorización para publicación en <strong>Cybertesis</strong> (llenar formato).</li>
+                                <li>Hoja de metadatos (llenar formato).</li>
+                                <li>Tesis final.</li>
+                                <li>Informe de originalidad (Turnitin).</li>
+                                <li>Acta de sustentación.</li>
+                            </ul>
+
+                            <p class="text-xs text-gray-600">
+                                Este trámite lo realiza la Unidad de Posgrado ante la Biblioteca Central.
+                                Los formatos de Autorización y Hoja de metadatos deben solicitarse al correo
+                                <strong>upg.letras@unmsm.edu.pe</strong> y retornarse debidamente llenos al mismo correo.
+                            </p>
+
+                            <ul class="space-y-2 text-sm mt-2">
+                                <li>
+                                    <span class="font-bold text-gray-900">2.</span>
+                                    Con la aprobación del Consejo de Facultad se emite la
+                                    <strong>Resolución de Decanato</strong> que otorga el Grado Académico de Doctor; a
+                                    partir
+                                    de la fecha de expedición, todo trámite corresponde a la Sede Central.
+                                </li>
+                                <li>
+                                    <span class="font-bold text-gray-900">3.</span>
+                                    Aprobado con <strong>Resolución Rectoral</strong>, el expediente regresa a la Unidad de
+                                    Posgrado
+                                    para iniciar el trámite de <strong>Expedición de Diploma de Grado Académico de
+                                        Doctor</strong>.
+                                </li>
+                            </ul>
+
+                            <div class="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                                <p class="text-sm font-semibold text-gray-800 mb-2">
+                                    Para la expedición del diploma de Doctor se debe:
+                                </p>
+                                <ul class="list-disc pl-5 text-xs space-y-1">
+                                    <li>
+                                        Verificar que el recibo de pago por
+                                        <strong>Expedición de Diplomas de Grado de Doctor</strong> esté incluido en el
+                                        expediente.
+                                    </li>
+                                    <li>
+                                        Foto tamaño pasaporte, fondo blanco, en papel fotográfico
+                                        (mujeres: saco negro y blusa blanca; varones: terno color negro).
+                                    </li>
+                                    <li>Copia simple del DNI.</li>
+                                </ul>
+                            </div>
+
+                            <ul class="space-y-1 text-sm mt-2">
+                                <li>
+                                    <span class="font-bold text-gray-900">4.</span>
+                                    El expediente es enviado a la <strong>Oficina de Matrícula</strong> de la Facultad para
+                                    el trámite del diploma.
+                                </li>
+                                <li>
+                                    <span class="font-bold text-gray-900">5.</span>
+                                    La entrega del diploma es <strong>virtual</strong>.
+                                </li>
+                                <li>
+                                    <span class="font-bold text-gray-900">6.</span>
+                                    La inscripción en la <strong>SUNEDU</strong> la realiza la <strong>Secretaría
+                                        General</strong>
+                                    de la universidad.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
 
         </div>
     </div>
+
 @endsection

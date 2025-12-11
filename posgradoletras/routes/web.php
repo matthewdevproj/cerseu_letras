@@ -10,9 +10,13 @@ use App\Http\Controllers\NosotrosController;
 use App\Http\Controllers\TestimonioController;
 use App\Http\Controllers\InstitucionalController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DirectorioController;
 
 // Página de inicio
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Directorio de Posgrado
+Route::get('/directorio', [DirectorioController::class, 'index'])->name('directorio');
 
 
 
@@ -64,6 +68,10 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     // Testimonios Management
     Route::resource('testimonios', App\Http\Controllers\Admin\AdminTestimonioController::class);
     Route::post('testimonios/{testimonio}/toggle', [App\Http\Controllers\Admin\AdminTestimonioController::class, 'togglePublished'])->name('testimonios.toggle');
+
+    // Directorio Management
+    Route::resource('directorio', App\Http\Controllers\Admin\AdminDirectorioController::class);
+    Route::post('directorio/{directorio}/toggle', [App\Http\Controllers\Admin\AdminDirectorioController::class, 'toggleActive'])->name('directorio.toggle');
 });
 
 // Breeze default routes (Profile)

@@ -11,100 +11,126 @@
                         src="https://letras.unmsm.edu.pe/wp-content/uploads/2020/11/LOGO_LETRAS_AI.png"
                         class="h-16 w-auto object-contain transition-all duration-300 brightness-0 invert"
                         alt="Logo Letras">
-
-
                 </a>
             </div>
 
             {{-- Desktop Menu --}}
-            <nav class="hidden lg:flex space-x-6 items-center">
+            <nav class="hidden lg:flex space-x-5 items-center">
 
-                {{-- Inicio --}}
-                <a href="{{ route('home') }}" class="nav-item text-white font-medium hover:text-red-500 transition
-                          {{ request()->routeIs('home') ? 'text-red-500 font-bold' : '' }}">
-                    Inicio
-                </a>
-
-                {{-- Facultad con Dropdown (Enlaces externos) --}}
+                {{-- Nosotros --}}
                 <div class="relative group h-full flex items-center">
-                    <a href="https://letras.unmsm.edu.pe" target="_blank"
-                        class="nav-item text-white font-medium hover:text-red-500 transition py-4 flex items-center gap-1">
-                        Facultad <i class="fas fa-angle-down text-xs mt-0.5"></i>
-                    </a>
-                    <div
-                        class="absolute top-full left-0 w-72 bg-white shadow-xl border-t-4 border-red-700 rounded-b-md hidden group-hover:block text-gray-700 text-sm z-50">
-                        <a href="https://letras.unmsm.edu.pe/historia/" target="_blank"
-                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
-                            <i class="fas fa-landmark mr-2 text-red-700"></i>Historia de la Facultad
-                        </a>
-                        <a href="https://letras.unmsm.edu.pe/decanato/" target="_blank"
-                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
-                            <i class="fas fa-user-tie mr-2 text-red-700"></i>Decanato
-                        </a>
-                        <a href="https://letras.unmsm.edu.pe/escuelas/" target="_blank"
-                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
-                            <i class="fas fa-graduation-cap mr-2 text-red-700"></i>Escuelas (Pregrado)
-                        </a>
-                        <a href="https://letras.unmsm.edu.pe/unidad-de-investigacion/" target="_blank"
-                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
-                            <i class="fas fa-flask mr-2 text-red-700"></i>Investigación
-                        </a>
-                        <a href="https://letras.unmsm.edu.pe/documentos-de-interes/" target="_blank"
-                            class="block px-5 py-3 hover:bg-gray-50">
-                            <i class="fas fa-file-alt mr-2 text-red-700"></i>Documentos de Interés
-                        </a>
-                    </div>
-                </div>
-
-                {{-- Nosotros con Dropdown --}}
-                <div class="relative group h-full flex items-center">
-                    <a href="{{ route('nosotros') }}" class="nav-item text-white font-medium hover:text-red-500 transition py-4 flex items-center gap-1
-                              {{ request()->routeIs('nosotros') ? 'text-red-500 font-bold' : '' }}">
+                    <span
+                        class="nav-item text-white font-medium hover:text-red-500 transition py-4 flex items-center gap-1 cursor-pointer">
                         Nosotros <i class="fas fa-angle-down text-xs mt-0.5"></i>
-                    </a>
+                    </span>
                     <div
-                        class="absolute top-full left-0 w-60 bg-white shadow-xl border-t-4 border-red-700 rounded-b-md hidden group-hover:block text-gray-700 text-sm z-50">
-                        <a href="{{ route('nosotros') }}#historia"
-                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">Historia</a>
-                        <a href="{{ route('nosotros') }}#autoridades"
-                            class="block px-5 py-3 hover:bg-gray-50">Autoridades</a>
+                        class="absolute top-full left-0 w-64 bg-white shadow-xl border-t-4 border-red-700 rounded-b-md hidden group-hover:block text-gray-700 text-sm z-50">
+                        <a href="{{ route('nosotros') }}"
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-info-circle mr-2 text-red-700"></i>Quiénes somos
+                        </a>
+                        <a href="{{ route('profesores.index') }}"
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-chalkboard-teacher mr-2 text-red-700"></i>Docentes
+                        </a>
+                        <a href="https://letras.unmsm.edu.pe/directorio/" target="_blank"
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-address-book mr-2 text-red-700"></i>Directorio FLCH
+                        </a>
+                        <a href="{{ route('directorio') }}"
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-users mr-2 text-red-700"></i>Directorio Posgrado
+                        </a>
+                        <a href="https://letras.unmsm.edu.pe/unidad-de-investigacion" target="_blank"
+                            class="block px-5 py-3 hover:bg-gray-50">
+                            <i class="fas fa-flask mr-2 text-red-700"></i>Unidad de Investigación
+                        </a>
                     </div>
                 </div>
 
-                {{-- Programas con Dropdown --}}
+                {{-- Admisión --}}
+                <div class="relative group h-full flex items-center">
+                    <span
+                        class="nav-item text-white font-medium hover:text-red-500 transition py-4 flex items-center gap-1 cursor-pointer">
+                        Admisión <i class="fas fa-angle-down text-xs mt-0.5"></i>
+                    </span>
+                    <div
+                        class="absolute top-full left-0 w-64 bg-white shadow-xl border-t-4 border-red-700 rounded-b-md hidden group-hover:block text-gray-700 text-sm z-50">
+                        <a href="{{ route('admision') }}"
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-user-plus mr-2 text-red-700"></i>Proceso de Admisión
+                        </a>
+                        <a href="{{ route('tramites') }}#cronograma" class="block px-5 py-3 hover:bg-gray-50">
+                            <i class="fas fa-calendar-alt mr-2 text-red-700"></i>Cronograma Académico
+                        </a>
+                    </div>
+                </div>
+
+                {{-- Programas --}}
                 <div class="relative group h-full flex items-center">
                     <a href="{{ route('programas.index') }}" class="nav-item text-white font-medium hover:text-red-500 transition py-4 flex items-center gap-1
                               {{ request()->routeIs('programas.*') ? 'text-red-500 font-bold' : '' }}">
                         Programas <i class="fas fa-angle-down text-xs mt-0.5"></i>
                     </a>
                     <div
-                        class="absolute top-full left-0 w-60 bg-white shadow-xl border-t-4 border-red-700 rounded-b-md hidden group-hover:block text-gray-700 text-sm z-50">
+                        class="absolute top-full left-0 w-56 bg-white shadow-xl border-t-4 border-red-700 rounded-b-md hidden group-hover:block text-gray-700 text-sm z-50">
                         <a href="{{ route('programas.index') }}?tipo=maestria"
-                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">Maestrías</a>
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-graduation-cap mr-2 text-red-700"></i>Maestrías
+                        </a>
                         <a href="{{ route('programas.index') }}?tipo=doctorado"
-                            class="block px-5 py-3 hover:bg-gray-50">Doctorados</a>
+                            class="block px-5 py-3 hover:bg-gray-50">
+                            <i class="fas fa-user-graduate mr-2 text-red-700"></i>Doctorados
+                        </a>
                     </div>
                 </div>
 
-                {{-- Profesores --}}
-                <a href="{{ route('profesores.index') }}" class="nav-item text-white font-medium hover:text-red-500 transition
-                          {{ request()->routeIs('profesores.*') ? 'text-red-500 font-bold' : '' }}">
-                    Profesores
-                </a>
+                {{-- Trámites (Obtención de Grado) --}}
+                <div class="relative group h-full flex items-center">
+                    <a href="{{ route('tramites') }}" class="nav-item text-white font-medium hover:text-red-500 transition py-4 flex items-center gap-1
+                              {{ request()->routeIs('tramites') ? 'text-red-500 font-bold' : '' }}">
+                        Trámites <i class="fas fa-angle-down text-xs mt-0.5"></i>
+                    </a>
+                    <div
+                        class="absolute top-full left-0 w-72 bg-white shadow-xl border-t-4 border-red-700 rounded-b-md hidden group-hover:block text-gray-700 text-sm z-50">
+                        <a href="{{ route('tramites') }}"
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-graduation-cap mr-2 text-red-700"></i>Optar el Grado de Magíster
+                        </a>
+                        <a href="{{ route('tramites') }}?tab=doctor" class="block px-5 py-3 hover:bg-gray-50">
+                            <i class="fas fa-user-graduate mr-2 text-red-700"></i>Optar el Grado de Doctor
+                        </a>
+                    </div>
+                </div>
 
-                {{-- Admisión --}}
-                <a href="{{ route('admision') }}" class="nav-item text-white font-medium hover:text-red-500 transition
-                          {{ request()->routeIs('admision') ? 'text-red-500 font-bold' : '' }}">
-                    Admisión
-                </a>
+                {{-- Actualidad --}}
+                <div class="relative group h-full flex items-center">
+                    <span
+                        class="nav-item text-white font-medium hover:text-red-500 transition py-4 flex items-center gap-1 cursor-pointer">
+                        Actualidad <i class="fas fa-angle-down text-xs mt-0.5"></i>
+                    </span>
+                    <div
+                        class="absolute top-full left-0 w-64 bg-white shadow-xl border-t-4 border-red-700 rounded-b-md hidden group-hover:block text-gray-700 text-sm z-50">
+                        <a href="{{ route('testimonios.index') }}"
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-quote-left mr-2 text-red-700"></i>Testimonios
+                        </a>
+                        <a href="https://letras.unmsm.edu.pe/categoria/noticias/" target="_blank"
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-newspaper mr-2 text-red-700"></i>Noticias FLCH
+                        </a>
+                        <a href="https://letras.unmsm.edu.pe/categoria/eventos/" target="_blank"
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-calendar-day mr-2 text-red-700"></i>Eventos
+                        </a>
+                        <a href="https://letras.unmsm.edu.pe/categoria/conferencias/" target="_blank"
+                            class="block px-5 py-3 hover:bg-gray-50">
+                            <i class="fas fa-microphone mr-2 text-red-700"></i>Conferencias
+                        </a>
+                    </div>
+                </div>
 
-                {{-- Trámites --}}
-                <a href="{{ route('tramites') }}" class="nav-item text-white font-medium hover:text-red-500 transition
-                          {{ request()->routeIs('tramites') ? 'text-red-500 font-bold' : '' }}">
-                    Trámites
-                </a>
-
-                {{-- Idiomas con Dropdown --}}
+                {{-- Idiomas --}}
                 <div class="relative group h-full flex items-center">
                     <span
                         class="nav-item text-white font-medium hover:text-red-500 transition py-4 flex items-center gap-1 cursor-pointer">
@@ -127,6 +153,12 @@
                     </div>
                 </div>
 
+                {{-- Facultad (Enlace externo) --}}
+                <a href="https://letras.unmsm.edu.pe" target="_blank"
+                    class="nav-item text-white font-medium hover:text-red-500 transition flex items-center gap-1">
+                    Facultad <i class="fas fa-external-link-alt text-xs ml-1"></i>
+                </a>
+
             </nav>
 
             {{-- Mobile Menu Button --}}
@@ -144,30 +176,39 @@
                     x-transition:leave-start="opacity-100 transform translate-y-0"
                     x-transition:leave-end="opacity-0 transform -translate-y-2"
                     class="absolute top-full left-0 right-0 bg-[#7f1d1d] shadow-lg z-50">
-                    <div class="flex flex-col py-4 px-4 space-y-2">
-                        <a href="{{ route('home') }}" class="px-4 py-3 text-white hover:bg-white/10 rounded transition
-                                  {{ request()->routeIs('home') ? 'bg-white/20 font-semibold' : '' }}">
-                            Inicio
+                    <div class="flex flex-col py-4 px-4 space-y-2 max-h-[80vh] overflow-y-auto">
+                        <a href="{{ route('nosotros') }}"
+                            class="px-4 py-3 text-white hover:bg-white/10 rounded transition">
+                            <i class="fas fa-info-circle mr-2"></i>Nosotros
                         </a>
-                        <a href="{{ route('nosotros') }}" class="px-4 py-3 text-white hover:bg-white/10 rounded transition
-                                  {{ request()->routeIs('nosotros') ? 'bg-white/20 font-semibold' : '' }}">
-                            Nosotros
+                        <a href="{{ route('profesores.index') }}"
+                            class="px-4 py-3 text-white hover:bg-white/10 rounded transition">
+                            <i class="fas fa-chalkboard-teacher mr-2"></i>Docentes
                         </a>
-                        <a href="{{ route('programas.index') }}" class="px-4 py-3 text-white hover:bg-white/10 rounded transition
-                                  {{ request()->routeIs('programas.*') ? 'bg-white/20 font-semibold' : '' }}">
-                            Programas
+                        <a href="{{ route('admision') }}"
+                            class="px-4 py-3 text-white hover:bg-white/10 rounded transition">
+                            <i class="fas fa-user-plus mr-2"></i>Admisión
                         </a>
-                        <a href="{{ route('profesores.index') }}" class="px-4 py-3 text-white hover:bg-white/10 rounded transition
-                                  {{ request()->routeIs('profesores.*') ? 'bg-white/20 font-semibold' : '' }}">
-                            Profesores
+                        <a href="{{ route('programas.index') }}"
+                            class="px-4 py-3 text-white hover:bg-white/10 rounded transition">
+                            <i class="fas fa-graduation-cap mr-2"></i>Programas
                         </a>
-                        <a href="{{ route('admision') }}" class="px-4 py-3 text-white hover:bg-white/10 rounded transition
-                                  {{ request()->routeIs('admision') ? 'bg-white/20 font-semibold' : '' }}">
-                            Admisión
+                        <a href="{{ route('tramites') }}"
+                            class="px-4 py-3 text-white hover:bg-white/10 rounded transition">
+                            <i class="fas fa-file-alt mr-2"></i>Trámites
                         </a>
-                        <a href="{{ route('tramites') }}" class="px-4 py-3 text-white hover:bg-white/10 rounded transition
-                                  {{ request()->routeIs('tramites') ? 'bg-white/20 font-semibold' : '' }}">
-                            Trámites
+                        <a href="{{ route('testimonios.index') }}"
+                            class="px-4 py-3 text-white hover:bg-white/10 rounded transition">
+                            <i class="fas fa-quote-left mr-2"></i>Testimonios
+                        </a>
+                        <a href="https://ceidletras.unmsm.edu.pe/" target="_blank"
+                            class="px-4 py-3 text-white hover:bg-white/10 rounded transition">
+                            <i class="fas fa-language mr-2"></i>Centro de Idiomas
+                        </a>
+                        <a href="https://letras.unmsm.edu.pe" target="_blank"
+                            class="px-4 py-3 text-white hover:bg-white/10 rounded transition">
+                            <i class="fas fa-university mr-2"></i>Facultad <i
+                                class="fas fa-external-link-alt text-xs ml-1"></i>
                         </a>
                     </div>
                 </div>
