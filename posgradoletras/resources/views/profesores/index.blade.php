@@ -63,9 +63,8 @@
                         <ul class="space-y-1">
                             @foreach($maestrias as $prog)
                                                 <li>
-                                                    <a href="{{ route('profesores.programa', ['slug' => $prog->slug ?? $prog->codigo]) }}"
-                                                        class="program-link block text-sm px-3 py-2.5 rounded-md transition-all
-                                                                                                                                                                                                                                                                                                                      {{ isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id
+                                                    <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" class="program-link block text-sm px-3 py-2.5 rounded-md transition-all
+                                                                                                                                                                                                                                                                                                                                              {{ isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id
                                 ? 'bg-unmsm-guinda text-white shadow-md'
                                 : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda' }}">
                                                         {{ $prog->nombre }}
@@ -83,9 +82,8 @@
                         <ul class="space-y-1">
                             @foreach($doctorados as $prog)
                                                 <li>
-                                                    <a href="{{ route('profesores.programa', ['slug' => $prog->slug ?? $prog->codigo]) }}"
-                                                        class="program-link block text-sm px-3 py-2.5 rounded-md transition-all
-                                                                                                                                                                                                                                                                                                                      {{ isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id
+                                                    <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" class="program-link block text-sm px-3 py-2.5 rounded-md transition-all
+                                                                                                                                                                                                                                                                                                                                              {{ isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id
                                 ? 'bg-unmsm-guinda text-white shadow-md'
                                 : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda' }}">
                                                         {{ $prog->nombre }}

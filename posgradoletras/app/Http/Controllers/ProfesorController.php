@@ -20,10 +20,9 @@ class ProfesorController extends Controller
         return view('profesores.index', compact('profesores', 'maestrias', 'doctorados'));
     }
 
-    public function byPrograma($slugOrCodigo)
+    public function byPrograma($slug)
     {
-        $selectedPrograma = Programa::where('slug', $slugOrCodigo)
-            ->orWhere('codigo', $slugOrCodigo)
+        $selectedPrograma = Programa::where('slug', $slug)
             ->firstOrFail();
 
         $profesores = $selectedPrograma->docentes()

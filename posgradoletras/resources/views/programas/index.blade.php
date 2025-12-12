@@ -129,7 +129,7 @@
                                     {{ $programa->modalidad ?? 'Semipresencial' }}
                                 </span>
                             </div>
-                            <a href="{{ route('programas.show', $programa->slug ?? $programa->codigo) }}"
+                            <a href="{{ route('programas.show', $programa->slug) }}"
                                 class="block w-full text-center py-2.5 rounded-lg border border-unmsm-guinda text-unmsm-guinda font-bold text-sm hover:bg-unmsm-guinda hover:text-white transition-all duration-300">
                                 Ver Plan de Estudios
                             </a>
@@ -173,7 +173,7 @@
                                     {{ $programa->modalidad ?? 'Presencial' }}
                                 </span>
                             </div>
-                            <a href="{{ route('programas.show', $programa->slug ?? $programa->codigo) }}"
+                            <a href="{{ route('programas.show', $programa->slug) }}"
                                 class="block w-full text-center py-2.5 rounded-lg border border-unmsm-guinda text-unmsm-guinda font-bold text-sm hover:bg-unmsm-guinda hover:text-white transition-all duration-300">
                                 Ver Plan de Estudios
                             </a>

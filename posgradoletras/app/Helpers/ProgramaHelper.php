@@ -24,14 +24,8 @@ class ProgramaHelper
     public static function getProgramaBySlug($slug)
     {
         return Programa::where('slug', $slug)
-            ->orWhere('codigo', $slug)
             ->where('is_active', 1)
             ->first();
-    }
-
-    public static function getProgramaByCodigo($codigo)
-    {
-        return Programa::where('codigo', $codigo)->where('is_active', 1)->first();
     }
 
     public static function searchProgramas($query)

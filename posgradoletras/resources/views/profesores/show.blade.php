@@ -207,7 +207,7 @@
                             </h3>
                             <div class="grid md:grid-cols-2 gap-3">
                                 @foreach($profesor->programas as $programa)
-                                    <a href="{{ route('programas.show', $programa->slug ?? $programa->codigo) }}"
+                                    <a href="{{ route('programas.show', $programa->slug) }}"
                                        class="flex items-center justify-between bg-white rounded-lg border border-gray-200 p-4 hover:border-unmsm-guinda hover:shadow-md transition-all group">
                                         <div>
                                             <p class="text-sm font-bold text-gray-800 group-hover:text-unmsm-guinda transition-colors">

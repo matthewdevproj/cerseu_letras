@@ -128,7 +128,7 @@ class AdminProgramaController extends Controller
     public function update(Request $request, Programa $programa)
     {
         $validated = $request->validate([
-            // codigo is auto-generated and cannot be edited
+
             'grado' => 'required|in:Maestría,Doctorado',
             'nombre' => 'required|string|max:255',
             'mencion' => 'nullable|string|max:255',
@@ -199,6 +199,12 @@ class AdminProgramaController extends Controller
      */
     public function destroy(Programa $programa)
     {
+        // Detach all docentes first to avoid foreign key constraint
+        $programa->docentes()->detach();
+
+        // Set programa_id to null for associated testimonios (orphan them, don't delete)
+        $programa->testimonios()->update(['programa_id' => null]);
+
         // Delete image if exists
         if ($programa->imagen) {
             Storage::disk('public')->delete($programa->imagen);

@@ -408,7 +408,7 @@
                     <article
                         class="group relative bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden h-full program-card"
                         data-type="maestria">
-                        <a href="{{ route('programas.show', $programa->slug ?? $programa->codigo) }}" class="block">
+                        <a href="{{ route('programas.show', $programa->slug) }}" class="block">
                             <div class="h-60 relative overflow-hidden">
                                 <!-- Imagen -->
                                 <img src="{{ $programa->imagen_url }}" alt="{{ $programa->nombre }}"
@@ -465,7 +465,7 @@
                     <article
                         class="group relative bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden h-full program-card"
                         data-type="doctorado">
-                        <a href="{{ route('programas.show', $programa->slug ?? $programa->codigo) }}" class="block">
+                        <a href="{{ route('programas.show', $programa->slug) }}" class="block">
                             <div class="h-60 relative overflow-hidden">
                                 <!-- Imagen -->
                                 <img src="{{ $programa->imagen_url }}" alt="{{ $programa->nombre }}"

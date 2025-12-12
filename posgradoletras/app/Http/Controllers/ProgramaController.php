@@ -26,11 +26,10 @@ class ProgramaController extends Controller
         return view('programas.index', compact('maestrias', 'doctorados', 'tipoFiltro'));
     }
 
-    public function show($slugOrCodigo)
+    public function show($slug)
     {
-        // Buscar por slug o por código
-        $programa = Programa::where('slug', $slugOrCodigo)
-            ->orWhere('codigo', $slugOrCodigo)
+        // Buscar por slug
+        $programa = Programa::where('slug', $slug)
             ->with([
                 'docentes' => function ($query) {
                     $query->orderBy('docente_programa.orden');

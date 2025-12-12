@@ -9,106 +9,167 @@
         --primary-dark: #5a161a;
         --accent-color: #d4af37;
         --border-radius: 1rem;
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition: all 0.25s ease;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --soft: #f9fafb;
     }
 
+    /* Card */
     .card {
-        border: none;
+        border: 1px solid var(--border);
         border-radius: var(--border-radius);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 25px -15px rgba(0, 0, 0, 0.25);
         background: white;
+        overflow: hidden;
     }
 
+    /* Tabs */
     .nav-tabs {
-        border-bottom: 1px solid #f0f2f5;
-        gap: 0.5rem;
-        padding: 0 1rem;
+        gap: .25rem;
+        border-bottom: 1px solid var(--border) !important;
+        padding-bottom: .25rem;
     }
-
     .nav-tabs .nav-link {
-        border: none;
-        border-radius: 0.5rem 0.5rem 0 0;
-        color: #8392ab;
-        font-weight: 500;
-        font-size: 0.875rem;
-        padding: 0.875rem 1.5rem;
+        border: none !important;
+        border-radius: .75rem .75rem 0 0;
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        padding: .75rem 1rem;
         transition: var(--transition);
-        background: transparent;
+        user-select: none;
+        text-decoration: none;
     }
-
     .nav-tabs .nav-link:hover {
-        background: #f8f9fa;
         color: var(--primary-color);
+        background: #fff5f5;
     }
-
     .nav-tabs .nav-link.active {
-        background: var(--primary-color);
-        color: white;
-        box-shadow: 0 4px 6px rgba(118, 30, 35, 0.3);
+        background: var(--primary-color) !important;
+        color: white !important;
+        box-shadow: 0 8px 18px rgba(118, 30, 35, 0.25);
     }
 
+    /* Labels */
     .form-label {
-        font-weight: 600;
-        color: #344767;
+        font-weight: 700;
+        color: #374151;
         margin-bottom: 0.5rem;
         font-size: 0.75rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.06em;
     }
 
-    .form-control, .form-select {
-        border: 1px solid #e9ecef;
-        border-radius: 0.5rem;
-        padding: 0.625rem 1rem;
+    /* Inputs consistent */
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="url"],
+    select,
+    textarea {
+        border: 1px solid #d1d5db !important;
+        border-radius: .75rem !important;
         transition: var(--transition);
-        font-size: 0.875rem;
+        outline: none !important;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    input[type="url"]:focus,
+    select:focus,
+    textarea:focus {
+        border-color: var(--accent-color) !important;
+        box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.18) !important;
     }
 
-    .form-control:focus, .form-select:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 0.2rem rgba(118, 30, 35, 0.15);
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+        background: white;
     }
 
-    .btn-primary {
-        background: var(--primary-color);
-        border: none;
-        box-shadow: 0 4px 6px rgba(118, 30, 35, 0.3);
-    }
-
-    .btn-primary:hover {
-        background: var(--primary-dark);
-        transform: translateY(-2px);
-    }
-
-    .programa-checkbox {
-        transition: var(--transition);
-    }
-
-    .programa-checkbox:hover {
-        background: #f8f9fa;
-        border-color: var(--primary-color);
-    }
-
-    .programa-checkbox.checked {
-        background: rgba(118, 30, 35, 0.05);
-        border-color: var(--primary-color);
-    }
-
-    .current-photo {
-        border: 3px solid #e9ecef;
-        transition: var(--transition);
-    }
-
-    .current-photo:hover {
-        border-color: var(--accent-color);
-    }
-
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateY(15px); }
+    /* Tab panes */
+    .tab-content { padding-top: .5rem; }
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
     }
+    .tab-pane.show { animation: fadeUp 0.2s ease-out; }
 
-    .tab-pane.show { animation: slideIn 0.3s ease-out; }
+    /* Soft info blocks */
+    .soft-info {
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: .9rem;
+        padding: 1rem;
+    }
+    .soft-warn {
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        border-radius: .9rem;
+        padding: 1rem;
+    }
+
+    /* Avatar / photo */
+    .current-photo {
+        border: 3px solid #eef2f7;
+        transition: var(--transition);
+    }
+    .current-photo:hover {
+        border-color: var(--accent-color);
+        transform: translateY(-1px);
+    }
+
+    /* Table style similar to docentes */
+    .docentes-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 1px solid var(--border);
+        border-radius: 0.9rem;
+        overflow: hidden;
+        background: white;
+    }
+    .docentes-table thead th {
+        background: #f8fafc;
+        color: #374151;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        padding: .85rem .9rem;
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+    }
+    .docentes-table tbody td {
+        padding: .75rem .9rem;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+    }
+    .docentes-table tbody tr:hover td { background: var(--soft); }
+    .docentes-table tbody tr:last-child td { border-bottom: none; }
+
+    @media (max-width: 768px) {
+        .nav-tabs .nav-link { border-radius: .75rem; }
+        .docentes-table thead { display: none; }
+        .docentes-table, .docentes-table tbody, .docentes-table tr, .docentes-table td { display: block; width: 100%; }
+        .docentes-table tr { border-bottom: 1px solid #f1f5f9; }
+        .docentes-table td {
+            border: none !important;
+            padding: .6rem .85rem;
+        }
+        .docentes-table td[data-label]::before {
+            content: attr(data-label);
+            display: block;
+            font-size: .7rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: .35rem;
+        }
+    }
 </style>
 @endpush
 
@@ -117,7 +178,7 @@
     <div class="mb-8">
         <div class="flex items-center gap-4">
             @if($docente->foto)
-                <img src="{{ asset('storage/' . $docente->foto) }}" alt="{{ $docente->nombre_completo }}" 
+                <img src="{{ asset('storage/' . $docente->foto) }}" alt="{{ $docente->nombre_completo }}"
                      class="current-photo w-16 h-16 object-cover rounded-full">
             @else
                 <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
@@ -129,8 +190,7 @@
                     {{ $docente->nombre_completo }}
                 </h2>
                 <p class="mt-1 text-sm text-gray-500">
-                    {{ $docente->grado ?? 'Docente' }} · 
-                    {{ $docente->programas->count() }} programa(s) asociado(s)
+                    {{ $docente->grado ?? 'Docente' }} · {{ $docente->programas->count() }} programa(s) asociado(s)
                 </p>
             </div>
         </div>
@@ -144,29 +204,25 @@
                 @method('PUT')
 
                 <!-- Tabs Navigation -->
-                <ul class="nav nav-tabs mb-6 flex border-b border-gray-200" role="tablist">
+                <ul class="nav nav-tabs mb-6 flex flex-wrap" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active px-4 py-3 text-sm font-medium border-b-2 border-brand-red text-brand-red" 
-                           data-tab="personal" href="#personal" onclick="switchTab(event, 'personal')">
-                            <i class="ph ph-user mr-2"></i> Datos Personales
+                        <a class="nav-link active" href="#personal" onclick="switchTab(event, 'personal')">
+                            <i class="ph ph-user"></i> Datos Personales
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
-                           data-tab="contacto" href="#contacto" onclick="switchTab(event, 'contacto')">
-                            <i class="ph ph-envelope mr-2"></i> Contacto
+                        <a class="nav-link" href="#contacto" onclick="switchTab(event, 'contacto')">
+                            <i class="ph ph-envelope"></i> Contacto
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
-                           data-tab="academico" href="#academico" onclick="switchTab(event, 'academico')">
-                            <i class="ph ph-book-open mr-2"></i> Info Académica
+                        <a class="nav-link" href="#academico" onclick="switchTab(event, 'academico')">
+                            <i class="ph ph-book-open"></i> Info Académica
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
-                           data-tab="programas" href="#programas" onclick="switchTab(event, 'programas')">
-                            <i class="ph ph-graduation-cap mr-2"></i> Programas
+                        <a class="nav-link" href="#programas" onclick="switchTab(event, 'programas')">
+                            <i class="ph ph-graduation-cap"></i> Programas
                         </a>
                     </li>
                 </ul>
@@ -177,35 +233,30 @@
                     <div id="personal" class="tab-pane show">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="nombres" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
+                                <label for="nombres" class="form-label block">
                                     Nombres <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" name="nombres" id="nombres" value="{{ old('nombres', $docente->nombres) }}"
-                                    class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:ring-brand-gold focus:border-brand-gold"
-                                    placeholder="Ej: María Elena" required>
+                                    class="block w-full py-2.5 px-4" placeholder="Ej: María Elena" required>
                                 @error('nombres')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div>
-                                <label for="apellidos" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
+                                <label for="apellidos" class="form-label block">
                                     Apellidos <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" name="apellidos" id="apellidos" value="{{ old('apellidos', $docente->apellidos) }}"
-                                    class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:ring-brand-gold focus:border-brand-gold"
-                                    placeholder="Ej: García López" required>
+                                    class="block w-full py-2.5 px-4" placeholder="Ej: García López" required>
                                 @error('apellidos')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div>
-                                <label for="grado" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                    Grado Académico
-                                </label>
-                                <select name="grado" id="grado"
-                                    class="form-select block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:ring-brand-gold focus:border-brand-gold">
+                                <label for="grado" class="form-label block">Grado Académico</label>
+                                <select name="grado" id="grado" class="block w-full py-2.5 px-4">
                                     <option value="">Seleccionar...</option>
                                     <option value="Dr." {{ old('grado', $docente->grado) == 'Dr.' ? 'selected' : '' }}>Dr. (Doctor)</option>
                                     <option value="Dra." {{ old('grado', $docente->grado) == 'Dra.' ? 'selected' : '' }}>Dra. (Doctora)</option>
@@ -218,12 +269,10 @@
                             </div>
 
                             <div>
-                                <label for="foto" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                    Foto de Perfil
-                                </label>
+                                <label for="foto" class="form-label block">Foto de Perfil</label>
                                 @if($docente->foto)
                                     <div class="mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200 flex items-center gap-4">
-                                        <img src="{{ asset('storage/' . $docente->foto) }}" alt="Foto actual" 
+                                        <img src="{{ asset('storage/' . $docente->foto) }}" alt="Foto actual"
                                              class="w-14 h-14 object-cover rounded-lg border-2 border-white shadow">
                                         <div class="flex-1">
                                             <p class="text-sm font-medium text-gray-700">Foto actual</p>
@@ -231,6 +280,7 @@
                                         </div>
                                     </div>
                                 @endif
+
                                 <input type="file" name="foto" id="foto" accept="image/*"
                                     class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-brand-gold file:text-white hover:file:bg-yellow-600 cursor-pointer">
                                 <p class="mt-1 text-xs text-gray-500">JPG, PNG. Máximo 2MB. Dejar vacío para mantener la foto actual.</p>
@@ -245,7 +295,7 @@
                             <label class="flex items-center cursor-pointer">
                                 <input type="hidden" name="estado" value="0">
                                 <input type="checkbox" name="estado" value="1"
-                                    class="h-5 w-5 text-brand-gold focus:ring-brand-gold border-gray-300 rounded"
+                                    class="h-5 w-5 text-brand-gold border-gray-300 rounded"
                                     {{ old('estado', $docente->estado) ? 'checked' : '' }}>
                                 <span class="ml-3 text-sm font-medium text-gray-700">
                                     Docente activo <span class="text-gray-500">(visible en el sitio web)</span>
@@ -258,24 +308,18 @@
                     <div id="contacto" class="tab-pane hidden">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="email" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                    Correo Electrónico
-                                </label>
+                                <label for="email" class="form-label block">Correo Electrónico</label>
                                 <input type="email" name="email" id="email" value="{{ old('email', $docente->email) }}"
-                                    class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                    placeholder="docente@unmsm.edu.pe">
+                                    class="block w-full py-2.5 px-4" placeholder="docente@unmsm.edu.pe">
                                 @error('email')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div>
-                                <label for="telefono" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                    Teléfono
-                                </label>
+                                <label for="telefono" class="form-label block">Teléfono</label>
                                 <input type="text" name="telefono" id="telefono" value="{{ old('telefono', $docente->telefono) }}"
-                                    class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                    placeholder="987654321">
+                                    class="block w-full py-2.5 px-4" placeholder="987654321">
                                 @error('telefono')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -288,36 +332,27 @@
                             </h4>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
-                                    <label for="orcid" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                        ORCID
-                                    </label>
+                                    <label for="orcid" class="form-label block">ORCID</label>
                                     <input type="text" name="orcid" id="orcid" value="{{ old('orcid', $docente->orcid) }}"
-                                        class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                        placeholder="https://orcid.org/0000-0000-0000-0000">
+                                        class="block w-full py-2.5 px-4" placeholder="https://orcid.org/0000-0000-0000-0000">
                                     @error('orcid')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
 
                                 <div>
-                                    <label for="cti_vitae" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                        CTI Vitae
-                                    </label>
+                                    <label for="cti_vitae" class="form-label block">CTI Vitae</label>
                                     <input type="url" name="cti_vitae" id="cti_vitae" value="{{ old('cti_vitae', $docente->cti_vitae) }}"
-                                        class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                        placeholder="https://ctivitae.concytec.gob.pe/...">
+                                        class="block w-full py-2.5 px-4" placeholder="https://ctivitae.concytec.gob.pe/...">
                                     @error('cti_vitae')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
 
                                 <div>
-                                    <label for="linkedin" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                        LinkedIn
-                                    </label>
+                                    <label for="linkedin" class="form-label block">LinkedIn</label>
                                     <input type="url" name="linkedin" id="linkedin" value="{{ old('linkedin', $docente->linkedin) }}"
-                                        class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                        placeholder="https://linkedin.com/in/...">
+                                        class="block w-full py-2.5 px-4" placeholder="https://linkedin.com/in/...">
                                     @error('linkedin')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -330,11 +365,9 @@
                     <div id="academico" class="tab-pane hidden">
                         <div class="space-y-6">
                             <div>
-                                <label for="biografia" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                    Biografía
-                                </label>
+                                <label for="biografia" class="form-label block">Biografía</label>
                                 <textarea name="biografia" id="biografia" rows="5"
-                                    class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
+                                    class="block w-full py-2.5 px-4"
                                     placeholder="Breve descripción del perfil académico del docente...">{{ old('biografia', $docente->biografia) }}</textarea>
                                 <p class="mt-1 text-xs text-gray-500">Descripción general del docente, su trayectoria y logros.</p>
                                 @error('biografia')
@@ -344,11 +377,9 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label for="lineas_investigacion" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                        Líneas de Investigación
-                                    </label>
+                                    <label for="lineas_investigacion" class="form-label block">Líneas de Investigación</label>
                                     <textarea name="lineas_investigacion" id="lineas_investigacion" rows="4"
-                                        class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
+                                        class="block w-full py-2.5 px-4"
                                         placeholder="Una línea por renglón...">{{ old('lineas_investigacion', is_array($docente->lineas_investigacion) ? implode("\n", $docente->lineas_investigacion) : $docente->lineas_investigacion) }}</textarea>
                                     <p class="mt-1 text-xs text-gray-500">Ingrese cada línea de investigación en un renglón separado.</p>
                                     @error('lineas_investigacion')
@@ -357,13 +388,11 @@
                                 </div>
 
                                 <div>
-                                    <label for="grupo_investigacion" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                        Grupo de Investigación
-                                    </label>
-                                    <input type="text" name="grupo_investigacion" id="grupo_investigacion" 
+                                    <label for="grupo_investigacion" class="form-label block">Grupo de Investigación</label>
+                                    <input type="text" name="grupo_investigacion" id="grupo_investigacion"
                                            value="{{ old('grupo_investigacion', $docente->grupo_investigacion) }}"
-                                        class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                        placeholder="Nombre del grupo de investigación">
+                                           class="block w-full py-2.5 px-4"
+                                           placeholder="Nombre del grupo de investigación">
                                     @error('grupo_investigacion')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -374,7 +403,7 @@
 
                     <!-- TAB 4: Programas (Solo Lectura) -->
                     <div id="programas" class="tab-pane hidden">
-                        <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+                        <div class="soft-warn mb-6">
                             <div class="flex items-center gap-2 text-amber-800">
                                 <i class="ph ph-info text-xl"></i>
                                 <p class="text-sm font-medium">
@@ -384,31 +413,57 @@
                         </div>
 
                         @if($docente->programas->count() > 0)
-                            <h4 class="text-sm font-bold text-gray-700 uppercase mb-4">Programas donde participa este docente:</h4>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                @foreach($docente->programas as $programa)
-                                    <div class="flex items-center p-4 bg-gray-50 border border-gray-200 rounded-lg">
-                                        <div class="w-10 h-10 rounded-lg bg-brand-red/10 flex items-center justify-center text-brand-red mr-3">
-                                            <i class="ph ph-graduation-cap text-xl"></i>
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="text-sm font-medium text-gray-800 block">{{ $programa->nombre }}</span>
-                                            <span class="text-xs text-gray-500">{{ $programa->grado }}</span>
-                                            @if($programa->pivot->es_coordinador)
-                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-brand-gold text-white mt-1">
-                                                    Coordinador
-                                                </span>
-                                            @endif
-                                            @if($programa->pivot->rol)
-                                                <span class="text-xs text-gray-600 block mt-1">{{ $programa->pivot->rol }}</span>
-                                            @endif
-                                        </div>
-                                        <a href="{{ route('admin.programas.edit', $programa) }}" 
-                                           class="text-gray-400 hover:text-brand-red transition-colors" title="Editar programa">
-                                            <i class="ph ph-arrow-square-out"></i>
-                                        </a>
-                                    </div>
-                                @endforeach
+                            <div class="overflow-x-auto">
+                                <table class="docentes-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 50%">Programa</th>
+                                            <th style="width: 20%">Tipo</th>
+                                            <th style="width: 20%">Rol</th>
+                                            <th style="width: 10%">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($docente->programas as $programa)
+                                            <tr>
+                                                <td data-label="Programa">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="w-10 h-10 rounded-lg bg-brand-red/10 flex items-center justify-center text-brand-red">
+                                                            <i class="ph ph-graduation-cap text-xl"></i>
+                                                        </div>
+                                                        <div>
+                                                            <div class="text-sm font-semibold text-gray-800">{{ $programa->nombre }}</div>
+                                                            <div class="text-xs text-gray-500">{{ $programa->codigo ?? '' }}</div>
+                                                            @if($programa->pivot->es_coordinador)
+                                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-brand-gold text-white mt-1">
+                                                                    Coordinador
+                                                                </span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td data-label="Tipo">
+                                                    <span class="text-sm text-gray-700">{{ $programa->grado }}</span>
+                                                </td>
+
+                                                <td data-label="Rol">
+                                                    <span class="text-sm text-gray-700">
+                                                        {{ $programa->pivot->rol ?: '—' }}
+                                                    </span>
+                                                </td>
+
+                                                <td data-label="Acción">
+                                                    <a href="{{ route('admin.programas.edit', $programa) }}"
+                                                       class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600"
+                                                       title="Editar programa">
+                                                        <i class="ph ph-arrow-square-out"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         @else
                             <div class="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-300">
@@ -425,11 +480,11 @@
                 <!-- Actions -->
                 <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                     <a href="{{ route('admin.docentes.index') }}"
-                        class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all">
+                        class="inline-flex items-center px-4 h-11 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                         <i class="ph ph-arrow-left mr-2"></i> Volver al Listado
                     </a>
                     <button type="submit"
-                        class="inline-flex items-center px-6 py-2.5 border border-transparent rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg hover:shadow-xl transition-all">
+                        class="inline-flex items-center px-6 h-11 rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg">
                         <i class="ph-bold ph-floppy-disk mr-2"></i>
                         Actualizar Docente
                     </button>
@@ -441,29 +496,28 @@
     <script>
         function switchTab(event, tabId) {
             event.preventDefault();
-            
-            // Hide all tab panes
+
             document.querySelectorAll('.tab-pane').forEach(pane => {
                 pane.classList.add('hidden');
                 pane.classList.remove('show');
             });
-            
-            // Remove active state from all nav links
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active', 'border-b-2', 'border-brand-red', 'text-brand-red');
+
+            document.querySelectorAll('.nav-tabs .nav-link').forEach(link => {
+                link.classList.remove('active');
                 link.classList.add('text-gray-500');
             });
-            
-            // Show selected tab pane
+
             const selectedPane = document.getElementById(tabId);
             if (selectedPane) {
                 selectedPane.classList.remove('hidden');
                 selectedPane.classList.add('show');
             }
-            
-            // Activate clicked nav link
-            event.target.classList.add('active', 'border-b-2', 'border-brand-red', 'text-brand-red');
-            event.target.classList.remove('text-gray-500');
+
+            const link = event.target.closest('a.nav-link');
+            if (link) {
+                link.classList.add('active');
+                link.classList.remove('text-gray-500');
+            }
         }
     </script>
 @endsection
