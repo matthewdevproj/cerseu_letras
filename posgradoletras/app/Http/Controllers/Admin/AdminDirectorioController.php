@@ -145,4 +145,52 @@ class AdminDirectorioController extends Controller
         return redirect()->route('admin.directorio.index')
             ->with('success', "Personal {$status} correctamente.");
     }
+
+    /**
+     * Mover hacia arriba (menor orden)
+     */
+    public function moveUp(DirectorioPosgrado $directorio)
+    {
+        // Buscar el elemento anterior en la misma unidad
+        $anterior = DirectorioPosgrado::where('unidad_nombre', $directorio->unidad_nombre)
+            ->where('orden', '<', $directorio->orden)
+            ->orderBy('orden', 'desc')
+            ->first();
+
+        if ($anterior) {
+            // Intercambiar ordenes
+            $ordenActual = $directorio->orden;
+            $directorio->orden = $anterior->orden;
+            $anterior->orden = $ordenActual;
+            $directorio->save();
+            $anterior->save();
+        }
+
+        return redirect()->route('admin.directorio.index')
+            ->with('success', 'Orden actualizado correctamente.');
+    }
+
+    /**
+     * Mover hacia abajo (mayor orden)
+     */
+    public function moveDown(DirectorioPosgrado $directorio)
+    {
+        // Buscar el elemento siguiente en la misma unidad
+        $siguiente = DirectorioPosgrado::where('unidad_nombre', $directorio->unidad_nombre)
+            ->where('orden', '>', $directorio->orden)
+            ->orderBy('orden', 'asc')
+            ->first();
+
+        if ($siguiente) {
+            // Intercambiar ordenes
+            $ordenActual = $directorio->orden;
+            $directorio->orden = $siguiente->orden;
+            $siguiente->orden = $ordenActual;
+            $directorio->save();
+            $siguiente->save();
+        }
+
+        return redirect()->route('admin.directorio.index')
+            ->with('success', 'Orden actualizado correctamente.');
+    }
 }

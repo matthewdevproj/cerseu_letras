@@ -4,30 +4,6 @@
 
 @push('styles')
     <style>
-        /* Estilos personalizados para el carrusel 3D */
-        .carousel-container {
-            perspective: 1000px;
-            overflow: hidden;
-            padding-top: 20px;
-            padding-bottom: 20px;
-        }
-
-        .carousel-card {
-            position: absolute;
-            transition:
-                transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                filter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                box-shadow 0.4s ease;
-            will-change: transform, opacity, filter;
-            transform-style: preserve-3d;
-        }
-
-        .carousel-card--active {
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-            z-index: 50;
-        }
-
         /* Utilidad para titulos */
         .section-title::before {
             content: '';
@@ -398,74 +374,184 @@
         </div>
     </section>
 
-    <!-- PROGRAMAS ACADÉMICOS -->
-    <section id="programas" class="py-24 bg-white overflow-hidden">
-        <div class="container mx-auto px-6 mb-12 text-center">
-            <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">Nuestra Oferta Académica</h2>
-            <p class="text-gray-500 max-w-2xl mx-auto">Explora nuestros programas de posgrado diseñados para potenciar tu
-                carrera investigadora.</p>
-        </div>
-
-        <!-- MAESTRÍAS -->
-        <div class="mb-24 relative">
-            <div class="container mx-auto px-6 mb-8 flex items-center">
-                <div class="h-10 w-1 bg-unmsm-guinda mr-4 rounded"></div>
-                <div>
-                    <h3 class="text-2xl font-bold text-gray-800">Maestrías</h3>
-                </div>
+    <!-- PROGRAMAS ACADÉMICOS (REDISEÑO CON BADGES DENTRO) -->
+    <section id="programas" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 lg:px-8">
+            <!-- Encabezado -->
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-unmsm-guinda mb-6 font-serif">Nuestros Programas</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    Excelencia académica para investigadores y líderes en Humanidades.
+                </p>
             </div>
 
-            <div class="relative max-w-6xl mx-auto h-[450px] flex items-center justify-center carousel-container"
-                id="maestrias-carousel">
-                <button
-                    class="nav-btn prev absolute left-2 md:left-10 z-50 w-12 h-12 rounded-full bg-white shadow-lg text-unmsm-guinda hover:bg-unmsm-guinda hover:text-white transition flex items-center justify-center border border-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                    </svg>
+            <!-- Filtros -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="filterPrograms('todos')" id="filter-todos"
+                    class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-unmsm-guinda text-white shadow-lg transform scale-105">
+                    <i class="fas fa-globe"></i> Todos
                 </button>
-                <button
-                    class="nav-btn next absolute right-2 md:right-10 z-50 w-12 h-12 rounded-full bg-white shadow-lg text-unmsm-guinda hover:bg-unmsm-guinda hover:text-white transition flex items-center justify-center border border-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                    </svg>
+                <button onclick="filterPrograms('maestria')" id="filter-maestria"
+                    class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-white text-gray-600 hover:bg-gray-100 shadow-sm">
+                    <i class="fas fa-graduation-cap"></i> Maestrías
                 </button>
-                <div class="cards-wrapper relative w-full h-full flex justify-center items-center perspective-1000"></div>
-            </div>
-            <div class="flex justify-center gap-2 mt-4" id="maestrias-dots"></div>
-        </div>
-
-        <!-- DOCTORADOS -->
-        <div class="relative bg-gray-50 py-16">
-            <div class="container mx-auto px-6 mb-8 flex items-center">
-                <div class="h-10 w-1 bg-gray-900 mr-4 rounded"></div>
-                <div>
-                    <h3 class="text-2xl font-bold text-gray-800">Doctorados</h3>
-                </div>
+                <button onclick="filterPrograms('doctorado')" id="filter-doctorado"
+                    class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-white text-gray-600 hover:bg-gray-100 shadow-sm">
+                    <i class="fas fa-book-reader"></i> Doctorados
+                </button>
             </div>
 
-            <div class="relative max-w-6xl mx-auto h-[450px] flex items-center justify-center carousel-container"
-                id="doctorados-carousel">
-                <button
-                    class="nav-btn prev absolute left-2 md:left-10 z-50 w-12 h-12 rounded-full bg-white shadow-lg text-gray-900 hover:bg-gray-900 hover:text-white transition flex items-center justify-center border border-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                    </svg>
-                </button>
-                <button
-                    class="nav-btn next absolute right-2 md:right-10 z-50 w-12 h-12 rounded-full bg-white shadow-lg text-gray-900 hover:bg-gray-900 hover:text-white transition flex items-center justify-center border border-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                    </svg>
-                </button>
-                <div class="cards-wrapper relative w-full h-full flex justify-center items-center perspective-1000"></div>
+            <!-- Grid de Programas -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="programas-grid">
+                <!-- Maestrías -->
+                @foreach($maestrias as $programa)
+                    <article
+                        class="group relative bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden h-full program-card"
+                        data-type="maestria">
+                        <a href="{{ route('programas.show', $programa->slug ?? $programa->codigo) }}" class="block">
+                            <div class="h-60 relative overflow-hidden">
+                                <!-- Imagen -->
+                                <img src="{{ $programa->imagen_url }}" alt="{{ $programa->nombre }}"
+                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+
+                                <!-- Gradiente de fondo para contraste -->
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90">
+                                </div>
+
+                                <!-- "Ver más detalle" Overlay (Aparece en Hover) -->
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+                                    <span
+                                        class="px-6 py-2 border border-white text-white font-bold rounded-full hover:bg-white hover:text-unmsm-guinda transition-colors shadow-2xl transform scale-90 group-hover:scale-100 duration-300">
+                                        Ver más detalle
+                                    </span>
+                                </div>
+
+                                <!-- Badge Tipo (Arriba) -->
+                                <div class="absolute top-4 left-4 z-20">
+                                    <span
+                                        class="px-3 py-1 bg-unmsm-guinda text-white text-xs font-bold rounded shadow-lg">Maestría</span>
+                                </div>
+
+                                <!-- Badges Info (Abajo, dentro de la imagen) -->
+                                <div
+                                    class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
+                                    <span
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
+                                        <i class="far fa-clock"></i> 4 semestres
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
+                                        <i class="fas fa-university"></i> Presencial
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="text-xl font-serif font-bold text-gray-800 mb-3 group-hover:text-unmsm-guinda transition-colors leading-tight">
+                                    {{ $programa->nombre }}
+                                </h3>
+                                <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
+                                    {{ $programa->sumilla ?? $programa->presentacion ?? 'Formación especializada con enfoque en investigación y desarrollo profesional.' }}
+                                </p>
+                            </div>
+                        </a>
+                    </article>
+                @endforeach
+
+                <!-- Doctorados -->
+                @foreach($doctorados as $programa)
+                    <article
+                        class="group relative bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden h-full program-card"
+                        data-type="doctorado">
+                        <a href="{{ route('programas.show', $programa->slug ?? $programa->codigo) }}" class="block">
+                            <div class="h-60 relative overflow-hidden">
+                                <!-- Imagen -->
+                                <img src="{{ $programa->imagen_url }}" alt="{{ $programa->nombre }}"
+                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+
+                                <!-- Gradiente de fondo para contraste -->
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90">
+                                </div>
+
+                                <!-- "Ver más detalle" Overlay (Aparece en Hover) -->
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+                                    <span
+                                        class="px-6 py-2 border border-white text-white font-bold rounded-full hover:bg-white hover:text-unmsm-guinda transition-colors shadow-2xl transform scale-90 group-hover:scale-100 duration-300">
+                                        Ver más detalle
+                                    </span>
+                                </div>
+
+                                <!-- Badge Tipo (Arriba) -->
+                                <div class="absolute top-4 left-4 z-20">
+                                    <span
+                                        class="px-3 py-1 bg-gray-900 text-white text-xs font-bold rounded shadow-lg">Doctorado</span>
+                                </div>
+
+                                <!-- Badges Info (Abajo, dentro de la imagen) -->
+                                <div
+                                    class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
+                                    <span
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
+                                        <i class="far fa-clock"></i> 6 semestres
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
+                                        <i class="fas fa-university"></i> Presencial
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="text-xl font-serif font-bold text-gray-800 mb-3 group-hover:text-unmsm-guinda transition-colors leading-tight">
+                                    {{ $programa->nombre }}
+                                </h3>
+                                <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
+                                    {{ $programa->sumilla ?? $programa->presentacion ?? 'Investigación de alto nivel para la generación de nuevo conocimiento.' }}
+                                </p>
+                            </div>
+                        </a>
+                    </article>
+                @endforeach
             </div>
-            <div class="flex justify-center gap-2 mt-4" id="doctorados-dots"></div>
+
         </div>
     </section>
+
+    <script>
+        // FILTRADO DE PROGRAMAS
+        function filterPrograms(type) {
+            const cards = document.querySelectorAll('.program-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // Reset botones
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-unmsm-guinda', 'text-white', 'shadow-lg', 'scale-105');
+                btn.classList.add('bg-white', 'text-gray-600', 'hover:bg-gray-100');
+            });
+
+            // Activar botón seleccionado
+            const activeBtn = document.getElementById('filter-' + type);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-gray-600', 'hover:bg-gray-100');
+                activeBtn.classList.add('bg-unmsm-guinda', 'text-white', 'shadow-lg', 'scale-105');
+            }
+
+            // Filtrar cards con animación
+            cards.forEach(card => {
+                if (type === 'todos' || card.dataset.type === type) {
+                    card.classList.remove('hidden');
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+    </script>
 
     <!-- PLANA DOCENTE -->
     <section class="py-20 bg-white">
@@ -483,7 +569,7 @@
                         <h4 class="font-bold text-sm text-gray-800 group-hover:text-unmsm-guinda transition">
                             {{ $docente->nombre_completo }}
                         </h4>
-                        <p class="text-xs text-gray-500">{{ $docente->especialidad ?? 'Especialista' }}</p>
+                        <p class="text-xs text-gray-500">{{ $docente->grado ?? 'Docente' }}</p>
                     </div>
                 @empty
                     <div class="col-span-full text-center text-gray-500">
@@ -583,148 +669,3 @@
         </div>
     </section>
 @endsection
-
-@push('scripts')
-    <script>
-        const maestrias = [
-            @foreach($maestrias as $programa)
-                        {
-                    titulo: '{{ addslashes($programa->nombre) }}',
-                    sumilla: '{{ addslashes($programa->sumilla ?? $programa->presentacion ?? '') }}',
-                    img: '{{ $programa->imagen_url }}',
-                    slug: '{{ $programa->slug ?? $programa->codigo }}',
-                    color: 'border-unmsm-guinda'
-                },
-            @endforeach
-            ];
-
-        const doctorados = [
-            @foreach($doctorados as $programa)
-                        {
-                    titulo: '{{ addslashes($programa->nombre) }}',
-                    sumilla: '{{ addslashes($programa->sumilla ?? $programa->presentacion ?? '') }}',
-                    img: '{{ $programa->imagen_url }}',
-                    slug: '{{ $programa->slug ?? $programa->codigo }}',
-                    color: 'border-gray-900'
-                },
-            @endforeach
-            ];
-
-        class Carousel3D {
-            constructor(containerId, dotsId, data) {
-                this.container = document.getElementById(containerId);
-                this.wrapper = this.container.querySelector('.cards-wrapper');
-                this.dotsContainer = document.getElementById(dotsId);
-                this.data = data;
-                this.activeIndex = 0;
-                this.cards = [];
-                this.init();
-            }
-
-            init() {
-                this.data.forEach((item, index) => {
-                    const card = document.createElement('div');
-                    card.className = `carousel-card absolute w-72 md:w-80 h-[400px] bg-white rounded-xl shadow-xl overflow-hidden border-t-4 ${item.color} flex flex-col cursor-pointer`;
-                    const arrowIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>`;
-
-                    card.innerHTML = `
-                                                                                <div class="h-40 overflow-hidden relative group">
-                                                                                    <img src="${item.img}" alt="${item.titulo}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                                                                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
-                                                                                </div>
-                                                                                <div class="p-6 flex flex-col flex-1 relative bg-white">
-                                                                                    <h3 class="font-bold text-gray-900 text-lg leading-tight mb-2 line-clamp-2">${item.titulo}</h3>
-                                                                                    <p class="text-gray-600 text-xs mb-4 line-clamp-3 leading-relaxed flex-1">${item.sumilla}</p>
-                                                                                    <div class="border-t border-gray-100 pt-4 mt-auto">
-                                                                                        <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2 block">Modalidad</span>
-                                                                                        <div class="flex justify-between items-center">
-                                                                                            <span class="text-xs font-medium bg-gray-100 px-2 py-1 rounded text-gray-600">Semipresencial</span>
-                                                                                            <span class="text-unmsm-guinda text-sm group-hover:translate-x-1 transition-transform">${arrowIcon}</span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            `;
-                    card.addEventListener('click', () => {
-                        if (this.activeIndex === index) {
-                            // Si ya es la tarjeta activa, navegar al programa
-                            window.location.href = '/programas/' + item.slug;
-                        } else {
-                            // Si no, activar esta tarjeta
-                            this.activeIndex = index;
-                            this.update();
-                        }
-                    });
-                    this.cards.push(card);
-                    this.wrapper.appendChild(card);
-
-                    const dot = document.createElement('button');
-                    dot.className = `h-2 rounded-full transition-all duration-300 mx-1 ${index === 0 ? 'w-8 bg-unmsm-guinda' : 'w-2 bg-gray-300 hover:bg-gray-400'}`;
-                    dot.addEventListener('click', () => { this.activeIndex = index; this.update(); });
-                    this.dotsContainer.appendChild(dot);
-                });
-
-                this.container.querySelector('.prev').addEventListener('click', () => {
-                    this.activeIndex = (this.activeIndex - 1 + this.data.length) % this.data.length;
-                    this.update();
-                });
-                this.container.querySelector('.next').addEventListener('click', () => {
-                    this.activeIndex = (this.activeIndex + 1) % this.data.length;
-                    this.update();
-                });
-                window.addEventListener('resize', () => this.update());
-                this.update();
-            }
-
-            update() {
-                const isMobile = window.innerWidth < 768;
-                const xOffset = isMobile ? 30 : 220;
-                this.cards.forEach((card, index) => {
-                    const relativePos = index - this.activeIndex;
-                    let transform = '', opacity = 0, zIndex = 0, filter = 'blur(0)', pointerEvents = 'none';
-                    card.classList.remove('carousel-card--active');
-
-                    if (relativePos === 0) {
-                        transform = 'translateX(0) scale(1) translateZ(0)';
-                        opacity = 1; zIndex = 50; pointerEvents = 'auto';
-                        card.classList.add('carousel-card--active');
-                    } else if (Math.abs(relativePos) <= 2) {
-                        const sign = Math.sign(relativePos);
-                        const absPos = Math.abs(relativePos);
-                        const translateX = sign * (xOffset + (absPos * 40));
-                        const scale = 1 - (absPos * 0.15);
-                        const rotateY = sign * -15;
-                        transform = `translateX(${translateX}px) scale(${scale}) perspective(1000px) rotateY(${rotateY}deg)`;
-                        opacity = absPos === 1 ? 0.8 : 0.5;
-                        zIndex = 50 - absPos;
-                        filter = absPos === 1 ? 'blur(1px)' : 'blur(3px)';
-                        pointerEvents = 'auto';
-                    } else {
-                        transform = 'translateX(0) scale(0.5)';
-                    }
-                    card.style.transform = transform;
-                    card.style.opacity = opacity;
-                    card.style.zIndex = zIndex;
-                    card.style.filter = filter;
-                    card.style.pointerEvents = pointerEvents;
-                });
-                const dots = this.dotsContainer.querySelectorAll('button');
-                dots.forEach((dot, index) => {
-                    if (index === this.activeIndex) {
-                        dot.className = 'h-2 rounded-full transition-all duration-300 mx-1 w-8 bg-unmsm-guinda';
-                    } else {
-                        dot.className = 'h-2 rounded-full transition-all duration-300 mx-1 w-2 bg-gray-300 hover:bg-gray-400';
-                    }
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (maestrias.length > 0) {
-                new Carousel3D('maestrias-carousel', 'maestrias-dots', maestrias);
-            }
-            if (doctorados.length > 0) {
-                new Carousel3D('doctorados-carousel', 'doctorados-dots', doctorados);
-            }
-        });
-    </script>
-@endpush

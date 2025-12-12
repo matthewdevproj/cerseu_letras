@@ -72,6 +72,8 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     // Directorio Management
     Route::resource('directorio', App\Http\Controllers\Admin\AdminDirectorioController::class);
     Route::post('directorio/{directorio}/toggle', [App\Http\Controllers\Admin\AdminDirectorioController::class, 'toggleActive'])->name('directorio.toggle');
+    Route::post('directorio/{directorio}/move-up', [App\Http\Controllers\Admin\AdminDirectorioController::class, 'moveUp'])->name('directorio.moveUp');
+    Route::post('directorio/{directorio}/move-down', [App\Http\Controllers\Admin\AdminDirectorioController::class, 'moveDown'])->name('directorio.moveDown');
 });
 
 // Breeze default routes (Profile)

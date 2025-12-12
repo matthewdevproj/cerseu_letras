@@ -17,7 +17,7 @@
             <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-3">Profesor Asesor</p>
             <h1 class="text-3xl md:text-5xl font-serif font-bold mb-4 drop-shadow-lg">{{ $profesor->nombre_completo }}</h1>
             <p class="text-gray-200 max-w-2xl mx-auto font-light text-lg leading-relaxed">
-                {{ $profesor->especialidad ?? 'Docente investigador de la Facultad de Letras y Ciencias Humanas' }}
+                {{ $profesor->grado ?? 'Docente investigador de la Facultad de Letras y Ciencias Humanas' }}
             </p>
         </div>
     </section>
@@ -48,10 +48,10 @@
                         {{ $profesor->nombre_completo }}
                     </h2>
 
-                    <!-- Especialidad -->
-                    @if($profesor->especialidad)
+                    <!-- Grado Académico -->
+                    @if($profesor->grado)
                         <p class="text-sm text-unmsm-dorado font-medium mt-1 text-center">
-                            {{ $profesor->especialidad }}
+                            {{ $profesor->grado }}
                         </p>
                     @endif
 

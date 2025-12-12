@@ -54,7 +54,6 @@ class AdminDocenteController extends Controller
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'grado' => 'nullable|string|max:100',
-            'especialidad' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
             'telefono' => 'nullable|string|max:50',
             'orcid' => 'nullable|string|max:255',
@@ -104,7 +103,6 @@ class AdminDocenteController extends Controller
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'grado' => 'nullable|string|max:100',
-            'especialidad' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
             'telefono' => 'nullable|string|max:50',
             'orcid' => 'nullable|string|max:255',
@@ -115,8 +113,7 @@ class AdminDocenteController extends Controller
             'grupo_investigacion' => 'nullable|string|max:255',
             'foto' => 'nullable|image|max:2048',
             'estado' => 'boolean',
-            'programas' => 'nullable|array',
-            'programas.*' => 'exists:programas,id',
+            // Nota: La asignación de programas se gestiona desde la vista de edición de programas
         ]);
 
         // Handle photo upload
@@ -130,12 +127,8 @@ class AdminDocenteController extends Controller
 
         $docente->update($validated);
 
-        // Sync programs
-        if ($request->has('programas')) {
-            $docente->programas()->sync($request->programas);
-        } else {
-            $docente->programas()->detach();
-        }
+        // Nota: Ya no sincronizamos programas aquí.
+        // La asignación de docentes a programas se gestiona desde la vista de edición de cada programa.
 
         return redirect()->route('admin.docentes.index')
             ->with('success', 'Docente actualizado exitosamente.');

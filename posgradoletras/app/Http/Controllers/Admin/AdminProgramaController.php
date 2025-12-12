@@ -43,7 +43,8 @@ class AdminProgramaController extends Controller
      */
     public function create()
     {
-        return view('admin.programas.create');
+        $docentes = \App\Models\Docente::where('estado', 1)->orderBy('apellidos')->get();
+        return view('admin.programas.create', compact('docentes'));
     }
 
     /**
@@ -52,7 +53,6 @@ class AdminProgramaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'codigo' => 'required|string|max:50|unique:programas',
             'grado' => 'required|in:Maestría,Doctorado',
             'nombre' => 'required|string|max:255',
             'mencion' => 'nullable|string|max:255',
@@ -77,8 +77,8 @@ class AdminProgramaController extends Controller
             $validated['imagen'] = $request->file('imagen')->store('programas', 'public');
         }
 
-        // Generate slug from codigo
-        $validated['slug'] = Str::slug($validated['codigo']);
+        // Generate unique slug from nombre
+        $validated['slug'] = $this->generateUniqueSlug($validated['nombre']);
 
         Programa::create($validated);
 
@@ -87,11 +87,39 @@ class AdminProgramaController extends Controller
     }
 
     /**
+     * Generate a unique slug from the program name.
+     */
+    private function generateUniqueSlug(string $nombre, ?int $excludeId = null): string
+    {
+        $baseSlug = Str::slug($nombre);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        $query = Programa::where('slug', $slug);
+        if ($excludeId) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        while ($query->exists()) {
+            $counter++;
+            $slug = $baseSlug . '-' . $counter;
+            $query = Programa::where('slug', $slug);
+            if ($excludeId) {
+                $query->where('id', '!=', $excludeId);
+            }
+        }
+
+        return $slug;
+    }
+
+    /**
      * Show the form for editing the specified programa.
      */
     public function edit(Programa $programa)
     {
-        return view('admin.programas.edit', compact('programa'));
+        $docentes = \App\Models\Docente::where('estado', 1)->orderBy('apellidos')->get();
+        $programa->load('docentes');
+        return view('admin.programas.edit', compact('programa', 'docentes'));
     }
 
     /**
@@ -100,7 +128,7 @@ class AdminProgramaController extends Controller
     public function update(Request $request, Programa $programa)
     {
         $validated = $request->validate([
-            'codigo' => 'required|string|max:50|unique:programas,codigo,' . $programa->id,
+            // codigo is auto-generated and cannot be edited
             'grado' => 'required|in:Maestría,Doctorado',
             'nombre' => 'required|string|max:255',
             'mencion' => 'nullable|string|max:255',
@@ -118,6 +146,12 @@ class AdminProgramaController extends Controller
             'descripcion' => 'nullable|string',
             'imagen' => 'nullable|image|max:2048',
             'is_active' => 'boolean',
+            // Docentes validation
+            'docentes_asignados' => 'nullable|array',
+            'docentes_asignados.*' => 'nullable|exists:docentes,id',
+            'docentes_rol' => 'nullable|array',
+            'docentes_orden' => 'nullable|array',
+            'docentes_coordinador' => 'nullable|array',
         ]);
 
         // Handle image upload
@@ -129,12 +163,32 @@ class AdminProgramaController extends Controller
             $validated['imagen'] = $request->file('imagen')->store('programas', 'public');
         }
 
-        // Update slug if codigo changed
-        if ($validated['codigo'] !== $programa->codigo) {
-            $validated['slug'] = Str::slug($validated['codigo']);
-        }
+        // Remove docentes arrays from validated to prevent mass assignment issues
+        unset($validated['docentes_asignados']);
+        unset($validated['docentes_rol']);
+        unset($validated['docentes_orden']);
+        unset($validated['docentes_coordinador']);
 
         $programa->update($validated);
+
+        // Sync docentes with pivot data
+        $docentesAsignados = $request->input('docentes_asignados', []);
+        $docentesRol = $request->input('docentes_rol', []);
+        $docentesOrden = $request->input('docentes_orden', []);
+        $docentesCoordinador = $request->input('docentes_coordinador', []);
+
+        $syncData = [];
+        foreach ($docentesAsignados as $index => $docenteId) {
+            if (!empty($docenteId)) {
+                $syncData[$docenteId] = [
+                    'rol' => $docentesRol[$index] ?? null,
+                    'orden' => !empty($docentesOrden[$index]) ? (int) $docentesOrden[$index] : null,
+                    'es_coordinador' => isset($docentesCoordinador[$index]) && $docentesCoordinador[$index] ? 1 : 0,
+                ];
+            }
+        }
+
+        $programa->docentes()->sync($syncData);
 
         return redirect()->route('admin.programas.index')
             ->with('success', 'Programa actualizado exitosamente.');

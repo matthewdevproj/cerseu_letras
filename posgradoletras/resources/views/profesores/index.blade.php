@@ -65,7 +65,7 @@
                                                 <li>
                                                     <a href="{{ route('profesores.programa', ['slug' => $prog->slug ?? $prog->codigo]) }}"
                                                         class="program-link block text-sm px-3 py-2.5 rounded-md transition-all
-                                                                                                                                                                                                                                                                                              {{ isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id
+                                                                                                                                                                                                                                                                                                                      {{ isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id
                                 ? 'bg-unmsm-guinda text-white shadow-md'
                                 : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda' }}">
                                                         {{ $prog->nombre }}
@@ -85,7 +85,7 @@
                                                 <li>
                                                     <a href="{{ route('profesores.programa', ['slug' => $prog->slug ?? $prog->codigo]) }}"
                                                         class="program-link block text-sm px-3 py-2.5 rounded-md transition-all
-                                                                                                                                                                                                                                                                                              {{ isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id
+                                                                                                                                                                                                                                                                                                                      {{ isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id
                                 ? 'bg-unmsm-guinda text-white shadow-md'
                                 : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda' }}">
                                                         {{ $prog->nombre }}
@@ -141,8 +141,8 @@
                                                     </a>
                                                 </h3>
 
-                                                @if($profesor->especialidad)
-                                                    <p class="text-unmsm-dorado text-sm font-medium mb-2">{{ $profesor->especialidad }}</p>
+                                                @if($profesor->grado)
+                                                    <p class="text-unmsm-dorado text-sm font-medium mb-2">{{ $profesor->grado }}</p>
                                                 @endif
 
                                                 @if($profesor->biografia)

@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 class Programa extends Model
 {
     protected $fillable = [
-        'codigo',
         'grado',
         'nombre',
         'mencion',
@@ -109,13 +108,13 @@ class Programa extends Model
 
         static::creating(function ($programa) {
             if (empty($programa->slug)) {
-                $programa->slug = Str::slug($programa->codigo);
+                $programa->slug = Str::slug($programa->nombre);
             }
         });
 
         static::updating(function ($programa) {
             if (empty($programa->slug)) {
-                $programa->slug = Str::slug($programa->codigo);
+                $programa->slug = Str::slug($programa->nombre);
             }
         });
     }

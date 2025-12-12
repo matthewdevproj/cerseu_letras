@@ -55,27 +55,30 @@
     <div class="bg-white shadow-sm border border-gray-200 rounded-lg overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
-                            Unidad
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
-                            Nombre
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
-                            Cargo
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
-                            Contacto
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
-                            Estado
-                        </th>
-                        <th scope="col" class="relative px-6 py-3">
-                            <span class="sr-only">Acciones</span>
-                        </th>
-                    </tr>
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
+                                Unidad
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
+                                Nombre
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
+                                Cargo
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
+                                Contacto
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
+                                Mover
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
+                                Estado
+                            </th>
+                            <th scope="col" class="relative px-6 py-3">
+                                <span class="sr-only">Acciones</span>
+                            </th>
+                        </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($directorio as $persona)
@@ -92,7 +95,6 @@
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">{{ $persona->nombre_persona }}</div>
-                                        <div class="text-xs text-gray-500">Orden: {{ $persona->orden }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -116,6 +118,22 @@
                                     @if(!$persona->correo_persona && !$persona->anexo)
                                         <span class="text-gray-400">Sin contacto</span>
                                     @endif
+                                </div>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-center">
+                                <div class="flex justify-center gap-1">
+                                    <form action="{{ route('admin.directorio.moveUp', $persona) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" class="w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors" title="Subir">
+                                            <i class="ph ph-arrow-up"></i>
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('admin.directorio.moveDown', $persona) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" class="w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors" title="Bajar">
+                                            <i class="ph ph-arrow-down"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
@@ -154,7 +172,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-16 text-center">
+                            <td colspan="7" class="px-6 py-16 text-center">
                                 <div class="flex flex-col items-center">
                                     <div class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                                         <i class="ph ph-address-book text-2xl text-gray-400"></i>
