@@ -583,6 +583,9 @@
 
 
     <!-- CONTACTO & FOOTER -->
+    @php
+        $siteSettings = \App\Models\SiteSetting::get();
+    @endphp
     <section id="contacto" class="bg-gray-900 text-gray-300 py-16 border-t border-gray-800">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-12">
@@ -592,68 +595,121 @@
                         programas y procesos.</p>
 
                     <ul class="space-y-6">
-                        <li class="flex items-center gap-4 group">
-                            <div
-                                class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-unmsm-guinda transition-colors text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                                </svg>
-                            </div>
-                            <div>
-                                <span class="block text-xs uppercase tracking-wider text-gray-500">Email</span>
-                                <a href="mailto:posgrado.letras@unmsm.edu.pe"
-                                    class="text-white hover:text-unmsm-dorado transition">posgrado.letras@unmsm.edu.pe</a>
-                            </div>
-                        </li>
-                        <li class="flex items-center gap-4 group">
-                            <div
-                                class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-green-600 transition-colors text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <span class="block text-xs uppercase tracking-wider text-gray-500">WhatsApp</span>
-                                <a href="#" class="text-white hover:text-green-500 transition">+51 982 085 037</a>
-                            </div>
-                        </li>
-                        <li class="flex items-center gap-4 group">
-                            <div
-                                class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-blue-600 transition-colors text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <span class="block text-xs uppercase tracking-wider text-gray-500">Ubicación</span>
-                                <p class="text-white">Ciudad Universitaria, Av. Venezuela s/n, Lima.</p>
-                            </div>
-                        </li>
+                        @if($siteSettings?->email)
+                            <li class="flex items-center gap-4 group">
+                                <div
+                                    class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-unmsm-guinda transition-colors text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="block text-xs uppercase tracking-wider text-gray-500">Email</span>
+                                    <a href="mailto:{{ $siteSettings->email }}"
+                                        class="text-white hover:text-unmsm-dorado transition">{{ $siteSettings->email }}</a>
+                                </div>
+                            </li>
+                        @endif
+                        @if($siteSettings?->telefono)
+                            <li class="flex items-center gap-4 group">
+                                <div
+                                    class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-green-600 transition-colors text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="block text-xs uppercase tracking-wider text-gray-500">WhatsApp</span>
+                                    <a href="https://wa.me/51{{ preg_replace('/\D/', '', $siteSettings->telefono) }}"
+                                        target="_blank" class="text-white hover:text-green-500 transition">+51
+                                        {{ $siteSettings->telefono }}</a>
+                                </div>
+                            </li>
+                        @endif
+                        @if($siteSettings?->direccion)
+                            <li class="flex items-center gap-4 group">
+                                <div
+                                    class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-blue-600 transition-colors text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="block text-xs uppercase tracking-wider text-gray-500">Ubicación</span>
+                                    <p class="text-white">{{ $siteSettings->direccion }}</p>
+                                </div>
+                            </li>
+                        @endif
+                        @if($siteSettings?->horario_atencion)
+                            <li class="flex items-center gap-4 group">
+                                <div
+                                    class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-unmsm-dorado transition-colors text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="block text-xs uppercase tracking-wider text-gray-500">Horario de
+                                        Atención</span>
+                                    <p class="text-white">{{ $siteSettings->horario_atencion }}</p>
+                                </div>
+                            </li>
+                        @endif
                     </ul>
 
                     <div class="mt-8 flex gap-4">
-                        <a href="#"
-                            class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-blue-600 transition text-white">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                            </svg>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-sky-500 transition text-white">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417a9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                            </svg>
-                        </a>
+                        @if($siteSettings?->facebook)
+                            <a href="{{ $siteSettings->facebook }}" target="_blank"
+                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-blue-600 transition text-white"
+                                title="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        @endif
+                        @if($siteSettings?->instagram)
+                            <a href="{{ $siteSettings->instagram }}" target="_blank"
+                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-pink-600 transition text-white"
+                                title="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        @endif
+                        @if($siteSettings?->twitter)
+                            <a href="{{ $siteSettings->twitter }}" target="_blank"
+                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-sky-500 transition text-white"
+                                title="X (Twitter)">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        @endif
+                        @if($siteSettings?->linkedin)
+                            <a href="{{ $siteSettings->linkedin }}" target="_blank"
+                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-blue-700 transition text-white"
+                                title="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        @endif
+                        @if($siteSettings?->youtube)
+                            <a href="{{ $siteSettings->youtube }}" target="_blank"
+                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-red-600 transition text-white"
+                                title="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        @endif
+                        @if($siteSettings?->tiktok)
+                            <a href="{{ $siteSettings->tiktok }}" target="_blank"
+                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-black transition text-white"
+                                title="TikTok">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
 

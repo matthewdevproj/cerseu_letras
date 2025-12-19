@@ -138,6 +138,14 @@
                         Directorio
                     </a>
 
+                    <a href="{{ route('admin.settings.index') }}"
+                        class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+                              {{ request()->routeIs('admin.settings.*') ? 'bg-white/10 text-white shadow-inner border border-white/5' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
+                        <i
+                            class="ph ph-gear mr-3 text-xl {{ request()->routeIs('admin.settings.*') ? 'text-brand-gold' : 'group-hover:text-brand-gold' }} transition-colors"></i>
+                        Configuración
+                    </a>
+
                     <div class="pt-4 mt-4 border-t border-white/10">
                         <a href="{{ route('home') }}" target="_blank"
                             class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 text-gray-300 hover:bg-white/5 hover:text-white">
@@ -229,6 +237,10 @@
                         <a href="{{ route('admin.directorio.index') }}"
                             class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white">
                             <i class="ph ph-address-book mr-3 text-xl"></i> Directorio
+                        </a>
+                        <a href="{{ route('admin.settings.index') }}"
+                            class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white">
+                            <i class="ph ph-gear mr-3 text-xl"></i> Configuración
                         </a>
                     </nav>
                 </div>

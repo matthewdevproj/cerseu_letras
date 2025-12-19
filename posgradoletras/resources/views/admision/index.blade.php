@@ -2,12 +2,33 @@
 
 @section('title', 'Admisión 2025 - Posgrado Letras UNMSM')
 
-@section('content')
-    <div class="container mx-auto px-4 py-8">
+@push('styles')
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
 
-        <h2 class="text-2xl md:text-3xl font-bold text-unmsm-guinda mb-6 border-b-2 border-unmsm-dorado/30 pb-2 font-serif">
-            Proceso de Admisión 2025
-        </h2>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+@endpush
+
+@section('content')
+    <!-- HERO DE SECCIÓN -->
+    <x-hero-section title="Admisión 2025" label="Proceso de Inscripción"
+        subtitle="Inicia tu camino hacia la excelencia académica con la Decana de América"
+        image="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" />
+
+    <section class="container mx-auto px-6 py-16 fade-in">
 
         <div class="grid lg:grid-cols-3 gap-8">
             <!-- Columna Principal -->
@@ -127,5 +148,5 @@
                 </div>
             </div>
         </div>
-    </div>
+        </section>
 @endsection

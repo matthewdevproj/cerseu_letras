@@ -1,5 +1,7 @@
 {{-- resources/views/layouts/partials/navbar.blade.php --}}
-
+@php
+    $navSettings = \App\Models\SiteSetting::get();
+@endphp
 <div id="navbar-inner" class="w-full bg-transparent">
     <div class="container mx-auto px-4 lg:px-8">
         <div class="flex justify-between items-center h-24 transition-all duration-300" id="nav-height">
@@ -8,9 +10,9 @@
             <div class="flex-shrink-0 flex items-center gap-4">
                 <a href="{{ route('home') }}" class="flex items-center gap-3">
                     <img id="header-logo"
-                        src="https://letras.unmsm.edu.pe/wp-content/uploads/2020/11/LOGO_LETRAS_AI.png"
+                        src="{{ $navSettings?->logo_path ? asset('storage/' . $navSettings->logo_path) : 'https://letras.unmsm.edu.pe/wp-content/uploads/2020/11/LOGO_LETRAS_AI.png' }}"
                         class="h-16 w-auto object-contain transition-all duration-300 brightness-0 invert"
-                        alt="Logo Letras">
+                        alt="{{ $navSettings?->site_name ?? 'Logo Letras' }}">
                 </a>
             </div>
 

@@ -24,21 +24,19 @@
 
 @section('content')
 
-    <!-- HERO DE SECCIÓN (igual que programas) -->
-    <section class="relative w-full h-[50vh] min-h-[400px] flex items-center justify-center bg-gray-900 overflow-hidden">
-        <!-- Imagen de Fondo -->
-        <div class="absolute inset-0 opacity-50">
-            <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=1920&auto=format&fit=crop"
-                alt="Profesores" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-gray-900/90"></div>
-        </div>
-
-        <!-- Texto Hero -->
-        <div class="relative z-10 text-center text-white px-4 mt-20">
-            <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-3">Plana Docente</p>
-            <h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 drop-shadow-lg">Profesores Asesores</h1>
-            <p class="text-gray-200 max-w-2xl mx-auto font-light text-lg leading-relaxed">
-                Conoce a los docentes e investigadores que asesoran tesis en nuestras maestrías y doctorados.
+    <!-- HERO SECTION (Estilo moderno con gradiente) -->
+    <section class="bg-gray-900 text-white py-20 relative overflow-hidden">
+        <!-- Imagen de Fondo con overlay -->
+        <div class="absolute inset-0 opacity-20 bg-cover bg-center" 
+             style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2020/11/frontis-letras.jpg')"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-unmsm-guinda to-black/80"></div>
+        
+        <!-- Contenido Hero -->
+        <div class="container mx-auto px-4 relative z-10 text-center pt-16">
+            <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs mb-2">Plana Docente</p>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 font-serif">Profesores Asesores</h1>
+            <p class="text-gray-300 max-w-2xl mx-auto font-light">
+                Investigadores de alto nivel comprometidos con la excelencia académica.
             </p>
         </div>
     </section>
@@ -47,50 +45,53 @@
     <div class="container mx-auto px-4 py-12">
         <div class="grid lg:grid-cols-4 gap-8">
 
-            <!-- SIDEBAR: LISTA DE PROGRAMAS -->
+            <!-- SIDEBAR: Navegación de Programas -->
             <aside class="lg:col-span-1">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 sticky top-28">
-                    <h2 class="text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide border-b border-gray-100 pb-2">
-                        Programas de Posgrado
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 sticky top-36">
+                    <h2 class="text-xs font-bold text-gray-400 mb-4 uppercase tracking-widest border-b border-gray-100 pb-2">
+                        Programas
                     </h2>
-
+                    
                     <!-- Maestrías -->
-                    <div class="mb-6">
-                        <p
-                            class="text-xs font-bold text-unmsm-dorado mb-3 uppercase tracking-wider flex items-center gap-2">
+                    <div class="mb-4">
+                        <p class="text-xs font-bold text-unmsm-dorado mb-2 uppercase tracking-wider flex items-center gap-2">
                             <i class="fas fa-graduation-cap"></i> Maestrías
                         </p>
-                        <ul class="space-y-1">
+                        <div class="space-y-1">
                             @foreach($maestrias as $prog)
-                                                <li>
-                                                    <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" class="program-link block text-sm px-3 py-2.5 rounded-md transition-all
-                                                                                                                                                                                                                                                                                                                                              {{ isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id
-                                ? 'bg-unmsm-guinda text-white shadow-md'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda' }}">
-                                                        {{ $prog->nombre }}
-                                                    </a>
-                                                </li>
+                                @php
+                                    $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
+                                @endphp
+                                <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" 
+                                   class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {{ $isActive 
+                                       ? 'bg-unmsm-guinda text-white shadow-md' 
+                                       : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
+                                    <i class="fas fa-book text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}"></i>
+                                    <span class="text-sm font-medium leading-tight">{{ $prog->nombre }}</span>
+                                </a>
                             @endforeach
-                        </ul>
+                        </div>
                     </div>
 
                     <!-- Doctorados -->
                     <div>
-                        <p class="text-xs font-bold text-gray-800 mb-3 uppercase tracking-wider flex items-center gap-2">
+                        <p class="text-xs font-bold text-gray-800 mb-2 uppercase tracking-wider flex items-center gap-2">
                             <i class="fas fa-user-graduate"></i> Doctorados
                         </p>
-                        <ul class="space-y-1">
+                        <div class="space-y-1">
                             @foreach($doctorados as $prog)
-                                                <li>
-                                                    <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" class="program-link block text-sm px-3 py-2.5 rounded-md transition-all
-                                                                                                                                                                                                                                                                                                                                              {{ isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id
-                                ? 'bg-unmsm-guinda text-white shadow-md'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda' }}">
-                                                        {{ $prog->nombre }}
-                                                    </a>
-                                                </li>
+                                @php
+                                    $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
+                                @endphp
+                                <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" 
+                                   class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {{ $isActive 
+                                       ? 'bg-unmsm-guinda text-white shadow-md' 
+                                       : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
+                                    <i class="fas fa-book text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}"></i>
+                                    <span class="text-sm font-medium leading-tight">{{ $prog->nombre }}</span>
+                                </a>
                             @endforeach
-                        </ul>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -112,112 +113,175 @@
                         @if($profesores->count() > 0)
                             <div class="space-y-6">
                                 @foreach($profesores as $profesor)
-                                    <article
-                                        class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group">
-                                        <div class="flex flex-col md:flex-row gap-5">
-                                            <!-- Avatar / Foto -->
-                                            <div
-                                                class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-unmsm-guinda shrink-0 border border-gray-100 group-hover:border-unmsm-dorado transition-colors overflow-hidden">
-                                                @if($profesor->foto)
-                                                    <img src="{{ asset('storage/' . $profesor->foto) }}"
-                                                        alt="{{ $profesor->nombre_completo }}" class="w-full h-full object-cover">
-                                                @else
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none"
-                                                        viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                                    </svg>
-                                                @endif
+                                    @php
+                                        $lineas = $profesor->lineas_investigacion;
+                                        $hasLineas = !empty($lineas) && (is_array($lineas) ? count($lineas) > 0 : strlen(trim($lineas)) > 0);
+                                        $lineasArray = is_array($lineas) ? $lineas : ($lineas ? explode(',', $lineas) : []);
+                                    @endphp
+                                    
+                                    <article class="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 hover:shadow-xl hover:border-unmsm-guinda/30 transition-all duration-300 group relative overflow-hidden">
+                                        
+                                        <!-- Decoración Hover (barra izquierda) -->
+                                        <div class="absolute top-0 left-0 w-1 h-full bg-unmsm-guinda opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                                        <div class="flex flex-col md:flex-row gap-6">
+                                            
+                                            <!-- Columna Foto + Botones Sociales -->
+                                            <div class="flex-shrink-0 flex flex-col items-center space-y-3">
+                                                <div class="relative w-24 h-24 md:w-28 md:h-28">
+                                                    <div class="absolute inset-0 bg-unmsm-dorado rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                                                    @if($profesor->foto)
+                                                        <img src="{{ asset('storage/' . $profesor->foto) }}" 
+                                                             alt="{{ $profesor->nombre_completo }}" 
+                                                             class="relative w-full h-full rounded-full object-cover border-4 border-white shadow-md group-hover:scale-105 transition-transform duration-500">
+                                                    @else
+                                                        <div class="relative w-full h-full rounded-full bg-gray-100 border-4 border-white shadow-md flex items-center justify-center text-unmsm-guinda group-hover:scale-105 transition-transform duration-500">
+                                                            <i class="fas fa-user text-3xl"></i>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                
+                                                <!-- Botones sociales compactos debajo de la foto -->
+                                                <div class="flex gap-2 justify-center w-full">
+                                                    @if($profesor->cti_vitae)
+                                                        <a href="{{ $profesor->cti_vitae }}" target="_blank" 
+                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors text-xs" 
+                                                           title="CTI Vitae">
+                                                            <i class="fas fa-file-alt"></i>
+                                                        </a>
+                                                    @endif
+                                                    @if($profesor->orcid)
+                                                        <a href="{{ $profesor->orcid }}" target="_blank" 
+                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-green-50 text-green-600 hover:bg-green-600 hover:text-white transition-colors text-xs" 
+                                                           title="ORCID">
+                                                            <i class="fab fa-orcid"></i>
+                                                        </a>
+                                                    @endif
+                                                    @if($profesor->linkedin)
+                                                        <a href="{{ $profesor->linkedin }}" target="_blank" 
+                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-700 hover:bg-blue-700 hover:text-white transition-colors text-xs" 
+                                                           title="LinkedIn">
+                                                            <i class="fab fa-linkedin-in"></i>
+                                                        </a>
+                                                    @endif
+                                                    @if($profesor->email)
+                                                        <a href="mailto:{{ $profesor->email }}" 
+                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-unmsm-guinda hover:text-white transition-colors text-xs" 
+                                                           title="Email">
+                                                            <i class="fas fa-envelope"></i>
+                                                        </a>
+                                                    @endif
+                                                </div>
                                             </div>
 
-                                            <!-- Info -->
-                                            <div class="flex-1">
-                                                <h3
-                                                    class="text-xl font-bold text-gray-800 font-serif mb-1 group-hover:text-unmsm-guinda transition-colors">
-                                                    <a href="{{ route('profesores.show', $profesor->id) }}" class="hover:underline">
-                                                        {{ $profesor->nombre_completo }}
+                                            <!-- Columna Info -->
+                                            <div class="flex-1 min-w-0">
+                                                
+                                                <!-- Header: Nombre + Link perfil -->
+                                                <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
+                                                    <div>
+                                                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 font-serif group-hover:text-unmsm-guinda transition-colors">
+                                                            <a href="{{ route('profesores.show', $profesor->id) }}" class="hover:underline">
+                                                                {{ $profesor->nombre_completo }}
+                                                            </a>
+                                                        </h3>
+                                                        @if($profesor->grado)
+                                                            <span class="inline-block bg-unmsm-guinda/10 text-unmsm-guinda text-xs font-bold px-2 py-0.5 rounded mt-1">
+                                                                {{ $profesor->grado }}
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                    <a href="{{ route('profesores.show', $profesor->id) }}" 
+                                                       class="hidden md:inline-flex items-center text-xs font-semibold text-gray-500 hover:text-unmsm-guinda transition group/link">
+                                                        Ver perfil completo 
+                                                        <i class="fas fa-arrow-right ml-1 transform group-hover/link:translate-x-1 transition-transform"></i>
                                                     </a>
-                                                </h3>
+                                                </div>
 
-                                                @if($profesor->grado)
-                                                    <p class="text-unmsm-dorado text-sm font-medium mb-2">{{ $profesor->grado }}</p>
-                                                @endif
-
+                                                <!-- Biografía -->
                                                 @if($profesor->biografia)
-                                                    <p class="text-gray-700 text-sm mb-4 text-justify leading-relaxed">
-                                                        {{ Str::limit($profesor->biografia, 300) }}
+                                                    <p class="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                                                        {{ $profesor->biografia }}
                                                     </p>
                                                 @endif
 
-                                                @if(
-                                                        ($profesor->lineas_investigacion && count($profesor->lineas_investigacion) > 0) ||
-                                                        $profesor->grupo_investigacion
-                                                    )
-                                                    <div class="pt-4 border-t border-gray-100 space-y-2">
-                                                        @if($profesor->lineas_investigacion && count($profesor->lineas_investigacion) > 0)
-                                                            <div class="text-xs">
-                                                                <span class="font-bold text-unmsm-guinda">Líneas de investigación:</span>
-                                                                <span class="text-gray-600 text-sm">
-                                                                    {{ implode(', ', $profesor->lineas_investigacion) }}
-                                                                </span>
+                                                <!-- Enlaces visibles -->
+                                                @if($profesor->cti_vitae || $profesor->orcid || $profesor->linkedin || $profesor->email)
+                                                    <div class="flex flex-col gap-1.5 mb-4 text-xs">
+                                                        @if($profesor->cti_vitae)
+                                                            <div class="flex items-center gap-2">
+                                                                <span class="font-bold text-gray-500 w-16">CTI Vitae:</span>
+                                                                <a href="{{ $profesor->cti_vitae }}" target="_blank" 
+                                                                   class="flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline truncate">
+                                                                    <span class="truncate">{{ $profesor->cti_vitae }}</span>
+                                                                    <i class="fas fa-external-link-alt text-[10px] opacity-60 flex-shrink-0"></i>
+                                                                </a>
                                                             </div>
                                                         @endif
-
+                                                        @if($profesor->orcid)
+                                                            <div class="flex items-center gap-2">
+                                                                <span class="font-bold text-gray-500 w-16">ORCID:</span>
+                                                                <a href="{{ $profesor->orcid }}" target="_blank" 
+                                                                   class="flex items-center gap-1 text-green-600 hover:text-green-800 hover:underline truncate">
+                                                                    <span class="truncate">{{ $profesor->orcid }}</span>
+                                                                    <i class="fas fa-external-link-alt text-[10px] opacity-60 flex-shrink-0"></i>
+                                                                </a>
+                                                            </div>
+                                                        @endif
+                                                        @if($profesor->linkedin)
+                                                            <div class="flex items-center gap-2">
+                                                                <span class="font-bold text-gray-500 w-16">LinkedIn:</span>
+                                                                <a href="{{ $profesor->linkedin }}" target="_blank" 
+                                                                   class="flex items-center gap-1 text-blue-700 hover:text-blue-900 hover:underline truncate">
+                                                                    <span class="truncate">{{ $profesor->linkedin }}</span>
+                                                                    <i class="fas fa-external-link-alt text-[10px] opacity-60 flex-shrink-0"></i>
+                                                                </a>
+                                                            </div>
+                                                        @endif
+                                                        @if($profesor->email)
+                                                            <div class="flex items-center gap-2">
+                                                                <span class="font-bold text-gray-500 w-16">Email:</span>
+                                                                <a href="mailto:{{ $profesor->email }}" 
+                                                                   class="text-unmsm-guinda hover:text-unmsm-dorado hover:underline">
+                                                                    {{ $profesor->email }}
+                                                                </a>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 @endif
 
-                                                {{-- Contacto y redes --}}
-                                                <div class="flex flex-wrap items-center gap-4 pt-4 border-t border-gray-100">
-                                                    {{-- Email visible --}}
-                                                    @if($profesor->grupo_investigacion)
-                                                        <div class="text-xs mr-auto">
-                                                            <span class="font-bold text-unmsm-guinda">Grupo de investigación:</span>
-                                                            <span class="text-gray-600 text-sm">{{ $profesor->grupo_investigacion }}</span>
-                                                        </div>
-                                                    @endif
-                                                    @if($profesor->email)
-                                                        <a href="mailto:{{ $profesor->email }}"
-                                                            class="flex items-center gap-2 text-sm text-gray-700 hover:text-unmsm-guinda transition-colors">
-                                                            <i class="fas fa-envelope text-unmsm-guinda"></i>
-                                                            <span>{{ $profesor->email }}</span>
-                                                        </a>
-                                                    @endif
-
-                                                    {{-- Redes sociales y enlaces --}}
-                                                    <div class="flex gap-2 ml-auto">
-                                                        @if($profesor->linkedin)
-                                                            <a href="{{ $profesor->linkedin }}" target="_blank"
-                                                                class="w-9 h-9 flex items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all"
-                                                                title="LinkedIn">
-                                                                <i class="fab fa-linkedin-in"></i>
-                                                            </a>
+                                                <!-- Grid de Datos (Líneas + Grupo) -->
+                                                @if($hasLineas || $profesor->grupo_investigacion)
+                                                    <div class="grid md:grid-cols-2 gap-4 text-sm bg-gray-50 rounded-lg p-4 mb-4 border border-gray-100">
+                                                        @if($hasLineas)
+                                                            <div>
+                                                                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Líneas de Investigación</p>
+                                                                <div class="flex flex-wrap gap-2">
+                                                                    @foreach($lineasArray as $linea)
+                                                                        <span class="bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded text-xs font-medium">
+                                                                            {{ trim($linea) }}
+                                                                        </span>
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
                                                         @endif
-
-                                                        @if($profesor->orcid)
-                                                            <a href="{{ $profesor->orcid }}" target="_blank"
-                                                                class="w-9 h-9 flex items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-green-600 hover:text-white hover:border-green-600 transition-all"
-                                                                title="ORCID">
-                                                                <i class="fab fa-orcid"></i>
-                                                            </a>
-                                                        @endif
-
-                                                        @if($profesor->cti_vitae)
-                                                            <a href="{{ $profesor->cti_vitae }}" target="_blank"
-                                                                class="w-9 h-9 flex items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-blue-700 hover:text-white hover:border-blue-700 transition-all"
-                                                                title="CTI Vitae">
-                                                                <i class="fas fa-file-alt"></i>
-                                                            </a>
-                                                        @endif
-
-                                                        @if($profesor->email)
-                                                            <a href="mailto:{{ $profesor->email }}"
-                                                                class="w-9 h-9 flex items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-unmsm-guinda hover:text-white hover:border-unmsm-guinda transition-all"
-                                                                title="Enviar correo">
-                                                                <i class="far fa-envelope"></i>
-                                                            </a>
+                                                        @if($profesor->grupo_investigacion)
+                                                            <div>
+                                                                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Grupo de Investigación</p>
+                                                                <div class="flex items-center gap-2">
+                                                                    <i class="fas fa-users text-unmsm-dorado"></i>
+                                                                    <span class="font-medium text-gray-700">{{ $profesor->grupo_investigacion }}</span>
+                                                                </div>
+                                                            </div>
                                                         @endif
                                                     </div>
-                                                </div>
+                                                @endif
+
+                                                <!-- Botón Móvil (solo visible en pantallas pequeñas) -->
+                                                <a href="{{ route('profesores.show', $profesor->id) }}" 
+                                                   class="md:hidden w-full block text-center bg-gray-100 text-gray-700 font-bold py-2 rounded text-sm hover:bg-unmsm-guinda hover:text-white transition-colors">
+                                                    Ver perfil completo
+                                                </a>
 
                                             </div>
                                         </div>

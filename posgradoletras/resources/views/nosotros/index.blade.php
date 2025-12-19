@@ -2,19 +2,35 @@
 
 @section('title', 'Nosotros - Posgrado Letras UNMSM')
 
+@push('styles')
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
-    <div class="container mx-auto px-4 py-12">
+    <!-- HERO DE SECCIÓN -->
+    <x-hero-section title="Nosotros" label="Unidad de Posgrado"
+        subtitle="Conoce la misión, visión y valores que guían nuestra institución"
+        image="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" />
 
-        <!-- Main Header -->
-        <div class="mb-12 text-center" data-aos="fade-down">
-            <h2 class="text-3xl md:text-4xl font-bold text-unmsm-guinda font-serif inline-flex items-center gap-4">
-                <span class="hidden md:block h-px w-12 bg-unmsm-dorado"></span>
-                NOSOTROS
-                <span class="hidden md:block h-px w-12 bg-unmsm-dorado"></span>
-            </h2>
-        </div>
+    <section class="container mx-auto px-6 py-16">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 overflow-hidden fade-in">
             <!-- Left Column: Misión (Adapting 'Objetivo' slot from user request) -->
             <div class="flex flex-col" data-aos="fade-right">
 
@@ -85,5 +101,5 @@
             </div>
         </div>
 
-    </div>
+    </section>
 @endsection

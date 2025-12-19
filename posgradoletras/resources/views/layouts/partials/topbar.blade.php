@@ -1,32 +1,43 @@
 {{-- resources/views/layouts/partials/topbar.blade.php --}}
+@php
+    $siteSettings = \App\Models\SiteSetting::get();
+@endphp
 
 <div id="top-bar"
     class="bg-[#1F1F20] text-white text-[13px] h-10 overflow-hidden flex items-center border-b border-white/10 w-full">
     <div class="container mx-auto px-4 lg:px-8 flex justify-between items-center h-full">
         <div class="hidden lg:flex items-center space-x-6">
-            <a href="mailto:posgrado.letras@unmsm.edu.pe"
-                class="flex items-center hover:text-gray-300 transition gap-2">
-                <i class="fas fa-envelope"></i>
-                <span>posgrado.letras@unmsm.edu.pe</span>
-            </a>
-            <span class="text-white/30">|</span>
-            <span class="flex items-center gap-2">
-                <i class="fas fa-phone"></i>
-                <span>982 085 037</span>
-            </span>
-            <span class="text-white/30">|</span>
-            <a href="https://letras.unmsm.edu.pe" target="_blank"
-                class="flex items-center hover:text-gray-300 transition gap-2">
-                <i class="fas fa-globe"></i>
-                <span>Web Facultad</span>
-            </a>
-            <span class="text-white/30">|</span>
-            <a href="https://letras.unmsm.edu.pe/directorio/" target="_blank"
-                class="flex items-center hover:text-gray-300 transition gap-2">
-                <i class="fas fa-globe"></i>
-                <span>Directorio</span>
-            </a>
-            <span class="text-white/30">|</span>
+            @if($siteSettings?->email)
+                <a href="mailto:{{ $siteSettings->email }}"
+                    class="flex items-center hover:text-gray-300 transition gap-2">
+                    <i class="fas fa-envelope"></i>
+                    <span>{{ $siteSettings->email }}</span>
+                </a>
+                <span class="text-white/30">|</span>
+            @endif
+            @if($siteSettings?->telefono)
+                <span class="flex items-center gap-2">
+                    <i class="fas fa-phone"></i>
+                    <span>{{ $siteSettings->telefono }}</span>
+                </span>
+                <span class="text-white/30">|</span>
+            @endif
+            @if($siteSettings?->web_facultad)
+                <a href="{{ $siteSettings->web_facultad }}" target="_blank"
+                    class="flex items-center hover:text-gray-300 transition gap-2">
+                    <i class="fas fa-globe"></i>
+                    <span>Web Facultad</span>
+                </a>
+                <span class="text-white/30">|</span>
+            @endif
+            @if($siteSettings?->directorio_facultad)
+                <a href="{{ $siteSettings->directorio_facultad }}" target="_blank"
+                    class="flex items-center hover:text-gray-300 transition gap-2">
+                    <i class="fas fa-globe"></i>
+                    <span>Directorio</span>
+                </a>
+                <span class="text-white/30">|</span>
+            @endif
             <a href="{{ route('directorio') }}" class="flex items-center hover:text-gray-300 transition gap-2">
                 <i class="fas fa-globe"></i>
                 <span>Directorio Posgrado</span>
@@ -35,20 +46,47 @@
         </div>
 
         <div class="flex lg:hidden items-center space-x-3 text-[11px]">
-            <a href="mailto:posgrado.letras@unmsm.edu.pe"
-                class="flex items-center hover:text-gray-300 transition gap-1">
-                <i class="fas fa-envelope text-xs"></i>
-                <span>posgrado.letras@unmsm.edu.pe</span>
-            </a>
+            @if($siteSettings?->email)
+                <a href="mailto:{{ $siteSettings->email }}"
+                    class="flex items-center hover:text-gray-300 transition gap-1">
+                    <i class="fas fa-envelope text-xs"></i>
+                    <span>{{ $siteSettings->email }}</span>
+                </a>
+            @endif
         </div>
 
 
         <div class="flex items-center space-x-4 ml-auto lg:ml-0">
-            <a href="https://www.facebook.com/LetrasUNMSM" target="_blank" class="hover:text-gray-300"><i
-                    class="fab fa-facebook-f"></i></a>
-            <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="hover:text-gray-300"><i class="fab fa-youtube"></i></a>
-            <a href="#" class="hover:text-gray-300"><i class="fab fa-linkedin-in"></i></a>
+            @if($siteSettings?->facebook)
+                <a href="{{ $siteSettings->facebook }}" target="_blank" class="hover:text-gray-300" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            @endif
+            @if($siteSettings?->instagram)
+                <a href="{{ $siteSettings->instagram }}" target="_blank" class="hover:text-gray-300" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            @endif
+            @if($siteSettings?->youtube)
+                <a href="{{ $siteSettings->youtube }}" target="_blank" class="hover:text-gray-300" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            @endif
+            @if($siteSettings?->linkedin)
+                <a href="{{ $siteSettings->linkedin }}" target="_blank" class="hover:text-gray-300" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            @endif
+            @if($siteSettings?->twitter)
+                <a href="{{ $siteSettings->twitter }}" target="_blank" class="hover:text-gray-300" title="X (Twitter)">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            @endif
+            @if($siteSettings?->tiktok)
+                <a href="{{ $siteSettings->tiktok }}" target="_blank" class="hover:text-gray-300" title="TikTok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            @endif
         </div>
     </div>
 </div>
@@ -61,7 +99,7 @@
         }
 
         #navbar-inner {
-            transition: background-color 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+            transition: background-color 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
         }
 
         .nav-item {
@@ -94,10 +132,10 @@
                             topBar.classList.add('h-0', 'opacity-0');
                         }
 
-                        // 2. Navbar blanco con sombra
+                        // 2. Navbar con efecto Glassmorphism (moderno)
                         if (navbarInner) {
                             navbarInner.classList.remove('bg-transparent');
-                            navbarInner.classList.add('bg-white', 'shadow-md');
+                            navbarInner.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-lg');
                         }
 
                         // 3. Texto oscuro
@@ -130,10 +168,10 @@
                             topBar.classList.remove('h-0', 'opacity-0');
                         }
 
-                        // 2. Fondo transparente
+                        // 2. Fondo transparente (quitar glassmorphism)
                         if (navbarInner) {
                             navbarInner.classList.add('bg-transparent');
-                            navbarInner.classList.remove('bg-white', 'shadow-md');
+                            navbarInner.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-lg');
                         }
 
                         // 3. Texto blanco
