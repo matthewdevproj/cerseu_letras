@@ -3,6 +3,8 @@
 @section('title', 'Inicio - Posgrado Letras UNMSM')
 
 @push('styles')
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css">
     <style>
         /* Utilidad para titulos */
         .section-title::before {
@@ -31,34 +33,93 @@
         .animate-fade-in {
             animation: fadeIn 0.8s ease-out forwards;
         }
+
+        /* Hero Swiper Styles */
+        .hero-swiper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-swiper .swiper-slide {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-swiper .slide-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 8s ease-out;
+        }
+
+        .hero-swiper .swiper-slide-active .slide-bg {
+            transform: scale(1.1);
+        }
+
+        .hero-swiper .swiper-pagination-bullet {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 1;
+        }
+
+        .hero-swiper .swiper-pagination-bullet-active {
+            background: #C9AA36;
+        }
     </style>
 @endpush
 
 @section('content')
-    <!-- HERO PRINCIPAL - Deja espacio para las estadísticas abajo -->
-    <header class="relative w-full h-[calc(95vh-115px)] min-h-[500px] overflow-hidden flex items-center">
-        <div class="absolute inset-0 z-0">
-            <img src="{{ asset('storage/letrasfondo.jpeg') }}" alt="Biblioteca UNMSM" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+    <!-- HERO PRINCIPAL CON SWIPER -->
+    <header class="relative w-full h-[calc(95vh-115px)] min-h-[500px] overflow-hidden">
+        <div class="swiper hero-swiper absolute inset-0 z-0">
+            <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide">
+                    <div class="slide-bg"
+                        style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0007-Trim-frame-at-0m5s.jpg');">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="swiper-slide">
+                    <div class="slide-bg"
+                        style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0018-Trim-frame-at-0m2s.jpg');">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="swiper-slide">
+                    <div class="slide-bg"
+                        style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/IMG_1565-scaled.jpg');">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+                </div>
+            </div>
         </div>
 
-        <div class="container mx-auto px-6 relative z-10 text-white animate-fade-in pt-32">
-            <h1 class="text-3xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-4 max-w-4xl drop-shadow-lg">
-                UPG de Letras y <br> <span class="text-white/95">Ciencias Humanas</span>
-            </h1>
-            <p class="text-base md:text-lg text-gray-200 max-w-lg mb-6 font-light leading-snug">
-                Formamos investigadores y profesionales comprometidos con el desarrollo cultural y social del país, a través
-                de programas de Maestría y Doctorado de alto rigor académico.
-            </p>
-            <div class="flex flex-wrap gap-4">
-                <a href="#programas"
-                    class="px-6 py-2.5 bg-unmsm-dorado text-unmsm-guinda font-bold rounded hover:bg-yellow-400 transition shadow-lg transform hover:-translate-y-1 text-sm md:text-base">
-                    Ver Programas
-                </a>
-                <a href="#admision"
-                    class="px-6 py-2.5 border border-white text-white font-bold rounded hover:bg-white/10 transition text-sm md:text-base">
-                    Admisión 2025
-                </a>
+        <!-- Content Overlay -->
+        <div class="container mx-auto px-6 absolute inset-0 z-20 text-white flex items-center pointer-events-none">
+            <div class="pt-16 animate-fade-in">
+                <h1
+                    class="text-3xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-4 max-w-4xl drop-shadow-lg">
+                    Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas
+                </h1>
+                <p class="text-base md:text-lg text-gray-200 max-w-lg mb-6 font-light leading-snug">
+                    Formamos investigadores y profesionales comprometidos con el desarrollo cultural y social del país, a
+                    través de programas de Maestría y Doctorado de alto rigor académico.
+                </p>
+                <div class="flex flex-wrap gap-4 pointer-events-auto">
+                    <a href="{{ route('programas.index') }}"
+                        class="px-6 py-2.5 bg-unmsm-dorado text-unmsm-guinda font-bold rounded hover:bg-yellow-400 transition shadow-lg transform hover:-translate-y-1 text-sm md:text-base">
+                        Ver Programas
+                    </a>
+                    <a href="{{ route('admision') }}"
+                        class="px-6 py-2.5 border border-white text-white font-bold rounded hover:bg-white/10 transition text-sm md:text-base">
+                        Admisión 2025
+                    </a>
+                </div>
             </div>
         </div>
     </header>
@@ -724,4 +785,24 @@
 
         </div>
     </section>
+
+    @push('scripts')
+        <!-- Swiper JS -->
+        <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
+        <script>
+            // Initialize Hero Swiper
+            const heroSwiper = new Swiper('.hero-swiper', {
+                loop: true,
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                },
+                speed: 2000,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+            });
+        </script>
+    @endpush
 @endsection

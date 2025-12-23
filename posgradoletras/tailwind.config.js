@@ -16,7 +16,7 @@ export default {
                 serif: ['Merriweather', ...defaultTheme.fontFamily.serif],
             },
             colors: {
-                'unmsm-guinda': '#680D10',
+                'unmsm-guinda': '#6B1E20',
                 'unmsm-guinda-light': '#8B1114',
                 'unmsm-dorado': '#B6A350',
                 'unmsm-dorado-light': '#C9AA36',

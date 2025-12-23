@@ -3,29 +3,8 @@
 @section('title', $programa->nombre . ' - Posgrado Letras UNMSM')
 
 @section('content')
-    <!-- HERO DE SECCIÓN (mismo estilo que programas/index) -->
-    <section class="relative w-full h-[50vh] min-h-[400px] flex items-center justify-center bg-gray-900 overflow-hidden">
-        <!-- Imagen de Fondo -->
-        <div class="absolute inset-0 opacity-50">
-            <img src="{{ $programa->imagen_url }}" alt="{{ $programa->nombre }}" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-gray-900/90"></div>
-        </div>
-
-        <!-- Texto Hero -->
-        <div class="relative z-10 text-center text-white px-4 mt-20 max-w-4xl">
-            <span
-                class="inline-block px-4 py-1.5 bg-unmsm-dorado text-unmsm-guinda rounded-full text-xs font-bold uppercase tracking-wider shadow-md mb-4">
-                {{ $programa->grado }}
-            </span>
-            <h1 class="text-3xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-4 drop-shadow-lg">
-                {{ $programa->nombre }}
-            </h1>
-            <p class="text-gray-200 text-lg font-light leading-relaxed max-w-2xl mx-auto">
-                Grado que otorga: <span
-                    class="font-medium text-unmsm-dorado">{{ $programa->grado_otorga ?? $programa->grado }}</span>
-            </p>
-        </div>
-    </section>
+    <!-- HERO DE SECCIÓN -->
+    <x-hero-section :title="$programa->nombre" :label="$programa->grado" :subtitle="'Grado que otorga: ' . ($programa->grado_otorga ?? $programa->grado)" :image="$programa->imagen_url" />
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="container mx-auto px-4 py-12">

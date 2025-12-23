@@ -24,22 +24,12 @@
 
 @section('content')
 
-    <!-- HERO SECTION (Estilo moderno con gradiente) -->
-    <section class="bg-gray-900 text-white py-20 relative overflow-hidden">
-        <!-- Imagen de Fondo con overlay -->
-        <div class="absolute inset-0 opacity-20 bg-cover bg-center" 
-             style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2020/11/frontis-letras.jpg')"></div>
-        <div class="absolute inset-0 bg-gradient-to-r from-unmsm-guinda to-black/80"></div>
-        
-        <!-- Contenido Hero -->
-        <div class="container mx-auto px-4 relative z-10 text-center pt-16">
-            <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs mb-2">Plana Docente</p>
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 font-serif">Profesores Asesores</h1>
-            <p class="text-gray-300 max-w-2xl mx-auto font-light">
-                Investigadores de alto nivel comprometidos con la excelencia académica.
-            </p>
-        </div>
-    </section>
+    <!-- HERO DE SECCIÓN -->
+    <x-hero-section 
+        title="Profesores Asesores" 
+        label="Plana Docente"
+        subtitle="Investigadores de alto nivel comprometidos con la excelencia académica."
+        image="https://letras.unmsm.edu.pe/wp-content/uploads/2020/11/frontis-letras.jpg" />
 
     <!-- LAYOUT SIDEBAR + CONTENIDO -->
     <div class="container mx-auto px-4 py-12">
