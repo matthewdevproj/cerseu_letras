@@ -123,25 +123,25 @@
                     <li class="nav-item">
                         <a class="nav-link active px-4 py-3 text-sm font-medium border-b-2 border-brand-red text-brand-red" 
                            data-tab="personal" href="#personal" onclick="switchTab(event, 'personal')">
-                            <i class="ph ph-user mr-2"></i> Datos Personales
+                            <i class="fas fa-user mr-2"></i> Datos Personales
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
                            data-tab="contacto" href="#contacto" onclick="switchTab(event, 'contacto')">
-                            <i class="ph ph-envelope mr-2"></i> Contacto
+                            <i class="fas fa-envelope mr-2"></i> Contacto
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
                            data-tab="academico" href="#academico" onclick="switchTab(event, 'academico')">
-                            <i class="ph ph-book-open mr-2"></i> Info Académica
+                            <i class="fas fa-book-open mr-2"></i> Info Académica
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
                            data-tab="programas" href="#programas" onclick="switchTab(event, 'programas')">
-                            <i class="ph ph-graduation-cap mr-2"></i> Programas
+                            <i class="fas fa-graduation-cap mr-2"></i> Programas
                         </a>
                     </li>
                 </ul>
@@ -221,7 +221,7 @@
 
                     <!-- TAB 2: Contacto -->
                     <div id="contacto" class="tab-pane hidden">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 gap-6">
                             <div>
                                 <label for="email" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
                                     Correo Electrónico
@@ -233,23 +233,11 @@
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
-
-                            <div>
-                                <label for="telefono" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                    Teléfono
-                                </label>
-                                <input type="text" name="telefono" id="telefono" value="{{ old('telefono') }}"
-                                    class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                    placeholder="987654321">
-                                @error('telefono')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-                            </div>
                         </div>
 
                         <div class="mt-6 pt-6 border-t border-gray-200">
                             <h4 class="text-sm font-bold text-gray-700 mb-4 flex items-center gap-2">
-                                <i class="ph ph-globe text-brand-gold"></i> Perfiles Académicos
+                                <i class="fas fa-globe text-brand-gold"></i> Perfiles Académicos
                             </h4>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
@@ -340,7 +328,7 @@
                     <div id="programas" class="tab-pane hidden">
                         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                             <div class="flex items-center gap-2 text-blue-800">
-                                <i class="ph ph-info text-xl"></i>
+                                <i class="fas fa-info-circle text-xl"></i>
                                 <p class="text-sm font-medium">Seleccione los programas de posgrado donde participa este docente.</p>
                             </div>
                         </div>
@@ -369,11 +357,11 @@
                 <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                     <a href="{{ route('admin.docentes.index') }}"
                         class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all">
-                        <i class="ph ph-arrow-left mr-2"></i> Volver al Listado
+                        <i class="fas fa-arrow-left mr-2"></i> Volver al Listado
                     </a>
                     <button type="submit"
                         class="inline-flex items-center px-6 py-2.5 border border-transparent rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg hover:shadow-xl transition-all">
-                        <i class="ph-bold ph-floppy-disk mr-2"></i>
+                        <i class="fas fa-save mr-2"></i>
                         Guardar Docente
                     </button>
                 </div>

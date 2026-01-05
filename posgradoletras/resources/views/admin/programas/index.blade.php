@@ -14,7 +14,7 @@
         <div class="mt-4 flex md:mt-0 md:ml-4">
             <a href="{{ route('admin.programas.create') }}"
                class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-brand-red hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-red transition-colors">
-                <i class="ph-bold ph-plus mr-2"></i>
+                <i class="fas fa-plus mr-2"></i>
                 Nuevo Programa
             </a>
         </div>
@@ -25,7 +25,7 @@
         <form method="GET" action="{{ route('admin.programas.index') }}" class="flex flex-col md:flex-row gap-4">
             <div class="flex-1 relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="ph ph-magnifying-glass text-gray-400"></i>
+                    <i class="fas fa-search text-gray-400"></i>
                 </div>
                 <input type="text" name="search" value="{{ request('search') }}"
                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-brand-red focus:border-brand-red sm:text-sm transition duration-150 ease-in-out"
@@ -41,7 +41,7 @@
             </div>
             <button type="submit"
                     class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-red">
-                <i class="ph ph-funnel mr-2"></i>
+                <i class="fas fa-filter mr-2"></i>
                 Filtrar
             </button>
         </form>
@@ -77,7 +77,7 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10 {{ $programa->grado == 'maestria' ? 'bg-yellow-50 text-brand-gold' : 'bg-blue-50 text-brand-navy' }} rounded-full flex items-center justify-center">
-                                        <i class="ph-fill {{ $programa->grado == 'maestria' ? 'ph-scroll' : 'ph-medal' }} text-xl"></i>
+                                        <i class="fas {{ $programa->grado == 'maestria' ? 'fa-scroll' : 'fa-medal' }} text-xl"></i>
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">{{ $programa->nombre }}</div>
@@ -113,12 +113,12 @@
                                 <div class="flex justify-end gap-3">
                                     <a href="{{ route('programas.show', $programa->slug) }}" target="_blank"
                                        class="text-brand-navy hover:text-brand-gold transition-colors" title="Ver en sitio web">
-                                        <i class="ph-bold ph-eye text-lg"></i>
+                                        <i class="fas fa-eye text-lg"></i>
                                     </a>
 
                                     <a href="{{ route('admin.programas.edit', $programa) }}"
                                        class="text-blue-600 hover:text-blue-800 transition-colors" title="Editar">
-                                        <i class="ph-bold ph-pencil-simple text-lg"></i>
+                                        <i class="fas fa-edit text-lg"></i>
                                     </a>
 
                                     <form action="{{ route('admin.programas.toggle', $programa) }}" method="POST" class="inline">
@@ -126,7 +126,7 @@
                                         <button type="submit"
                                                 class="{{ $programa->is_active ? 'text-orange-500 hover:text-orange-700' : 'text-green-500 hover:text-green-700' }} transition-colors"
                                                 title="{{ $programa->is_active ? 'Desactivar' : 'Activar' }}">
-                                            <i class="ph-bold ph-{{ $programa->is_active ? 'lock' : 'lock-open' }} text-lg"></i>
+                                            <i class="fas fa-{{ $programa->is_active ? 'lock' : 'lock-open' }} text-lg"></i>
                                         </button>
                                     </form>
 
@@ -134,7 +134,7 @@
                                             onclick="openDeleteModal({{ $programa->id }}, '{{ addslashes($programa->nombre) }}')"
                                             class="text-red-500 hover:text-red-700 transition-colors"
                                             title="Eliminar">
-                                        <i class="ph-bold ph-trash text-lg"></i>
+                                        <i class="fas fa-trash-alt text-lg"></i>
                                     </button>
                                 </div>
                             </td>
@@ -144,7 +144,7 @@
                             <td colspan="5" class="px-6 py-16 text-center">
                                 <div class="flex flex-col items-center">
                                     <div class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                        <i class="ph ph-graduation-cap text-2xl text-gray-400"></i>
+                                        <i class="fas fa-graduation-cap text-2xl text-gray-400"></i>
                                     </div>
                                     <p class="text-gray-500">No hay programas registrados</p>
                                     <a href="{{ route('admin.programas.create') }}" class="mt-3 text-brand-red text-sm font-medium hover:underline">
@@ -186,7 +186,7 @@
                 <!-- Header -->
                 <div class="p-6 text-center">
                     <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="ph ph-warning text-3xl text-red-600"></i>
+                        <i class="fas fa-exclamation-triangle text-3xl text-red-600"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2">¿Eliminar programa?</h3>
                     <p class="text-gray-600" id="deleteModalMessage">

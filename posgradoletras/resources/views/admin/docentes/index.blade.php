@@ -13,7 +13,7 @@
         </div>
         <div class="mt-4 flex md:mt-0 md:ml-4">
             <a href="{{ route('admin.docentes.create') }}" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold transition-colors">
-                <i class="ph-bold ph-user-plus mr-2"></i>
+                <i class="fas fa-user-plus mr-2"></i>
                 Nuevo Docente
             </a>
         </div>
@@ -24,7 +24,7 @@
         <form method="GET" action="{{ route('admin.docentes.index') }}" class="flex flex-col md:flex-row gap-4">
             <div class="flex-1 relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="ph ph-magnifying-glass text-gray-400"></i>
+                    <i class="fas fa-search text-gray-400"></i>
                 </div>
                 <input type="text" name="search" value="{{ request('search') }}" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-brand-gold focus:border-brand-gold sm:text-sm transition duration-150 ease-in-out" placeholder="Buscar por nombre...">
             </div>
@@ -37,7 +37,7 @@
                 </select>
             </div>
             <button type="submit" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold">
-                <i class="ph ph-funnel mr-2"></i>
+                <i class="fas fa-filter mr-2"></i>
                 Filtrar
             </button>
         </form>
@@ -87,9 +87,9 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     @if(str_contains($docente->grado ?? '', 'Dr'))
-                                        <i class="ph-fill ph-medal text-brand-gold mr-2"></i>
+                                        <i class="fas fa-medal text-brand-gold mr-2"></i>
                                     @else
-                                        <i class="ph-fill ph-certificate text-gray-400 mr-2"></i>
+                                        <i class="fas fa-certificate text-gray-400 mr-2"></i>
                                     @endif
                                     <span class="text-sm text-gray-900">{{ $docente->grado ?? 'Sin grado' }}</span>
                                 </div>
@@ -121,19 +121,19 @@
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex justify-end gap-3">
                                     <a href="{{ route('admin.docentes.edit', $docente) }}" class="text-blue-600 hover:text-blue-800 transition-colors" title="Editar">
-                                        <i class="ph-bold ph-pencil-simple text-lg"></i>
+                                        <i class="fas fa-edit text-lg"></i>
                                     </a>
                                     <form action="{{ route('admin.docentes.toggle', $docente) }}" method="POST" class="inline">
                                         @csrf
                                         <button type="submit" class="{{ $docente->estado ? 'text-orange-500 hover:text-orange-700' : 'text-green-500 hover:text-green-700' }} transition-colors" title="{{ $docente->estado ? 'Desactivar' : 'Activar' }}">
-                                            <i class="ph-bold ph-{{ $docente->estado ? 'lock' : 'lock-open' }} text-lg"></i>
+                                            <i class="fas fa-{{ $docente->estado ? 'lock' : 'lock-open' }} text-lg"></i>
                                         </button>
                                     </form>
                                     <button type="button"
                                             onclick="openDeleteModal({{ $docente->id }}, '{{ addslashes($docente->nombre_completo) }}')"
                                             class="text-red-500 hover:text-red-700 transition-colors"
                                             title="Eliminar">
-                                        <i class="ph-bold ph-trash text-lg"></i>
+                                        <i class="fas fa-trash-alt text-lg"></i>
                                     </button>
                                 </div>
                             </td>
@@ -143,7 +143,7 @@
                             <td colspan="5" class="px-6 py-16 text-center">
                                 <div class="flex flex-col items-center">
                                     <div class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                        <i class="ph ph-chalkboard-teacher text-2xl text-gray-400"></i>
+                                        <i class="fas fa-chalkboard-teacher text-2xl text-gray-400"></i>
                                     </div>
                                     <p class="text-gray-500">No hay docentes registrados</p>
                                     <a href="{{ route('admin.docentes.create') }}" class="mt-3 text-brand-gold text-sm font-medium hover:underline">
@@ -181,7 +181,7 @@
             <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full">
                 <div class="p-6 text-center">
                     <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="ph ph-warning text-3xl text-red-600"></i>
+                        <i class="fas fa-exclamation-triangle text-3xl text-red-600"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2">¿Eliminar docente?</h3>
                     <p class="text-gray-600" id="deleteModalMessage">Esta acción no se puede deshacer.</p>

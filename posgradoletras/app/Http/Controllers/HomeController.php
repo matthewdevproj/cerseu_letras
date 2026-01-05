@@ -21,8 +21,16 @@ class HomeController extends Controller
             ->orderBy('nombre')
             ->get();
 
-        // Obtener docentes activos limitados a 6
+        // Obtener docentes que son coordinadores de programa
         $docentes = Docente::activos()
+            ->whereHas('programas', function ($query) {
+                $query->where('docente_programa.es_coordinador', 1);
+            })
+            ->with([
+                'programas' => function ($query) {
+                    $query->where('docente_programa.es_coordinador', 1);
+                }
+            ])
             ->orderBy('apellidos')
             ->orderBy('nombres')
             ->limit(6)

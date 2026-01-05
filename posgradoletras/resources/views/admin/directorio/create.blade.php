@@ -34,7 +34,7 @@
         <div class="flex items-center gap-4">
             <div
                 class="w-14 h-14 rounded-full bg-gradient-to-br from-brand-gold to-yellow-500 flex items-center justify-center text-white shadow-lg">
-                <i class="ph ph-user-plus text-2xl"></i>
+                <i class="fas fa-user-plus text-2xl"></i>
             </div>
             <div>
                 <h2 class="text-2xl font-serif font-bold leading-7 text-gray-900 sm:text-3xl">
@@ -68,7 +68,8 @@
                                 <option value="">Seleccionar...</option>
                                 @foreach($unidades as $unidad)
                                     <option value="{{ $unidad }}" {{ old('unidad_nombre') == $unidad ? 'selected' : '' }}>
-                                        {{ $unidad }}</option>
+                                        {{ $unidad }}
+                                    </option>
                                 @endforeach
                                 <option value="__nueva__" {{ old('unidad_nombre') == '__nueva__' ? 'selected' : '' }}>+ Crear
                                     nueva unidad</option>
@@ -163,19 +164,19 @@
                         <!-- Tips -->
                         <div class="bg-blue-50 rounded-lg border border-blue-200 p-4">
                             <h4 class="text-xs font-bold text-blue-800 uppercase mb-2 flex items-center gap-2">
-                                <i class="ph ph-lightbulb"></i> Consejos
+                                <i class="fas fa-lightbulb"></i> Consejos
                             </h4>
                             <ul class="text-xs text-blue-700 space-y-2">
                                 <li class="flex items-start gap-2">
-                                    <i class="ph ph-check-circle text-blue-500 mt-0.5"></i>
+                                    <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
                                     <span>Incluye el grado académico en el nombre (Ej: Dr., Dra., Mg.)</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <i class="ph ph-check-circle text-blue-500 mt-0.5"></i>
+                                    <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
                                     <span>El cargo debe ser descriptivo y completo</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <i class="ph ph-check-circle text-blue-500 mt-0.5"></i>
+                                    <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
                                     <span>Puedes crear nuevas unidades según sea necesario</span>
                                 </li>
                             </ul>
@@ -187,11 +188,11 @@
                 <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                     <a href="{{ route('admin.directorio.index') }}"
                         class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all">
-                        <i class="ph ph-arrow-left mr-2"></i> Volver al Listado
+                        <i class="fas fa-arrow-left mr-2"></i> Volver al Listado
                     </a>
                     <button type="submit"
                         class="inline-flex items-center px-6 py-2.5 border border-transparent rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg hover:shadow-xl transition-all">
-                        <i class="ph-bold ph-floppy-disk mr-2"></i>
+                        <i class="fas fa-save mr-2"></i>
                         Guardar Personal
                     </button>
                 </div>

@@ -182,7 +182,7 @@
                      class="current-photo w-16 h-16 object-cover rounded-full">
             @else
                 <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                    <i class="ph ph-user text-2xl"></i>
+                    <i class="fas fa-user text-2xl"></i>
                 </div>
             @endif
             <div>
@@ -207,22 +207,22 @@
                 <ul class="nav nav-tabs mb-6 flex flex-wrap" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" href="#personal" onclick="switchTab(event, 'personal')">
-                            <i class="ph ph-user"></i> Datos Personales
+                            <i class="fas fa-user"></i> Datos Personales
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contacto" onclick="switchTab(event, 'contacto')">
-                            <i class="ph ph-envelope"></i> Contacto
+                            <i class="fas fa-envelope"></i> Contacto
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#academico" onclick="switchTab(event, 'academico')">
-                            <i class="ph ph-book-open"></i> Info Académica
+                            <i class="fas fa-book-open"></i> Info Académica
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#programas" onclick="switchTab(event, 'programas')">
-                            <i class="ph ph-graduation-cap"></i> Programas
+                            <i class="fas fa-graduation-cap"></i> Programas
                         </a>
                     </li>
                 </ul>
@@ -306,7 +306,7 @@
 
                     <!-- TAB 2: Contacto -->
                     <div id="contacto" class="tab-pane hidden">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 gap-6">
                             <div>
                                 <label for="email" class="form-label block">Correo Electrónico</label>
                                 <input type="email" name="email" id="email" value="{{ old('email', $docente->email) }}"
@@ -315,20 +315,11 @@
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
-
-                            <div>
-                                <label for="telefono" class="form-label block">Teléfono</label>
-                                <input type="text" name="telefono" id="telefono" value="{{ old('telefono', $docente->telefono) }}"
-                                    class="block w-full py-2.5 px-4" placeholder="987654321">
-                                @error('telefono')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-                            </div>
                         </div>
 
                         <div class="mt-6 pt-6 border-t border-gray-200">
                             <h4 class="text-sm font-bold text-gray-700 mb-4 flex items-center gap-2">
-                                <i class="ph ph-globe text-brand-gold"></i> Perfiles Académicos
+                                <i class="fas fa-globe text-brand-gold"></i> Perfiles Académicos
                             </h4>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
@@ -405,7 +396,7 @@
                     <div id="programas" class="tab-pane hidden">
                         <div class="soft-warn mb-6">
                             <div class="flex items-center gap-2 text-amber-800">
-                                <i class="ph ph-info text-xl"></i>
+                                <i class="fas fa-info-circle text-xl"></i>
                                 <p class="text-sm font-medium">
                                     La asignación de docentes a programas se gestiona desde la vista de edición de cada programa.
                                 </p>
@@ -429,7 +420,7 @@
                                                 <td data-label="Programa">
                                                     <div class="flex items-center gap-3">
                                                         <div class="w-10 h-10 rounded-lg bg-brand-red/10 flex items-center justify-center text-brand-red">
-                                                            <i class="ph ph-graduation-cap text-xl"></i>
+                                                            <i class="fas fa-graduation-cap text-xl"></i>
                                                         </div>
                                                         <div>
                                                             <div class="text-sm font-semibold text-gray-800">{{ $programa->nombre }}</div>
@@ -457,7 +448,7 @@
                                                     <a href="{{ route('admin.programas.edit', $programa) }}"
                                                        class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600"
                                                        title="Editar programa">
-                                                        <i class="ph ph-arrow-square-out"></i>
+                                                        <i class="fas fa-external-link-alt"></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -467,7 +458,7 @@
                             </div>
                         @else
                             <div class="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-                                <i class="ph ph-graduation-cap text-5xl text-gray-300 mb-4"></i>
+                                <i class="fas fa-graduation-cap text-5xl text-gray-300 mb-4"></i>
                                 <p class="text-gray-500">Este docente no está asignado a ningún programa.</p>
                                 <p class="text-sm text-gray-400 mt-1">
                                     Puedes asignarlo desde la vista de edición de un programa.
@@ -481,11 +472,11 @@
                 <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                     <a href="{{ route('admin.docentes.index') }}"
                         class="inline-flex items-center px-4 h-11 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                        <i class="ph ph-arrow-left mr-2"></i> Volver al Listado
+                        <i class="fas fa-arrow-left mr-2"></i> Volver al Listado
                     </a>
                     <button type="submit"
                         class="inline-flex items-center px-6 h-11 rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg">
-                        <i class="ph-bold ph-floppy-disk mr-2"></i>
+                        <i class="fas fa-save mr-2"></i>
                         Actualizar Docente
                     </button>
                 </div>

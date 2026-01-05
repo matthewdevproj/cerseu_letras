@@ -108,31 +108,31 @@
                     <li class="nav-item">
                         <a class="nav-link active px-4 py-3 text-sm font-medium border-b-2 border-brand-red text-brand-red" 
                            href="#basico" onclick="switchTab(event, 'basico')">
-                            <i class="ph ph-info mr-2"></i> Básico
+                            <i class="fas fa-info-circle mr-2"></i> Básico
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
                            href="#contenido" onclick="switchTab(event, 'contenido')">
-                            <i class="ph ph-file-text mr-2"></i> Contenido
+                            <i class="fas fa-file-alt mr-2"></i> Contenido
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
                            href="#plan" onclick="switchTab(event, 'plan')">
-                            <i class="ph ph-book-open mr-2"></i> Plan de Estudios
+                            <i class="fas fa-book-open mr-2"></i> Plan de Estudios
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
                            href="#docentes" onclick="switchTab(event, 'docentes')">
-                            <i class="ph ph-users mr-2"></i> Plana Docente
+                            <i class="fas fa-users mr-2"></i> Plana Docente
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
                            href="#config" onclick="switchTab(event, 'config')">
-                            <i class="ph ph-gear mr-2"></i> Config
+                            <i class="fas fa-cog mr-2"></i> Config
                         </a>
                     </li>
                 </ul>
@@ -252,7 +252,7 @@
                     <div id="plan" class="tab-pane hidden">
                         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                             <div class="flex items-center gap-2 text-blue-800">
-                                <i class="ph ph-info text-xl"></i>
+                                <i class="fas fa-info-circle text-xl"></i>
                                 <p class="text-sm font-medium">Gestión Visual: Agrega cursos organizados por ciclo/semestre. Los datos se guardan como JSON.</p>
                             </div>
                         </div>
@@ -263,11 +263,11 @@
                         <div class="mt-4 flex gap-3">
                             <button type="button" onclick="agregarCiclo()" 
                                 class="inline-flex items-center px-4 py-2 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
-                                <i class="ph ph-plus-circle mr-2"></i> Agregar Ciclo
+                                <i class="fas fa-plus-circle mr-2"></i> Agregar Ciclo
                             </button>
                             <button type="button" onclick="agregarSeccionElectivos()" 
                                 class="inline-flex items-center px-4 py-2 border border-gray-400 text-gray-600 rounded-lg hover:bg-gray-100 transition-all">
-                                <i class="ph ph-star mr-2"></i> Agregar Electivos
+                                <i class="fas fa-star mr-2"></i> Agregar Electivos
                             </button>
                         </div>
 
@@ -278,7 +278,7 @@
                     <div id="docentes" class="tab-pane hidden">
                         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                             <div class="flex items-center gap-2 text-blue-800">
-                                <i class="ph ph-info text-xl"></i>
+                                <i class="fas fa-info-circle text-xl"></i>
                                 <p class="text-sm font-medium">Asigna docentes a este programa. Puedes definir coordinador, rol y orden de aparición.</p>
                             </div>
                         </div>
@@ -288,7 +288,7 @@
 
                         <button type="button" onclick="agregarDocente()" 
                             class="mt-4 inline-flex items-center px-4 py-2 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
-                            <i class="ph ph-plus-circle mr-2"></i> Agregar Docente
+                            <i class="fas fa-plus-circle mr-2"></i> Agregar Docente
                         </button>
                     </div>
 
@@ -325,11 +325,11 @@
                 <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                     <a href="{{ route('admin.programas.index') }}"
                         class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                        <i class="ph ph-arrow-left mr-2"></i> Volver
+                        <i class="fas fa-arrow-left mr-2"></i> Volver
                     </a>
                     <button type="submit"
                         class="inline-flex items-center px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg">
-                        <i class="ph-bold ph-floppy-disk mr-2"></i> Guardar Programa
+                        <i class="fas fa-save mr-2"></i> Guardar Programa
                     </button>
                 </div>
             </form>
@@ -348,7 +348,7 @@
                 <div class="p-6">
                     <div class="flex items-start gap-4">
                         <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-                            <i class="ph ph-warning text-red-600 text-2xl"></i>
+                            <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
                         </div>
                         <div class="flex-1">
                             <h3 class="text-lg font-semibold text-gray-900" id="modalEliminarTitulo">
@@ -439,10 +439,10 @@
                     '</div>' +
                     '<div class="flex gap-2">' +
                         '<button type="button" class="px-3 py-1.5 bg-white text-gray-700 rounded text-sm hover:bg-gray-100" onclick="agregarCurso(\'' + cicloId + '\')">' +
-                            '<i class="ph ph-plus mr-1"></i> Curso' +
+                            '<i class="fas fa-plus mr-1"></i> Curso' +
                         '</button>' +
                         '<button type="button" class="px-3 py-1.5 bg-red-500 text-white rounded text-sm hover:bg-red-600" onclick="eliminarCiclo(\'' + cicloId + '\')">' +
-                            '<i class="ph ph-trash"></i>' +
+                            '<i class="fas fa-trash"></i>' +
                         '</button>' +
                     '</div>' +
                 '</div>' +
@@ -467,7 +467,7 @@
                 '<input type="number" class="py-2 px-3 border border-gray-300 rounded-lg text-sm" placeholder="Créd." value="' + creditos + '" data-field="creditos" min="1">' +
                 '<input type="text" class="py-2 px-3 border border-gray-300 rounded-lg text-sm" placeholder="Sumilla (opcional)" value="' + sumilla + '" data-field="sumilla">' +
                 '<button type="button" class="w-10 h-10 flex items-center justify-center bg-red-100 text-red-600 rounded-lg hover:bg-red-200" onclick="eliminarCurso(\'' + cursoId + '\')">' +
-                    '<i class="ph ph-x"></i>' +
+                    '<i class="fas fa-times"></i>' +
                 '</button>' +
             '</div>';
         }
@@ -582,10 +582,10 @@
                     '<strong>Cursos Electivos</strong>' +
                     '<div class="flex gap-2">' +
                         '<button type="button" class="px-3 py-1.5 bg-white text-gray-700 rounded text-sm hover:bg-gray-100" onclick="agregarCursoElectivo()">' +
-                            '<i class="ph ph-plus mr-1"></i> Electivo' +
+                            '<i class="fas fa-plus mr-1"></i> Electivo' +
                         '</button>' +
                         '<button type="button" class="px-3 py-1.5 bg-red-500 text-white rounded text-sm hover:bg-red-600" onclick="eliminarSeccionElectivos()">' +
-                            '<i class="ph ph-trash"></i>' +
+                            '<i class="fas fa-trash"></i>' +
                         '</button>' +
                     '</div>' +
                 '</div>' +
@@ -643,7 +643,7 @@
                 </div>
                 <button type="button" onclick="eliminarDocente(this)" 
                     class="w-10 h-10 flex items-center justify-center bg-red-100 text-red-600 rounded-lg hover:bg-red-200">
-                    <i class="ph ph-x"></i>
+                    <i class="fas fa-times"></i>
                 </button>
             `;
             

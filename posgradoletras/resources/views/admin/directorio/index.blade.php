@@ -13,26 +13,20 @@
         </div>
         <div class="mt-4 flex md:mt-0 md:ml-4">
             <a href="{{ route('admin.directorio.create') }}" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold transition-colors">
-                <i class="ph-bold ph-user-plus mr-2"></i>
+                <i class="fas fa-user-plus mr-2"></i>
                 Nuevo Personal
             </a>
         </div>
     </div>
 
-    <!-- Success Message -->
-    @if(session('success'))
-        <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
-            <i class="ph-fill ph-check-circle text-green-600 text-xl"></i>
-            <span class="text-green-800 text-sm">{{ session('success') }}</span>
-        </div>
-    @endif
+
 
     <!-- Filters / Search -->
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6 p-4">
         <form method="GET" action="{{ route('admin.directorio.index') }}" class="flex flex-col md:flex-row gap-4">
             <div class="flex-1 relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="ph ph-magnifying-glass text-gray-400"></i>
+                    <i class="fas fa-search text-gray-400"></i>
                 </div>
                 <input type="text" name="search" value="{{ request('search') }}" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-brand-gold focus:border-brand-gold sm:text-sm transition duration-150 ease-in-out" placeholder="Buscar por nombre o cargo...">
             </div>
@@ -45,7 +39,7 @@
                 </select>
             </div>
             <button type="submit" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold">
-                <i class="ph ph-funnel mr-2"></i>
+                <i class="fas fa-filter mr-2"></i>
                 Filtrar
             </button>
         </form>
@@ -105,13 +99,13 @@
                                 <div class="text-sm">
                                     @if($persona->correo_persona)
                                         <div class="text-gray-600 flex items-center gap-1">
-                                            <i class="ph ph-envelope text-xs"></i>
+                                            <i class="fas fa-envelope text-xs"></i>
                                             <span class="truncate max-w-[150px]" title="{{ $persona->correo_persona }}">{{ $persona->correo_persona }}</span>
                                         </div>
                                     @endif
                                     @if($persona->anexo)
                                         <div class="text-gray-500 flex items-center gap-1">
-                                            <i class="ph ph-phone text-xs"></i>
+                                            <i class="fas fa-phone text-xs"></i>
                                             {{ $persona->anexo }}
                                         </div>
                                     @endif
@@ -125,13 +119,13 @@
                                     <form action="{{ route('admin.directorio.moveUp', $persona) }}" method="POST" class="inline">
                                         @csrf
                                         <button type="submit" class="w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors" title="Subir">
-                                            <i class="ph ph-arrow-up"></i>
+                                            <i class="fas fa-arrow-up"></i>
                                         </button>
                                     </form>
                                     <form action="{{ route('admin.directorio.moveDown', $persona) }}" method="POST" class="inline">
                                         @csrf
                                         <button type="submit" class="w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors" title="Bajar">
-                                            <i class="ph ph-arrow-down"></i>
+                                            <i class="fas fa-arrow-down"></i>
                                         </button>
                                     </form>
                                 </div>
@@ -152,19 +146,19 @@
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex justify-end gap-3">
                                     <a href="{{ route('admin.directorio.edit', $persona) }}" class="text-blue-600 hover:text-blue-800 transition-colors" title="Editar">
-                                        <i class="ph-bold ph-pencil-simple text-lg"></i>
+                                        <i class="fas fa-pencil-alt text-lg"></i>
                                     </a>
                                     <form action="{{ route('admin.directorio.toggle', $persona) }}" method="POST" class="inline">
                                         @csrf
                                         <button type="submit" class="{{ $persona->activo ? 'text-orange-500 hover:text-orange-700' : 'text-green-500 hover:text-green-700' }} transition-colors" title="{{ $persona->activo ? 'Desactivar' : 'Activar' }}">
-                                            <i class="ph-bold ph-{{ $persona->activo ? 'lock' : 'lock-open' }} text-lg"></i>
+                                            <i class="fas fa-{{ $persona->activo ? 'lock' : 'lock-open' }} text-lg"></i>
                                         </button>
                                     </form>
                                     <button type="button"
                                             onclick="openDeleteModal({{ $persona->id }}, '{{ addslashes($persona->nombre_persona) }}')"
                                             class="text-red-500 hover:text-red-700 transition-colors"
                                             title="Eliminar">
-                                        <i class="ph-bold ph-trash text-lg"></i>
+                                        <i class="fas fa-trash text-lg"></i>
                                     </button>
                                 </div>
                             </td>
@@ -174,7 +168,7 @@
                             <td colspan="7" class="px-6 py-16 text-center">
                                 <div class="flex flex-col items-center">
                                     <div class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                        <i class="ph ph-address-book text-2xl text-gray-400"></i>
+                                        <i class="fas fa-address-book text-2xl text-gray-400"></i>
                                     </div>
                                     <p class="text-gray-500">No hay personal registrado en el directorio</p>
                                     <a href="{{ route('admin.directorio.create') }}" class="mt-3 text-brand-gold text-sm font-medium hover:underline">
@@ -212,7 +206,7 @@
             <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full">
                 <div class="p-6 text-center">
                     <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="ph ph-warning text-3xl text-red-600"></i>
+                        <i class="fas fa-exclamation-triangle text-3xl text-red-600"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2">¿Eliminar registro?</h3>
                     <p class="text-gray-600" id="deleteModalMessage">Esta acción no se puede deshacer.</p>

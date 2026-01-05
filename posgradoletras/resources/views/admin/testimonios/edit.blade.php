@@ -37,7 +37,7 @@
                      class="w-14 h-14 object-cover rounded-full border-2 border-brand-gold">
             @else
                 <div class="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                    <i class="ph ph-user text-2xl"></i>
+                    <i class="fas fa-user text-2xl"></i>
                 </div>
             @endif
             <div>
@@ -120,11 +120,11 @@
                                     <img id="photo-preview" src="{{ asset('storage/' . $testimonio->photo) }}" alt="{{ $testimonio->nombre }}" 
                                          class="w-24 h-24 rounded-full object-cover border-2 border-brand-gold">
                                     <div id="photo-preview-placeholder" class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 border-2 border-dashed border-gray-300 hidden">
-                                        <i class="ph ph-user text-4xl"></i>
+                                        <i class="fas fa-user text-4xl"></i>
                                     </div>
                                 @else
                                     <div id="photo-preview-placeholder" class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 border-2 border-dashed border-gray-300">
-                                        <i class="ph ph-user text-4xl"></i>
+                                        <i class="fas fa-user text-4xl"></i>
                                     </div>
                                     <img id="photo-preview" src="" alt="Vista previa" class="w-24 h-24 rounded-full object-cover border-2 border-brand-gold hidden">
                                 @endif
@@ -170,11 +170,11 @@
                 <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                     <a href="{{ route('admin.testimonios.index') }}"
                         class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all">
-                        <i class="ph ph-arrow-left mr-2"></i> Volver al Listado
+                        <i class="fas fa-arrow-left mr-2"></i> Volver al Listado
                     </a>
                     <button type="submit"
                         class="inline-flex items-center px-6 py-2.5 border border-transparent rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg hover:shadow-xl transition-all">
-                        <i class="ph-bold ph-floppy-disk mr-2"></i>
+                        <i class="fas fa-save mr-2"></i>
                         Actualizar Testimonio
                     </button>
                 </div>

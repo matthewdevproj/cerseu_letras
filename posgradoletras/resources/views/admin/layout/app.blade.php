@@ -9,15 +9,20 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet">
-
-    <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        :root {
+            --brand: #761e23;
+            --brand-dark: #5a161a;
+            --brand-accent: #d4a017;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
         }
@@ -26,49 +31,149 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* Brand Colors */
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+        }
+
+        .nav-link {
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link.active {
+            background-color: rgba(118, 30, 35, 0.08);
+            border-left-color: var(--brand);
+            color: var(--brand);
+        }
+
+        .nav-link.active i {
+            color: var(--brand);
+        }
+
+        .nav-link:hover {
+            background-color: rgba(118, 30, 35, 0.04);
+        }
+
+        .nav-link:hover i {
+            color: var(--brand);
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            border-top: 4px solid var(--card-color, var(--brand));
+        }
+
+        .stat-brand {
+            --card-color: var(--brand);
+            --icon-bg: rgba(118, 30, 35, 0.1);
+        }
+
+        .stat-accent {
+            --card-color: var(--brand-accent);
+            --icon-bg: rgba(212, 160, 23, 0.1);
+        }
+
+        .stat-dark {
+            --card-color: var(--brand-dark);
+            --icon-bg: rgba(90, 22, 26, 0.1);
+        }
+
+        .stat-icon {
+            background-color: var(--icon-bg);
+            color: var(--card-color);
+        }
+
+        /* Quick Actions */
+        .quick-action-card:hover {
+            border-color: var(--brand-accent);
+            box-shadow: 0 5px 15px rgba(212, 160, 23, 0.15);
+        }
+
+        .quick-action-card:hover .action-icon-circle {
+            background: var(--brand);
+            color: white;
+        }
+
+        /* Buttons */
+        .btn-brand-outline {
+            border-color: var(--brand);
+            color: var(--brand);
+        }
+
+        .btn-brand-outline:hover {
+            background: var(--brand);
+            color: white;
+        }
+
+        .btn-accent-outline {
+            border-color: var(--brand-accent);
+            color: #b58500;
+        }
+
+        .btn-accent-outline:hover {
+            background: var(--brand-accent);
+            color: white;
+        }
+
+        /* Mobile */
+        @media (max-width: 1023px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+            }
+        }
+
+        /* Custom Utilities Compatibility */
         .bg-brand-red {
-            background-color: #8B1114;
-        }
-
-        .bg-brand-red-dark {
-            background-color: #560002;
-        }
-
-        .bg-brand-gold {
-            background-color: #B6A350;
-        }
-
-        .bg-brand-navy {
-            background-color: #1a1a2e;
-        }
-
-        .bg-brand-brown {
-            background-color: #5D4037;
+            background-color: var(--brand);
         }
 
         .text-brand-red {
-            color: #8B1114;
-        }
-
-        .text-brand-gold {
-            color: #B6A350;
-        }
-
-        .text-brand-navy {
-            color: #1a1a2e;
-        }
-
-        .text-brand-brown {
-            color: #5D4037;
+            color: var(--brand);
         }
 
         .border-brand-red {
-            border-color: #8B1114;
+            border-color: var(--brand);
+        }
+
+        .ring-brand-red {
+            --tw-ring-color: var(--brand);
+        }
+
+        .focus\:ring-brand-red:focus {
+            --tw-ring-opacity: 1;
+            --tw-ring-color: var(--brand);
+        }
+
+        .bg-brand-gold {
+            background-color: var(--brand-accent);
+        }
+
+        .text-brand-gold {
+            color: var(--brand-accent);
         }
 
         .border-brand-gold {
-            border-color: #B6A350;
+            border-color: var(--brand-accent);
+        }
+
+        .ring-brand-gold {
+            --tw-ring-color: var(--brand-accent);
+        }
+
+        .text-brand-navy {
+            color: #1e3a8a;
+        }
+
+        .bg-brand-navy {
+            background-color: #1e3a8a;
         }
     </style>
 
@@ -76,258 +181,207 @@
 </head>
 
 <body class="bg-gray-100 text-gray-800">
-    <div class="min-h-screen bg-gray-100">
+    <!-- Overlay Mobile -->
+    <div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden backdrop-blur-sm" id="sidebarOverlay"></div>
 
-        <!-- Sidebar (Desktop Fixed) -->
-        <div class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-            <div class="flex flex-col flex-grow bg-brand-red overflow-y-auto shadow-2xl">
-
-                <!-- Logo Header -->
-                <div class="flex items-center flex-shrink-0 px-4 py-6 border-b border-white/10">
-                    <div class="flex items-center">
-                        <div
-                            class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-brand-red shadow-lg">
-                            <i class="ph-bold ph-book-bookmark text-2xl"></i>
-                        </div>
-                        <div class="ml-3">
-                            <h1 class="text-white font-serif font-bold text-lg tracking-wide">Letras Admin</h1>
-                            <p class="text-brand-gold text-xs uppercase tracking-wider">Posgrado</p>
-                        </div>
-                    </div>
+    <!-- Sidebar -->
+    <aside
+        class="sidebar fixed top-0 left-0 h-screen bg-white border-r border-gray-100 shadow-sm z-50 flex flex-col transition-transform duration-300"
+        id="mainSidebar">
+        <!-- Brand -->
+        <div class="p-6 border-b border-gray-100">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#761e23] to-[#5a161a] text-white flex items-center justify-center shadow-lg">
+                    <i class="fas fa-book-open"></i>
                 </div>
-
-                <!-- Nav Links -->
-                <nav class="flex-1 px-3 py-4 space-y-1">
-                    <a href="{{ route('admin.dashboard') }}"
-                        class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 
-                              {{ request()->routeIs('admin.dashboard') ? 'bg-white/10 text-white shadow-inner border border-white/5' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
-                        <i
-                            class="ph ph-chart-bar mr-3 text-xl {{ request()->routeIs('admin.dashboard') ? 'text-brand-gold' : 'group-hover:text-brand-gold' }} transition-colors"></i>
-                        Dashboard
-                    </a>
-
-                    <a href="{{ route('admin.programas.index') }}"
-                        class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 
-                              {{ request()->routeIs('admin.programas.*') ? 'bg-white/10 text-white shadow-inner border border-white/5' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
-                        <i
-                            class="ph ph-graduation-cap mr-3 text-xl {{ request()->routeIs('admin.programas.*') ? 'text-brand-gold' : 'group-hover:text-brand-gold' }} transition-colors"></i>
-                        Programas
-                    </a>
-
-                    <a href="{{ route('admin.docentes.index') }}"
-                        class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 
-                              {{ request()->routeIs('admin.docentes.*') ? 'bg-white/10 text-white shadow-inner border border-white/5' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
-                        <i
-                            class="ph ph-chalkboard-teacher mr-3 text-xl {{ request()->routeIs('admin.docentes.*') ? 'text-brand-gold' : 'group-hover:text-brand-gold' }} transition-colors"></i>
-                        Docentes
-                    </a>
-
-                    <a href="{{ route('admin.testimonios.index') }}"
-                        class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 
-                              {{ request()->routeIs('admin.testimonios.*') ? 'bg-white/10 text-white shadow-inner border border-white/5' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
-                        <i
-                            class="ph ph-quotes mr-3 text-xl {{ request()->routeIs('admin.testimonios.*') ? 'text-brand-gold' : 'group-hover:text-brand-gold' }} transition-colors"></i>
-                        Testimonios
-                    </a>
-
-                    <a href="{{ route('admin.directorio.index') }}"
-                        class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 
-                              {{ request()->routeIs('admin.directorio.*') ? 'bg-white/10 text-white shadow-inner border border-white/5' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
-                        <i
-                            class="ph ph-address-book mr-3 text-xl {{ request()->routeIs('admin.directorio.*') ? 'text-brand-gold' : 'group-hover:text-brand-gold' }} transition-colors"></i>
-                        Directorio
-                    </a>
-
-                    <a href="{{ route('admin.settings.index') }}"
-                        class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 
-                              {{ request()->routeIs('admin.settings.*') ? 'bg-white/10 text-white shadow-inner border border-white/5' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
-                        <i
-                            class="ph ph-gear mr-3 text-xl {{ request()->routeIs('admin.settings.*') ? 'text-brand-gold' : 'group-hover:text-brand-gold' }} transition-colors"></i>
-                        Configuración
-                    </a>
-
-                    <div class="pt-4 mt-4 border-t border-white/10">
-                        <a href="{{ route('home') }}" target="_blank"
-                            class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 text-gray-300 hover:bg-white/5 hover:text-white">
-                            <i class="ph ph-globe mr-3 text-xl group-hover:text-brand-gold transition-colors"></i>
-                            Ver Sitio Web
-                        </a>
-                    </div>
-                </nav>
-
-                <!-- User Profile Bottom -->
-                <div class="flex-shrink-0 border-t border-white/10 p-4 bg-black/20">
-                    <div class="flex items-center mb-3">
-                        <div
-                            class="h-9 w-9 rounded-full bg-brand-gold flex items-center justify-center text-brand-red font-bold font-serif">
-                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm font-medium text-white">{{ auth()->user()->name }}</p>
-                            <p class="text-xs text-gray-400">{{ auth()->user()->email }}</p>
-                        </div>
-                    </div>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit"
-                            class="w-full flex items-center justify-center px-3 py-2 text-xs font-medium text-red-200 hover:bg-red-900/50 rounded-lg transition-all border border-transparent hover:border-red-800/50">
-                            <i class="ph ph-sign-out mr-2 text-base"></i>
-                            Cerrar Sesión
-                        </button>
-                    </form>
+                <div>
+                    <h1 class="font-bold text-[#761e23] text-lg leading-tight">Letras</h1>
+                    <p class="text-xs text-gray-500 font-medium">Posgrado Admin</p>
                 </div>
             </div>
-        </div>
-
-        <!-- Mobile Sidebar (Hidden by default) -->
-        <div x-data="{ sidebarOpen: false }" class="lg:hidden">
-            <!-- Overlay -->
-            <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300"
-                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-900/80 z-40"
-                @click="sidebarOpen = false"></div>
-
-            <!-- Mobile Sidebar Panel -->
-            <div x-show="sidebarOpen" x-transition:enter="transition ease-in-out duration-300 transform"
-                x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
-                x-transition:leave="transition ease-in-out duration-300 transform"
-                x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full"
-                class="fixed inset-y-0 left-0 z-50 w-64 bg-brand-red shadow-2xl">
-
-                <!-- Close Button -->
-                <div class="absolute top-4 right-4">
-                    <button @click="sidebarOpen = false" class="text-white/70 hover:text-white">
-                        <i class="ph ph-x text-2xl"></i>
-                    </button>
-                </div>
-
-                <!-- Same content as desktop sidebar -->
-                <div class="flex flex-col h-full">
-                    <div class="flex items-center flex-shrink-0 px-4 py-6 border-b border-white/10">
-                        <div class="flex items-center">
-                            <div
-                                class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-brand-red shadow-lg">
-                                <i class="ph-bold ph-book-bookmark text-2xl"></i>
-                            </div>
-                            <div class="ml-3">
-                                <h1 class="text-white font-serif font-bold text-lg tracking-wide">Letras Admin</h1>
-                                <p class="text-brand-gold text-xs uppercase tracking-wider">Posgrado</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <nav class="flex-1 px-3 py-4 space-y-1">
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white">
-                            <i class="ph ph-chart-bar mr-3 text-xl"></i> Dashboard
-                        </a>
-                        <a href="{{ route('admin.programas.index') }}"
-                            class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white">
-                            <i class="ph ph-graduation-cap mr-3 text-xl"></i> Programas
-                        </a>
-                        <a href="{{ route('admin.docentes.index') }}"
-                            class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white">
-                            <i class="ph ph-chalkboard-teacher mr-3 text-xl"></i> Docentes
-                        </a>
-                        <a href="{{ route('admin.testimonios.index') }}"
-                            class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white">
-                            <i class="ph ph-quotes mr-3 text-xl"></i> Testimonios
-                        </a>
-                        <a href="{{ route('admin.directorio.index') }}"
-                            class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white">
-                            <i class="ph ph-address-book mr-3 text-xl"></i> Directorio
-                        </a>
-                        <a href="{{ route('admin.settings.index') }}"
-                            class="group flex items-center px-3 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white">
-                            <i class="ph ph-gear mr-3 text-xl"></i> Configuración
-                        </a>
-                    </nav>
-                </div>
-            </div>
-
-            <!-- Mobile Menu Toggle stored in Alpine data -->
-            <button @click="sidebarOpen = true"
-                class="fixed bottom-4 left-4 z-30 lg:hidden bg-brand-red text-white p-3 rounded-full shadow-lg">
-                <i class="ph ph-list text-xl"></i>
+            <button class="lg:hidden absolute top-4 right-4 text-gray-400 hover:text-gray-600" id="closeSidebar">
+                <i class="fas fa-times text-lg"></i>
             </button>
         </div>
 
-        <!-- Main Column -->
-        <div class="lg:pl-64 flex flex-col flex-1 transition-all duration-300">
+        <!-- Navigation -->
+        <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+            <p class="text-xs font-bold uppercase tracking-wider text-[#d4a017] mb-2 ml-2">General</p>
 
-            <!-- Topbar Sticky -->
-            <div class="sticky top-0 z-10 bg-white shadow-sm border-b border-gray-200">
-                <div class="px-4 sm:px-6 lg:px-8">
-                    <div class="flex h-16 items-center justify-between">
-                        <!-- Mobile Hamburger (placeholder, actual button is fixed) -->
-                        <div class="lg:hidden w-8"></div>
+            <a href="{{ route('admin.dashboard') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.dashboard') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <i
+                    class="fas fa-chart-pie w-5 text-lg {{ request()->routeIs('admin.dashboard') ? '' : 'text-gray-500' }}"></i>
+                <span>Dashboard</span>
+            </a>
 
-                        <!-- Breadcrumb & Actions -->
-                        <div class="flex-1 flex justify-between items-center lg:ml-0 ml-4">
-                            <nav class="flex" aria-label="Breadcrumb">
-                                <ol class="flex items-center space-x-2">
-                                    <li><span class="text-gray-400 font-serif">Admin</span></li>
-                                    <li><span class="text-gray-300">/</span></li>
-                                    <li><span
-                                            class="text-brand-red font-semibold font-serif">@yield('title', 'Dashboard')</span>
-                                    </li>
-                                </ol>
-                            </nav>
-                            <div class="flex items-center space-x-4">
-                                <button class="text-gray-400 hover:text-brand-red transition-colors relative">
-                                    <i class="ph ph-bell text-xl"></i>
-                                    <span
-                                        class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-brand-gold ring-2 ring-white"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+            <p class="text-xs font-bold uppercase tracking-wider text-[#d4a017] mb-2 ml-2 mt-6">Gestión Académica</p>
+
+            <a href="{{ route('admin.programas.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.programas.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <i
+                    class="fas fa-graduation-cap w-5 text-lg {{ request()->routeIs('admin.programas.*') ? '' : 'text-gray-500' }}"></i>
+                <span>Programas</span>
+            </a>
+
+            <a href="{{ route('admin.docentes.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.docentes.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <i
+                    class="fas fa-chalkboard-teacher w-5 text-lg {{ request()->routeIs('admin.docentes.*') ? '' : 'text-gray-500' }}"></i>
+                <span>Docentes</span>
+            </a>
+
+            <p class="text-xs font-bold uppercase tracking-wider text-[#d4a017] mb-2 ml-2 mt-6">Administración</p>
+
+            <a href="{{ route('admin.testimonios.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.testimonios.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <i
+                    class="fas fa-comments w-5 text-lg {{ request()->routeIs('admin.testimonios.*') ? '' : 'text-gray-500' }}"></i>
+                <span>Testimonios</span>
+            </a>
+
+            <a href="{{ route('admin.directorio.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.directorio.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <i
+                    class="fas fa-address-book w-5 text-lg {{ request()->routeIs('admin.directorio.*') ? '' : 'text-gray-500' }}"></i>
+                <span>Directorio</span>
+            </a>
+
+            <a href="{{ route('admin.settings.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.settings.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <i
+                    class="fas fa-cog w-5 text-lg {{ request()->routeIs('admin.settings.*') ? '' : 'text-gray-500' }}"></i>
+                <span>Configuración</span>
+            </a>
+        </nav>
+
+        <!-- Logout -->
+        <div class="p-4 border-t border-gray-100">
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-bold text-red-600 bg-red-50 hover:bg-red-100 transition-colors">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Cerrar Sesión</span>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                @csrf
+            </form>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="lg:ml-[260px] min-h-screen flex flex-col transition-all duration-300">
+        <!-- Header -->
+        <header
+            class="sticky top-0 z-30 bg-white border-b border-gray-100 px-4 lg:px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button
+                    class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 shadow-sm bg-white"
+                    id="sidebarToggle">
+                    <i class="fas fa-bars text-gray-600"></i>
+                </button>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-800">@yield('title', 'Dashboard')</h1>
+                    @hasSection('subtitle')
+                        <p class="text-sm text-gray-500">@yield('subtitle')</p>
+                    @endif
                 </div>
             </div>
 
-            <!-- Main Content Area -->
-            <main class="flex-1 py-8 bg-gray-50">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4">
+                <a href="{{ route('home') }}" target="_blank"
+                    class="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>Ver Web Pública</span>
+                </a>
 
-                    <!-- Alerts -->
-                    @if(session('success'))
+                <!-- User Dropdown -->
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open" class="flex items-center gap-2">
+                        <div class="hidden md:block text-right">
+                            <p class="text-sm font-bold text-gray-800">{{ auth()->user()->name }}</p>
+                            <p class="text-xs text-gray-500">Administrador</p>
+                        </div>
                         <div
-                            class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center">
-                            <i class="ph-fill ph-check-circle text-xl mr-3 text-green-500"></i>
-                            {{ session('success') }}
+                            class="w-10 h-10 rounded-full bg-[#5a161a] text-[#d4a017] flex items-center justify-center font-bold border-2 border-[#d4a017]">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                         </div>
-                    @endif
-
-                    @if(session('error'))
-                        <div
-                            class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center">
-                            <i class="ph-fill ph-x-circle text-xl mr-3 text-red-500"></i>
-                            {{ session('error') }}
-                        </div>
-                    @endif
-
-                    @if($errors->any())
-                        <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
-                            <div class="flex items-center mb-2">
-                                <i class="ph-fill ph-warning text-xl mr-3 text-red-500"></i>
-                                <strong>Errores de validación:</strong>
-                            </div>
-                            <ul class="list-disc list-inside ml-8 text-sm">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <!-- Page Content -->
-                    @yield('content')
-
+                    </button>
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                        <p class="px-4 py-2 text-xs font-bold text-gray-400 uppercase">Mi Cuenta</p>
+                        <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                            <i class="fas fa-user-circle text-gray-400"></i> Perfil
+                        </a>
+                        <a href="{{ route('admin.settings.index') }}"
+                            class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                            <i class="fas fa-cog text-gray-400"></i> Configuración
+                        </a>
+                        <hr class="my-2 border-gray-100">
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            class="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
+                    </div>
                 </div>
-            </main>
-        </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <main class="flex-1 p-4 lg:p-8 w-full">
+            {{-- Alerts --}}
+            @if(session('success'))
+                <div class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center">
+                    <i class="fas fa-check-circle mr-3 text-green-500"></i>
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center">
+                    <i class="fas fa-exclamation-circle mr-3 text-red-500"></i>
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-exclamation-triangle mr-3 text-red-500"></i>
+                        <strong>Errores de validación:</strong>
+                    </div>
+                    <ul class="list-disc list-inside ml-8 text-sm">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @yield('content')
+        </main>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('mainSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const toggle = document.getElementById('sidebarToggle');
+            const close = document.getElementById('closeSidebar');
+
+            toggle?.addEventListener('click', () => {
+                sidebar.classList.add('show');
+                overlay.classList.add('show');
+            });
+
+            [close, overlay].forEach(el => {
+                el?.addEventListener('click', () => {
+                    sidebar.classList.remove('show');
+                    overlay.classList.remove('show');
+                });
+            });
+        });
+    </script>
 
     @stack('scripts')
 </body>

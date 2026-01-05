@@ -211,7 +211,7 @@
         <div class="mb-8">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-lg bg-brand-red flex items-center justify-center text-white">
-                    <i class="ph ph-graduation-cap text-2xl"></i>
+                    <i class="fas fa-graduation-cap text-2xl"></i>
                 </div>
                 <div>
                     <h2 class="text-2xl font-serif font-bold leading-7 text-gray-900 sm:text-3xl">
@@ -232,27 +232,27 @@
                     <ul class="nav nav-tabs mb-6 flex flex-wrap" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" href="#basico" onclick="switchTab(event, 'basico')">
-                                <i class="ph ph-info"></i> Básico
+                                <i class="fas fa-info-circle"></i> Básico
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#contenido" onclick="switchTab(event, 'contenido')">
-                                <i class="ph ph-file-text"></i> Contenido
+                                <i class="fas fa-file-alt"></i> Contenido
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#plan" onclick="switchTab(event, 'plan')">
-                                <i class="ph ph-book-open"></i> Plan de Estudios
+                                <i class="fas fa-book-open"></i> Plan de Estudios
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#docentes" onclick="switchTab(event, 'docentes')">
-                                <i class="ph ph-users"></i> Plana Docente
+                                <i class="fas fa-users"></i> Plana Docente
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#config" onclick="switchTab(event, 'config')">
-                                <i class="ph ph-gear"></i> Config
+                                <i class="fas fa-cog"></i> Config
                             </a>
                         </li>
                     </ul>
@@ -289,13 +289,13 @@
                                         Nombre <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $programa->nombre) }}"
-                                        class="block w-full py-2.5 px-4" required>
+                                        class="block w-full py-2.5 px-4" placeholder="Ej: Lingüística" required>
                                 </div>
 
                                 <div>
                                     <label for="mencion" class="form-label block">Mención</label>
                                     <input type="text" name="mencion" id="mencion" value="{{ old('mencion', $programa->mencion) }}"
-                                        class="block w-full py-2.5 px-4">
+                                        class="block w-full py-2.5 px-4" placeholder="Ej: Lingüística Hispánica">
                                 </div>
                             </div>
 
@@ -303,22 +303,22 @@
                                 <div>
                                     <label for="vacantes" class="form-label block">Vacantes</label>
                                     <input type="number" name="vacantes" id="vacantes" value="{{ old('vacantes', $programa->vacantes) }}"
-                                        class="block w-full py-2.5 px-4" min="0">
+                                        class="block w-full py-2.5 px-4" min="0" placeholder="30">
                                 </div>
                                 <div>
                                     <label for="duracion" class="form-label block">Duración (sem)</label>
                                     <input type="number" name="duracion" id="duracion" value="{{ old('duracion', $programa->duracion) }}"
-                                        class="block w-full py-2.5 px-4" min="1">
+                                        class="block w-full py-2.5 px-4" min="1" placeholder="4">
                                 </div>
                                 <div>
                                     <label for="creditos" class="form-label block">Créditos</label>
                                     <input type="number" name="creditos" id="creditos" value="{{ old('creditos', $programa->creditos) }}"
-                                        class="block w-full py-2.5 px-4" min="0">
+                                        class="block w-full py-2.5 px-4" min="0" placeholder="72">
                                 </div>
                                 <div>
                                     <label for="grado_otorga" class="form-label block">Grado Otorga</label>
                                     <input type="text" name="grado_otorga" id="grado_otorga" value="{{ old('grado_otorga', $programa->grado_otorga) }}"
-                                        class="block w-full py-2.5 px-4">
+                                        class="block w-full py-2.5 px-4" placeholder="Magíster en...">
                                 </div>
                             </div>
                         </div>
@@ -328,23 +328,23 @@
                             <div class="space-y-6">
                                 <div>
                                     <label for="sumilla" class="form-label block">Sumilla</label>
-                                    <textarea name="sumilla" id="sumilla" rows="3" class="block w-full py-2.5 px-4">{{ old('sumilla', $programa->sumilla) }}</textarea>
+                                    <textarea name="sumilla" id="sumilla" rows="3" class="block w-full py-2.5 px-4" placeholder="Breve descripción del programa...">{{ old('sumilla', $programa->sumilla) }}</textarea>
                                 </div>
                                 <div>
                                     <label for="descripcion" class="form-label block">Descripción</label>
-                                    <textarea name="descripcion" id="descripcion" rows="4" class="block w-full py-2.5 px-4">{{ old('descripcion', $programa->descripcion) }}</textarea>
+                                    <textarea name="descripcion" id="descripcion" rows="4" class="block w-full py-2.5 px-4" placeholder="Descripción detallada...">{{ old('descripcion', $programa->descripcion) }}</textarea>
                                 </div>
                                 <div>
                                     <label for="presentacion" class="form-label block">Presentación</label>
-                                    <textarea name="presentacion" id="presentacion" rows="4" class="block w-full py-2.5 px-4">{{ old('presentacion', $programa->presentacion) }}</textarea>
+                                    <textarea name="presentacion" id="presentacion" rows="4" class="block w-full py-2.5 px-4" placeholder="Presentación del programa...">{{ old('presentacion', $programa->presentacion) }}</textarea>
                                 </div>
                                 <div>
                                     <label for="por_que_text" class="form-label block">¿Por qué elegir este programa?</label>
-                                    <textarea name="por_que_text" id="por_que_text" rows="4" class="block w-full py-2.5 px-4">{{ old('por_que_text', $programa->por_que_text) }}</textarea>
+                                    <textarea name="por_que_text" id="por_que_text" rows="4" class="block w-full py-2.5 px-4" placeholder="Razones para elegir...">{{ old('por_que_text', $programa->por_que_text) }}</textarea>
                                 </div>
                                 <div>
                                     <label for="perfil_egresado" class="form-label block">Perfil del Egresado</label>
-                                    <textarea name="perfil_egresado" id="perfil_egresado" rows="4" class="block w-full py-2.5 px-4">{{ old('perfil_egresado', $programa->perfil_egresado) }}</textarea>
+                                    <textarea name="perfil_egresado" id="perfil_egresado" rows="4" class="block w-full py-2.5 px-4" placeholder="Competencias del egresado...">{{ old('perfil_egresado', $programa->perfil_egresado) }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -353,7 +353,7 @@
                         <div id="plan" class="tab-pane hidden">
                             <div class="soft-info mb-6">
                                 <div class="flex items-center gap-2 text-blue-800">
-                                    <i class="ph ph-info text-xl"></i>
+                                    <i class="fas fa-info-circle text-xl"></i>
                                     <p class="text-sm font-medium">Gestión Visual: Agrega cursos organizados por ciclo/semestre. Los datos se guardan como JSON.</p>
                                 </div>
                             </div>
@@ -364,11 +364,11 @@
                             <div class="mt-4 flex flex-wrap gap-3">
                                 <button type="button" onclick="agregarCiclo()"
                                     class="inline-flex items-center px-4 h-11 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
-                                    <i class="ph ph-plus-circle mr-2"></i> Agregar Ciclo
+                                    <i class="fas fa-plus-circle mr-2"></i> Agregar Ciclo
                                 </button>
                                 <button type="button" onclick="agregarSeccionElectivos()"
                                     class="inline-flex items-center px-4 h-11 border border-gray-400 text-gray-600 rounded-lg hover:bg-gray-100 transition-all">
-                                    <i class="ph ph-star mr-2"></i> Agregar Electivos
+                                    <i class="fas fa-star mr-2"></i> Agregar Electivos
                                 </button>
                             </div>
 
@@ -379,7 +379,7 @@
                         <div id="docentes" class="tab-pane hidden">
                             <div class="soft-info mb-6">
                                 <div class="flex items-center gap-2 text-blue-800">
-                                    <i class="ph ph-info text-xl"></i>
+                                    <i class="fas fa-info-circle text-xl"></i>
                                     <p class="text-sm font-medium">
                                         Asignación de Docentes: Selecciona los docentes que enseñan en este programa. Puedes indicar si es coordinador, su rol y el orden de visualización.
                                     </p>
@@ -405,7 +405,7 @@
 
                             <button type="button" onclick="agregarDocente()"
                                 class="mt-4 inline-flex items-center px-4 h-11 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
-                                <i class="ph ph-plus-circle mr-2"></i> Agregar Docente
+                                <i class="fas fa-plus-circle mr-2"></i> Agregar Docente
                             </button>
                         </div>
 
@@ -446,11 +446,11 @@
                     <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                         <a href="{{ route('admin.programas.index') }}"
                             class="inline-flex items-center px-4 h-11 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                            <i class="ph ph-arrow-left mr-2"></i> Volver
+                            <i class="fas fa-arrow-left mr-2"></i> Volver
                         </a>
                         <button type="submit"
                             class="inline-flex items-center px-6 h-11 rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg">
-                            <i class="ph-bold ph-floppy-disk mr-2"></i> Actualizar Programa
+                            <i class="fas fa-save mr-2"></i> Actualizar Programa
                         </button>
                     </div>
                 </form>
@@ -465,7 +465,7 @@
                 <div class="w-full max-w-lg rounded-2xl bg-white shadow-2xl overflow-hidden">
                     <div class="p-5 border-b border-gray-100 flex items-start gap-4">
                         <div class="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center">
-                            <i class="ph ph-warning text-red-600 text-xl"></i>
+                            <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
                         </div>
 
                         <div class="flex-1">
@@ -476,7 +476,7 @@
 
                         <button type="button" onclick="cerrarModal()"
                             class="h-10 w-10 rounded-lg flex items-center justify-center hover:bg-gray-100 text-gray-500">
-                            <i class="ph ph-x"></i>
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
 
@@ -619,10 +619,10 @@
                         '</div>' +
                         '<div class="flex gap-2">' +
                             '<button type="button" class="px-3 py-1.5 bg-white text-gray-700 rounded text-sm hover:bg-gray-100" onclick="agregarCurso(\'' + cicloId + '\')">' +
-                                '<i class="ph ph-plus mr-1"></i> Curso' +
+                                '<i class="fas fa-plus mr-1"></i> Curso' +
                             '</button>' +
                             '<button type="button" class="px-3 py-1.5 bg-red-500 text-white rounded text-sm hover:bg-red-600" onclick="eliminarCiclo(\'' + cicloId + '\')">' +
-                                '<i class="ph ph-trash"></i>' +
+                                '<i class="fas fa-trash"></i>' +
                             '</button>' +
                         '</div>' +
                     '</div>' +
@@ -647,7 +647,7 @@
                     '<input type="number" class="py-2 px-3 text-sm" placeholder="Créd." value="' + creditos + '" data-field="creditos" min="1">' +
                     '<input type="text" class="py-2 px-3 text-sm" placeholder="Sumilla (opcional)" value="' + sumilla + '" data-field="sumilla">' +
                     '<button type="button" class="w-10 h-10 flex items-center justify-center bg-red-100 text-red-600 rounded-lg hover:bg-red-200" onclick="eliminarCurso(\'' + cursoId + '\')">' +
-                        '<i class="ph ph-x"></i>' +
+                        '<i class="fas fa-times"></i>' +
                     '</button>' +
                 '</div>';
             }
@@ -764,10 +764,10 @@
                         '<strong>Cursos Electivos</strong>' +
                         '<div class="flex gap-2">' +
                             '<button type="button" class="px-3 py-1.5 bg-white text-gray-700 rounded text-sm hover:bg-gray-100" onclick="agregarCursoElectivo()">' +
-                                '<i class="ph ph-plus mr-1"></i> Electivo' +
+                                '<i class="fas fa-plus mr-1"></i> Electivo' +
                             '</button>' +
                             '<button type="button" class="px-3 py-1.5 bg-red-500 text-white rounded text-sm hover:bg-red-600" onclick="eliminarSeccionElectivos()">' +
-                                '<i class="ph ph-trash"></i>' +
+                                '<i class="fas fa-trash"></i>' +
                             '</button>' +
                         '</div>' +
                     '</div>' +

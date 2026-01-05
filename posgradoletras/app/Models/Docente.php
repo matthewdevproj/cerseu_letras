@@ -12,7 +12,6 @@ class Docente extends Model
         'grado',
         'especialidad',
         'email',
-        'telefono',
         'orcid',
         'cti_vitae',
         'linkedin',
