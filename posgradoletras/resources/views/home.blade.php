@@ -378,6 +378,7 @@
             </div>
         </div>
     </section>
+
     <!-- MISIÓN Y VISIÓN -->
     <section class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
@@ -630,7 +631,9 @@
                         <h4 class="font-bold text-sm text-gray-800 group-hover:text-unmsm-guinda transition">
                             {{ $docente->nombre_completo }}
                         </h4>
-                        <p class="text-xs text-gray-500">Coordinador(a) de {{ $docente->programas->first()?->nombre ?? 'Programa' }}</p>
+                        <p class="text-xs text-gray-500">Coordinador(a) de
+                            {{ $docente->programas->first()?->nombre ?? 'Programa' }}
+                        </p>
                     </div>
                 @empty
                     <div class="col-span-full text-center text-gray-500">

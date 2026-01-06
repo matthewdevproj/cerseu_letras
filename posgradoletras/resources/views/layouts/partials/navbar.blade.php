@@ -62,7 +62,7 @@
                             class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
                             <i class="fas fa-user-plus mr-2 text-red-700"></i>Proceso de Admisión
                         </a>
-                        <a href="{{ route('tramites') }}#cronograma" class="block px-5 py-3 hover:bg-gray-50">
+                        <a href="{{ route('cronograma') }}" class="block px-5 py-3 hover:bg-gray-50">
                             <i class="fas fa-calendar-alt mr-2 text-red-700"></i>Cronograma Académico
                         </a>
                     </div>

@@ -260,7 +260,12 @@
                                                                 <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Grupo de Investigación</p>
                                                                 <div class="flex items-center gap-2">
                                                                     <i class="fas fa-users text-unmsm-dorado"></i>
-                                                                    <span class="font-medium text-gray-700">{{ $profesor->grupo_investigacion }}</span>
+                                                                    <span class="font-medium text-gray-700">
+                                                                        @php
+                                                                            $grupo = $profesor->grupo_investigacion;
+                                                                            echo is_array($grupo) ? ($grupo['nombre'] ?? '') : $grupo;
+                                                                        @endphp
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         @endif

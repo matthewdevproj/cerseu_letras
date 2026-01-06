@@ -10,22 +10,12 @@
 @endpush
 
 @section('content')
-    <!-- HERO SECTION (Estilo moderno con gradiente) -->
-    <section class="bg-gray-900 text-white py-20 relative overflow-hidden">
-        <!-- Imagen de Fondo con overlay -->
-        <div class="absolute inset-0 opacity-20 bg-cover bg-center" 
-             style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2020/11/frontis-letras.jpg')"></div>
-        <div class="absolute inset-0 bg-gradient-to-r from-unmsm-guinda to-black/80"></div>
-        
-        <!-- Contenido Hero -->
-        <div class="container mx-auto px-4 relative z-10 text-center pt-16">
-            <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs mb-2">Profesor Asesor</p>
-            <h1 class="text-3xl md:text-5xl font-bold mb-4 font-serif">{{ $profesor->nombre_completo }}</h1>
-            <p class="text-gray-300 max-w-2xl mx-auto font-light">
-                {{ $profesor->grado ?? 'Docente investigador de la Facultad de Letras y Ciencias Humanas' }}
-            </p>
-        </div>
-    </section>
+    <!-- HERO DE SECCIÓN (Estilo uniforme) -->
+    <x-hero-section 
+        title="{{ $profesor->nombre_completo }}" 
+        label="Profesor Asesor"
+        subtitle="{{ $profesor->grado ?? 'Docente investigador de la Facultad de Letras y Ciencias Humanas' }}"
+        image="https://letras.unmsm.edu.pe/wp-content/uploads/2016/10/cabecera.jpg" />
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="container mx-auto px-4 py-12">
@@ -185,7 +175,20 @@
                         <div class="bg-gradient-to-r from-unmsm-guinda/5 to-transparent rounded-xl p-5 border-l-4 border-unmsm-guinda">
                             <p class="text-gray-800 font-semibold flex items-center gap-2">
                                 <i class="fas fa-bookmark text-unmsm-dorado"></i>
-                                {{ $profesor->grupo_investigacion }}
+                                @php
+                                    $grupo = $profesor->grupo_investigacion;
+                                    $nombreGrupo = is_array($grupo) ? ($grupo['nombre'] ?? '') : $grupo;
+                                    $linkGrupo = is_array($grupo) ? ($grupo['link'] ?? '') : null;
+                                @endphp
+
+                                @if($linkGrupo)
+                                    <a href="{{ $linkGrupo }}" target="_blank" class="hover:text-unmsm-guinda transition-colors underline decoration-unmsm-dorado/40">
+                                        {{ $nombreGrupo }}
+                                        <i class="fas fa-external-link-alt text-[10px] ml-1 opacity-50"></i>
+                                    </a>
+                                @else
+                                    {{ $nombreGrupo }}
+                                @endif
                             </p>
                         </div>
                     </article>
@@ -208,7 +211,13 @@
                                         <p class="text-sm font-bold text-gray-800 group-hover:text-unmsm-guinda transition-colors">
                                             {{ $programa->nombre }}
                                         </p>
-                                        <p class="text-xs text-gray-500 mt-0.5">{{ $programa->grado }}</p>
+                                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1 mt-0.5">
+                                            <p class="text-xs text-gray-500">{{ $programa->grado }}</p>
+                                            @if($programa->pivot->rol)
+                                                <span class="text-[10px] text-gray-400">•</span>
+                                                <p class="text-xs font-medium text-unmsm-guinda/70 italic">{{ $programa->pivot->rol }}</p>
+                                            @endif
+                                        </div>
                                     </div>
                                     @if($programa->pivot->es_coordinador)
                                         <span class="text-[10px] bg-unmsm-dorado text-white rounded-full px-3 py-1 font-bold uppercase shadow-sm">

@@ -379,12 +379,21 @@
                                 </div>
 
                                 <div>
-                                    <label for="grupo_investigacion" class="form-label block">Grupo de Investigación</label>
-                                    <input type="text" name="grupo_investigacion" id="grupo_investigacion"
-                                           value="{{ old('grupo_investigacion', $docente->grupo_investigacion) }}"
-                                           class="block w-full py-2.5 px-4"
-                                           placeholder="Nombre del grupo de investigación">
-                                    @error('grupo_investigacion')
+                                    <label class="form-label block">Grupo de Investigación</label>
+                                    <div class="grid grid-cols-1 gap-3">
+                                        <input type="text" name="grupo_investigacion[nombre]" id="grupo_investigacion_nombre"
+                                               value="{{ old('grupo_investigacion.nombre', $docente->grupo_investigacion['nombre'] ?? '') }}"
+                                               class="block w-full py-2.5 px-4"
+                                               placeholder="Nombre del grupo">
+                                        <input type="url" name="grupo_investigacion[link]" id="grupo_investigacion_link"
+                                               value="{{ old('grupo_investigacion.link', $docente->grupo_investigacion['link'] ?? '') }}"
+                                               class="block w-full py-2.5 px-4"
+                                               placeholder="URL del grupo (https://...)">
+                                    </div>
+                                    @error('grupo_investigacion.nombre')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                    @error('grupo_investigacion.link')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>

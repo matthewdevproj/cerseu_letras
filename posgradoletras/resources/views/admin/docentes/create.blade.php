@@ -310,13 +310,21 @@
                                 </div>
 
                                 <div>
-                                    <label for="grupo_investigacion" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                        Grupo de Investigación
-                                    </label>
-                                    <input type="text" name="grupo_investigacion" id="grupo_investigacion" value="{{ old('grupo_investigacion') }}"
-                                        class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                        placeholder="Nombre del grupo de investigación">
-                                    @error('grupo_investigacion')
+                                    <label class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">Grupo de Investigación</label>
+                                    <div class="grid grid-cols-1 gap-3">
+                                        <input type="text" name="grupo_investigacion[nombre]" id="grupo_investigacion_nombre"
+                                               value="{{ old('grupo_investigacion.nombre') }}"
+                                               class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
+                                               placeholder="Nombre del grupo">
+                                        <input type="url" name="grupo_investigacion[link]" id="grupo_investigacion_link"
+                                               value="{{ old('grupo_investigacion.link') }}"
+                                               class="form-control block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
+                                               placeholder="URL del grupo (https://...)">
+                                    </div>
+                                    @error('grupo_investigacion.nombre')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                    @error('grupo_investigacion.link')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>

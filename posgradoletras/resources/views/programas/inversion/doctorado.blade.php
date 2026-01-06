@@ -2,19 +2,36 @@
 
 @php
     $emailContacto = 'posgrado-letras@unmsm.site';
+    $costoPorCredito = 210;
+
+    // Solo datos base por semestre (matrícula y créditos)
+    $semestres = [
+        1 => ['matricula' => 310, 'creditos' => 14],
+        2 => ['matricula' => 500, 'creditos' => 14],
+        3 => ['matricula' => 500, 'creditos' => 14],
+        4 => ['matricula' => 500, 'creditos' => 10],
+        5 => ['matricula' => 500, 'creditos' => 10],
+        6 => ['matricula' => 500, 'creditos' => 10],
+    ];
+
+    // Calcular totales
+    $costoTotal = 0;
+    foreach ($semestres as &$sem) {
+        $sem['costoSemestre'] = $sem['creditos'] * $costoPorCredito;
+        $sem['cuotaMensual'] = $sem['costoSemestre'] / 4;
+        $costoTotal += $sem['matricula'] + $sem['costoSemestre'];
+    }
+    unset($sem);
+
+    $nombreSemestre = [1 => 'Primer', 2 => 'Segundo', 3 => 'Tercer', 4 => 'Cuarto', 5 => 'Quinto', 6 => 'Sexto'];
 @endphp
 
 <div class="space-y-8">
 
-
-    {{-- Guías de admisión / derecho de inscripción --}}
-    <section class="bg-white rounded-xl shadow-sm p-4 md:p-6 space-y-4">
-        <div class="flex justify-center">
-            <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2022/02/GUIAS-DE-ADMISION-1-1024x107.png"
-                alt="Guías de admisión – Doctorados" class="max-w-full h-auto">
-        </div>
-
-        <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda">
+    {{-- Admisión / Derecho de inscripción --}}
+    <section class="space-y-4">
+        <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+            <i class="fas fa-user-plus text-unmsm-dorado"></i>
             Admisión
         </h4>
 
@@ -22,108 +39,117 @@
             El pago por derecho de inscripción a los programas es el siguiente:
         </p>
 
-        <div class="flex justify-center">
-            <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2022/02/CUADROS-9-1024x256.png"
-                alt="Cuadro de derecho de inscripción – Doctorados" class="max-w-full h-auto rounded-lg">
+        <div class="grid sm:grid-cols-2 gap-4">
+            {{-- Tarjeta 1: Bachiller UNMSM --}}
+            <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-unmsm-guinda text-white text-center py-5">
+                    <span class="text-3xl font-bold">S/ 350</span>
+                </div>
+                <div class="bg-white text-center py-4 px-4">
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        Bachiller UNMSM, personal administrativo UNMSM, docentes de universidades nacionales y
+                        magisterio nacional
+                    </p>
+                </div>
+            </div>
+
+            {{-- Tarjeta 2: Bachiller universidad nacional/particular --}}
+            <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-unmsm-guinda text-white text-center py-5">
+                    <span class="text-3xl font-bold">S/ 450</span>
+                </div>
+                <div class="bg-white text-center py-4 px-4">
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        Bachiller de universidad nacional o particular
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
     {{-- Créditos --}}
-    <section class="bg-white rounded-xl shadow-sm p-4 md:p-6 space-y-4">
-        <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda">
+    <section class="space-y-4">
+        <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+            <i class="fas fa-coins text-unmsm-dorado"></i>
             Créditos
         </h4>
 
         <p class="text-sm text-gray-700 text-justify">
-            Cada curso del programa tiene un valor en créditos. Es de acuerdo con el
+            Cada curso del programa tiene un valor en créditos. Es de acuerdo al
             <span class="font-semibold">número de créditos matriculados</span> que se determina el pago de un alumno por
-            semestre:
+            semestre.
         </p>
 
         <div class="flex justify-center">
-            <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2024/01/pagos_bancos_admision_posgrado_Mesa-de-trabajo-1-copia-13.png"
-                alt="Pagos por créditos – Doctorados" class="max-w-full h-auto rounded-lg">
+            <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm inline-block min-w-[200px]">
+                <div class="bg-unmsm-guinda text-white text-center py-5 px-8">
+                    <span class="text-3xl font-bold">S/&nbsp;{{ number_format($costoPorCredito, 0) }}</span>
+                </div>
+                <div class="bg-white text-center py-3 px-4">
+                    <p class="text-sm text-gray-600 font-medium">Costo por crédito</p>
+                </div>
+            </div>
         </div>
     </section>
 
     {{-- Costo total del programa --}}
-    <section class="bg-white rounded-xl shadow-sm p-4 md:p-6 space-y-4">
-        <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda">
+    <section class="space-y-4">
+        <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+            <i class="fas fa-calculator text-unmsm-dorado"></i>
             Costo total del programa
         </h4>
 
         <div class="flex justify-center">
-            <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2024/01/pagos_bancos_admision_posgrado_Mesa-de-trabajo-1-copia-14.png"
-                alt="Costo total del programa – Doctorados" class="max-w-full h-auto rounded-lg">
+            <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm inline-block min-w-[220px]">
+                <div class="bg-unmsm-guinda text-white text-center py-5 px-8">
+                    <span class="text-3xl font-bold">S/&nbsp;{{ number_format($costoTotal, 0) }}</span>
+                </div>
+                <div class="bg-white text-center py-3 px-4">
+                    <p class="text-sm text-gray-600 font-medium">Costo total</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    {{-- Costos por semestre (1 al 6) --}}
-    <section class="bg-white rounded-xl shadow-sm p-4 md:p-6 space-y-6">
-        {{-- Primer semestre --}}
-        <div class="space-y-2">
-            <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda">
-                Primer semestre
-            </h4>
-            <div class="flex justify-center">
-                <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2024/01/pagos_bancos_admision_posgrado_Mesa-de-trabajo-1-copia-15.png"
-                    alt="Costo primer semestre – Doctorados" class="max-w-full h-auto rounded-lg">
-            </div>
-        </div>
+    {{-- Costos por semestre --}}
+    <section class="space-y-6">
+        <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+            <i class="fas fa-calendar-alt text-unmsm-dorado"></i>
+            Costos por semestre
+        </h4>
 
-        {{-- Segundo semestre --}}
-        <div class="space-y-2">
-            <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda">
-                Segundo semestre
-            </h4>
-            <div class="flex justify-center">
-                <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2024/01/pagos_bancos_admision_posgrado_Mesa-de-trabajo-1-copia-17.png"
-                    alt="Costo segundo semestre – Doctorados" class="max-w-full h-auto rounded-lg">
-            </div>
-        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+            @foreach($semestres as $num => $datos)
+                <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                    <div class="bg-unmsm-guinda text-white px-4 py-3">
+                        <h5 class="font-semibold text-center">{{ $nombreSemestre[$num] }} semestre</h5>
+                    </div>
 
-        {{-- Tercer semestre (usa misma imagen según la página) --}}
-        <div class="space-y-2">
-            <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda">
-                Tercer semestre
-            </h4>
-            <div class="flex justify-center">
-                <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2024/01/pagos_bancos_admision_posgrado_Mesa-de-trabajo-1-copia-17.png"
-                    alt="Costo tercer semestre – Doctorados" class="max-w-full h-auto rounded-lg">
-            </div>
-        </div>
-
-        {{-- Cuarto semestre --}}
-        <div class="space-y-2">
-            <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda">
-                Cuarto semestre
-            </h4>
-            <div class="flex justify-center">
-                <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2024/01/pagos_bancos_admision_posgrado_Mesa-de-trabajo-1-copia-16-1.png"
-                    alt="Costo cuarto semestre – Doctorados" class="max-w-full h-auto rounded-lg">
-            </div>
-        </div>
-
-        {{-- Quinto semestre --}}
-        <div class="space-y-2">
-            <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda">
-                Quinto semestre
-            </h4>
-            <div class="flex justify-center">
-                <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2024/01/pagos_bancos_admision_posgrado_Mesa-de-trabajo-1-copia-16-1.png"
-                    alt="Costo quinto semestre – Doctorados" class="max-w-full h-auto rounded-lg">
-            </div>
-        </div>
-
-        {{-- Sexto semestre --}}
-        <div class="space-y-2">
-            <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda">
-                Sexto semestre
-            </h4>
-            <div class="flex justify-center">
-                <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2024/01/pagos_bancos_admision_posgrado_Mesa-de-trabajo-1-copia-16-1.png"
-                    alt="Costo sexto semestre – Doctorados" class="max-w-full h-auto rounded-lg">
-            </div>
+                    <table class="w-full text-sm">
+                        <tbody class="divide-y divide-gray-100">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 text-gray-600">Matrícula</td>
+                                <td class="px-4 py-3 text-right font-semibold text-gray-900">
+                                    S/&nbsp;{{ number_format($datos['matricula'], 0) }}</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 text-gray-600">N° de créditos</td>
+                                <td class="px-4 py-3 text-right font-semibold text-gray-900">{{ $datos['creditos'] }}</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 text-gray-600">Costo por semestre</td>
+                                <td class="px-4 py-3 text-right font-semibold text-gray-900">
+                                    S/&nbsp;{{ number_format($datos['costoSemestre'], 0) }}</td>
+                            </tr>
+                            <tr class="bg-unmsm-guinda/5">
+                                <td class="px-4 py-3 text-gray-700 font-medium">Cuota mensual (4 cuotas)</td>
+                                <td class="px-4 py-3 text-right font-bold text-unmsm-guinda">
+                                    S/&nbsp;{{ number_format($datos['cuotaMensual'], 0) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            @endforeach
         </div>
     </section>
 

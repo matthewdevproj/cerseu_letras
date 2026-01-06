@@ -176,18 +176,27 @@
                         </table>
                     </div>
                 </div>
-
-                <!-- Costos -->
                 <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Costos de Inscripción</h3>
-                    <div class="grid md:grid-cols-2 gap-4">
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 1: Realizar el pago por derecho a Inscripción</h3>
+                    
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <p class="text-gray-700 text-sm">
+                            <strong>Importante:</strong> Antes de realizar el pago por derecho de inscripción verifique que el programa de su
+                            interés participe en el proceso de admisión actual y que esté dentro del cronograma establecido en el
+                            presente proceso de admisión.
+                        </p>
+                    </div>
+
+                    <h4 class="font-bold text-md text-gray-800 mb-3">Costos de Inscripción</h4>
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
                         <div class="border border-gray-200 rounded-lg overflow-hidden">
                             <div class="bg-unmsm-guinda text-white p-3 text-center">
                                 <h4 class="font-bold">Maestría</h4>
                             </div>
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2 pb-2 border-b">
-                                    <span class="text-sm text-gray-600">Egresados UNMSM y Magisterio</span>
+                                    <span class="text-sm text-gray-600">Graduados y personal administrativo de la UNMSM,
+                                        docentes de universidades nacionales y Magisterio Nacional</span>
                                     <span class="font-bold text-unmsm-guinda text-lg">S/ 350.00</span>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -202,7 +211,8 @@
                             </div>
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2 pb-2 border-b">
-                                    <span class="text-sm text-gray-600">Egresados UNMSM y Magisterio</span>
+                                    <span class="text-sm text-gray-600">Graduados y personal administrativo de la UNMSM,
+                                        docentes de universidades nacionales y Magisterio Nacional</span>
                                     <span class="font-bold text-unmsm-guinda text-lg">S/ 400.00</span>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -212,127 +222,268 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
-                        <p class="text-sm text-blue-800">
-                            <strong>Procedimiento:</strong> Generar ticket en
-                            <a href="https://sanmarket.unmsm.edu.pe" target="_blank"
-                                class="underline hover:text-blue-600">SanMarket-UNMSM</a>
-                            (registrarse con correo Gmail) y realizar el pago en BCP (App o agente) o Yape.
-                        </p>
+
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif mt-6">Procedimiento de pago de inscripción</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Paso 1: Generar ticket -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-start gap-3 mb-3">
+                                <span class="flex-shrink-0 w-8 h-8 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-800 mb-2">Generar ticket en SanMarket-UNMSM</h4>
+                                    <p class="text-sm text-gray-600 mb-3">Registrarse con correo de dominio Gmail.</p>
+                                </div>
+                            </div>
+                            <div class="w-full aspect-video rounded-lg overflow-hidden shadow-md">
+                                <iframe 
+                                    class="w-full h-full" 
+                                    src="https://www.youtube.com/embed/wDpbuHt1xg4" 
+                                    title="Tutorial: Generar ticket en SanMarket-UNMSM" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+
+                        <!-- Paso 2: Realizar el pago -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-start gap-3 mb-3">
+                                <span class="flex-shrink-0 w-8 h-8 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-800 mb-2">Realizar el pago en BCP o Yape</h4>
+                                    <p class="text-sm text-gray-600 mb-3">Puedes pagar a través de la App BCP, en un agente BCP o mediante Yape.</p>
+                                </div>
+                            </div>
+                            <div class="w-full aspect-video rounded-lg overflow-hidden shadow-md">
+                                <iframe 
+                                    class="w-full h-full" 
+                                    src="https://www.youtube.com/embed/feg7DN0pSLM" 
+                                    title="Tutorial: Realizar el pago en BCP o Yape" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Requisitos -->
+                <!-- Paso 2: Registrar comprobante -->
                 <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Requisitos para Postular</h3>
-
-                    <!-- Tabs para Maestría/Doctorado -->
-                    <div class="flex gap-2 mb-4">
-                        <button onclick="showTab('maestria')"
-                            class="tab-btn active px-4 py-2 rounded-lg font-medium transition bg-gray-200 text-gray-700"
-                            id="tab-maestria">
-                            Maestría
-                        </button>
-                        <button onclick="showTab('doctorado')"
-                            class="tab-btn px-4 py-2 rounded-lg font-medium transition bg-gray-200 text-gray-700"
-                            id="tab-doctorado">
-                            Doctorado
-                        </button>
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 2: Registrar el comprobante de pago</h3>
+                    
+                    <div class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-6">
+                        <p class="text-gray-700 text-sm">
+                            Con la finalidad de que usted pueda adjuntar el comprobante de pago y habilitar su inscripción, 
+                            ponemos a su disposición este módulo.
+                        </p>
                     </div>
 
-                    <!-- Contenido Maestría -->
-                    <div id="content-maestria" class="tab-content active">
-                        <ol class="space-y-4 text-gray-700 text-sm">
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
-                                <span>Registrar el formulario del Posgrado de Letras.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
-                                <div>
-                                    <span class="font-medium">Resumen de la hoja de vida del postulante.</span>
-                                    <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de acuerdo a los rubros del formato de hoja de vida del postulante (criterios de evaluación).</p>
-                                </div>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                                <span>Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor emitida por SUNEDU (*).</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
-                                <span>Anteproyecto de Investigación de acuerdo con la postulación (Modelo para Maestrías / Modelo para Maestría en Escritura Creativa).</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
-                                <span>Copia simple del documento de identidad (DNI, carné de extranjería o pasaporte).</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
-                                <span>Partida de nacimiento.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
-                                <span>Recibo de pago por derecho de inscripción, realizado a través de SanMarket-UNMSM, culminando en BCP (App o agente) o Yape.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
-                                <span>Una foto tamaño pasaporte con fondo blanco, sin gafas.</span>
-                            </li>
-                        </ol>
-                        <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 space-y-2">
-                            <p><strong>(*)</strong> Los postulantes que obtuvieron el grado de Bachiller en la Universidad Nacional Mayor de San Marcos solo presentarán copia simple.</p>
-                            <p>En el caso de graduados en el extranjero, los grados y títulos deberán estar revalidados o reconocidos según las normas vigentes.</p>
-                            <p>Solo las personas con discapacidad deberán presentar su carnet de CONADIS.</p>
+                    <h4 class="font-bold text-md text-gray-800 mb-3">Deberá tener en cuenta lo siguiente:</h4>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="text-gray-700 text-sm">
+                                El <strong>comprobante de pago</strong> que adjunte deberá ser <strong>legible</strong> y estar 
+                                <strong>a nombre de la Universidad Nacional Mayor de San Marcos</strong>, ya que estará sujeto a una verificación. 
+                                De no cumplir con estas especificaciones, su inscripción será invalidada así haya obtenido una vacante.
+                            </p>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="text-gray-700 text-sm">
+                                El pago por el derecho de admisión necesariamente tiene que ser realizado a través de la 
+                                <strong>plataforma de SanMarket</strong>.
+                            </p>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="text-gray-700 text-sm">
+                                El <strong>número de documento de identidad</strong> que especifique al momento de registrarse, 
+                                podrá ser usado una <strong>sola vez</strong>.
+                            </p>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="text-gray-700 text-sm">
+                                Deberá ingresar el <strong>Número de secuencia de pago</strong> que aparece en su comprobante de pago 
+                                para poder registrarse en el sistema.
+                            </p>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="text-gray-700 text-sm">
+                                Si tiene algún inconveniente en el registro, agradeceremos que nos pueda escribir 
+                                indicando sus nombres y apellidos y el número de documento de identidad al siguiente correo: 
+                                <a href="mailto:admision.dgep@unmsm.edu.pe" class="text-unmsm-guinda font-semibold hover:underline">
+                                    admision.dgep@unmsm.edu.pe
+                                </a>
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Contenido Doctorado -->
-                    <div id="content-doctorado" class="tab-content">
-                        <ol class="space-y-4 text-gray-700 text-sm">
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
-                                <span>Registrar el formulario del Posgrado de Letras.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
-                                <div>
-                                    <span class="font-medium">Resumen de la hoja de vida del postulante.</span>
-                                    <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de acuerdo a los rubros del formato de hoja de vida del postulante (criterios de evaluación).</p>
-                                </div>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                                <span>Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor emitida por SUNEDU (*).</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
-                                <span>Anteproyecto de Investigación de acuerdo con la postulación (Modelo para Doctorados).</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
-                                <span>Certificado de suficiencia de un idioma extranjero o lenguas originarias.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
-                                <span>Copia simple del documento de identidad (DNI, carné de extranjería o pasaporte).</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
-                                <span>Partida de nacimiento.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
-                                <span>Recibo de pago por derecho de inscripción, realizado a través de SanMarket-UNMSM, culminando en BCP (App o agente) o Yape.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">9</span>
-                                <span>Una foto tamaño pasaporte con fondo blanco, sin gafas.</span>
-                            </li>
-                        </ol>
-                        <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 space-y-2">
-                            <p><strong>(*)</strong> Los postulantes que obtuvieron el grado de Maestro o Doctor en la Universidad Nacional Mayor de San Marcos solo presentarán copia simple.</p>
-                            <p>En el caso de graduados en el extranjero, los grados y títulos deberán estar revalidados o reconocidos según las normas vigentes.</p>
-                            <p>Solo las personas con discapacidad deberán presentar su carnet de CONADIS.</p>
+                    <div class="bg-gray-50 border border-gray-300 rounded-lg p-4">
+                        <p class="text-gray-700 text-sm mb-2">
+                            <strong>Ingresar sus datos al siguiente enlace (necesitará el número de secuencia de su comprobante de pago):</strong>
+                        </p>
+                        <a href="https://posgrado.unmsm.edu.pe/admision/registro/index.php" 
+                           target="_blank"
+                           class="text-unmsm-guinda hover:underline break-all">
+                           https://posgrado.unmsm.edu.pe/admision/registro/index.php
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Paso 3: Requisitos -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-6 font-serif">Paso 3: Enviar los requisitos para postular a los programas de Maestría y Doctorado</h3>
+
+                    <!-- MAESTRÍA -->
+                    <div class="mb-8">
+                        <div class="bg-unmsm-guinda text-white p-4 rounded-t-lg">
+                            <h4 class="font-bold text-lg">MAESTRÍA</h4>
+                        </div>
+                        <div class="border border-gray-200 rounded-b-lg p-4">
+                            <ol class="space-y-4 text-gray-700 text-sm">
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                    <span>Registrar el formulario del Posgrado de Letras.</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                    <div>
+                                        <span class="font-medium">Resumen de la hoja de vida del postulante.</span>
+                                        <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de
+                                            acuerdo a los rubros del formato de hoja de vida del postulante (criterios de
+                                            evaluación).</p>
+                                    </div>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                    <span>Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor emitida
+                                        por SUNEDU (*).</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                                    <span>Anteproyecto de Investigación de acuerdo con la postulación (Modelo para Maestrías /
+                                        Modelo para Maestría en Escritura Creativa).</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
+                                    <span>Copia simple del documento de identidad (DNI, carné de extranjería o
+                                        pasaporte).</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
+                                    <span>Partida de nacimiento.</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
+                                    <span>Recibo de pago por derecho de inscripción, realizado a través de SanMarket-UNMSM,
+                                        culminando en BCP (App o agente) o Yape.</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
+                                    <span>Una foto tamaño pasaporte con fondo blanco, sin gafas.</span>
+                                </li>
+                            </ol>
+                            <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 space-y-2">
+                                <p><strong>(*)</strong> Los postulantes que obtuvieron el grado de Bachiller en la Universidad
+                                    Nacional Mayor de San Marcos solo presentarán copia simple.</p>
+                                <p>En el caso de graduados en el extranjero, los grados y títulos deberán estar revalidados o
+                                    reconocidos según las normas vigentes.</p>
+                                <p>Solo las personas con discapacidad deberán presentar su carnet de CONADIS.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DOCTORADO -->
+                    <div>
+                        <div class="bg-gray-800 text-white p-4 rounded-t-lg">
+                            <h4 class="font-bold text-lg">DOCTORADO</h4>
+                        </div>
+                        <div class="border border-gray-200 rounded-b-lg p-4">
+                            <ol class="space-y-4 text-gray-700 text-sm">
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                    <span>Registrar el formulario del Posgrado de Letras.</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                    <div>
+                                        <span class="font-medium">Resumen de la hoja de vida del postulante.</span>
+                                        <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de
+                                            acuerdo a los rubros del formato de hoja de vida del postulante (criterios de
+                                            evaluación).</p>
+                                    </div>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                    <span>Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor emitida
+                                        por SUNEDU (*).</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                                    <span>Anteproyecto de Investigación de acuerdo con la postulación (Modelo para
+                                        Doctorados).</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
+                                    <span>Certificado de suficiencia de un idioma extranjero o lenguas originarias.</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
+                                    <span>Copia simple del documento de identidad (DNI, carné de extranjería o
+                                        pasaporte).</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
+                                    <span>Partida de nacimiento.</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
+                                    <span>Recibo de pago por derecho de inscripción, realizado a través de SanMarket-UNMSM,
+                                        culminando en BCP (App o agente) o Yape.</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">9</span>
+                                    <span>Una foto tamaño pasaporte con fondo blanco, sin gafas.</span>
+                                </li>
+                            </ol>
+                            <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 space-y-2">
+                                <p><strong>(*)</strong> Los postulantes que obtuvieron el grado de Maestro o Doctor en la
+                                    Universidad Nacional Mayor de San Marcos solo presentarán copia simple.</p>
+                                <p>En el caso de graduados en el extranjero, los grados y títulos deberán estar revalidados o
+                                    reconocidos según las normas vigentes.</p>
+                                <p>Solo las personas con discapacidad deberán presentar su carnet de CONADIS.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -347,9 +498,11 @@
 
                     <div class="bg-red-50 border border-red-300 rounded-lg p-4 mb-4">
                         <p class="text-red-800">
-                            Enviar los documentos al correo: 
-                            <a href="mailto:posgrado-letras@unmsm.site" class="font-bold underline hover:text-red-600">posgrado-letras@unmsm.site</a> 
-                            <span class="font-medium">(único correo)</span> hasta la <strong>1:00 pm del 02 de abril del 2026</strong>.
+                            Enviar los documentos al correo:
+                            <a href="mailto:posgrado-letras@unmsm.site"
+                                class="font-bold underline hover:text-red-600">posgrado-letras@unmsm.site</a>
+                            <span class="font-medium">(único correo)</span> hasta la <strong>1:00 pm del 02 de abril del
+                                2026</strong>.
                         </p>
                         <p class="text-red-700 text-sm mt-2 font-medium">
                             No se recibirán documentos posteriores a la fecha y hora señalada.
@@ -371,7 +524,8 @@
                                     </li>
                                     <li class="flex items-start gap-2">
                                         <span class="text-unmsm-guinda">•</span>
-                                        <span>Formato de hoja de vida con código de postulante, constancia SUNEDU, certificado de suficiencia.</span>
+                                        <span>Formato de hoja de vida con código de postulante, constancia SUNEDU,
+                                            certificado de suficiencia.</span>
                                     </li>
                                     <li class="flex items-start gap-2">
                                         <span class="text-unmsm-guinda">•</span>
@@ -410,8 +564,10 @@
                     <div class="bg-green-50 border border-green-200 rounded-lg p-5">
                         <div class="flex items-center gap-4 mb-3">
                             <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
                             <div>
@@ -425,9 +581,12 @@
                     </div>
 
                     <p class="text-gray-600 text-sm mt-4">
-                        Cualquier información adicional, pueden revisar la página de la Dirección General de Estudios de Posgrado 
-                        <a href="https://posgrado.unmsm.edu.pe/" target="_blank" class="text-unmsm-guinda font-medium hover:underline">https://posgrado.unmsm.edu.pe/</a>, 
-                        si hubiera otra consulta escribir al correo <a href="mailto:posgrado-letras@unmsm.site" class="text-unmsm-guinda font-medium hover:underline">posgrado-letras@unmsm.site</a>.
+                        Cualquier información adicional, pueden revisar la página de la Dirección General de Estudios de
+                        Posgrado
+                        <a href="https://posgrado.unmsm.edu.pe/" target="_blank"
+                            class="text-unmsm-guinda font-medium hover:underline">https://posgrado.unmsm.edu.pe/</a>,
+                        si hubiera otra consulta escribir al correo <a href="mailto:posgrado-letras@unmsm.site"
+                            class="text-unmsm-guinda font-medium hover:underline">posgrado-letras@unmsm.site</a>.
                     </p>
                 </div>
 

@@ -14,15 +14,15 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
-        pdo_mysql \
-        mbstring \
-        exif \
-        pcntl \
-        bcmath \
-        gd \
-        zip \
-        intl \
-        opcache \
+    pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    zip \
+    intl \
+    opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instalar Composer desde la imagen oficial
@@ -35,6 +35,9 @@ WORKDIR /var/www/html
 RUN useradd -G www-data,root -u 1000 -d /home/laravel laravel && \
     mkdir -p /home/laravel/.composer && \
     chown -R laravel:laravel /home/laravel
+
+# Copiar configuración PHP personalizada (aumentar límites de subida)
+COPY php.ini /usr/local/etc/php/conf.d/99-custom.ini
 
 # Cambiar al usuario laravel
 USER laravel

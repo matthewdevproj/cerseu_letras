@@ -31,7 +31,7 @@ class AdminDocenteController extends Controller
             $query->where('grado', 'like', $request->grado . '%');
         }
 
-        $docentes = $query->ordenados()->paginate(15)->withQueryString();
+        $docentes = $query->ordenados()->get();
 
         return view('admin.docentes.index', compact('docentes'));
     }
@@ -55,13 +55,14 @@ class AdminDocenteController extends Controller
             'apellidos' => 'required|string|max:255',
             'grado' => 'nullable|string|max:100',
             'email' => 'nullable|email|max:255',
-            'telefono' => 'nullable|string|max:50',
             'orcid' => 'nullable|string|max:255',
             'cti_vitae' => 'nullable|url',
             'linkedin' => 'nullable|url',
             'biografia' => 'nullable|string',
             'lineas_investigacion' => 'nullable|string',
-            'grupo_investigacion' => 'nullable|string|max:255',
+            'grupo_investigacion' => 'nullable|array',
+            'grupo_investigacion.nombre' => 'nullable|string|max:255',
+            'grupo_investigacion.link' => 'nullable|url|max:255',
             'foto' => 'nullable|image|max:2048',
             'estado' => 'boolean',
             'programas' => 'nullable|array',
@@ -104,13 +105,14 @@ class AdminDocenteController extends Controller
             'apellidos' => 'required|string|max:255',
             'grado' => 'nullable|string|max:100',
             'email' => 'nullable|email|max:255',
-            'telefono' => 'nullable|string|max:50',
             'orcid' => 'nullable|string|max:255',
             'cti_vitae' => 'nullable|url',
             'linkedin' => 'nullable|url',
             'biografia' => 'nullable|string',
             'lineas_investigacion' => 'nullable|string',
-            'grupo_investigacion' => 'nullable|string|max:255',
+            'grupo_investigacion' => 'nullable|array',
+            'grupo_investigacion.nombre' => 'nullable|string|max:255',
+            'grupo_investigacion.link' => 'nullable|url|max:255',
             'foto' => 'nullable|image|max:2048',
             'estado' => 'boolean',
             // Nota: La asignación de programas se gestiona desde la vista de edición de programas

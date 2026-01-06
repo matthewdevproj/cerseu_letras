@@ -10,7 +10,6 @@ class Docente extends Model
         'nombres',
         'apellidos',
         'grado',
-        'especialidad',
         'email',
         'orcid',
         'cti_vitae',
@@ -25,6 +24,7 @@ class Docente extends Model
     protected $casts = [
         'estado' => 'integer',
         'lineas_investigacion' => 'array',
+        'grupo_investigacion' => 'array',
     ];
 
     // Relaciones

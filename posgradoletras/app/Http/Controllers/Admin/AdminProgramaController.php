@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Programa;
+use App\Models\Docente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -11,202 +12,202 @@ use Illuminate\Support\Facades\Storage;
 class AdminProgramaController extends Controller
 {
     /**
-     * Display a listing of programas.
+     * Display a listing of programs.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $query = Programa::query();
-
-        // Search by name
-        if ($request->filled('search')) {
-            $query->where('nombre', 'like', '%' . $request->search . '%');
-        }
-
-        // Filter by type (grado)
-        if ($request->filled('tipo')) {
-            $tipoMap = [
-                'maestria' => 'Maestría',
-                'doctorado' => 'Doctorado',
-            ];
-            if (isset($tipoMap[$request->tipo])) {
-                $query->where('grado', $tipoMap[$request->tipo]);
-            }
-        }
-
-        $programas = $query->orderBy('grado')->orderBy('nombre')->paginate(15)->withQueryString();
-
+        $programas = Programa::orderBy('nombre')->get();
         return view('admin.programas.index', compact('programas'));
     }
 
     /**
-     * Show the form for creating a new programa.
+     * Show the form for creating a new program.
      */
     public function create()
     {
-        $docentes = \App\Models\Docente::where('estado', 1)->orderBy('apellidos')->get();
+        $docentes = Docente::orderBy('apellidos')->get();
         return view('admin.programas.create', compact('docentes'));
     }
 
     /**
-     * Store a newly created programa in storage.
+     * Store a newly created program.
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'nombre' => 'required|max:255',
             'grado' => 'required|in:Maestría,Doctorado',
-            'nombre' => 'required|string|max:255',
-            'mencion' => 'nullable|string|max:255',
-            'modalidad' => 'nullable|string|max:100',
-            'vacantes' => 'nullable|integer|min:0',
-            'duracion' => 'nullable|integer|min:1',
-            'creditos' => 'nullable|integer|min:0',
-            'grado_otorga' => 'nullable|string|max:255',
-            'plan_url' => 'nullable|url',
-            'por_que_text' => 'nullable|string',
-            'presentacion' => 'nullable|string',
-            'perfil_egresado' => 'nullable|string',
-            'plan_estudios' => 'nullable|json',
+            'mencion' => 'nullable|max:255',
+            'modalidad' => 'nullable|max:100',
+            'duracion' => 'nullable|integer',
+            'vacantes' => 'nullable|integer',
+            'creditos' => 'nullable|integer',
+            'objetivos_academicos' => 'nullable', // JSON array string
+            'perfil_ingresante' => 'nullable',    // JSON array string
+            'perfil_graduado' => 'nullable',      // JSON array string
+            'plan_url' => 'nullable|max:255',
+            'horario_url' => 'nullable|max:255',
+            'plan_estudios' => 'nullable',         // JSON array string
+            'slug' => 'nullable|unique:programas,slug',
+            'imagen_url' => 'nullable|max:255',
             'sumilla' => 'nullable|string',
-            'descripcion' => 'nullable|string',
-            'imagen' => 'nullable|image|max:2048',
+            'por_que_text' => 'nullable|string',
             'is_active' => 'boolean',
         ]);
 
-        // Handle image upload
-        if ($request->hasFile('imagen')) {
-            $validated['imagen'] = $request->file('imagen')->store('programas', 'public');
+        $data = $validated;
+
+        // Decode JSON fields
+        if (isset($data['objetivos_academicos']) && is_string($data['objetivos_academicos'])) {
+            $data['objetivos_academicos'] = json_decode($data['objetivos_academicos'], true) ?: [];
+        }
+        if (isset($data['perfil_ingresante']) && is_string($data['perfil_ingresante'])) {
+            $data['perfil_ingresante'] = json_decode($data['perfil_ingresante'], true) ?: [];
+        }
+        if (isset($data['perfil_graduado']) && is_string($data['perfil_graduado'])) {
+            $data['perfil_graduado'] = json_decode($data['perfil_graduado'], true) ?: [];
+        }
+        if (isset($data['plan_estudios']) && is_string($data['plan_estudios'])) {
+            $data['plan_estudios'] = json_decode($data['plan_estudios'], true) ?: [];
         }
 
-        // Generate unique slug from nombre
-        $validated['slug'] = $this->generateUniqueSlug($validated['nombre']);
+        // Generate slug if not provided
+        if (empty($data['slug'])) {
+            $data['slug'] = Str::slug($data['nombre']);
 
-        Programa::create($validated);
+            // Ensure uniqueness
+            $originalSlug = $data['slug'];
+            $count = 1;
+            while (Programa::where('slug', $data['slug'])->exists()) {
+                $data['slug'] = $originalSlug . '-' . $count++;
+            }
+        }
+
+        if ($request->has('imagen_url')) {
+            $data['imagen'] = $validated['imagen_url'];
+            unset($data['imagen_url']);
+        }
+
+        $programa = Programa::create($data);
+
+        // Docentes sync (using parallel arrays from form)
+        if ($request->has('docentes_asignados')) {
+            $docentesData = [];
+            foreach ($request->docentes_asignados as $index => $docenteId) {
+                if ($docenteId) {
+                    $docentesData[$docenteId] = [
+                        'es_coordinador' => ($request->docentes_coordinador[$index] ?? '0') == '1',
+                        'rol' => $request->docentes_rol[$index] ?? null,
+                        'orden' => $request->docentes_orden[$index] ?? 0
+                    ];
+                }
+            }
+            $programa->docentes()->sync($docentesData);
+        }
 
         return redirect()->route('admin.programas.index')
             ->with('success', 'Programa creado exitosamente.');
     }
 
     /**
-     * Generate a unique slug from the program name.
-     */
-    private function generateUniqueSlug(string $nombre, ?int $excludeId = null): string
-    {
-        $baseSlug = Str::slug($nombre);
-        $slug = $baseSlug;
-        $counter = 1;
-
-        $query = Programa::where('slug', $slug);
-        if ($excludeId) {
-            $query->where('id', '!=', $excludeId);
-        }
-
-        while ($query->exists()) {
-            $counter++;
-            $slug = $baseSlug . '-' . $counter;
-            $query = Programa::where('slug', $slug);
-            if ($excludeId) {
-                $query->where('id', '!=', $excludeId);
-            }
-        }
-
-        return $slug;
-    }
-
-    /**
-     * Show the form for editing the specified programa.
+     * Show the form for editing the specified program.
      */
     public function edit(Programa $programa)
     {
-        $docentes = \App\Models\Docente::where('estado', 1)->orderBy('apellidos')->get();
-        $programa->load('docentes');
+        $docentes = Docente::orderBy('apellidos')->get();
         return view('admin.programas.edit', compact('programa', 'docentes'));
     }
 
     /**
-     * Update the specified programa in storage.
+     * Update the specified program.
      */
     public function update(Request $request, Programa $programa)
     {
         $validated = $request->validate([
-
+            'nombre' => 'required|max:255',
             'grado' => 'required|in:Maestría,Doctorado',
-            'nombre' => 'required|string|max:255',
-            'mencion' => 'nullable|string|max:255',
-            'modalidad' => 'nullable|string|max:100',
-            'vacantes' => 'nullable|integer|min:0',
-            'duracion' => 'nullable|integer|min:1',
-            'creditos' => 'nullable|integer|min:0',
-            'grado_otorga' => 'nullable|string|max:255',
-            'plan_url' => 'nullable|url',
-            'por_que_text' => 'nullable|string',
-            'presentacion' => 'nullable|string',
-            'perfil_egresado' => 'nullable|string',
-            'plan_estudios' => 'nullable|json',
+            'mencion' => 'nullable|max:255',
+            'modalidad' => 'nullable|max:100',
+            'duracion' => 'nullable|integer',
+            'vacantes' => 'nullable|integer',
+            'creditos' => 'nullable|integer',
+            'grado_otorga' => 'nullable|max:255',
+            'objetivos_academicos' => 'nullable', // JSON array string
+            'perfil_ingresante' => 'nullable',    // JSON array string
+            'perfil_graduado' => 'nullable',      // JSON array string
+            'plan_url' => 'nullable|max:255',
+            'horario_url' => 'nullable|max:255',
+            'plan_estudios' => 'nullable',         // JSON array string
+            'slug' => 'nullable|unique:programas,slug,' . $programa->id, // Nullable to avoid validation failure if missing from form
+            'imagen_url' => 'nullable|max:255',
             'sumilla' => 'nullable|string',
-            'descripcion' => 'nullable|string',
-            'imagen' => 'nullable|image|max:2048',
+            'por_que_text' => 'nullable|string',
             'is_active' => 'boolean',
-            // Docentes validation
-            'docentes_asignados' => 'nullable|array',
-            'docentes_asignados.*' => 'nullable|exists:docentes,id',
-            'docentes_rol' => 'nullable|array',
-            'docentes_orden' => 'nullable|array',
-            'docentes_coordinador' => 'nullable|array',
         ]);
 
-        // Handle image upload
-        if ($request->hasFile('imagen')) {
-            // Delete old image
-            if ($programa->imagen) {
-                Storage::disk('public')->delete($programa->imagen);
-            }
-            $validated['imagen'] = $request->file('imagen')->store('programas', 'public');
+        $data = $validated;
+
+        // Decode JSON fields
+        if (isset($data['objetivos_academicos']) && is_string($data['objetivos_academicos'])) {
+            $data['objetivos_academicos'] = json_decode($data['objetivos_academicos'], true) ?: [];
+        }
+        if (isset($data['perfil_ingresante']) && is_string($data['perfil_ingresante'])) {
+            $data['perfil_ingresante'] = json_decode($data['perfil_ingresante'], true) ?: [];
+        }
+        if (isset($data['perfil_graduado']) && is_string($data['perfil_graduado'])) {
+            $data['perfil_graduado'] = json_decode($data['perfil_graduado'], true) ?: [];
+        }
+        if (isset($data['plan_estudios']) && is_string($data['plan_estudios'])) {
+            $data['plan_estudios'] = json_decode($data['plan_estudios'], true) ?: [];
         }
 
-        // Remove docentes arrays from validated to prevent mass assignment issues
-        unset($validated['docentes_asignados']);
-        unset($validated['docentes_rol']);
-        unset($validated['docentes_orden']);
-        unset($validated['docentes_coordinador']);
+        // Update slug if nombre changed and slug not manually provided
+        if (empty($data['slug']) && $programa->nombre !== $data['nombre']) {
+            $data['slug'] = Str::slug($data['nombre']);
 
-        $programa->update($validated);
-
-        // Sync docentes with pivot data
-        $docentesAsignados = $request->input('docentes_asignados', []);
-        $docentesRol = $request->input('docentes_rol', []);
-        $docentesOrden = $request->input('docentes_orden', []);
-        $docentesCoordinador = $request->input('docentes_coordinador', []);
-
-        $syncData = [];
-        foreach ($docentesAsignados as $index => $docenteId) {
-            if (!empty($docenteId)) {
-                $syncData[$docenteId] = [
-                    'rol' => $docentesRol[$index] ?? null,
-                    'orden' => !empty($docentesOrden[$index]) ? (int) $docentesOrden[$index] : null,
-                    'es_coordinador' => isset($docentesCoordinador[$index]) && $docentesCoordinador[$index] ? 1 : 0,
-                ];
+            // Ensure uniqueness
+            $originalSlug = $data['slug'];
+            $count = 1;
+            while (Programa::where('slug', $data['slug'])->where('id', '!=', $programa->id)->exists()) {
+                $data['slug'] = $originalSlug . '-' . $count++;
             }
         }
 
-        $programa->docentes()->sync($syncData);
+        if ($request->has('imagen_url')) {
+            $data['imagen'] = $validated['imagen_url'];
+            unset($data['imagen_url']);
+        }
+
+        $programa->update($data);
+
+        // Docentes sync (using parallel arrays from form)
+        if ($request->has('docentes_asignados')) {
+            $docentesData = [];
+            foreach ($request->docentes_asignados as $index => $docenteId) {
+                if ($docenteId) {
+                    $docentesData[$docenteId] = [
+                        'es_coordinador' => ($request->docentes_coordinador[$index] ?? '0') == '1',
+                        'rol' => $request->docentes_rol[$index] ?? null,
+                        'orden' => $request->docentes_orden[$index] ?? 0
+                    ];
+                }
+            }
+            $programa->docentes()->sync($docentesData);
+        } else {
+            $programa->docentes()->detach();
+        }
 
         return redirect()->route('admin.programas.index')
             ->with('success', 'Programa actualizado exitosamente.');
     }
 
     /**
-     * Remove the specified programa from storage.
+     * Remove the specified program.
      */
     public function destroy(Programa $programa)
     {
-        // Detach all docentes first to avoid foreign key constraint
-        $programa->docentes()->detach();
-
-        // Set programa_id to null for associated testimonios (orphan them, don't delete)
-        $programa->testimonios()->update(['programa_id' => null]);
-
-        // Delete image if exists
-        if ($programa->imagen) {
+        // Delete related image if exists and starts with programs/
+        if ($programa->imagen && str_contains($programa->imagen, 'programas/')) {
             Storage::disk('public')->delete($programa->imagen);
         }
 

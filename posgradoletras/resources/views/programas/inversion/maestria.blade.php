@@ -8,8 +8,8 @@
     $semestres = [
         1 => ['matricula' => 310, 'creditos' => 14],
         2 => ['matricula' => 400, 'creditos' => 16],
-        3 => ['matricula' => 400, 'creditos' => 16],
-        4 => ['matricula' => 400, 'creditos' => 16],
+        3 => ['matricula' => 400, 'creditos' => 20],
+        4 => ['matricula' => 400, 'creditos' => 22],
     ];
 
     // Calcular totales
@@ -81,7 +81,7 @@
         <div class="flex justify-center">
             <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm inline-block min-w-[200px]">
                 <div class="bg-unmsm-guinda text-white text-center py-5 px-8">
-                    <span class="text-3xl font-bold">S/ {{ number_format($costoPorCredito, 0, ',', ' ') }}</span>
+                    <span class="text-3xl font-bold">S/&nbsp;{{ number_format($costoPorCredito, 0) }}</span>
                 </div>
                 <div class="bg-white text-center py-3 px-4">
                     <p class="text-sm text-gray-600 font-medium">Costo por crédito</p>
@@ -100,7 +100,7 @@
         <div class="flex justify-center">
             <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm inline-block min-w-[220px]">
                 <div class="bg-unmsm-guinda text-white text-center py-5 px-8">
-                    <span class="text-3xl font-bold">S/ {{ number_format($costoTotal, 0, ',', ' ') }}</span>
+                    <span class="text-3xl font-bold">S/&nbsp;{{ number_format($costoTotal, 0) }}</span>
                 </div>
                 <div class="bg-white text-center py-3 px-4">
                     <p class="text-sm text-gray-600 font-medium">Costo total</p>
@@ -127,8 +127,7 @@
                         <tbody class="divide-y divide-gray-100">
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3 text-gray-600">Matrícula</td>
-                                <td class="px-4 py-3 text-right font-semibold text-gray-900">S/
-                                    {{ number_format($datos['matricula'], 0, ',', ' ') }}</td>
+                                <td class="px-4 py-3 text-right font-semibold text-gray-900">S/&nbsp;{{ number_format($datos['matricula'], 0) }}</td>
                             </tr>
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3 text-gray-600">N° de créditos</td>
@@ -136,13 +135,11 @@
                             </tr>
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3 text-gray-600">Costo por semestre</td>
-                                <td class="px-4 py-3 text-right font-semibold text-gray-900">S/
-                                    {{ number_format($datos['costoSemestre'], 0, ',', ' ') }}</td>
+                                <td class="px-4 py-3 text-right font-semibold text-gray-900">S/&nbsp;{{ number_format($datos['costoSemestre'], 0) }}</td>
                             </tr>
                             <tr class="bg-unmsm-guinda/5">
                                 <td class="px-4 py-3 text-gray-700 font-medium">Cuota mensual (4 cuotas)</td>
-                                <td class="px-4 py-3 text-right font-bold text-unmsm-guinda">S/
-                                    {{ number_format($datos['cuotaMensual'], 0, ',', ' ') }}</td>
+                                <td class="px-4 py-3 text-right font-bold text-unmsm-guinda">S/&nbsp;{{ number_format($datos['cuotaMensual'], 0) }}</td>
                             </tr>
                         </tbody>
                     </table>

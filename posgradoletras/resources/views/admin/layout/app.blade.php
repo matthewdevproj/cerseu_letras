@@ -241,11 +241,25 @@
                 <span>Testimonios</span>
             </a>
 
+            <a href="{{ route('admin.documents.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.documents.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <i
+                    class="fas fa-folder-open w-5 text-lg {{ request()->routeIs('admin.documents.*') ? '' : 'text-gray-500' }}"></i>
+                <span>Documentos</span>
+            </a>
+
             <a href="{{ route('admin.directorio.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.directorio.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
                 <i
                     class="fas fa-address-book w-5 text-lg {{ request()->routeIs('admin.directorio.*') ? '' : 'text-gray-500' }}"></i>
                 <span>Directorio</span>
+            </a>
+
+            <a href="{{ route('admin.cronograma.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.cronograma.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <i
+                    class="fas fa-calendar-alt w-5 text-lg {{ request()->routeIs('admin.cronograma.*') ? '' : 'text-gray-500' }}"></i>
+                <span>Cronograma</span>
             </a>
 
             <a href="{{ route('admin.settings.index') }}"

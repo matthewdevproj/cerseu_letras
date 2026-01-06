@@ -32,7 +32,7 @@ class AdminDirectorioController extends Controller
 
         $directorio = $query->orderBy('unidad_nombre')
             ->orderBy('orden')
-            ->paginate(15);
+            ->get();
 
         $unidades = DirectorioPosgrado::distinct()->pluck('unidad_nombre');
 

@@ -35,6 +35,12 @@ Route::get('/admision', [AdmisionController::class, 'index'])->name('admision');
 // Trámites
 Route::get('/tramites', [TramiteController::class, 'index'])->name('tramites');
 
+// Cronograma Académico
+Route::get('/cronograma', function () {
+    $cronograma = \App\Models\Cronograma::getActive();
+    return view('cronograma.index', compact('cronograma'));
+})->name('cronograma');
+
 // Nosotros
 Route::get('/nosotros', [NosotrosController::class, 'index'])->name('nosotros');
 
@@ -78,6 +84,15 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     // Site Settings
     Route::get('settings', [App\Http\Controllers\Admin\AdminSiteSettingsController::class, 'index'])->name('settings.index');
     Route::put('settings', [App\Http\Controllers\Admin\AdminSiteSettingsController::class, 'update'])->name('settings.update');
+
+    // Documents Management
+    Route::post('documents/upload-ajax', [App\Http\Controllers\Admin\AdminDocumentController::class, 'uploadAjax'])->name('documents.uploadAjax');
+    Route::resource('documents', App\Http\Controllers\Admin\AdminDocumentController::class);
+    Route::post('documents/{document}/toggle', [App\Http\Controllers\Admin\AdminDocumentController::class, 'togglePublished'])->name('documents.toggle');
+
+    // Cronograma Management
+    Route::get('cronograma', [App\Http\Controllers\Admin\AdminCronogramaController::class, 'index'])->name('cronograma.index');
+    Route::put('cronograma', [App\Http\Controllers\Admin\AdminCronogramaController::class, 'update'])->name('cronograma.update');
 });
 
 // Breeze default routes (Profile)

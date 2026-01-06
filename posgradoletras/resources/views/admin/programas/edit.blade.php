@@ -52,6 +52,12 @@
             color: white !important;
             box-shadow: 0 8px 18px rgba(118, 30, 35, 0.25);
         }
+        .nav-tabs .nav-link.active i {
+            color: white !important;
+        }
+        .nav-tabs .nav-link i {
+            color: inherit;
+        }
 
         /* Labels */
         .form-label {
@@ -331,20 +337,47 @@
                                     <textarea name="sumilla" id="sumilla" rows="3" class="block w-full py-2.5 px-4" placeholder="Breve descripción del programa...">{{ old('sumilla', $programa->sumilla) }}</textarea>
                                 </div>
                                 <div>
-                                    <label for="descripcion" class="form-label block">Descripción</label>
-                                    <textarea name="descripcion" id="descripcion" rows="4" class="block w-full py-2.5 px-4" placeholder="Descripción detallada...">{{ old('descripcion', $programa->descripcion) }}</textarea>
-                                </div>
-                                <div>
-                                    <label for="presentacion" class="form-label block">Presentación</label>
-                                    <textarea name="presentacion" id="presentacion" rows="4" class="block w-full py-2.5 px-4" placeholder="Presentación del programa...">{{ old('presentacion', $programa->presentacion) }}</textarea>
-                                </div>
-                                <div>
                                     <label for="por_que_text" class="form-label block">¿Por qué elegir este programa?</label>
                                     <textarea name="por_que_text" id="por_que_text" rows="4" class="block w-full py-2.5 px-4" placeholder="Razones para elegir...">{{ old('por_que_text', $programa->por_que_text) }}</textarea>
                                 </div>
-                                <div>
-                                    <label for="perfil_egresado" class="form-label block">Perfil del Egresado</label>
-                                    <textarea name="perfil_egresado" id="perfil_egresado" rows="4" class="block w-full py-2.5 px-4" placeholder="Competencias del egresado...">{{ old('perfil_egresado', $programa->perfil_egresado) }}</textarea>
+
+                                <!-- Objetivos Académicos (JSON) -->
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <label class="form-label block mb-3">
+                                        <i class="fas fa-bullseye mr-1"></i> Objetivos Académicos
+                                    </label>
+                                    <div id="objetivos-list" class="space-y-2"></div>
+                                    <button type="button" onclick="agregarObjetivo()" 
+                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                        <i class="fas fa-plus mr-1"></i> Agregar Objetivo
+                                    </button>
+                                    <input type="hidden" id="objetivos_academicos" name="objetivos_academicos">
+                                </div>
+
+                                <!-- Perfil del Ingresante (JSON) -->
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <label class="form-label block mb-3">
+                                        <i class="fas fa-user-graduate mr-1"></i> Perfil del Ingresante
+                                    </label>
+                                    <div id="ingresante-list" class="space-y-2"></div>
+                                    <button type="button" onclick="agregarIngresante()" 
+                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                        <i class="fas fa-plus mr-1"></i> Agregar Item
+                                    </button>
+                                    <input type="hidden" id="perfil_ingresante" name="perfil_ingresante">
+                                </div>
+
+                                <!-- Perfil del Graduado (JSON) -->
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <label class="form-label block mb-3">
+                                        <i class="fas fa-award mr-1"></i> Perfil del Graduado
+                                    </label>
+                                    <div id="graduado-list" class="space-y-2"></div>
+                                    <button type="button" onclick="agregarGraduado()" 
+                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                        <i class="fas fa-plus mr-1"></i> Agregar Item
+                                    </button>
+                                    <input type="hidden" id="perfil_graduado" name="perfil_graduado">
                                 </div>
                             </div>
                         </div>
@@ -411,22 +444,87 @@
 
                         <!-- TAB 5: Configuración -->
                         <div id="config" class="tab-pane hidden">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="plan_url" class="form-label block">URL Plan de Estudios (PDF)</label>
-                                    <input type="url" name="plan_url" id="plan_url" value="{{ old('plan_url', $programa->plan_url) }}"
-                                        class="block w-full py-2.5 px-4">
+                            <div class="space-y-6">
+                                <!-- Plan de Estudios -->
+                                <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-red hover:shadow-sm transition-all">
+                                    <label class="form-label block mb-3">
+                                        <i class="fas fa-book text-brand-red mr-1"></i> Plan de Estudios
+                                    </label>
+                                    <div class="flex gap-3 items-end">
+                                        <div class="flex-1">
+                                            <label class="text-xs text-gray-500 mb-1 block">URL del Plan</label>
+                                            <input type="url" name="plan_url" id="plan_url" value="{{ old('plan_url', $programa->plan_url) }}"
+                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:border-brand-red transition-colors"
+                                                placeholder="https://ejemplo.com/plan.pdf">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <input type="file" id="plan_file" accept=".pdf,application/pdf" class="hidden">
+                                            <button type="button" onclick="document.getElementById('plan_file').click()"
+                                                class="px-4 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-all flex items-center gap-2">
+                                                <i class="fas fa-upload"></i> Subir PDF
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="plan_status" class="mt-2 text-xs hidden"></div>
                                 </div>
-                                <div>
-                                    <label for="imagen" class="form-label block">Imagen</label>
-                                    @if($programa->imagen)
-                                        <div class="mb-3 p-3 bg-gray-50 rounded-lg border flex items-center gap-4">
-                                            <img src="{{ asset('storage/' . $programa->imagen) }}" alt="Imagen actual" class="w-20 h-14 object-cover rounded-lg">
-                                            <span class="text-xs text-gray-500">Imagen actual</span>
+
+                                <!-- Horario -->
+                                <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-red hover:shadow-sm transition-all">
+                                    <label class="form-label block mb-3">
+                                        <i class="fas fa-calendar-alt text-brand-red mr-1"></i> Horario
+                                    </label>
+                                    @if($programa->horario_url)
+                                        <div class="mb-3 p-3 bg-green-50 rounded-lg border border-green-200 flex items-center gap-4" id="horario_current">
+                                            <i class="fas fa-file-pdf text-red-600 text-2xl"></i>
+                                            <a href="{{ filter_var($programa->horario_url, FILTER_VALIDATE_URL) ? $programa->horario_url : asset('storage/' . $programa->horario_url) }}" target="_blank" class="text-sm text-blue-600 hover:underline font-medium">Ver horario actual</a>
                                         </div>
                                     @endif
-                                    <input type="file" name="imagen" id="imagen" accept="image/*"
-                                        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:bg-brand-gold file:text-white">
+                                    <div class="flex gap-3 items-end">
+                                        <div class="flex-1">
+                                            <label class="text-xs text-gray-500 mb-1 block">URL del Horario</label>
+                                            <input type="url" name="horario_url" id="horario_url" value="{{ old('horario_url', filter_var($programa->horario_url, FILTER_VALIDATE_URL) ? $programa->horario_url : '') }}"
+                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:border-brand-red transition-colors"
+                                                placeholder="https://ejemplo.com/horario.pdf">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <input type="file" id="horario_file" accept=".pdf,application/pdf" class="hidden">
+                                            <button type="button" onclick="document.getElementById('horario_file').click()"
+                                                class="px-4 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-all flex items-center gap-2">
+                                                <i class="fas fa-upload"></i> Subir PDF
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="horario_status" class="mt-2 text-xs hidden"></div>
+                                </div>
+
+                                <!-- Imagen del Programa -->
+                                <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-red hover:shadow-sm transition-all">
+                                    <label class="form-label block mb-3">
+                                        <i class="fas fa-image text-brand-red mr-1"></i> Imagen del Programa
+                                    </label>
+                                    @if($programa->imagen)
+                                        <div class="mb-3 p-3 bg-blue-50 rounded-lg border border-blue-200 flex items-center gap-4" id="imagen_current">
+                                            <img src="{{ filter_var($programa->imagen, FILTER_VALIDATE_URL) ? $programa->imagen : asset('storage/' . $programa->imagen) }}" alt="Imagen actual" class="w-20 h-14 object-cover rounded-lg shadow">
+                                            <span class="text-xs text-gray-600">Imagen actual</span>
+                                        </div>
+                                    @endif
+                                    <div class="flex gap-3 items-end">
+                                        <div class="flex-1">
+                                            <label class="text-xs text-gray-500 mb-1 block">URL de la Imagen</label>
+                                            <input type="url" name="imagen_url" id="imagen_url" value="{{ old('imagen_url', filter_var($programa->imagen, FILTER_VALIDATE_URL) ? $programa->imagen : '') }}"
+                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:border-brand-red transition-colors"
+                                                placeholder="https://ejemplo.com/imagen.jpg">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <input type="file" id="imagen_file" accept="image/*" class="hidden">
+                                            <button type="button" onclick="document.getElementById('imagen_file').click()"
+                                                class="px-4 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-all flex items-center gap-2">
+                                                <i class="fas fa-upload"></i> Subir Imagen
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="imagen_status" class="mt-2 text-xs hidden"></div>
+                                </div>
                                 </div>
                             </div>
 
@@ -508,6 +606,11 @@
         ];
     })->values()) !!}
         </script>
+
+        <!-- Scripts para datos JSON de contenido -->
+        <script id="objetivos-data" type="application/json">{!! json_encode($programa->objetivos_academicos ?? []) !!}</script>
+        <script id="ingresante-data" type="application/json">{!! json_encode($programa->perfil_ingresante ?? []) !!}</script>
+        <script id="graduado-data" type="application/json">{!! json_encode($programa->perfil_graduado ?? []) !!}</script>
 
         <script>
             // ============================
@@ -844,11 +947,11 @@
                             <div class="flex gap-1 justify-center">
                                 <button type="button" onclick="moverDocenteArriba('${rowId}')"
                                     class="w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors" title="Subir">
-                                    <i class="ph ph-arrow-up"></i>
+                                    <i class="fas fa-arrow-up"></i>
                                 </button>
                                 <button type="button" onclick="moverDocenteAbajo('${rowId}')"
                                     class="w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors" title="Bajar">
-                                    <i class="ph ph-arrow-down"></i>
+                                    <i class="fas fa-arrow-down"></i>
                                 </button>
                             </div>
                         </td>
@@ -857,7 +960,7 @@
                             <button type="button"
                                 class="w-10 h-10 flex items-center justify-center bg-red-100 text-red-600 rounded-lg hover:bg-red-200"
                                 onclick="confirmarEliminar('${rowId}', 'docente')">
-                                <i class="ph ph-x"></i>
+                                <i class="fas fa-times"></i>
                             </button>
                         </td>
                     </tr>
@@ -977,12 +1080,70 @@
             }
 
             // ============================
+            //   LISTAS JSON (Objetivos, Ingresante, Graduado)
+            // ============================
+            function crearItemLista(listId, value = '') {
+                var list = document.getElementById(listId);
+                if (!list) return;
+
+                var itemId = listId + '-item-' + Date.now();
+                var row = document.createElement('div');
+                row.className = 'flex items-center gap-2';
+                row.id = itemId;
+                row.innerHTML = `
+                    <input type="text" class="flex-1 py-2 px-3 border border-gray-300 rounded-lg text-sm lista-item" 
+                           placeholder="Escribir item..." value="${value.replace(/"/g, '&quot;')}">
+                    <button type="button" onclick="eliminarItemLista('${itemId}')" 
+                        class="w-8 h-8 flex items-center justify-center bg-red-100 text-red-600 rounded-lg hover:bg-red-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                list.appendChild(row);
+            }
+
+            function eliminarItemLista(itemId) {
+                var item = document.getElementById(itemId);
+                if (item) item.remove();
+            }
+
+            function agregarObjetivo() { crearItemLista('objetivos-list'); }
+            function agregarIngresante() { crearItemLista('ingresante-list'); }
+            function agregarGraduado() { crearItemLista('graduado-list'); }
+
+            function recogerListaJSON(listId) {
+                var items = [];
+                document.querySelectorAll('#' + listId + ' .lista-item').forEach(function(input) {
+                    var val = input.value.trim();
+                    if (val) items.push(val);
+                });
+                return JSON.stringify(items);
+            }
+
+            function cargarListaExistente(dataId, listId) {
+                var dataEl = document.getElementById(dataId);
+                if (!dataEl) return;
+                try {
+                    var items = JSON.parse(dataEl.textContent || '[]');
+                    if (Array.isArray(items)) {
+                        items.forEach(function(item) {
+                            crearItemLista(listId, item);
+                        });
+                    }
+                } catch (e) {}
+            }
+
+            // ============================
             //   INIT
             // ============================
             document.addEventListener('DOMContentLoaded', function() {
                 cargarPlanExistente();
                 prepararPlanAntesDeEnviar();
                 cargarDocentesExistentes();
+
+                // Cargar listas JSON existentes
+                cargarListaExistente('objetivos-data', 'objetivos-list');
+                cargarListaExistente('ingresante-data', 'ingresante-list');
+                cargarListaExistente('graduado-data', 'graduado-list');
 
                 // Handle coordinator checkbox changes via event delegation
                 document.getElementById('docentes-body').addEventListener('change', function(e) {
@@ -993,6 +1154,75 @@
                         }
                     }
                 });
+
+                // Serializar listas JSON antes de enviar
+                var form = document.getElementById('form-programa');
+                if (form) {
+                    form.addEventListener('submit', function() {
+                        document.getElementById('objetivos_academicos').value = recogerListaJSON('objetivos-list');
+                        document.getElementById('perfil_ingresante').value = recogerListaJSON('ingresante-list');
+                        document.getElementById('perfil_graduado').value = recogerListaJSON('graduado-list');
+                    });
+                }
+
+                // ============================
+                //   AJAX FILE UPLOAD
+                // ============================
+                setupFileUpload('plan_file', 'plan_url', 'plan_status', 'plan');
+                setupFileUpload('horario_file', 'horario_url', 'horario_status', 'horario');
+                setupFileUpload('imagen_file', 'imagen_url', 'imagen_status', 'imagen');
             });
+
+            function setupFileUpload(fileInputId, urlInputId, statusId, type) {
+                var fileInput = document.getElementById(fileInputId);
+                if (!fileInput) return;
+
+                fileInput.addEventListener('change', function() {
+                    if (this.files.length === 0) return;
+
+                    var file = this.files[0];
+                    var statusEl = document.getElementById(statusId);
+                    var urlInput = document.getElementById(urlInputId);
+
+                    // Show uploading status
+                    statusEl.classList.remove('hidden', 'text-green-600', 'text-red-600');
+                    statusEl.classList.add('text-blue-600');
+                    statusEl.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Subiendo ' + file.name + '...';
+
+                    var formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('type', type);
+                    formData.append('program_name', document.getElementById('nombre').value || 'programa');
+                    formData.append('_token', '{{ csrf_token() }}');
+
+                    fetch('{{ route("admin.documents.uploadAjax") }}', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            urlInput.value = data.url;
+                            statusEl.classList.remove('text-blue-600');
+                            statusEl.classList.add('text-green-600');
+                            statusEl.innerHTML = '<i class="fas fa-check-circle mr-1"></i> Subido: ' + data.filename;
+                        } else {
+                            statusEl.classList.remove('text-blue-600');
+                            statusEl.classList.add('text-red-600');
+                            statusEl.innerHTML = '<i class="fas fa-exclamation-circle mr-1"></i> Error: ' + (data.error || 'Error al subir');
+                        }
+                    })
+                    .catch(error => {
+                        statusEl.classList.remove('text-blue-600');
+                        statusEl.classList.add('text-red-600');
+                        statusEl.innerHTML = '<i class="fas fa-exclamation-circle mr-1"></i> Error de conexión';
+                        console.error('Upload error:', error);
+                    });
+
+                    // Clear file input
+                    this.value = '';
+                });
+            }
         </script>
 @endsection
+

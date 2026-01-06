@@ -157,21 +157,7 @@
             </table>
         </div>
         
-        <!-- Pagination -->
-        @if($docentes->hasPages())
-            <div class="bg-white px-4 py-3 border-t border-gray-200 flex items-center justify-between sm:px-6">
-                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                    <div>
-                        <p class="text-sm text-gray-700">
-                            Mostrando <span class="font-medium">{{ $docentes->firstItem() }}</span> a <span class="font-medium">{{ $docentes->lastItem() }}</span> de <span class="font-medium">{{ $docentes->total() }}</span> resultados
-                        </p>
-                    </div>
-                    <div>
-                        {{ $docentes->links() }}
-                    </div>
-                </div>
-            </div>
-        @endif
+        </div>
     </div>
 
     <!-- Delete Confirmation Modal -->

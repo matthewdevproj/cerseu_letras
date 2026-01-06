@@ -16,15 +16,16 @@ class Programa extends Model
         'duracion',
         'creditos',
         'grado_otorga',
+        'objetivos_academicos',
+        'perfil_ingresante',
+        'perfil_graduado',
         'plan_url',
+        'horario_url',
         'por_que_text',
-        'presentacion',
-        'perfil_egresado',
+        'sumilla',
         'plan_estudios',
         'is_active',
         'slug',
-        'sumilla',
-        'descripcion',
         'imagen'
     ];
 
@@ -33,7 +34,10 @@ class Programa extends Model
         'duracion' => 'integer',
         'creditos' => 'integer',
         'is_active' => 'boolean',
-        'plan_estudios' => 'array'
+        'plan_estudios' => 'array',
+        'objetivos_academicos' => 'array',
+        'perfil_ingresante' => 'array',
+        'perfil_graduado' => 'array'
     ];
 
     // Relaciones
