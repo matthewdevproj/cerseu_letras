@@ -61,47 +61,27 @@
                 <h2 class="text-lg font-semibold text-gray-700 mb-4">Documentos PDF Vinculados</h2>
                 <div id="documents-container" class="space-y-2 mb-4">
                     @forelse($cronograma->documents as $doc)
-                        <div class="flex items-center gap-2 p-2 bg-gray-50 rounded document-row" data-id="{{ $doc->id }}">
+                        <div class="document-item flex items-center gap-2 p-3 bg-gray-50 rounded-lg border" data-id="{{ $doc->id }}">
                             <input type="hidden" name="document_ids[]" value="{{ $doc->id }}">
                             <i class="fas fa-file-pdf text-red-600"></i>
-                            <span class="flex-1 text-sm">{{ $doc->display_title }}</span>
-                            <button type="button" onclick="removeDocument(this)" class="text-red-500 hover:text-red-700 text-sm">
+                            <span class="flex-1 text-sm font-medium">{{ $doc->display_title }}</span>
+                            <button type="button" onclick="removeDocumentField(this)" class="text-red-500 hover:text-red-700">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
                     @empty
-                        <p class="text-sm text-gray-400" id="no-docs-msg">Sin documentos vinculados</p>
+                        <p class="text-sm text-gray-400 text-center py-2" id="no-docs-msg">Sin documentos vinculados</p>
                     @endforelse
                 </div>
                 
-                <!-- Vincular existente -->
-                <div class="flex gap-2 mb-3">
-                    <select id="addDocumentSelect" class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm">
-                        <option value="">Seleccionar documento existente...</option>
-                        @foreach($documents as $doc)
-                            <option value="{{ $doc->id }}" data-title="{{ $doc->display_title }}">{{ $doc->display_title }}</option>
-                        @endforeach
-                    </select>
-                    <button type="button" onclick="addDocument()" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-sm">
-                        Vincular
+                <!-- Botones de acción -->
+                <div class="flex gap-2">
+                    <button type="button" onclick="openUploadModal()" class="flex-1 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm">
+                        <i class="fas fa-cloud-upload-alt mr-1"></i> Subir Nuevo
                     </button>
-                </div>
-                
-                <!-- Subir nuevo -->
-                <div class="border-t pt-3 mt-3">
-                    <p class="text-xs text-gray-500 mb-2"><i class="fas fa-cloud-upload-alt"></i> O sube un nuevo PDF:</p>
-                    <div class="grid md:grid-cols-3 gap-2">
-                        <input type="text" id="newDocTitle" placeholder="Título del documento" 
-                            class="border border-gray-300 rounded-lg px-3 py-2 text-sm col-span-2">
-                        <div class="flex gap-2">
-                            <input type="file" id="newDocFile" accept=".pdf" class="hidden">
-                            <button type="button" onclick="document.getElementById('newDocFile').click()" 
-                                class="flex-1 px-3 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm">
-                                <i class="fas fa-upload"></i> Subir PDF
-                            </button>
-                        </div>
-                    </div>
-                    <p id="uploadStatus" class="text-xs text-gray-400 mt-2"></p>
+                    <button type="button" onclick="openLinkModal()" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm">
+                        <i class="fas fa-link mr-1"></i> Vincular Existente
+                    </button>
                 </div>
             </div>
 
@@ -260,88 +240,140 @@
             });
         }
 
-        function addDocument() {
-            const select = document.getElementById('addDocumentSelect');
-            const docId = select.value;
-            const docTitle = select.options[select.selectedIndex].dataset.title;
+        // ===== DOCUMENTOS =====
+        var newDocCounter = 0;
+        var availableDocuments = @json($documents->map(fn($d) => ['id' => $d->id, 'title' => $d->display_title]));
 
-            if (!docId) return;
-
-            // Verificar si ya existe
-            const existing = document.querySelector(`.document-row[data-id="${docId}"]`);
-            if (existing) {
-                alert('Este documento ya está agregado');
-                return;
-            }
-
-            const container = document.getElementById('documents-container');
-            const position = container.children.length;
-
-            const html = `
-                <div class="flex items-center gap-2 p-2 bg-gray-50 rounded document-row" data-id="${docId}">
-                    <input type="hidden" name="document_ids[]" value="${docId}">
-                    <input type="hidden" name="document_positions[]" value="${position}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 cursor-move" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
-                    </svg>
-                    <span class="flex-1">${docTitle}</span>
-                    <button type="button" onclick="removeDocument(this)" class="text-red-500 hover:text-red-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', html);
-            select.value = '';
+        function openUploadModal() {
+            document.getElementById('uploadModal').classList.remove('hidden');
+            document.getElementById('new_doc_title').value = '';
+            document.getElementById('new_doc_file').value = '';
         }
 
-        function removeDocument(btn) {
-            btn.closest('.document-row').remove();
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.add('hidden');
         }
 
-        // Subir nuevo documento via AJAX
-        document.getElementById('newDocFile').addEventListener('change', async function() {
-            const file = this.files[0];
-            if (!file) return;
+        function openLinkModal() {
+            document.getElementById('linkModal').classList.remove('hidden');
+            document.getElementById('search_doc_input').value = '';
+            filterDocs('');
+        }
 
-            const title = document.getElementById('newDocTitle').value.trim() || file.name;
-            const statusEl = document.getElementById('uploadStatus');
-            
-            statusEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
-            statusEl.className = 'text-xs text-blue-600 mt-2';
+        function closeLinkModal() {
+            document.getElementById('linkModal').classList.add('hidden');
+        }
 
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('type', 'general');
-            formData.append('title', title);
-            formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+        function filterDocs(query) {
+            const container = document.getElementById('doc-search-results');
+            container.innerHTML = '';
 
-            try {
-                const response = await fetch('{{ route("admin.documents.store") }}', {
-                    method: 'POST',
-                    body: formData
+            // Get already linked IDs
+            const linkedIds = [];
+            document.querySelectorAll('input[name="document_ids[]"]').forEach(input => {
+                if (input.value) linkedIds.push(parseInt(input.value));
+            });
+
+            const q = query.toLowerCase();
+            const matches = availableDocuments.filter(doc => {
+                return !linkedIds.includes(doc.id) && doc.title.toLowerCase().includes(q);
+            });
+
+            if (matches.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-4">No se encontraron documentos.</p>';
+            } else {
+                matches.forEach(doc => {
+                    const el = document.createElement('button');
+                    el.type = 'button';
+                    el.className = 'w-full text-left px-4 py-3 hover:bg-gray-100 border-b flex justify-between items-center';
+                    el.innerHTML = '<span class="font-medium">' + doc.title + '</span><i class="fas fa-plus text-green-600"></i>';
+                    el.onclick = function() { selectDoc(doc); };
+                    container.appendChild(el);
                 });
+            }
+        }
 
-                if (response.redirected) {
-                    // Documento creado, ahora obtener su ID del redirect
-                    statusEl.innerHTML = '<i class="fas fa-check"></i> Subido: ' + title;
-                    statusEl.className = 'text-xs text-green-600 mt-2';
-                    
-                    // Recargar la página para ver el nuevo documento
-                    setTimeout(() => location.reload(), 1000);
-                } else {
-                    throw new Error('Error al subir');
-                }
-            } catch (error) {
-                statusEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error al subir';
-                statusEl.className = 'text-xs text-red-600 mt-2';
+        function selectDoc(doc) {
+            createDocVisual(doc.title, doc.id, null);
+            closeLinkModal();
+        }
+
+        function confirmUploadDoc() {
+            const title = document.getElementById('new_doc_title').value.trim();
+            const fileInput = document.getElementById('new_doc_file');
+
+            if (!title) { alert('El título es obligatorio.'); return; }
+            if (fileInput.files.length === 0) { alert('Debe seleccionar un archivo.'); return; }
+
+            const originalParent = fileInput.parentNode;
+            const newItemId = 'new_doc_' + (++newDocCounter);
+            
+            createDocVisual(title, null, newItemId);
+
+            // Mover input al contenedor oculto
+            const container = document.getElementById('new-documents-container');
+            const wrapper = document.createElement('div');
+            wrapper.className = 'hidden doc-upload-wrapper';
+            wrapper.dataset.itemId = newItemId;
+
+            const cleanFileInput = document.createElement('input');
+            cleanFileInput.type = 'file';
+            cleanFileInput.id = 'new_doc_file';
+            cleanFileInput.className = 'hidden';
+            cleanFileInput.accept = 'application/pdf';
+
+            fileInput.name = 'new_document_files[]';
+            fileInput.removeAttribute('id');
+
+            const titleInput = document.createElement('input');
+            titleInput.type = 'hidden';
+            titleInput.name = 'new_document_titles[]';
+            titleInput.value = title;
+
+            wrapper.appendChild(fileInput);
+            wrapper.appendChild(titleInput);
+            container.appendChild(wrapper);
+
+            originalParent.appendChild(cleanFileInput);
+            
+            closeUploadModal();
+        }
+
+        function createDocVisual(title, id, tempId) {
+            const container = document.getElementById('documents-container');
+            const empty = container.querySelector('#no-docs-msg');
+            if (empty) empty.remove();
+
+            const div = document.createElement('div');
+            div.className = 'document-item flex items-center gap-2 p-3 bg-gray-50 rounded-lg border';
+
+            let hiddenFields = '';
+            let badge = '';
+            if (id) {
+                div.dataset.id = id;
+                hiddenFields = '<input type="hidden" name="document_ids[]" value="' + id + '">';
+            } else if (tempId) {
+                div.dataset.tempId = tempId;
+                badge = '<span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Pendiente</span>';
             }
 
-            // Reset
-            this.value = '';
-            document.getElementById('newDocTitle').value = '';
-        });
+            div.innerHTML = hiddenFields +
+                '<i class="fas fa-file-pdf text-red-600"></i>' +
+                '<span class="flex-1 text-sm font-medium">' + title + '</span>' +
+                badge +
+                '<button type="button" onclick="removeDocumentField(this)" class="text-red-500 hover:text-red-700"><i class="fas fa-times"></i></button>';
+            
+            container.appendChild(div);
+        }
+
+        function removeDocumentField(btn) {
+            const item = btn.closest('.document-item');
+            if (item.dataset.tempId) {
+                const inputWrapper = document.querySelector('.doc-upload-wrapper[data-item-id="' + item.dataset.tempId + '"]');
+                if (inputWrapper) inputWrapper.remove();
+            }
+            item.remove();
+        }
 
         // Before submit, collect all items
         document.getElementById('cronogramaForm').addEventListener('submit', function(e) {
@@ -364,4 +396,60 @@
             document.getElementById('deleted_items').value = JSON.stringify(deletedItems);
         });
     </script>
+
+    <!-- Modal Subir Documento -->
+    <div id="uploadModal" class="fixed inset-0 z-50 hidden">
+        <div class="fixed inset-0 bg-black/50" onclick="closeUploadModal()"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-2xl max-w-md w-full">
+                <div class="p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Subir Nuevo PDF</h3>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-sm text-blue-800">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        El archivo se guardará y vinculará automáticamente al cronograma.
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Título del Documento *</label>
+                        <input type="text" id="new_doc_title" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Ej: Resolución Rectoral N°...">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Archivo PDF *</label>
+                        <input type="file" id="new_doc_file" class="w-full border border-gray-300 rounded-lg px-3 py-2" accept="application/pdf">
+                        <p class="text-xs text-gray-500 mt-1">Máximo 10MB.</p>
+                    </div>
+                </div>
+                <div class="px-6 pb-6 flex gap-3">
+                    <button type="button" onclick="closeUploadModal()" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                        Cancelar
+                    </button>
+                    <button type="button" onclick="confirmUploadDoc()" class="flex-1 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800">
+                        <i class="fas fa-check mr-1"></i> Agregar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Vincular Documento -->
+    <div id="linkModal" class="fixed inset-0 z-50 hidden">
+        <div class="fixed inset-0 bg-black/50" onclick="closeLinkModal()"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full">
+                <div class="p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Vincular Documento Existente</h3>
+                    <div class="mb-4">
+                        <input type="text" id="search_doc_input" oninput="filterDocs(this.value)" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Buscar por título...">
+                    </div>
+                    <div id="doc-search-results" class="max-h-64 overflow-y-auto border rounded-lg">
+                        <!-- Resultados JS -->
+                    </div>
+                </div>
+                <div class="px-6 pb-6">
+                    <button type="button" onclick="closeLinkModal()" class="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

@@ -110,16 +110,37 @@ class AdminCronogramaController extends Controller
                     }
                 }
 
-                // Sincronizar documentos
+                // Sincronizar documentos - primero los existentes
                 $docSyncData = [];
                 if ($request->has('document_ids')) {
                     $docIds = $request->input('document_ids', []);
-                    $docPositions = $request->input('document_positions', []);
-
                     foreach ($docIds as $index => $docId) {
-                        $docSyncData[$docId] = ['position' => $docPositions[$index] ?? 0];
+                        $docSyncData[$docId] = ['position' => $index];
                     }
                 }
+
+                // Procesar nuevos archivos PDF subidos
+                if ($request->hasFile('new_document_files')) {
+                    $files = $request->file('new_document_files');
+                    $titles = $request->input('new_document_titles', []);
+
+                    foreach ($files as $index => $file) {
+                        $title = $titles[$index] ?? $file->getClientOriginalName();
+                        $url = asset('storage/' . $file->store('documents', 'public'));
+
+                        $newDoc = Document::create([
+                            'type' => 'general',
+                            'title' => $title,
+                            'original_name' => $file->getClientOriginalName(),
+                            'url' => $url,
+                            'published' => true,
+                        ]);
+
+                        // Agregar al array de sincronización
+                        $docSyncData[$newDoc->id] = ['position' => count($docSyncData)];
+                    }
+                }
+
                 $cronograma->documents()->sync($docSyncData);
             });
 
