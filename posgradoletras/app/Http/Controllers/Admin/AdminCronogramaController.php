@@ -55,7 +55,6 @@ class AdminCronogramaController extends Controller
             'code' => 'required|string|max:20',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
-            'effective_date' => 'required|date',
         ]);
 
         try {
@@ -65,7 +64,6 @@ class AdminCronogramaController extends Controller
                     'code' => strtoupper($request->code),
                     'title' => $request->title,
                     'description' => $request->description,
-                    'effective_date' => $request->effective_date,
                 ]);
 
                 // Eliminar ítems marcados para borrar

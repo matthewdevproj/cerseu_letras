@@ -3,14 +3,7 @@
 @section('title', 'Cronograma Académico')
 
 @section('content')
-    <div class="max-w-6xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Cronograma Académico</h1>
-            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-                {{ $cronograma->code }}
-            </span>
-        </div>
-
+    <div class="max-w-7xl mx-auto">
         @if(session('success'))
             <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
                 {{ session('success') }}
@@ -27,375 +20,164 @@
             @csrf
             @method('PUT')
 
-            <!-- Contenedor oculto para archivos nuevos -->
+            <!-- Hidden inputs -->
             <div id="new-documents-container" class="hidden"></div>
+            <input type="hidden" name="items_payload" id="items_payload" value="">
+            <input type="hidden" name="deleted_items" id="deleted_items" value="">
 
-            <!-- Datos Generales -->
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <h2 class="text-lg font-semibold text-gray-700 mb-4">Datos Generales</h2>
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Código *</label>
-                        <input type="text" name="code" value="{{ old('code', $cronograma->code) }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                            placeholder="Ej: 2026-I" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Título *</label>
-                        <input type="text" name="title" value="{{ old('title', $cronograma->title) }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                            placeholder="Ej: Cronograma Académico 2026-I" required>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-                        <textarea name="description" rows="2"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                            placeholder="Descripción opcional">{{ old('description', $cronograma->description) }}</textarea>
-                    </div>
-                    <input type="hidden" name="effective_date" value="{{ $cronograma->effective_date?->format('Y-m-d') ?? now()->format('Y-m-d') }}">
-                </div>
-            </div>
-
-            <!-- Documentos Asociados -->
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <h2 class="text-lg font-semibold text-gray-700 mb-4">Documentos PDF Vinculados</h2>
-                <div id="documents-container" class="space-y-2 mb-4">
-                    @forelse($cronograma->documents as $doc)
-                        <div class="document-item flex items-center gap-2 p-3 bg-gray-50 rounded-lg border" data-id="{{ $doc->id }}">
-                            <input type="hidden" name="document_ids[]" value="{{ $doc->id }}">
-                            <i class="fas fa-file-pdf text-red-600"></i>
-                            <span class="flex-1 text-sm font-medium">{{ $doc->display_title }}</span>
-                            <button type="button" onclick="removeDocumentField(this)" class="text-red-500 hover:text-red-700">
-                                <i class="fas fa-times"></i>
-                            </button>
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- ========== COLUMNA IZQUIERDA ========== -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <!-- Header -->
+                        <div class="bg-gray-50 border-b px-5 py-4">
+                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs font-medium">Activo</span>
+                            <h2 class="text-lg font-bold text-gray-800 mt-1">{{ $cronograma->code }}</h2>
+                            <p class="text-xs text-gray-500">Configuración general</p>
                         </div>
-                    @empty
-                        <p class="text-sm text-gray-400 text-center py-2" id="no-docs-msg">Sin documentos vinculados</p>
-                    @endforelse
-                </div>
-                
-                <!-- Botones de acción -->
-                <div class="flex gap-2">
-                    <button type="button" onclick="openUploadModal()" class="flex-1 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm">
-                        <i class="fas fa-cloud-upload-alt mr-1"></i> Subir Nuevo
-                    </button>
-                    <button type="button" onclick="openLinkModal()" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm">
-                        <i class="fas fa-link mr-1"></i> Vincular Existente
-                    </button>
-                </div>
-            </div>
 
-            <!-- Ítems del Cronograma -->
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-semibold text-gray-700">Ítems del Cronograma</h2>
-                    <button type="button" onclick="addItem()"
-                        class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm">
-                        + Agregar Ítem
-                    </button>
-                </div>
+                        <!-- Body -->
+                        <div class="p-5 space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Código</label>
+                                <input type="text" name="code" value="{{ old('code', $cronograma->code) }}"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required>
+                            </div>
 
-                <div id="items-container" class="space-y-2">
-                    @foreach($cronograma->items as $item)
-                        <div class="item-row border border-gray-200 rounded-lg p-3 {{ $item->is_section_heading ? 'bg-red-50 border-red-300' : 'bg-white' }}"
-                            data-id="{{ $item->id }}">
-                            <div class="flex items-start gap-3">
-                                <div class="cursor-move text-gray-400 pt-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4 8h16M4 16h16" />
-                                    </svg>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Título</label>
+                                <input type="text" name="title" value="{{ old('title', $cronograma->title) }}"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required>
+                            </div>
+
+                            <input type="hidden" name="effective_date" value="{{ $cronograma->effective_date?->format('Y-m-d') ?? now()->format('Y-m-d') }}">
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Descripción</label>
+                                <textarea name="description" rows="2"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">{{ old('description', $cronograma->description) }}</textarea>
+                            </div>
+
+                            <!-- Documentos PDF -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Documentos PDF</label>
+                                <div id="documents-container" class="space-y-2 mb-3">
+                                    @forelse($cronograma->documents as $doc)
+                                        <div class="document-item flex items-center gap-2 p-3 bg-white border rounded-lg" data-id="{{ $doc->id }}">
+                                            <input type="hidden" name="document_ids[]" value="{{ $doc->id }}">
+                                            <i class="fas fa-file-pdf text-red-600"></i>
+                                            <span class="flex-1 text-xs font-medium truncate">{{ $doc->display_title }}</span>
+                                            <button type="button" onclick="removeDocumentField(this)" class="text-red-500 hover:text-red-700">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    @empty
+                                        <p class="text-sm text-gray-400 text-center py-2" id="no-docs-msg">Sin documentos vinculados</p>
+                                    @endforelse
                                 </div>
-                                <div class="flex-1 grid md:grid-cols-12 gap-2">
-                                    <div class="md:col-span-1">
-                                        <label class="flex items-center gap-1 text-xs text-gray-500">
-                                            <input type="checkbox" class="item-heading rounded"
-                                                {{ $item->is_section_heading ? 'checked' : '' }}
-                                                onchange="toggleHeading(this)">
-                                            Sección
-                                        </label>
-                                    </div>
-                                    <div class="md:col-span-5">
-                                        <input type="text" class="item-actividad w-full border border-gray-300 rounded px-2 py-1 text-sm"
-                                            value="{{ $item->actividad }}" placeholder="Actividad">
-                                    </div>
-                                    <div class="md:col-span-3">
-                                        <input type="text" class="item-fecha w-full border border-gray-300 rounded px-2 py-1 text-sm"
-                                            value="{{ $item->fecha_text }}" placeholder="Fecha">
-                                    </div>
-                                    <div class="md:col-span-2">
-                                        <input type="text" class="item-section w-full border border-gray-300 rounded px-2 py-1 text-sm"
-                                            value="{{ $item->section }}" placeholder="Sección (grupo)">
-                                    </div>
-                                    <div class="md:col-span-1 flex justify-end">
-                                        <button type="button" onclick="removeItem(this)"
-                                            class="text-red-500 hover:text-red-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </button>
-                                    </div>
+                                <div class="flex gap-2">
+                                    <button type="button" onclick="openUploadModal()" class="flex-1 px-3 py-2 border border-red-700 text-red-700 rounded-lg hover:bg-red-50 text-xs">
+                                        <i class="fas fa-cloud-upload-alt mr-1"></i> Subir Nuevo
+                                    </button>
+                                    <button type="button" onclick="openLinkModal()" class="flex-1 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-xs">
+                                        <i class="fas fa-link mr-1"></i> Vincular
+                                    </button>
                                 </div>
                             </div>
-                            <input type="hidden" class="item-orden" value="{{ $item->orden }}">
+
+                            <!-- Botón Guardar -->
+                            <button type="submit" class="w-full px-4 py-3 bg-red-700 text-white rounded-lg hover:bg-red-800 font-medium">
+                                <i class="fas fa-save mr-2"></i> Guardar Todo
+                            </button>
                         </div>
-                    @endforeach
+                    </div>
                 </div>
-            </div>
 
-            <!-- Hidden fields -->
-            <input type="hidden" name="deleted_items" id="deleted_items" value="[]">
-            <input type="hidden" name="items_payload" id="items_payload" value="[]">
+                <!-- ========== COLUMNA DERECHA: ÍTEMS ========== -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <!-- Header -->
+                        <div class="bg-gray-50 border-b px-5 py-4 flex justify-between items-center">
+                            <div>
+                                <h2 class="text-lg font-bold text-gray-800">Ítems del Cronograma</h2>
+                                <p class="text-xs text-gray-500"><i class="fas fa-list-ol mr-1"></i>Usa las flechas para reordenar</p>
+                            </div>
+                            <button type="button" onclick="addItem()" class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm">
+                                <i class="fas fa-plus mr-1"></i> Nuevo Ítem
+                            </button>
+                        </div>
 
-            <!-- Submit -->
-            <div class="flex justify-end gap-3">
-                <a href="{{ route('cronograma') }}" target="_blank"
-                    class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-                    Vista Previa
-                </a>
-                <button type="submit"
-                    class="px-6 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 font-medium">
-                    Guardar Cambios
-                </button>
+                        <!-- Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full" id="items-table">
+                                <thead class="bg-gray-100 text-xs text-gray-600 uppercase">
+                                    <tr>
+                                        <th class="px-3 py-3 text-center w-14">Orden</th>
+                                        <th class="px-3 py-3 text-left">Actividad / Evento</th>
+                                        <th class="px-3 py-3 text-left w-1/4">Fecha</th>
+                                        <th class="px-3 py-3 text-right w-20">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="items-tbody">
+                                    @foreach($cronograma->items as $item)
+                                        <tr class="item-row border-b {{ $item->is_section_heading ? 'bg-red-50 border-l-4 border-l-red-700' : 'hover:bg-gray-50' }}"
+                                            data-id="{{ $item->id }}"
+                                            data-is-section="{{ $item->is_section_heading ? '1' : '0' }}"
+                                            data-section-val="{{ $item->section }}"
+                                            data-actividad="{{ $item->actividad }}"
+                                            data-fecha="{{ $item->fecha_text }}">
+                                            
+                                            <!-- Orden -->
+                                            <td class="px-3 py-3 text-center">
+                                                <div class="flex flex-col items-center gap-1">
+                                                    <button type="button" onclick="moveRow(this, 'up')" class="text-gray-400 hover:text-red-700">
+                                                        <i class="fas fa-chevron-up text-xs"></i>
+                                                    </button>
+                                                    <button type="button" onclick="moveRow(this, 'down')" class="text-gray-400 hover:text-red-700">
+                                                        <i class="fas fa-chevron-down text-xs"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+
+                                            @if($item->is_section_heading)
+                                                <!-- Section Heading -->
+                                                <td colspan="2" class="px-3 py-3">
+                                                    <span class="font-bold text-red-800 uppercase text-sm">{{ $item->actividad }}</span>
+                                                </td>
+                                            @else
+                                                <!-- Normal Item -->
+                                                <td class="px-3 py-3">
+                                                    <span class="font-medium text-gray-800 text-sm">{{ $item->actividad }}</span>
+                                                    @if($item->section)
+                                                        <div class="text-xs text-gray-400 mt-1">Sección: {{ $item->section }}</div>
+                                                    @endif
+                                                </td>
+                                                <td class="px-3 py-3">
+                                                    <span class="inline-flex items-center px-2 py-1 bg-gray-100 border rounded text-xs text-gray-700">
+                                                        <i class="far fa-calendar mr-1"></i> {{ $item->fecha_text }}
+                                                    </span>
+                                                </td>
+                                            @endif
+
+                                            <!-- Acciones -->
+                                            <td class="px-3 py-3 text-right">
+                                                <button type="button" onclick="editItem(this)" class="text-blue-600 hover:text-blue-800 mr-2" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" onclick="removeItem(this)" class="text-red-500 hover:text-red-700" title="Eliminar">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
-
-    <script>
-        let deletedItems = [];
-        let newItemCounter = 0;
-
-        function addItem() {
-            newItemCounter++;
-            const container = document.getElementById('items-container');
-            const html = `
-                <div class="item-row border border-gray-200 rounded-lg p-3 bg-green-50 border-green-300" data-id="new_${newItemCounter}" data-new="true">
-                    <div class="flex items-start gap-3">
-                        <div class="cursor-move text-gray-400 pt-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
-                            </svg>
-                        </div>
-                        <div class="flex-1 grid md:grid-cols-12 gap-2">
-                            <div class="md:col-span-1">
-                                <label class="flex items-center gap-1 text-xs text-gray-500">
-                                    <input type="checkbox" class="item-heading rounded" onchange="toggleHeading(this)">
-                                    Sección
-                                </label>
-                            </div>
-                            <div class="md:col-span-5">
-                                <input type="text" class="item-actividad w-full border border-gray-300 rounded px-2 py-1 text-sm" placeholder="Actividad">
-                            </div>
-                            <div class="md:col-span-3">
-                                <input type="text" class="item-fecha w-full border border-gray-300 rounded px-2 py-1 text-sm" placeholder="Fecha">
-                            </div>
-                            <div class="md:col-span-2">
-                                <input type="text" class="item-section w-full border border-gray-300 rounded px-2 py-1 text-sm" placeholder="Sección (grupo)">
-                            </div>
-                            <div class="md:col-span-1 flex justify-end">
-                                <button type="button" onclick="removeItem(this)" class="text-red-500 hover:text-red-700">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="hidden" class="item-orden" value="${container.children.length}">
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', html);
-        }
-
-        function removeItem(btn) {
-            const row = btn.closest('.item-row');
-            const id = row.dataset.id;
-
-            if (!row.dataset.new && id) {
-                deletedItems.push(parseInt(id));
-            }
-
-            row.remove();
-            updateOrders();
-        }
-
-        function toggleHeading(checkbox) {
-            const row = checkbox.closest('.item-row');
-            if (checkbox.checked) {
-                row.classList.remove('bg-white', 'bg-green-50');
-                row.classList.add('bg-red-50', 'border-red-300');
-            } else {
-                row.classList.remove('bg-red-50', 'border-red-300');
-                row.classList.add('bg-white');
-            }
-        }
-
-        function updateOrders() {
-            const rows = document.querySelectorAll('.item-row');
-            rows.forEach((row, index) => {
-                row.querySelector('.item-orden').value = index;
-            });
-        }
-
-        // ===== DOCUMENTOS =====
-        var newDocCounter = 0;
-        var availableDocuments = @json($documents->map(fn($d) => ['id' => $d->id, 'title' => $d->display_title]));
-
-        function openUploadModal() {
-            document.getElementById('uploadModal').classList.remove('hidden');
-            document.getElementById('new_doc_title').value = '';
-            document.getElementById('new_doc_file').value = '';
-        }
-
-        function closeUploadModal() {
-            document.getElementById('uploadModal').classList.add('hidden');
-        }
-
-        function openLinkModal() {
-            document.getElementById('linkModal').classList.remove('hidden');
-            document.getElementById('search_doc_input').value = '';
-            filterDocs('');
-        }
-
-        function closeLinkModal() {
-            document.getElementById('linkModal').classList.add('hidden');
-        }
-
-        function filterDocs(query) {
-            const container = document.getElementById('doc-search-results');
-            container.innerHTML = '';
-
-            // Get already linked IDs
-            const linkedIds = [];
-            document.querySelectorAll('input[name="document_ids[]"]').forEach(input => {
-                if (input.value) linkedIds.push(parseInt(input.value));
-            });
-
-            const q = query.toLowerCase();
-            const matches = availableDocuments.filter(doc => {
-                return !linkedIds.includes(doc.id) && doc.title.toLowerCase().includes(q);
-            });
-
-            if (matches.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 text-center py-4">No se encontraron documentos.</p>';
-            } else {
-                matches.forEach(doc => {
-                    const el = document.createElement('button');
-                    el.type = 'button';
-                    el.className = 'w-full text-left px-4 py-3 hover:bg-gray-100 border-b flex justify-between items-center';
-                    el.innerHTML = '<span class="font-medium">' + doc.title + '</span><i class="fas fa-plus text-green-600"></i>';
-                    el.onclick = function() { selectDoc(doc); };
-                    container.appendChild(el);
-                });
-            }
-        }
-
-        function selectDoc(doc) {
-            createDocVisual(doc.title, doc.id, null);
-            closeLinkModal();
-        }
-
-        function confirmUploadDoc() {
-            const title = document.getElementById('new_doc_title').value.trim();
-            const fileInput = document.getElementById('new_doc_file');
-
-            if (!title) { alert('El título es obligatorio.'); return; }
-            if (fileInput.files.length === 0) { alert('Debe seleccionar un archivo.'); return; }
-
-            const originalParent = fileInput.parentNode;
-            const newItemId = 'new_doc_' + (++newDocCounter);
-            
-            createDocVisual(title, null, newItemId);
-
-            // Mover input al contenedor oculto
-            const container = document.getElementById('new-documents-container');
-            const wrapper = document.createElement('div');
-            wrapper.className = 'hidden doc-upload-wrapper';
-            wrapper.dataset.itemId = newItemId;
-
-            const cleanFileInput = document.createElement('input');
-            cleanFileInput.type = 'file';
-            cleanFileInput.id = 'new_doc_file';
-            cleanFileInput.className = 'hidden';
-            cleanFileInput.accept = 'application/pdf';
-
-            fileInput.name = 'new_document_files[]';
-            fileInput.removeAttribute('id');
-
-            const titleInput = document.createElement('input');
-            titleInput.type = 'hidden';
-            titleInput.name = 'new_document_titles[]';
-            titleInput.value = title;
-
-            wrapper.appendChild(fileInput);
-            wrapper.appendChild(titleInput);
-            container.appendChild(wrapper);
-
-            originalParent.appendChild(cleanFileInput);
-            
-            closeUploadModal();
-        }
-
-        function createDocVisual(title, id, tempId) {
-            const container = document.getElementById('documents-container');
-            const empty = container.querySelector('#no-docs-msg');
-            if (empty) empty.remove();
-
-            const div = document.createElement('div');
-            div.className = 'document-item flex items-center gap-2 p-3 bg-gray-50 rounded-lg border';
-
-            let hiddenFields = '';
-            let badge = '';
-            if (id) {
-                div.dataset.id = id;
-                hiddenFields = '<input type="hidden" name="document_ids[]" value="' + id + '">';
-            } else if (tempId) {
-                div.dataset.tempId = tempId;
-                badge = '<span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Pendiente</span>';
-            }
-
-            div.innerHTML = hiddenFields +
-                '<i class="fas fa-file-pdf text-red-600"></i>' +
-                '<span class="flex-1 text-sm font-medium">' + title + '</span>' +
-                badge +
-                '<button type="button" onclick="removeDocumentField(this)" class="text-red-500 hover:text-red-700"><i class="fas fa-times"></i></button>';
-            
-            container.appendChild(div);
-        }
-
-        function removeDocumentField(btn) {
-            const item = btn.closest('.document-item');
-            if (item.dataset.tempId) {
-                const inputWrapper = document.querySelector('.doc-upload-wrapper[data-item-id="' + item.dataset.tempId + '"]');
-                if (inputWrapper) inputWrapper.remove();
-            }
-            item.remove();
-        }
-
-        // Before submit, collect all items
-        document.getElementById('cronogramaForm').addEventListener('submit', function(e) {
-            const rows = document.querySelectorAll('.item-row');
-            const items = [];
-
-            rows.forEach((row, index) => {
-                items.push({
-                    id: row.dataset.new ? null : parseInt(row.dataset.id),
-                    is_new: !!row.dataset.new,
-                    section: row.querySelector('.item-section').value,
-                    is_section_heading: row.querySelector('.item-heading').checked,
-                    actividad: row.querySelector('.item-actividad').value,
-                    fecha_text: row.querySelector('.item-fecha').value,
-                    orden: index
-                });
-            });
-
-            document.getElementById('items_payload').value = JSON.stringify(items);
-            document.getElementById('deleted_items').value = JSON.stringify(deletedItems);
-        });
-    </script>
 
     <!-- Modal Subir Documento -->
     <div id="uploadModal" class="fixed inset-0 z-50 hidden">
@@ -441,7 +223,6 @@
                         <input type="text" id="search_doc_input" oninput="filterDocs(this.value)" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Buscar por título...">
                     </div>
                     <div id="doc-search-results" class="max-h-64 overflow-y-auto border rounded-lg">
-                        <!-- Resultados JS -->
                     </div>
                 </div>
                 <div class="px-6 pb-6">
@@ -452,4 +233,374 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Agregar/Editar Ítem -->
+    <div id="itemModal" class="fixed inset-0 z-50 hidden">
+        <div class="fixed inset-0 bg-black/50" onclick="closeItemModal()"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-2xl max-w-md w-full">
+                <div class="p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4" id="itemModalTitle">Agregar Ítem</h3>
+                    <input type="hidden" id="edit_item_id">
+                    
+                    <div class="mb-4">
+                        <label class="flex items-center gap-2 p-3 bg-gray-50 border rounded-lg cursor-pointer">
+                            <input type="checkbox" id="is_section_heading" class="rounded" onchange="toggleItemFields()">
+                            <span class="text-sm font-medium">Es un encabezado de sección</span>
+                        </label>
+                    </div>
+
+                    <div id="section-fields" class="hidden mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre de la Sección</label>
+                        <input type="text" id="section_name" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Ej: PROCESO DE MATRÍCULA">
+                    </div>
+
+                    <div id="normal-fields">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Sección (Grupo)</label>
+                            <select id="section_select" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                                <option value="">-- Sin Sección --</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Actividad *</label>
+                            <textarea id="actividad" rows="2" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Descripción de la actividad..."></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Fecha (texto)</label>
+                            <input type="text" id="fecha_text" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Ej: Del 10 al 15 de enero">
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 pb-6 flex gap-3">
+                    <button type="button" onclick="closeItemModal()" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                        Cancelar
+                    </button>
+                    <button type="button" onclick="saveItem()" class="flex-1 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800">
+                        <i class="fas fa-check mr-1"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var deletedItems = [];
+        var newItemCounter = 0;
+        var newDocCounter = 0;
+        var availableDocuments = @json($documents->map(fn($d) => ['id' => $d->id, 'title' => $d->display_title]));
+
+        // ===== DOCUMENTOS =====
+        function openUploadModal() {
+            document.getElementById('uploadModal').classList.remove('hidden');
+            document.getElementById('new_doc_title').value = '';
+            document.getElementById('new_doc_file').value = '';
+        }
+
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.add('hidden');
+        }
+
+        function openLinkModal() {
+            document.getElementById('linkModal').classList.remove('hidden');
+            document.getElementById('search_doc_input').value = '';
+            filterDocs('');
+        }
+
+        function closeLinkModal() {
+            document.getElementById('linkModal').classList.add('hidden');
+        }
+
+        function filterDocs(query) {
+            const container = document.getElementById('doc-search-results');
+            container.innerHTML = '';
+
+            const linkedIds = [];
+            document.querySelectorAll('input[name="document_ids[]"]').forEach(input => {
+                if (input.value) linkedIds.push(parseInt(input.value));
+            });
+
+            const q = query.toLowerCase();
+            const matches = availableDocuments.filter(doc => {
+                return !linkedIds.includes(doc.id) && doc.title.toLowerCase().includes(q);
+            });
+
+            if (matches.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-4">No se encontraron documentos.</p>';
+            } else {
+                matches.forEach(doc => {
+                    const el = document.createElement('button');
+                    el.type = 'button';
+                    el.className = 'w-full text-left px-4 py-3 hover:bg-gray-100 border-b flex justify-between items-center';
+                    el.innerHTML = '<span class="font-medium">' + doc.title + '</span><i class="fas fa-plus text-green-600"></i>';
+                    el.onclick = function() { selectDoc(doc); };
+                    container.appendChild(el);
+                });
+            }
+        }
+
+        function selectDoc(doc) {
+            createDocVisual(doc.title, doc.id, null);
+            closeLinkModal();
+        }
+
+        function confirmUploadDoc() {
+            const title = document.getElementById('new_doc_title').value.trim();
+            const fileInput = document.getElementById('new_doc_file');
+
+            if (!title) { alert('El título es obligatorio.'); return; }
+            if (fileInput.files.length === 0) { alert('Debe seleccionar un archivo.'); return; }
+
+            const originalParent = fileInput.parentNode;
+            const newItemId = 'new_doc_' + (++newDocCounter);
+            
+            createDocVisual(title, null, newItemId);
+
+            const container = document.getElementById('new-documents-container');
+            const wrapper = document.createElement('div');
+            wrapper.className = 'hidden doc-upload-wrapper';
+            wrapper.dataset.itemId = newItemId;
+
+            const cleanFileInput = document.createElement('input');
+            cleanFileInput.type = 'file';
+            cleanFileInput.id = 'new_doc_file';
+            cleanFileInput.className = 'w-full border border-gray-300 rounded-lg px-3 py-2';
+            cleanFileInput.accept = 'application/pdf';
+
+            fileInput.name = 'new_document_files[]';
+            fileInput.removeAttribute('id');
+
+            const titleInput = document.createElement('input');
+            titleInput.type = 'hidden';
+            titleInput.name = 'new_document_titles[]';
+            titleInput.value = title;
+
+            wrapper.appendChild(fileInput);
+            wrapper.appendChild(titleInput);
+            container.appendChild(wrapper);
+
+            originalParent.appendChild(cleanFileInput);
+            
+            closeUploadModal();
+        }
+
+        function createDocVisual(title, id, tempId) {
+            const container = document.getElementById('documents-container');
+            const empty = container.querySelector('#no-docs-msg');
+            if (empty) empty.remove();
+
+            const div = document.createElement('div');
+            div.className = 'document-item flex items-center gap-2 p-3 bg-white border rounded-lg';
+
+            let hiddenFields = '';
+            let badge = '';
+            if (id) {
+                div.dataset.id = id;
+                hiddenFields = '<input type="hidden" name="document_ids[]" value="' + id + '">';
+            } else if (tempId) {
+                div.dataset.tempId = tempId;
+                badge = '<span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Pendiente</span>';
+            }
+
+            div.innerHTML = hiddenFields +
+                '<i class="fas fa-file-pdf text-red-600"></i>' +
+                '<span class="flex-1 text-xs font-medium truncate">' + title + '</span>' +
+                badge +
+                '<button type="button" onclick="removeDocumentField(this)" class="text-red-500 hover:text-red-700"><i class="fas fa-times"></i></button>';
+            
+            container.appendChild(div);
+        }
+
+        function removeDocumentField(btn) {
+            const item = btn.closest('.document-item');
+            if (item.dataset.tempId) {
+                const inputWrapper = document.querySelector('.doc-upload-wrapper[data-item-id="' + item.dataset.tempId + '"]');
+                if (inputWrapper) inputWrapper.remove();
+            }
+            item.remove();
+        }
+
+        // ===== ÍTEMS =====
+        function addItem() {
+            document.getElementById('itemModalTitle').textContent = 'Agregar Ítem';
+            document.getElementById('edit_item_id').value = '';
+            document.getElementById('is_section_heading').checked = false;
+            document.getElementById('section_name').value = '';
+            document.getElementById('actividad').value = '';
+            document.getElementById('fecha_text').value = '';
+            document.getElementById('section_select').value = '';
+            toggleItemFields();
+            populateSectionSelect();
+            document.getElementById('itemModal').classList.remove('hidden');
+        }
+
+        function editItem(btn) {
+            const row = btn.closest('tr');
+            document.getElementById('itemModalTitle').textContent = 'Editar Ítem';
+            document.getElementById('edit_item_id').value = row.dataset.id;
+            
+            const isSection = row.dataset.isSection === '1';
+            document.getElementById('is_section_heading').checked = isSection;
+            toggleItemFields();
+            populateSectionSelect();
+            
+            if (isSection) {
+                document.getElementById('section_name').value = row.dataset.actividad;
+            } else {
+                document.getElementById('section_select').value = row.dataset.sectionVal || '';
+                document.getElementById('actividad').value = row.dataset.actividad;
+                document.getElementById('fecha_text').value = row.dataset.fecha;
+            }
+            
+            document.getElementById('itemModal').classList.remove('hidden');
+        }
+
+        function closeItemModal() {
+            document.getElementById('itemModal').classList.add('hidden');
+        }
+
+        function toggleItemFields() {
+            const isSection = document.getElementById('is_section_heading').checked;
+            document.getElementById('section-fields').classList.toggle('hidden', !isSection);
+            document.getElementById('normal-fields').classList.toggle('hidden', isSection);
+        }
+
+        function populateSectionSelect() {
+            const select = document.getElementById('section_select');
+            select.innerHTML = '<option value="">-- Sin Sección --</option>';
+
+            const sections = new Set();
+            document.querySelectorAll('#items-tbody tr[data-is-section="1"]').forEach(row => {
+                sections.add(row.dataset.actividad);
+            });
+
+            sections.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s;
+                select.appendChild(opt);
+            });
+        }
+
+        function saveItem() {
+            const isSection = document.getElementById('is_section_heading').checked;
+            const editId = document.getElementById('edit_item_id').value;
+            
+            let sectionVal, actividad, fecha;
+            
+            if (isSection) {
+                actividad = document.getElementById('section_name').value.trim();
+                if (!actividad) { alert('El nombre de la sección es obligatorio'); return; }
+                sectionVal = actividad;
+                fecha = '—';
+            } else {
+                sectionVal = document.getElementById('section_select').value;
+                actividad = document.getElementById('actividad').value.trim();
+                fecha = document.getElementById('fecha_text').value.trim() || '—';
+                if (!actividad) { alert('La actividad es obligatoria'); return; }
+            }
+
+            const tbody = document.getElementById('items-tbody');
+            
+            if (editId) {
+                // Editar existente
+                const row = document.querySelector(`tr[data-id="${editId}"]`);
+                if (row) {
+                    row.dataset.isSection = isSection ? '1' : '0';
+                    row.dataset.sectionVal = sectionVal;
+                    row.dataset.actividad = actividad;
+                    row.dataset.fecha = fecha;
+                    row.className = 'item-row border-b ' + (isSection ? 'bg-red-50 border-l-4 border-l-red-700' : 'hover:bg-gray-50');
+                    updateRowHTML(row, isSection, actividad, sectionVal, fecha);
+                }
+            } else {
+                // Crear nuevo
+                const newId = 'new_' + (++newItemCounter);
+                const tr = document.createElement('tr');
+                tr.className = 'item-row border-b ' + (isSection ? 'bg-red-50 border-l-4 border-l-red-700' : 'hover:bg-gray-50');
+                tr.dataset.id = newId;
+                tr.dataset.isNew = '1';
+                tr.dataset.isSection = isSection ? '1' : '0';
+                tr.dataset.sectionVal = sectionVal;
+                tr.dataset.actividad = actividad;
+                tr.dataset.fecha = fecha;
+                updateRowHTML(tr, isSection, actividad, sectionVal, fecha);
+                tbody.appendChild(tr);
+            }
+            
+            closeItemModal();
+        }
+
+        function updateRowHTML(row, isSection, actividad, sectionVal, fecha) {
+            let html = `
+                <td class="px-3 py-3 text-center">
+                    <div class="flex flex-col items-center gap-1">
+                        <button type="button" onclick="moveRow(this, 'up')" class="text-gray-400 hover:text-red-700">
+                            <i class="fas fa-chevron-up text-xs"></i>
+                        </button>
+                        <button type="button" onclick="moveRow(this, 'down')" class="text-gray-400 hover:text-red-700">
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </td>`;
+
+            if (isSection) {
+                html += `<td colspan="2" class="px-3 py-3"><span class="font-bold text-red-800 uppercase text-sm">${actividad}</span></td>`;
+            } else {
+                html += `<td class="px-3 py-3"><span class="font-medium text-gray-800 text-sm">${actividad}</span>`;
+                if (sectionVal) html += `<div class="text-xs text-gray-400 mt-1">Sección: ${sectionVal}</div>`;
+                html += `</td><td class="px-3 py-3"><span class="inline-flex items-center px-2 py-1 bg-gray-100 border rounded text-xs text-gray-700"><i class="far fa-calendar mr-1"></i> ${fecha}</span></td>`;
+            }
+
+            html += `
+                <td class="px-3 py-3 text-right">
+                    <button type="button" onclick="editItem(this)" class="text-blue-600 hover:text-blue-800 mr-2" title="Editar"><i class="fas fa-edit"></i></button>
+                    <button type="button" onclick="removeItem(this)" class="text-red-500 hover:text-red-700" title="Eliminar"><i class="fas fa-trash"></i></button>
+                </td>`;
+
+            row.innerHTML = html;
+        }
+
+        function removeItem(btn) {
+            if (!confirm('¿Eliminar este ítem?')) return;
+            const row = btn.closest('tr');
+            const id = row.dataset.id;
+            if (id && !String(id).startsWith('new_')) {
+                deletedItems.push(parseInt(id));
+            }
+            row.remove();
+        }
+
+        function moveRow(btn, direction) {
+            const row = btn.closest('tr');
+            const tbody = row.parentNode;
+            if (direction === 'up' && row.previousElementSibling) {
+                tbody.insertBefore(row, row.previousElementSibling);
+            }
+            if (direction === 'down' && row.nextElementSibling) {
+                tbody.insertBefore(row.nextElementSibling, row);
+            }
+        }
+
+        // Before submit
+        document.getElementById('cronogramaForm').addEventListener('submit', function(e) {
+            const rows = document.querySelectorAll('#items-tbody tr.item-row');
+            const items = [];
+
+            rows.forEach((row, index) => {
+                items.push({
+                    id: row.dataset.isNew ? null : parseInt(row.dataset.id),
+                    is_new: row.dataset.isNew === '1',
+                    section: row.dataset.sectionVal || '',
+                    is_section_heading: row.dataset.isSection === '1',
+                    actividad: row.dataset.actividad || '',
+                    fecha_text: row.dataset.fecha || '',
+                    orden: index
+                });
+            });
+
+            document.getElementById('items_payload').value = JSON.stringify(items);
+            document.getElementById('deleted_items').value = JSON.stringify(deletedItems);
+        });
+    </script>
 @endsection
