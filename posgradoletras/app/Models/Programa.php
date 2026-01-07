@@ -99,10 +99,10 @@ class Programa extends Model
         if ($this->imagen) {
             return asset('storage/' . $this->imagen);
         }
-        // Fallback según el tipo de programa
+        // Fallback según el tipo de programa (optimizadas)
         return $this->grado === 'Maestría'
-            ? 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=600&q=80'
-            : 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=600&q=80';
+            ? 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=800&q=75&fm=webp'
+            : 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=75&fm=webp';
     }
 
     // Mutators

@@ -20,24 +20,52 @@
         <link rel="shortcut icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
     @endif
 
-    <!-- Fonts: Inter (moderna) + Merriweather (serif institucional) -->
+    <!-- Fonts: Inter (optimizado - solo pesos necesarios y subset latin) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap"
-        rel="stylesheet" />
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@700&display=swap&subset=latin"
+        rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@700&display=swap&subset=latin">
+    </noscript>
 
-    <!-- Font Awesome (íconos del topbar) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        referrerpolicy="no-referrer" />
+    <!-- Font Awesome (lazy load no crítico) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css"
+        media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css"
+        media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css">
+    </noscript>
+
+    <!-- Preload logo crítico -->
+    <link rel="preload" as="image" href="https://letras.unmsm.edu.pe/wp-content/uploads/2020/11/LOGO_LETRAS_AI.png"
+        fetchpriority="high">
+
+    <!-- Alpine.js with Collapse Plugin -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- Alpine.js x-cloak style -->
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+
     @stack('styles')
 </head>
 
-<body class="font-sans antialiased bg-gray-50">
+<body class="font-sans antialiased bg-gray-50 overflow-x-hidden">
     <!-- HEADER FIJO COMO EN EL EJEMPLO -->
     <header class="fixed top-0 w-full z-50 flex flex-col">
         <!-- Topbar -->

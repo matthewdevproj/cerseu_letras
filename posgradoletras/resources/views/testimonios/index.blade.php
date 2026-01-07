@@ -26,7 +26,7 @@
     <!-- HERO DE SECCIÓN -->
     <x-hero-section title="Testimonios" label="Nuestros Egresados"
         subtitle="Conoce las experiencias de quienes han pasado por nuestros programas de posgrado"
-        image="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" />
+        image="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=75&fm=webp" />
 
     <section class="container mx-auto px-6 py-16">
         @if(count($testimonios) > 0)

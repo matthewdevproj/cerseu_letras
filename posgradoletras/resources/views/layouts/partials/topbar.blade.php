@@ -8,8 +8,7 @@
     <div class="container mx-auto px-4 lg:px-8 flex justify-between items-center h-full">
         <div class="hidden lg:flex items-center space-x-6">
             @if($siteSettings?->email)
-                <a href="mailto:{{ $siteSettings->email }}"
-                    class="flex items-center hover:text-gray-300 transition gap-2">
+                <a href="mailto:{{ $siteSettings->email }}" class="flex items-center hover:text-gray-300 transition gap-2">
                     <i class="fas fa-envelope"></i>
                     <span>{{ $siteSettings->email }}</span>
                 </a>
@@ -47,8 +46,7 @@
 
         <div class="flex lg:hidden items-center space-x-3 text-[11px]">
             @if($siteSettings?->email)
-                <a href="mailto:{{ $siteSettings->email }}"
-                    class="flex items-center hover:text-gray-300 transition gap-1">
+                <a href="mailto:{{ $siteSettings->email }}" class="flex items-center hover:text-gray-300 transition gap-1">
                     <i class="fas fa-envelope text-xs"></i>
                     <span>{{ $siteSettings->email }}</span>
                 </a>
@@ -111,89 +109,80 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const topBar = document.getElementById('top-bar');
-            const navbarInner = document.getElementById('navbar-inner');
-            const navHeight = document.getElementById('nav-height');
-            const navItems = document.querySelectorAll('.nav-item');
+            // Pequeño delay para asegurar que Alpine y todo el DOM estén listos
+            setTimeout(() => {
+                const topBar = document.getElementById('top-bar');
+                const navbarInner = document.getElementById('navbar-inner');
+                const navHeight = document.getElementById('nav-height');
+                const navItems = document.querySelectorAll('.nav-item');
+                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                const logo = document.getElementById('header-logo');
 
-            const logo = document.getElementById('header-logo');
+                let scrolled = false;
 
-            let scrolled = false;
-
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    if (!scrolled) {
-                        // --- AL BAJAR (SCROLL) ---
-                        scrolled = true;
-
-                        // 1. Ocultar Top Bar
-                        if (topBar) {
-                            topBar.classList.remove('h-10');
-                            topBar.classList.add('h-0', 'opacity-0');
-                        }
-
-                        // 2. Navbar con efecto Glassmorphism (moderno)
-                        if (navbarInner) {
-                            navbarInner.classList.remove('bg-transparent');
-                            navbarInner.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-lg');
-                        }
-
-                        // 3. Texto oscuro
+                // Función para aplicar estilos según el estado de scroll
+                function applyScrollStyles(isScrolled) {
+                    if (isScrolled) {
+                        // Cambios al hacer scroll
+                        topBar?.classList.replace('h-10', 'h-0');
+                        topBar?.classList.add('opacity-0');
+                        navbarInner?.classList.remove('bg-transparent');
+                        navbarInner?.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-lg');
                         navItems.forEach(item => {
-                            item.classList.remove('text-white');
-                            item.classList.add('text-gray-800');
+                            item.classList.replace('text-white', 'text-gray-800');
                         });
-
-
-
-                        // 4. Logo original (color) - Quitar filtros
-                        if (logo) {
-                            logo.classList.remove('brightness-0', 'invert');
+                        if (mobileMenuBtn) {
+                            mobileMenuBtn.classList.remove('text-white');
+                            mobileMenuBtn.classList.add('text-gray-800');
                         }
-
-                        if (navHeight) {
-                            navHeight.classList.remove('h-24');
-                            navHeight.classList.add('h-20');
-                        }
-                    }
-
-                } else {
-                    if (scrolled) {
-                        // --- AL SUBIR (TOP) ---
-                        scrolled = false;
-
-                        // 1. Mostrar Top Bar
-                        if (topBar) {
-                            topBar.classList.add('h-10');
-                            topBar.classList.remove('h-0', 'opacity-0');
-                        }
-
-                        // 2. Fondo transparente (quitar glassmorphism)
-                        if (navbarInner) {
-                            navbarInner.classList.add('bg-transparent');
-                            navbarInner.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-lg');
-                        }
-
-                        // 3. Texto blanco
+                        logo?.classList.remove('brightness-0', 'invert');
+                        navHeight?.classList.replace('h-24', 'h-20');
+                    } else {
+                        // Cambios al volver arriba
+                        topBar?.classList.replace('h-0', 'h-10');
+                        topBar?.classList.remove('opacity-0');
+                        navbarInner?.classList.add('bg-transparent');
+                        navbarInner?.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-lg');
                         navItems.forEach(item => {
-                            item.classList.add('text-white');
-                            item.classList.remove('text-gray-800');
+                            item.classList.replace('text-gray-800', 'text-white');
                         });
-
-
-
-                        // 4. Logo blanco (filtro)
-                        if (logo) {
-                            logo.classList.add('brightness-0', 'invert');
+                        if (mobileMenuBtn) {
+                            mobileMenuBtn.classList.remove('text-gray-800');
+                            mobileMenuBtn.classList.add('text-white');
                         }
-
-                        if (navHeight) {
-                            navHeight.classList.add('h-24');
-                            navHeight.classList.remove('h-20');
-                        }
+                        logo?.classList.add('brightness-0', 'invert');
+                        navHeight?.classList.replace('h-20', 'h-24');
                     }
                 }
-            });
+
+                // Verificar posición inicial al cargar la página
+                const initialScrolled = window.scrollY > 50;
+                if (initialScrolled) {
+                    scrolled = true;
+                    applyScrollStyles(true);
+                }
+
+                // Usar throttle para optimizar performance
+                let ticking = false;
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(() => {
+                            const isScrolled = window.scrollY > 50;
+
+                            if (isScrolled && !scrolled) {
+                                scrolled = true;
+                                applyScrollStyles(true);
+                            } else if (!isScrolled && scrolled) {
+                                scrolled = false;
+                                applyScrollStyles(false);
+                            }
+
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                }, { passive: true });
+            }, 100); // Esperar 100ms para que todo esté listo
         });
     </script>
 @endpush
