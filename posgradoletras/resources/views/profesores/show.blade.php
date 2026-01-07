@@ -15,7 +15,7 @@
         title="{{ $profesor->nombre_completo }}" 
         label="Profesor Asesor"
         subtitle="{{ $profesor->grado ?? 'Docente investigador de la Facultad de Letras y Ciencias Humanas' }}"
-        image="https://letras.unmsm.edu.pe/wp-content/uploads/2016/10/cabecera.jpg" />
+        image="https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0007-Trim-frame-at-0m5s.jpg" />
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="container mx-auto px-4 py-12">
@@ -23,7 +23,7 @@
 
             <!-- SIDEBAR: Tarjeta de Perfil -->
             <aside class="lg:col-span-1">
-                <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 flex flex-col items-center sticky top-36 group/card hover:shadow-xl transition-shadow duration-300">
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 flex flex-col items-center lg:sticky lg:top-36 group/card hover:shadow-xl transition-shadow duration-300">
 
                     <!-- Avatar con efecto glow -->
                     <div class="relative w-32 h-32 mb-4">
@@ -84,22 +84,25 @@
                                 @if($profesor->cti_vitae)
                                     <a href="{{ $profesor->cti_vitae }}" target="_blank" 
                                        class="flex items-center gap-3 text-sm border border-blue-100 bg-blue-50/50 px-4 py-2.5 rounded-xl text-blue-700 hover:bg-blue-700 hover:text-white hover:border-blue-700 transition-all group">
-                                        <i class="fas fa-file-alt text-lg"></i>
+                                        <i class="fas fa-file-alt text-lg w-6 text-center"></i>
                                         <span class="font-medium">CTI Vitae</span>
+                                        <i class="fas fa-external-link-alt ml-auto text-xs opacity-50 group-hover:opacity-100"></i>
                                     </a>
                                 @endif
                                 @if($profesor->orcid)
                                     <a href="{{ $profesor->orcid }}" target="_blank" 
                                        class="flex items-center gap-3 text-sm border border-green-100 bg-green-50/50 px-4 py-2.5 rounded-xl text-green-700 hover:bg-green-600 hover:text-white hover:border-green-600 transition-all group">
-                                        <i class="fab fa-orcid text-lg"></i>
+                                        <i class="fab fa-orcid text-lg w-6 text-center"></i>
                                         <span class="font-medium">ORCID</span>
+                                        <i class="fas fa-external-link-alt ml-auto text-xs opacity-50 group-hover:opacity-100"></i>
                                     </a>
                                 @endif
                                 @if($profesor->linkedin)
                                     <a href="{{ $profesor->linkedin }}" target="_blank" 
                                        class="flex items-center gap-3 text-sm border border-blue-100 bg-blue-50/50 px-4 py-2.5 rounded-xl text-blue-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all group">
-                                        <i class="fab fa-linkedin text-lg"></i>
+                                        <i class="fab fa-linkedin text-lg w-6 text-center"></i>
                                         <span class="font-medium">LinkedIn</span>
+                                        <i class="fas fa-external-link-alt ml-auto text-xs opacity-50 group-hover:opacity-100"></i>
                                     </a>
                                 @endif
                             </div>

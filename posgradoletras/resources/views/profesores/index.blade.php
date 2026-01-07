@@ -29,7 +29,7 @@
         title="Profesores Asesores" 
         label="Plana Docente"
         subtitle="Investigadores de alto nivel comprometidos con la excelencia académica."
-        image="https://letras.unmsm.edu.pe/wp-content/uploads/2020/11/frontis-letras.jpg" />
+        image="https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0007-Trim-frame-at-0m5s.jpg" />
 
     <!-- LAYOUT SIDEBAR + CONTENIDO -->
     <div class="container mx-auto px-4 py-12 max-w-full overflow-hidden">

@@ -262,6 +262,13 @@
                 <span>Cronograma</span>
             </a>
 
+            <a href="{{ route('admin.informativos.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.informativos.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <i
+                    class="fas fa-info-circle w-5 text-lg {{ request()->routeIs('admin.informativos.*') ? '' : 'text-gray-500' }}"></i>
+                <span>Recursos Informativos</span>
+            </a>
+
             <a href="{{ route('admin.eventos.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.eventos.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
                 <i

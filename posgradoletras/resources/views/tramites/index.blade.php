@@ -43,35 +43,34 @@
 
     <!-- HERO DE SECCIÓN -->
     <x-hero-section title="Obtención de Grado" label="Trámites Académicos"
-        subtitle="Guía completa de requisitos y procedimientos para la obtención de los grados académicos de Magíster y Doctor."
         image="https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0007-Trim-frame-at-0m5s.jpg" />
 
     <!-- LAYOUT SIDEBAR + CONTENIDO -->
     <div class="container mx-auto px-4 py-12" x-data="{ currentTab: 'maestria' }">
-        <div class="grid lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
             <!-- SIDEBAR: NAVEGACIÓN -->
             <aside class="lg:col-span-1">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-2 sticky top-28">
-                    <nav class="flex flex-col space-y-1">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-2 lg:sticky lg:top-28">
+                    <nav class="grid grid-cols-2 lg:flex lg:flex-col gap-2 lg:gap-1">
                         <button @click="currentTab = 'maestria'"
                             :class="{ 'bg-unmsm-guinda text-white shadow-md': currentTab === 'maestria', 'text-gray-600 hover:bg-gray-50': currentTab !== 'maestria' }"
-                            class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold transition-all w-full text-left">
-                            <i class="fas fa-graduation-cap text-lg"
+                            class="flex items-center justify-center lg:justify-start gap-2 lg:gap-3 px-3 lg:px-4 py-3 rounded-lg text-xs lg:text-sm font-bold transition-all w-full text-center lg:text-left">
+                            <i class="fas fa-graduation-cap text-base lg:text-lg"
                                 :class="{ 'text-unmsm-dorado': currentTab === 'maestria', 'text-gray-400': currentTab !== 'maestria' }"></i>
                             Grado de Magíster
                         </button>
 
                         <button @click="currentTab = 'doctorado'"
                             :class="{ 'bg-gray-900 text-white shadow-md': currentTab === 'doctorado', 'text-gray-600 hover:bg-gray-50': currentTab !== 'doctorado' }"
-                            class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold transition-all w-full text-left">
-                            <i class="fas fa-user-graduate text-lg"
+                            class="flex items-center justify-center lg:justify-start gap-2 lg:gap-3 px-3 lg:px-4 py-3 rounded-lg text-xs lg:text-sm font-bold transition-all w-full text-center lg:text-left">
+                            <i class="fas fa-user-graduate text-base lg:text-lg"
                                 :class="{ 'text-white': currentTab === 'doctorado', 'text-gray-400': currentTab !== 'doctorado' }"></i>
                             Grado de Doctor
                         </button>
                     </nav>
 
-                    <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
+                    <div class="hidden lg:block mt-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
                         <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Informes</h4>
                         <div class="space-y-3 text-sm">
                             <a href="mailto:upg.letras@unmsm.edu.pe"
@@ -88,7 +87,7 @@
                     </div>
 
                     <!-- Recursos Rápidos -->
-                    <div class="mt-4 p-4 bg-unmsm-guinda/5 rounded-lg border border-unmsm-guinda/10">
+                    <div class="hidden lg:block mt-4 p-4 bg-unmsm-guinda/5 rounded-lg border border-unmsm-guinda/10">
                         <h4 class="text-xs font-bold text-unmsm-guinda uppercase mb-3">Documentos</h4>
                         <div class="space-y-2 text-xs">
                             <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
@@ -255,7 +254,7 @@
                                 <!-- 5.4.1 Trámite de Grado -->
                                 <div>
                                     <p class="font-semibold mb-2">5.4.1. Trámite de Grado de Magíster</p>
-                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                    <div class="overflow-x-auto border border-gray-200 rounded-lg">
                                         <table class="min-w-full divide-y divide-gray-200">
                                             <thead class="bg-unmsm-guinda">
                                                 <tr>
@@ -297,7 +296,7 @@
                                         5.4.2. Pago por monitoreo de investigación, avances y ejecución de tesis – Tarifario
                                         Descentralizado (R.D. N.º 1204-D-FLCH-17)
                                     </p>
-                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                    <div class="overflow-x-auto border border-gray-200 rounded-lg">
                                         <table class="min-w-full divide-y divide-gray-200">
                                             <thead class="bg-unmsm-guinda">
                                                 <tr>
@@ -338,7 +337,7 @@
                                         5.4.3. Expedición de Diplomas de Grado de Magíster – Sede Central (R.R. N.º
                                         01545-R-08)
                                     </p>
-                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                    <div class="overflow-x-auto border border-gray-200 rounded-lg">
                                         <table class="min-w-full divide-y divide-gray-200">
                                             <thead class="bg-unmsm-guinda">
                                                 <tr>
@@ -714,7 +713,7 @@
                                 <!-- 5.4.1 Trámite de Grado de Doctor -->
                                 <div>
                                     <p class="font-semibold mb-2">5.4.1. Trámite de Grado de Doctor</p>
-                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                    <div class="overflow-x-auto border border-gray-200 rounded-lg">
                                         <table class="min-w-full divide-y divide-gray-200">
                                             <thead class="bg-gray-900">
                                                 <tr>
@@ -756,7 +755,7 @@
                                         5.4.2. Pago por monitoreo de investigación, avances y ejecución de tesis – Tarifario
                                         Descentralizado (R.D. N.º 1204-D-FLCH-17)
                                     </p>
-                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                    <div class="overflow-x-auto border border-gray-200 rounded-lg">
                                         <table class="min-w-full divide-y divide-gray-200">
                                             <thead class="bg-gray-900">
                                                 <tr>
@@ -797,7 +796,7 @@
                                         5.4.3. Expedición de Diplomas de Grado de Doctor – Sede Central (R.R. N.º
                                         01545-R-08)
                                     </p>
-                                    <div class="overflow-hidden border border-gray-200 rounded-lg">
+                                    <div class="overflow-x-auto border border-gray-200 rounded-lg">
                                         <table class="min-w-full divide-y divide-gray-200">
                                             <thead class="bg-gray-900">
                                                 <tr>
@@ -1043,6 +1042,48 @@
                 </div>
 
             </section>
+
+            <!-- INFORMACIÓN Y RECURSOS (SOLO MÓVIL) -->
+            <div class="lg:hidden space-y-4 mt-8">
+                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                    <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Informes</h4>
+                    <div class="space-y-3 text-sm">
+                        <a href="mailto:upg.letras@unmsm.edu.pe"
+                            class="flex items-center gap-2 text-gray-700 hover:text-unmsm-guinda">
+                            <i class="far fa-envelope text-unmsm-guinda"></i>
+                            <span class="truncate">upg.letras@unmsm.edu.pe</span>
+                        </a>
+                        <a href="https://wa.me/51982085037" target="_blank"
+                            class="flex items-center gap-2 text-gray-700 hover:text-green-600">
+                            <i class="fab fa-whatsapp text-green-500 text-lg"></i>
+                            <span>982 085 037</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-unmsm-guinda/5 rounded-lg border border-unmsm-guinda/10">
+                    <h4 class="text-xs font-bold text-unmsm-guinda uppercase mb-3">Documentos Rápidos</h4>
+                    <div class="space-y-2 text-xs">
+                        <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
+                            target="_blank"
+                            class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
+                            <i class="fas fa-file-pdf text-red-500"></i>
+                            Plantilla Proyecto
+                        </a>
+                        <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/03/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-1-1.pdf"
+                            target="_blank"
+                            class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
+                            <i class="fas fa-file-pdf text-red-500"></i>
+                            Estructura de Tesis
+                        </a>
+                        <a href="https://sanmarket.unmsm.edu.pe/" target="_blank"
+                            class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
+                            <i class="fas fa-credit-card text-green-600"></i>
+                            SanMarket (Pagos)
+                        </a>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
