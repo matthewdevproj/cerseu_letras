@@ -27,7 +27,7 @@ Route::get('/programas/{slug}', [ProgramaController::class, 'show'])->name('prog
 // Profesores
 Route::get('/profesores', [ProfesorController::class, 'index'])->name('profesores.index');
 Route::get('/profesores/programa/{slug}', [ProfesorController::class, 'byPrograma'])->name('profesores.programa');
-Route::get('/profesores/{id}', [ProfesorController::class, 'show'])->name('profesores.show');
+Route::get('/profesores/{slug}', [ProfesorController::class, 'show'])->name('profesores.show');
 
 // Admisión
 Route::get('/admision', [AdmisionController::class, 'index'])->name('admision');

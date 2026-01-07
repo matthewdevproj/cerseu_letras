@@ -171,7 +171,7 @@
                                                 <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
                                                     <div>
                                                         <h3 class="text-xl md:text-2xl font-bold text-gray-900 font-serif group-hover:text-unmsm-guinda transition-colors">
-                                                            <a href="{{ route('profesores.show', $profesor->id) }}" class="hover:underline">
+                                                            <a href="{{ route('profesores.show', $profesor->slug) }}" class="hover:underline">
                                                                 {{ $profesor->nombre_completo }}
                                                             </a>
                                                         </h3>
@@ -181,7 +181,7 @@
                                                             </span>
                                                         @endif
                                                     </div>
-                                                    <a href="{{ route('profesores.show', $profesor->id) }}" 
+                                                    <a href="{{ route('profesores.show', $profesor->slug) }}" 
                                                        class="hidden md:inline-flex items-center text-xs font-semibold text-gray-500 hover:text-unmsm-guinda transition group/link">
                                                         Ver perfil completo 
                                                         <i class="fas fa-arrow-right ml-1 transform group-hover/link:translate-x-1 transition-transform"></i>
@@ -273,7 +273,7 @@
                                                 @endif
 
                                                 <!-- Botón Móvil (solo visible en pantallas pequeñas) -->
-                                                <a href="{{ route('profesores.show', $profesor->id) }}" 
+                                                <a href="{{ route('profesores.show', $profesor->slug) }}" 
                                                    class="md:hidden w-full block text-center bg-gray-100 text-gray-700 font-bold py-2 rounded text-sm hover:bg-unmsm-guinda hover:text-white transition-colors">
                                                     Ver perfil completo
                                                 </a>

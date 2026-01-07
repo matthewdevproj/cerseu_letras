@@ -37,7 +37,7 @@ RUN useradd -G www-data,root -u 1000 -d /home/laravel laravel && \
     chown -R laravel:laravel /home/laravel
 
 # Copiar configuración PHP personalizada (aumentar límites de subida)
-COPY php.ini /usr/local/etc/php/conf.d/99-custom.ini
+COPY docker/php/php.ini /usr/local/etc/php/conf.d/99-custom.ini
 
 # Cambiar al usuario laravel
 USER laravel

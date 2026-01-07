@@ -12,11 +12,24 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            // Usuarios del sistema
             UserSeeder::class,
-            ProgramaSeeder::class,
-            DocenteSeeder::class,
+            
+            // Configuración del sitio
+            SiteSettingsSeeder::class,
+            
+            // Datos principales
+            ProgramasSeeder::class,
+            DocentesSeeder::class,
+            DirectorioPosgradoSeeder::class,
+            
+            // Relaciones
             DocenteProgramaSeeder::class,
-            TestimonioSeeder::class,
+            
+            // Contenido adicional
+            TestimoniosSeeder::class,
+            DocumentsSeeder::class,
+            CronogramasSeeder::class,
         ]);
     }
 }

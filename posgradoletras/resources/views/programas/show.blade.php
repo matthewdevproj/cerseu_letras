@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <h4 class="text-sm font-bold text-unmsm-guinda uppercase tracking-wide mb-1">Coordinador del Programa</h4>
-                                    <a href="{{ route('profesores.show', $coordinador->id) }}" 
+                                    <a href="{{ route('profesores.show', $coordinador->slug) }}" 
                                        class="text-base font-semibold text-gray-900 hover:text-unmsm-guinda hover:underline transition-colors inline-flex items-center gap-2">
                                         {{ $coordinador->nombre }}
                                         <i class="fas fa-arrow-right text-xs"></i>
@@ -252,24 +252,37 @@
                     @if ($programa->docentes && count($programa->docentes) > 0)
                         <div class="grid gap-4">
                             @foreach ($programa->docentes as $profesor)
-                                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                <div class="group border border-gray-200 rounded-lg p-4 hover:shadow-lg hover:border-unmsm-guinda/30 transition-all duration-300 cursor-pointer relative">
+                                    <a href="{{ route('profesores.show', $profesor->slug) }}" class="absolute inset-0 z-0" aria-label="Ver perfil de {{ $profesor->nombre }}"></a>
+                                    
                                     <div class="flex items-start gap-4">
-                                        <div class="w-12 h-12 rounded-full bg-unmsm-guinda/10 flex items-center justify-center text-unmsm-guinda font-bold text-lg flex-shrink-0">
+                                        <div class="w-12 h-12 rounded-full bg-unmsm-guinda/10 group-hover:bg-unmsm-guinda group-hover:text-white flex items-center justify-center text-unmsm-guinda font-bold text-lg flex-shrink-0 transition-colors duration-300">
                                             {{ substr($profesor->nombre, 0, 1) }}
                                         </div>
                                         <div class="flex-1">
-                                            <div class="flex items-start justify-between gap-2 mb-2">
-                                                <h5 class="font-bold text-gray-800 text-base">{{ $profesor->nombre }}</h5>
-                                                @if($profesor->pivot->es_coordinador)
-                                                    <span class="inline-flex items-center gap-1 px-2 py-1 bg-unmsm-guinda text-white text-xs font-semibold rounded">
-                                                        <i class="fas fa-star"></i>
-                                                        Coordinador
-                                                    </span>
-                                                @endif
+                                            <div class="flex items-center justify-between gap-3 mb-2">
+                                                <div class="flex items-center gap-3 flex-1">
+                                                    <h5 class="font-bold text-gray-800 group-hover:text-unmsm-guinda text-base transition-colors duration-300">
+                                                        {{ $profesor->nombre }}
+                                                    </h5>
+                                                    @if($profesor->pivot->es_coordinador)
+                                                        <span class="inline-flex items-center gap-1 px-2 py-1 bg-unmsm-guinda text-white text-xs font-semibold rounded flex-shrink-0">
+                                                            <i class="fas fa-star"></i>
+                                                            Coordinador
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                                <a href="{{ route('profesores.show', $profesor->slug) }}" 
+                                                   class="inline-flex items-center gap-2 px-3 py-1.5 bg-unmsm-guinda/5 text-unmsm-guinda hover:bg-unmsm-guinda hover:text-white text-xs font-semibold rounded-lg transition-all duration-300 relative z-10 group/btn flex-shrink-0">
+                                                    <span class="whitespace-nowrap">Ver más información</span>
+                                                    <i class="fas fa-arrow-right text-xs group-hover/btn:translate-x-1 transition-transform"></i>
+                                                </a>
                                             </div>
                                             
                                             @if (isset($profesor->email) && !empty($profesor->email))
-                                                <a href="mailto:{{ $profesor->email }}" class="inline-flex items-center gap-1 text-sm text-unmsm-dorado hover:underline mb-2">
+                                                <a href="mailto:{{ $profesor->email }}" 
+                                                   class="inline-flex items-center gap-1 text-sm text-unmsm-dorado hover:underline mb-2 relative z-10"
+                                                   onclick="event.stopPropagation();">
                                                     <i class="fas fa-envelope text-xs"></i>
                                                     {{ $profesor->email }}
                                                 </a>
@@ -278,7 +291,8 @@
                                             <div class="flex flex-wrap gap-3 mt-3">
                                                 @if (isset($profesor->orcid) && !empty($profesor->orcid))
                                                     <a href="https://orcid.org/{{ $profesor->orcid }}" target="_blank" rel="noopener noreferrer"
-                                                       class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-700 text-xs font-medium rounded-lg hover:bg-green-100 transition-colors">
+                                                       class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-700 text-xs font-medium rounded-lg hover:bg-green-100 transition-colors relative z-10"
+                                                       onclick="event.stopPropagation();">
                                                         <i class="fab fa-orcid"></i>
                                                         <span>ORCID</span>
                                                     </a>
@@ -286,7 +300,8 @@
                                                 
                                                 @if (isset($profesor->cti_vitae) && !empty($profesor->cti_vitae))
                                                     <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer"
-                                                       class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-100 transition-colors">
+                                                       class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-100 transition-colors relative z-10"
+                                                       onclick="event.stopPropagation();">
                                                         <i class="fas fa-user-graduate"></i>
                                                         <span>CTI Vitae</span>
                                                     </a>
@@ -294,7 +309,8 @@
                                                 
                                                 @if (isset($profesor->linkedin) && !empty($profesor->linkedin))
                                                     <a href="{{ $profesor->linkedin }}" target="_blank" rel="noopener noreferrer"
-                                                       class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-100 transition-colors">
+                                                       class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-100 transition-colors relative z-10"
+                                                       onclick="event.stopPropagation();">
                                                         <i class="fab fa-linkedin"></i>
                                                         <span>LinkedIn</span>
                                                     </a>

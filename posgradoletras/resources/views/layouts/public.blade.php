@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 @php
-    $siteSettings = \App\Models\SiteSetting::get();
+    use Illuminate\Support\Facades\Cache;
+    $siteSettings = Cache::remember('site_settings', 3600, function () {
+        return \App\Models\SiteSetting::first();
+    });
 @endphp
 
 <head>

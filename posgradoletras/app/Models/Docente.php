@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Docente extends Model
 {
@@ -18,7 +19,8 @@ class Docente extends Model
         'estado',
         'foto',
         'lineas_investigacion',
-        'grupo_investigacion'
+        'grupo_investigacion',
+        'slug'
     ];
 
     protected $casts = [
@@ -65,5 +67,54 @@ class Docente extends Model
     public function scopeOrdenados($query)
     {
         return $query->orderBy('apellidos')->orderBy('nombres');
+    }
+
+    // Boot method para generar slug automáticamente
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($docente) {
+            if (empty($docente->slug)) {
+                $docente->slug = static::generateUniqueSlug($docente->nombres, $docente->apellidos);
+            }
+        });
+
+        static::updating(function ($docente) {
+            if (empty($docente->slug) || $docente->isDirty(['nombres', 'apellidos'])) {
+                $docente->slug = static::generateUniqueSlug($docente->nombres, $docente->apellidos, $docente->id);
+            }
+        });
+    }
+
+    /**
+     * Generar slug único basado en nombres y apellidos
+     */
+    protected static function generateUniqueSlug($nombres, $apellidos, $excludeId = null)
+    {
+        $baseSlug = Str::slug("{$nombres} {$apellidos}");
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (static::slugExists($slug, $excludeId)) {
+            $slug = "{$baseSlug}-{$counter}";
+            $counter++;
+        }
+
+        return $slug;
+    }
+
+    /**
+     * Verificar si el slug ya existe
+     */
+    protected static function slugExists($slug, $excludeId = null)
+    {
+        $query = static::where('slug', $slug);
+        
+        if ($excludeId) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        return $query->exists();
     }
 }
