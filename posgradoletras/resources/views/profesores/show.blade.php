@@ -80,26 +80,26 @@
                             <p class="text-[11px] font-bold text-gray-400 uppercase mb-3 tracking-widest">
                                 Perfiles Académicos
                             </p>
-                            <div class="flex justify-center gap-3">
+                            <div class="flex flex-col gap-3">
                                 @if($profesor->cti_vitae)
                                     <a href="{{ $profesor->cti_vitae }}" target="_blank" 
-                                       class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-50 text-blue-700 hover:bg-blue-700 hover:text-white transition-colors" 
-                                       title="CTI Vitae">
-                                        <i class="fas fa-file-alt"></i>
+                                       class="flex items-center gap-3 text-sm border border-blue-100 bg-blue-50/50 px-4 py-2.5 rounded-xl text-blue-700 hover:bg-blue-700 hover:text-white hover:border-blue-700 transition-all group">
+                                        <i class="fas fa-file-alt text-lg"></i>
+                                        <span class="font-medium">CTI Vitae</span>
                                     </a>
                                 @endif
                                 @if($profesor->orcid)
                                     <a href="{{ $profesor->orcid }}" target="_blank" 
-                                       class="w-10 h-10 flex items-center justify-center rounded-full bg-green-50 text-green-600 hover:bg-green-600 hover:text-white transition-colors" 
-                                       title="ORCID">
-                                        <i class="fab fa-orcid"></i>
+                                       class="flex items-center gap-3 text-sm border border-green-100 bg-green-50/50 px-4 py-2.5 rounded-xl text-green-700 hover:bg-green-600 hover:text-white hover:border-green-600 transition-all group">
+                                        <i class="fab fa-orcid text-lg"></i>
+                                        <span class="font-medium">ORCID</span>
                                     </a>
                                 @endif
                                 @if($profesor->linkedin)
                                     <a href="{{ $profesor->linkedin }}" target="_blank" 
-                                       class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors" 
-                                       title="LinkedIn">
-                                        <i class="fab fa-linkedin-in"></i>
+                                       class="flex items-center gap-3 text-sm border border-blue-100 bg-blue-50/50 px-4 py-2.5 rounded-xl text-blue-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all group">
+                                        <i class="fab fa-linkedin text-lg"></i>
+                                        <span class="font-medium">LinkedIn</span>
                                     </a>
                                 @endif
                             </div>

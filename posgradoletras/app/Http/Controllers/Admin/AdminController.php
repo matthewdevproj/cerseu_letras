@@ -7,6 +7,7 @@ use App\Models\Programa;
 use App\Models\Docente;
 use App\Models\Testimonio;
 use App\Models\DirectorioPosgrado;
+use App\Models\Evento;
 
 class AdminController extends Controller
 {
@@ -25,6 +26,8 @@ class AdminController extends Controller
             'total_testimonios' => Testimonio::count(),
             'testimonios_publicados' => Testimonio::publicados()->count(),
             'total_directorio' => DirectorioPosgrado::count(),
+            'total_eventos' => Evento::count(),
+            'eventos_activos' => Evento::activos()->count(),
         ];
 
         return view('admin.dashboard', compact('stats'));

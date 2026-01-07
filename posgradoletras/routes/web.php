@@ -53,6 +53,9 @@ Route::prefix('testimonios')->group(function () {
 // Informativos (Documentos y Recursos)
 Route::get('/informativos', [\App\Http\Controllers\InformativoController::class, 'index'])->name('informativos.index');
 
+// Eventos
+Route::get('/eventos', [\App\Http\Controllers\EventoController::class, 'index'])->name('eventos.index');
+
 // Rutas Institucionales (adicionales)
 Route::prefix('institucional')->group(function () {
     Route::get('/', [InstitucionalController::class, 'index'])->name('institucional.index');
@@ -100,6 +103,9 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     // Informativos Management
     Route::resource('informativos', App\Http\Controllers\Admin\AdminInformativoController::class);
     Route::post('informativos/reorder', [App\Http\Controllers\Admin\AdminInformativoController::class, 'reorder'])->name('informativos.reorder');
+
+    // Eventos Management
+    Route::resource('eventos', App\Http\Controllers\Admin\AdminEventoController::class);
 });
 
 // Breeze default routes (Profile)

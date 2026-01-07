@@ -26,7 +26,7 @@
     <!-- HERO DE SECCIÓN -->
     <x-hero-section title="Testimonios" label="Nuestros Egresados"
         subtitle="Conoce las experiencias de quienes han pasado por nuestros programas de posgrado"
-        image="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=75&fm=webp" />
+        image="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=75&fm=webp" />
 
     <section class="container mx-auto px-6 py-16">
         @if(count($testimonios) > 0)
@@ -36,28 +36,25 @@
                         class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full">
                         {{-- Header con gradiente --}}
                         <div class="bg-gradient-to-r from-unmsm-guinda to-unmsm-guinda-light p-5">
-                            <h3 class="text-white font-serif font-bold text-lg mb-1">{{ $testimonio['nombre'] }}</h3>
-                            @if(isset($testimonio['cargo_actual']) && $testimonio['cargo_actual'])
-                                <p class="text-white/80 text-sm">{{ $testimonio['cargo_actual'] }}</p>
+                            <h3 class="text-white font-serif font-bold text-lg mb-1">{{ $testimonio->nombre }}</h3>
+                            @if($testimonio->programa)
+                                <p class="text-white/80 text-sm">{{ $testimonio->programa->nombre }}</p>
                             @endif
                         </div>
 
                         {{-- Contenido --}}
                         <div class="p-6 flex flex-col flex-1">
                             <p class="text-gray-600 italic leading-relaxed flex-1 mb-4">
-                                "{{ $testimonio['texto'] }}"
+                                "{{ $testimonio->contenido }}"
                             </p>
 
                             {{-- Footer --}}
                             <div class="border-t border-gray-100 pt-4 mt-auto flex justify-between items-center">
-                                <span class="text-unmsm-dorado font-bold text-sm">
-                                    Promoción {{ $testimonio['promocion'] }}
-                                </span>
-                                @php
-                                    $programa = \App\Helpers\ProgramaHelper::getProgramaBySlug($testimonio['programa_slug']);
-                                @endphp
-                                @if($programa)
-                                    <a href="{{ route('programas.show', $testimonio['programa_slug']) }}"
+                                @if($testimonio->programa)
+                                    <span class="text-unmsm-dorado font-bold text-sm">
+                                        Egresado
+                                    </span>
+                                    <a href="{{ route('programas.show', $testimonio->programa->slug ?? '#') }}"
                                         class="text-unmsm-guinda hover:text-unmsm-dorado text-sm font-medium transition-colors flex items-center gap-1">
                                         Ver programa <i class="fas fa-arrow-right text-xs"></i>
                                     </a>

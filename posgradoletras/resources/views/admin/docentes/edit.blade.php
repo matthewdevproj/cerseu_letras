@@ -271,7 +271,7 @@
                             <div>
                                 <label for="foto" class="form-label block">Foto de Perfil</label>
                                 @if($docente->foto)
-                                    <div class="mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200 flex items-center gap-4">
+                                    <div id="currentPhotoContainer" class="mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200 flex items-center gap-4">
                                         <img src="{{ asset('storage/' . $docente->foto) }}" alt="Foto actual"
                                              class="w-14 h-14 object-cover rounded-lg border-2 border-white shadow">
                                         <div class="flex-1">
@@ -281,9 +281,23 @@
                                     </div>
                                 @endif
 
-                                <input type="file" name="foto" id="foto" accept="image/*"
+                                <!-- Preview de nueva foto -->
+                                <div id="photoPreviewContainer" class="hidden mb-3 p-3 bg-green-50 rounded-lg border border-green-200 flex items-center gap-4">
+                                    <img id="photoPreview" src="" alt="Preview"
+                                         class="w-14 h-14 object-cover rounded-lg border-2 border-white shadow">
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-green-800">Nueva foto seleccionada:</p>
+                                        <p id="photoName" class="text-sm text-gray-900"></p>
+                                        <p id="photoSize" class="text-xs text-gray-500"></p>
+                                    </div>
+                                    <button type="button" onclick="removePhoto()" class="text-red-500 hover:text-red-700 p-2">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+
+                                <input type="file" name="foto" id="foto" accept="image/*" onchange="previewPhoto(event)"
                                     class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-brand-gold file:text-white hover:file:bg-yellow-600 cursor-pointer">
-                                <p class="mt-1 text-xs text-gray-500">JPG, PNG. Máximo 2MB. Dejar vacío para mantener la foto actual.</p>
+                                <p class="mt-1 text-xs text-gray-500">JPG, PNG, WEBP, GIF. Máximo 5MB. Dejar vacío para mantener la foto actual.</p>
                                 @error('foto')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -518,6 +532,41 @@
                 link.classList.add('active');
                 link.classList.remove('text-gray-500');
             }
+        }
+
+        // Preview de foto
+        function previewPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photoPreview').src = e.target.result;
+                    document.getElementById('photoName').textContent = file.name;
+                    document.getElementById('photoSize').textContent = formatFileSize(file.size);
+                    document.getElementById('photoPreviewContainer').classList.remove('hidden');
+                    // Ocultar foto actual si existe
+                    const currentPhoto = document.getElementById('currentPhotoContainer');
+                    if (currentPhoto) currentPhoto.classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removePhoto() {
+            document.getElementById('foto').value = '';
+            document.getElementById('photoPreview').src = '';
+            document.getElementById('photoPreviewContainer').classList.add('hidden');
+            // Mostrar foto actual si existe
+            const currentPhoto = document.getElementById('currentPhotoContainer');
+            if (currentPhoto) currentPhoto.classList.remove('hidden');
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
     </script>
 @endsection

@@ -75,37 +75,30 @@
 @endpush
 
 @section('content')
-    <!-- HERO PRINCIPAL CON SWIPER -->
     <header class="relative w-full h-[calc(95vh-115px)] min-h-[500px] overflow-hidden">
         <div class="swiper hero-swiper absolute inset-0 z-0">
             <div class="swiper-wrapper">
-                <!-- Slide 1 -->
                 <div class="swiper-slide">
                     <div class="slide-bg"
                         style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0007-Trim-frame-at-0m5s.jpg');">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
                 </div>
-                <!-- Slide 2 -->
-                <div class="swiper-slide" data-swiper-lazy>
-                    <div class="slide-bg swiper-lazy"
-                        data-background="https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0018-Trim-frame-at-0m2s.jpg">
+                <div class="swiper-slide">
+                    <div class="slide-bg"
+                        style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0018-Trim-frame-at-0m2s.jpg');">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
-                    <div class="swiper-lazy-preloader"></div>
                 </div>
-                <!-- Slide 3 -->
-                <div class="swiper-slide" data-swiper-lazy>
-                    <div class="slide-bg swiper-lazy"
-                        data-background="https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/IMG_1565-scaled.jpg">
+                <div class="swiper-slide">
+                    <div class="slide-bg"
+                        style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/IMG_1565-scaled.jpg');">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
-                    <div class="swiper-lazy-preloader"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Content Overlay -->
         <div class="container mx-auto px-6 absolute inset-0 z-20 text-white flex items-center pointer-events-none">
             <div class="pt-16 animate-fade-in">
                 <h1
@@ -123,14 +116,13 @@
                     </a>
                     <a href="{{ route('admision') }}"
                         class="px-6 py-2.5 border border-white text-white font-bold rounded hover:bg-white/10 transition text-sm md:text-base">
-                        Admisión 2025
+                        Admisión 2026-I
                     </a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- ESTADÍSTICAS -->
     <section class="bg-neutral-900 text-white py-6 border-b-4 border-unmsm-dorado shadow-2xl relative z-20">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center divide-x divide-gray-700/50">
@@ -173,18 +165,16 @@
             </div>
         </div>
     </section>
-    <!-- CRONOGRAMA DE ADMISIÓN -->
     <section id="admision" class="py-12 bg-gradient-to-br bg-gray-800 from-gray-800 to-gray-900 text-white relative">
         <div class="max-w-6xl mx-auto px-6">
             <div class="text-center mb-10">
-                <span class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-1 block">Convocatoria
-                    2025-I</span>
+                <span class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-1 block">Proceso de Admisión
+                    2026-I</span>
                 <h2 class="text-3xl font-light mb-2 font-serif">Cronograma de Admisión</h2>
                 <div class="w-16 h-1 bg-unmsm-dorado mx-auto mt-2 rounded-full"></div>
             </div>
 
             <div class="relative">
-                <!-- Timeline Móvil -->
                 <div class="lg:hidden">
                     <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-600"></div>
 
@@ -201,8 +191,8 @@
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="bg-white rounded-lg p-4 border-l-4 border-unmsm-guinda shadow-lg text-gray-800">
-                                    <h3 class="text-base font-bold text-gray-900">Inscripción y Pago</h3>
-                                    <p class="text-unmsm-guinda font-bold text-xs">15 Jul - 08 Ago</p>
+                                    <h3 class="text-base font-bold text-gray-900">Inscripción de postulantes y envío de expediente</h3>
+                                    <p class="text-unmsm-guinda font-bold text-xs">05 de enero al 02 de abril</p>
                                 </div>
                             </div>
                         </div>
@@ -221,8 +211,8 @@
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
-                                    <h3 class="text-base font-bold text-white">Envío de Expediente</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs">09 Ago - 15 Ago</p>
+                                    <h3 class="text-base font-bold text-white">Evaluación del expediente</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs">Hasta el 06 de abril</p>
                                 </div>
                             </div>
                         </div>
@@ -241,8 +231,8 @@
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
-                                    <h3 class="text-base font-bold text-white">Examen de Aptitud</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs">20 Ago - 25 Ago</p>
+                                    <h3 class="text-base font-bold text-white">Entrevista Personal (Solo Maestría)</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs">Hasta el 7 de abril</p>
                                 </div>
                             </div>
                         </div>
@@ -261,15 +251,14 @@
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
-                                    <h3 class="text-base font-bold text-white">Resultados</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs">28 Ago - 05 Sep</p>
+                                    <h3 class="text-base font-bold text-white">Publicación de Resultados</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs">09 de abril</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Timeline Desktop -->
                 <div class="hidden lg:block">
                     <div class="absolute top-24 left-0 right-0 h-1 bg-gray-600 z-0"></div>
                     <div class="grid grid-cols-4 gap-6 relative z-10">
@@ -287,9 +276,8 @@
                                                 d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-base font-bold mb-1">Inscripción</h3>
-                                    <p class="text-unmsm-guinda font-bold text-xs mb-1">15 Jul - 08 Ago</p>
-                                    <p class="text-gray-500 text-[10px]">Pago en Bco. Nación</p>
+                                    <h3 class="text-base font-bold mb-1">Inscripción de postulantes y envío de expediente</h3>
+                                    <p class="text-unmsm-guinda font-bold text-xs mb-1">05 Enero - 02 Abril</p>
                                 </div>
                             </div>
                             <div
@@ -310,13 +298,13 @@
                                                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-base font-bold mb-1">Expediente</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">09 Ago - 15 Ago</p>
-                                    <p class="text-gray-400 text-[10px]">Carga PDF</p>
+                                    <h3 class="text-base font-bold text-white mb-1">Evaluación</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">Hasta 06 Abril</p>
+                                    <p class="text-gray-400 text-[10px]">Revision de expediente</p>
                                 </div>
                             </div>
                             <div
-                                class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gray-400 rounded-full border-4 border-gray-800 shadow-lg z-20">
+                                class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gray-600 rounded-full border-4 border-gray-800 shadow-lg z-20">
                             </div>
                         </div>
 
@@ -333,13 +321,13 @@
                                                 d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-base font-bold mb-1">Evaluación</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">20 Ago - 25 Ago</p>
-                                    <p class="text-gray-400 text-[10px]">Entrevista y examen</p>
+                                    <h3 class="text-base font-bold text-white mb-1">Entrevista personal</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">Hasta 07 Abril</p>
+                                    <p class="text-gray-400 text-[10px]">Solo Maestría</p>
                                 </div>
                             </div>
                             <div
-                                class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gray-400 rounded-full border-4 border-gray-800 shadow-lg z-20">
+                                class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gray-600 rounded-full border-4 border-gray-800 shadow-lg z-20">
                             </div>
                         </div>
 
@@ -356,13 +344,13 @@
                                                 d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897M6 10.5v5.5a2.25 2.25 0 002.25 2.25h11.5a2.25 2.25 0 002.25-2.25v-5.5" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-base font-bold mb-1">Resultados</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">28 Ago - 05 Sep</p>
-                                    <p class="text-gray-400 text-[10px]">Matrícula</p>
+                                    <h3 class="text-base font-bold text-white mb-1">Publicación de Resultados</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">09 de abril</p>
+                                    <p class="text-gray-400 text-[10px]">Lista oficial</p>
                                 </div>
                             </div>
                             <div
-                                class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gray-400 rounded-full border-4 border-gray-800 shadow-lg z-20">
+                                class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gray-600 rounded-full border-4 border-gray-800 shadow-lg z-20">
                             </div>
                         </div>
 
@@ -371,8 +359,8 @@
             </div>
 
             <!-- Botón Principal -->
-            <div class="flex flex-col items-center mt-8">
-                <button
+            <div class="flex flex-col items-center mt-8"> 
+                <a href="{{ route('admision') }}"
                     class="bg-gradient-to-r from-unmsm-guinda to-red-900 hover:from-red-800 hover:to-unmsm-guinda text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center gap-3 border border-red-800/50">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-5 h-5">
@@ -380,12 +368,11 @@
                             d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                     </svg>
                     Iniciar Inscripción
-                </button>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- MISIÓN Y VISIÓN -->
     <section class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-12 items-center">
@@ -442,10 +429,8 @@
         </div>
     </section>
 
-    <!-- PROGRAMAS ACADÉMICOS (REDISEÑO CON BADGES DENTRO) -->
     <section id="programas" class="py-20 bg-gray-50">
         <div class="container mx-auto px-4 lg:px-8">
-            <!-- Encabezado -->
             <div class="text-center mb-16">
                 <h2 class="text-4xl md:text-5xl font-bold text-unmsm-guinda mb-6 font-serif">Nuestros Programas</h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -620,6 +605,9 @@
         }
     </script>
 
+    <!-- TESTIMONIOS -->
+    @include('home.partials.testimonios-section')
+
     <!-- PLANA DOCENTE -->
     <section class="py-20 bg-white">
         <div class="container mx-auto px-6">
@@ -650,10 +638,10 @@
         </div>
     </section>
 
-    <!-- DOCUMENTOS Y RECURSOS (INFORMATIVOS) -->
+    @include('home.partials.eventos-section')
+
     @include('home.partials.informativos-section')
 
-    <!-- CONTACTO & FOOTER -->
     @php
         $siteSettings = \App\Models\SiteSetting::get();
     @endphp
@@ -784,7 +772,6 @@
                     </div>
                 </div>
 
-                <!-- Mapa -->
                 <div class="rounded-xl overflow-hidden bg-gray-800 h-[350px] shadow-lg border border-gray-700">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d487.7251388091363!2d-77.08159160793049!3d-12.057201313094351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c9470823c4f5%3A0xc528a60911019861!2sFacultad%20de%20Letras%20y%20Ciencias%20Humanas%20-%20UNMSM!5e0!3m2!1ses!2spe!4v1764687672723!5m2!1ses!2spe"

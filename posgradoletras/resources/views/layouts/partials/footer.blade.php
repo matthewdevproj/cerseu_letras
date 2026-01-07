@@ -1,6 +1,6 @@
 @php
     // Cache de SiteSetting para evitar query en cada request
-    $siteSettings = Cache::remember('site_settings_footer', 3600, function() {
+    $siteSettings = Cache::remember('site_settings_footer', 3600, function () {
         return \App\Models\SiteSetting::first();
     });
 @endphp
@@ -8,29 +8,21 @@
 <footer class="bg-unmsm-guinda text-white border-t-4 border-unmsm-dorado py-12">
     <div class="container mx-auto px-4">
         <div class="grid md:grid-cols-4 gap-8 text-sm">
-            <!-- Columna 1: Información Principal -->
             <div class="col-span-1 md:col-span-1">
                 <div class="mb-4">
                     @if($siteSettings?->logo_path)
                         <img src="{{ asset('storage/' . $siteSettings->logo_path) }}"
-                            alt="{{ $siteSettings->site_name ?? 'Logo Letras UNMSM' }}" 
-                            class="h-16 w-auto mb-3"
-                            loading="lazy"
-                            decoding="async"
-                            width="64" height="64">
+                            alt="{{ $siteSettings->site_name ?? 'Logo Letras UNMSM' }}" class="h-16 w-auto mb-3"
+                            loading="lazy" decoding="async" width="64" height="64">
                     @else
                         <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2022/09/LOGO-BLANCO-LETRAS-WEB_2.png"
-                            alt="Logo Letras UNMSM" 
-                            class="h-16 w-auto mb-3"
-                            loading="lazy"
-                            decoding="async"
-                            width="64" height="64">
+                            alt="Logo Letras UNMSM" class="h-16 w-auto mb-3" loading="lazy" decoding="async" width="64"
+                            height="64">
                     @endif
                 </div>
                 <p class="mb-4 leading-relaxed text-white/80 text-xs">
                     {{ $siteSettings?->site_description ?? 'La Unidad de Posgrado forma profesionales humanistas especializados en investigación, con alta rigurosidad, ética y calidad académica.' }}
                 </p>
-                <!-- Redes Sociales -->
                 <div class="flex items-center gap-3 mt-4">
                     @if($siteSettings?->facebook)
                         <a href="{{ $siteSettings->facebook }}" target="_blank"
@@ -90,7 +82,6 @@
                 </div>
             </div>
 
-            <!-- Columna 2: Contacto -->
             <div>
                 <h4 class="font-bold text-white mb-4 text-base border-b border-unmsm-dorado/30 pb-2">Contacto</h4>
                 <ul class="space-y-3">
@@ -144,7 +135,6 @@
                 </ul>
             </div>
 
-            <!-- Columna 3: Enlaces Rápidos -->
             <div>
                 <h4 class="font-bold text-white mb-4 text-base border-b border-unmsm-dorado/30 pb-2">Enlaces Rápidos
                 </h4>
@@ -163,7 +153,6 @@
                 </ul>
             </div>
 
-            <!-- Columna 4: Enlaces Institucionales -->
             <div>
                 <h4 class="font-bold text-white mb-4 text-base border-b border-unmsm-dorado/30 pb-2">Institucional</h4>
                 <ul class="space-y-2">
@@ -191,12 +180,12 @@
             </div>
         </div>
 
-        <!-- Copyright -->
         <div class="mt-8 pt-6 border-t border-white/10 text-center text-xs text-white/60">
             <p>&copy; {{ date('Y') }}
                 {{ $siteSettings?->site_name ?? 'Unidad de Posgrado - Facultad de Letras y Ciencias Humanas' }} -
                 Universidad Nacional
-                Mayor de San Marcos</p>
+                Mayor de San Marcos
+            </p>
             <p class="mt-1">{{ $siteSettings?->footer_text ?? 'Decana de América' }}</p>
         </div>
     </div>

@@ -36,6 +36,7 @@ class ProgramaController extends Controller
                 'docentes' => function ($query) {
                     $query->select([
                         'docentes.id',
+                        'docentes.slug',
                         'docentes.nombres',
                         'docentes.apellidos',
                         'docentes.grado',
@@ -45,8 +46,8 @@ class ProgramaController extends Controller
                         'docentes.linkedin',
                         'docentes.estado'
                     ])
-                    ->where('estado', 1)
-                    ->orderBy('docente_programa.orden');
+                        ->where('estado', 1)
+                        ->orderBy('docente_programa.orden');
                 }
             ])
             ->select([

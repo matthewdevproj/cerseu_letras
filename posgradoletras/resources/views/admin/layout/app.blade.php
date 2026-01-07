@@ -262,6 +262,13 @@
                 <span>Cronograma</span>
             </a>
 
+            <a href="{{ route('admin.eventos.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.eventos.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <i
+                    class="fas fa-calendar-day w-5 text-lg {{ request()->routeIs('admin.eventos.*') ? '' : 'text-gray-500' }}"></i>
+                <span>Eventos</span>
+            </a>
+
             <a href="{{ route('admin.settings.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.settings.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
                 <i

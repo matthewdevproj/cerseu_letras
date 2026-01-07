@@ -37,6 +37,14 @@
             <h2 class="text-3xl font-bold text-gray-800 font-serif">{{ $stats['total_directorio'] }}</h2>
             <p class="text-sm text-gray-500 mt-1">Personal Directorio</p>
         </div>
+
+        <div class="stat-card stat-accent bg-white rounded-xl p-6 shadow-sm hover:-translate-y-1 transition-transform">
+            <div class="stat-icon w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+                <i class="fas fa-calendar-day text-xl"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-800 font-serif">{{ $stats['eventos_activos'] }}</h2>
+            <p class="text-sm text-gray-500 mt-1">Eventos activos</p>
+        </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -54,71 +62,103 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {{-- Programas --}}
                         <div class="flex flex-col">
-                            <a href="{{ route('admin.programas.index') }}" class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
-                                <div class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-[#761e23] transition-all">
+                            <a href="{{ route('admin.programas.index') }}"
+                                class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
+                                <div
+                                    class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-[#761e23] transition-all">
                                     <i class="fas fa-graduation-cap text-xl"></i>
                                 </div>
                                 <h6 class="font-bold text-gray-800">Programas</h6>
                                 <p class="text-xs text-gray-500">Maestrías y Doctorados</p>
                             </a>
-                            <a href="{{ route('admin.programas.create') }}" class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
+                            <a href="{{ route('admin.programas.create') }}"
+                                class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
                                 <i class="fas fa-plus mr-1"></i> Nuevo
                             </a>
                         </div>
 
                         {{-- Docentes --}}
                         <div class="flex flex-col">
-                            <a href="{{ route('admin.docentes.index') }}" class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
-                                <div class="action-icon-circle w-14 h-14 rounded-full bg-[#d4a017]/10 flex items-center justify-center mx-auto mb-3 text-[#d4a017] transition-all">
+                            <a href="{{ route('admin.docentes.index') }}"
+                                class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
+                                <div
+                                    class="action-icon-circle w-14 h-14 rounded-full bg-[#d4a017]/10 flex items-center justify-center mx-auto mb-3 text-[#d4a017] transition-all">
                                     <i class="fas fa-chalkboard-teacher text-xl"></i>
                                 </div>
                                 <h6 class="font-bold text-gray-800">Docentes</h6>
                                 <p class="text-xs text-gray-500">Plana académica</p>
                             </a>
-                            <a href="{{ route('admin.docentes.create') }}" class="btn-accent-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
+                            <a href="{{ route('admin.docentes.create') }}"
+                                class="btn-accent-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
                                 <i class="fas fa-plus mr-1"></i> Nuevo
                             </a>
                         </div>
 
                         {{-- Testimonios --}}
                         <div class="flex flex-col">
-                            <a href="{{ route('admin.testimonios.index') }}" class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
-                                <div class="action-icon-circle w-14 h-14 rounded-full bg-[#5a161a]/10 flex items-center justify-center mx-auto mb-3 text-[#5a161a] transition-all">
+                            <a href="{{ route('admin.testimonios.index') }}"
+                                class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
+                                <div
+                                    class="action-icon-circle w-14 h-14 rounded-full bg-[#5a161a]/10 flex items-center justify-center mx-auto mb-3 text-[#5a161a] transition-all">
                                     <i class="fas fa-comments text-xl"></i>
                                 </div>
                                 <h6 class="font-bold text-gray-800">Testimonios</h6>
                                 <p class="text-xs text-gray-500">Experiencias egresados</p>
                             </a>
-                            <a href="{{ route('admin.testimonios.create') }}" class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
+                            <a href="{{ route('admin.testimonios.create') }}"
+                                class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
                                 <i class="fas fa-plus mr-1"></i> Nuevo
                             </a>
                         </div>
 
                         {{-- Directorio --}}
                         <div class="flex flex-col">
-                            <a href="{{ route('admin.directorio.index') }}" class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
-                                <div class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-[#761e23] transition-all">
+                            <a href="{{ route('admin.directorio.index') }}"
+                                class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
+                                <div
+                                    class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-[#761e23] transition-all">
                                     <i class="fas fa-address-book text-xl"></i>
                                 </div>
                                 <h6 class="font-bold text-gray-800">Directorio</h6>
                                 <p class="text-xs text-gray-500">Personal administrativo</p>
                             </a>
-                            <a href="{{ route('admin.directorio.create') }}" class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
+                            <a href="{{ route('admin.directorio.create') }}"
+                                class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
                                 <i class="fas fa-plus mr-1"></i> Nuevo
                             </a>
                         </div>
 
                         {{-- Configuración --}}
                         <div class="flex flex-col">
-                            <a href="{{ route('admin.settings.index') }}" class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
-                                <div class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-gray-500 transition-all">
+                            <a href="{{ route('admin.settings.index') }}"
+                                class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
+                                <div
+                                    class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-gray-500 transition-all">
                                     <i class="fas fa-cog text-xl"></i>
                                 </div>
                                 <h6 class="font-bold text-gray-800">Configuración</h6>
                                 <p class="text-xs text-gray-500">Ajustes del sitio</p>
                             </a>
-                            <a href="{{ route('admin.settings.index') }}" class="text-center py-2 px-4 rounded-lg border border-gray-300 text-gray-500 text-sm font-semibold hover:bg-gray-50 transition-colors">
+                            <a href="{{ route('admin.settings.index') }}"
+                                class="text-center py-2 px-4 rounded-lg border border-gray-300 text-gray-500 text-sm font-semibold hover:bg-gray-50 transition-colors">
                                 <i class="fas fa-edit mr-1"></i> Editar
+                            </a>
+                        </div>
+
+                        {{-- Eventos --}}
+                        <div class="flex flex-col">
+                            <a href="{{ route('admin.eventos.index') }}"
+                                class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
+                                <div
+                                    class="action-icon-circle w-14 h-14 rounded-full bg-[#d4a017]/10 flex items-center justify-center mx-auto mb-3 text-[#d4a017] transition-all">
+                                    <i class="fas fa-calendar-day text-xl"></i>
+                                </div>
+                                <h6 class="font-bold text-gray-800">Eventos</h6>
+                                <p class="text-xs text-gray-500">Actividades y afiches</p>
+                            </a>
+                            <a href="{{ route('admin.eventos.create') }}"
+                                class="btn-accent-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
+                                <i class="fas fa-plus mr-1"></i> Nuevo
                             </a>
                         </div>
                     </div>
@@ -134,7 +174,8 @@
                 </div>
                 <div class="p-4 flex-1">
                     <div class="space-y-2">
-                        <a href="{{ route('admin.testimonios.index') }}" class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <a href="{{ route('admin.testimonios.index') }}"
+                            class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
                             <i class="fas fa-comment-dots text-gray-400"></i>
                             <div class="flex-1">
                                 <h6 class="font-bold text-sm text-gray-800">Testimonios</h6>
@@ -143,7 +184,8 @@
                             <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
                         </a>
 
-                        <a href="{{ route('admin.directorio.index') }}" class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <a href="{{ route('admin.directorio.index') }}"
+                            class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
                             <i class="fas fa-address-book text-gray-400"></i>
                             <div class="flex-1">
                                 <h6 class="font-bold text-sm text-gray-800">Directorio</h6>
@@ -152,7 +194,8 @@
                             <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
                         </a>
 
-                        <a href="{{ route('home') }}" target="_blank" class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <a href="{{ route('home') }}" target="_blank"
+                            class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
                             <i class="fas fa-globe text-gray-400"></i>
                             <div class="flex-1">
                                 <h6 class="font-bold text-sm text-gray-800">Ver Sitio Web</h6>

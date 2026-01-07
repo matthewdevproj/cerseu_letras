@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Programa;
 use App\Models\Docente;
+use App\Models\Testimonio;
 
 class HomeController extends Controller
 {
@@ -36,6 +37,12 @@ class HomeController extends Controller
             ->limit(6)
             ->get();
 
-        return view('home', compact('maestrias', 'doctorados', 'docentes'));
+        // Obtener testimonios publicados recientes
+        $testimonios = Testimonio::publicados()
+            ->recientes()
+            ->limit(3)
+            ->get();
+
+        return view('home', compact('maestrias', 'doctorados', 'docentes', 'testimonios'));
     }
 }

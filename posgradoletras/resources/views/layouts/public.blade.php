@@ -66,21 +66,15 @@
 </head>
 
 <body class="font-sans antialiased bg-gray-50 overflow-x-hidden">
-    <!-- HEADER FIJO COMO EN EL EJEMPLO -->
     <header class="fixed top-0 w-full z-50 flex flex-col">
-        <!-- Topbar -->
         @include('layouts.partials.topbar')
-
-        <!-- Navbar -->
         @include('layouts.partials.navbar')
     </header>
 
-    <!-- Contenido principal (sin padding-top para que el hero quede debajo del header fijo) -->
     <main>
         @yield('content')
     </main>
 
-    <!-- Footer -->
     @include('layouts.partials.footer')
 
     @stack('scripts')

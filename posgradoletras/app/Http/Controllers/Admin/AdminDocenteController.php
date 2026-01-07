@@ -63,7 +63,7 @@ class AdminDocenteController extends Controller
             'grupo_investigacion' => 'nullable|array',
             'grupo_investigacion.nombre' => 'nullable|string|max:255',
             'grupo_investigacion.link' => 'nullable|url|max:255',
-            'foto' => 'nullable|image|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
             'estado' => 'boolean',
             'programas' => 'nullable|array',
             'programas.*' => 'exists:programas,id',
@@ -72,6 +72,11 @@ class AdminDocenteController extends Controller
         // Handle photo upload
         if ($request->hasFile('foto')) {
             $validated['foto'] = $request->file('foto')->store('docentes', 'public');
+        }
+
+        // Transformar lineas_investigacion de string (textarea) a array
+        if (!empty($validated['lineas_investigacion'])) {
+            $validated['lineas_investigacion'] = array_values(array_filter(array_map('trim', explode("\n", $validated['lineas_investigacion']))));
         }
 
         $docente = Docente::create($validated);
@@ -113,7 +118,7 @@ class AdminDocenteController extends Controller
             'grupo_investigacion' => 'nullable|array',
             'grupo_investigacion.nombre' => 'nullable|string|max:255',
             'grupo_investigacion.link' => 'nullable|url|max:255',
-            'foto' => 'nullable|image|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
             'estado' => 'boolean',
             // Nota: La asignación de programas se gestiona desde la vista de edición de programas
         ]);
@@ -125,6 +130,11 @@ class AdminDocenteController extends Controller
                 Storage::disk('public')->delete($docente->foto);
             }
             $validated['foto'] = $request->file('foto')->store('docentes', 'public');
+        }
+
+        // Transformar lineas_investigacion de string (textarea) a array
+        if (isset($validated['lineas_investigacion'])) {
+            $validated['lineas_investigacion'] = array_values(array_filter(array_map('trim', explode("\n", $validated['lineas_investigacion']))));
         }
 
         $docente->update($validated);
