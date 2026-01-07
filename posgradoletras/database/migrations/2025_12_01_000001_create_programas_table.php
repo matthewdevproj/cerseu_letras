@@ -9,7 +9,6 @@ return new class extends Migration {
     {
         Schema::create('programas', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo', 20)->unique();
             $table->string('slug')->unique()->nullable(); // Agregado
             $table->string('grado', 50);
             $table->string('nombre', 255);

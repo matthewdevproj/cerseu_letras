@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Alpine.js - Prevenir parpadeo del contenido oculto */
+[x-cloak] { 
+    display: none !important; 
+}

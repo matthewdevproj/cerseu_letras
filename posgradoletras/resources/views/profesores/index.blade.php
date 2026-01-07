@@ -32,11 +32,57 @@
         image="https://letras.unmsm.edu.pe/wp-content/uploads/2020/11/frontis-letras.jpg" />
 
     <!-- LAYOUT SIDEBAR + CONTENIDO -->
-    <div class="container mx-auto px-4 py-12">
-        <div class="grid lg:grid-cols-4 gap-8">
+    <div class="container mx-auto px-4 py-12 max-w-full overflow-hidden">
+        
+        <!-- MOBILE: Selector Vertical Agrupado (Solo móvil) -->
+        <div class="lg:hidden mb-8 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Seleccionar Programa</h3>
+            
+            <!-- Maestrías -->
+            <div class="mb-4">
+                <p class="text-xs font-bold text-unmsm-dorado mb-2 uppercase tracking-wider">
+                    <i class="fas fa-graduation-cap mr-1"></i> Maestrías
+                </p>
+                <div class="flex flex-col gap-2">
+                    @foreach($maestrias as $prog)
+                        @php
+                            $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
+                        @endphp
+                        <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" 
+                           class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive 
+                               ? 'bg-unmsm-guinda text-white shadow-md' 
+                               : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
+                            <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->nombre }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+            
+            <!-- Doctorados -->
+            <div>
+                <p class="text-xs font-bold text-gray-800 mb-2 uppercase tracking-wider">
+                    <i class="fas fa-user-graduate mr-1"></i> Doctorados
+                </p>
+                <div class="flex flex-col gap-2">
+                    @foreach($doctorados as $prog)
+                        @php
+                            $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
+                        @endphp
+                        <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" 
+                           class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive 
+                               ? 'bg-unmsm-guinda text-white shadow-md' 
+                               : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
+                            <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->nombre }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
 
-            <!-- SIDEBAR: Navegación de Programas -->
-            <aside class="lg:col-span-1">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 max-w-full">
+
+            <!-- DESKTOP: SIDEBAR Vertical (Solo desktop) -->
+            <aside class="hidden lg:block lg:col-span-1">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 sticky top-36">
                     <h2 class="text-xs font-bold text-gray-400 mb-4 uppercase tracking-widest border-b border-gray-100 pb-2">
                         Programas
@@ -87,7 +133,7 @@
             </aside>
 
             <!-- CONTENIDO PRINCIPAL: LISTA DE PROFESORES -->
-            <section class="lg:col-span-3 min-h-[500px]" id="main-content">
+            <section class="col-span-1 lg:col-span-3 min-h-[500px] max-w-full overflow-hidden" id="main-content">
 
                 @if(isset($selectedPrograma) && $selectedPrograma)
                     <!-- Contenido con programa seleccionado -->
@@ -109,7 +155,7 @@
                                         $lineasArray = is_array($lineas) ? $lineas : ($lineas ? explode(',', $lineas) : []);
                                     @endphp
                                     
-                                    <article class="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 hover:shadow-xl hover:border-unmsm-guinda/30 transition-all duration-300 group relative overflow-hidden">
+                                    <article class="bg-white border border-gray-200 rounded-2xl p-4 md:p-6 lg:p-8 hover:shadow-xl hover:border-unmsm-guinda/30 transition-all duration-300 group relative overflow-hidden max-w-full">
                                         
                                         <!-- Decoración Hover (barra izquierda) -->
                                         <div class="absolute top-0 left-0 w-1 h-full bg-unmsm-guinda opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -165,13 +211,13 @@
                                             </div>
 
                                             <!-- Columna Info -->
-                                            <div class="flex-1 min-w-0">
+                                            <div class="flex-1 min-w-0 max-w-full overflow-hidden">
                                                 
                                                 <!-- Header: Nombre + Link perfil -->
                                                 <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
                                                     <div>
                                                         <h3 class="text-xl md:text-2xl font-bold text-gray-900 font-serif group-hover:text-unmsm-guinda transition-colors">
-                                                            <a href="{{ route('profesores.show', $profesor->id) }}" class="hover:underline">
+                                                            <a href="{{ route('profesores.show', $profesor->slug) }}" class="hover:underline">
                                                                 {{ $profesor->nombre_completo }}
                                                             </a>
                                                         </h3>
@@ -181,7 +227,7 @@
                                                             </span>
                                                         @endif
                                                     </div>
-                                                    <a href="{{ route('profesores.show', $profesor->id) }}" 
+                                                    <a href="{{ route('profesores.show', $profesor->slug) }}" 
                                                        class="hidden md:inline-flex items-center text-xs font-semibold text-gray-500 hover:text-unmsm-guinda transition group/link">
                                                         Ver perfil completo 
                                                         <i class="fas fa-arrow-right ml-1 transform group-hover/link:translate-x-1 transition-transform"></i>
@@ -197,13 +243,13 @@
 
                                                 <!-- Enlaces visibles -->
                                                 @if($profesor->cti_vitae || $profesor->orcid || $profesor->linkedin || $profesor->email)
-                                                    <div class="flex flex-col gap-1.5 mb-4 text-xs">
+                                                    <div class="flex flex-col gap-1.5 mb-4 text-xs max-w-full overflow-hidden">
                                                         @if($profesor->cti_vitae)
                                                             <div class="flex items-center gap-2">
                                                                 <span class="font-bold text-gray-500 w-16">CTI Vitae:</span>
                                                                 <a href="{{ $profesor->cti_vitae }}" target="_blank" 
-                                                                   class="flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline truncate">
-                                                                    <span class="truncate">{{ $profesor->cti_vitae }}</span>
+                                                                   class="flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline max-w-full overflow-hidden">
+                                                                    <span class="truncate block max-w-full break-all">{{ $profesor->cti_vitae }}</span>
                                                                     <i class="fas fa-external-link-alt text-[10px] opacity-60 flex-shrink-0"></i>
                                                                 </a>
                                                             </div>
@@ -212,8 +258,8 @@
                                                             <div class="flex items-center gap-2">
                                                                 <span class="font-bold text-gray-500 w-16">ORCID:</span>
                                                                 <a href="{{ $profesor->orcid }}" target="_blank" 
-                                                                   class="flex items-center gap-1 text-green-600 hover:text-green-800 hover:underline truncate">
-                                                                    <span class="truncate">{{ $profesor->orcid }}</span>
+                                                                   class="flex items-center gap-1 text-green-600 hover:text-green-800 hover:underline max-w-full overflow-hidden">
+                                                                    <span class="truncate block max-w-full break-all">{{ $profesor->orcid }}</span>
                                                                     <i class="fas fa-external-link-alt text-[10px] opacity-60 flex-shrink-0"></i>
                                                                 </a>
                                                             </div>
@@ -222,8 +268,8 @@
                                                             <div class="flex items-center gap-2">
                                                                 <span class="font-bold text-gray-500 w-16">LinkedIn:</span>
                                                                 <a href="{{ $profesor->linkedin }}" target="_blank" 
-                                                                   class="flex items-center gap-1 text-blue-700 hover:text-blue-900 hover:underline truncate">
-                                                                    <span class="truncate">{{ $profesor->linkedin }}</span>
+                                                                   class="flex items-center gap-1 text-blue-700 hover:text-blue-900 hover:underline max-w-full overflow-hidden">
+                                                                    <span class="truncate block max-w-full break-all">{{ $profesor->linkedin }}</span>
                                                                     <i class="fas fa-external-link-alt text-[10px] opacity-60 flex-shrink-0"></i>
                                                                 </a>
                                                             </div>
@@ -273,7 +319,7 @@
                                                 @endif
 
                                                 <!-- Botón Móvil (solo visible en pantallas pequeñas) -->
-                                                <a href="{{ route('profesores.show', $profesor->id) }}" 
+                                                <a href="{{ route('profesores.show', $profesor->slug) }}" 
                                                    class="md:hidden w-full block text-center bg-gray-100 text-gray-700 font-bold py-2 rounded text-sm hover:bg-unmsm-guinda hover:text-white transition-colors">
                                                     Ver perfil completo
                                                 </a>

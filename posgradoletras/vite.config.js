@@ -8,4 +8,18 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        cssMinify: true,
+        minify: 'esbuild',
+        target: 'es2015',
+        cssCodeSplit: true,
+        rollupOptions: {
+            output: {
+                manualChunks: undefined,
+                assetFileNames: 'assets/[name]-[hash][extname]',
+                chunkFileNames: 'assets/[name]-[hash].js',
+                entryFileNames: 'assets/[name]-[hash].js',
+            },
+        },
+    },
 });

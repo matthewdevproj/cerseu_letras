@@ -3,8 +3,12 @@
 @section('title', 'Inicio - Posgrado Letras UNMSM')
 
 @push('styles')
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css">
+    <!-- Swiper CSS (lazy load) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.4.1/swiper-bundle.min.css" media="print"
+        onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.4.1/swiper-bundle.min.css">
+    </noscript>
     <style>
         /* Utilidad para titulos */
         .section-title::before {
@@ -83,18 +87,20 @@
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
                 </div>
                 <!-- Slide 2 -->
-                <div class="swiper-slide">
-                    <div class="slide-bg"
-                        style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0018-Trim-frame-at-0m2s.jpg');">
+                <div class="swiper-slide" data-swiper-lazy>
+                    <div class="slide-bg swiper-lazy"
+                        data-background="https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0018-Trim-frame-at-0m2s.jpg">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+                    <div class="swiper-lazy-preloader"></div>
                 </div>
                 <!-- Slide 3 -->
-                <div class="swiper-slide">
-                    <div class="slide-bg"
-                        style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/IMG_1565-scaled.jpg');">
+                <div class="swiper-slide" data-swiper-lazy>
+                    <div class="slide-bg swiper-lazy"
+                        data-background="https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/IMG_1565-scaled.jpg">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+                    <div class="swiper-lazy-preloader"></div>
                 </div>
             </div>
         </div>
@@ -474,7 +480,8 @@
                             <div class="h-60 relative overflow-hidden">
                                 <!-- Imagen -->
                                 <img src="{{ $programa->imagen_url }}" alt="{{ $programa->nombre }}"
-                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                    loading="lazy" decoding="async" width="800" height="600">
 
                                 <!-- Gradiente de fondo para contraste -->
                                 <div
@@ -531,7 +538,8 @@
                             <div class="h-60 relative overflow-hidden">
                                 <!-- Imagen -->
                                 <img src="{{ $programa->imagen_url }}" alt="{{ $programa->nombre }}"
-                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                    loading="lazy" decoding="async" width="800" height="600">
 
                                 <!-- Gradiente de fondo para contraste -->
                                 <div
@@ -583,33 +591,30 @@
         </div>
     </section>
 
-    <script>
-        // FILTRADO DE PROGRAMAS
+    <script defer>
+        // FILTRADO DE PROGRAMAS (optimizado)
         function filterPrograms(type) {
             const cards = document.querySelectorAll('.program-card');
             const buttons = document.querySelectorAll('.filter-btn');
 
-            // Reset botones
+            // Reset y activar en un solo loop
             buttons.forEach(btn => {
-                btn.classList.remove('bg-unmsm-guinda', 'text-white', 'shadow-lg', 'scale-105');
-                btn.classList.add('bg-white', 'text-gray-600', 'hover:bg-gray-100');
+                const isActive = btn.id === 'filter-' + type;
+                btn.classList.toggle('bg-unmsm-guinda', isActive);
+                btn.classList.toggle('text-white', isActive);
+                btn.classList.toggle('shadow-lg', isActive);
+                btn.classList.toggle('scale-105', isActive);
+                btn.classList.toggle('bg-white', !isActive);
+                btn.classList.toggle('text-gray-600', !isActive);
             });
 
-            // Activar botón seleccionado
-            const activeBtn = document.getElementById('filter-' + type);
-            if (activeBtn) {
-                activeBtn.classList.remove('bg-white', 'text-gray-600', 'hover:bg-gray-100');
-                activeBtn.classList.add('bg-unmsm-guinda', 'text-white', 'shadow-lg', 'scale-105');
-            }
-
-            // Filtrar cards con animación
+            // Filtrar cards
             cards.forEach(card => {
-                if (type === 'todos' || card.dataset.type === type) {
-                    card.classList.remove('hidden');
+                const isVisible = type === 'todos' || card.dataset.type === type;
+                card.classList.toggle('hidden', !isVisible);
+                if (isVisible) {
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';
-                } else {
-                    card.classList.add('hidden');
                 }
             });
         }
@@ -626,7 +631,8 @@
                             class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-unmsm-guinda transition-colors relative">
                             <img src="@if($docente->foto){{ asset('storage/' . $docente->foto) }}@else{{ 'https://ui-avatars.com/api/?name=' . urlencode($docente->nombres . '+' . $docente->apellidos) . '&background=random' }}@endif"
                                 alt="{{ $docente->nombre_completo }}"
-                                class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500">
+                                class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
+                                loading="lazy" decoding="async" width="96" height="96">
                         </div>
                         <h4 class="font-bold text-sm text-gray-800 group-hover:text-unmsm-guinda transition">
                             {{ $docente->nombre_completo }}
@@ -644,7 +650,8 @@
         </div>
     </section>
 
-
+    <!-- DOCUMENTOS Y RECURSOS (INFORMATIVOS) -->
+    @include('home.partials.informativos-section')
 
     <!-- CONTACTO & FOOTER -->
     @php
@@ -790,21 +797,30 @@
     </section>
 
     @push('scripts')
-        <!-- Swiper JS -->
-        <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
-        <script>
-            // Initialize Hero Swiper
-            const heroSwiper = new Swiper('.hero-swiper', {
-                loop: true,
-                effect: 'fade',
-                fadeEffect: {
-                    crossFade: true
-                },
-                speed: 2000,
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                },
+        <!-- Swiper JS (defer para mejor performance) -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@9.4.1/swiper-bundle.min.js" defer></script>
+        <script defer>
+            // Initialize Hero Swiper cuando esté listo
+            window.addEventListener('load', function () {
+                if (typeof Swiper !== 'undefined') {
+                    const heroSwiper = new Swiper('.hero-swiper', {
+                        loop: true,
+                        effect: 'fade',
+                        fadeEffect: {
+                            crossFade: true
+                        },
+                        speed: 2000,
+                        lazy: {
+                            loadPrevNext: true,
+                            loadPrevNextAmount: 1
+                        },
+                        preloadImages: false,
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        },
+                    });
+                }
             });
         </script>
     @endpush

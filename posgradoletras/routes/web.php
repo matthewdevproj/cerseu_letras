@@ -27,7 +27,7 @@ Route::get('/programas/{slug}', [ProgramaController::class, 'show'])->name('prog
 // Profesores
 Route::get('/profesores', [ProfesorController::class, 'index'])->name('profesores.index');
 Route::get('/profesores/programa/{slug}', [ProfesorController::class, 'byPrograma'])->name('profesores.programa');
-Route::get('/profesores/{id}', [ProfesorController::class, 'show'])->name('profesores.show');
+Route::get('/profesores/{slug}', [ProfesorController::class, 'show'])->name('profesores.show');
 
 // Admisión
 Route::get('/admision', [AdmisionController::class, 'index'])->name('admision');
@@ -49,6 +49,9 @@ Route::prefix('testimonios')->group(function () {
     Route::get('/', [TestimonioController::class, 'index'])->name('testimonios.index');
     Route::get('/recientes/{limit?}', [TestimonioController::class, 'recientes'])->name('testimonios.recientes');
 });
+
+// Informativos (Documentos y Recursos)
+Route::get('/informativos', [\App\Http\Controllers\InformativoController::class, 'index'])->name('informativos.index');
 
 // Rutas Institucionales (adicionales)
 Route::prefix('institucional')->group(function () {
@@ -93,6 +96,10 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     // Cronograma Management
     Route::get('cronograma', [App\Http\Controllers\Admin\AdminCronogramaController::class, 'index'])->name('cronograma.index');
     Route::put('cronograma', [App\Http\Controllers\Admin\AdminCronogramaController::class, 'update'])->name('cronograma.update');
+
+    // Informativos Management
+    Route::resource('informativos', App\Http\Controllers\Admin\AdminInformativoController::class);
+    Route::post('informativos/reorder', [App\Http\Controllers\Admin\AdminInformativoController::class, 'reorder'])->name('informativos.reorder');
 });
 
 // Breeze default routes (Profile)

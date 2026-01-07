@@ -26,7 +26,7 @@
     <!-- HERO DE SECCIÓN -->
     <x-hero-section title="Nosotros" label="Unidad de Posgrado"
         subtitle="Conoce la misión, visión y valores que guían nuestra institución"
-        image="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" />
+        image="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=70&fm=pjpg" />
 
     <section class="container mx-auto px-6 py-16">
 

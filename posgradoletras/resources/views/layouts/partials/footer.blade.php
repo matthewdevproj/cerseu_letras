@@ -1,5 +1,8 @@
 @php
-    $siteSettings = \App\Models\SiteSetting::get();
+    // Cache de SiteSetting para evitar query en cada request
+    $siteSettings = Cache::remember('site_settings_footer', 3600, function() {
+        return \App\Models\SiteSetting::first();
+    });
 @endphp
 
 <footer class="bg-unmsm-guinda text-white border-t-4 border-unmsm-dorado py-12">
@@ -10,10 +13,18 @@
                 <div class="mb-4">
                     @if($siteSettings?->logo_path)
                         <img src="{{ asset('storage/' . $siteSettings->logo_path) }}"
-                            alt="{{ $siteSettings->site_name ?? 'Logo Letras UNMSM' }}" class="h-16 w-auto mb-3">
+                            alt="{{ $siteSettings->site_name ?? 'Logo Letras UNMSM' }}" 
+                            class="h-16 w-auto mb-3"
+                            loading="lazy"
+                            decoding="async"
+                            width="64" height="64">
                     @else
                         <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2022/09/LOGO-BLANCO-LETRAS-WEB_2.png"
-                            alt="Logo Letras UNMSM" class="h-16 w-auto mb-3">
+                            alt="Logo Letras UNMSM" 
+                            class="h-16 w-auto mb-3"
+                            loading="lazy"
+                            decoding="async"
+                            width="64" height="64">
                     @endif
                 </div>
                 <p class="mb-4 leading-relaxed text-white/80 text-xs">

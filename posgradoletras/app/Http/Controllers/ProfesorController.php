@@ -35,9 +35,11 @@ class ProfesorController extends Controller
         return view('profesores.index', compact('profesores', 'selectedPrograma', 'maestrias', 'doctorados'));
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        $profesor = Docente::with('programas')->findOrFail($id);
+        $profesor = Docente::where('slug', $slug)
+            ->with('programas')
+            ->firstOrFail();
         return view('profesores.show', compact('profesor'));
     }
 }

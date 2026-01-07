@@ -12,14 +12,16 @@ class ProgramaController extends Controller
         // Obtener el filtro de tipo desde la URL
         $tipoFiltro = $request->get('tipo', 'todos');
 
-        // Obtener maestrías y doctorados
+        // Obtener maestrías y doctorados con campos específicos
         $maestrias = Programa::activos()
             ->maestrias()
+            ->select('id', 'nombre', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad')
             ->orderBy('nombre')
             ->get();
 
         $doctorados = Programa::activos()
             ->doctorados()
+            ->select('id', 'nombre', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad')
             ->orderBy('nombre')
             ->get();
 
@@ -28,12 +30,46 @@ class ProgramaController extends Controller
 
     public function show($slug)
     {
-        // Buscar por slug
+        // Buscar por slug con eager loading optimizado
         $programa = Programa::where('slug', $slug)
             ->with([
                 'docentes' => function ($query) {
-                    $query->orderBy('docente_programa.orden');
+                    $query->select([
+                        'docentes.id',
+                        'docentes.nombres',
+                        'docentes.apellidos',
+                        'docentes.grado',
+                        'docentes.email',
+                        'docentes.orcid',
+                        'docentes.cti_vitae',
+                        'docentes.linkedin',
+                        'docentes.estado'
+                    ])
+                    ->where('estado', 1)
+                    ->orderBy('docente_programa.orden');
                 }
+            ])
+            ->select([
+                'id',
+                'grado',
+                'nombre',
+                'mencion',
+                'modalidad',
+                'vacantes',
+                'duracion',
+                'creditos',
+                'grado_otorga',
+                'objetivos_academicos',
+                'perfil_ingresante',
+                'perfil_graduado',
+                'plan_url',
+                'horario_url',
+                'por_que_text',
+                'sumilla',
+                'plan_estudios',
+                'is_active',
+                'slug',
+                'imagen'
             ])
             ->firstOrFail();
 
