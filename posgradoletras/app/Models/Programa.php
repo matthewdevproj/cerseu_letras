@@ -15,7 +15,7 @@ class Programa extends Model
         'vacantes',
         'duracion',
         'creditos',
-        'grado_otorga',
+        // 'grado_otorga', // Se genera automáticamente, ya no es necesario guardarlo aunque la columna exista
         'objetivos_academicos',
         'perfil_ingresante',
         'perfil_graduado',
@@ -92,6 +92,19 @@ class Programa extends Model
     public function getTipoAttribute()
     {
         return $this->grado === 'Maestría' ? 'maestria' : 'doctorado';
+    }
+
+    public function getGradoOtorgaAttribute($value)
+    {
+        // Generación automática: Grado + Nombre + Mención
+        $prefix = $this->grado === 'Doctorado' ? 'Doctor en ' : 'Magíster en ';
+        $texto = $prefix . $this->nombre;
+
+        if ($this->mencion) {
+            $texto .= ' con mención en ' . $this->mencion;
+        }
+
+        return $texto;
     }
 
     public function getImagenUrlAttribute()

@@ -446,7 +446,7 @@
                                                             <i class="fas fa-graduation-cap text-xl"></i>
                                                         </div>
                                                         <div>
-                                                            <div class="text-sm font-semibold text-gray-800">{{ $programa->nombre }}</div>
+                                                            <div class="text-sm font-semibold text-gray-800">{{ $programa->titulo_completo }}</div>
                                                             <div class="text-xs text-gray-500">{{ $programa->codigo ?? '' }}</div>
                                                             @if($programa->pivot->es_coordinador)
                                                                 <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-brand-gold text-white mt-1">

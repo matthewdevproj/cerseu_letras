@@ -349,7 +349,7 @@
                                         {{ in_array($programa->id, old('programas', [])) ? 'checked' : '' }}
                                         onchange="this.closest('.programa-checkbox').classList.toggle('checked', this.checked)">
                                     <div class="ml-3">
-                                        <span class="text-sm font-medium text-gray-800 block">{{ $programa->nombre }}</span>
+                                        <span class="text-sm font-medium text-gray-800 block">{{ $programa->titulo_completo }}</span>
                                         <span class="text-xs text-gray-500">{{ $programa->grado }}</span>
                                     </div>
                                 </label>
