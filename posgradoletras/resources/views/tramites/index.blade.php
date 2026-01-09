@@ -2,6 +2,18 @@
 
 @section('title', 'Trámites - Obtención de Grado - Posgrado Letras UNMSM')
 
+{{-- ========================================================
+CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
+======================================================== --}}
+@php
+    // Correo para Trámites (Grados, Títulos, Certificados)
+    $emailTramites = config('contacts.tramites', 'upg.letras@unmsm.edu.pe');
+
+    // Teléfono / WhatsApp
+    $telefono = config('contacts.telefono', '982 085 037');
+    $whatsapp = config('contacts.whatsapp', 'https://wa.me/51982085037');
+@endphp
+
 @push('styles')
     <style>
         .fade-in {
@@ -73,15 +85,15 @@
                     <div class="hidden lg:block mt-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
                         <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Informes</h4>
                         <div class="space-y-3 text-sm">
-                            <a href="mailto:upg.letras@unmsm.edu.pe"
+                            <a href="mailto:{{ $emailTramites }}"
                                 class="flex items-center gap-2 text-gray-700 hover:text-unmsm-guinda">
                                 <i class="far fa-envelope text-unmsm-guinda"></i>
-                                <span class="truncate">upg.letras@unmsm.edu.pe</span>
+                                <span class="truncate">{{ $emailTramites }}</span>
                             </a>
-                            <a href="https://wa.me/51982085037" target="_blank"
+                            <a href="{{ $whatsapp }}" target="_blank"
                                 class="flex items-center gap-2 text-gray-700 hover:text-green-600">
                                 <i class="fab fa-whatsapp text-green-500 text-lg"></i>
-                                <span>982 085 037</span>
+                                <span>{{ $telefono }}</span>
                             </a>
                         </div>
                     </div>
@@ -146,7 +158,7 @@
                                 El postulante debe presentar <strong>Solicitud en FUT (Formato Único de Trámite)</strong>
                                 pidiendo la inscripción de proyecto de tesis y nombramiento de asesor, enviando en
                                 <strong>formato PDF</strong> al correo
-                                <strong>upg.letras@unmsm.edu.pe</strong> lo siguiente:
+                                <strong>{{ $emailTramites }}</strong> lo siguiente:
                             </p>
                             <ul class="marker:text-unmsm-guinda">
                                 <li>
@@ -226,7 +238,7 @@
                             <p class="mt-4">
                                 El alumno debe presentar <strong>Solicitud en FUT</strong> pidiendo se le declare expedito,
                                 enviando el expediente completo en formato PDF al correo
-                                <strong>upg.letras@unmsm.edu.pe</strong>, con los siguientes documentos:
+                                <strong>{{ $emailTramites }}</strong>, con los siguientes documentos:
                             </p>
 
                             <ul class="list-decimal pl-5 space-y-1">
@@ -413,7 +425,7 @@
                                 </h4>
                                 <p class="text-xs text-amber-800 mb-2">
                                     El graduando debe enviar la versión digital de la tesis al correo
-                                    <strong>upg.letras@unmsm.edu.pe</strong> para revisión en Turnitin, considerando:
+                                    <strong>{{ $emailTramites }}</strong> para revisión en Turnitin, considerando:
                                 </p>
                                 <ul class="text-xs text-amber-900 list-disc pl-4 space-y-1">
                                     <li>El nombre de la tesis debe ser igual al inscrito en el proyecto de tesis.</li>
@@ -452,7 +464,7 @@
 
                             <p class="text-xs text-gray-600 mt-4">
                                 Toda la documentación debe enviarse en formato PDF al correo
-                                <strong>upg.letras@unmsm.edu.pe</strong>. Con la confirmación de similitud y la
+                                <strong>{{ $emailTramites }}</strong>. Con la confirmación de similitud y la
                                 documentación
                                 completa se procede a <strong>declarar expedito</strong> al graduando.
                             </p>
@@ -475,7 +487,7 @@
                                     <span>
                                         Una vez declarado expedito, el tesista solicita en FUT se le nombre
                                         <strong>Jurado Informante de Tesis</strong>, adjuntando la tesis en formato PDF
-                                        al correo <strong>upg.letras@unmsm.edu.pe</strong>.
+                                        al correo <strong>{{ $emailTramites }}</strong>.
                                     </span>
                                 </li>
                                 <li class="flex gap-3">
@@ -496,7 +508,7 @@
                                     <i class="fas fa-check-circle text-green-500 mt-1"></i>
                                     <span>
                                         La determinación de la fecha de sustentación se comunica por correo electrónico
-                                        desde <strong>upg.letras@unmsm.edu.pe</strong> con una anticipación de
+                                        desde <strong>{{ $emailTramites }}</strong> con una anticipación de
                                         <strong>48 horas</strong>.
                                     </span>
                                 </li>
@@ -535,7 +547,7 @@
                             <p class="text-xs text-gray-600">
                                 Este trámite lo realiza la Unidad de Posgrado ante la Biblioteca Central.
                                 Los formatos de Autorización y Hoja de metadatos deben solicitarse al correo
-                                <strong>upg.letras@unmsm.edu.pe</strong>, y luego remitirse debidamente llenos al mismo
+                                <strong>{{ $emailTramites }}</strong>, y luego remitirse debidamente llenos al mismo
                                 correo.
                             </p>
 
@@ -619,7 +631,7 @@
                                 El recurrente debe presentar <strong>Solicitud en FUT</strong> pidiendo inscripción de
                                 proyecto
                                 de tesis y nombramiento de asesor, enviando en formato PDF al correo
-                                <strong>upg.letras@unmsm.edu.pe</strong> lo siguiente:
+                                <strong>{{ $emailTramites }}</strong> lo siguiente:
                             </p>
                             <ul>
                                 <li>
@@ -690,7 +702,7 @@
                             <p>
                                 El alumno presenta <strong>Solicitud en FUT</strong> pidiendo se le declare expedito y envía
                                 el expediente completo en PDF al correo electrónico
-                                <strong>upg.letras@unmsm.edu.pe</strong>, incluyendo:
+                                <strong>{{ $emailTramites }}</strong>, incluyendo:
                             </p>
 
                             <ul class="list-decimal pl-5 space-y-1">
@@ -857,7 +869,7 @@
                                 </h4>
                                 <p class="text-xs text-amber-800 mb-2">
                                     El graduando debe enviar la versión digital de la tesis al correo
-                                    <strong>upg.letras@unmsm.edu.pe</strong> para revisión por el programa de antiplagio
+                                    <strong>{{ $emailTramites }}</strong> para revisión por el programa de antiplagio
                                     Turnitin,
                                     considerando:
                                 </p>
@@ -897,7 +909,7 @@
                                 </ul>
                                 <p class="text-xs text-gray-600 mt-3">
                                     Enviar toda la documentación en formato PDF al correo
-                                    <strong>upg.letras@unmsm.edu.pe</strong>. Con la confirmación de similitud y la
+                                    <strong>{{ $emailTramites }}</strong>. Con la confirmación de similitud y la
                                     documentación completa se procede a <strong>declarar expedito</strong>.
                                 </p>
                             </div>
@@ -920,7 +932,7 @@
                                     <span>
                                         Una vez declarado expedito, el tesista solicita en FUT se le nombre
                                         <strong>Jurado Informante de Tesis</strong>, adjuntando la tesis en formato PDF
-                                        al correo <strong>upg.letras@unmsm.edu.pe</strong>.
+                                        al correo <strong>{{ $emailTramites }}</strong>.
                                     </span>
                                 </li>
                                 <li class="flex gap-3">
@@ -941,7 +953,7 @@
                                     <i class="fas fa-check-circle text-green-500 mt-1"></i>
                                     <span>
                                         La fecha de sustentación se comunica por correo electrónico desde
-                                        <strong>upg.letras@unmsm.edu.pe</strong> de la Unidad de Posgrado de la Facultad,
+                                        <strong>{{ $emailTramites }}</strong> de la Unidad de Posgrado de la Facultad,
                                         con <strong>48 horas</strong> de anticipación.
                                     </span>
                                 </li>
@@ -981,7 +993,7 @@
                             <p class="text-xs text-gray-600">
                                 Este trámite lo realiza la Unidad de Posgrado ante la Biblioteca Central.
                                 Los formatos de Autorización y Hoja de metadatos deben solicitarse al correo
-                                <strong>upg.letras@unmsm.edu.pe</strong> y retornarse debidamente llenos al mismo correo.
+                                <strong>{{ $emailTramites }}</strong> y retornarse debidamente llenos al mismo correo.
                             </p>
 
                             <ul class="space-y-2 text-sm mt-2">
@@ -1048,15 +1060,15 @@
                 <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
                     <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Informes</h4>
                     <div class="space-y-3 text-sm">
-                        <a href="mailto:upg.letras@unmsm.edu.pe"
+                        <a href="mailto:{{ $emailTramites }}"
                             class="flex items-center gap-2 text-gray-700 hover:text-unmsm-guinda">
                             <i class="far fa-envelope text-unmsm-guinda"></i>
-                            <span class="truncate">upg.letras@unmsm.edu.pe</span>
+                            <span class="truncate">{{ $emailTramites }}</span>
                         </a>
-                        <a href="https://wa.me/51982085037" target="_blank"
+                        <a href="{{ $whatsapp }}" target="_blank"
                             class="flex items-center gap-2 text-gray-700 hover:text-green-600">
                             <i class="fab fa-whatsapp text-green-500 text-lg"></i>
-                            <span>982 085 037</span>
+                            <span>{{ $telefono }}</span>
                         </a>
                     </div>
                 </div>

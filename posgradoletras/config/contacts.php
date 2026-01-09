@@ -6,7 +6,6 @@
  * ==========================================================
  * 
  * Modifica estos correos según las necesidades de cada área.
- * Se usan en toda la web pública (Admisión, Nosotros, Programas, etc.)
  */
 
 return [

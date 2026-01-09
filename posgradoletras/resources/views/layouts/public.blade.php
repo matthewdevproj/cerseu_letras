@@ -77,6 +77,16 @@
 
     @include('layouts.partials.footer')
 
+    <!-- WhatsApp Float Button -->
+    <a href="{{ config('contacts.whatsapp', 'https://wa.me/51982085037') }}" target="_blank"
+        class="fixed bottom-6 left-6 z-50 flex items-center p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 group">
+        <i class="fab fa-whatsapp text-3xl"></i>
+        <span
+            class="max-w-0 overflow-hidden opacity-0 group-hover:max-w-xs group-hover:opacity-100 group-hover:ml-2 transition-all duration-500 ease-in-out whitespace-nowrap text-sm font-bold">
+            ¡Contáctanos!
+        </span>
+    </a>
+
     @stack('scripts')
 </body>
 
