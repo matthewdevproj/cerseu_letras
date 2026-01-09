@@ -35,6 +35,13 @@ Basado en `laravel/sail/runtimes/8.2/Dockerfile`:
   - MySQL Client, PostgreSQL Client 18
   - Supervisor, FFmpeg, Git, Nano, Unzip
 
+#### Servicios y Puertos Expuestos
+| Servicio | Puerto Local | Descripción |
+|----------|--------------|-------------|
+| **web**  | `8080`       | Nginx / Servidor Web |
+| **app**  | `9000`       | PHP-FPM 8.2 (Interno) |
+| **db**   | `3306`       | MySQL 8.0 |
+
 ### Estructura de Directorios Clave
 - `app/Http/Controllers`: Lógica de negocio y manejo de peticiones.
     - `Admin/`: Controladores protegidos para el panel administrativo.
@@ -110,6 +117,9 @@ El sitio público presenta la información de manera responsiva y optimizada par
 - **Base de Datos:** MySQL 5.7+ o MariaDB 10.3+
 - **Composer:** v2.x
 - **Node.js:** v18+ y NPM (para compilación de assets)
+- **Docker (Entorno de Desarrollo):**
+    - Docker Engine: `^24.0` (o superior)
+    - Docker Compose: `v2.x`
 
 ### Hardware Recomendado (Servidor)
 - **CPU:** 2 vCores mínimo.

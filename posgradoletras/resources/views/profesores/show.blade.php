@@ -212,7 +212,7 @@
                                    class="flex items-center justify-between bg-gray-50 rounded-xl border border-gray-200 p-4 hover:border-unmsm-guinda hover:bg-white hover:shadow-md transition-all group">
                                     <div>
                                         <p class="text-sm font-bold text-gray-800 group-hover:text-unmsm-guinda transition-colors">
-                                            {{ $programa->nombre }}
+                                            {{ $programa->titulo_completo }}
                                         </p>
                                         <div class="flex flex-wrap items-center gap-x-2 gap-y-1 mt-0.5">
                                             <p class="text-xs text-gray-500">{{ $programa->grado }}</p>

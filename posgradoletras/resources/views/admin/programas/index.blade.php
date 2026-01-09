@@ -80,7 +80,7 @@
                                         <i class="fas {{ $programa->grado == 'maestria' ? 'fa-scroll' : 'fa-medal' }} text-xl"></i>
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">{{ $programa->nombre }}</div>
+                                        <div class="text-sm font-medium text-gray-900">{{ $programa->titulo_completo }}</div>
                                     </div>
                                 </div>
                             </td>

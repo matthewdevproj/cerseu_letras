@@ -48,12 +48,11 @@
                         @php
                             $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
                         @endphp
-                        <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" 
-                           class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive 
-                               ? 'bg-unmsm-guinda text-white shadow-md' 
-                               : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
-                            <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->nombre }}
-                        </a>
+                            class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive 
+                                ? 'bg-unmsm-guinda text-white shadow-md' 
+                                : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
+                             <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->titulo_completo }}
+                         </a>
                     @endforeach
                 </div>
             </div>
@@ -68,12 +67,11 @@
                         @php
                             $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
                         @endphp
-                        <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" 
-                           class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive 
-                               ? 'bg-unmsm-guinda text-white shadow-md' 
-                               : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
-                            <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->nombre }}
-                        </a>
+                            class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive 
+                                ? 'bg-unmsm-guinda text-white shadow-md' 
+                                : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
+                             <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->titulo_completo }}
+                         </a>
                     @endforeach
                 </div>
             </div>
@@ -103,7 +101,7 @@
                                        ? 'bg-unmsm-guinda text-white shadow-md' 
                                        : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
                                     <i class="fas fa-book text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}"></i>
-                                    <span class="text-sm font-medium leading-tight">{{ $prog->nombre }}</span>
+                                    <span class="text-sm font-medium leading-tight">{{ $prog->titulo_completo }}</span>
                                 </a>
                             @endforeach
                         </div>
@@ -124,7 +122,7 @@
                                        ? 'bg-unmsm-guinda text-white shadow-md' 
                                        : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
                                     <i class="fas fa-book text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}"></i>
-                                    <span class="text-sm font-medium leading-tight">{{ $prog->nombre }}</span>
+                                    <span class="text-sm font-medium leading-tight">{{ $prog->titulo_completo }}</span>
                                 </a>
                             @endforeach
                         </div>
@@ -141,7 +139,7 @@
                         <div class="mb-8 border-b border-gray-200 pb-4">
 
                             <h2 class="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-1">
-                                {{ $selectedPrograma->nombre }}
+                                {{ $selectedPrograma->titulo_completo }}
                             </h2>
                             <p class="text-gray-500 text-sm">Plana Docente e Investigadores</p>
                         </div>

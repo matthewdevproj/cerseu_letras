@@ -15,13 +15,13 @@ class ProgramaController extends Controller
         // Obtener maestrías y doctorados con campos específicos
         $maestrias = Programa::activos()
             ->maestrias()
-            ->select('id', 'nombre', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad')
+            ->select('id', 'nombre', 'mencion', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad')
             ->orderBy('nombre')
             ->get();
 
         $doctorados = Programa::activos()
             ->doctorados()
-            ->select('id', 'nombre', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad')
+            ->select('id', 'nombre', 'mencion', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad')
             ->orderBy('nombre')
             ->get();
 

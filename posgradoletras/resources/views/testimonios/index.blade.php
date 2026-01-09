@@ -38,7 +38,7 @@
                         <div class="bg-gradient-to-r from-unmsm-guinda to-unmsm-guinda-light p-5">
                             <h3 class="text-white font-serif font-bold text-lg mb-1">{{ $testimonio->nombre }}</h3>
                             @if($testimonio->programa)
-                                <p class="text-white/80 text-sm">{{ $testimonio->programa->nombre }}</p>
+                                <p class="text-white/80 text-sm">{{ $testimonio->programa->titulo_completo }}</p>
                             @endif
                         </div>
 

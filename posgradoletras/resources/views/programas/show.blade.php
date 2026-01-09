@@ -1,10 +1,10 @@
 @extends('layouts.public')
 
-@section('title', $programa->nombre . ' - Posgrado Letras UNMSM')
+@section('title', $programa->titulo_completo . ' - Posgrado Letras UNMSM')
 
 @section('content')
     <!-- HERO DE SECCIÓN -->
-    <x-hero-section :title="$programa->nombre" :label="$programa->grado" :subtitle="'Grado que otorga: ' . ($programa->grado_otorga ?? $programa->grado)" :image="$programa->imagen_url" />
+    <x-hero-section :title="$programa->titulo_completo" :label="$programa->grado" :subtitle="'Grado que otorga: ' . ($programa->grado_otorga ?? $programa->grado)" :image="$programa->imagen_url" />
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="container mx-auto px-4 py-12">
@@ -433,7 +433,7 @@
                             </div>
                             <div>
                                 <p class="text-xs text-gray-500 uppercase font-bold">Modalidad</p>
-                                <p class="font-bold text-gray-900">{{ $programa->modalidad ?? 'Presencial' }}</p>
+                                <p class="font-bold text-gray-900">{{ $programa->modalidad }}</p>
                             </div>
                         </div>
 

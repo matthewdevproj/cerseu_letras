@@ -112,13 +112,21 @@ class Programa extends Model
 
         static::creating(function ($programa) {
             if (empty($programa->slug)) {
-                $programa->slug = Str::slug($programa->nombre);
+                $baseName = $programa->nombre;
+                if ($programa->mencion) {
+                    $baseName .= ' ' . $programa->mencion;
+                }
+                $programa->slug = Str::slug($baseName);
             }
         });
 
         static::updating(function ($programa) {
             if (empty($programa->slug)) {
-                $programa->slug = Str::slug($programa->nombre);
+                $baseName = $programa->nombre;
+                if ($programa->mencion) {
+                    $baseName .= ' ' . $programa->mencion;
+                }
+                $programa->slug = Str::slug($baseName);
             }
         });
     }

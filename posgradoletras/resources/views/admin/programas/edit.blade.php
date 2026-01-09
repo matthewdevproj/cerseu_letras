@@ -221,7 +221,7 @@
                 </div>
                 <div>
                     <h2 class="text-2xl font-serif font-bold leading-7 text-gray-900 sm:text-3xl">
-                        {{ $programa->nombre }}
+                        {{ $programa->titulo_completo }}
                     </h2>
                 </div>
             </div>

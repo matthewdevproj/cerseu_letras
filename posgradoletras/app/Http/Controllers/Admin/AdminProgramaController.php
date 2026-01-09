@@ -73,7 +73,11 @@ class AdminProgramaController extends Controller
 
         // Generate slug if not provided
         if (empty($data['slug'])) {
-            $data['slug'] = Str::slug($data['nombre']);
+            $baseName = $data['nombre'];
+            if (!empty($data['mencion'])) {
+                $baseName .= ' ' . $data['mencion'];
+            }
+            $data['slug'] = Str::slug($baseName);
 
             // Ensure uniqueness
             $originalSlug = $data['slug'];
@@ -162,8 +166,12 @@ class AdminProgramaController extends Controller
         }
 
         // Update slug if nombre changed and slug not manually provided
-        if (empty($data['slug']) && $programa->nombre !== $data['nombre']) {
-            $data['slug'] = Str::slug($data['nombre']);
+        if (empty($data['slug']) && ($programa->nombre !== $data['nombre'] || $programa->mencion !== ($data['mencion'] ?? null))) {
+            $baseName = $data['nombre'];
+            if (!empty($data['mencion'])) {
+                $baseName .= ' ' . $data['mencion'];
+            }
+            $data['slug'] = Str::slug($baseName);
 
             // Ensure uniqueness
             $originalSlug = $data['slug'];

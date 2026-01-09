@@ -83,11 +83,11 @@
             {{-- Maestrías --}}
             @foreach($maestrias as $programa)
                 <div class="program-card fade-in bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100 group flex flex-col h-full"
-                    data-type="maestria" data-title="{{ strtolower($programa->nombre) }}"
+                    data-type="maestria" data-title="{{ strtolower($programa->titulo_completo) }}"
                     data-desc="{{ strtolower($programa->presentacion ?? $programa->sumilla ?? '') }}">
 
                     <div class="relative h-48 overflow-hidden">
-                        <img src="{{ $programa->imagen_url }}" alt="{{ $programa->nombre }}"
+                        <img src="{{ $programa->imagen_url }}" alt="{{ $programa->titulo_completo }}"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
                         <div
@@ -99,7 +99,7 @@
                     <div class="p-6 flex flex-col flex-1">
                         <h3
                             class="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-unmsm-guinda transition-colors font-serif">
-                            {{ $programa->nombre }}
+                            {{ $programa->titulo_completo }}
                         </h3>
                         <p class="text-gray-600 text-sm mb-6 leading-relaxed flex-1 line-clamp-4">
                             {{ $programa->presentacion ?? $programa->sumilla ?? 'Sin descripción disponible' }}
@@ -112,7 +112,7 @@
                                 </span>
                                 <span class="flex items-center gap-1">
                                     <i class="fas fa-university text-unmsm-dorado"></i>
-                                    {{ $programa->modalidad ?? 'Semipresencial' }}
+                                    {{ $programa->modalidad }}
                                 </span>
                             </div>
                             <a href="{{ route('programas.show', $programa->slug) }}"
@@ -127,11 +127,11 @@
             {{-- Doctorados --}}
             @foreach($doctorados as $programa)
                 <div class="program-card fade-in bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100 group flex flex-col h-full"
-                    data-type="doctorado" data-title="{{ strtolower($programa->nombre) }}"
+                    data-type="doctorado" data-title="{{ strtolower($programa->titulo_completo) }}"
                     data-desc="{{ strtolower($programa->presentacion ?? $programa->sumilla ?? '') }}">
 
                     <div class="relative h-48 overflow-hidden">
-                        <img src="{{ $programa->imagen_url }}" alt="{{ $programa->nombre }}"
+                        <img src="{{ $programa->imagen_url }}" alt="{{ $programa->titulo_completo }}"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
                         <div
@@ -143,7 +143,7 @@
                     <div class="p-6 flex flex-col flex-1">
                         <h3
                             class="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-unmsm-guinda transition-colors font-serif">
-                            {{ $programa->nombre }}
+                            {{ $programa->titulo_completo }}
                         </h3>
                         <p class="text-gray-600 text-sm mb-6 leading-relaxed flex-1 line-clamp-4">
                             {{ $programa->presentacion ?? $programa->sumilla ?? 'Sin descripción disponible' }}
@@ -156,7 +156,7 @@
                                 </span>
                                 <span class="flex items-center gap-1">
                                     <i class="fas fa-university text-unmsm-dorado"></i>
-                                    {{ $programa->modalidad ?? 'Presencial' }}
+                                    {{ $programa->modalidad }}
                                 </span>
                             </div>
                             <a href="{{ route('programas.show', $programa->slug) }}"

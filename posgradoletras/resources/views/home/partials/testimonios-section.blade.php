@@ -47,7 +47,7 @@
                                 </h4>
                                 @if($testimonio->programa)
                                     <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">
-                                        {{ $testimonio->programa->nombre }}
+                                        {{ $testimonio->programa->titulo_completo }}
                                     </p>
                                 @endif
                             </div>
