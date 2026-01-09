@@ -1197,9 +1197,20 @@
 
                     fetch('{{ route("admin.documents.uploadAjax") }}', {
                         method: 'POST',
-                        body: formData
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw new Error(data.error || data.message || 'Error de validación');
+                            });
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         if (data.success) {
                             urlInput.value = data.url;
@@ -1215,7 +1226,7 @@
                     .catch(error => {
                         statusEl.classList.remove('text-blue-600');
                         statusEl.classList.add('text-red-600');
-                        statusEl.innerHTML = '<i class="fas fa-exclamation-circle mr-1"></i> Error de conexión';
+                        statusEl.innerHTML = '<i class="fas fa-exclamation-circle mr-1"></i> ' + error.message;
                         console.error('Upload error:', error);
                     });
 

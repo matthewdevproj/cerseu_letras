@@ -2,6 +2,21 @@
 
 @section('title', 'Admisión 2026-I - Posgrado Letras UNMSM')
 
+{{-- ========================================================
+     CORREOS DE CONTACTO - MODIFICAR AQUÍ
+     ======================================================== --}}
+@php
+    // Correo para Admisión (envío de expediente, consultas de inscripción)
+    $emailAdmision = config('contacts.admision', 'posgrado-letras@unmsm.site');
+    
+    // Correo general para otras consultas
+    $emailGeneral = config('contacts.general', 'posgrado-letras@unmsm.site');
+    
+    // Teléfono / WhatsApp
+    $telefono = config('contacts.telefono', '982 085 037');
+    $whatsapp = config('contacts.whatsapp', 'https://wa.me/51982085037');
+@endphp
+
 @push('styles')
     <style>
         .fade-in {
@@ -272,7 +287,7 @@
 
                 <!-- Paso 2: Registrar comprobante -->
                 <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 2: Registrar el comprobante de pago</h3>
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 2: Generación del código de postulante</h3>
                     
                     <div class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-6">
                         <p class="text-gray-700 text-sm">
@@ -496,20 +511,26 @@
                         Antes de enviar el expediente, deberá contar con su <strong>código de postulante</strong>.
                     </p>
 
-                    <div class="bg-red-50 border border-red-300 rounded-lg p-4 mb-4">
-                        <p class="text-red-800">
-                            Enviar los documentos al correo:
-                            <a href="mailto:posgrado-letras@unmsm.site"
-                                class="font-bold underline hover:text-red-600">posgrado-letras@unmsm.site</a>
-                            <span class="font-medium">(único correo)</span> hasta la <strong>1:00 pm del 02 de abril del
-                                2026</strong>.
+                    <!-- Advertencia de Fecha Límite -->
+                    <div class="bg-red-50 border border-red-300 rounded-lg p-4 mb-6">
+                        <p class="text-red-800 flex items-start gap-2 mb-2">
+                            <i class="fas fa-clock mt-1"></i>
+                            <span>
+                                La recepción de documentos será hasta la <strong>1:00 pm del 02 de abril del 2026</strong>.
+                            </span>
                         </p>
-                        <p class="text-red-700 text-sm mt-2 font-medium">
+                        <p class="text-red-800 ml-6 mb-2">
+                            La recepción de documentos será exclusivamente por el formulario: <br>
+                            <a href="https://share.google/jHxcVcvkryeHseIsQ" target="_blank" class="font-bold underline break-all hover:text-red-900">
+                                https://share.google/jHxcVcvkryeHseIsQ
+                            </a>
+                        </p>
+                        <p class="text-red-700 text-sm mt-2 font-medium ml-6">
                             No se recibirán documentos posteriores a la fecha y hora señalada.
                         </p>
                     </div>
 
-                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
                         <p class="font-bold text-gray-800 mb-3">Forma de envío para la evaluación de expediente:</p>
                         <div class="grid md:grid-cols-2 gap-6 text-sm">
                             <div>
@@ -555,6 +576,16 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Enlace al Formulario -->
+                    <div class="text-center">
+                        <a href="https://share.google/jHxcVcvkryeHseIsQ" target="_blank"
+                            class="inline-flex items-center gap-2 px-6 py-4 bg-unmsm-dorado text-white font-bold text-lg rounded-xl hover:bg-yellow-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full md:w-auto justify-center">
+                            <i class="fas fa-file-upload text-xl"></i>
+                            <span>REMISIÓN DE DOCUMENTOS – ADMISIÓN POSGRADO LETRAS 2026-I</span>
+                        </a>
+                        <p class="text-sm text-gray-500 mt-3">Clic en el botón para acceder al formulario de envío</p>
+                    </div>
                 </div>
 
                 <!-- Resultados -->
@@ -585,8 +616,8 @@
                         Posgrado
                         <a href="https://posgrado.unmsm.edu.pe/" target="_blank"
                             class="text-unmsm-guinda font-medium hover:underline">https://posgrado.unmsm.edu.pe/</a>,
-                        si hubiera otra consulta escribir al correo <a href="mailto:posgrado-letras@unmsm.site"
-                            class="text-unmsm-guinda font-medium hover:underline">posgrado-letras@unmsm.site</a>.
+                        si hubiera otra consulta escribir al correo <a href="mailto:{{ $emailGeneral }}"
+                            class="text-unmsm-guinda font-medium hover:underline">{{ $emailGeneral }}</a>.
                     </p>
                 </div>
 
@@ -610,7 +641,7 @@
                             </div>
                             <div>
                                 <span class="text-white/60 text-xs">Email</span>
-                                <p class="font-medium">posgrado-letras@unmsm.site</p>
+                                <p class="font-medium">{{ $emailAdmision }}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
@@ -623,7 +654,9 @@
                             </div>
                             <div>
                                 <span class="text-white/60 text-xs">WhatsApp</span>
-                                <p class="font-medium">982 085 037</p>
+                                <a href="{{ $whatsapp }}" target="_blank" class="font-medium hover:text-white/80 transition-colors flex items-center gap-1">
+                                    {{ $telefono }} <i class="fas fa-external-link-alt text-xs"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

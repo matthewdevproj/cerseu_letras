@@ -153,44 +153,56 @@ class AdminDocumentController extends Controller
      */
     public function uploadAjax(Request $request)
     {
-        $request->validate([
-            'file' => 'required|file|max:10240',
-            'type' => 'required|string|max:50',
-            'program_name' => 'nullable|string|max:255',
-        ]);
+        try {
+            $request->validate([
+                'file' => 'required|file|max:10240',
+                'type' => 'required|string|max:50',
+                'program_name' => 'nullable|string|max:255',
+            ]);
 
-        $file = $request->file('file');
-        $type = $request->input('type');
-        $programName = $request->input('program_name', 'programa');
+            $file = $request->file('file');
+            $type = $request->input('type');
+            $programName = $request->input('program_name', 'programa');
 
-        // Get original extension
-        $extension = $file->getClientOriginalExtension();
+            // Get original extension
+            $extension = $file->getClientOriginalExtension();
 
-        // Clean original name (without extension)
-        $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            // Clean original name (without extension)
+            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
-        // Construct new filename: slugified(program_name) - slugified(original_name) - type . extension
-        $newFilename = \Illuminate\Support\Str::slug($programName) . '-' .
-            \Illuminate\Support\Str::slug($originalName) . '-' .
-            $type . '.' . $extension;
+            // Construct new filename with timestamp for uniqueness
+            $timestamp = now()->format('Ymd_His');
+            $newFilename = \Illuminate\Support\Str::slug($programName) . '-' .
+                $type . '-' . $timestamp . '.' . $extension;
 
-        // Store with custom name
-        $path = $file->storeAs('documents', $newFilename, 'public');
-        $url = asset('storage/' . $path);
+            // Store with custom name
+            $path = $file->storeAs('documents', $newFilename, 'public');
+            $url = asset('storage/' . $path);
 
-        // Register in documents table
-        $document = Document::create([
-            'type' => $type,
-            'original_name' => $file->getClientOriginalName(),
-            'url' => $url,
-            'published' => true,
-        ]);
+            // Register in documents table
+            $document = Document::create([
+                'type' => $type,
+                'original_name' => $file->getClientOriginalName(),
+                'url' => $url,
+                'published' => true,
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'url' => $url,
-            'filename' => $file->getClientOriginalName(),
-            'document_id' => $document->id,
-        ]);
+            return response()->json([
+                'success' => true,
+                'url' => $url,
+                'filename' => $file->getClientOriginalName(),
+                'document_id' => $document->id,
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->errors()['file'][0] ?? 'Error de validación',
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Error al subir archivo: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }
