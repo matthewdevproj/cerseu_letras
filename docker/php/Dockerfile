@@ -1,9 +1,19 @@
 FROM php:8.2-fpm
 
-# Instalar dependencias del sistema y extensiones PHP necesarias para Laravel
+# 1. CONFIGURAR REPOSITORIOS Y DEPENDENCIAS BASE
 RUN apt-get update && apt-get install -y \
-    git \
+    ca-certificates \
     curl \
+    gnupg \
+    lsb-release \
+    && mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update
+
+# 2. INSTALAR DEPENDENCIAS DEL SISTEMA Y EXTENSIONES PHP
+RUN apt-get install -y \
+    git \
     unzip \
     libzip-dev \
     libpng-dev \
@@ -12,6 +22,7 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     libicu-dev \
+    nodejs \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
@@ -25,24 +36,28 @@ RUN apt-get update && apt-get install -y \
     opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Instalar Composer desde la imagen oficial
+# 3. ACTUALIZAR NPM A LA ÚLTIMA VERSIÓN
+RUN npm install -g npm@latest \
+    && npm cache clean --force
+
+# 4. INSTALAR COMPOSER DESDE LA IMAGEN OFICIAL
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Configurar directorio de trabajo
+# 5. CONFIGURAR DIRECTORIO DE TRABAJO
 WORKDIR /var/www/html
 
-# Crear usuario no-root para evitar problemas de permisos
+# 6. CREAR USUARIO NO-ROOT PARA EVITAR PROBLEMAS DE PERMISOS
 RUN useradd -G www-data,root -u 1000 -d /home/laravel laravel && \
     mkdir -p /home/laravel/.composer && \
     chown -R laravel:laravel /home/laravel
 
-# Copiar configuración PHP personalizada (aumentar límites de subida)
+# 7. COPIAR CONFIGURACIÓN PHP PERSONALIZADA
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/99-custom.ini
 
-# Cambiar al usuario laravel
+# 8. CAMBIAR AL USUARIO LARAVEL
 USER laravel
 
-# Exponer puerto 9000 para PHP-FPM
+# 9. EXPONER PUERTO 9000 PARA PHP-FPM
 EXPOSE 9000
 
 CMD ["php-fpm"]
