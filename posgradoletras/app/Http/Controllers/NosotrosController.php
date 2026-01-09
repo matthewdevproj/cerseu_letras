@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DirectorioPosgrado;
+
 class NosotrosController extends Controller
 {
     public function index()
@@ -19,23 +21,19 @@ class NosotrosController extends Controller
             'Responsabilidad y servicio a la comunidad',
         ];
 
-        $autoridades = [
-            [
-                'nombre' => 'Dr. Marco Martos Carrera',
-                'cargo' => 'Director de la Unidad de Posgrado',
-                'email' => 'mmartos@unmsm.edu.pe',
-            ],
-            [
-                'nombre' => 'Dra. Dorian Espezúa Salmón',
-                'cargo' => 'Coordinador Académico',
-                'email' => 'despezua@unmsm.edu.pe',
-            ],
-            [
-                'nombre' => 'Mg. Carlos García Miranda',
-                'cargo' => 'Coordinador de Investigación',
-                'email' => 'cgarciam@unmsm.edu.pe',
-            ],
-        ];
+        // Obtener autoridades desde la base de datos
+        $autoridades = DirectorioPosgrado::activos()
+            ->where('unidad_nombre', 'AUTORIDADES')
+            ->orderBy('orden')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'nombre' => $item->nombre_persona,
+                    'cargo' => $item->cargo,
+                    'email' => $item->correo_persona,
+                ];
+            })
+            ->toArray();
 
         return view('nosotros.index', compact('mision', 'vision', 'valores', 'autoridades'));
     }

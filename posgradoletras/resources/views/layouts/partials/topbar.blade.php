@@ -44,14 +44,16 @@
 
         </div>
 
-        <div class="flex lg:hidden items-center space-x-3 text-[11px]">
+        <div class="flex lg:hidden items-center space-x-3 text-[11px] overflow-hidden max-w-[60%]">
             @if($siteSettings?->email)
-                <a href="mailto:{{ $siteSettings->email }}" class="flex items-center hover:text-gray-300 transition gap-1">
-                    <i class="fas fa-envelope text-xs"></i>
-                    <span>{{ $siteSettings->email }}</span>
+                <a href="mailto:{{ $siteSettings->email }}"
+                    class="flex items-center hover:text-gray-300 transition gap-1 min-w-0">
+                    <i class="fas fa-envelope text-xs flex-shrink-0"></i>
+                    <span class="truncate">{{ $siteSettings->email }}</span>
                 </a>
             @endif
         </div>
+
 
 
         <div class="flex items-center space-x-4 ml-auto lg:ml-0">

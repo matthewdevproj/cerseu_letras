@@ -89,10 +89,30 @@
                     <div class="relative h-48 overflow-hidden">
                         <img src="{{ $programa->imagen_url }}" alt="{{ $programa->titulo_completo }}"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
-                        <div
-                            class="absolute top-4 left-4 bg-unmsm-guinda text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-md border border-white/20">
-                            Maestría
+                        
+                        {{-- Gradiente de fondo para contraste --}}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+                        
+                        {{-- "Ver más detalle" Overlay (Aparece en Hover) - Clickeable --}}
+                        <a href="{{ route('programas.show', $programa->slug) }}" class="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+                            <span class="px-6 py-2 border border-white text-white font-bold rounded-full hover:bg-white hover:text-unmsm-guinda transition-colors shadow-2xl transform scale-90 group-hover:scale-100 duration-300">
+                                Ver más detalle
+                            </span>
+                        </a>
+                        
+                        {{-- Badge Tipo Maestría --}}
+                        <div class="absolute top-4 left-4 z-20">
+                            <span class="px-3 py-1 bg-unmsm-guinda text-white text-xs font-bold rounded shadow-lg">Maestría</span>
+                        </div>
+                        
+                        {{-- Badges de duración y modalidad dentro de la imagen --}}
+                        <div class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
+                                <i class="far fa-clock"></i> {{ $programa->duracion ?? 4 }} semestres
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
+                                <i class="fas fa-university"></i> {{ $programa->modalidad }}
+                            </span>
                         </div>
                     </div>
 
@@ -105,16 +125,7 @@
                             {{ $programa->presentacion ?? $programa->sumilla ?? 'Sin descripción disponible' }}
                         </p>
 
-                        <div class="border-t border-gray-100 pt-4 mt-auto">
-                            <div class="flex justify-between text-xs text-gray-500 font-medium mb-4">
-                                <span class="flex items-center gap-1">
-                                    <i class="far fa-clock text-unmsm-dorado"></i> {{ $programa->duracion ?? 4 }} Semestres
-                                </span>
-                                <span class="flex items-center gap-1">
-                                    <i class="fas fa-university text-unmsm-dorado"></i>
-                                    {{ $programa->modalidad }}
-                                </span>
-                            </div>
+                        <div class="mt-auto">
                             <a href="{{ route('programas.show', $programa->slug) }}"
                                 class="block w-full text-center py-2.5 rounded-lg border border-unmsm-guinda text-unmsm-guinda font-bold text-sm hover:bg-unmsm-guinda hover:text-white transition-all duration-300">
                                 Ver Plan de Estudios
@@ -133,10 +144,30 @@
                     <div class="relative h-48 overflow-hidden">
                         <img src="{{ $programa->imagen_url }}" alt="{{ $programa->titulo_completo }}"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
-                        <div
-                            class="absolute top-4 left-4 bg-gray-900 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-md border border-white/20">
-                            Doctorado
+                        
+                        {{-- Gradiente de fondo para contraste --}}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+                        
+                        {{-- "Ver más detalle" Overlay (Aparece en Hover) - Clickeable --}}
+                        <a href="{{ route('programas.show', $programa->slug) }}" class="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+                            <span class="px-6 py-2 border border-white text-white font-bold rounded-full hover:bg-white hover:text-unmsm-guinda transition-colors shadow-2xl transform scale-90 group-hover:scale-100 duration-300">
+                                Ver más detalle
+                            </span>
+                        </a>
+                        
+                        {{-- Badge Tipo Doctorado --}}
+                        <div class="absolute top-4 left-4 z-20">
+                            <span class="px-3 py-1 bg-gray-900 text-white text-xs font-bold rounded shadow-lg">Doctorado</span>
+                        </div>
+                        
+                        {{-- Badges de duración y modalidad dentro de la imagen --}}
+                        <div class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
+                                <i class="far fa-clock"></i> {{ $programa->duracion ?? 6 }} semestres
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
+                                <i class="fas fa-university"></i> {{ $programa->modalidad }}
+                            </span>
                         </div>
                     </div>
 
@@ -149,16 +180,7 @@
                             {{ $programa->presentacion ?? $programa->sumilla ?? 'Sin descripción disponible' }}
                         </p>
 
-                        <div class="border-t border-gray-100 pt-4 mt-auto">
-                            <div class="flex justify-between text-xs text-gray-500 font-medium mb-4">
-                                <span class="flex items-center gap-1">
-                                    <i class="far fa-clock text-unmsm-dorado"></i> {{ $programa->duracion ?? 6 }} Semestres
-                                </span>
-                                <span class="flex items-center gap-1">
-                                    <i class="fas fa-university text-unmsm-dorado"></i>
-                                    {{ $programa->modalidad }}
-                                </span>
-                            </div>
+                        <div class="mt-auto">
                             <a href="{{ route('programas.show', $programa->slug) }}"
                                 class="block w-full text-center py-2.5 rounded-lg border border-unmsm-guinda text-unmsm-guinda font-bold text-sm hover:bg-unmsm-guinda hover:text-white transition-all duration-300">
                                 Ver Plan de Estudios
