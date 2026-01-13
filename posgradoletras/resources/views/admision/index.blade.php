@@ -206,39 +206,70 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                     </div>
 
                     <h4 class="font-bold text-md text-gray-800 mb-3">Costos de Inscripción</h4>
-                    <div class="grid md:grid-cols-2 gap-4 mb-6">
-                        <div class="border border-gray-200 rounded-lg overflow-hidden">
-                            <div class="bg-unmsm-guinda text-white p-3 text-center">
-                                <h4 class="font-bold">Maestría</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
+                        {{-- Maestría --}}
+                        <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="bg-unmsm-guinda text-white p-3 md:p-4 text-center">
+                                <h4 class="font-bold text-base md:text-lg">Maestría</h4>
                             </div>
-                            <div class="p-4">
-                                <div class="flex justify-between items-center mb-2 pb-2 border-b">
-                                    <span class="text-sm text-gray-600">Graduados y personal administrativo de la UNMSM,
-                                        docentes de universidades nacionales y Magisterio Nacional</span>
-                                    <span class="font-bold text-unmsm-guinda text-lg">S/ 350.00</span>
+                            <div class="p-3 md:p-5 space-y-3 md:space-y-4">
+                                {{-- S/ 350 --}}
+                                <div class="text-center p-3 md:p-4 bg-gray-50 rounded-lg border border-gray-100">
+                                    <p class="text-xs md:text-sm text-gray-600 mb-2 md:mb-3">
+                                        Graduados y personal administrativo de la UNMSM, docentes de universidades
+                                        nacionales y Magisterio Nacional
+                                    </p>
+                                    <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/items/dedff708-2b46-4e8a-9c8d-b035913e3b2a"
+                                        target="_blank"
+                                        class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-unmsm-guinda text-white font-bold text-base md:text-xl rounded-lg hover:bg-red-900 transition-colors shadow-md">
+                                        S/ 350.00 <i class="fas fa-external-link-alt text-xs md:text-sm"></i>
+                                    </a>
                                 </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600">Otros postulantes</span>
-                                    <span class="font-bold text-unmsm-guinda text-lg">S/ 450.00</span>
+                                {{-- S/ 450 --}}
+                                <div class="text-center p-3 md:p-4 bg-gray-50 rounded-lg border border-gray-100">
+                                    <p class="text-xs md:text-sm text-gray-600 mb-2 md:mb-3">
+                                        Otros postulantes
+                                    </p>
+                                    <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/items/6cce262e-3c78-42d8-9b1c-2a0666273547"
+                                        target="_blank"
+                                        class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-unmsm-guinda text-white font-bold text-base md:text-xl rounded-lg hover:bg-red-900 transition-colors shadow-md">
+                                        S/ 450.00 <i class="fas fa-external-link-alt text-xs md:text-sm"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="border border-gray-200 rounded-lg overflow-hidden">
-                            <div class="bg-gray-800 text-white p-3 text-center">
-                                <h4 class="font-bold">Doctorado</h4>
+                        {{-- Doctorado --}}
+                        <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="bg-gray-800 text-white p-3 md:p-4 text-center">
+                                <h4 class="font-bold text-base md:text-lg">Doctorado</h4>
                             </div>
-                            <div class="p-4">
-                                <div class="flex justify-between items-center mb-2 pb-2 border-b">
-                                    <span class="text-sm text-gray-600">Graduados y personal administrativo de la UNMSM,
-                                        docentes de universidades nacionales y Magisterio Nacional</span>
-                                    <span class="font-bold text-unmsm-guinda text-lg">S/ 400.00</span>
+                            <div class="p-3 md:p-5 space-y-3 md:space-y-4">
+                                {{-- S/ 400 --}}
+                                <div class="text-center p-3 md:p-4 bg-gray-50 rounded-lg border border-gray-100">
+                                    <p class="text-xs md:text-sm text-gray-600 mb-2 md:mb-3">
+                                        Graduados y personal administrativo de la UNMSM, docentes de universidades
+                                        nacionales y Magisterio Nacional
+                                    </p>
+                                    <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/items/92e3ea2e-818f-4288-b980-0ec85a359749"
+                                        target="_blank"
+                                        class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-gray-800 text-white font-bold text-base md:text-xl rounded-lg hover:bg-gray-900 transition-colors shadow-md">
+                                        S/ 400.00 <i class="fas fa-external-link-alt text-xs md:text-sm"></i>
+                                    </a>
                                 </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600">Otros postulantes</span>
-                                    <span class="font-bold text-unmsm-guinda text-lg">S/ 500.00</span>
+                                {{-- S/ 500 --}}
+                                <div class="text-center p-3 md:p-4 bg-gray-50 rounded-lg border border-gray-100">
+                                    <p class="text-xs md:text-sm text-gray-600 mb-2 md:mb-3">
+                                        Otros postulantes
+                                    </p>
+                                    <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/items/5f1ffb8f-a462-4757-9443-a51407f51f2e"
+                                        target="_blank"
+                                        class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-gray-800 text-white font-bold text-base md:text-xl rounded-lg hover:bg-gray-900 transition-colors shadow-md">
+                                        S/ 500.00 <i class="fas fa-external-link-alt text-xs md:text-sm"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
 
                     <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif mt-6">Procedimiento de pago de
@@ -387,7 +418,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                         </div>
                     </div>
 
-                    <div class="bg-gray-50 border border-gray-300 rounded-lg p-4">
+                    <div class="bg-gray-50 border border-gray-300 rounded-lg p-4 mb-6">
                         <p class="text-gray-700 text-sm mb-2">
                             <strong>Ingresar sus datos al siguiente enlace (necesitará el número de secuencia de su
                                 comprobante de pago):</strong>
@@ -396,6 +427,28 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                             class="text-unmsm-guinda hover:underline break-all">
                             https://posgrado.unmsm.edu.pe/admision/registro/index.php
                         </a>
+                    </div>
+
+                    {{-- Video tutorial --}}
+                    <div class="border border-gray-200 rounded-lg p-4 bg-white">
+                        <div class="flex items-start gap-3 mb-3">
+                            <span
+                                class="flex-shrink-0 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm">
+                                <i class="fab fa-youtube"></i>
+                            </span>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-gray-800 mb-1">Video tutorial: Generación del código de postulante
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="w-full aspect-video rounded-lg overflow-hidden shadow-md">
+                            <iframe class="w-full h-full"
+                                src="https://www.youtube.com/embed/yLDo0Eezwbg?si=vyBC9GyRwbxoxwnz"
+                                title="Tutorial: Generación del código de postulante" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                            </iframe>
+                        </div>
                     </div>
                 </div>
 
