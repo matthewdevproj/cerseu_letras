@@ -31,8 +31,8 @@
                         <!-- Autor -->
                         <div class="flex items-center gap-4 border-t border-gray-200 pt-6">
                             <div class="flex-shrink-0">
-                                @if($testimonio->foto)
-                                    <img src="{{ asset('storage/' . $testimonio->foto) }}" alt="{{ $testimonio->nombre }}"
+                                @if($testimonio->photo)
+                                    <img src="{{ $testimonio->photo_url }}" alt="{{ $testimonio->nombre }}"
                                         class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md">
                                 @else
                                     <div

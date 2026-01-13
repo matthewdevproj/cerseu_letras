@@ -487,7 +487,7 @@
                             <i class="fa-solid fa-pen-to-square mr-2"></i> Postular Ahora
                         </a>
 
-                        <a href="https://wa.me/message/ZF2GT3IJI5IJG1" target="_blank"
+                        <a href="{{ config('contacts.whatsapp', 'https://wa.me/51982085037') }}" target="_blank"
                             class="block w-full py-3 bg-white border border-gray-300 text-gray-700 text-center rounded-lg font-bold hover:bg-gray-50 transition text-sm">
                             <i class="fa-brands fa-whatsapp mr-2 text-green-600"></i> Consultar por WhatsApp
                         </a>
@@ -501,10 +501,10 @@
                         <h4 class="font-bold mb-4 relative z-10">¿Necesitas ayuda?</h4>
                         <p class="text-sm text-gray-400 mb-4 relative z-10">Contáctanos directamente:</p>
 
-                        <a href="mailto:posgrado-letras@unmsm.site"
+                        <a href="mailto:admisionposgrado.letras@unmsm.edu.pe"
                             class="flex items-center gap-3 text-sm hover:text-unmsm-dorado transition mb-3 relative z-10">
                             <i class="fa-solid fa-envelope text-unmsm-dorado"></i>
-                            posgrado-letras@unmsm.site
+                            admisionposgrado.letras@unmsm.edu.pe
                         </a>
                         <a href="tel:+51982085037"
                             class="flex items-center gap-3 text-sm hover:text-unmsm-dorado transition relative z-10">

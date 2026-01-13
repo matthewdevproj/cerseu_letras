@@ -70,8 +70,8 @@
                         <tr class="hover:bg-gray-50 transition-colors">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    @if($testimonio->foto)
-                                        <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('storage/' . $testimonio->foto) }}" alt="{{ $testimonio->nombre }}">
+                                    @if($testimonio->photo)
+                                        <img class="h-10 w-10 rounded-full object-cover" src="{{ $testimonio->photo_url }}" alt="{{ $testimonio->nombre }}">
                                     @else
                                         <div class="h-10 w-10 rounded-full bg-brand-navy text-white flex items-center justify-center font-bold text-sm">
                                             {{ strtoupper(substr($testimonio->nombre, 0, 2)) }}

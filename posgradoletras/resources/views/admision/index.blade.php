@@ -3,15 +3,15 @@
 @section('title', 'Admisión 2026-I - Posgrado Letras UNMSM')
 
 {{-- ========================================================
-     CORREOS DE CONTACTO - MODIFICAR AQUÍ
-     ======================================================== --}}
+CORREOS DE CONTACTO - MODIFICAR AQUÍ
+======================================================== --}}
 @php
     // Correo para Admisión (envío de expediente, consultas de inscripción)
-    $emailAdmision = config('contacts.admision', 'posgrado-letras@unmsm.site');
-    
+    $emailAdmision = config('contacts.admision', 'admisionposgrado.letras@unmsm.edu.pe');
+
     // Correo general para otras consultas
-    $emailGeneral = config('contacts.general', 'posgrado-letras@unmsm.site');
-    
+    $emailGeneral = config('contacts.general', 'admisionposgrado.letras@unmsm.edu.pe');
+
     // Teléfono / WhatsApp
     $telefono = config('contacts.telefono', '982 085 037');
     $whatsapp = config('contacts.whatsapp', 'https://wa.me/51982085037');
@@ -192,12 +192,15 @@
                     </div>
                 </div>
                 <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 1: Realizar el pago por derecho a Inscripción</h3>
-                    
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 1: Realizar el pago por derecho a
+                        Inscripción</h3>
+
                     <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
                         <p class="text-gray-700 text-sm">
-                            <strong>Importante:</strong> Antes de realizar el pago por derecho de inscripción verifique que el programa de su
-                            interés participe en el proceso de admisión actual y que esté dentro del cronograma establecido en el
+                            <strong>Importante:</strong> Antes de realizar el pago por derecho de inscripción verifique que
+                            el programa de su
+                            interés participe en el proceso de admisión actual y que esté dentro del cronograma establecido
+                            en el
                             presente proceso de admisión.
                         </p>
                     </div>
@@ -238,25 +241,24 @@
                         </div>
                     </div>
 
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif mt-6">Procedimiento de pago de inscripción</h3>
-                    
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif mt-6">Procedimiento de pago de
+                        inscripción</h3>
+
                     <div class="space-y-6">
                         <!-- Paso 1: Generar ticket -->
                         <div class="border border-gray-200 rounded-lg p-4">
                             <div class="flex items-start gap-3 mb-3">
-                                <span class="flex-shrink-0 w-8 h-8 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                                <span
+                                    class="flex-shrink-0 w-8 h-8 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
                                 <div class="flex-1">
                                     <h4 class="font-bold text-gray-800 mb-2">Generar ticket en SanMarket-UNMSM</h4>
                                     <p class="text-sm text-gray-600 mb-3">Registrarse con correo de dominio Gmail.</p>
                                 </div>
                             </div>
                             <div class="w-full aspect-video rounded-lg overflow-hidden shadow-md">
-                                <iframe 
-                                    class="w-full h-full" 
-                                    src="https://www.youtube.com/embed/wDpbuHt1xg4" 
-                                    title="Tutorial: Generar ticket en SanMarket-UNMSM" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                <iframe class="w-full h-full" src="https://www.youtube.com/embed/wDpbuHt1xg4"
+                                    title="Tutorial: Generar ticket en SanMarket-UNMSM" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     allowfullscreen>
                                 </iframe>
                             </div>
@@ -265,19 +267,18 @@
                         <!-- Paso 2: Realizar el pago -->
                         <div class="border border-gray-200 rounded-lg p-4">
                             <div class="flex items-start gap-3 mb-3">
-                                <span class="flex-shrink-0 w-8 h-8 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                                <span
+                                    class="flex-shrink-0 w-8 h-8 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
                                 <div class="flex-1">
                                     <h4 class="font-bold text-gray-800 mb-2">Realizar el pago en BCP o Yape</h4>
-                                    <p class="text-sm text-gray-600 mb-3">Puedes pagar a través de la App BCP, en un agente BCP o mediante Yape.</p>
+                                    <p class="text-sm text-gray-600 mb-3">Puedes pagar a través de la App BCP, en un agente
+                                        BCP o mediante Yape.</p>
                                 </div>
                             </div>
                             <div class="w-full aspect-video rounded-lg overflow-hidden shadow-md">
-                                <iframe 
-                                    class="w-full h-full" 
-                                    src="https://www.youtube.com/embed/feg7DN0pSLM" 
-                                    title="Tutorial: Realizar el pago en BCP o Yape" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                <iframe class="w-full h-full" src="https://www.youtube.com/embed/feg7DN0pSLM"
+                                    title="Tutorial: Realizar el pago en BCP o Yape" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     allowfullscreen>
                                 </iframe>
                             </div>
@@ -287,77 +288,99 @@
 
                 <!-- Paso 2: Registrar comprobante -->
                 <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 2: Generación del código de postulante</h3>
-                    
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 2: Generación del código de
+                        postulante</h3>
+
                     <div class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-6">
                         <p class="text-gray-700 text-sm">
-                            Con la finalidad de que usted pueda adjuntar el comprobante de pago y habilitar su inscripción, 
+                            Con la finalidad de que usted pueda adjuntar el comprobante de pago y habilitar su inscripción,
                             ponemos a su disposición este módulo.
                         </p>
                     </div>
 
                     <h4 class="font-bold text-md text-gray-800 mb-3">Deberá tener en cuenta lo siguiente:</h4>
-                    
+
                     <div class="space-y-4 mb-6">
                         <div class="flex items-start gap-3">
-                            <div class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                            <div
+                                class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                        d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
                             <p class="text-gray-700 text-sm">
-                                El <strong>comprobante de pago</strong> que adjunte deberá ser <strong>legible</strong> y estar 
-                                <strong>a nombre de la Universidad Nacional Mayor de San Marcos</strong>, ya que estará sujeto a una verificación. 
-                                De no cumplir con estas especificaciones, su inscripción será invalidada así haya obtenido una vacante.
+                                El <strong>comprobante de pago</strong> que adjunte deberá ser <strong>legible</strong> y
+                                estar
+                                <strong>a nombre de la Universidad Nacional Mayor de San Marcos</strong>, ya que estará
+                                sujeto a una verificación.
+                                De no cumplir con estas especificaciones, su inscripción será invalidada así haya obtenido
+                                una vacante.
                             </p>
                         </div>
 
                         <div class="flex items-start gap-3">
-                            <div class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                            <div
+                                class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                        d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
                             <p class="text-gray-700 text-sm">
-                                El pago por el derecho de admisión necesariamente tiene que ser realizado a través de la 
+                                El pago por el derecho de admisión necesariamente tiene que ser realizado a través de la
                                 <strong>plataforma de SanMarket</strong>.
                             </p>
                         </div>
 
                         <div class="flex items-start gap-3">
-                            <div class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                            <div
+                                class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                        d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
                             <p class="text-gray-700 text-sm">
-                                El <strong>número de documento de identidad</strong> que especifique al momento de registrarse, 
+                                El <strong>número de documento de identidad</strong> que especifique al momento de
+                                registrarse,
                                 podrá ser usado una <strong>sola vez</strong>.
                             </p>
                         </div>
 
                         <div class="flex items-start gap-3">
-                            <div class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                            <div
+                                class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                        d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
                             <p class="text-gray-700 text-sm">
-                                Deberá ingresar el <strong>Número de secuencia de pago</strong> que aparece en su comprobante de pago 
+                                Deberá ingresar el <strong>Número de secuencia de pago</strong> que aparece en su
+                                comprobante de pago
                                 para poder registrarse en el sistema.
                             </p>
                         </div>
 
                         <div class="flex items-start gap-3">
-                            <div class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                            <div
+                                class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                        d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
                             <p class="text-gray-700 text-sm">
-                                Si tiene algún inconveniente en el registro, agradeceremos que nos pueda escribir 
-                                indicando sus nombres y apellidos y el número de documento de identidad al siguiente correo: 
-                                <a href="mailto:admision.dgep@unmsm.edu.pe" class="text-unmsm-guinda font-semibold hover:underline">
+                                Si tiene algún inconveniente en el registro, agradeceremos que nos pueda escribir
+                                indicando sus nombres y apellidos y el número de documento de identidad al siguiente correo:
+                                <a href="mailto:admision.dgep@unmsm.edu.pe"
+                                    class="text-unmsm-guinda font-semibold hover:underline">
                                     admision.dgep@unmsm.edu.pe
                                 </a>
                             </p>
@@ -366,19 +389,20 @@
 
                     <div class="bg-gray-50 border border-gray-300 rounded-lg p-4">
                         <p class="text-gray-700 text-sm mb-2">
-                            <strong>Ingresar sus datos al siguiente enlace (necesitará el número de secuencia de su comprobante de pago):</strong>
+                            <strong>Ingresar sus datos al siguiente enlace (necesitará el número de secuencia de su
+                                comprobante de pago):</strong>
                         </p>
-                        <a href="https://posgrado.unmsm.edu.pe/admision/registro/index.php" 
-                           target="_blank"
-                           class="text-unmsm-guinda hover:underline break-all">
-                           https://posgrado.unmsm.edu.pe/admision/registro/index.php
+                        <a href="https://posgrado.unmsm.edu.pe/admision/registro/index.php" target="_blank"
+                            class="text-unmsm-guinda hover:underline break-all">
+                            https://posgrado.unmsm.edu.pe/admision/registro/index.php
                         </a>
                     </div>
                 </div>
 
                 <!-- Paso 3: Requisitos -->
                 <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-6 font-serif">Paso 3: Enviar los requisitos para postular a los programas de Maestría y Doctorado</h3>
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-6 font-serif">Paso 3: Enviar los requisitos para
+                        postular a los programas de Maestría y Doctorado</h3>
 
                     <!-- MAESTRÍA -->
                     <div class="mb-8">
@@ -388,11 +412,13 @@
                         <div class="border border-gray-200 rounded-b-lg p-4">
                             <ol class="space-y-4 text-gray-700 text-sm">
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
                                     <span>Registrar el formulario del Posgrado de Letras.</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
                                     <div>
                                         <span class="font-medium">Resumen de la hoja de vida del postulante.</span>
                                         <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de
@@ -401,38 +427,49 @@
                                     </div>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                                    <span>Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor emitida
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                    <span>Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor
+                                        emitida
                                         por SUNEDU (*).</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
-                                    <span>Anteproyecto de Investigación de acuerdo con la postulación (Modelo para Maestrías /
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                                    <span>Anteproyecto de Investigación de acuerdo con la postulación (Modelo para Maestrías
+                                        /
                                         Modelo para Maestría en Escritura Creativa).</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
                                     <span>Copia simple del documento de identidad (DNI, carné de extranjería o
                                         pasaporte).</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
                                     <span>Partida de nacimiento.</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
                                     <span>Recibo de pago por derecho de inscripción, realizado a través de SanMarket-UNMSM,
                                         culminando en BCP (App o agente) o Yape.</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
                                     <span>Una foto tamaño pasaporte con fondo blanco, sin gafas.</span>
                                 </li>
                             </ol>
-                            <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 space-y-2">
-                                <p><strong>(*)</strong> Los postulantes que obtuvieron el grado de Bachiller en la Universidad
+                            <div
+                                class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 space-y-2">
+                                <p><strong>(*)</strong> Los postulantes que obtuvieron el grado de Bachiller en la
+                                    Universidad
                                     Nacional Mayor de San Marcos solo presentarán copia simple.</p>
-                                <p>En el caso de graduados en el extranjero, los grados y títulos deberán estar revalidados o
+                                <p>En el caso de graduados en el extranjero, los grados y títulos deberán estar revalidados
+                                    o
                                     reconocidos según las normas vigentes.</p>
                                 <p>Solo las personas con discapacidad deberán presentar su carnet de CONADIS.</p>
                             </div>
@@ -447,11 +484,13 @@
                         <div class="border border-gray-200 rounded-b-lg p-4">
                             <ol class="space-y-4 text-gray-700 text-sm">
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
                                     <span>Registrar el formulario del Posgrado de Letras.</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
                                     <div>
                                         <span class="font-medium">Resumen de la hoja de vida del postulante.</span>
                                         <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de
@@ -460,42 +499,52 @@
                                     </div>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                                    <span>Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor emitida
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                    <span>Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor
+                                        emitida
                                         por SUNEDU (*).</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
                                     <span>Anteproyecto de Investigación de acuerdo con la postulación (Modelo para
                                         Doctorados).</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
                                     <span>Certificado de suficiencia de un idioma extranjero o lenguas originarias.</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
                                     <span>Copia simple del documento de identidad (DNI, carné de extranjería o
                                         pasaporte).</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
                                     <span>Partida de nacimiento.</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
                                     <span>Recibo de pago por derecho de inscripción, realizado a través de SanMarket-UNMSM,
                                         culminando en BCP (App o agente) o Yape.</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">9</span>
+                                    <span
+                                        class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">9</span>
                                     <span>Una foto tamaño pasaporte con fondo blanco, sin gafas.</span>
                                 </li>
                             </ol>
-                            <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 space-y-2">
+                            <div
+                                class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 space-y-2">
                                 <p><strong>(*)</strong> Los postulantes que obtuvieron el grado de Maestro o Doctor en la
                                     Universidad Nacional Mayor de San Marcos solo presentarán copia simple.</p>
-                                <p>En el caso de graduados en el extranjero, los grados y títulos deberán estar revalidados o
+                                <p>En el caso de graduados en el extranjero, los grados y títulos deberán estar revalidados
+                                    o
                                     reconocidos según las normas vigentes.</p>
                                 <p>Solo las personas con discapacidad deberán presentar su carnet de CONADIS.</p>
                             </div>
@@ -521,7 +570,8 @@
                         </p>
                         <p class="text-red-800 ml-6 mb-2">
                             La recepción de documentos será exclusivamente por el formulario: <br>
-                            <a href="https://share.google/jHxcVcvkryeHseIsQ" target="_blank" class="font-bold underline break-all hover:text-red-900">
+                            <a href="https://share.google/jHxcVcvkryeHseIsQ" target="_blank"
+                                class="font-bold underline break-all hover:text-red-900">
                                 https://share.google/jHxcVcvkryeHseIsQ
                             </a>
                         </p>
@@ -654,7 +704,8 @@
                             </div>
                             <div>
                                 <span class="text-white/60 text-xs">WhatsApp</span>
-                                <a href="{{ $whatsapp }}" target="_blank" class="font-medium hover:text-white/80 transition-colors flex items-center gap-1">
+                                <a href="{{ $whatsapp }}" target="_blank"
+                                    class="font-medium hover:text-white/80 transition-colors flex items-center gap-1">
                                     {{ $telefono }} <i class="fas fa-external-link-alt text-xs"></i>
                                 </a>
                             </div>

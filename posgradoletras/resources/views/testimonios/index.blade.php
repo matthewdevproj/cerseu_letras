@@ -34,12 +34,31 @@
                 @foreach($testimonios as $testimonio)
                     <div
                         class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full">
-                        {{-- Header con gradiente --}}
+                        {{-- Header con gradiente y foto --}}
                         <div class="bg-gradient-to-r from-unmsm-guinda to-unmsm-guinda-light p-5">
-                            <h3 class="text-white font-serif font-bold text-lg mb-1">{{ $testimonio->nombre }}</h3>
-                            @if($testimonio->programa)
-                                <p class="text-white/80 text-sm">{{ $testimonio->programa->titulo_completo }}</p>
-                            @endif
+                            <div class="flex items-center gap-4">
+                                {{-- Foto del egresado --}}
+                                <div class="flex-shrink-0">
+                                    @if($testimonio->photo)
+                                        <img src="{{ $testimonio->photo_url }}" 
+                                            alt="{{ $testimonio->nombre }}"
+                                            class="w-20 h-20 rounded-full object-cover border-3 border-white/30 shadow-lg">
+                                    @else
+                                        <div class="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center border-3 border-white/30">
+                                            <span class="text-white font-bold text-2xl">
+                                                {{ strtoupper(substr($testimonio->nombre, 0, 2)) }}
+                                            </span>
+                                        </div>
+                                    @endif
+                                </div>
+                                {{-- Nombre y programa --}}
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="text-white font-serif font-bold text-lg mb-1 truncate">{{ $testimonio->nombre }}</h3>
+                                    @if($testimonio->programa)
+                                        <p class="text-white/80 text-sm truncate">{{ $testimonio->programa->titulo_completo }}</p>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
 
                         {{-- Contenido --}}

@@ -1,7 +1,7 @@
 {{-- Inversión económica – DOCTORADOS --}}
 
 @php
-    $emailContacto = 'posgrado-letras@unmsm.site';
+    $emailContacto = 'admisionposgrado.letras@unmsm.edu.pe';
     $costoPorCredito = 210;
 
     // Solo datos base por semestre (matrícula y créditos)
@@ -193,9 +193,10 @@
                 </p>
                 <p>
                     <span class="font-semibold text-unmsm-guinda">Teléfono / WhatsApp:&nbsp;</span>
-                    <a href="https://wa.me/message/ZF2GT3IJI5IJG1" target="_blank" rel="noopener noreferrer"
+                    <a href="{{ config('contacts.whatsapp', 'https://wa.me/51982085037') }}" target="_blank"
+                        rel="noopener noreferrer"
                         class="text-gray-800 underline decoration-unmsm-guinda/60 decoration-2 underline-offset-2">
-                        982 085 037
+                        {{ config('contacts.telefono', '982 085 037') }}
                     </a>
                 </p>
             </div>

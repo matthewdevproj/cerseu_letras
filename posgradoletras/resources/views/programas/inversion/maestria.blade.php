@@ -1,7 +1,7 @@
 {{-- Inversión económica – MAESTRÍAS --}}
 
 @php
-    $emailContacto = 'posgrado-letras@unmsm.site';
+    $emailContacto = 'admisionposgrado.letras@unmsm.edu.pe';
     $costoPorCredito = 160;
 
     // Solo datos base por semestre (matrícula y créditos)
@@ -127,7 +127,8 @@
                         <tbody class="divide-y divide-gray-100">
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3 text-gray-600">Matrícula</td>
-                                <td class="px-4 py-3 text-right font-semibold text-gray-900">S/&nbsp;{{ number_format($datos['matricula'], 0) }}</td>
+                                <td class="px-4 py-3 text-right font-semibold text-gray-900">
+                                    S/&nbsp;{{ number_format($datos['matricula'], 0) }}</td>
                             </tr>
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3 text-gray-600">N° de créditos</td>
@@ -135,11 +136,13 @@
                             </tr>
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3 text-gray-600">Costo por semestre</td>
-                                <td class="px-4 py-3 text-right font-semibold text-gray-900">S/&nbsp;{{ number_format($datos['costoSemestre'], 0) }}</td>
+                                <td class="px-4 py-3 text-right font-semibold text-gray-900">
+                                    S/&nbsp;{{ number_format($datos['costoSemestre'], 0) }}</td>
                             </tr>
                             <tr class="bg-unmsm-guinda/5">
                                 <td class="px-4 py-3 text-gray-700 font-medium">Cuota mensual (4 cuotas)</td>
-                                <td class="px-4 py-3 text-right font-bold text-unmsm-guinda">S/&nbsp;{{ number_format($datos['cuotaMensual'], 0) }}</td>
+                                <td class="px-4 py-3 text-right font-bold text-unmsm-guinda">
+                                    S/&nbsp;{{ number_format($datos['cuotaMensual'], 0) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -190,9 +193,10 @@
                 </p>
                 <p>
                     <span class="font-semibold text-unmsm-guinda">Teléfono / WhatsApp:&nbsp;</span>
-                    <a href="https://wa.me/message/ZF2GT3IJI5IJG1" target="_blank" rel="noopener noreferrer"
+                    <a href="{{ config('contacts.whatsapp', 'https://wa.me/51982085037') }}" target="_blank"
+                        rel="noopener noreferrer"
                         class="text-gray-800 underline decoration-unmsm-guinda/60 decoration-2 underline-offset-2">
-                        982 085 037
+                        {{ config('contacts.telefono', '982 085 037') }}
                     </a>
                 </p>
             </div>

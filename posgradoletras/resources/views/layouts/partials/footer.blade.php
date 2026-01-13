@@ -97,18 +97,19 @@
                             <span class="text-xs">{{ $siteSettings->direccion }}</span>
                         </li>
                     @endif
-                    @if($siteSettings?->email)
-                        <li class="flex items-center gap-2 text-white/80 hover:text-unmsm-dorado transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-unmsm-dorado flex-shrink-0"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                            <a href="mailto:{{ $siteSettings->email }}" class="text-xs">
-                                {{ $siteSettings->email }}
-                            </a>
-                        </li>
-                    @endif
+                    @php
+                        $footerEmail = $siteSettings?->email ?? config('contacts.general', 'admisionposgrado.letras@unmsm.edu.pe');
+                    @endphp
+                    <li class="flex items-center gap-2 text-white/80 hover:text-unmsm-dorado transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-unmsm-dorado flex-shrink-0"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <a href="mailto:{{ $footerEmail }}" class="text-xs">
+                            {{ $footerEmail }}
+                        </a>
+                    </li>
                     @if($siteSettings?->telefono)
                         <li class="flex items-center gap-2 text-white/80 hover:text-green-400 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-unmsm-dorado flex-shrink-0"

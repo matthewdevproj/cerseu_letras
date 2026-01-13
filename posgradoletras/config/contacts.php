@@ -16,7 +16,7 @@ return [
     |--------------------------------------------------------------------------
     | Este correo se muestra como contacto principal en varias páginas.
     */
-    'general' => 'posgrado-letras@unmsm.site',
+    'general' => 'admisionposgrado.letras@unmsm.edu.pe',
 
     /*
     |--------------------------------------------------------------------------
@@ -24,7 +24,7 @@ return [
     |--------------------------------------------------------------------------
     | Para consultas sobre proceso de admisión, inscripciones, pagos, etc.
     */
-    'admision' => 'posgrado-letras@unmsm.site',
+    'admision' => 'admisionposgrado.letras@unmsm.edu.pe',
 
     /*
     |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ return [
     |--------------------------------------------------------------------------
     | Para consultas sobre trámites, grados, títulos, certificados.
     */
-    'tramites' => 'posgrado-letras@unmsm.site',
+    'tramites' => 'admisionposgrado.letras@unmsm.edu.pe',
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ return [
     |--------------------------------------------------------------------------
     | Para consultas sobre costos, pagos y asuntos económicos.
     */
-    'pagos' => 'posgrado-letras@unmsm.site',
+    'pagos' => 'admisionposgrado.letras@unmsm.edu.pe',
 
     /*
     |--------------------------------------------------------------------------

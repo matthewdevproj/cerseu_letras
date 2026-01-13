@@ -67,6 +67,14 @@
                             class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
                             <i class="fas fa-user-plus mr-2 text-red-700"></i>Proceso de Admisión
                         </a>
+                        <a href="https://posgrado.unmsm.edu.pe/doc/cuadro-de-vacantes-2026-i-f-1-f-1765884106-0" target="_blank"
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-th-list mr-2 text-red-700"></i>Cuadro de Vacantes
+                        </a>
+                        <a href="https://posgrado.unmsm.edu.pe/doc/criterios-evaluacion-admision-2025" target="_blank"
+                            class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
+                            <i class="fas fa-clipboard-check mr-2 text-red-700"></i>Criterios de Evaluación
+                        </a>
                         <a href="{{ route('cronograma') }}" class="block px-5 py-3 hover:bg-gray-50">
                             <i class="fas fa-calendar-alt mr-2 text-red-700"></i>Cronograma Académico
                         </a>
@@ -267,6 +275,12 @@
                                 <a href="{{ route('admision') }}" @click="mobileMenuOpen = false"
                                     class="block px-6 py-3 pl-14 text-gray-600 hover:text-red-700 hover:bg-red-50 text-sm font-medium transition-colors border-l-2 border-transparent hover:border-red-700">Proceso
                                     de Admisión</a>
+                                <a href="https://posgrado.unmsm.edu.pe/doc/cuadro-de-vacantes-2026-i-f-1-f-1765884106-0" @click="mobileMenuOpen = false" target="_blank"
+                                    class="block px-6 py-3 pl-14 text-gray-600 hover:text-red-700 hover:bg-red-50 text-sm font-medium transition-colors border-l-2 border-transparent hover:border-red-700">Cuadro
+                                    de Vacantes</a>
+                                <a href="https://posgrado.unmsm.edu.pe/doc/criterios-evaluacion-admision-2025" @click="mobileMenuOpen = false" target="_blank"
+                                    class="block px-6 py-3 pl-14 text-gray-600 hover:text-red-700 hover:bg-red-50 text-sm font-medium transition-colors border-l-2 border-transparent hover:border-red-700">Criterios
+                                    de Evaluación</a>
                                 <a href="{{ route('cronograma') }}" @click="mobileMenuOpen = false"
                                     class="block px-6 py-3 pl-14 text-gray-600 hover:text-red-700 hover:bg-red-50 text-sm font-medium transition-colors border-l-2 border-transparent hover:border-red-700">Cronograma
                                     Académico</a>
