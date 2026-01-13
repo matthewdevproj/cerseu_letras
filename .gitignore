@@ -17,3 +17,32 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# SSL Certificates and private keys (sensitive data)
+docker/nginx/ssl/privkey.pem
+docker/nginx/ssl/*.key
+docker/nginx/ssl/_.unmsm.edu.pe.privkey.*
+docker/nginx/ssl/STAR_unmsm_edu_pe_full.crt
+
+# Database backups
+*.sql
+backup_*.sql
+
+# Environment files (sensitive)
+.env
+.env.*
+posgradoletras/.env*
+
+# Temporary files
+*.tmp
+*.log
+ssl_renewal.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
