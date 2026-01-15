@@ -611,34 +611,32 @@
     @include('home.partials.testimonios-section')
 
     <!-- PLANA DOCENTE -->
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-center section-title font-serif text-3xl font-bold mb-12">Coordinadores de Programa</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-                @forelse($docentes as $docente)
-                    <div class="text-center group cursor-pointer">
-                        <div
-                            class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-unmsm-guinda transition-colors relative">
-                            <img src="@if($docente->foto){{ asset('storage/' . $docente->foto) }}@else{{ 'https://ui-avatars.com/api/?name=' . urlencode($docente->nombres . '+' . $docente->apellidos) . '&background=random' }}@endif"
-                                alt="{{ $docente->nombre_completo }}"
-                                class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
-                                loading="lazy" decoding="async" width="96" height="96">
+    @if(count($docentes) > 0)
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-center section-title font-serif text-3xl font-bold mb-12">Coordinadores de Programa</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+                    @foreach($docentes as $docente)
+                        <div class="text-center group cursor-pointer">
+                            <div
+                                class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-unmsm-guinda transition-colors relative">
+                                <img src="@if($docente->foto){{ asset('storage/' . $docente->foto) }}@else{{ 'https://ui-avatars.com/api/?name=' . urlencode($docente->nombres . '+' . $docente->apellidos) . '&background=random' }}@endif"
+                                    alt="{{ $docente->nombre_completo }}"
+                                    class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
+                                    loading="lazy" decoding="async" width="96" height="96">
+                            </div>
+                            <h4 class="font-bold text-sm text-gray-800 group-hover:text-unmsm-guinda transition">
+                                {{ $docente->nombre_completo }}
+                            </h4>
+                            <p class="text-xs text-gray-500">Coordinador(a) de
+                                {{ $docente->programas->first()?->nombre ?? 'Programa' }}
+                            </p>
                         </div>
-                        <h4 class="font-bold text-sm text-gray-800 group-hover:text-unmsm-guinda transition">
-                            {{ $docente->nombre_completo }}
-                        </h4>
-                        <p class="text-xs text-gray-500">Coordinador(a) de
-                            {{ $docente->programas->first()?->nombre ?? 'Programa' }}
-                        </p>
-                    </div>
-                @empty
-                    <div class="col-span-full text-center text-gray-500">
-                        No hay docentes disponibles
-                    </div>
-                @endforelse
+                    @endforeach
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     @include('home.partials.eventos-section')
 
