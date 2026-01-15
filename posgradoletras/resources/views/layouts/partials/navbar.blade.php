@@ -32,10 +32,15 @@
                             class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
                             <i class="fas fa-info-circle mr-2 text-red-700"></i>Quiénes somos
                         </a>
+                        
+                        {{-- 
                         <a href="{{ route('profesores.index') }}"
                             class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
-                            <i class="fas fa-chalkboard-teacher mr-2 text-red-700"></i>Profesores Asesores
+                            <i class="fas fa-chalkboard-teacher mr-2 text-red-700"></i>
+                            Profesores Asesores
                         </a>
+                        --}}
+
                         <a href="https://letras.unmsm.edu.pe/directorio/" target="_blank"
                             class="block px-5 py-3 hover:bg-gray-50 border-b border-gray-100">
                             <i class="fas fa-address-book mr-2 text-red-700"></i>Directorio FLCH
@@ -50,7 +55,7 @@
                         </a>
                         <a href="https://letras.unmsm.edu.pe/unidad-de-investigacion" target="_blank"
                             class="block px-5 py-3 hover:bg-gray-50">
-                            <i class="fas fa-flask mr-2 text-red-700"></i>Unidad de Investigación
+                            <i class="fas fa-flask mr-2 text-red-700"></i>Grupos de Investigación
                         </a>
                     </div>
                 </div>

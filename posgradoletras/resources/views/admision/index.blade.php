@@ -7,14 +7,14 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
 ======================================================== --}}
 @php
     // Correo para Admisión (envío de expediente, consultas de inscripción)
-    $emailAdmision = config('contacts.admision', 'admisionposgrado.letras@unmsm.edu.pe');
+    $emailAdmision = config('contacts.admision');
 
     // Correo general para otras consultas
-    $emailGeneral = config('contacts.general', 'admisionposgrado.letras@unmsm.edu.pe');
+    $emailGeneral  = config('contacts.general');
 
     // Teléfono / WhatsApp
-    $telefono = config('contacts.telefono', '982 085 037');
-    $whatsapp = config('contacts.whatsapp', 'https://wa.me/51982085037');
+    $telefono = config('contacts.telefono');
+    $whatsapp = config('contacts.whatsapp');
 @endphp
 
 @push('styles')
