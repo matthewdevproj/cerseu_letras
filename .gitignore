@@ -46,3 +46,9 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# SSL Certificates - DO NOT COMMIT PRIVATE KEYS
+docker/nginx/ssl/
+*.key
+*.pem
+*.crt
