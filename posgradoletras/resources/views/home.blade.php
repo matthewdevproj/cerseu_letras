@@ -193,7 +193,7 @@
                                 <div class="bg-white rounded-lg p-4 border-l-4 border-unmsm-guinda shadow-lg text-gray-800">
                                     <h3 class="text-base font-bold text-gray-900">Inscripción de postulantes y envío de
                                         expediente</h3>
-                                    <p class="text-unmsm-guinda font-bold text-xs">05 de enero al 02 de abril</p>
+                                    <p class="text-unmsm-guinda font-bold text-xs">05 de enero al 25 de marzo</p>
                                 </div>
                             </div>
                         </div>
@@ -213,7 +213,7 @@
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
                                     <h3 class="text-base font-bold text-white">Evaluación del expediente</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs">Hasta el 06 de abril</p>
+                                    <p class="text-unmsm-dorado font-bold text-xs">Hasta el 30 de marzo</p>
                                 </div>
                             </div>
                         </div>
@@ -233,7 +233,7 @@
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
                                     <h3 class="text-base font-bold text-white">Entrevista Personal (Solo Maestría)</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs">Hasta el 7 de abril</p>
+                                    <p class="text-unmsm-dorado font-bold text-xs">31 de marzo</p>
                                 </div>
                             </div>
                         </div>
@@ -279,7 +279,7 @@
                                     </div>
                                     <h3 class="text-base font-bold mb-1">Inscripción de postulantes y envío de expediente
                                     </h3>
-                                    <p class="text-unmsm-guinda font-bold text-xs mb-1">05 Enero - 02 Abril</p>
+                                    <p class="text-unmsm-guinda font-bold text-xs mb-1">05 Enero - 25 Abril</p>
                                 </div>
                             </div>
                             <div
@@ -301,7 +301,7 @@
                                         </svg>
                                     </div>
                                     <h3 class="text-base font-bold text-white mb-1">Evaluación</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">Hasta 06 Abril</p>
+                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">Hasta 30 Marzo</p>
                                     <p class="text-gray-400 text-[10px]">Revision de expediente</p>
                                 </div>
                             </div>
@@ -324,7 +324,7 @@
                                         </svg>
                                     </div>
                                     <h3 class="text-base font-bold text-white mb-1">Entrevista personal</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">Hasta 07 Abril</p>
+                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">Hasta 31 Marzo</p>
                                     <p class="text-gray-400 text-[10px]">Solo Maestría</p>
                                 </div>
                             </div>
@@ -611,7 +611,7 @@
     @include('home.partials.testimonios-section')
 
     <!-- PLANA DOCENTE -->
-    @if(count($docentes) > 0)
+    {{-- @if(count($docentes) > 0)
         <section class="py-20 bg-white">
             <div class="container mx-auto px-6">
                 <h2 class="text-center section-title font-serif text-3xl font-bold mb-12">Coordinadores de Programa</h2>
@@ -636,7 +636,7 @@
                 </div>
             </div>
         </section>
-    @endif
+    @endif --}}
 
     @include('home.partials.eventos-section')
 

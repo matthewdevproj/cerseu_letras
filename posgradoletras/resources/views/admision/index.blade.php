@@ -164,24 +164,24 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                 <tr>
                                     <td class="font-medium text-gray-800">Inscripción de postulantes y envío de expediente
                                     </td>
-                                    <td class="text-unmsm-guinda font-semibold">05 de enero al 02 de abril</td>
+                                    <td class="text-unmsm-guinda font-semibold">05 de enero al 25 de marzo</td>
                                 </tr>
                                 <tr>
                                     <td class="font-medium text-gray-800">Examen de conocimientos (Maestrías y Doctorados)
                                     </td>
-                                    <td class="text-gray-600">Hasta el 04 de abril</td>
+                                    <td class="text-gray-600">26 de marzo</td>
                                 </tr>
                                 <tr>
                                     <td class="font-medium text-gray-800">Entrevista personal para Doctorado</td>
-                                    <td class="text-gray-600">Hasta el 05 de abril</td>
+                                    <td class="text-gray-600">27 de marzo</td>
                                 </tr>
                                 <tr>
                                     <td class="font-medium text-gray-800">Evaluación del expediente</td>
-                                    <td class="text-gray-600">Hasta el 06 de abril</td>
+                                    <td class="text-gray-600">Hasta el 30 de marzo</td>
                                 </tr>
                                 <tr>
                                     <td class="font-medium text-gray-800">Entrevista personal para Maestría</td>
-                                    <td class="text-gray-600">Hasta el 07 de abril</td>
+                                    <td class="text-gray-600">31 de marzo</td>
                                 </tr>
                                 <tr class="bg-green-50">
                                     <td class="font-bold text-green-800">Publicación de resultados</td>
