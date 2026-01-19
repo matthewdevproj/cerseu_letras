@@ -279,7 +279,7 @@
                                     </div>
                                     <h3 class="text-base font-bold mb-1">Inscripción de postulantes y envío de expediente
                                     </h3>
-                                    <p class="text-unmsm-guinda font-bold text-xs mb-1">05 Enero - 25 Abril</p>
+                                    <p class="text-unmsm-guinda font-bold text-xs mb-1">05 Enero - 25 Marzo</p>
                                 </div>
                             </div>
                             <div
