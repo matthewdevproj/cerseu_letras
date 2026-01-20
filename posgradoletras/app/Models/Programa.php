@@ -107,16 +107,27 @@ class Programa extends Model
         return $texto;
     }
 
+    
     public function getImagenUrlAttribute()
     {
-        if ($this->imagen) {
-            return asset('storage/' . $this->imagen);
+        // Si no hay imagen, usar por defecto
+        if (!$this->imagen) {
+            return $this->grado === 'Maestría'
+                ? 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=800&q=80'
+                : 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80';
         }
-        // Fallback según el tipo de programa (optimizadas)
-        return $this->grado === 'Maestría'
-            ? 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=800&q=75&fm=webp'
-            : 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=75&fm=webp';
+        
+        // Si ya es una URL completa (http:// o https://)
+        // Esto cubre: URLs externas, Unsplash, etc.
+        if (str_starts_with($this->imagen, 'http://') || str_starts_with($this->imagen, 'https://')) {
+            return $this->imagen;
+        }
+        
+        // Para rutas locales (ahora siempre serán relativas como 'documents/...')
+        // asset('storage/' + ruta) generará: https://posgrado.../storage/documents/...
+        return asset('storage/' . $this->imagen);
     }
+    
 
     // Mutators
     protected static function boot()
