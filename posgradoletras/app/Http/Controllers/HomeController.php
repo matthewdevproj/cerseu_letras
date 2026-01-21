@@ -40,7 +40,6 @@ class HomeController extends Controller
         // Obtener testimonios publicados recientes
         $testimonios = Testimonio::publicados()
             ->recientes()
-            ->limit(3)
             ->get();
 
         return view('home', compact('maestrias', 'doctorados', 'docentes', 'testimonios'));

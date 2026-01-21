@@ -14,63 +14,35 @@
         @endphp
 
         @if($informativos->count() > 0)
-            <div class="space-y-10">
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 justify-center">
                 @foreach($informativos as $categoria => $items)
-                    <div>
-                        {{-- Título de categoría --}}
-                        <h3 class="flex items-center gap-3 text-xl font-bold text-gray-900 uppercase tracking-wide mb-5 pb-3 border-b-2 border-unmsm-guinda">
-                            <span class="w-8 h-8 rounded-full bg-unmsm-guinda/10 flex items-center justify-center text-unmsm-guinda">
-                                <i class="{{ $items->first()->icono }}"></i>
-                            </span>
+                    <a href="{{ route('informativos.index') }}"
+                        class="group bg-white p-4 md:p-8 rounded-2xl border border-gray-100 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden">
+
+                        <!-- Decoración de fondo -->
+                        <div
+                            class="absolute top-0 right-0 w-24 h-24 bg-unmsm-guinda/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-150">
+                        </div>
+
+                        <div
+                            class="w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-unmsm-guinda/5 text-unmsm-guinda flex items-center justify-center text-2xl md:text-4xl mb-4 md:mb-6 group-hover:bg-unmsm-guinda group-hover:text-white transition-colors shadow-sm relative z-10">
+                            <i class="{{ $items->first()->icono ?? 'fas fa-folder' }}"></i>
+                        </div>
+
+                        <h3
+                            class="text-xl font-serif font-bold text-gray-900 mb-2 group-hover:text-unmsm-guinda transition-colors relative z-10">
                             {{ $categoria }}
                         </h3>
 
-                        {{-- Lista de documentos --}}
-                        <div class="grid gap-3">
-                            @foreach($items as $item)
-                                <a href="{{ $item->url }}" 
-                                   target="{{ $item->es_enlace ? '_blank' : '_self' }}" 
-                                   rel="nofollow"
-                                   class="group flex items-center gap-4 p-4 bg-gray-50 hover:bg-unmsm-guinda/5 border border-gray-200 hover:border-unmsm-guinda/30 rounded-xl transition-all duration-300">
-                                    
-                                    {{-- Icono PDF o enlace (Oculto en móvil) --}}
-                                    <div class="flex-shrink-0 hidden md:flex">
-                                        @if($item->es_pdf)
-                                            <div class="w-12 h-12 rounded-lg bg-red-50 group-hover:bg-red-100 flex items-center justify-center transition-colors">
-                                                <i class="fas fa-file-pdf text-2xl text-red-600"></i>
-                                            </div>
-                                        @else
-                                            <div class="w-12 h-12 rounded-lg bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
-                                                <i class="fas fa-external-link-alt text-xl text-blue-600"></i>
-                                            </div>
-                                        @endif
-                                    </div>
+                        <p class="text-gray-500 mb-6 relative z-10 font-medium">
+                            {{ $items->count() }} documentos disponibles
+                        </p>
 
-                                    {{-- Contenido --}}
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="font-semibold text-gray-900 group-hover:text-unmsm-guinda transition-colors leading-tight">
-                                            {{ $item->titulo }}
-                                        </h4>
-                                        <p class="text-sm text-gray-500 mt-0.5 hidden md:flex items-center gap-1">
-                                            <i class="{{ $item->icono }} text-xs"></i>
-                                            {{ $item->categoria }}
-                                        </p>
-                                    </div>
-
-                                    {{-- Botón/Flecha --}}
-                                    <div class="flex-shrink-0">
-                                        <span class="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-lg transition-all duration-300
-                                            {{ $item->es_pdf 
-                                                ? 'bg-unmsm-guinda text-white group-hover:bg-red-800' 
-                                                : 'bg-gray-200 text-gray-700 group-hover:bg-unmsm-guinda group-hover:text-white' }}">
-                                            {{ $item->texto_boton }}
-                                            <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
-                                        </span>
-                                    </div>
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
+                        <span
+                            class="inline-flex items-center gap-2 text-unmsm-guinda font-bold text-sm bg-unmsm-guinda/5 px-4 py-2 rounded-full group-hover:bg-unmsm-guinda group-hover:text-white transition-all relative z-10">
+                            Explorar <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </a>
                 @endforeach
             </div>
 
