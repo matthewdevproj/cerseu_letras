@@ -50,12 +50,12 @@
                 <!-- Visión -->
                 <div>
                     <h3
-                        class="flex items-center w-full text-xl font-bold text-unmsm-guinda mb-4 font-serif uppercase tracking-wider">
+                        class="flex items-center w-full text-2xl font-bold text-unmsm-guinda mb-6 font-serif uppercase tracking-wider">
                         <span class="flex-grow h-px bg-gray-300 mr-4"></span>
                         VISIÓN
                         <span class="flex-grow h-px bg-gray-300 ml-4"></span>
                     </h3>
-                    <div class="text-gray-700 leading-relaxed text-justify">
+                    <div class="text-gray-700 text-lg leading-relaxed text-justify">
                         {{ $vision }}
                     </div>
                 </div>
