@@ -166,7 +166,8 @@
         </div>
     </section>
     <section id="admision" class="py-12 bg-gradient-to-br bg-gray-800 from-gray-800 to-gray-900 text-white relative">
-        <div class="max-w-6xl mx-auto px-6">
+            <div class="max-w-7xl mx-auto px-6">
+
             <div class="text-center mb-10">
                 <span class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-1 block">Proceso de Admisión
                     2026-I</span>
@@ -301,7 +302,8 @@
 
                 <div class="hidden lg:block">
                     <div class="absolute top-24 left-0 right-0 h-1 bg-gray-600 z-0"></div>
-                    <div class="grid grid-cols-4 gap-6 relative z-10">
+                        <div class="grid grid-cols-4 lg:grid-cols-6 gap-6">
+
 
                         <!-- Card 1 -->
                         <div class="relative group">
@@ -317,10 +319,13 @@
                                         </svg>
                                     </div>
                                     <h3 class="text-base font-bold mb-1">
-                                        Inscripción de postulantes y envío de expediente
+                                        Inscripción de postulantes 
                                     </h3>
                                     <p class="text-unmsm-guinda font-bold text-xs mb-1">
-                                        05 de enero – 25 de marzo
+                                        05 enero – 25 marzo
+                                    </p>
+                                    <p class="text-gray-400 text-[10px]">
+                                        + Envío de expediente
                                     </p>
                                 </div>
                             </div>
@@ -329,8 +334,8 @@
                             </div>
                         </div>
 
+                        
 
-                        <!-- Card 2 -->
                         <!-- Card 2 -->
                         <div class="relative group">
                             <div
@@ -484,7 +489,7 @@
 
             <!-- Botón Principal -->
             <div class="flex flex-col items-center mt-8">
-                <a href="{{ route('admision') }}"
+                <a href="https://posgrado.letras.unmsm.edu.pe/admision"
                     class="bg-gradient-to-r from-unmsm-guinda to-red-900 hover:from-red-800 hover:to-unmsm-guinda text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center gap-3 border border-red-800/50">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-5 h-5">
