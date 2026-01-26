@@ -212,6 +212,44 @@
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
+                                    <h3 class="text-base font-bold text-white">Examen de conocimientos para maestrias y doctorados</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs">26 de marzo</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="relative mb-8 last:mb-0">
+                        <div class="flex items-center">
+                            <div
+                                class="relative z-10 w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0 border-2 border-gray-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                                </svg>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
+                                    <h3 class="text-base font-bold text-white">Emtrevista personal  para doctorado</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs">27 de marzo</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="relative mb-8 last:mb-0">
+                        <div class="flex items-center">
+                            <div
+                                class="relative z-10 w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0 border-2 border-gray-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                                </svg>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
                                     <h3 class="text-base font-bold text-white">Evaluación del expediente</h3>
                                     <p class="text-unmsm-dorado font-bold text-xs">Hasta el 30 de marzo</p>
                                 </div>
@@ -219,7 +257,7 @@
                         </div>
                     </div>
 
-                    <!-- Item 3 -->
+                    <!-- Item 5 -->
                     <div class="relative mb-8 last:mb-0">
                         <div class="flex items-center">
                             <div
@@ -239,7 +277,7 @@
                         </div>
                     </div>
 
-                    <!-- Item 4 -->
+                    <!-- Item 6 -->
                     <div class="relative mb-8 last:mb-0">
                         <div class="flex items-center">
                             <div
