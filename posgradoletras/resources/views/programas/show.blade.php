@@ -245,11 +245,11 @@
                     @endcomponent
 
                     {{-- Plana Docente --}}
+                    @if ($programa->docentes->count() > 0)
                     @component('components.accordion', [
                         'id' => 'plana-docente',
                         'title' => 'Plana Docente'
                     ])
-                    @if ($programa->docentes && count($programa->docentes) > 0)
                         <div class="grid gap-4">
                             @foreach ($programa->docentes as $profesor)
                                 <div class="group border border-gray-200 rounded-lg p-4 hover:shadow-lg hover:border-unmsm-guinda/30 transition-all duration-300 cursor-pointer relative">
@@ -321,18 +321,16 @@
                                 </div>
                             @endforeach
                         </div>
-                    @else
-                        <p class="text-gray-600">Información de plana docente próximamente.</p>
-                    @endif
                     @endcomponent
+                    @endif
 
                     {{-- Horarios --}}
+                    @if ($programa->horario_url)
                     @component('components.accordion', [
                         'id' => 'horarios',
                         'title' => 'Horarios'
                     ])
                     <div class="text-gray-700">
-                        @if ($programa->horario_url)
                             <div class="mb-6">
                                 <iframe src="{{ $programa->horario_url }}" 
                                         class="w-full border border-gray-300 rounded-lg" 
@@ -345,12 +343,9 @@
                                     <i class="fa-solid fa-file-pdf"></i> Descargar Horarios (PDF)
                                 </a>
                             </div>
-                        @else
-                            <p class="text-gray-700">Consultar horarios con la coordinación del programa.</p>
-                            <p class="text-sm text-gray-600 mt-2"><em>(Sujeto a cambios)</em></p>
-                        @endif
                     </div>
                     @endcomponent
+                    @endif
 
                     {{-- Inversión Económica --}}
                     @component('components.accordion', [

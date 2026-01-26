@@ -2,187 +2,156 @@
 
 @section('title', 'Documentos y Recursos - Posgrado Letras UNMSM')
 
-@push('styles')
-    <style>
-        /* Estilos inspirados en el diseño de referencia */
-        .informativo-section-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #8B1538;
-            color: #1f2937;
-        }
-
-        .pdf-container {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 20px;
-            border: 1px solid #e0e0e0;
-            padding: 20px;
-            border-radius: 8px;
-            background: white;
-            margin-bottom: 1rem;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .pdf-container:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .pdf-icon {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-        }
-
-        .pdf-icon svg {
-            width: 48px;
-            height: 48px;
-            fill: #dc2626;
-        }
-
-        .pdf-content {
-            flex-grow: 1;
-        }
-
-        .pdf-title {
-            margin: 0 0 5px 0;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #1f2937;
-        }
-
-        .pdf-description {
-            margin: 0;
-            font-size: 0.9em;
-            color: #6b7280;
-        }
-
-        .pdf-buttons {
-            display: flex;
-            gap: 10px;
-            flex-shrink: 0;
-            margin-left: auto;
-        }
-
-        .pdf-button {
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            text-align: center;
-            transition: opacity 0.3s ease;
-            display: inline-block;
-        }
-
-        .pdf-button:hover {
-            opacity: 0.8;
-        }
-
-        .pdf-button-download {
-            background-color: #8B1538;
-            color: #ffffff;
-        }
-
-        .pdf-button-view {
-            background-color: #ffffff;
-            color: #2563eb;
-            border: 1px solid #2563eb;
-        }
-
-        /* Media Query para móviles */
-        @media (max-width: 767px) {
-            .pdf-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .pdf-icon {
-                justify-content: center;
-                width: 100%;
-                margin-bottom: 10px;
-            }
-
-            .pdf-buttons {
-                margin-left: 0;
-                width: 100%;
-                flex-direction: column;
-            }
-
-            .pdf-button {
-                width: 100%;
-            }
-        }
-    </style>
-@endpush
-
 @section('content')
 
     <!-- HERO -->
     <x-hero-section title="Documentos y Recursos" label="Área Informativa"
         subtitle="Reglamentos, directivas e información institucional del Posgrado."
-        image="https://letras.unmsm.edu.pe/wp-content/uploads/2020/11/frontis-letras.jpg" />
+        image="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=75&fm=webp" />
 
     <!-- CONTENIDO -->
     <div class="container mx-auto px-4 py-12 max-w-6xl">
 
+        <!-- Buscador -->
+        <div class="mb-10 max-w-2xl mx-auto">
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="Buscar documento..." 
+                    class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 focus:border-unmsm-guinda focus:ring focus:ring-unmsm-guinda/20 shadow-sm transition-all text-gray-700 text-lg">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
         @if($informativos->count() > 0)
+            <div id="documentsContainer">
             @foreach($informativos as $categoria => $items)
-                <section class="mb-12">
+                <section class="mb-12 category-section">
                     <!-- Título de Sección -->
-                    <h2 class="informativo-section-title">
-                        <i class="{{ $items->first()->icono }} mr-2"></i>
+                    <h2 class="flex items-center gap-3 text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-unmsm-guinda/10">
+                        <span class="w-10 h-10 rounded-lg bg-unmsm-guinda/10 flex items-center justify-center text-unmsm-guinda text-lg">
+                            <i class="{{ $items->first()->icono }}"></i>
+                        </span>
                         {{ strtoupper($categoria) }}
                     </h2>
 
-                    <!-- Lista de Documentos -->
-                    @foreach($items as $item)
-                        <div class="pdf-container">
-                            <!-- Icono PDF -->
-                            <div class="pdf-icon">
-                                @if($item->es_pdf)
-                                    <svg aria-hidden="true" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z" />
-                                    </svg>
-                                @else
-                                    <svg aria-hidden="true" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="fill: #2563eb;">
-                                        <path
-                                            d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z" />
-                                    </svg>
-                                @endif
-                            </div>
+                    <!-- Grid de Documentos -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        @foreach($items as $item)
+                            <div class="document-card group bg-white border border-gray-200 rounded-xl p-5 hover:shadow-lg hover:border-unmsm-guinda/30 transition-all duration-300 flex items-start gap-4">
+                                <!-- Icono -->
+                                <div class="flex-shrink-0">
+                                    @if($item->es_pdf)
+                                        <div class="w-12 h-12 rounded-lg bg-red-50 text-red-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </div>
+                                    @else
+                                        <div class="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                            <i class="fas fa-link"></i>
+                                        </div>
+                                    @endif
+                                </div>
 
-                            <!-- Contenido -->
-                            <div class="pdf-content">
-                                <h3 class="pdf-title">{{ $item->titulo }}</h3>
-                                @if($item->categoria)
-                                    <p class="pdf-description">{{ $item->categoria }}</p>
-                                @endif
+                                <!-- Contenido -->
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="document-title font-bold text-gray-800 group-hover:text-unmsm-guinda transition-colors mb-1 line-clamp-2" title="{{ $item->titulo }}">
+                                        {{ $item->titulo }}
+                                    </h3>
+                                    @if($item->categoria)
+                                        <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold mb-2">{{ $item->categoria }}</p>
+                                    @endif
+                                    
+                                    <a href="{{ $item->url }}" target="{{ $item->es_enlace ? '_blank' : '_self' }}" rel="nofollow"
+                                        class="inline-flex items-center gap-2 text-sm font-medium {{ $item->es_pdf ? 'text-red-600 hover:text-red-800' : 'text-blue-600 hover:text-blue-800' }}">
+                                        @if($item->es_pdf)
+                                            <span>Descargar PDF</span>
+                                            <i class="fas fa-download text-xs"></i>
+                                        @else
+                                            <span>Visitar enlace</span>
+                                            <i class="fas fa-external-link-alt text-xs"></i>
+                                        @endif
+                                    </a>
+                                </div>
                             </div>
-
-                            <!-- Botones -->
-                            <div class="pdf-buttons">
-                                <a href="{{ $item->url }}" target="{{ $item->es_enlace ? '_blank' : '_self' }}" rel="nofollow"
-                                    class="pdf-button {{ $item->es_pdf ? 'pdf-button-download' : 'pdf-button-view' }}">
-                                    {{ $item->texto_boton }}
-                                </a>
-                            </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </section>
             @endforeach
+            </div>
+
+            <!-- Estado Vacío (Búsqueda) -->
+            <div id="noResults" class="hidden text-center py-12">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 text-3xl">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-700">No se encontraron resultados</h3>
+                <p class="text-gray-500">Intenta con otros términos de búsqueda.</p>
+            </div>
+
         @else
-            <div class="text-center py-12">
-                <i class="fas fa-inbox text-6xl text-gray-300 mb-4"></i>
-                <p class="text-gray-500">No hay documentos disponibles en este momento.</p>
+            <div class="text-center py-20 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                <i class="fas fa-folder-open text-6xl text-gray-300 mb-4"></i>
+                <p class="text-gray-500 font-medium">No hay documentos disponibles en este momento.</p>
             </div>
         @endif
 
     </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            if(!searchInput) return;
+
+            const cards = document.querySelectorAll('.document-card');
+            const sections = document.querySelectorAll('.category-section');
+            const noResults = document.getElementById('noResults');
+            const documentsContainer = document.getElementById('documentsContainer');
+
+            searchInput.addEventListener('input', function(e) {
+                const term = e.target.value.toLowerCase().trim();
+                let hasVisibleResults = false;
+
+                cards.forEach(card => {
+                    const title = card.querySelector('.document-title').textContent.toLowerCase();
+                    // Buscar también en la categoría visible si existe
+                    const categoryEl = card.querySelector('p');
+                    const category = categoryEl ? categoryEl.textContent.toLowerCase() : '';
+                    
+                    if (title.includes(term) || category.includes(term)) {
+                        card.style.display = ''; // Restaurar display original (flex)
+                        // Asegurar que use flex, ya que al ocultar usamos 'none'
+                        card.classList.add('flex');
+                        card.classList.remove('hidden');
+                    } else {
+                        card.style.display = 'none';
+                        card.classList.remove('flex');
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // Ocultar secciones vacías
+                sections.forEach(section => {
+                    const visibleCards = section.querySelectorAll('.document-card:not(.hidden)');
+                    if (visibleCards.length > 0) {
+                        section.style.display = '';
+                        hasVisibleResults = true;
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+
+                // Mostrar mensaje si no hay resultados
+                if (!hasVisibleResults && term !== '') {
+                    noResults.classList.remove('hidden');
+                    documentsContainer.classList.add('hidden');
+                } else {
+                    noResults.classList.add('hidden');
+                    documentsContainer.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+    @endpush
 
 @endsection

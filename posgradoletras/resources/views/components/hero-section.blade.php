@@ -8,8 +8,7 @@
     $tinyPlaceholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"%3E%3Cfilter id="b"%3E%3CfeGaussianBlur stdDeviation="12"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" fill="%236B1E20" filter="url(%23b)"/%3E%3C/svg%3E';
 @endphp
 
-<section
-    class="relative w-full h-[40vh] md:h-[50vh] min-h-[300px] md:min-h-[400px] flex items-center justify-center overflow-hidden">
+<section class="relative w-full min-h-[40vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden h-auto">
     {{-- Imagen de Fondo --}}
     <div class="absolute inset-0">
         {{-- Placeholder blur instant --}}
@@ -23,12 +22,18 @@
     </div>
 
     {{-- Texto Hero --}}
-    <div class="container mx-auto px-6 relative z-10 text-white pt-32 md:pt-20">
+    <div class="container mx-auto px-6 relative z-10 text-white pt-32 pb-12 md:pt-40 md:pb-12">
         <div class="max-w-3xl">
             @if($label)
                 <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-3">{{ $label }}</p>
             @endif
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-4 drop-shadow-lg leading-tight">
+            @php
+                $titleLength = strlen($title);
+                $titleClass = $titleLength > 50
+                    ? 'text-3xl md:text-4xl lg:text-5xl'
+                    : 'text-4xl md:text-5xl lg:text-6xl';
+            @endphp
+            <h1 class="{{ $titleClass }} font-serif font-bold mb-4 drop-shadow-lg leading-tight">
                 {{ $title }}
             </h1>
             @if($subtitle)

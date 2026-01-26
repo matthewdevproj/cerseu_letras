@@ -32,7 +32,7 @@ return [
     |--------------------------------------------------------------------------
     | Para consultas sobre trámites, grados, títulos, certificados.
     */
-    'tramites' => 'admisionposgrado.letras@unmsm.edu.pe',
+    'tramites' => 'upg.letras@unmsm.edu.pe',
 
     /*
     |--------------------------------------------------------------------------
