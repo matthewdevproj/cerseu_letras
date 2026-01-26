@@ -468,7 +468,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                         <ol class="space-y-4 text-gray-700 text-sm">
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
                                 <div>
                                     <span class="font-medium">
                                         <a
@@ -484,7 +484,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
                                 <span><a
                                         href="https://www.gob.pe/488-obtener-constancia-de-inscripcion-de-diplomas"class="text-unmsm-guinda font-semibold hover:underline">
                                         Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor
@@ -492,7 +492,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
                                 <span>Anteproyecto de Investigación de acuerdo con la postulación (<a
                                         href="https://letras.unmsm.edu.pe/wp-content/uploads/2023/03/Admision-Anteproyecto-de-tesis.docx.pdf"class="text-unmsm-guinda font-semibold hover:underline">
                                         Modelo para Maestrías</a>
@@ -503,18 +503,18 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
                                 <span>Copia simple del documento de identidad (DNI, carné de extranjería o
                                     pasaporte).</span>
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
                                 <span>Partida de nacimiento.</span>
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
                                 <span>Recibo de pago por <a
                                         href="https://posgrado.unmsm.edu.pe/admision/guia-pago"class="text-unmsm-guinda font-semibold hover:underline">
                                         derecho de inscripción</a>, realizado a través de <a
@@ -524,7 +524,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
                                 <span>Una foto tamaño pasaporte con fondo blanco, sin gafas.</span>
                             </li>
                         </ol>
@@ -550,7 +550,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                         <ol class="space-y-4 text-gray-700 text-sm">
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
                                 <div>
                                     <span class="font-medium"><a
                                         href=""class="text-unmsm-guinda font-semibold hover:underline">
@@ -563,37 +563,37 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
                                 <span><a
                                         href=""class="text-unmsm-guinda font-semibold hover:underline">
                                         Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor emitida por SUNEDU (*).</a></span>
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
                                 <span>Anteproyecto de Investigación de acuerdo con la postulación (<a
                                         href=""class="text-unmsm-guinda font-semibold hover:underline">
                                         Modelo para Doctorados</a>).</span>
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
                                 <span>Certificado de suficiencia de un idioma extranjero o lenguas originarias.</span>
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
                                 <span>Copia simple del documento de identidad (DNI, carné de extranjería o
                                     pasaporte).</span>
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
                                 <span>Partida de nacimiento.</span>
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
                                 <span>Recibo de pago por <a
                                         href=""class="text-unmsm-guinda font-semibold hover:underline">
                                         derecho de inscripción</a>, realizado a través de <a
@@ -603,7 +603,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                             </li>
                             <li class="flex gap-3">
                                 <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">9</span>
+                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
                                 <span>Una foto tamaño pasaporte con fondo blanco, sin gafas.</span>
                             </li>
                         </ol>
