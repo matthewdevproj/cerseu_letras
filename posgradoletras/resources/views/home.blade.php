@@ -183,8 +183,8 @@
                         <div class="flex items-center">
                             <div
                                 class="relative z-10 w-12 h-12 bg-unmsm-guinda rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0 border-2 border-gray-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
                                 </svg>
@@ -204,15 +204,16 @@
                         <div class="flex items-center">
                             <div
                                 class="relative z-10 w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0 border-2 border-gray-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                                 </svg>
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
-                                    <h3 class="text-base font-bold text-white">Examen de conocimientos para maestrias y doctorados</h3>
+                                    <h3 class="text-base font-bold text-white">Examen de conocimientos para maestrias y
+                                        doctorados</h3>
                                     <p class="text-unmsm-dorado font-bold text-xs">26 de marzo</p>
                                 </div>
                             </div>
@@ -223,15 +224,15 @@
                         <div class="flex items-center">
                             <div
                                 class="relative z-10 w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0 border-2 border-gray-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                                 </svg>
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
-                                    <h3 class="text-base font-bold text-white">Emtrevista personal  para doctorado</h3>
+                                    <h3 class="text-base font-bold text-white">Emtrevista personal para doctorado</h3>
                                     <p class="text-unmsm-dorado font-bold text-xs">27 de marzo</p>
                                 </div>
                             </div>
@@ -242,8 +243,8 @@
                         <div class="flex items-center">
                             <div
                                 class="relative z-10 w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0 border-2 border-gray-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                                 </svg>
@@ -262,8 +263,8 @@
                         <div class="flex items-center">
                             <div
                                 class="relative z-10 w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0 border-2 border-gray-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                 </svg>
@@ -282,8 +283,8 @@
                         <div class="flex items-center">
                             <div
                                 class="relative z-10 w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0 border-2 border-gray-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897M6 10.5v5.5a2.25 2.25 0 002.25 2.25h11.5a2.25 2.25 0 002.25-2.25v-5.5" />
                                 </svg>
@@ -315,9 +316,12 @@
                                                 d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-base font-bold mb-1">Inscripción de postulantes y envío de expediente
+                                    <h3 class="text-base font-bold mb-1">
+                                        Inscripción de postulantes y envío de expediente
                                     </h3>
-                                    <p class="text-unmsm-guinda font-bold text-xs mb-1">05 Enero - 25 Marzo</p>
+                                    <p class="text-unmsm-guinda font-bold text-xs mb-1">
+                                        05 de enero – 25 de marzo
+                                    </p>
                                 </div>
                             </div>
                             <div
@@ -325,6 +329,8 @@
                             </div>
                         </div>
 
+
+                        <!-- Card 2 -->
                         <!-- Card 2 -->
                         <div class="relative group">
                             <div
@@ -338,15 +344,22 @@
                                                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-base font-bold text-white mb-1">Evaluación</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">Hasta 30 Marzo</p>
-                                    <p class="text-gray-400 text-[10px]">Revision de expediente</p>
+                                    <h3 class="text-base font-bold text-white mb-1">
+                                        Examen de conocimientos
+                                    </h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">
+                                        26 de marzo
+                                    </p>
+                                    <p class="text-gray-400 text-[10px]">
+                                        Maestrías y Doctorados
+                                    </p>
                                 </div>
                             </div>
                             <div
                                 class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gray-600 rounded-full border-4 border-gray-800 shadow-lg z-20">
                             </div>
                         </div>
+
 
                         <!-- Card 3 -->
                         <div class="relative group">
@@ -358,18 +371,25 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-base font-bold text-white mb-1">Entrevista personal</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">Hasta 31 Marzo</p>
-                                    <p class="text-gray-400 text-[10px]">Solo Maestría</p>
+                                    <h3 class="text-base font-bold text-white mb-1">
+                                        Entrevista personal
+                                    </h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">
+                                        27 de marzo
+                                    </p>
+                                    <p class="text-gray-400 text-[10px]">
+                                        Solo Doctorado
+                                    </p>
                                 </div>
                             </div>
                             <div
                                 class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gray-600 rounded-full border-4 border-gray-800 shadow-lg z-20">
                             </div>
                         </div>
+
 
                         <!-- Card 4 -->
                         <div class="relative group">
@@ -381,12 +401,76 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897M6 10.5v5.5a2.25 2.25 0 002.25 2.25h11.5a2.25 2.25 0 002.25-2.25v-5.5" />
+                                                d="M2.25 8.25h19.5M2.25 9h19.5m-6.75 9.75h3.75" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-base font-bold text-white mb-1">Publicación de Resultados</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">09 de abril</p>
-                                    <p class="text-gray-400 text-[10px]">Lista oficial</p>
+                                    <h3 class="text-base font-bold text-white mb-1">
+                                        Evaluación del expediente
+                                    </h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">
+                                        Hasta el 30 de marzo
+                                    </p>
+                                    <p class="text-gray-400 text-[10px]">
+                                        Revisión de documentos
+                                    </p>
+                                </div>
+                            </div>
+                            <div
+                                class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gray-600 rounded-full border-4 border-gray-800 shadow-lg z-20">
+                            </div>
+                        </div>
+
+                        <!-- Card 5 -->
+                        <div class="relative group">
+                            <div
+                                class="bg-gray-700 rounded-xl p-5 border-b-4 border-gray-500 shadow-lg h-48 flex flex-col justify-start transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-gray-600">
+                                <div class="text-center w-full">
+                                    <div
+                                        class="w-14 h-14 bg-gray-600 rounded-full flex items-center justify-center text-white mx-auto mb-3 shadow-lg group-hover:scale-110 transition-transform">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-base font-bold text-white mb-1">
+                                        Entrevista personal
+                                    </h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">
+                                        31 de marzo
+                                    </p>
+                                    <p class="text-gray-400 text-[10px]">
+                                        Solo Maestría
+                                    </p>
+                                </div>
+                            </div>
+                            <div
+                                class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gray-600 rounded-full border-4 border-gray-800 shadow-lg z-20">
+                            </div>
+                        </div>
+
+                        <!-- Card 6 -->
+                        <div class="relative group">
+                            <div
+                                class="bg-gray-700 rounded-xl p-5 border-b-4 border-gray-500 shadow-lg h-48 flex flex-col justify-start transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-gray-600">
+                                <div class="text-center w-full">
+                                    <div
+                                        class="w-14 h-14 bg-gray-600 rounded-full flex items-center justify-center text-white mx-auto mb-3 shadow-lg group-hover:scale-110 transition-transform">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-base font-bold text-white mb-1">
+                                        Publicación de Resultados
+                                    </h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">
+                                        09 de abril
+                                    </p>
+                                    <p class="text-gray-400 text-[10px]">
+                                        Lista oficial
+                                    </p>
                                 </div>
                             </div>
                             <div
@@ -497,7 +581,7 @@
             <!-- Grid de Programas -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="programas-grid">
                 <!-- Maestrías -->
-                @foreach($maestrias as $programa)
+                @foreach ($maestrias as $programa)
                     <article
                         class="group relative bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden h-full program-card"
                         data-type="maestria">
@@ -547,7 +631,7 @@
                                     {{ $programa->titulo_completo }}
                                 </h3>
                                 <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                                    {{ $programa->sumilla ?? $programa->presentacion ?? 'Formación especializada con enfoque en investigación y desarrollo profesional.' }}
+                                    {{ $programa->sumilla ?? ($programa->presentacion ?? 'Formación especializada con enfoque en investigación y desarrollo profesional.') }}
                                 </p>
                             </div>
                         </a>
@@ -555,7 +639,7 @@
                 @endforeach
 
                 <!-- Doctorados -->
-                @foreach($doctorados as $programa)
+                @foreach ($doctorados as $programa)
                     <article
                         class="group relative bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden h-full program-card"
                         data-type="doctorado">
@@ -605,7 +689,7 @@
                                     {{ $programa->titulo_completo }}
                                 </h3>
                                 <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                                    {{ $programa->sumilla ?? $programa->presentacion ?? 'Investigación de alto nivel para la generación de nuevo conocimiento.' }}
+                                    {{ $programa->sumilla ?? ($programa->presentacion ?? 'Investigación de alto nivel para la generación de nuevo conocimiento.') }}
                                 </p>
                             </div>
                         </a>
@@ -649,16 +733,16 @@
     @include('home.partials.testimonios-section')
 
     <!-- PLANA DOCENTE -->
-    {{-- @if(count($docentes) > 0)
+    {{-- @if (count($docentes) > 0)
         <section class="py-20 bg-white">
             <div class="container mx-auto px-6">
                 <h2 class="text-center section-title font-serif text-3xl font-bold mb-12">Coordinadores de Programa</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-                    @foreach($docentes as $docente)
+                    @foreach ($docentes as $docente)
                         <div class="text-center group cursor-pointer">
                             <div
                                 class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-unmsm-guinda transition-colors relative">
-                                <img src="@if($docente->foto){{ asset('storage/' . $docente->foto) }}@else{{ 'https://ui-avatars.com/api/?name=' . urlencode($docente->nombres . '+' . $docente->apellidos) . '&background=random' }}@endif"
+                                <img src="@if ($docente->foto){{ asset('storage/' . $docente->foto) }}@else{{ 'https://ui-avatars.com/api/?name=' . urlencode($docente->nombres . '+' . $docente->apellidos) . '&background=random' }}@endif"
                                     alt="{{ $docente->nombre_completo }}"
                                     class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
                                     loading="lazy" decoding="async" width="96" height="96">
@@ -692,12 +776,12 @@
                         programas y procesos.</p>
 
                     <ul class="space-y-6">
-                        @if($siteSettings?->email)
+                        @if ($siteSettings?->email)
                             <li class="flex items-center gap-4 group">
                                 <div
                                     class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-unmsm-guinda transition-colors text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                        stroke="currentColor" class="w-5 h-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                                     </svg>
@@ -709,12 +793,12 @@
                                 </div>
                             </li>
                         @endif
-                        @if($siteSettings?->telefono)
+                        @if ($siteSettings?->telefono)
                             <li class="flex items-center gap-4 group">
                                 <div
                                     class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-green-600 transition-colors text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                        stroke="currentColor" class="w-5 h-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                                     </svg>
@@ -727,12 +811,12 @@
                                 </div>
                             </li>
                         @endif
-                        @if($siteSettings?->direccion)
+                        @if ($siteSettings?->direccion)
                             <li class="flex items-center gap-4 group">
                                 <div
                                     class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-blue-600 transition-colors text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                        stroke="currentColor" class="w-5 h-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -745,12 +829,12 @@
                                 </div>
                             </li>
                         @endif
-                        @if($siteSettings?->horario_atencion)
+                        @if ($siteSettings?->horario_atencion)
                             <li class="flex items-center gap-4 group">
                                 <div
                                     class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-unmsm-dorado transition-colors text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                        stroke="currentColor" class="w-5 h-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
@@ -765,42 +849,42 @@
                     </ul>
 
                     <div class="mt-8 flex gap-4">
-                        @if($siteSettings?->facebook)
+                        @if ($siteSettings?->facebook)
                             <a href="{{ $siteSettings->facebook }}" target="_blank"
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-blue-600 transition text-white"
                                 title="Facebook">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
                         @endif
-                        @if($siteSettings?->instagram)
+                        @if ($siteSettings?->instagram)
                             <a href="{{ $siteSettings->instagram }}" target="_blank"
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-pink-600 transition text-white"
                                 title="Instagram">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         @endif
-                        @if($siteSettings?->twitter)
+                        @if ($siteSettings?->twitter)
                             <a href="{{ $siteSettings->twitter }}" target="_blank"
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-sky-500 transition text-white"
                                 title="X (Twitter)">
                                 <i class="fab fa-twitter"></i>
                             </a>
                         @endif
-                        @if($siteSettings?->linkedin)
+                        @if ($siteSettings?->linkedin)
                             <a href="{{ $siteSettings->linkedin }}" target="_blank"
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-blue-700 transition text-white"
                                 title="LinkedIn">
                                 <i class="fab fa-linkedin-in"></i>
                             </a>
                         @endif
-                        @if($siteSettings?->youtube)
+                        @if ($siteSettings?->youtube)
                             <a href="{{ $siteSettings->youtube }}" target="_blank"
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-red-600 transition text-white"
                                 title="YouTube">
                                 <i class="fab fa-youtube"></i>
                             </a>
                         @endif
-                        @if($siteSettings?->tiktok)
+                        @if ($siteSettings?->tiktok)
                             <a href="{{ $siteSettings->tiktok }}" target="_blank"
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-black transition text-white"
                                 title="TikTok">
@@ -826,7 +910,7 @@
         <script src="https://cdn.jsdelivr.net/npm/swiper@9.4.1/swiper-bundle.min.js" defer></script>
         <script defer>
             // Initialize Hero Swiper cuando esté listo
-            window.addEventListener('load', function () {
+            window.addEventListener('load', function() {
                 if (typeof Swiper !== 'undefined') {
                     const heroSwiper = new Swiper('.hero-swiper', {
                         loop: true,
