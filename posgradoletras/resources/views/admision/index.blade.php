@@ -319,8 +319,8 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
 
             <!-- Paso 2: Registrar comprobante -->
             <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Generación del código de postulante -
-                    Inscripción admisión</h3>
+                <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 2: Generación del código de postulante -
+                    Inscripción Admisión</h3>
 
                 <div class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-6">
                     <p class="text-gray-700 text-sm">
