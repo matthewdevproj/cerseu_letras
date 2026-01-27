@@ -70,9 +70,9 @@
                             {{-- Footer --}}
                             <div class="border-t border-gray-100 pt-4 mt-auto flex justify-between items-center">
                                 @if($testimonio->programa)
-                                    <span class="text-unmsm-dorado font-bold text-sm">
+                                    {{-- <span class="text-unmsm-dorado font-bold text-sm">
                                         Egresado
-                                    </span>
+                                    </span> --}}
                                     <a href="{{ route('programas.show', $testimonio->programa->slug ?? '#') }}"
                                         class="text-unmsm-guinda hover:text-unmsm-dorado text-sm font-medium transition-colors flex items-center gap-1">
                                         Ver programa <i class="fas fa-arrow-right text-xs"></i>
