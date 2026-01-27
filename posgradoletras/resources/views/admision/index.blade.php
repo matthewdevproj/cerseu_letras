@@ -553,11 +553,11 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                     class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
                                 <div>
                                     <span class="font-medium"><a
-                                        href=""class="text-unmsm-guinda font-semibold hover:underline">
+                                        href="https://posgrado.unmsm.edu.pe/doc/resumen-hv-postulante"class="text-unmsm-guinda font-semibold hover:underline">
                                         Resumen de la hoja de vida del postulante</a>.</span>
                                     <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de
                                         acuerdo a los rubros del formato de hoja de vida del postulante (<a
-                                        href=""class="text-unmsm-guinda font-semibold hover:underline">
+                                        href="https://posgrado.unmsm.edu.pe/doc/criterios-evaluacion-admision-2025"class="text-unmsm-guinda font-semibold hover:underline">
                                         criterios de evaluación</a>).</p>
                                 </div>
                             </li>
@@ -565,14 +565,14 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                 <span
                                     class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
                                 <span><a
-                                        href=""class="text-unmsm-guinda font-semibold hover:underline">
+                                        href="https://www.gob.pe/488-obtener-constancia-de-inscripcion-de-diplomas"class="text-unmsm-guinda font-semibold hover:underline">
                                         Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor emitida por SUNEDU (*).</a></span>
                             </li>
                             <li class="flex gap-3">
                                 <span
                                     class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
                                 <span>Anteproyecto de Investigación de acuerdo con la postulación (<a
-                                        href=""class="text-unmsm-guinda font-semibold hover:underline">
+                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2024/01/Admision-Anteproyecto-de-tesis-Doctorado-2024.pdf"class="text-unmsm-guinda font-semibold hover:underline">
                                         Modelo para Doctorados</a>).</span>
                             </li>
                             <li class="flex gap-3">
@@ -595,9 +595,9 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                 <span
                                     class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
                                 <span>Recibo de pago por <a
-                                        href=""class="text-unmsm-guinda font-semibold hover:underline">
+                                        href="https://posgrado.unmsm.edu.pe/admision/guia-pago"class="text-unmsm-guinda font-semibold hover:underline">
                                         derecho de inscripción</a>, realizado a través de <a
-                                        href=""class="text-unmsm-guinda font-semibold hover:underline">
+                                        href="https://sanmarket.unmsm.edu.pe/#/"class="text-unmsm-guinda font-semibold hover:underline">
                                         SanMarket-UNMSM</a>,
                                     culminando en BCP (App o agente) o Yape.</span>
                             </li>
