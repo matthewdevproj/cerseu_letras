@@ -219,7 +219,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                         Graduados y personal administrativo de la UNMSM, docentes de universidades
                                         nacionales y Magisterio Nacional
                                     </p>
-                                    <a href="S/. 350: https://sanmarket.unmsm.edu.pe/#/catalogo/dedff708-2b46-4e8a-9c8d-b035913e3b2a"
+                                    <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/dedff708-2b46-4e8a-9c8d-b035913e3b2a"
                                         target="_blank"
                                         class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-unmsm-guinda text-white font-bold text-base md:text-xl rounded-lg hover:bg-red-900 transition-colors shadow-md">
                                         S/ 350.00 <i class="fas fa-external-link-alt text-xs md:text-sm"></i>
