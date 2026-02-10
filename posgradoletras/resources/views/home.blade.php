@@ -489,7 +489,7 @@
 
             <!-- Botón Principal -->
             <div class="flex flex-col items-center mt-8">
-                <a href="https://posgrado.letras.unmsm.edu.pe/admision"
+                <a href="https://posgradoletras.unmsm.edu.pe/admision"
                     class="bg-gradient-to-r from-unmsm-guinda to-red-900 hover:from-red-800 hover:to-unmsm-guinda text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center gap-3 border border-red-800/50">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-5 h-5">
