@@ -102,12 +102,12 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                     <div class="hidden lg:block mt-4 p-4 bg-unmsm-guinda/5 rounded-lg border border-unmsm-guinda/10">
                         <h4 class="text-xs font-bold text-unmsm-guinda uppercase mb-3">Documentos</h4>
                         <div class="space-y-2 text-xs">
-                            <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
+                            {{-- <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
                                 target="_blank"
                                 class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
                                 <i class="fas fa-file-pdf text-red-500"></i>
                                 Plantilla Proyecto
-                            </a>
+                            </a> --}}
                             <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/03/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-1-1.pdf"
                                 target="_blank"
                                 class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
@@ -164,7 +164,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                 <li>
                                     <strong>1.1. Proyecto de tesis:</strong>
                                     respetando la plantilla oficial de proyecto:
-                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
+                                    <a
                                         target="_blank" class="text-unmsm-guinda underline hover:text-unmsm-dorado">
                                         Plantilla oficial de proyecto de tesis
                                     </a>.
@@ -218,7 +218,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     <strong>DIRECTIVA DE MODELO DE ESTRUCTURA DE TESIS</strong> – Programas de maestría y
                                     doctorado
                                     (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
-                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/03/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-1-1.pdf"
+                                    <a 
                                         target="_blank" class="text-unmsm-guinda hover:underline">
                                         Ver directiva
                                     </a>
@@ -636,7 +636,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                             <ul>
                                 <li>
                                     <strong>1.1. Proyecto:</strong> respetando la plantilla oficial:
-                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
+                                    <a 
                                         target="_blank" class="text-unmsm-guinda underline">
                                         Plantilla oficial de proyecto de tesis
                                     </a>.
@@ -687,7 +687,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     <strong>DIRECTIVA DE MODELO DE ESTRUCTURA DE TESIS</strong> – Programas de maestría y
                                     doctorado
                                     (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
-                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/03/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-1-1.pdf"
+                                    <a
                                         target="_blank" class="text-unmsm-guinda hover:underline">
                                         Ver directiva
                                     </a>
@@ -1076,12 +1076,12 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                 <div class="p-4 bg-unmsm-guinda/5 rounded-lg border border-unmsm-guinda/10">
                     <h4 class="text-xs font-bold text-unmsm-guinda uppercase mb-3">Documentos Rápidos</h4>
                     <div class="space-y-2 text-xs">
-                        <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
+                        {{-- <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
                             target="_blank"
                             class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
                             <i class="fas fa-file-pdf text-red-500"></i>
                             Plantilla Proyecto
-                        </a>
+                        </a> --}}
                         <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/03/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-1-1.pdf"
                             target="_blank"
                             class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">

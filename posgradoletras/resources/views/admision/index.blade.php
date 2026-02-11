@@ -497,7 +497,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                         href="https://letras.unmsm.edu.pe/wp-content/uploads/2023/03/Admision-Anteproyecto-de-tesis.docx.pdf"class="text-unmsm-guinda font-semibold hover:underline">
                                         Modelo para Maestrías</a>
                                     / <a
-                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2024/02/Admision-Anteproyecto-de-tesis-Maestria-Escritura-1FF.pdf"class="text-unmsm-guinda font-semibold hover:underline">
+                                        href="https://drive.google.com/file/d/1_wuk3rBMZq3KAnkD5QDdTQi0G_srzDMO/view?usp=sharing"class="text-unmsm-guinda font-semibold hover:underline">
                                         Modelo para Maestría en Escritura Creativa</a>
                                     ).</span>
                             </li>
@@ -572,7 +572,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                 <span
                                     class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
                                 <span>Anteproyecto de Investigación de acuerdo con la postulación (<a
-                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2024/01/Admision-Anteproyecto-de-tesis-Doctorado-2024.pdf"class="text-unmsm-guinda font-semibold hover:underline">
+                                        href="https://drive.google.com/file/d/1zJZ8rEGNVNTbyy6r1gdV93hQOuTO8t-P/view?usp=sharing"class="text-unmsm-guinda font-semibold hover:underline">
                                         Modelo para Doctorados</a>).</span>
                             </li>
                             <li class="flex gap-3">
