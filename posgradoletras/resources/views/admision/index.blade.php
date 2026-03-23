@@ -477,7 +477,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                         </a></span>
                                     <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de
                                         acuerdo a los rubros del formato de hoja de vida del postulante <a
-                                            href="https://posgrado.unmsm.edu.pe/doc/criterios-evaluacion-admision-2025"class="text-unmsm-guinda font-semibold hover:underline">
+                                            href="https://posgradoletras.unmsm.edu.pe/storage/documents/mSJpl6uNu4dZ5LwoPXKn5uolbMc8ouQpHqVnfunN.pdf"class="text-unmsm-guinda font-semibold hover:underline">
                                             (criterios de evaluación).
                                         </a></p>
                                 </div>
@@ -494,7 +494,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                 <span
                                     class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
                                 <span>Anteproyecto de Investigación de acuerdo con la postulación (<a
-                                        href="https://drive.google.com/file/d/1_wuk3rBMZq3KAnkD5QDdTQi0G_srzDMO/view"class="text-unmsm-guinda font-semibold hover:underline">
+                                        href="https://posgradoletras.unmsm.edu.pe/storage/documents/BDH3cVZFD8H9Cu9vOG8xXpiQjp5ynEYYZ5n0uxqS.pdf"class="text-unmsm-guinda font-semibold hover:underline">
                                         Modelo para Maestrías</a>
                         
                                     ).</span>
@@ -555,7 +555,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                         Resumen de la hoja de vida del postulante</a>.</span>
                                     <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de
                                         acuerdo a los rubros del formato de hoja de vida del postulante (<a
-                                        href="https://posgrado.unmsm.edu.pe/doc/criterios-evaluacion-admision-2025"class="text-unmsm-guinda font-semibold hover:underline">
+                                        href="https://posgradoletras.unmsm.edu.pe/storage/documents/mSJpl6uNu4dZ5LwoPXKn5uolbMc8ouQpHqVnfunN.pdf"class="text-unmsm-guinda font-semibold hover:underline">
                                         criterios de evaluación</a>).</p>
                                 </div>
                             </li>
@@ -570,7 +570,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                 <span
                                     class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
                                 <span>Anteproyecto de Investigación de acuerdo con la postulación (<a
-                                        href="https://drive.google.com/file/d/1zJZ8rEGNVNTbyy6r1gdV93hQOuTO8t-P/view?usp=sharing"class="text-unmsm-guinda font-semibold hover:underline">
+                                        href="https://posgradoletras.unmsm.edu.pe/storage/documents/lddPyyzez9PMwcPQvdVCQ00Xy6Yru6famN8Nkpth.pdf"class="text-unmsm-guinda font-semibold hover:underline">
                                         Modelo para Doctorados</a>).</span>
                             </li>
                             <li class="flex gap-3">
