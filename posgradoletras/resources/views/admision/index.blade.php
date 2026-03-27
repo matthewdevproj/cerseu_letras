@@ -722,7 +722,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                 <div>
                     <p class="text-blue-800 font-medium">Examen de conocimientos</p>
                     <p class="text-blue-700 text-sm">
-                        Maestrías: <strong>06 de Abril de 2026</strong>
+                        Maestrías: <strong>06 de Abril de 2026</strong><br>
                         Doctorados: <strong>07 de Abril de 2026</strong><br>
                     </p>
                 </div>
@@ -744,7 +744,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                 <div>
                     <p class="text-yellow-800 font-medium">Entrevista personal</p>
                     <p class="text-yellow-700 text-sm">
-                        Maestrías: <strong>06 de Abril de 2026</strong>
+                        Maestrías: <strong>06 de Abril de 2026</strong><br>
                         Doctorados: <strong>07 de Abril de 2026</strong><br>
                     </p>
                 </div>
