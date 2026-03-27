@@ -302,7 +302,7 @@
                                         Inscripción de postulantes 
                                     </h3>
                                     <p class="text-unmsm-guinda font-bold text-xs mb-1">
-                                        05 enero – 25 marzo
+                                        5 de enero al 02 de abril
                                     </p>
                                     <p class="text-gray-400 text-[10px]">
                                         + Envío de expediente
@@ -330,13 +330,13 @@
                                         </svg>
                                     </div>
                                     <h3 class="text-base font-bold text-white mb-1">
-                                        Examen de conocimientos
+                                        Examen de conocimiento y entrevistas 
                                     </h3>
                                     <p class="text-unmsm-dorado font-bold text-xs mb-1">
-                                        26 de marzo
+                                        06 de abril
                                     </p>
                                     <p class="text-gray-400 text-[10px]">
-                                        Maestrías y Doctorados
+                                        Maestrías
                                     </p>
                                 </div>
                             </div>
@@ -356,17 +356,17 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
+                                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                                         </svg>
                                     </div>
                                     <h3 class="text-base font-bold text-white mb-1">
-                                        Entrevista personal
+                                        Examen de conocimiento y entrevistas 
                                     </h3>
                                     <p class="text-unmsm-dorado font-bold text-xs mb-1">
-                                        27 de marzo
+                                        07 de abril
                                     </p>
                                     <p class="text-gray-400 text-[10px]">
-                                        Solo Doctorado
+                                        Doctorados
                                     </p>
                                 </div>
                             </div>
@@ -393,7 +393,7 @@
                                         Evaluación del expediente
                                     </h3>
                                     <p class="text-unmsm-dorado font-bold text-xs mb-1">
-                                        Hasta el 30 de marzo
+                                        Hasta el 06 de abril
                                     </p>
                                     <p class="text-gray-400 text-[10px]">
                                         Revisión de documentos
@@ -406,35 +406,7 @@
                         </div>
 
                         <!-- Card 5 -->
-                        <div class="relative group">
-                            <div
-                                class="bg-gray-700 rounded-xl p-5 border-b-4 border-gray-500 shadow-lg h-48 flex flex-col justify-start transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-gray-600">
-                                <div class="text-center w-full">
-                                    <div
-                                        class="w-14 h-14 bg-gray-600 rounded-full flex items-center justify-center text-white mx-auto mb-3 shadow-lg group-hover:scale-110 transition-transform">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
-                                        </svg>
-                                    </div>
-                                    <h3 class="text-base font-bold text-white mb-1">
-                                        Entrevista personal
-                                    </h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs mb-1">
-                                        31 de marzo
-                                    </p>
-                                    <p class="text-gray-400 text-[10px]">
-                                        Solo Maestría
-                                    </p>
-                                </div>
-                            </div>
-                            <div
-                                class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gray-600 rounded-full border-4 border-gray-800 shadow-lg z-20">
-                            </div>
-                        </div>
-
-                        <!-- Card 6 -->
+                        
                         <div class="relative group">
                             <div
                                 class="bg-gray-700 rounded-xl p-5 border-b-4 border-gray-500 shadow-lg h-48 flex flex-col justify-start transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-gray-600">

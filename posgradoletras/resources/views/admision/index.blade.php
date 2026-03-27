@@ -772,7 +772,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                 </div>
                 <div>
                     <p class="text-green-800 font-medium">Publicación de resultados</p>
-                    <p class="text-green-700 text-xl font-bold">09 de abril del 2026</p>
+                    <p class="text-green-700 text-xl font-bold">09 de Abril del 2026</p>
                 </div>
             </div>
             <p class="text-green-700 text-sm">
