@@ -165,7 +165,8 @@
             </div>
         </div>
     </section>
-    <section id="admision" class="py-12 bg-gradient-to-br bg-gray-800 from-gray-800 to-gray-900 text-white relative">
+    
+<section id="admision" class="py-12 bg-gradient-to-br bg-gray-800 from-gray-800 to-gray-900 text-white relative">
     <div class="max-w-7xl mx-auto px-6">
         <div class="text-center mb-10">
             <span class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-1 block">Proceso de Admisión
@@ -279,135 +280,146 @@
                 </div>
             </div>
 
-            <!-- Versión Desktop - Mejorada y centrada -->
+            <!-- Versión Desktop - Cards horizontales compactas -->
             <div class="hidden lg:block">
-                <!-- Línea de tiempo central -->
-                <div class="absolute top-24 left-0 right-0 h-1 bg-gradient-to-r from-gray-700 via-unmsm-dorado to-gray-700 z-0"></div>
-                
-                <!-- Grid con centrado perfecto -->
-                <div class="grid grid-cols-5 gap-6 max-w-5xl mx-auto">
+                <!-- Línea de tiempo superior -->
+                <div class="relative mb-12">
+                    <div class="absolute top-8 left-0 right-0 h-1 bg-gradient-to-r from-gray-700 via-unmsm-dorado to-gray-700"></div>
                     
-                    <!-- Card 1 - Inscripción -->
-                    <div class="relative group">
-                        <div class="bg-white rounded-xl p-6 border-b-4 border-unmsm-guinda shadow-lg h-auto min-h-[200px] flex flex-col justify-start transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl text-gray-800">
-                            <div class="text-center w-full">
-                                <div class="w-16 h-16 bg-unmsm-guinda rounded-full flex items-center justify-center text-white mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
-                                    </svg>
+                    <div class="grid grid-cols-5 gap-4">
+                        
+                        <!-- Card 1 - Inscripción -->
+                        <div class="relative group">
+                            <div class="bg-white rounded-xl p-4 border-b-4 border-unmsm-guinda shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl text-gray-800">
+                                <div class="flex flex-col items-center text-center space-y-2">
+                                    <div class="w-12 h-12 bg-unmsm-guinda rounded-full flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-gray-800 leading-tight">
+                                            Inscripción de postulantes
+                                        </h3>
+                                        <p class="text-unmsm-guinda font-bold text-xs mt-1">
+                                            5 ene - 02 abr
+                                        </p>
+                                        <p class="text-gray-500 text-[10px] font-medium mt-0.5">
+                                            + Envío de expediente
+                                        </p>
+                                    </div>
                                 </div>
-                                <h3 class="text-lg font-bold mb-2 text-gray-800">
-                                    Inscripción de postulantes
-                                </h3>
-                                <p class="text-unmsm-guinda font-bold text-sm mb-2">
-                                    5 de enero al 02 de abril
-                                </p>
-                                <p class="text-gray-500 text-xs font-medium">
-                                    + Envío de expediente
-                                </p>
                             </div>
+                            <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-unmsm-guinda rounded-full border-2 border-gray-800 shadow-lg z-20"></div>
                         </div>
-                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-unmsm-guinda rounded-full border-4 border-gray-800 shadow-lg z-20"></div>
-                    </div>
 
-                    <!-- Card 2 - Maestrías -->
-                    <div class="relative group">
-                        <div class="bg-gray-700 rounded-xl p-6 border-b-4 border-unmsm-dorado shadow-lg h-auto min-h-[200px] flex flex-col justify-start transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:bg-gray-600">
-                            <div class="text-center w-full">
-                                <div class="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center text-white mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                                    </svg>
+                        <!-- Card 2 - Maestrías -->
+                        <div class="relative group">
+                            <div class="bg-gray-700 rounded-xl p-4 border-b-4 border-unmsm-dorado shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-gray-600">
+                                <div class="flex flex-col items-center text-center space-y-2">
+                                    <div class="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-white leading-tight">
+                                            Examen de conocimiento y entrevistas
+                                        </h3>
+                                        <p class="text-unmsm-dorado font-bold text-xs mt-1">
+                                            06 de abril
+                                        </p>
+                                        <p class="text-gray-300 text-[10px] font-medium mt-0.5">
+                                            Maestrías
+                                        </p>
+                                    </div>
                                 </div>
-                                <h3 class="text-lg font-bold mb-2 text-white">
-                                    Examen de conocimiento y entrevistas
-                                </h3>
-                                <p class="text-unmsm-dorado font-bold text-sm mb-2">
-                                    06 de abril
-                                </p>
-                                <p class="text-gray-300 text-xs font-medium">
-                                    Maestrías
-                                </p>
                             </div>
+                            <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-unmsm-dorado rounded-full border-2 border-gray-800 shadow-lg z-20"></div>
                         </div>
-                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-unmsm-dorado rounded-full border-4 border-gray-800 shadow-lg z-20"></div>
-                    </div>
 
-                    <!-- Card 3 - Doctorados -->
-                    <div class="relative group">
-                        <div class="bg-gray-700 rounded-xl p-6 border-b-4 border-unmsm-dorado shadow-lg h-auto min-h-[200px] flex flex-col justify-start transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:bg-gray-600">
-                            <div class="text-center w-full">
-                                <div class="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center text-white mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897" />
-                                    </svg>
+                        <!-- Card 3 - Doctorados -->
+                        <div class="relative group">
+                            <div class="bg-gray-700 rounded-xl p-4 border-b-4 border-unmsm-dorado shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-gray-600">
+                                <div class="flex flex-col items-center text-center space-y-2">
+                                    <div class="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-white leading-tight">
+                                            Examen de conocimiento y entrevistas
+                                        </h3>
+                                        <p class="text-unmsm-dorado font-bold text-xs mt-1">
+                                            07 de abril
+                                        </p>
+                                        <p class="text-gray-300 text-[10px] font-medium mt-0.5">
+                                            Doctorados
+                                        </p>
+                                    </div>
                                 </div>
-                                <h3 class="text-lg font-bold mb-2 text-white">
-                                    Examen de conocimiento y entrevistas
-                                </h3>
-                                <p class="text-unmsm-dorado font-bold text-sm mb-2">
-                                    07 de abril
-                                </p>
-                                <p class="text-gray-300 text-xs font-medium">
-                                    Doctorados
-                                </p>
                             </div>
+                            <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-unmsm-dorado rounded-full border-2 border-gray-800 shadow-lg z-20"></div>
                         </div>
-                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-unmsm-dorado rounded-full border-4 border-gray-800 shadow-lg z-20"></div>
-                    </div>
 
-                    <!-- Card 4 - Evaluación -->
-                    <div class="relative group">
-                        <div class="bg-gray-700 rounded-xl p-6 border-b-4 border-unmsm-dorado shadow-lg h-auto min-h-[200px] flex flex-col justify-start transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:bg-gray-600">
-                            <div class="text-center w-full">
-                                <div class="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center text-white mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-6.75 9.75h3.75" />
-                                    </svg>
+                        <!-- Card 4 - Evaluación -->
+                        <div class="relative group">
+                            <div class="bg-gray-700 rounded-xl p-4 border-b-4 border-unmsm-dorado shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-gray-600">
+                                <div class="flex flex-col items-center text-center space-y-2">
+                                    <div class="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-6.75 9.75h3.75" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-white leading-tight">
+                                            Evaluación del expediente
+                                        </h3>
+                                        <p class="text-unmsm-dorado font-bold text-xs mt-1">
+                                            Hasta el 06 de abril
+                                        </p>
+                                        <p class="text-gray-300 text-[10px] font-medium mt-0.5">
+                                            Revisión de documentos
+                                        </p>
+                                    </div>
                                 </div>
-                                <h3 class="text-lg font-bold mb-2 text-white">
-                                    Evaluación del expediente
-                                </h3>
-                                <p class="text-unmsm-dorado font-bold text-sm mb-2">
-                                    Hasta el 06 de abril
-                                </p>
-                                <p class="text-gray-300 text-xs font-medium">
-                                    Revisión de documentos
-                                </p>
                             </div>
+                            <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-unmsm-dorado rounded-full border-2 border-gray-800 shadow-lg z-20"></div>
                         </div>
-                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-unmsm-dorado rounded-full border-4 border-gray-800 shadow-lg z-20"></div>
-                    </div>
 
-                    <!-- Card 5 - Resultados -->
-                    <div class="relative group">
-                        <div class="bg-gray-700 rounded-xl p-6 border-b-4 border-unmsm-dorado shadow-lg h-auto min-h-[200px] flex flex-col justify-start transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:bg-gray-600">
-                            <div class="text-center w-full">
-                                <div class="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center text-white mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
+                        <!-- Card 5 - Resultados -->
+                        <div class="relative group">
+                            <div class="bg-gray-700 rounded-xl p-4 border-b-4 border-unmsm-dorado shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-gray-600">
+                                <div class="flex flex-col items-center text-center space-y-2">
+                                    <div class="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-white leading-tight">
+                                            Publicación de Resultados
+                                        </h3>
+                                        <p class="text-unmsm-dorado font-bold text-xs mt-1">
+                                            09 de abril
+                                        </p>
+                                        <p class="text-gray-300 text-[10px] font-medium mt-0.5">
+                                            Lista oficial
+                                        </p>
+                                    </div>
                                 </div>
-                                <h3 class="text-lg font-bold mb-2 text-white">
-                                    Publicación de Resultados
-                                </h3>
-                                <p class="text-unmsm-dorado font-bold text-sm mb-2">
-                                    09 de abril
-                                </p>
-                                <p class="text-gray-300 text-xs font-medium">
-                                    Lista oficial
-                                </p>
                             </div>
+                            <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-unmsm-dorado rounded-full border-2 border-gray-800 shadow-lg z-20"></div>
                         </div>
-                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-unmsm-dorado rounded-full border-4 border-gray-800 shadow-lg z-20"></div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Botón Principal -->
-        <div class="flex flex-col items-center mt-12">
+        <div class="flex flex-col items-center mt-8">
             <a href="https://posgradoletras.unmsm.edu.pe/admision"
                 class="bg-gradient-to-r from-unmsm-guinda to-red-900 hover:from-red-800 hover:to-unmsm-guinda text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center gap-3 border border-red-800/50">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
