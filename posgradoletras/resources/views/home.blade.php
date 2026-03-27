@@ -194,7 +194,7 @@
                                 <div class="bg-white rounded-lg p-4 border-l-4 border-unmsm-guinda shadow-lg text-gray-800">
                                     <h3 class="text-base font-bold text-gray-900">Inscripción de postulantes y envío de
                                         expediente</h3>
-                                    <p class="text-unmsm-guinda font-bold text-xs">05 de enero al 25 de marzo</p>
+                                    <p class="text-unmsm-guinda font-bold text-xs">Hasta el 02 de abril del 2026</p>
                                 </div>
                             </div>
                         </div>
@@ -213,9 +213,8 @@
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
-                                    <h3 class="text-base font-bold text-white">Examen de conocimientos para maestrias y
-                                        doctorados</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs">26 de marzo</p>
+                                    <h3 class="text-base font-bold text-white">Examen de conocimientos y entrevistas para maestrías</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs">6 de abril 2026</p>
                                 </div>
                             </div>
                         </div>
@@ -233,8 +232,8 @@
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
-                                    <h3 class="text-base font-bold text-white">Emtrevista personal para doctorado</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs">27 de marzo</p>
+                                    <h3 class="text-base font-bold text-white">Examen de conocimientos y entrevistas para doctorados</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs">7 de abril 2026</p>
                                 </div>
                             </div>
                         </div>
@@ -252,8 +251,8 @@
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
-                                    <h3 class="text-base font-bold text-white">Evaluación del expediente</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs">Hasta el 30 de marzo</p>
+                                    <h3 class="text-base font-bold text-white">Evaluación de expediente</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs">Hasta el 6 de abril 2026</p>
                                 </div>
                             </div>
                         </div>
@@ -272,32 +271,13 @@
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
-                                    <h3 class="text-base font-bold text-white">Entrevista Personal (Solo Maestría)</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs">31 de marzo</p>
+                                    <h3 class="text-base font-bold text-white">Publicación de resultados</h3>
+                                    <p class="text-unmsm-dorado font-bold text-xs">9 de abril 2026 </p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Item 6 -->
-                    <div class="relative mb-8 last:mb-0">
-                        <div class="flex items-center">
-                            <div
-                                class="relative z-10 w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0 border-2 border-gray-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897M6 10.5v5.5a2.25 2.25 0 002.25 2.25h11.5a2.25 2.25 0 002.25-2.25v-5.5" />
-                                </svg>
-                            </div>
-                            <div class="ml-4 flex-1">
-                                <div class="bg-gray-700 rounded-lg p-4 border-l-4 border-gray-500 shadow-lg">
-                                    <h3 class="text-base font-bold text-white">Publicación de Resultados</h3>
-                                    <p class="text-unmsm-dorado font-bold text-xs">09 de abril</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="hidden lg:block">

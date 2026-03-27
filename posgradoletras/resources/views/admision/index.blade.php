@@ -164,28 +164,24 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                 <tr>
                                     <td class="font-medium text-gray-800">Inscripción de postulantes y envío de expediente
                                     </td>
-                                    <td class="text-unmsm-guinda font-semibold">05 de enero al 25 de marzo</td>
+                                    <td class="text-unmsm-guinda font-semibold">Hasta el 02 de abril del 2026 </td>
                                 </tr>
                                 <tr>
-                                    <td class="font-medium text-gray-800">Examen de conocimientos (Maestrías y Doctorados)
+                                    <td class="font-medium text-gray-800">Examen de conocimientos y entrevistas para maestrías
                                     </td>
-                                    <td class="text-gray-600">26 de marzo</td>
+                                    <td class="text-gray-600">6 de abril 2026 </td>
                                 </tr>
                                 <tr>
-                                    <td class="font-medium text-gray-800">Entrevista personal para Doctorado</td>
-                                    <td class="text-gray-600">27 de marzo</td>
+                                    <td class="font-medium text-gray-800">Examen de conocimientos y entrevistas para doctorados</td>
+                                    <td class="text-gray-600">7 de abril 2026 </td>
                                 </tr>
                                 <tr>
-                                    <td class="font-medium text-gray-800">Evaluación del expediente</td>
-                                    <td class="text-gray-600">Hasta el 30 de marzo</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-medium text-gray-800">Entrevista personal para Maestría</td>
-                                    <td class="text-gray-600">31 de marzo</td>
+                                    <td class="font-medium text-gray-800">Evaluación de expediente</td>
+                                    <td class="text-gray-600">Hasta el 6 de abril 2026 </td>
                                 </tr>
                                 <tr class="bg-green-50">
                                     <td class="font-bold text-green-800">Publicación de resultados</td>
-                                    <td class="text-green-700 font-bold">09 de abril</td>
+                                    <td class="text-green-700 font-bold">9 de abril 2026</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -631,7 +627,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                     <p class="text-red-800 flex items-start gap-2 mb-2">
                         <i class="fas fa-clock mt-1"></i>
                         <span>
-                            La recepción de documentos será hasta la <strong>1:00 pm del 25 de Marzo del 2026</strong>.
+                            La recepción de documentos será hasta la <strong>11:59 p.m. del 02 de abril del 2026</strong>.
                         </span>
                     </p>
                     <p class="text-red-800 ml-6 mb-2">
@@ -725,8 +721,10 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                 </div>
                 <div>
                     <p class="text-blue-800 font-medium">Examen de conocimientos</p>
-                    <p class="text-blue-700 text-sm">Maestrías y Doctorados</p>
-                    <p class="text-blue-700 font-bold">26 de marzo de 2026</p>
+                    <p class="text-blue-700 text-sm">
+                        Maestrías: <strong>06 de Abril de 2026</strong>
+                        Doctorados: <strong>07 de Abril de 2026</strong><br>
+                    </p>
                 </div>
             </div>
         </div>
@@ -746,8 +744,8 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                 <div>
                     <p class="text-yellow-800 font-medium">Entrevista personal</p>
                     <p class="text-yellow-700 text-sm">
-                        Doctorado: <strong>27 de marzo de 2026</strong><br>
-                        Maestría: <strong>30 de marzo de 2026</strong>
+                        Maestrías: <strong>06 de Abril de 2026</strong>
+                        Doctorados: <strong>07 de Abril de 2026</strong><br>
                     </p>
                 </div>
             </div>
