@@ -167,12 +167,14 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                     <td class="text-unmsm-guinda font-semibold">Hasta el 02 de abril del 2026 </td>
                                 </tr>
                                 <tr>
-                                    <td class="font-medium text-gray-800">Examen de conocimientos y entrevistas para maestrías
+                                    <td class="font-medium text-gray-800">Examen de conocimientos y entrevistas para
+                                        maestrías
                                     </td>
                                     <td class="text-gray-600">6 de abril 2026 </td>
                                 </tr>
                                 <tr>
-                                    <td class="font-medium text-gray-800">Examen de conocimientos y entrevistas para doctorados</td>
+                                    <td class="font-medium text-gray-800">Examen de conocimientos y entrevistas para
+                                        doctorados</td>
                                     <td class="text-gray-600">7 de abril 2026 </td>
                                 </tr>
                                 <tr>
@@ -315,7 +317,8 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
 
             <!-- Paso 2: Registrar comprobante -->
             <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 2: Generación del código de postulante -
+                <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 2: Generación del código de postulante
+                    -
                     Inscripción Admisión</h3>
 
                 <div class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-6">
@@ -492,7 +495,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                 <span>Anteproyecto de Investigación de acuerdo con la postulación (<a
                                         href="https://posgradoletras.unmsm.edu.pe/storage/documents/BDH3cVZFD8H9Cu9vOG8xXpiQjp5ynEYYZ5n0uxqS.pdf"class="text-unmsm-guinda font-semibold hover:underline">
                                         Modelo para Maestrías</a>
-                        
+
                                     ).</span>
                             </li>
                             <li class="flex gap-3">
@@ -547,12 +550,12 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                     class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
                                 <div>
                                     <span class="font-medium"><a
-                                        href="https://posgrado.unmsm.edu.pe/doc/resumen-hv-postulante"class="text-unmsm-guinda font-semibold hover:underline">
-                                        Resumen de la hoja de vida del postulante</a>.</span>
+                                            href="https://posgrado.unmsm.edu.pe/doc/resumen-hv-postulante"class="text-unmsm-guinda font-semibold hover:underline">
+                                            Resumen de la hoja de vida del postulante</a>.</span>
                                     <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de
                                         acuerdo a los rubros del formato de hoja de vida del postulante (<a
-                                        href="https://posgradoletras.unmsm.edu.pe/storage/documents/mSJpl6uNu4dZ5LwoPXKn5uolbMc8ouQpHqVnfunN.pdf"class="text-unmsm-guinda font-semibold hover:underline">
-                                        criterios de evaluación</a>).</p>
+                                            href="https://posgradoletras.unmsm.edu.pe/storage/documents/mSJpl6uNu4dZ5LwoPXKn5uolbMc8ouQpHqVnfunN.pdf"class="text-unmsm-guinda font-semibold hover:underline">
+                                            criterios de evaluación</a>).</p>
                                 </div>
                             </li>
                             <li class="flex gap-3">
@@ -560,7 +563,8 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                     class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
                                 <span><a
                                         href="https://www.gob.pe/488-obtener-constancia-de-inscripcion-de-diplomas"class="text-unmsm-guinda font-semibold hover:underline">
-                                        Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor emitida por SUNEDU (*).</a></span>
+                                        Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor emitida
+                                        por SUNEDU (*).</a></span>
                             </li>
                             <li class="flex gap-3">
                                 <span
@@ -703,98 +707,121 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
             <!-- Resultados -->
             <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md space-y-6">
 
-    <!-- PASO 4 -->
-    <div>
-        <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">
-            Paso 4: Evaluaciones del proceso de admisión
-        </h3>
-
-        <!-- Examen -->
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-4">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9.75 3v1.5m4.5-1.5v1.5M4.5 7.5h15M6.75 7.5v11.25A2.25 2.25 0 009 21h6a2.25 2.25 0 002.25-2.25V7.5" />
-                    </svg>
-                </div>
+                <!-- PASO 4 -->
                 <div>
-                    <p class="text-blue-800 font-medium">Examen de conocimientos</p>
-                    <p class="text-blue-700 text-sm">
-                        Maestrías: <strong>06 de Abril de 2026</strong><br>
-                        Doctorados: <strong>07 de Abril de 2026</strong><br>
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">
+                        Paso 4: Evaluaciones del proceso de admisión
+                    </h3>
+
+                    <!-- Examen -->
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.75 3v1.5m4.5-1.5v1.5M4.5 7.5h15M6.75 7.5v11.25A2.25 2.25 0 009 21h6a2.25 2.25 0 002.25-2.25V7.5" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-blue-800 font-medium">Examen de conocimientos</p>
+                                <p class="text-blue-700 text-sm">
+                                    Maestrías: <strong>06 de Abril de 2026</strong><br>
+                                    Doctorados: <strong>07 de Abril de 2026</strong><br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Entrevista -->
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-5">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 14.25c3.313 0 6-2.686 6-6S15.313 2.25 12 2.25 6 4.936 6 8.25s2.687 6 6 6z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4.5 21a7.5 7.5 0 0115 0" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-yellow-800 font-medium">Entrevista personal</p>
+                                <p class="text-yellow-700 text-sm">
+                                    Maestrías: <strong>06 de Abril de 2026</strong><br>
+                                    Doctorados: <strong>07 de Abril de 2026</strong><br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DIVISOR SUAVE -->
+                <hr class="border-gray-200">
+
+                <!-- PASO 5 -->
+                <div>
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">
+                        Paso 5: Visualizar los Resultados
+                    </h3>
+
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-5">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-green-800 font-medium">Publicación de resultados</p>
+                                <p class="text-green-700 text-xl font-bold">09 de Abril del 2026</p>
+                            </div>
+                        </div>
+                        <p class="text-green-700 text-sm">
+                            Los resultados serán publicados aquí y también serán enviados a sus correos electrónicos.
+                        </p>
+                    </div>
+
+                    <p class="text-gray-600 text-sm mt-4">
+                        Cualquier información adicional, pueden revisar la página de la Dirección General de Estudios de
+                        Posgrado
+                        <a href="https://posgrado.unmsm.edu.pe/" target="_blank"
+                            class="text-unmsm-guinda font-medium hover:underline">
+                            https://posgrado.unmsm.edu.pe/
+                        </a>,
+                        si hubiera otra consulta escribir al correo
+                        <a href="mailto:{{ $emailGeneral }}" class="text-unmsm-guinda font-medium hover:underline">
+                            {{ $emailGeneral }}
+                        </a>.
                     </p>
+
+
+                    <div class="text-center">
+                        <a href="https://posgradoletras.unmsm.edu.pe/storage/documents/7JsBBeZHJcuqOXiI2MymlFwm5GfKPiIg6dYyetZQ.pdf"
+                            target="_blank"
+                            class="inline-flex items-center gap-3 px-8 py-5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-lg rounded-2xl hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:-translate-y-1 w-full md:w-auto justify-center group">
+                            <svg class="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                </path>
+                            </svg>
+                            <span>VER INGRESANTES - ADMISIÓN POSGRADO LETRAS 2026 - I</span>
+                        </a>
+                        <p class="text-sm text-gray-500 mt-4 flex items-center justify-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Clic en el botón para acceder al formulario de envío
+                        </p>
+                    </div>
+
                 </div>
+
             </div>
-        </div>
-
-        <!-- Entrevista -->
-        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-5">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 14.25c3.313 0 6-2.686 6-6S15.313 2.25 12 2.25 6 4.936 6 8.25s2.687 6 6 6z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4.5 21a7.5 7.5 0 0115 0" />
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-yellow-800 font-medium">Entrevista personal</p>
-                    <p class="text-yellow-700 text-sm">
-                        Maestrías: <strong>06 de Abril de 2026</strong><br>
-                        Doctorados: <strong>07 de Abril de 2026</strong><br>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- DIVISOR SUAVE -->
-    <hr class="border-gray-200">
-
-    <!-- PASO 5 -->
-    <div>
-        <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">
-            Paso 5: Visualizar los Resultados
-        </h3>
-
-        <div class="bg-green-50 border border-green-200 rounded-lg p-5">
-            <div class="flex items-center gap-4 mb-3">
-                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-green-800 font-medium">Publicación de resultados</p>
-                    <p class="text-green-700 text-xl font-bold">09 de Abril del 2026</p>
-                </div>
-            </div>
-            <p class="text-green-700 text-sm">
-                Los resultados serán publicados aquí y también serán enviados a sus correos electrónicos.
-            </p>
-        </div>
-
-        <p class="text-gray-600 text-sm mt-4">
-            Cualquier información adicional, pueden revisar la página de la Dirección General de Estudios de Posgrado
-            <a href="https://posgrado.unmsm.edu.pe/" target="_blank"
-                class="text-unmsm-guinda font-medium hover:underline">
-                https://posgrado.unmsm.edu.pe/
-            </a>,
-            si hubiera otra consulta escribir al correo
-            <a href="mailto:{{ $emailGeneral }}"
-                class="text-unmsm-guinda font-medium hover:underline">
-                {{ $emailGeneral }}
-            </a>.
-        </p>
-    </div>
-
-</div>
 
 
         </div>
