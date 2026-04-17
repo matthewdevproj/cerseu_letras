@@ -795,18 +795,19 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                         <a href="mailto:{{ $emailGeneral }}" class="text-unmsm-guinda font-medium hover:underline">
                             {{ $emailGeneral }}
                         </a>.
-                    </p>
+                    </p> <br>
 
 
                     <!-- Enlace a Resultados / Ingresantes -->
-<div class="text-center">
-    <a href="https://posgradoletras.unmsm.edu.pe/storage/documents/7JsBBeZHJcuqOXiI2MymlFwm5GfKPiIg6dYyetZQ.pdf" target="_blank"
-        class="inline-flex items-center gap-2 px-6 py-4 bg-unmsm-dorado text-white font-bold text-lg rounded-xl hover:bg-yellow-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full md:w-auto justify-center">
-        <i class="fas fa-file-pdf text-xl"></i>
-        <span>VER INGRESANTES – ADMISIÓN POSGRADO LETRAS 2026-I</span>
-    </a>
-    <p class="text-sm text-gray-500 mt-3">Clic en el botón para ver la lista de ingresantes</p>
-</div>
+                    <div class="text-center">
+                        <a href="https://posgradoletras.unmsm.edu.pe/storage/documents/7JsBBeZHJcuqOXiI2MymlFwm5GfKPiIg6dYyetZQ.pdf"
+                            target="_blank"
+                            class="inline-flex items-center gap-2 px-6 py-4 bg-unmsm-dorado text-white font-bold text-lg rounded-xl hover:bg-yellow-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full md:w-auto justify-center">
+                            <i class="fas fa-file-pdf text-xl"></i>
+                            <span>VER INGRESANTES – ADMISIÓN POSGRADO LETRAS 2026-I</span>
+                        </a>
+                        <p class="text-sm text-gray-500 mt-3">Clic en el botón para ver la lista de ingresantes</p>
+                    </div>
 
                 </div>
 
