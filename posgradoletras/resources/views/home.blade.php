@@ -812,6 +812,20 @@
         </div>
     </section>
 
+    {{-- ── Popup de anuncios ── --}}
+    <x-popup-announcements
+        :anuncios="[
+            [
+                'imagen'     => 'https://letras.unmsm.edu.pe/wp-content/uploads/2026/04/Anuncio-posgrado-2026-1.jpeg',
+                'alt'        => 'A nuestros ingresantes de posgrado 2026-1 - Información sobre códigos de alumno',
+                'link'       => '',
+                'link_texto' => '',
+            ],
+        ]"
+        :open_delay="1200"
+        :auto_advance="false"
+    />
+
     @push('scripts')
         <!-- Swiper JS (defer para mejor performance) -->
         <script src="https://cdn.jsdelivr.net/npm/swiper@9.4.1/swiper-bundle.min.js" defer></script>
