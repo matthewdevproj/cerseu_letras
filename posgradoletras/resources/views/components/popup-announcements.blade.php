@@ -58,7 +58,7 @@
 }
 .posgrado-popup-overlay.posgrado-popup-open {
     opacity          : 1;
-    pointer-events   : all;
+    pointer-events   : auto;
 }
 
 /* ── Modal ───────────────────────────────────────────────────── */
@@ -68,8 +68,8 @@
     border-radius    : var(--pp-radius);
     box-shadow       : var(--pp-shadow);
     width            : 100%;
-    max-width        : 540px;
-    max-height       : 88vh;
+    max-width        : 520px;
+    max-height       : 90vh;
     display          : flex;
     flex-direction   : column;
     overflow         : hidden;
@@ -118,8 +118,8 @@
     white-space      : nowrap;
 }
 .posgrado-popup-close {
-    width            : 28px;
-    height           : 28px;
+    width            : 44px;
+    height           : 44px;
     border-radius    : 50%;
     border           : none;
     background       : #F3F4F6;
@@ -164,8 +164,8 @@
 .posgrado-popup-img-box {
     position         : relative;
     overflow         : hidden;
-    background       : #E5E7EB;
-    aspect-ratio     : 16 / 9;
+    background       : #F4F4F4;
+    aspect-ratio     : 4 / 5;
     flex-shrink      : 0;
 }
 .posgrado-popup-img-link {
@@ -177,7 +177,7 @@
 .posgrado-popup-img {
     width            : 100%;
     height           : 100%;
-    object-fit       : cover;
+    object-fit       : contain;
     display          : block;
     transition       : transform 0.4s var(--pp-ease);
 }
@@ -241,8 +241,8 @@
     flex-shrink      : 0;
 }
 .posgrado-popup-arrow {
-    width            : 30px;
-    height           : 30px;
+    width            : 44px;
+    height           : 44px;
     border           : none;
     background       : transparent;
     color            : var(--pp-primary);
@@ -266,6 +266,7 @@
     align-items      : center;
 }
 .posgrado-popup-dot {
+    position         : relative;
     width            : 8px;
     height           : 8px;
     border-radius    : 50%;
@@ -274,6 +275,12 @@
     cursor           : pointer;
     padding          : 0;
     transition       : background 0.2s, transform 0.2s, border-color 0.2s;
+}
+/* Expande el área táctil a 44×44 sin alterar el visual */
+.posgrado-popup-dot::before {
+    content          : '';
+    position         : absolute;
+    inset            : -18px;
 }
 .posgrado-popup-dot.pp-active,
 .posgrado-popup-dot[aria-selected="true"] {
@@ -347,7 +354,7 @@
         flex-shrink  : 0;
     }
     .posgrado-popup-img-box {
-        aspect-ratio : 3 / 2;
+        aspect-ratio : 4 / 5;
     }
 }
 
@@ -440,8 +447,9 @@
                                  class="posgrado-popup-img"
                                  loading="{{ $isFirst ? 'eager' : 'lazy' }}"
                                  decoding="async"
-                                 width="540"
-                                 height="304">
+                                 @if($isFirst) fetchpriority="high" @endif
+                                 width="520"
+                                 height="650">
 
                         @if($hasLink)
                         </a>
