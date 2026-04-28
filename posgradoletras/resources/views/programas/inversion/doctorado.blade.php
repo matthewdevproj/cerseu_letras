@@ -86,7 +86,7 @@
                     <span class="text-3xl font-bold">S/&nbsp;{{ number_format($costoPorCredito, 0) }}</span>
                 </div>
                 <div class="bg-white text-center py-3 px-4">
-                    <p class="text-sm text-gray-600 font-medium">Costo por crédito</p>
+                    <p class="text-sm text-gray-600 font-medium">Costo por crédito (*)</p>
                 </div>
             </div>
         </div>
@@ -105,7 +105,7 @@
                     <span class="text-3xl font-bold">S/&nbsp;{{ number_format($costoTotal, 0) }}</span>
                 </div>
                 <div class="bg-white text-center py-3 px-4">
-                    <p class="text-sm text-gray-600 font-medium">Costo total</p>
+                    <p class="text-sm text-gray-600 font-medium">Costo total (*)</p>
                 </div>
             </div>
         </div>
@@ -167,6 +167,9 @@
                 Si realiza el <span class="font-semibold">pago del semestre completo</span> en el primer mes del
                 semestre,
                 obtendrá un <span class="font-semibold">descuento del 10%</span>.
+            </li>
+            <li>
+                 <span class="font-semibold">(*) El monto final está sujeto a variación de acuerdo con el régimen estudiantil!</span>
             </li>
         </ul>
     </section>
