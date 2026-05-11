@@ -812,7 +812,7 @@
         </div>
     </section>
 
-    {{-- ── Popup de anuncios ── --}}
+    {{-- ── Popup de anuncios ── 
     <x-popup-announcements
         :anuncios="[
             [
@@ -824,7 +824,7 @@
         ]"
         :open_delay="1200"
         :auto_advance="false"
-    />
+    /> --}}
 
     @push('scripts')
         <!-- Swiper JS (defer para mejor performance) -->
