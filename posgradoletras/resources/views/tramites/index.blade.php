@@ -215,11 +215,13 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                         (catorce)</strong> en escala vigesimal.</li>
                                 <li>
                                     Tener concluida la tesis respetando la
-                                    <strong>DIRECTIVA DE MODELO DE ESTRUCTURA DE TESIS</strong> – Programas de maestría y
+                                    <strong><a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf" target="_blank"
+                                        class="text-blue-600 underline hover:text-blue-800">DIRECTIVA DE MODELO DE ESTRUCTURA DE TESIS</a> / <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Modelo-de-caratula_biblioteca-1.pdf" target="_blank"
+                                        class="text-blue-600 underline hover:text-blue-800">Modelo de Carátula de Tesis</a> </strong> – Programas de maestría y
                                     doctorado
                                     (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
                                     <a 
-                                        target="_blank" class="text-unmsm-guinda hover:underline">
+                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf" target="_blank" class="text-unmsm-guinda hover:underline">
                                         Ver directiva
                                     </a>
                                 </li>
@@ -684,11 +686,13 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                         (catorce)</strong> en escala vigesimal.</li>
                                 <li>
                                     Tener concluida la tesis, respetando la
-                                    <strong>DIRECTIVA DE MODELO DE ESTRUCTURA DE TESIS</strong> – Programas de maestría y
+                                    <strong><a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf" target="_blank"
+                                        class="text-blue-600 underline hover:text-blue-800">DIRECTIVA DE MODELO DE ESTRUCTURA DE TESIS</a> / <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Modelo-de-caratula_biblioteca-1.pdf" target="_blank"
+                                        class="text-blue-600 underline hover:text-blue-800">Modelo de Carátula de Tesis</a> </strong> – Programas de maestría y
                                     doctorado
                                     (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
                                     <a
-                                        target="_blank" class="text-unmsm-guinda hover:underline">
+                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf" target="_blank" class="text-unmsm-guinda hover:underline">
                                         Ver directiva
                                     </a>
                                 </li>
