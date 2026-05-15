@@ -165,7 +165,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     <strong>1.1. Proyecto de tesis:</strong>
                                     respetando la plantilla oficial de proyecto:
                                     <a
-                                        target="_blank" class="text-unmsm-guinda underline hover:text-unmsm-dorado">
+                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/GUIA-DE-PRESENTACION-DE-PROYECTO-DE-TESIS_2026FFF.pdf" target="_blank" class="text-unmsm-guinda underline hover:text-unmsm-dorado">
                                         Plantilla oficial de proyecto de tesis
                                     </a>.
                                 </li>
@@ -643,7 +643,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                 <li>
                                     <strong>1.1. Proyecto:</strong> respetando la plantilla oficial:
                                     <a 
-                                        target="_blank" class="text-unmsm-guinda underline">
+                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/GUIA-DE-PRESENTACION-DE-PROYECTO-DE-TESIS_2026FFF.pdf" target="_blank" class="text-unmsm-guinda underline">
                                         Plantilla oficial de proyecto de tesis
                                     </a>.
                                 </li>
