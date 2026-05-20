@@ -634,15 +634,20 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                             <p>
                                 El Examen de Suficiencia Doctoral es una evaluación académica mediante la cual el estudiante
                                 demuestra los conocimientos y competencias necesarios para obtener la condición de
-                                Candidato(a) a Doctor(a). 
-                                <br>
+                                Candidato(a) a Doctor(a).
+                                <br><br>
                                 La evaluación comprende un ensayo académico y la defensa del proyecto de tesis doctoral ante
                                 un jurado especializad
                                 <br>
-                                <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Examen-de-doctorado_Fn-1FFF-1-1.pdf"
+
+                            <ul>
+                                <li>
+                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Examen-de-doctorado_Fn-1FFF-1-1.pdf"
                                         target="_blank" class="text-unmsm-guinda underline">
                                         Ver documento del Examen de Suficiencia Doctoral
-                                </a>
+                                    </a>
+                                </li>
+                            </ul>
                             </p>
                         </div>
                     </div>
