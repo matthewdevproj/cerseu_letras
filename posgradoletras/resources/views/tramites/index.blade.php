@@ -164,8 +164,8 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                 <li>
                                     <strong>1.1. Proyecto de tesis:</strong>
                                     respetando la plantilla oficial de proyecto:
-                                    <a
-                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/GUIA-DE-PRESENTACION-DE-PROYECTO-DE-TESIS_2026FFF.pdf" target="_blank" class="text-unmsm-guinda underline hover:text-unmsm-dorado">
+                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/GUIA-DE-PRESENTACION-DE-PROYECTO-DE-TESIS_2026FFF.pdf"
+                                        target="_blank" class="text-unmsm-guinda underline hover:text-unmsm-dorado">
                                         Plantilla oficial de proyecto de tesis
                                     </a>.
                                 </li>
@@ -215,17 +215,19 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                         (catorce)</strong> en escala vigesimal.</li>
                                 <li>
                                     Tener concluida la tesis respetando la
-                                    <strong><a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf" target="_blank"
-                                        class="text-blue-600 underline hover:text-blue-800">DIRECTIVA DE MODELO DE ESTRUCTURA DE TESIS</a></strong> – Programas de maestría y
+                                    <strong><a
+                                            href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf"
+                                            target="_blank" class="text-blue-600 underline hover:text-blue-800">DIRECTIVA DE
+                                            MODELO DE ESTRUCTURA DE TESIS</a></strong> – Programas de maestría y
                                     doctorado
                                     (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
-                                    <a 
-                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf" target="_blank" class="text-unmsm-guinda hover:underline">
+                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf"
+                                        target="_blank" class="text-unmsm-guinda hover:underline">
                                         Ver directiva
                                     </a>
                                     |
-                                    <a 
-                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Modelo-de-caratula_biblioteca-1.pdf" target="_blank" class="text-unmsm-guinda hover:underline">
+                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Modelo-de-caratula_biblioteca-1.pdf"
+                                        target="_blank" class="text-unmsm-guinda hover:underline">
                                         Modelo de Carátula de Tesis
                                     </a>
                                 </li>
@@ -624,6 +626,30 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                     <!-- PASO I DOCTORADO -->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                         <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                            <h3 class="font-bold text-gray-800">
+                                Examen de Suficiencia Doctoral
+                            </h3>
+                        </div>
+                        <div class="p-6 prose prose-sm max-w-none text-gray-600">
+                            <p>
+                                El Examen de Suficiencia Doctoral es una evaluación académica mediante la cual el estudiante
+                                demuestra los conocimientos y competencias necesarios para obtener la condición de
+                                Candidato(a) a Doctor(a). 
+                                <br>
+                                La evaluación comprende un ensayo académico y la defensa del proyecto de tesis doctoral ante
+                                un jurado especializad
+                                <br>
+                                <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Examen-de-doctorado_Fn-1FFF-1-1.pdf"
+                                        target="_blank" class="text-unmsm-guinda underline">
+                                        Ver documento del Examen de Suficiencia Doctoral
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- PASO I DOCTORADO -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
                             <div
                                 class="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm">
                                 I
@@ -642,8 +668,8 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                             <ul>
                                 <li>
                                     <strong>1.1. Proyecto:</strong> respetando la plantilla oficial:
-                                    <a 
-                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/GUIA-DE-PRESENTACION-DE-PROYECTO-DE-TESIS_2026FFF.pdf" target="_blank" class="text-unmsm-guinda underline">
+                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/GUIA-DE-PRESENTACION-DE-PROYECTO-DE-TESIS_2026FFF.pdf"
+                                        target="_blank" class="text-unmsm-guinda underline">
                                         Plantilla oficial de proyecto de tesis
                                     </a>.
                                 </li>
@@ -690,17 +716,19 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                         (catorce)</strong> en escala vigesimal.</li>
                                 <li>
                                     Tener concluida la tesis, respetando la
-                                    <strong><a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf" target="_blank"
-                                        class="text-blue-600 underline hover:text-blue-800">DIRECTIVA DE MODELO DE ESTRUCTURA DE TESIS</a> </strong> – Programas de maestría y
+                                    <strong><a
+                                            href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf"
+                                            target="_blank" class="text-blue-600 underline hover:text-blue-800">DIRECTIVA
+                                            DE MODELO DE ESTRUCTURA DE TESIS</a> </strong> – Programas de maestría y
                                     doctorado
                                     (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
-                                    <a
-                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf" target="_blank" class="text-unmsm-guinda hover:underline">
+                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf"
+                                        target="_blank" class="text-unmsm-guinda hover:underline">
                                         Ver directiva
                                     </a>
                                     |
-                                    <a 
-                                        href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Modelo-de-caratula_biblioteca-1.pdf" target="_blank" class="text-unmsm-guinda hover:underline">
+                                    <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Modelo-de-caratula_biblioteca-1.pdf"
+                                        target="_blank" class="text-unmsm-guinda hover:underline">
                                         Modelo de Carátula de Tesis
                                     </a>
                                 </li>
