@@ -14,9 +14,26 @@ class AdminProgramaController extends Controller
     /**
      * Display a listing of programs.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $programas = Programa::orderBy('nombre')->get();
+        $query = Programa::orderBy('nombre');
+
+        if ($request->filled('search')) {
+            $query->where('nombre', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('tipo')) {
+            $gradoMap = [
+                'maestria'  => 'Maestría',
+                'doctorado' => 'Doctorado',
+                'diplomado' => 'Diplomado',
+            ];
+            if (isset($gradoMap[$request->tipo])) {
+                $query->where('grado', $gradoMap[$request->tipo]);
+            }
+        }
+
+        $programas = $query->get();
         return view('admin.programas.index', compact('programas'));
     }
 
