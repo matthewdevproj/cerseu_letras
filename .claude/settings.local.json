@@ -16,7 +16,8 @@
       "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\database\\\\seeders\\\\\" | Select-Object Name | ForEach-Object {$_.Name})",
       "PowerShell(php --version 2>&1; Write-Host \"---\"; Get-Item \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\.env\" -ErrorAction SilentlyContinue | Select-Object Name)",
       "PowerShell(docker context ls *)",
-      "PowerShell(docker context use *)"
+      "PowerShell(docker context use *)",
+      "PowerShell(cmd /c \"dir /s /b C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\resources\\\\views\\\\admin\\\\\")"
     ]
   }
 }

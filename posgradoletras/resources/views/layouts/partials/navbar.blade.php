@@ -104,7 +104,7 @@
                         </a>
                         <a href="{{ route('programas.index') }}?tipo=diplomado"
                             class="block px-5 py-3 hover:bg-gray-50">
-                            <i class="fas fa-certificate mr-2 text-red-700"></i>Diplomados
+                            <i class="fas fa-scroll mr-2 text-red-700"></i>Diplomados
                         </a>
                     </div>
                 </div>
@@ -315,7 +315,7 @@
                                 <a href="{{ route('programas.index') }}?tipo=doctorado" @click="mobileMenuOpen = false"
                                     class="block px-6 py-3 pl-14 text-gray-600 hover:text-red-700 hover:bg-red-50 text-sm font-medium transition-colors border-l-2 border-transparent hover:border-red-700">Doctorados</a>
                                 <a href="{{ route('programas.index') }}?tipo=diplomado" @click="mobileMenuOpen = false"
-                                    class="block px-6 py-3 pl-14 text-gray-600 hover:text-red-700 hover:bg-red-50 text-sm font-medium transition-colors border-l-2 border-transparent hover:border-red-700">Diplomados</a>
+                                    class="block px-6 py-3 pl-14 text-gray-600 hover:text-red-700 hover:bg-red-50 text-sm font-medium transition-colors border-l-2 border-transparent hover:border-red-700"><i class="fas fa-scroll mr-2"></i>Diplomados</a>
                             </div>
                         </div>
 

@@ -21,6 +21,7 @@ class AdminController extends Controller
             'programas_activos' => Programa::activos()->count(),
             'total_maestrias' => Programa::maestrias()->count(),
             'total_doctorados' => Programa::doctorados()->count(),
+            'total_diplomados' => Programa::diplomados()->count(),
             'total_docentes' => Docente::count(),
             'docentes_activos' => Docente::activos()->count(),
             'total_testimonios' => Testimonio::count(),

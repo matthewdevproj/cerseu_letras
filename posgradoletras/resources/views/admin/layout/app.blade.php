@@ -324,8 +324,8 @@
                 </a>
 
                 <!-- User Dropdown -->
-                <div x-data="{ open: false }" class="relative">
-                    <button @click="open = !open" class="flex items-center gap-2">
+                <div class="relative" id="userDropdownWrapper">
+                    <button id="userDropdownBtn" type="button" class="flex items-center gap-2">
                         <div class="hidden md:block text-right">
                             <p class="text-sm font-bold text-gray-800">{{ auth()->user()->name }}</p>
                             <p class="text-xs text-gray-500">Administrador</p>
@@ -335,10 +335,10 @@
                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                         </div>
                     </button>
-                    <div x-show="open" @click.away="open = false" x-transition
-                        class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                    <div id="userDropdownMenu"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
                         <p class="px-4 py-2 text-xs font-bold text-gray-400 uppercase">Mi Cuenta</p>
-                        <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                        <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                             <i class="fas fa-user-circle text-gray-400"></i> Perfil
                         </a>
                         <a href="{{ route('admin.settings.index') }}"
@@ -392,6 +392,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Sidebar mobile
             const sidebar = document.getElementById('mainSidebar');
             const overlay = document.getElementById('sidebarOverlay');
             const toggle = document.getElementById('sidebarToggle');
@@ -407,6 +408,23 @@
                     sidebar.classList.remove('show');
                     overlay.classList.remove('show');
                 });
+            });
+
+            // User dropdown
+            const dropdownBtn  = document.getElementById('userDropdownBtn');
+            const dropdownMenu = document.getElementById('userDropdownMenu');
+
+            dropdownBtn?.addEventListener('click', function (e) {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', function () {
+                dropdownMenu?.classList.add('hidden');
+            });
+
+            dropdownMenu?.addEventListener('click', function (e) {
+                e.stopPropagation();
             });
         });
     </script>

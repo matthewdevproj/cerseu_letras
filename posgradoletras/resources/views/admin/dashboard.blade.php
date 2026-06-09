@@ -69,7 +69,7 @@
                                     <i class="fas fa-graduation-cap text-xl"></i>
                                 </div>
                                 <h6 class="font-bold text-gray-800">Programas</h6>
-                                <p class="text-xs text-gray-500">Maestrías y Doctorados</p>
+                                <p class="text-xs text-gray-500">Maestrías, Doctorados y Diplomados</p>
                             </a>
                             <a href="{{ route('admin.programas.create') }}"
                                 class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
@@ -216,9 +216,14 @@
                         <p class="text-sm text-gray-600">{{ $stats['total_maestrias'] }} programas</p>
                     </div>
 
-                    <div class="p-3 rounded-lg bg-[#d4a017]/10 border-l-4 border-[#d4a017]">
+                    <div class="p-3 rounded-lg mb-3 bg-[#d4a017]/10 border-l-4 border-[#d4a017]">
                         <p class="text-xs font-bold text-gray-800">Doctorados</p>
                         <p class="text-sm text-gray-600">{{ $stats['total_doctorados'] }} programas</p>
+                    </div>
+
+                    <div class="p-3 rounded-lg bg-amber-50 border-l-4 border-amber-600">
+                        <p class="text-xs font-bold text-amber-700">Diplomados</p>
+                        <p class="text-sm text-gray-600">{{ $stats['total_diplomados'] }} programas</p>
                     </div>
                 </div>
                 <div class="p-4 text-center border-t border-gray-100">
