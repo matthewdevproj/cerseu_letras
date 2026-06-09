@@ -71,6 +71,23 @@
         .hero-swiper .swiper-pagination-bullet-active {
             background: #C9AA36;
         }
+
+        /* Stats grid: 5 columnas en desktop, 2+2+1 en mobile */
+        @media (min-width: 640px) {
+            .stats-grid {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+                gap: 0;
+            }
+            .stats-grid > div {
+                background-color: transparent !important;
+                border-radius: 0 !important;
+                border-right: 1px solid rgba(107, 114, 128, 0.3);
+                grid-column: span 1 / span 1 !important;
+            }
+            .stats-grid > div:last-child {
+                border-right: none;
+            }
+        }
     </style>
 @endpush
 
@@ -125,9 +142,9 @@
 
     <section class="bg-neutral-900 text-white py-6 border-b-4 border-unmsm-dorado shadow-2xl relative z-20">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-0 text-center sm:divide-x sm:divide-gray-700/50">
+            <div class="grid grid-cols-2 stats-grid gap-3 text-center">
 
-                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl sm:bg-transparent sm:rounded-none">
+                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl stats-item">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -137,7 +154,7 @@
                     <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Maestrías</div>
                 </div>
 
-                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl sm:bg-transparent sm:rounded-none">
+                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl stats-item">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -147,7 +164,7 @@
                     <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Doctorados</div>
                 </div>
 
-                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl sm:bg-transparent sm:rounded-none">
+                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl stats-item">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -157,7 +174,7 @@
                     <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Diplomados</div>
                 </div>
 
-                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl sm:bg-transparent sm:rounded-none">
+                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl stats-item">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -167,8 +184,8 @@
                     <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Docentes Renacyt</div>
                 </div>
 
-                <!-- Último stat: ocupa 2 cols en mobile para centrarlo -->
-                <div class="col-span-2 sm:col-span-1 flex flex-col items-center p-3 bg-white/5 rounded-xl sm:bg-transparent sm:rounded-none">
+                <!-- Último stat: col-span-2 en mobile (centrado), el CSS lo resetea a 1 en desktop -->
+                <div class="col-span-2 flex flex-col items-center p-3 bg-white/5 rounded-xl stats-item">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
                         <path stroke-linecap="round" stroke-linejoin="round"
