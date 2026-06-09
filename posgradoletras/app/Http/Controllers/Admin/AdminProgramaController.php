@@ -36,7 +36,7 @@ class AdminProgramaController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|max:255',
-            'grado' => 'required|in:Maestría,Doctorado',
+            'grado' => 'required|in:Maestría,Doctorado,Diplomado',
             'mencion' => 'nullable|max:255',
             'modalidad' => 'nullable|max:100',
             'duracion' => 'nullable|integer',
@@ -129,7 +129,7 @@ class AdminProgramaController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|max:255',
-            'grado' => 'required|in:Maestría,Doctorado',
+            'grado' => 'required|in:Maestría,Doctorado,Diplomado',
             'mencion' => 'nullable|max:255',
             'modalidad' => 'nullable|max:100',
             'duracion' => 'nullable|integer',

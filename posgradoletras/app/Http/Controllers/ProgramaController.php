@@ -12,20 +12,13 @@ class ProgramaController extends Controller
         // Obtener el filtro de tipo desde la URL
         $tipoFiltro = $request->get('tipo', 'todos');
 
-        // Obtener maestrías y doctorados con campos específicos
-        $maestrias = Programa::activos()
-            ->maestrias()
-            ->select('id', 'nombre', 'mencion', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad')
-            ->orderBy('nombre')
-            ->get();
+        $campos = ['id', 'nombre', 'mencion', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad'];
 
-        $doctorados = Programa::activos()
-            ->doctorados()
-            ->select('id', 'nombre', 'mencion', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad')
-            ->orderBy('nombre')
-            ->get();
+        $maestrias = Programa::activos()->maestrias()->select($campos)->orderBy('nombre')->get();
+        $doctorados = Programa::activos()->doctorados()->select($campos)->orderBy('nombre')->get();
+        $diplomados = Programa::activos()->diplomados()->select($campos)->orderBy('nombre')->get();
 
-        return view('programas.index', compact('maestrias', 'doctorados', 'tipoFiltro'));
+        return view('programas.index', compact('maestrias', 'doctorados', 'diplomados', 'tipoFiltro'));
     }
 
     public function show($slug)

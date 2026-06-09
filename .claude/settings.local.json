@@ -1,7 +1,22 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:posgradoletras.unmsm.edu.pe)"
+      "WebFetch(domain:posgradoletras.unmsm.edu.pe)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\app\\\\Models\\\\\" | Select-Object Name | ForEach-Object {$_.Name})",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\database\\\\migrations\\\\\" | Select-Object Name | ForEach-Object {$_.Name})",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\resources\\\\views\\\\\" -Directory | Select-Object Name | ForEach-Object {$_.Name})",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\app\\\\Http\\\\Controllers\\\\\" -Recurse | Where-Object {$_.Extension -eq '.php'} | Select-Object FullName | ForEach-Object {$_.FullName -replace [regex]::Escape\\('C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\'\\), ''})",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\resources\\\\views\\\\admin\\\\\" | Select-Object Name | ForEach-Object {$_.Name})",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\resources\\\\views\\\\home\\\\\" | Select-Object Name | ForEach-Object {$_.Name})",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\config\\\\\" | Select-Object Name | ForEach-Object {$_.Name})",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\\" | Select-Object Name | ForEach-Object {$_.Name})",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\database\\\\seeders\\\\\" | Select-Object Name | ForEach-Object {$_.Name})",
+      "PowerShell(php --version 2>&1; Write-Host \"---\"; Get-Item \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\.env\" -ErrorAction SilentlyContinue | Select-Object Name)",
+      "PowerShell(docker context ls *)",
+      "PowerShell(docker context use *)"
     ]
   }
 }

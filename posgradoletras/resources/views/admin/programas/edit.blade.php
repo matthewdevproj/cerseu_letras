@@ -276,6 +276,7 @@
                                     <select name="grado" id="grado" class="block w-full py-2.5 px-4" required>
                                         <option value="Maestría" {{ old('grado', $programa->grado) == 'Maestría' ? 'selected' : '' }}>Maestría</option>
                                         <option value="Doctorado" {{ old('grado', $programa->grado) == 'Doctorado' ? 'selected' : '' }}>Doctorado</option>
+                                        <option value="Diplomado" {{ old('grado', $programa->grado) == 'Diplomado' ? 'selected' : '' }}>Diplomado</option>
                                     </select>
                                 </div>
 

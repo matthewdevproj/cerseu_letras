@@ -49,7 +49,7 @@
                 <button onclick="filterPrograms('todos')"
                     class="filter-btn px-4 md:px-6 py-2 rounded-md text-sm font-bold transition-all whitespace-nowrap {{ $tipoFiltro == 'todos' ? 'bg-white text-unmsm-guinda shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200' }}"
                     id="btn-todos">
-                    Todos ({{ count($maestrias) + count($doctorados) }})
+                    Todos ({{ count($maestrias) + count($doctorados) + count($diplomados) }})
                 </button>
                 <button onclick="filterPrograms('maestria')"
                     class="filter-btn px-4 md:px-6 py-2 rounded-md text-sm font-bold transition-all whitespace-nowrap {{ $tipoFiltro == 'maestria' ? 'bg-white text-unmsm-guinda shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200' }}"
@@ -60,6 +60,11 @@
                     class="filter-btn px-4 md:px-6 py-2 rounded-md text-sm font-bold transition-all whitespace-nowrap {{ $tipoFiltro == 'doctorado' ? 'bg-white text-unmsm-guinda shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200' }}"
                     id="btn-doctorado">
                     Doctorados ({{ count($doctorados) }})
+                </button>
+                <button onclick="filterPrograms('diplomado')"
+                    class="filter-btn px-4 md:px-6 py-2 rounded-md text-sm font-bold transition-all whitespace-nowrap {{ $tipoFiltro == 'diplomado' ? 'bg-white text-unmsm-guinda shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200' }}"
+                    id="btn-diplomado">
+                    Diplomados ({{ count($diplomados) }})
                 </button>
             </div>
 
@@ -144,26 +149,81 @@
                     <div class="relative h-48 overflow-hidden">
                         <img src="{{ $programa->imagen_url }}" alt="{{ $programa->titulo_completo }}"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        
+
                         {{-- Gradiente de fondo para contraste --}}
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
-                        
+
                         {{-- "Ver más detalle" Overlay (Aparece en Hover) - Clickeable --}}
                         <a href="{{ route('programas.show', $programa->slug) }}" class="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
                             <span class="px-6 py-2 border border-white text-white font-bold rounded-full hover:bg-white hover:text-unmsm-guinda transition-colors shadow-2xl transform scale-90 group-hover:scale-100 duration-300">
                                 Ver más detalle
                             </span>
                         </a>
-                        
+
                         {{-- Badge Tipo Doctorado --}}
                         <div class="absolute top-4 left-4 z-20">
                             <span class="px-3 py-1 bg-gray-900 text-white text-xs font-bold rounded shadow-lg">Doctorado</span>
                         </div>
-                        
+
                         {{-- Badges de duración y modalidad dentro de la imagen --}}
                         <div class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
                                 <i class="far fa-clock"></i> {{ $programa->duracion ?? 6 }} semestres
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
+                                <i class="fas fa-university"></i> {{ $programa->modalidad }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 flex flex-col flex-1">
+                        <h3
+                            class="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-unmsm-guinda transition-colors font-serif">
+                            {{ $programa->titulo_completo }}
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-6 leading-relaxed flex-1 line-clamp-4">
+                            {{ $programa->presentacion ?? $programa->sumilla ?? 'Sin descripción disponible' }}
+                        </p>
+
+                        <div class="mt-auto">
+                            <a href="{{ route('programas.show', $programa->slug) }}"
+                                class="block w-full text-center py-2.5 rounded-lg border border-unmsm-guinda text-unmsm-guinda font-bold text-sm hover:bg-unmsm-guinda hover:text-white transition-all duration-300">
+                                Ver Plan de Estudios
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            {{-- Diplomados --}}
+            @foreach($diplomados as $programa)
+                <div class="program-card fade-in bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100 group flex flex-col h-full"
+                    data-type="diplomado" data-title="{{ strtolower($programa->titulo_completo) }}"
+                    data-desc="{{ strtolower($programa->presentacion ?? $programa->sumilla ?? '') }}">
+
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{{ $programa->imagen_url }}" alt="{{ $programa->titulo_completo }}"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+
+                        {{-- Gradiente de fondo para contraste --}}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+
+                        {{-- "Ver más detalle" Overlay (Aparece en Hover) - Clickeable --}}
+                        <a href="{{ route('programas.show', $programa->slug) }}" class="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+                            <span class="px-6 py-2 border border-white text-white font-bold rounded-full hover:bg-white hover:text-unmsm-guinda transition-colors shadow-2xl transform scale-90 group-hover:scale-100 duration-300">
+                                Ver más detalle
+                            </span>
+                        </a>
+
+                        {{-- Badge Tipo Diplomado --}}
+                        <div class="absolute top-4 left-4 z-20">
+                            <span class="px-3 py-1 bg-amber-700 text-white text-xs font-bold rounded shadow-lg">Diplomado</span>
+                        </div>
+
+                        {{-- Badges de duración y modalidad dentro de la imagen --}}
+                        <div class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
+                                <i class="far fa-clock"></i> {{ $programa->duracion ?? 2 }} módulos
                             </span>
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
                                 <i class="fas fa-university"></i> {{ $programa->modalidad }}
@@ -208,7 +268,7 @@
             </button>
         </div>
 
-        @if(count($maestrias) == 0 && count($doctorados) == 0)
+        @if(count($maestrias) == 0 && count($doctorados) == 0 && count($diplomados) == 0)
             <div class="text-center py-20">
                 <div class="inline-block p-6 rounded-full bg-gray-100 mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24"

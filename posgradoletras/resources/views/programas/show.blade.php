@@ -357,6 +357,8 @@
                             @include('programas.inversion.maestria', ['programa' => $programa])
                         @elseif(strtolower($programa->grado) === 'doctorado')
                             @include('programas.inversion.doctorado', ['programa' => $programa])
+                        @elseif(strtolower($programa->grado) === 'diplomado')
+                            @include('programas.inversion.diplomado', ['programa' => $programa])
                         @else
                             <p class="text-gray-600">
                                 Para información detallada sobre costos y créditos, revise la página oficial de la Facultad
@@ -415,8 +417,12 @@
                             </div>
                             <div>
                                 <p class="text-xs text-gray-500 uppercase font-bold">Duración</p>
-                                <p class="font-bold text-gray-900">{{ $programa->duracion_formateada }}
-                                    ({{ $programa->duracion / 2 }} años)</p>
+                                <p class="font-bold text-gray-900">
+                                    {{ $programa->duracion_formateada }}
+                                    @if($programa->grado !== 'Diplomado')
+                                        ({{ $programa->duracion / 2 }} años)
+                                    @endif
+                                </p>
                             </div>
                         </div>
 
@@ -443,7 +449,7 @@
                                 <p class="font-bold text-gray-900">
                                     @php
                                         $grado = strtolower($programa->grado);
-                                        
+
                                         // Usar estructura idéntica a los templates de inversión
                                         if ($grado === 'doctorado') {
                                             $costoPorCredito = 210;
@@ -455,6 +461,12 @@
                                                 ['matricula' => 500, 'creditos' => 10],
                                                 ['matricula' => 500, 'creditos' => 10],
                                             ];
+                                        } elseif ($grado === 'diplomado') {
+                                            $costoPorCredito = 120;
+                                            $semestresData = [
+                                                ['matricula' => 200, 'creditos' => 12],
+                                                ['matricula' => 200, 'creditos' => 12],
+                                            ];
                                         } else {
                                             $costoPorCredito = 160;
                                             $semestresData = [
@@ -464,7 +476,7 @@
                                                 ['matricula' => 400, 'creditos' => 22],
                                             ];
                                         }
-                                        
+
                                         // Calcular costo total
                                         $costoTotal = 0;
                                         foreach ($semestresData as $sem) {

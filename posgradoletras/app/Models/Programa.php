@@ -70,6 +70,11 @@ class Programa extends Model
         return $query->where('grado', 'Doctorado');
     }
 
+    public function scopeDiplomados($query)
+    {
+        return $query->where('grado', 'Diplomado');
+    }
+
     // Accessors
     public function getTituloCompletoAttribute()
     {
@@ -81,7 +86,9 @@ class Programa extends Model
 
     public function getDuracionFormateadaAttribute()
     {
-        return $this->duracion ? "{$this->duracion} semestres" : null;
+        if (!$this->duracion) return null;
+        $unidad = $this->grado === 'Diplomado' ? 'módulos' : 'semestres';
+        return "{$this->duracion} {$unidad}";
     }
 
     public function getTituloAttribute()
@@ -91,13 +98,21 @@ class Programa extends Model
 
     public function getTipoAttribute()
     {
-        return $this->grado === 'Maestría' ? 'maestria' : 'doctorado';
+        return match($this->grado) {
+            'Maestría'  => 'maestria',
+            'Doctorado' => 'doctorado',
+            'Diplomado' => 'diplomado',
+            default     => strtolower($this->grado),
+        };
     }
 
     public function getGradoOtorgaAttribute($value)
     {
-        // Generación automática: Grado + Nombre + Mención
-        $prefix = $this->grado === 'Doctorado' ? 'Doctor en ' : 'Magíster en ';
+        $prefix = match($this->grado) {
+            'Doctorado' => 'Doctor en ',
+            'Diplomado' => 'Diplomado en ',
+            default     => 'Magíster en ',
+        };
         $texto = $prefix . $this->nombre;
 
         if ($this->mencion) {
@@ -112,9 +127,11 @@ class Programa extends Model
     {
         // Si no hay imagen, usar por defecto
         if (!$this->imagen) {
-            return $this->grado === 'Maestría'
-                ? 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=800&q=80'
-                : 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80';
+            return match($this->grado) {
+                'Maestría'  => 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=800&q=80',
+                'Diplomado' => 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80',
+                default     => 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80',
+            };
         }
         
         // Si ya es una URL completa (http:// o https://)
