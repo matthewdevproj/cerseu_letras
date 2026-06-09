@@ -148,6 +148,15 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
                         <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                    </svg>
+                    <div class="text-2xl md:text-3xl font-bold">{{ count($diplomados) }}</div>
+                    <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Diplomados</div>
+                </div>
+                <div class="p-1 flex flex-col items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
+                        <path stroke-linecap="round" stroke-linejoin="round"
                             d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                     </svg>
                     <div class="text-2xl md:text-3xl font-bold">20+</div>
@@ -483,6 +492,10 @@
                     class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-white text-gray-600 hover:bg-gray-100 shadow-sm">
                     <i class="fas fa-book-reader"></i> Doctorados
                 </button>
+                <button onclick="filterPrograms('diplomado')" id="filter-diplomado"
+                    class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-white text-gray-600 hover:bg-gray-100 shadow-sm">
+                    <i class="fas fa-scroll"></i> Diplomados
+                </button>
             </div>
 
             <!-- Grid de Programas -->
@@ -597,6 +610,55 @@
                                 </h3>
                                 <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
                                     {{ $programa->sumilla ?? ($programa->presentacion ?? 'Investigación de alto nivel para la generación de nuevo conocimiento.') }}
+                                </p>
+                            </div>
+                        </a>
+                    </article>
+                @endforeach
+
+                <!-- Diplomados -->
+                @foreach ($diplomados as $programa)
+                    <article
+                        class="group relative bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden h-full program-card"
+                        data-type="diplomado">
+                        <a href="{{ route('programas.show', $programa->slug) }}" class="block">
+                            <div class="h-60 relative overflow-hidden">
+                                <img src="{{ $programa->imagen_url }}" alt="{{ $programa->titulo_completo }}"
+                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                    loading="lazy" decoding="async" width="800" height="600">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90">
+                                </div>
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+                                    <span
+                                        class="px-6 py-2 border border-white text-white font-bold rounded-full hover:bg-white hover:text-unmsm-guinda transition-colors shadow-2xl transform scale-90 group-hover:scale-100 duration-300">
+                                        Ver más detalle
+                                    </span>
+                                </div>
+                                <div class="absolute top-4 left-4 z-20">
+                                    <span
+                                        class="px-3 py-1 bg-amber-600 text-white text-xs font-bold rounded shadow-lg">Diplomado</span>
+                                </div>
+                                <div
+                                    class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
+                                    <span
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
+                                        <i class="far fa-clock"></i> 2 módulos
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
+                                        <i class="fas fa-university"></i> {{ $programa->modalidad }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3
+                                    class="text-xl font-serif font-bold text-gray-800 mb-3 group-hover:text-unmsm-guinda transition-colors leading-tight">
+                                    {{ $programa->titulo_completo }}
+                                </h3>
+                                <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
+                                    {{ $programa->sumilla ?? ($programa->presentacion ?? 'Formación especializada y práctica en áreas estratégicas de las humanidades.') }}
                                 </p>
                             </div>
                         </a>

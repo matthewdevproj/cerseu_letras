@@ -9,7 +9,7 @@
             <h2 class="text-2xl font-serif font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
                 Programas Académicos
             </h2>
-            <p class="mt-1 text-sm text-gray-500">Gestiona la oferta de Maestrías y Doctorados.</p>
+            <p class="mt-1 text-sm text-gray-500">Gestiona la oferta de Maestrías, Doctorados y Diplomados.</p>
         </div>
         <div class="mt-4 flex md:mt-0 md:ml-4">
             <a href="{{ route('admin.programas.create') }}"
@@ -37,6 +37,7 @@
                     <option value="">Todos los tipos</option>
                     <option value="maestria" {{ request('tipo') == 'maestria' ? 'selected' : '' }}>Maestrías</option>
                     <option value="doctorado" {{ request('tipo') == 'doctorado' ? 'selected' : '' }}>Doctorados</option>
+                    <option value="diplomado" {{ request('tipo') == 'diplomado' ? 'selected' : '' }}>Diplomados</option>
                 </select>
             </div>
             <button type="submit"
@@ -76,8 +77,8 @@
                         <tr class="hover:bg-gray-50 transition-colors">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 {{ $programa->grado == 'maestria' ? 'bg-yellow-50 text-brand-gold' : 'bg-blue-50 text-brand-navy' }} rounded-full flex items-center justify-center">
-                                        <i class="fas {{ $programa->grado == 'maestria' ? 'fa-scroll' : 'fa-medal' }} text-xl"></i>
+                                    <div class="flex-shrink-0 h-10 w-10 {{ $programa->tipo == 'maestria' ? 'bg-yellow-50 text-brand-gold' : ($programa->tipo == 'diplomado' ? 'bg-amber-50 text-amber-600' : 'bg-blue-50 text-brand-navy') }} rounded-full flex items-center justify-center">
+                                        <i class="fas {{ $programa->tipo == 'maestria' ? 'fa-graduation-cap' : ($programa->tipo == 'diplomado' ? 'fa-scroll' : 'fa-medal') }} text-xl"></i>
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">{{ $programa->titulo_completo }}</div>
@@ -86,8 +87,8 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $programa->grado == 'maestria' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200' : 'bg-blue-100 text-blue-800 border border-blue-200' }}">
-                                    {{ ucfirst($programa->grado) }}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $programa->tipo == 'maestria' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200' : ($programa->tipo == 'diplomado' ? 'bg-amber-100 text-amber-800 border border-amber-200' : 'bg-blue-100 text-blue-800 border border-blue-200') }}">
+                                    {{ $programa->grado }}
                                 </span>
                             </td>
 

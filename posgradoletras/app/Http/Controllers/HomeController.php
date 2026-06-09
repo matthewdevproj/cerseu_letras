@@ -10,17 +10,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Obtener maestrías activas ordenadas por nombre
-        $maestrias = Programa::activos()
-            ->maestrias()
-            ->orderBy('nombre')
-            ->get();
-
-        // Obtener doctorados activos ordenados por nombre
-        $doctorados = Programa::activos()
-            ->doctorados()
-            ->orderBy('nombre')
-            ->get();
+        $maestrias = Programa::activos()->maestrias()->orderBy('nombre')->get();
+        $doctorados = Programa::activos()->doctorados()->orderBy('nombre')->get();
+        $diplomados = Programa::activos()->diplomados()->orderBy('nombre')->get();
 
         // Obtener docentes que son coordinadores de programa
         $docentes = Docente::activos()
@@ -42,6 +34,6 @@ class HomeController extends Controller
             ->recientes()
             ->get();
 
-        return view('home', compact('maestrias', 'doctorados', 'docentes', 'testimonios'));
+        return view('home', compact('maestrias', 'doctorados', 'diplomados', 'docentes', 'testimonios'));
     }
 }

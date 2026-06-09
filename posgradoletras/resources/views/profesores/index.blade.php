@@ -48,17 +48,18 @@
                         @php
                             $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
                         @endphp
-                            class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive 
-                                ? 'bg-unmsm-guinda text-white shadow-md' 
+                        <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}"
+                            class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive
+                                ? 'bg-unmsm-guinda text-white shadow-md'
                                 : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
-                             <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->titulo_completo }}
-                         </a>
+                            <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->titulo_completo }}
+                        </a>
                     @endforeach
                 </div>
             </div>
             
             <!-- Doctorados -->
-            <div>
+            <div class="mb-4">
                 <p class="text-xs font-bold text-gray-800 mb-2 uppercase tracking-wider">
                     <i class="fas fa-user-graduate mr-1"></i> Doctorados
                 </p>
@@ -67,11 +68,32 @@
                         @php
                             $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
                         @endphp
-                            class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive 
-                                ? 'bg-unmsm-guinda text-white shadow-md' 
+                        <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}"
+                            class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive
+                                ? 'bg-unmsm-guinda text-white shadow-md'
                                 : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
-                             <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->titulo_completo }}
-                         </a>
+                            <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->titulo_completo }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- Diplomados -->
+            <div>
+                <p class="text-xs font-bold text-amber-600 mb-2 uppercase tracking-wider">
+                    <i class="fas fa-scroll mr-1"></i> Diplomados
+                </p>
+                <div class="flex flex-col gap-2">
+                    @foreach($diplomados as $prog)
+                        @php
+                            $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
+                        @endphp
+                        <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}"
+                            class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive
+                                ? 'bg-unmsm-guinda text-white shadow-md'
+                                : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
+                            <i class="fas fa-scroll mr-2 text-xs"></i>{{ $prog->titulo_completo }}
+                        </a>
                     @endforeach
                 </div>
             </div>
@@ -108,7 +130,7 @@
                     </div>
 
                     <!-- Doctorados -->
-                    <div>
+                    <div class="mb-4">
                         <p class="text-xs font-bold text-gray-800 mb-2 uppercase tracking-wider flex items-center gap-2">
                             <i class="fas fa-user-graduate"></i> Doctorados
                         </p>
@@ -117,11 +139,32 @@
                                 @php
                                     $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
                                 @endphp
-                                <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" 
-                                   class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {{ $isActive 
-                                       ? 'bg-unmsm-guinda text-white shadow-md' 
+                                <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}"
+                                   class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {{ $isActive
+                                       ? 'bg-unmsm-guinda text-white shadow-md'
                                        : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
                                     <i class="fas fa-book text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}"></i>
+                                    <span class="text-sm font-medium leading-tight">{{ $prog->titulo_completo }}</span>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Diplomados -->
+                    <div>
+                        <p class="text-xs font-bold text-amber-600 mb-2 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fas fa-scroll"></i> Diplomados
+                        </p>
+                        <div class="space-y-1">
+                            @foreach($diplomados as $prog)
+                                @php
+                                    $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
+                                @endphp
+                                <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}"
+                                   class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {{ $isActive
+                                       ? 'bg-unmsm-guinda text-white shadow-md'
+                                       : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
+                                    <i class="fas fa-scroll text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}"></i>
                                     <span class="text-sm font-medium leading-tight">{{ $prog->titulo_completo }}</span>
                                 </a>
                             @endforeach
