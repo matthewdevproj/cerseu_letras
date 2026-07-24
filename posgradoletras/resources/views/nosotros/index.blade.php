@@ -1,80 +1,77 @@
 @extends('layouts.public')
 
 @section('title', 'Nosotros - Posgrado Letras UNMSM')
+@section('meta_description', 'Misión, visión, valores y autoridades de la Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas de la UNMSM.')
 
 @section('content')
     <!-- HERO DE SECCIÓN -->
     <x-hero-section title="Nosotros" label="Unidad de Posgrado"
-        subtitle="Conoce la misión, visión y valores que guían nuestra institución"
-        image="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=70&fm=pjpg" />
+        subtitle="La misión, la visión y los valores que guían a la Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas."
+        :image="asset('images/campus-fachada.jpg')" />
 
     <section class="container mx-auto px-6 py-16">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 overflow-hidden fade-in">
-            <!-- Left Column: Misión + Visión -->
-            <div class="flex flex-col gap-10" data-aos="fade-right">
+        {{-- Misión / Visión / Valores — layout editorial asimétrico (2:1) --}}
+        <div class="grid lg:grid-cols-3 gap-8 lg:gap-12 mb-20">
 
-                <!-- Misión -->
-                <div>
-                    <h3
-                        class="flex items-center w-full text-2xl font-bold text-unmsm-guinda mb-6 font-serif uppercase tracking-wider">
-                        <span class="flex-grow h-px bg-gray-300 mr-4"></span>
-                        MISIÓN
-                        <span class="flex-grow h-px bg-gray-300 ml-4"></span>
-                    </h3>
-                    <div class="text-gray-700 text-lg leading-relaxed text-justify">
-                        {{ $mision }}
-                    </div>
+            {{-- Misión + Visión --}}
+            <div class="lg:col-span-2 space-y-12" data-reveal>
+                <div class="relative pl-6">
+                    <span class="absolute left-0 top-1.5 bottom-1.5 w-1.5 rounded-full bg-unmsm-guinda"></span>
+                    <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs mb-2">Nuestra razón de ser</p>
+                    <h2 class="text-3xl font-serif font-bold text-gray-900 mb-4">Misión</h2>
+                    <p class="text-gray-600 text-lg leading-relaxed">{{ $mision }}</p>
                 </div>
 
-                <!-- Visión -->
-                <div>
-                    <h3
-                        class="flex items-center w-full text-2xl font-bold text-unmsm-guinda mb-6 font-serif uppercase tracking-wider">
-                        <span class="flex-grow h-px bg-gray-300 mr-4"></span>
-                        VISIÓN
-                        <span class="flex-grow h-px bg-gray-300 ml-4"></span>
-                    </h3>
-                    <div class="text-gray-700 text-lg leading-relaxed text-justify">
-                        {{ $vision }}
-                    </div>
+                <div class="relative pl-6">
+                    <span class="absolute left-0 top-1.5 bottom-1.5 w-1.5 rounded-full bg-unmsm-dorado"></span>
+                    <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs mb-2">Hacia dónde vamos</p>
+                    <h2 class="text-3xl font-serif font-bold text-gray-900 mb-4">Visión</h2>
+                    <p class="text-gray-600 text-lg leading-relaxed">{{ $vision }}</p>
                 </div>
             </div>
 
-            <!-- Right Column: Valores -->
-            <div class="flex flex-col" data-aos="fade-left" data-aos-delay="200">
-                <div>
-                    <h3
-                        class="flex items-center w-full text-2xl font-bold text-unmsm-guinda mb-6 font-serif uppercase tracking-wider">
-                        <span class="flex-grow h-px bg-gray-300 mr-4"></span>
-                        VALORES
-                        <span class="flex-grow h-px bg-gray-300 ml-4"></span>
-                    </h3>
-                    <ul class="list-disc list-inside text-gray-700 space-y-2 pl-4 text-lg">
+            {{-- Valores — tarjeta de marca --}}
+            <aside data-reveal>
+                <div class="bg-unmsm-guinda text-white rounded-2xl p-8 shadow-lg h-full relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/5"></div>
+                    <h2 class="text-2xl font-serif font-bold mb-6 flex items-center gap-3 relative z-10">
+                        <x-fas-star class="text-unmsm-dorado" aria-hidden="true" /> Valores
+                    </h2>
+                    <ul class="space-y-4 relative z-10">
                         @foreach($valores as $valor)
-                            <li>{{ $valor }}</li>
+                            <li class="flex items-start gap-3">
+                                <x-fas-circle-check class="text-unmsm-dorado mt-1 flex-shrink-0" aria-hidden="true" />
+                                <span class="text-gray-100 leading-snug">{{ $valor }}</span>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
-            </div>
+            </aside>
         </div>
 
-        <!-- Autoridades Section -->
-        <div class="mt-16 overflow-hidden" data-aos="fade-up">
-            <h3
-                class="font-bold text-2xl text-unmsm-guinda mb-8 font-serif border-b-2 border-unmsm-dorado/30 pb-2 inline-block">
-                Autoridades
-            </h3>
-            <div class="grid md:grid-cols-3 gap-6">
+        {{-- Autoridades --}}
+        <div>
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 rounded-full bg-unmsm-guinda text-white flex items-center justify-center flex-shrink-0">
+                    <x-fas-user-tie class="text-xl" aria-hidden="true" />
+                </div>
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-serif font-bold text-gray-900">Autoridades</h2>
+                    <p class="text-gray-500 text-sm">Equipo directivo de la Unidad de Posgrado</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6" data-reveal-stagger>
                 @foreach($autoridades as $autoridad)
-                    <div class="bg-white p-6 rounded-lg border-l-4 border-unmsm-dorado shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
-                        data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 }}">
-                        <h4 class="font-bold text-unmsm-guinda text-lg mb-2">{{ $autoridad['nombre'] }}</h4>
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 border-l-4 border-l-unmsm-dorado shadow-sm hover:shadow-lg motion-safe:hover:-translate-y-1.5 transition-all duration-300">
+                        <h3 class="font-bold text-unmsm-guinda text-lg mb-1 leading-tight">{{ $autoridad['nombre'] }}</h3>
                         <p class="text-xs font-bold text-gray-500 mb-4 uppercase tracking-wide">{{ $autoridad['cargo'] }}</p>
-                        <div class="flex items-center gap-2 text-sm text-gray-600 min-w-0">
-                            <x-fas-envelope class="text-unmsm-dorado flex-shrink-0" />
+                        <a href="mailto:{{ $autoridad['email'] }}"
+                            class="flex items-center gap-2 text-sm text-gray-600 hover:text-unmsm-guinda transition-colors min-w-0">
+                            <x-fas-envelope class="text-unmsm-dorado flex-shrink-0" aria-hidden="true" />
                             <span class="truncate">{{ $autoridad['email'] }}</span>
-                        </div>
+                        </a>
                     </div>
                 @endforeach
             </div>

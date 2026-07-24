@@ -1,8 +1,8 @@
 @props(['title', 'subtitle' => null, 'label' => null, 'image' => null])
 
 @php
-    // JPEG progresivo para carga incremental (de borrosa a nítida)
-    $defaultImage = 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=70&fm=pjpg';
+    // Foto real del campus UNMSM (auto-alojada) — evita el look genérico de stock.
+    $defaultImage = asset('images/campus-aerea.jpg');
     $bgImage = $image ?? $defaultImage;
     // Placeholder tiny blur (20px width) para instant load
     $tinyPlaceholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"%3E%3Cfilter id="b"%3E%3CfeGaussianBlur stdDeviation="12"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" fill="%236B1E20" filter="url(%23b)"/%3E%3C/svg%3E';

@@ -7,7 +7,7 @@
     <!-- HERO -->
     <x-hero-section title="Documentos y Recursos" label="Área Informativa"
         subtitle="Reglamentos, directivas e información institucional del Posgrado."
-        image="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=75&fm=webp" />
+        :image="asset('images/campus-aerea.jpg')" />
 
     <!-- CONTENIDO -->
     <div class="container mx-auto px-4 py-12 max-w-6xl">

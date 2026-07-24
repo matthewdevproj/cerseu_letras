@@ -6,7 +6,7 @@
     <!-- HERO DE SECCIÓN -->
     <x-hero-section title="Testimonios" label="Nuestros Egresados"
         subtitle="Conoce las experiencias de quienes han pasado por nuestros programas de posgrado"
-        image="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=75&fm=webp" />
+        :image="asset('images/campus-fachada.jpg')" />
 
     <section class="container mx-auto px-6 py-16">
         @if(count($testimonios) > 0)

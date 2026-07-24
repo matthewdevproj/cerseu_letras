@@ -9,7 +9,7 @@
         title="Directorio" 
         label="Unidad de Posgrado"
         subtitle="Conoce al equipo que conforma la Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas."
-        image="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=75&fm=webp" />
+        :image="asset('images/campus-aerea-2.jpg')" />
 
     <!-- CONTENIDO PRINCIPAL -->
     <section class="container mx-auto px-6 py-16">

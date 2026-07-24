@@ -7,7 +7,7 @@
     {{-- HERO DE DIPLOMADOS (con formulario de solicitud de información integrado) --}}
     <section class="relative w-full overflow-hidden">
         <div class="absolute inset-0">
-            <img src="{{ $settings?->diplomados_hero_imagen ? asset('storage/' . $settings->diplomados_hero_imagen) : 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=75' }}"
+            <img src="{{ $settings?->diplomados_hero_imagen ? asset('storage/' . $settings->diplomados_hero_imagen) : asset('images/campus-fachada.jpg') }}"
                 alt="Diplomados" class="absolute inset-0 w-full h-full object-cover"
                 width="1600" height="900" fetchpriority="high" decoding="async">
             <div class="absolute inset-0 bg-unmsm-guinda/85"></div>

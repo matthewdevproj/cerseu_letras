@@ -118,7 +118,7 @@
 
         $heroImagen = $s->hero_imagen
             ? (str_starts_with($s->hero_imagen, 'http') ? $s->hero_imagen : asset('storage/' . $s->hero_imagen))
-            : 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=75';
+            : asset('images/campus-fachada.jpg');
     @endphp
 
     <x-hero-section :title="$s->hero_titulo ?? 'Admisión Diplomados'"

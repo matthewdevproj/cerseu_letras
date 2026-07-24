@@ -19,7 +19,7 @@
     <!-- HERO DE SECCIÓN -->
     <x-hero-section title="Nuestros Programas" label="Oferta Académica "
         subtitle="Especialízate con la excelencia académica de la Decana de América y transforma tu futuro profesional."
-        image="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=75&fm=webp" />
+        :image="asset('images/campus-aerea.jpg')" />
 
     <!-- SECCIÓN DE GRID Y FILTROS -->
     <section class="container mx-auto px-6 py-16">

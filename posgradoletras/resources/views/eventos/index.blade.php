@@ -6,7 +6,7 @@
     <!-- Hero Section -->
     <x-hero-section title="Eventos" label="Actividades Académicas"
         subtitle="Conferencias, seminarios, talleres y actividades de la Unidad de Posgrado"
-        image="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80" />
+        :image="asset('images/campus-aerea-2.jpg')" />
 
     <div class="container mx-auto px-4 py-12">
         @if($eventos->count() > 0)
