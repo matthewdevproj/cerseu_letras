@@ -339,7 +339,7 @@
                 <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 leading-tight">
                     Tradición humanística, vocación de futuro
                 </h2>
-                <p class="text-gray-200/90 text-lg leading-relaxed">
+                <p class="text-white/85 text-lg leading-relaxed">
                     En la universidad más antigua de América, la Unidad de Posgrado forma investigadores y líderes que
                     piensan el país desde las letras y las ciencias humanas.
                 </p>
@@ -347,14 +347,14 @@
 
             <div class="grid md:grid-cols-2 gap-8" data-reveal-stagger>
                 {{-- Misión --}}
-                <div class="bg-white/[0.07] backdrop-blur-sm rounded-2xl p-8 border border-white/10 motion-safe:hover:-translate-y-1.5 transition-transform duration-300">
+                <div class="bg-black/20 rounded-2xl p-8 border-t-4 border-unmsm-dorado ring-1 ring-white/10 shadow-xl motion-safe:hover:-translate-y-1.5 transition-transform duration-300">
                     <div class="flex items-center gap-4 mb-5">
                         <span class="w-12 h-12 rounded-xl bg-unmsm-dorado text-unmsm-guinda flex items-center justify-center flex-shrink-0">
                             <x-fas-bullseye class="text-xl" aria-hidden="true" />
                         </span>
                         <h3 class="text-2xl font-serif font-bold">Misión</h3>
                     </div>
-                    <p class="text-gray-200/90 leading-relaxed">
+                    <p class="text-white/85 leading-relaxed">
                         Formar profesionales humanistas altamente especializados en investigación rigurosa, pensamiento
                         crítico y producción de conocimiento, capaces de responder a los desafíos culturales, sociales y
                         académicos del país y la región.
@@ -362,14 +362,14 @@
                 </div>
 
                 {{-- Visión --}}
-                <div class="bg-white/[0.07] backdrop-blur-sm rounded-2xl p-8 border border-white/10 motion-safe:hover:-translate-y-1.5 transition-transform duration-300">
+                <div class="bg-black/20 rounded-2xl p-8 border-t-4 border-unmsm-dorado ring-1 ring-white/10 shadow-xl motion-safe:hover:-translate-y-1.5 transition-transform duration-300">
                     <div class="flex items-center gap-4 mb-5">
                         <span class="w-12 h-12 rounded-xl bg-unmsm-dorado text-unmsm-guinda flex items-center justify-center flex-shrink-0">
                             <x-fas-eye class="text-xl" aria-hidden="true" />
                         </span>
                         <h3 class="text-2xl font-serif font-bold">Visión</h3>
                     </div>
-                    <p class="text-gray-200/90 leading-relaxed">
+                    <p class="text-white/85 leading-relaxed">
                         Ser un referente nacional e internacional en estudios humanísticos, consolidando una comunidad
                         académica innovadora, crítica y comprometida con la transformación de la realidad desde las letras y
                         las ciencias humanas.
@@ -630,7 +630,8 @@
                 <div class="rounded-xl overflow-hidden bg-gray-800 h-[350px] shadow-lg border border-gray-700">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d487.7251388091363!2d-77.08159160793049!3d-12.057201313094351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c9470823c4f5%3A0xc528a60911019861!2sFacultad%20de%20Letras%20y%20Ciencias%20Humanas%20-%20UNMSM!5e0!3m2!1ses!2spe!4v1764687672723!5m2!1ses!2spe"
-                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        class="w-full h-full" style="border:0;" allowfullscreen="" loading="lazy"
+                        title="Ubicación de la Facultad de Letras y Ciencias Humanas - UNMSM"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
