@@ -94,17 +94,17 @@
         <div class="swiper hero-swiper absolute inset-0 z-0">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <div class="slide-bg" style="background-image: url('{{ asset('images/campus-aerea.jpg') }}');"></div>
+                    <div class="slide-bg" style="background-image: url('{{ asset('images/campus-aerea.jpg') }}'); background-image: image-set(url('{{ asset('images/campus-aerea.webp') }}') type('image/webp'), url('{{ asset('images/campus-aerea.jpg') }}') type('image/jpeg'));"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="slide-bg" style="background-image: url('{{ asset('images/campus-aerea-2.jpg') }}');"></div>
+                    <div class="slide-bg" style="background-image: url('{{ asset('images/campus-aerea-2.jpg') }}'); background-image: image-set(url('{{ asset('images/campus-aerea-2.webp') }}') type('image/webp'), url('{{ asset('images/campus-aerea-2.jpg') }}') type('image/jpeg'));"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="slide-bg" style="background-image: url('{{ asset('images/campus-fachada.jpg') }}');"></div>
+                    <div class="slide-bg" style="background-image: url('{{ asset('images/campus-fachada.jpg') }}'); background-image: image-set(url('{{ asset('images/campus-fachada.webp') }}') type('image/webp'), url('{{ asset('images/campus-fachada.jpg') }}') type('image/jpeg'));"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>

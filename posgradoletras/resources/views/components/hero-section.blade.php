@@ -4,6 +4,11 @@
     // Foto real del campus UNMSM (auto-alojada) — evita el look genérico de stock.
     $defaultImage = asset('images/campus-aerea.jpg');
     $bgImage = $image ?? $defaultImage;
+    // Si existe una versión .webp junto a la imagen (local), la servimos con
+    // <picture>; para imágenes de BD sin webp, cae al JPEG/PNG original.
+    $webpSrc = preg_replace('/\.(jpe?g|png)$/i', '.webp', $bgImage);
+    $webpRel = ltrim(parse_url($webpSrc, PHP_URL_PATH) ?? '', '/');
+    $hasWebp = $webpSrc !== $bgImage && $webpRel !== '' && is_file(public_path($webpRel));
     // Placeholder tiny blur (20px width) para instant load
     $tinyPlaceholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"%3E%3Cfilter id="b"%3E%3CfeGaussianBlur stdDeviation="12"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" fill="%236B1E20" filter="url(%23b)"/%3E%3C/svg%3E';
 @endphp
@@ -13,10 +18,13 @@
     <div class="absolute inset-0">
         {{-- Placeholder blur instant --}}
         <img src="{{ $tinyPlaceholder }}" alt="" class="absolute inset-0 w-full h-full object-cover" aria-hidden="true">
-        {{-- Imagen real progresiva --}}
-        <img src="{{ $bgImage }}" alt="{{ $title }}"
-            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500" fetchpriority="high"
-            decoding="async" width="1200" height="600" onload="this.style.opacity='1'" style="opacity:0">
+        {{-- Imagen real progresiva (WebP con fallback si existe el sibling) --}}
+        <picture>
+            @if($hasWebp)<source srcset="{{ $webpSrc }}" type="image/webp">@endif
+            <img src="{{ $bgImage }}" alt="{{ $title }}"
+                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500" fetchpriority="high"
+                decoding="async" width="1200" height="600" onload="this.style.opacity='1'" style="opacity:0">
+        </picture>
         {{-- Overlay guinda sólido --}}
         <div class="absolute inset-0 bg-[#6B1E20]/80"></div>
     </div>
