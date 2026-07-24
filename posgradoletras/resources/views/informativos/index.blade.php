@@ -46,7 +46,7 @@
                                             <x-fas-file-pdf />
                                         </div>
                                     @else
-                                        <div class="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                        <div class="w-12 h-12 rounded-lg bg-unmsm-guinda/10 text-unmsm-guinda flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
                                             <x-fas-link />
                                         </div>
                                     @endif
@@ -62,7 +62,7 @@
                                     @endif
                                     
                                     <a href="{{ $item->url }}" target="{{ $item->es_enlace ? '_blank' : '_self' }}" rel="nofollow"
-                                        class="inline-flex items-center gap-2 text-sm font-medium {{ $item->es_pdf ? 'text-red-600 hover:text-red-800' : 'text-blue-600 hover:text-blue-800' }}">
+                                        class="inline-flex items-center gap-2 text-sm font-medium {{ $item->es_pdf ? 'text-red-600 hover:text-red-800' : 'text-unmsm-guinda hover:text-unmsm-dorado' }}">
                                         @if($item->es_pdf)
                                             <span>Descargar PDF</span>
                                             <x-fas-download class="text-xs" />

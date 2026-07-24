@@ -79,7 +79,7 @@
                 @endif
                 @if($profesor->cti_vitae)
                     <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer"
-                       class="inline-flex items-center gap-1.5 px-{{ $isCoordinador ? '2.5' : '3' }} py-1{{ $isCoordinador ? '' : '.5' }} bg-blue-50 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-100 transition-colors relative z-10"
+                       class="inline-flex items-center gap-1.5 px-{{ $isCoordinador ? '2.5' : '3' }} py-1{{ $isCoordinador ? '' : '.5' }} bg-unmsm-guinda/10 text-unmsm-guinda text-xs font-medium rounded-lg hover:bg-unmsm-guinda/20 transition-colors relative z-10"
                        @unless($isCoordinador) onclick="event.stopPropagation();" @endunless>
                         <x-fas-user-graduate aria-hidden="true" /> <span>CTI Vitae</span>
                     </a>
