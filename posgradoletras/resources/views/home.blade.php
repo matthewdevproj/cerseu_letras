@@ -322,9 +322,10 @@
     </div>
 </section>
     
-    {{-- BANDA INSTITUCIONAL: identidad San Marcos + Misión / Visión --}}
-    <section class="relative py-20 bg-unmsm-guinda text-white overflow-hidden">
-        {{-- textura de puntos sutil (marca, no genérico) --}}
+    {{-- FRANJA INSTITUCIONAL (compacta): identidad San Marcos + CTA a Nosotros.
+         Misión/Visión completas viven en /nosotros; aquí solo el sello. --}}
+    <section class="relative py-12 md:py-14 bg-unmsm-guinda text-white overflow-hidden">
+        {{-- textura de puntos sutil --}}
         <div class="absolute inset-0 opacity-[0.06]"
             style="background-image: radial-gradient(circle at 1px 1px, #fff 1.5px, transparent 0); background-size: 34px 34px;">
         </div>
@@ -332,49 +333,24 @@
         <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-unmsm-dorado/20 blur-3xl"></div>
 
         <div class="container mx-auto px-6 relative z-10">
-            <div class="max-w-3xl mx-auto text-center mb-14" data-reveal>
-                <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-3">
-                    Universidad Nacional Mayor de San Marcos · Decana de América
-                </p>
-                <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 leading-tight">
-                    Tradición humanística, vocación de futuro
-                </h2>
-                <p class="text-white/85 text-lg leading-relaxed">
-                    En la universidad más antigua de América, la Unidad de Posgrado forma investigadores y líderes que
-                    piensan el país desde las letras y las ciencias humanas.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8" data-reveal-stagger>
-                {{-- Misión --}}
-                <div class="bg-black/20 rounded-2xl p-8 border-t-4 border-unmsm-dorado ring-1 ring-white/10 shadow-xl motion-safe:hover:-translate-y-1.5 transition-transform duration-300">
-                    <div class="flex items-center gap-4 mb-5">
-                        <span class="w-12 h-12 rounded-xl bg-unmsm-dorado text-unmsm-guinda flex items-center justify-center flex-shrink-0">
-                            <x-fas-bullseye class="text-xl" aria-hidden="true" />
-                        </span>
-                        <h3 class="text-2xl font-serif font-bold">Misión</h3>
-                    </div>
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6" data-reveal>
+                <div class="max-w-2xl">
+                    <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs md:text-sm mb-2">
+                        Universidad Nacional Mayor de San Marcos · Decana de América
+                    </p>
+                    <h2 class="text-2xl md:text-3xl font-serif font-bold mb-2 leading-tight">
+                        Tradición humanística, vocación de futuro
+                    </h2>
                     <p class="text-white/85 leading-relaxed">
-                        Formar profesionales humanistas altamente especializados en investigación rigurosa, pensamiento
-                        crítico y producción de conocimiento, capaces de responder a los desafíos culturales, sociales y
-                        académicos del país y la región.
+                        En la universidad más antigua de América, la Unidad de Posgrado forma investigadores y líderes que
+                        piensan el país desde las letras y las ciencias humanas.
                     </p>
                 </div>
 
-                {{-- Visión --}}
-                <div class="bg-black/20 rounded-2xl p-8 border-t-4 border-unmsm-dorado ring-1 ring-white/10 shadow-xl motion-safe:hover:-translate-y-1.5 transition-transform duration-300">
-                    <div class="flex items-center gap-4 mb-5">
-                        <span class="w-12 h-12 rounded-xl bg-unmsm-dorado text-unmsm-guinda flex items-center justify-center flex-shrink-0">
-                            <x-fas-eye class="text-xl" aria-hidden="true" />
-                        </span>
-                        <h3 class="text-2xl font-serif font-bold">Visión</h3>
-                    </div>
-                    <p class="text-white/85 leading-relaxed">
-                        Ser un referente nacional e internacional en estudios humanísticos, consolidando una comunidad
-                        académica innovadora, crítica y comprometida con la transformación de la realidad desde las letras y
-                        las ciencias humanas.
-                    </p>
-                </div>
+                <a href="{{ route('nosotros') }}"
+                    class="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-unmsm-dorado text-unmsm-guinda font-bold hover:bg-white transition-colors shadow-lg motion-safe:hover:-translate-y-0.5 duration-200">
+                    Conócenos <x-fas-arrow-right aria-hidden="true" />
+                </a>
             </div>
         </div>
     </section>
