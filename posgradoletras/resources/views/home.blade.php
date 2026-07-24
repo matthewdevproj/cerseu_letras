@@ -251,7 +251,7 @@
         <!-- Versión Desktop: timeline horizontal (data-driven) -->
         <div class="hidden lg:block">
             <div class="relative" style="margin-bottom: 3rem;">
-                <div class="absolute" style="top: 35px; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #374151, #C9AA36, #374151); z-index: 0;"></div>
+                <div class="absolute" style="top: -3px; left: 10%; right: 10%; height: 2px; background: linear-gradient(90deg, rgba(201,170,54,.15), #C9AA36 50%, rgba(201,170,54,.15)); z-index: 0;"></div>
 
                 <div class="flex justify-between items-start gap-4" style="position: relative; z-index: 1;">
                     @foreach ($pasosAdmision as $paso)
@@ -466,7 +466,7 @@
     @php
         $siteSettings = \App\Models\SiteSetting::get();
     @endphp
-    <section id="contacto" class="bg-gray-900 text-gray-300 py-16 border-t border-gray-800">
+    <section id="contacto" class="bg-gradient-to-b from-gray-900 to-[#1a0e10] text-gray-300 py-16 border-t border-white/10">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-12">
                 <div>
