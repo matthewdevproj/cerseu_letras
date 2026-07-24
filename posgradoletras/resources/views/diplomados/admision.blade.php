@@ -249,7 +249,7 @@
                 <section id="pago" class="admision-section is-hidden bg-white border border-gray-200 rounded-xl p-6 shadow-md">
                     <h2 class="text-xl font-bold text-unmsm-guinda mb-4 font-serif">Pago por derecho de inscripción</h2>
                     @if($s->pago_descripcion)
-                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <div class="bg-unmsm-guinda/5 border-l-4 border-unmsm-dorado p-4 mb-6">
                             <p class="text-gray-700 text-sm">{{ $s->pago_descripcion }}</p>
                         </div>
                     @endif

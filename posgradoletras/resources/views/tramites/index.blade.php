@@ -156,12 +156,12 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                 </li>
                             </ul>
 
-                            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4 not-prose rounded">
-                                <p class="text-xs text-blue-800 font-medium mb-2">
+                            <div class="bg-unmsm-guinda/5 border-l-4 border-unmsm-dorado p-4 mt-4 not-prose rounded">
+                                <p class="text-xs text-unmsm-guinda font-medium mb-2">
                                     <x-fas-info-circle class="mr-1" />
                                     Indicaciones importantes:
                                 </p>
-                                <ul class="text-xs text-blue-900 list-disc pl-4 space-y-1">
+                                <ul class="text-xs text-gray-700 list-disc pl-4 space-y-1">
                                     <li>El nombre del proyecto debe ser el mismo para la tesis, hasta su sustentación.</li>
                                     <li>
                                         Si hubiera algún cambio, se deberá comunicar a la UPG para realizar el
@@ -199,7 +199,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     Tener concluida la tesis respetando la
                                     <strong><a
                                             href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf"
-                                            target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800">DIRECTIVA DE
+                                            target="_blank" rel="noopener noreferrer" class="text-unmsm-guinda underline hover:text-unmsm-dorado">DIRECTIVA DE
                                             MODELO DE ESTRUCTURA DE TESIS</a></strong> – Programas de maestría y
                                     doctorado
                                     (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
@@ -218,8 +218,8 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                 <li>Contar con <strong>informe final del asesor con firma</strong>.</li>
                             </ul>
 
-                            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
-                                <p class="text-xs text-blue-800">
+                            <div class="bg-unmsm-guinda/5 border-l-4 border-unmsm-dorado p-4 rounded">
+                                <p class="text-xs text-unmsm-guinda">
                                     El nombre de la tesis debe mantenerse igual hasta la sustentación. En caso de cambio,
                                     se debe comunicar a la UPG antes de la revisión por Turnitin.
                                 </p>
@@ -242,7 +242,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     <strong>Pago de tasas a la Facultad para obtención del grado de Magíster</strong>
                                     (TUPA 2008, R.R. N.º 01545-R-08); los pagos se realizan a través de
                                     <a href="https://sanmarket.unmsm.edu.pe/#/" target="_blank" rel="noopener noreferrer" 
-                                        class="text-blue-600 underline hover:text-blue-800">
+                                        class="text-unmsm-guinda underline hover:text-unmsm-dorado">
                                         SanMarket-UNMSM
                                     </a>.
                                     <span class="font-semibold block mt-1">
@@ -664,12 +664,12 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     <strong>1.2. Carta simple del asesor</strong> aceptando la asesoría.
                                 </li>
                             </ul>
-                            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4 not-prose rounded">
-                                <p class="text-xs text-blue-800 font-medium mb-2">
+                            <div class="bg-unmsm-guinda/5 border-l-4 border-unmsm-dorado p-4 mt-4 not-prose rounded">
+                                <p class="text-xs text-unmsm-guinda font-medium mb-2">
                                     <x-fas-info-circle class="mr-1" />
                                     Consideraciones:
                                 </p>
-                                <ul class="list-disc text-xs text-blue-900 pl-4 space-y-1">
+                                <ul class="list-disc text-xs text-gray-700 pl-4 space-y-1">
                                     <li>El nombre del proyecto debe ser el mismo para la tesis hasta su sustentación.</li>
                                     <li>Si hubiera algún cambio, debe comunicarse a la UPG para el trámite de cambio de
                                         nombre antes de la revisión por Turnitin.</li>
@@ -705,7 +705,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     Tener concluida la tesis, respetando la
                                     <strong><a
                                             href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf"
-                                            target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800">DIRECTIVA
+                                            target="_blank" rel="noopener noreferrer" class="text-unmsm-guinda underline hover:text-unmsm-dorado">DIRECTIVA
                                             DE MODELO DE ESTRUCTURA DE TESIS</a> </strong> – Programas de maestría y
                                     doctorado
                                     (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
@@ -742,7 +742,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                 <li>
                                     <strong>Pago de tasas a la Facultad para obtención del grado de Doctor</strong>
                                     (vía <a href="https://sanmarket.unmsm.edu.pe/#/" target="_blank" rel="noopener noreferrer" 
-                                        class="text-blue-600 underline hover:text-blue-800">SanMarket-UNMSM</a>),
+                                        class="text-unmsm-guinda underline hover:text-unmsm-dorado">SanMarket-UNMSM</a>),
                                     cada pago por separado con su respectiva boleta:
                                 </li>
                             </ul>

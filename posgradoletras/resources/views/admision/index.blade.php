@@ -177,7 +177,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                     <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 1: Realizar el pago por derecho a
                         Inscripción</h3>
 
-                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                    <div class="bg-unmsm-guinda/5 border-l-4 border-unmsm-dorado p-4 mb-6">
                         <p class="text-gray-700 text-sm">
                             <strong>Importante:</strong> Antes de realizar el pago por derecho de inscripción verifique que
                             el programa de su
@@ -664,12 +664,12 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                         </div>
                         <div>
                             <div class="flex items-center gap-2 mb-2">
-                                <span class="bg-blue-600 text-white px-2 py-1 rounded text-xs font-bold">JPG</span>
+                                <span class="bg-unmsm-dorado text-unmsm-guinda px-2 py-1 rounded text-xs font-bold">JPG</span>
                                 <span class="font-bold text-gray-800">En archivo JPG</span>
                             </div>
                             <ul class="text-gray-600 space-y-2">
                                 <li class="flex items-start gap-2">
-                                    <span class="text-blue-600">•</span>
+                                    <span class="text-unmsm-guinda">•</span>
                                     <span>Foto.</span>
                                 </li>
                             </ul>
@@ -698,18 +698,18 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                     </h3>
 
                     <!-- Examen -->
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-4">
+                    <div class="bg-unmsm-guinda/5 border border-unmsm-guinda/20 rounded-lg p-5 mb-4">
                         <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none"
+                            <div class="w-12 h-12 bg-unmsm-guinda/10 rounded-full flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-unmsm-guinda" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9.75 3v1.5m4.5-1.5v1.5M4.5 7.5h15M6.75 7.5v11.25A2.25 2.25 0 009 21h6a2.25 2.25 0 002.25-2.25V7.5" />
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-blue-800 font-medium">Examen de conocimientos</p>
-                                <p class="text-blue-700 text-sm">
+                                <p class="text-unmsm-guinda font-medium">Examen de conocimientos</p>
+                                <p class="text-gray-600 text-sm">
                                     Maestrías: <strong>06 de Abril de 2026</strong><br>
                                     Doctorados: <strong>07 de Abril de 2026</strong><br>
                                 </p>

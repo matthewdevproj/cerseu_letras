@@ -33,7 +33,7 @@
                                             <x-fas-file-pdf class="mr-1" /> PDF
                                         </span>
                                     @else
-                                        <span class="bg-blue-600 text-white px-2 py-1 rounded text-xs font-bold">
+                                        <span class="bg-unmsm-dorado text-unmsm-guinda px-2 py-1 rounded text-xs font-bold">
                                             <x-fas-external-link-alt class="mr-1" /> Enlace
                                         </span>
                                     @endif
