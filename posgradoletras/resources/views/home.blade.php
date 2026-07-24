@@ -520,169 +520,22 @@
 
             <!-- Grid de Programas -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="programas-grid">
-                <!-- Maestrías -->
+                {{-- Cards vía componente reutilizable <x-program-card> (mismo usado
+                     en /programas y /diplomados): DRY, accesible y consistente. --}}
                 @foreach ($maestrias as $programa)
-                    <article
-                        class="group relative bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden h-full program-card"
-                        data-type="maestria">
-                        <a href="{{ route('programas.show', $programa->slug) }}" class="block">
-                            <div class="h-60 relative overflow-hidden">
-                                <!-- Imagen -->
-                                <img src="{{ $programa->imagen_url }}" alt="{{ $programa->titulo_completo }}"
-                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                    loading="lazy" decoding="async" width="800" height="600">
-
-                                <!-- Gradiente de fondo para contraste -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90">
-                                </div>
-
-                                <!-- "Ver más detalle" Overlay (Aparece en Hover) -->
-                                <div
-                                    class="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
-                                    <span
-                                        class="px-6 py-2 border border-white text-white font-bold rounded-full hover:bg-white hover:text-unmsm-guinda transition-colors shadow-2xl transform scale-90 group-hover:scale-100 duration-300">
-                                        Ver más detalle
-                                    </span>
-                                </div>
-
-                                <!-- Badge Tipo (Arriba) -->
-                                <div class="absolute top-4 left-4 z-20">
-                                    <span
-                                        class="px-3 py-1 bg-unmsm-guinda text-white text-xs font-bold rounded shadow-lg">Maestría</span>
-                                </div>
-
-                                <!-- Badges Info (Abajo, dentro de la imagen) -->
-                                <div
-                                    class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
-                                        <x-far-clock /> 4 semestres
-                                    </span>
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
-                                        <x-fas-university /> {{ $programa->modalidad }}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="p-6">
-                                <h3
-                                    class="text-xl font-serif font-bold text-gray-800 mb-3 group-hover:text-unmsm-guinda transition-colors leading-tight">
-                                    {{ $programa->titulo_completo }}
-                                </h3>
-                                <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                                    {{ $programa->sumilla ?? ($programa->presentacion ?? 'Formación especializada con enfoque en investigación y desarrollo profesional.') }}
-                                </p>
-                            </div>
-                        </a>
-                    </article>
+                    <x-program-card :programa="$programa" tipo="maestria"
+                        badge-label="Maestría" badge-color="bg-unmsm-guinda" />
                 @endforeach
 
-                <!-- Doctorados -->
                 @foreach ($doctorados as $programa)
-                    <article
-                        class="group relative bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden h-full program-card"
-                        data-type="doctorado">
-                        <a href="{{ route('programas.show', $programa->slug) }}" class="block">
-                            <div class="h-60 relative overflow-hidden">
-                                <!-- Imagen -->
-                                <img src="{{ $programa->imagen_url }}" alt="{{ $programa->titulo_completo }}"
-                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                    loading="lazy" decoding="async" width="800" height="600">
-
-                                <!-- Gradiente de fondo para contraste -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90">
-                                </div>
-
-                                <!-- "Ver más detalle" Overlay (Aparece en Hover) -->
-                                <div
-                                    class="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
-                                    <span
-                                        class="px-6 py-2 border border-white text-white font-bold rounded-full hover:bg-white hover:text-unmsm-guinda transition-colors shadow-2xl transform scale-90 group-hover:scale-100 duration-300">
-                                        Ver más detalle
-                                    </span>
-                                </div>
-
-                                <!-- Badge Tipo (Arriba) -->
-                                <div class="absolute top-4 left-4 z-20">
-                                    <span
-                                        class="px-3 py-1 bg-gray-900 text-white text-xs font-bold rounded shadow-lg">Doctorado</span>
-                                </div>
-
-                                <!-- Badges Info (Abajo, dentro de la imagen) -->
-                                <div
-                                    class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
-                                        <x-far-clock /> 6 semestres
-                                    </span>
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
-                                        <x-fas-university /> {{ $programa->modalidad }}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="p-6">
-                                <h3
-                                    class="text-xl font-serif font-bold text-gray-800 mb-3 group-hover:text-unmsm-guinda transition-colors leading-tight">
-                                    {{ $programa->titulo_completo }}
-                                </h3>
-                                <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                                    {{ $programa->sumilla ?? ($programa->presentacion ?? 'Investigación de alto nivel para la generación de nuevo conocimiento.') }}
-                                </p>
-                            </div>
-                        </a>
-                    </article>
+                    <x-program-card :programa="$programa" tipo="doctorado"
+                        badge-label="Doctorado" badge-color="bg-gray-900" />
                 @endforeach
 
-                <!-- Diplomados -->
                 @foreach ($diplomados as $programa)
-                    <article
-                        class="group relative bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden h-full program-card"
-                        data-type="diplomado">
-                        <a href="{{ route('programas.show', $programa->slug) }}" class="block">
-                            <div class="h-60 relative overflow-hidden">
-                                <img src="{{ $programa->imagen_url }}" alt="{{ $programa->titulo_completo }}"
-                                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                    loading="lazy" decoding="async" width="800" height="600">
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90">
-                                </div>
-                                <div
-                                    class="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
-                                    <span
-                                        class="px-6 py-2 border border-white text-white font-bold rounded-full hover:bg-white hover:text-unmsm-guinda transition-colors shadow-2xl transform scale-90 group-hover:scale-100 duration-300">
-                                        Ver más detalle
-                                    </span>
-                                </div>
-                                <div class="absolute top-4 left-4 z-20">
-                                    <span
-                                        class="px-3 py-1 bg-amber-600 text-white text-xs font-bold rounded shadow-lg">Diplomado</span>
-                                </div>
-                                <div
-                                    class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
-                                        <x-far-clock /> 2 módulos
-                                    </span>
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
-                                        <x-fas-university /> {{ $programa->modalidad }}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="p-6">
-                                <h3
-                                    class="text-xl font-serif font-bold text-gray-800 mb-3 group-hover:text-unmsm-guinda transition-colors leading-tight">
-                                    {{ $programa->titulo_completo }}
-                                </h3>
-                                <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                                    {{ $programa->sumilla ?? ($programa->presentacion ?? 'Formación especializada y práctica en áreas estratégicas de las humanidades.') }}
-                                </p>
-                            </div>
-                        </a>
-                    </article>
+                    <x-program-card :programa="$programa" tipo="diplomado"
+                        badge-label="Diplomado" badge-color="bg-amber-600"
+                        duracion-unit="módulos" primary-cta-label="Más información" />
                 @endforeach
             </div>
 
