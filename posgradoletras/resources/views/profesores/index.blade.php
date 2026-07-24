@@ -215,7 +215,7 @@
                                                 <div class="flex gap-2 justify-center w-full">
                                                     @if($profesor->cti_vitae)
                                                         <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer"
-                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors text-xs" 
+                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-unmsm-guinda/10 text-unmsm-guinda hover:bg-unmsm-guinda hover:text-white transition-colors text-xs"
                                                            title="CTI Vitae">
                                                             <x-fas-file-alt />
                                                         </a>
@@ -282,7 +282,7 @@
                                                             <div class="flex items-center gap-2">
                                                                 <span class="font-bold text-gray-500 w-16">CTI Vitae:</span>
                                                                 <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer"
-                                                                   class="flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline max-w-full overflow-hidden">
+                                                                   class="flex items-center gap-1 text-unmsm-guinda hover:text-unmsm-dorado hover:underline max-w-full overflow-hidden">
                                                                     <span class="truncate block max-w-full break-all">{{ $profesor->cti_vitae }}</span>
                                                                     <x-fas-external-link-alt class="text-[10px] opacity-60 flex-shrink-0" />
                                                                 </a>

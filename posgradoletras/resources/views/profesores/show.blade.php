@@ -78,7 +78,7 @@
                             <div class="flex flex-col gap-3">
                                 @if($profesor->cti_vitae)
                                     <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer" 
-                                       class="flex items-center gap-3 text-sm border border-blue-100 bg-blue-50/50 px-4 py-2.5 rounded-xl text-blue-700 hover:bg-blue-700 hover:text-white hover:border-blue-700 transition-all group">
+                                       class="flex items-center gap-3 text-sm border border-unmsm-guinda/20 bg-unmsm-guinda/5 px-4 py-2.5 rounded-xl text-unmsm-guinda hover:bg-unmsm-guinda hover:text-white hover:border-unmsm-guinda transition-all group">
                                         <x-fas-file-alt class="text-lg w-6 text-center" />
                                         <span class="font-medium">CTI Vitae</span>
                                         <x-fas-external-link-alt class="ml-auto text-xs opacity-50 group-hover:opacity-100" />
