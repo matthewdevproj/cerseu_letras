@@ -181,13 +181,19 @@
         </div>
     </header>
     
-<section id="admision" class="py-12 bg-gradient-to-br bg-gray-800 from-gray-800 to-gray-900 text-white relative">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-10">
-            <span class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-1 block">Proceso de Admisión
+<section id="admision" class="relative py-16 md:py-20 bg-gradient-to-b from-gray-900 to-[#1a0e10] text-white overflow-hidden">
+    {{-- textura de puntos + resplandor guinda (consistente con la banda institucional) --}}
+    <div class="absolute inset-0 opacity-[0.05]"
+        style="background-image: radial-gradient(circle at 1px 1px, #fff 1.5px, transparent 0); background-size: 34px 34px;">
+    </div>
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[46rem] h-[46rem] rounded-full bg-unmsm-guinda/25 blur-3xl"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="text-center mb-12">
+            <span class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-2 block">Proceso de Admisión
                 2026-I</span>
-            <h2 class="text-3xl font-light mb-2 font-serif">Cronograma de Admisión</h2>
-            <div class="w-16 h-1 bg-unmsm-dorado mx-auto mt-2 rounded-full"></div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-2 font-serif">Cronograma de Admisión</h2>
+            <div class="w-16 h-1 bg-unmsm-dorado mx-auto mt-3 rounded-full"></div>
         </div>
 
         {{-- Pasos del cronograma de admisión (data-driven: editar aquí actualiza
@@ -250,9 +256,9 @@
                 <div class="flex justify-between items-start gap-4" style="position: relative; z-index: 1;">
                     @foreach ($pasosAdmision as $paso)
                         <div class="flex-1 relative group" style="min-width: 0;">
-                            <div class="{{ $paso['destacado'] ? 'bg-white border-unmsm-guinda' : 'bg-gray-700 border-unmsm-dorado hover:bg-gray-600' }} rounded-xl p-4 border-b-4 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                            <div class="{{ $paso['destacado'] ? 'bg-white border-unmsm-guinda' : 'bg-white/[0.06] ring-1 ring-white/10 border-unmsm-dorado hover:bg-white/[0.1]' }} rounded-xl p-4 border-b-4 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                                 <div class="text-center">
-                                    <div class="w-14 h-14 {{ $paso['destacado'] ? 'bg-unmsm-guinda' : 'bg-gray-600' }} rounded-full flex items-center justify-center text-white mx-auto mb-3 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    <div class="w-14 h-14 {{ $paso['destacado'] ? 'bg-unmsm-guinda text-white' : 'bg-unmsm-dorado/20 text-unmsm-dorado ring-1 ring-unmsm-dorado/30' }} rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg group-hover:scale-110 transition-transform duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="{{ $paso['icon'] }}" />
                                         </svg>
@@ -262,7 +268,7 @@
                                     <p class="{{ $paso['destacado'] ? 'text-gray-500' : 'text-gray-300' }} text-[10px] font-medium">{{ $paso['detalle'] }}</p>
                                 </div>
                             </div>
-                            <div class="absolute" style="top: -8px; left: 50%; transform: translateX(-50%); width: 10px; height: 10px; background-color: #C9AA36; border-radius: 50%; border: 2px solid #1f2937; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); z-index: 10;"></div>
+                            <div class="absolute" style="top: -8px; left: 50%; transform: translateX(-50%); width: 12px; height: 12px; background-color: #C9AA36; border-radius: 50%; border: 3px solid #1a0e10; box-shadow: 0 0 0 1px rgba(201,170,54,.4), 0 4px 6px -1px rgba(0, 0, 0, 0.3); z-index: 10;"></div>
                         </div>
                     @endforeach
                 </div>
@@ -270,19 +276,19 @@
         </div>
 
         <!-- Versión Mobile: timeline vertical (data-driven) -->
-        <div class="lg:hidden">
-            <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-600"></div>
+        <div class="lg:hidden relative">
+            <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-white/15"></div>
 
             @foreach ($pasosAdmision as $paso)
                 <div class="relative mb-8 last:mb-0">
                     <div class="flex items-center">
-                        <div class="relative z-10 w-12 h-12 {{ $paso['destacado'] ? 'bg-unmsm-guinda' : 'bg-gray-600' }} rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0 border-2 border-gray-800">
+                        <div class="relative z-10 w-12 h-12 {{ $paso['destacado'] ? 'bg-unmsm-guinda text-white' : 'bg-unmsm-dorado/20 text-unmsm-dorado ring-1 ring-unmsm-dorado/30' }} rounded-full flex items-center justify-center shadow-lg flex-shrink-0 border-2 border-[#1a0e10]">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $paso['icon'] }}" />
                             </svg>
                         </div>
                         <div class="ml-4 flex-1">
-                            <div class="{{ $paso['destacado'] ? 'bg-white border-unmsm-guinda text-gray-800' : 'bg-gray-700 border-gray-500' }} rounded-lg p-4 border-l-4 shadow-lg">
+                            <div class="{{ $paso['destacado'] ? 'bg-white border-unmsm-guinda text-gray-800' : 'bg-white/[0.06] ring-1 ring-white/10 border-unmsm-dorado' }} rounded-lg p-4 border-l-4 shadow-lg">
                                 <h3 class="text-base font-bold {{ $paso['destacado'] ? 'text-gray-900' : 'text-white' }}">{{ $paso['titulo_movil'] }}</h3>
                                 <p class="{{ $paso['destacado'] ? 'text-unmsm-guinda' : 'text-unmsm-dorado' }} font-bold text-xs">{{ $paso['fecha_movil'] }}</p>
                             </div>
