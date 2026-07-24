@@ -88,113 +88,101 @@
 @endpush
 
 @section('content')
-    <header class="relative w-full h-[calc(95vh-115px)] min-h-[500px] overflow-hidden">
+    {{-- HERO PRINCIPAL: pantalla completa, carrusel de campus + stats integrados al pie --}}
+    <header class="relative w-full h-screen min-h-[600px] overflow-hidden flex flex-col">
+        {{-- Carrusel de fondo --}}
         <div class="swiper hero-swiper absolute inset-0 z-0">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <div class="slide-bg"
-                        style="background-image: url('{{ asset('images/campus-aerea.jpg') }}');">
-                    </div>
+                    <div class="slide-bg" style="background-image: url('{{ asset('images/campus-aerea.jpg') }}');"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="slide-bg"
-                        style="background-image: url('{{ asset('images/campus-aerea-2.jpg') }}');">
-                    </div>
+                    <div class="slide-bg" style="background-image: url('{{ asset('images/campus-aerea-2.jpg') }}');"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="slide-bg"
-                        style="background-image: url('{{ asset('images/campus-fachada.jpg') }}');">
-                    </div>
+                    <div class="slide-bg" style="background-image: url('{{ asset('images/campus-fachada.jpg') }}');"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>
             </div>
         </div>
 
-        <div class="container mx-auto px-6 absolute inset-0 z-20 text-white flex items-center pointer-events-none">
-            <div class="pt-16 animate-fade-in">
-                <h1
-                    class="text-3xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-4 max-w-4xl drop-shadow-lg">
-                    Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas
-                </h1>
-                <p class="text-base md:text-lg text-gray-200 max-w-xl mb-6 font-light leading-relaxed">
-                    Desde la <span class="text-unmsm-dorado font-medium">Decana de América</span>, formamos investigadores
-                    y profesionales comprometidos con el desarrollo cultural y social del país, mediante programas de
-                    Maestría, Doctorado y Diplomados de alto rigor académico.
-                </p>
-                <div class="flex flex-wrap gap-4 pointer-events-auto">
-                    <a href="{{ route('programas.index') }}"
-                        class="px-6 py-2.5 bg-unmsm-dorado text-unmsm-guinda font-bold rounded hover:bg-yellow-400 transition shadow-lg transform hover:-translate-y-1 text-sm md:text-base">
-                        Ver Programas
-                    </a>
-                    <a href="{{ route('admision') }}"
-                        class="px-6 py-2.5 border border-white text-white font-bold rounded hover:bg-white/10 transition text-sm md:text-base">
-                        Admisión 2026-I
-                    </a>
+        {{-- Contenido principal (centrado verticalmente en el espacio disponible) --}}
+        <div class="relative z-20 flex-1 flex items-center">
+            <div class="container mx-auto px-6 text-white pt-28 pb-10">
+                <div class="max-w-4xl animate-fade-in">
+                    <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs md:text-sm mb-4 drop-shadow">
+                        Universidad Nacional Mayor de San Marcos · Decana de América
+                    </p>
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.05] mb-6 drop-shadow-lg">
+                        Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas
+                    </h1>
+                    <p class="text-base md:text-xl text-gray-200 max-w-2xl mb-8 font-light leading-relaxed">
+                        Formamos investigadores y profesionales comprometidos con el desarrollo cultural y social del
+                        país, mediante programas de Maestría, Doctorado y Diplomados de alto rigor académico.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="{{ route('programas.index') }}"
+                            class="px-7 py-3 bg-unmsm-dorado text-unmsm-guinda font-bold rounded-lg hover:bg-yellow-400 transition shadow-lg motion-safe:hover:-translate-y-1 duration-200 text-sm md:text-base">
+                            Ver Programas
+                        </a>
+                        <a href="{{ route('admision') }}"
+                            class="px-7 py-3 border border-white/80 text-white font-bold rounded-lg hover:bg-white/10 transition text-sm md:text-base">
+                            Admisión 2026-I
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Stats integrados al pie del hero (banda translúcida sobre el carrusel) --}}
+        <div class="relative z-20 border-t border-unmsm-dorado/40 bg-black/40 backdrop-blur-md">
+            <div class="container mx-auto px-6 py-5">
+                <div data-reveal class="grid grid-cols-2 stats-grid gap-3 text-center">
+                    <div class="flex flex-col items-center p-3 rounded-xl stats-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 md:w-8 md:h-8 text-unmsm-dorado mb-1" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                        </svg>
+                        <div class="text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($maestrias) }}">{{ count($maestrias) }}</div>
+                        <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">Maestrías</div>
+                    </div>
+                    <div class="flex flex-col items-center p-3 rounded-xl stats-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 md:w-8 md:h-8 text-unmsm-dorado mb-1" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897M6 10.5v5.5a2.25 2.25 0 002.25 2.25h11.5a2.25 2.25 0 002.25-2.25v-5.5" />
+                        </svg>
+                        <div class="text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($doctorados) }}">{{ count($doctorados) }}</div>
+                        <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">Doctorados</div>
+                    </div>
+                    <div class="flex flex-col items-center p-3 rounded-xl stats-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 md:w-8 md:h-8 text-unmsm-dorado mb-1" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                        </svg>
+                        <div class="text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($diplomados) }}">{{ count($diplomados) }}</div>
+                        <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">Diplomados</div>
+                    </div>
+                    <div class="flex flex-col items-center p-3 rounded-xl stats-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 md:w-8 md:h-8 text-unmsm-dorado mb-1" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                        </svg>
+                        <div class="text-2xl md:text-3xl font-bold text-white" data-count-to="20" data-count-suffix="+">20+</div>
+                        <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">Docentes Renacyt</div>
+                    </div>
+                    <!-- Último stat: col-span-2 en mobile (centrado), el CSS lo resetea a 1 en desktop -->
+                    <div class="col-span-2 flex flex-col items-center p-3 rounded-xl stats-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 md:w-8 md:h-8 text-unmsm-dorado mb-1" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+                        </svg>
+                        <div class="text-2xl md:text-3xl font-bold text-white" data-count-to="473">473</div>
+                        <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">Años de Historia</div>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
-
-    <section class="bg-neutral-900 text-white py-6 border-b-4 border-unmsm-dorado shadow-2xl relative z-20">
-        <div class="container mx-auto px-6">
-            <div data-reveal class="grid grid-cols-2 stats-grid gap-3 text-center">
-
-                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl stats-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                    </svg>
-                    <div class="text-2xl md:text-3xl font-bold" data-count-to="{{ count($maestrias) }}">{{ count($maestrias) }}</div>
-                    <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Maestrías</div>
-                </div>
-
-                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl stats-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897M6 10.5v5.5a2.25 2.25 0 002.25 2.25h11.5a2.25 2.25 0 002.25-2.25v-5.5" />
-                    </svg>
-                    <div class="text-2xl md:text-3xl font-bold" data-count-to="{{ count($doctorados) }}">{{ count($doctorados) }}</div>
-                    <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Doctorados</div>
-                </div>
-
-                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl stats-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                    </svg>
-                    <div class="text-2xl md:text-3xl font-bold" data-count-to="{{ count($diplomados) }}">{{ count($diplomados) }}</div>
-                    <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Diplomados</div>
-                </div>
-
-                <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl stats-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-                    </svg>
-                    <div class="text-2xl md:text-3xl font-bold" data-count-to="20" data-count-suffix="+">20+</div>
-                    <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Docentes Renacyt</div>
-                </div>
-
-                <!-- Último stat: col-span-2 en mobile (centrado), el CSS lo resetea a 1 en desktop -->
-                <div class="col-span-2 flex flex-col items-center p-3 bg-white/5 rounded-xl stats-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-8 h-8 text-unmsm-dorado mb-1">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
-                    </svg>
-                    <div class="text-2xl md:text-3xl font-bold" data-count-to="473">473</div>
-                    <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Años de Historia</div>
-                </div>
-
-            </div>
-        </div>
-    </section>
     
 <section id="admision" class="py-12 bg-gradient-to-br bg-gray-800 from-gray-800 to-gray-900 text-white relative">
     <div class="max-w-7xl mx-auto px-6">
