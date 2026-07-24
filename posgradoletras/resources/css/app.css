@@ -3,6 +3,195 @@
 @tailwind utilities;
 
 /* Alpine.js - Prevenir parpadeo del contenido oculto */
-[x-cloak] { 
-    display: none !important; 
+[x-cloak] {
+    display: none !important;
+}
+
+/*
+ * Iconos Font Awesome como SVG inline (paquete owenvoke/blade-fontawesome).
+ * Reemplaza el CSS+webfont de Font Awesome por SVG sin requests externos ni
+ * flash de iconos. Se dimensionan por font-size igual que FA clásico:
+ * height:1em y el ancho lo calcula el navegador desde el viewBox (aspect ratio
+ * correcto para íconos no cuadrados). vertical-align replica el baseline de FA.
+ */
+.svg-inline--fa {
+    display: inline-block;
+    height: 1em;
+    overflow: visible;
+    vertical-align: -0.125em;
+}
+
+/*
+ * Tokens de marca compartidos (público + admin) para usar dentro de bloques
+ * <style> con CSS puro (gradientes, bordes, etc.) donde no aplican clases
+ * de Tailwind. Nota: es un guinda ligeramente distinto al "unmsm-guinda"
+ * (#6B1E20) de tailwind.config.js — mismo valor que ya usaban el panel
+ * admin y los pasos de "Guía para el proceso de admisión"; se centraliza
+ * aquí en vez de repetirlo como hex literal en cada vista.
+ */
+:root {
+    --brand: #761e23;
+    --brand-dark: #5a161a;
+}
+
+/*
+ * Animación de aparición progresiva reutilizada por tarjetas y listados.
+ * Estaba duplicada como bloque <style> idéntico en 10 vistas distintas
+ * (home, welcome, nosotros, tramites, programas, diplomados, testimonios,
+ * directorio, profesores, admision); se centraliza aquí una sola vez.
+ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/*
+ * Scroll-reveal: [data-reveal] arranca oculto y se revela una sola vez al
+ * entrar al viewport (ver initScrollReveal en app.js). La ocultación inicial
+ * solo aplica bajo la clase .js (agregada de forma síncrona en <html> antes
+ * del primer paint — ver layouts/public.blade.php): si JavaScript está
+ * deshabilitado, <html> se queda como .no-js y el contenido nunca se oculta.
+ */
+.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.js [data-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .js [data-reveal] {
+        transition: none;
+    }
+}
+
+/*
+ * Reveal escalonado (stagger): un contenedor [data-reveal-stagger] revela sus
+ * hijos uno a uno al entrar al viewport (ver initScrollReveal en app.js, que
+ * asigna el transition-delay incremental). Igual que [data-reveal], solo se
+ * oculta bajo la clase .js — sin JavaScript el contenido permanece visible.
+ * Anima solo transform/opacity (acelerado por GPU, 60fps).
+ */
+.js [data-reveal-stagger] > * {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    will-change: opacity, transform;
+}
+
+.js [data-reveal-stagger].is-revealed > * {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .js [data-reveal-stagger] > * {
+        transition: none;
+        transition-delay: 0ms !important;
+    }
+}
+
+/*
+ * Floating labels (etiquetas flotantes) — CSS puro, sin JS.
+ * La etiqueta actúa como placeholder y "flota" al enfocar o rellenar el campo,
+ * usando el truco :placeholder-shown (el input lleva placeholder=" "). El
+ * <label for> real se conserva, así que es accesible y degrada perfecto: si el
+ * navegador no soporta la transición, la etiqueta simplemente no se anima.
+ * Los <select> flotan siempre (nunca están "vacíos" visualmente).
+ * Pensado para campos sobre fondo blanco (el recorte de la etiqueta es blanco).
+ */
+.floating-field {
+    position: relative;
+}
+
+.floating-field > input,
+.floating-field > textarea,
+.floating-field > select {
+    width: 100%;
+}
+
+.floating-field > label {
+    position: absolute;
+    left: 0.6rem;
+    top: 0.8rem;
+    margin: 0;
+    max-width: calc(100% - 1.5rem);
+    padding: 0 0.3rem;
+    background: #fff;
+    color: #6b7280; /* gray-500 */
+    font-size: 0.9rem;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    transform-origin: left center;
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.floating-field > input:focus ~ label,
+.floating-field > input:not(:placeholder-shown) ~ label,
+.floating-field > textarea:focus ~ label,
+.floating-field > textarea:not(:placeholder-shown) ~ label,
+.floating-field > select ~ label {
+    transform: translateY(-1.5rem) scale(0.82);
+    color: var(--brand);
+}
+
+/* En estado de error, la etiqueta flotada toma el rojo del borde. */
+.floating-field > input.is-invalid:not(:placeholder-shown) ~ label,
+.floating-field > input.is-invalid:focus ~ label,
+.floating-field > textarea.is-invalid ~ label,
+.floating-field > select.is-invalid ~ label {
+    color: #dc2626; /* red-600 */
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .floating-field > label {
+        transition: none;
+    }
+}
+
+/*
+ * Scroll suave para la navegación por anclas internas. Se desactiva por
+ * completo si el usuario prefiere menos movimiento.
+ */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/*
+ * View Transitions API (nativa del navegador, sin JS ni librería): fade
+ * discreto entre páginas en navegadores que la soportan (Chrome/Edge).
+ * En navegadores sin soporte, la navegación se comporta exactamente igual
+ * que antes — es puramente progresivo.
+ */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.22s;
+    animation-timing-function: ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
 }

@@ -3,12 +3,8 @@
 @section('title', 'Inicio - Posgrado Letras UNMSM')
 
 @push('styles')
-    <!-- Swiper CSS (lazy load) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.4.1/swiper-bundle.min.css" media="print"
-        onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.4.1/swiper-bundle.min.css">
-    </noscript>
+    {{-- El CSS y el JS de Swiper ahora se empaquetan de forma modular vía Vite
+         (resources/js/carousels.js), cargados solo en páginas con carrusel. --}}
     <style>
         /* Utilidad para titulos */
         .section-title::before {
@@ -142,7 +138,7 @@
 
     <section class="bg-neutral-900 text-white py-6 border-b-4 border-unmsm-dorado shadow-2xl relative z-20">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-2 stats-grid gap-3 text-center">
+            <div data-reveal class="grid grid-cols-2 stats-grid gap-3 text-center">
 
                 <div class="flex flex-col items-center p-3 bg-white/5 rounded-xl stats-item">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -150,7 +146,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                     </svg>
-                    <div class="text-2xl md:text-3xl font-bold">{{ count($maestrias) }}</div>
+                    <div class="text-2xl md:text-3xl font-bold" data-count-to="{{ count($maestrias) }}">{{ count($maestrias) }}</div>
                     <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Maestrías</div>
                 </div>
 
@@ -160,7 +156,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897M6 10.5v5.5a2.25 2.25 0 002.25 2.25h11.5a2.25 2.25 0 002.25-2.25v-5.5" />
                     </svg>
-                    <div class="text-2xl md:text-3xl font-bold">{{ count($doctorados) }}</div>
+                    <div class="text-2xl md:text-3xl font-bold" data-count-to="{{ count($doctorados) }}">{{ count($doctorados) }}</div>
                     <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Doctorados</div>
                 </div>
 
@@ -170,7 +166,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                     </svg>
-                    <div class="text-2xl md:text-3xl font-bold">{{ count($diplomados) }}</div>
+                    <div class="text-2xl md:text-3xl font-bold" data-count-to="{{ count($diplomados) }}">{{ count($diplomados) }}</div>
                     <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Diplomados</div>
                 </div>
 
@@ -180,7 +176,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                     </svg>
-                    <div class="text-2xl md:text-3xl font-bold">20+</div>
+                    <div class="text-2xl md:text-3xl font-bold" data-count-to="20" data-count-suffix="+">20+</div>
                     <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Docentes Renacyt</div>
                 </div>
 
@@ -191,7 +187,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
                     </svg>
-                    <div class="text-2xl md:text-3xl font-bold">473</div>
+                    <div class="text-2xl md:text-3xl font-bold" data-count-to="473">473</div>
                     <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Años de Historia</div>
                 </div>
 
@@ -506,19 +502,19 @@
             <div class="flex flex-wrap justify-center gap-4 mb-12">
                 <button onclick="filterPrograms('todos')" id="filter-todos"
                     class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-unmsm-guinda text-white shadow-lg transform scale-105">
-                    <i class="fas fa-globe"></i> Todos
+                    <x-fas-globe /> Todos
                 </button>
                 <button onclick="filterPrograms('maestria')" id="filter-maestria"
                     class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-white text-gray-600 hover:bg-gray-100 shadow-sm">
-                    <i class="fas fa-graduation-cap"></i> Maestrías
+                    <x-fas-graduation-cap /> Maestrías
                 </button>
                 <button onclick="filterPrograms('doctorado')" id="filter-doctorado"
                     class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-white text-gray-600 hover:bg-gray-100 shadow-sm">
-                    <i class="fas fa-book-reader"></i> Doctorados
+                    <x-fas-book-reader /> Doctorados
                 </button>
                 <button onclick="filterPrograms('diplomado')" id="filter-diplomado"
                     class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-white text-gray-600 hover:bg-gray-100 shadow-sm">
-                    <i class="fas fa-scroll"></i> Diplomados
+                    <x-fas-scroll /> Diplomados
                 </button>
             </div>
 
@@ -561,11 +557,11 @@
                                     class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
                                     <span
                                         class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
-                                        <i class="far fa-clock"></i> 4 semestres
+                                        <x-far-clock /> 4 semestres
                                     </span>
                                     <span
                                         class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
-                                        <i class="fas fa-university"></i> {{ $programa->modalidad }}
+                                        <x-fas-university /> {{ $programa->modalidad }}
                                     </span>
                                 </div>
                             </div>
@@ -619,11 +615,11 @@
                                     class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
                                     <span
                                         class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
-                                        <i class="far fa-clock"></i> 6 semestres
+                                        <x-far-clock /> 6 semestres
                                     </span>
                                     <span
                                         class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
-                                        <i class="fas fa-university"></i> {{ $programa->modalidad }}
+                                        <x-fas-university /> {{ $programa->modalidad }}
                                     </span>
                                 </div>
                             </div>
@@ -668,11 +664,11 @@
                                     class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
                                     <span
                                         class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded-full shadow-lg">
-                                        <i class="far fa-clock"></i> 2 módulos
+                                        <x-far-clock /> 2 módulos
                                     </span>
                                     <span
                                         class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
-                                        <i class="fas fa-university"></i> {{ $programa->modalidad }}
+                                        <x-fas-university /> {{ $programa->modalidad }}
                                     </span>
                                 </div>
                             </div>
@@ -799,7 +795,7 @@
                                 <div>
                                     <span class="block text-xs uppercase tracking-wider text-gray-500">WhatsApp</span>
                                     <a href="https://wa.me/51{{ preg_replace('/\D/', '', $siteSettings->telefono) }}"
-                                        target="_blank" class="text-white hover:text-green-500 transition">+51
+                                        target="_blank" rel="noopener noreferrer" class="text-white hover:text-green-500 transition">+51
                                         {{ $siteSettings->telefono }}</a>
                                 </div>
                             </li>
@@ -843,45 +839,45 @@
 
                     <div class="mt-8 flex gap-4">
                         @if ($siteSettings?->facebook)
-                            <a href="{{ $siteSettings->facebook }}" target="_blank"
+                            <a href="{{ $siteSettings->facebook }}" target="_blank" rel="noopener noreferrer" 
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-blue-600 transition text-white"
                                 title="Facebook">
-                                <i class="fab fa-facebook-f"></i>
+                                <x-fab-facebook-f />
                             </a>
                         @endif
                         @if ($siteSettings?->instagram)
-                            <a href="{{ $siteSettings->instagram }}" target="_blank"
+                            <a href="{{ $siteSettings->instagram }}" target="_blank" rel="noopener noreferrer" 
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-pink-600 transition text-white"
                                 title="Instagram">
-                                <i class="fab fa-instagram"></i>
+                                <x-fab-instagram />
                             </a>
                         @endif
                         @if ($siteSettings?->twitter)
-                            <a href="{{ $siteSettings->twitter }}" target="_blank"
+                            <a href="{{ $siteSettings->twitter }}" target="_blank" rel="noopener noreferrer" 
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-sky-500 transition text-white"
                                 title="X (Twitter)">
-                                <i class="fab fa-twitter"></i>
+                                <x-fab-twitter />
                             </a>
                         @endif
                         @if ($siteSettings?->linkedin)
-                            <a href="{{ $siteSettings->linkedin }}" target="_blank"
+                            <a href="{{ $siteSettings->linkedin }}" target="_blank" rel="noopener noreferrer" 
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-blue-700 transition text-white"
                                 title="LinkedIn">
-                                <i class="fab fa-linkedin-in"></i>
+                                <x-fab-linkedin-in />
                             </a>
                         @endif
                         @if ($siteSettings?->youtube)
-                            <a href="{{ $siteSettings->youtube }}" target="_blank"
+                            <a href="{{ $siteSettings->youtube }}" target="_blank" rel="noopener noreferrer" 
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-red-600 transition text-white"
                                 title="YouTube">
-                                <i class="fab fa-youtube"></i>
+                                <x-fab-youtube />
                             </a>
                         @endif
                         @if ($siteSettings?->tiktok)
-                            <a href="{{ $siteSettings->tiktok }}" target="_blank"
+                            <a href="{{ $siteSettings->tiktok }}" target="_blank" rel="noopener noreferrer" 
                                 class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-black transition text-white"
                                 title="TikTok">
-                                <i class="fab fa-tiktok"></i>
+                                <x-fab-tiktok />
                             </a>
                         @endif
                     </div>
@@ -912,32 +908,4 @@
         :auto_advance="false"
     /> --}}
 
-    @push('scripts')
-        <!-- Swiper JS (defer para mejor performance) -->
-        <script src="https://cdn.jsdelivr.net/npm/swiper@9.4.1/swiper-bundle.min.js" defer></script>
-        <script defer>
-            // Initialize Hero Swiper cuando esté listo
-            window.addEventListener('load', function() {
-                if (typeof Swiper !== 'undefined') {
-                    const heroSwiper = new Swiper('.hero-swiper', {
-                        loop: true,
-                        effect: 'fade',
-                        fadeEffect: {
-                            crossFade: true
-                        },
-                        speed: 2000,
-                        lazy: {
-                            loadPrevNext: true,
-                            loadPrevNextAmount: 1
-                        },
-                        preloadImages: false,
-                        autoplay: {
-                            delay: 5000,
-                            disableOnInteraction: false,
-                        },
-                    });
-                }
-            });
-        </script>
-    @endpush
 @endsection

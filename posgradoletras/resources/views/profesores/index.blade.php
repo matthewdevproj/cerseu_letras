@@ -2,26 +2,6 @@
 
 @section('title', 'Plana Docente - Posgrado Letras UNMSM')
 
-@push('styles')
-    <style>
-        .fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
-@endpush
-
 @section('content')
 
     <!-- HERO DE SECCIÓN -->
@@ -41,7 +21,7 @@
             <!-- Maestrías -->
             <div class="mb-4">
                 <p class="text-xs font-bold text-unmsm-dorado mb-2 uppercase tracking-wider">
-                    <i class="fas fa-graduation-cap mr-1"></i> Maestrías
+                    <x-fas-graduation-cap class="mr-1" /> Maestrías
                 </p>
                 <div class="flex flex-col gap-2">
                     @foreach($maestrias as $prog)
@@ -52,7 +32,7 @@
                             class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive
                                 ? 'bg-unmsm-guinda text-white shadow-md'
                                 : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
-                            <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->titulo_completo }}
+                            <x-fas-book class="mr-2 text-xs" />{{ $prog->titulo_completo }}
                         </a>
                     @endforeach
                 </div>
@@ -61,7 +41,7 @@
             <!-- Doctorados -->
             <div class="mb-4">
                 <p class="text-xs font-bold text-gray-800 mb-2 uppercase tracking-wider">
-                    <i class="fas fa-user-graduate mr-1"></i> Doctorados
+                    <x-fas-user-graduate class="mr-1" /> Doctorados
                 </p>
                 <div class="flex flex-col gap-2">
                     @foreach($doctorados as $prog)
@@ -72,7 +52,7 @@
                             class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive
                                 ? 'bg-unmsm-guinda text-white shadow-md'
                                 : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
-                            <i class="fas fa-book mr-2 text-xs"></i>{{ $prog->titulo_completo }}
+                            <x-fas-book class="mr-2 text-xs" />{{ $prog->titulo_completo }}
                         </a>
                     @endforeach
                 </div>
@@ -81,7 +61,7 @@
             <!-- Diplomados -->
             <div>
                 <p class="text-xs font-bold text-amber-600 mb-2 uppercase tracking-wider">
-                    <i class="fas fa-scroll mr-1"></i> Diplomados
+                    <x-fas-scroll class="mr-1" /> Diplomados
                 </p>
                 <div class="flex flex-col gap-2">
                     @foreach($diplomados as $prog)
@@ -92,7 +72,7 @@
                             class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive
                                 ? 'bg-unmsm-guinda text-white shadow-md'
                                 : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
-                            <i class="fas fa-scroll mr-2 text-xs"></i>{{ $prog->titulo_completo }}
+                            <x-fas-scroll class="mr-2 text-xs" />{{ $prog->titulo_completo }}
                         </a>
                     @endforeach
                 </div>
@@ -111,7 +91,7 @@
                     <!-- Maestrías -->
                     <div class="mb-4">
                         <p class="text-xs font-bold text-unmsm-dorado mb-2 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fas fa-graduation-cap"></i> Maestrías
+                            <x-fas-graduation-cap /> Maestrías
                         </p>
                         <div class="space-y-1">
                             @foreach($maestrias as $prog)
@@ -122,7 +102,7 @@
                                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {{ $isActive 
                                        ? 'bg-unmsm-guinda text-white shadow-md' 
                                        : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
-                                    <i class="fas fa-book text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}"></i>
+                                    <x-fas-book class="text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}" />
                                     <span class="text-sm font-medium leading-tight">{{ $prog->titulo_completo }}</span>
                                 </a>
                             @endforeach
@@ -132,7 +112,7 @@
                     <!-- Doctorados -->
                     <div class="mb-4">
                         <p class="text-xs font-bold text-gray-800 mb-2 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fas fa-user-graduate"></i> Doctorados
+                            <x-fas-user-graduate /> Doctorados
                         </p>
                         <div class="space-y-1">
                             @foreach($doctorados as $prog)
@@ -143,7 +123,7 @@
                                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {{ $isActive
                                        ? 'bg-unmsm-guinda text-white shadow-md'
                                        : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
-                                    <i class="fas fa-book text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}"></i>
+                                    <x-fas-book class="text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}" />
                                     <span class="text-sm font-medium leading-tight">{{ $prog->titulo_completo }}</span>
                                 </a>
                             @endforeach
@@ -153,7 +133,7 @@
                     <!-- Diplomados -->
                     <div>
                         <p class="text-xs font-bold text-amber-600 mb-2 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fas fa-scroll"></i> Diplomados
+                            <x-fas-scroll /> Diplomados
                         </p>
                         <div class="space-y-1">
                             @foreach($diplomados as $prog)
@@ -164,7 +144,7 @@
                                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {{ $isActive
                                        ? 'bg-unmsm-guinda text-white shadow-md'
                                        : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
-                                    <i class="fas fa-scroll text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}"></i>
+                                    <x-fas-scroll class="text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}" />
                                     <span class="text-sm font-medium leading-tight">{{ $prog->titulo_completo }}</span>
                                 </a>
                             @endforeach
@@ -194,6 +174,19 @@
                                         $lineas = $profesor->lineas_investigacion;
                                         $hasLineas = !empty($lineas) && (is_array($lineas) ? count($lineas) > 0 : strlen(trim($lineas)) > 0);
                                         $lineasArray = is_array($lineas) ? $lineas : ($lineas ? explode(',', $lineas) : []);
+
+                                        // Nombre real del grupo (soporta arreglo asociativo, lista indexada
+                                        // heredada o texto). Se usa para no mostrar una sección vacía.
+                                        $grupo = $profesor->grupo_investigacion;
+                                        $nombreGrupo = '';
+                                        if (is_array($grupo)) {
+                                            $nombreGrupo = array_key_exists('nombre', $grupo)
+                                                ? trim((string) ($grupo['nombre'] ?? ''))
+                                                : trim((string) collect($grupo)->first(fn ($v) => filled($v)));
+                                        } else {
+                                            $nombreGrupo = trim((string) $grupo);
+                                        }
+                                        $hasGrupo = $nombreGrupo !== '';
                                     @endphp
                                     
                                     <article class="bg-white border border-gray-200 rounded-2xl p-4 md:p-6 lg:p-8 hover:shadow-xl hover:border-unmsm-guinda/30 transition-all duration-300 group relative overflow-hidden max-w-full">
@@ -208,12 +201,12 @@
                                                 <div class="relative w-24 h-24 md:w-28 md:h-28">
                                                     <div class="absolute inset-0 bg-unmsm-dorado rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
                                                     @if($profesor->foto)
-                                                        <img src="{{ asset('storage/' . $profesor->foto) }}" 
-                                                             alt="{{ $profesor->nombre_completo }}" 
+                                                        <img src="{{ asset('storage/' . $profesor->foto) }}"
+                                                             alt="{{ $profesor->nombre_completo }}" loading="lazy" decoding="async"
                                                              class="relative w-full h-full rounded-full object-cover border-4 border-white shadow-md group-hover:scale-105 transition-transform duration-500">
                                                     @else
                                                         <div class="relative w-full h-full rounded-full bg-gray-100 border-4 border-white shadow-md flex items-center justify-center text-unmsm-guinda group-hover:scale-105 transition-transform duration-500">
-                                                            <i class="fas fa-user text-3xl"></i>
+                                                            <x-fas-user class="text-3xl" />
                                                         </div>
                                                     @endif
                                                 </div>
@@ -221,31 +214,31 @@
                                                 <!-- Botones sociales compactos debajo de la foto -->
                                                 <div class="flex gap-2 justify-center w-full">
                                                     @if($profesor->cti_vitae)
-                                                        <a href="{{ $profesor->cti_vitae }}" target="_blank" 
+                                                        <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer"
                                                            class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors text-xs" 
                                                            title="CTI Vitae">
-                                                            <i class="fas fa-file-alt"></i>
+                                                            <x-fas-file-alt />
                                                         </a>
                                                     @endif
                                                     @if($profesor->orcid)
-                                                        <a href="{{ $profesor->orcid }}" target="_blank" 
+                                                        <a href="{{ $profesor->orcid }}" target="_blank" rel="noopener noreferrer"
                                                            class="w-8 h-8 flex items-center justify-center rounded-full bg-green-50 text-green-600 hover:bg-green-600 hover:text-white transition-colors text-xs" 
                                                            title="ORCID">
-                                                            <i class="fab fa-orcid"></i>
+                                                            <x-fab-orcid />
                                                         </a>
                                                     @endif
                                                     @if($profesor->linkedin)
-                                                        <a href="{{ $profesor->linkedin }}" target="_blank" 
+                                                        <a href="{{ $profesor->linkedin }}" target="_blank" rel="noopener noreferrer"
                                                            class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-700 hover:bg-blue-700 hover:text-white transition-colors text-xs" 
                                                            title="LinkedIn">
-                                                            <i class="fab fa-linkedin-in"></i>
+                                                            <x-fab-linkedin-in />
                                                         </a>
                                                     @endif
                                                     @if($profesor->email)
                                                         <a href="mailto:{{ $profesor->email }}" 
                                                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-unmsm-guinda hover:text-white transition-colors text-xs" 
                                                            title="Email">
-                                                            <i class="fas fa-envelope"></i>
+                                                            <x-fas-envelope />
                                                         </a>
                                                     @endif
                                                 </div>
@@ -271,7 +264,7 @@
                                                     <a href="{{ route('profesores.show', $profesor->slug) }}" 
                                                        class="hidden md:inline-flex items-center text-xs font-semibold text-gray-500 hover:text-unmsm-guinda transition group/link">
                                                         Ver perfil completo 
-                                                        <i class="fas fa-arrow-right ml-1 transform group-hover/link:translate-x-1 transition-transform"></i>
+                                                        <x-fas-arrow-right class="ml-1 transform group-hover/link:translate-x-1 transition-transform" />
                                                     </a>
                                                 </div>
 
@@ -288,30 +281,30 @@
                                                         @if($profesor->cti_vitae)
                                                             <div class="flex items-center gap-2">
                                                                 <span class="font-bold text-gray-500 w-16">CTI Vitae:</span>
-                                                                <a href="{{ $profesor->cti_vitae }}" target="_blank" 
+                                                                <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer"
                                                                    class="flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline max-w-full overflow-hidden">
                                                                     <span class="truncate block max-w-full break-all">{{ $profesor->cti_vitae }}</span>
-                                                                    <i class="fas fa-external-link-alt text-[10px] opacity-60 flex-shrink-0"></i>
+                                                                    <x-fas-external-link-alt class="text-[10px] opacity-60 flex-shrink-0" />
                                                                 </a>
                                                             </div>
                                                         @endif
                                                         @if($profesor->orcid)
                                                             <div class="flex items-center gap-2">
                                                                 <span class="font-bold text-gray-500 w-16">ORCID:</span>
-                                                                <a href="{{ $profesor->orcid }}" target="_blank" 
+                                                                <a href="{{ $profesor->orcid }}" target="_blank" rel="noopener noreferrer"
                                                                    class="flex items-center gap-1 text-green-600 hover:text-green-800 hover:underline max-w-full overflow-hidden">
                                                                     <span class="truncate block max-w-full break-all">{{ $profesor->orcid }}</span>
-                                                                    <i class="fas fa-external-link-alt text-[10px] opacity-60 flex-shrink-0"></i>
+                                                                    <x-fas-external-link-alt class="text-[10px] opacity-60 flex-shrink-0" />
                                                                 </a>
                                                             </div>
                                                         @endif
                                                         @if($profesor->linkedin)
                                                             <div class="flex items-center gap-2">
                                                                 <span class="font-bold text-gray-500 w-16">LinkedIn:</span>
-                                                                <a href="{{ $profesor->linkedin }}" target="_blank" 
+                                                                <a href="{{ $profesor->linkedin }}" target="_blank" rel="noopener noreferrer"
                                                                    class="flex items-center gap-1 text-blue-700 hover:text-blue-900 hover:underline max-w-full overflow-hidden">
                                                                     <span class="truncate block max-w-full break-all">{{ $profesor->linkedin }}</span>
-                                                                    <i class="fas fa-external-link-alt text-[10px] opacity-60 flex-shrink-0"></i>
+                                                                    <x-fas-external-link-alt class="text-[10px] opacity-60 flex-shrink-0" />
                                                                 </a>
                                                             </div>
                                                         @endif
@@ -328,7 +321,7 @@
                                                 @endif
 
                                                 <!-- Grid de Datos (Líneas + Grupo) -->
-                                                @if($hasLineas || $profesor->grupo_investigacion)
+                                                @if($hasLineas || $hasGrupo)
                                                     <div class="grid md:grid-cols-2 gap-4 text-sm bg-gray-50 rounded-lg p-4 mb-4 border border-gray-100">
                                                         @if($hasLineas)
                                                             <div>
@@ -342,17 +335,12 @@
                                                                 </div>
                                                             </div>
                                                         @endif
-                                                        @if($profesor->grupo_investigacion)
+                                                        @if($hasGrupo)
                                                             <div>
                                                                 <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Grupo de Investigación</p>
                                                                 <div class="flex items-center gap-2">
-                                                                    <i class="fas fa-users text-unmsm-dorado"></i>
-                                                                    <span class="font-medium text-gray-700">
-                                                                        @php
-                                                                            $grupo = $profesor->grupo_investigacion;
-                                                                            echo is_array($grupo) ? ($grupo['nombre'] ?? '') : $grupo;
-                                                                        @endphp
-                                                                    </span>
+                                                                    <x-fas-users class="text-unmsm-dorado" />
+                                                                    <span class="font-medium text-gray-700">{{ $nombreGrupo }}</span>
                                                                 </div>
                                                             </div>
                                                         @endif
@@ -373,7 +361,7 @@
                         @else
                             <div class="bg-white border border-gray-200 rounded-xl p-8 text-center fade-in">
                                 <div class="inline-block p-4 rounded-full bg-gray-100 mb-4">
-                                    <i class="fas fa-user-slash text-3xl text-gray-400"></i>
+                                    <x-fas-user-slash class="text-3xl text-gray-400" />
                                 </div>
                                 <h3 class="text-xl font-bold text-gray-800 mb-2">Sin asesores registrados</h3>
                                 <p class="text-gray-500">Aún no se han registrado asesores para este programa.</p>
@@ -384,7 +372,7 @@
                     <!-- Estado inicial: sin programa seleccionado -->
                     <div
                         class="flex flex-col items-center justify-center h-full text-gray-400 border-2 border-dashed border-gray-200 rounded-xl p-12 bg-gray-50">
-                        <i class="fas fa-chalkboard-teacher text-5xl mb-4 text-gray-300"></i>
+                        <x-fas-chalkboard-teacher class="text-5xl mb-4 text-gray-300" />
                         <p class="text-lg text-center">Selecciona un programa en el menú de la izquierda para ver su plana
                             docente.</p>
                     </div>

@@ -17,7 +17,7 @@
                         
                         <!-- Imagen (sin degradado, limpia) -->
                         <div class="relative aspect-[3/4] overflow-hidden">
-                            <img src="{{ $evento->imagen_url }}" alt="{{ $evento->titulo }}"
+                            <img src="{{ $evento->imagen_url }}" alt="{{ $evento->titulo }}" loading="lazy" decoding="async"
                                 class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
 
                             <!-- Badge tipo (solo en hover) -->

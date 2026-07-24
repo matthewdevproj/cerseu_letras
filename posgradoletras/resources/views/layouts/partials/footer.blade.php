@@ -15,7 +15,7 @@
                             alt="{{ $siteSettings->site_name ?? 'Logo Letras UNMSM' }}" class="h-16 w-auto mb-3"
                             loading="lazy" decoding="async" width="64" height="64">
                     @else
-                        <img src="https://letras.unmsm.edu.pe/wp-content/uploads/2022/09/LOGO-BLANCO-LETRAS-WEB_2.png"
+                        <img src="{{ asset('images/logo-letras-blanco.png') }}"
                             alt="Logo Letras UNMSM" class="h-16 w-auto mb-3" loading="lazy" decoding="async" width="64"
                             height="64">
                     @endif
@@ -25,7 +25,7 @@
                 </p>
                 <div class="flex items-center gap-3 mt-4">
                     @if($siteSettings?->facebook)
-                        <a href="{{ $siteSettings->facebook }}" target="_blank"
+                        <a href="{{ $siteSettings->facebook }}" target="_blank" rel="noopener noreferrer" 
                             class="bg-white/10 p-2 rounded hover:bg-blue-600 transition-colors" title="Facebook">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -34,7 +34,7 @@
                         </a>
                     @endif
                     @if($siteSettings?->instagram)
-                        <a href="{{ $siteSettings->instagram }}" target="_blank"
+                        <a href="{{ $siteSettings->instagram }}" target="_blank" rel="noopener noreferrer" 
                             class="bg-white/10 p-2 rounded hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-colors"
                             title="Instagram">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -44,7 +44,7 @@
                         </a>
                     @endif
                     @if($siteSettings?->twitter)
-                        <a href="{{ $siteSettings->twitter }}" target="_blank"
+                        <a href="{{ $siteSettings->twitter }}" target="_blank" rel="noopener noreferrer" 
                             class="bg-white/10 p-2 rounded hover:bg-black transition-colors" title="X (Twitter)">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -53,7 +53,7 @@
                         </a>
                     @endif
                     @if($siteSettings?->linkedin)
-                        <a href="{{ $siteSettings->linkedin }}" target="_blank"
+                        <a href="{{ $siteSettings->linkedin }}" target="_blank" rel="noopener noreferrer" 
                             class="bg-white/10 p-2 rounded hover:bg-blue-700 transition-colors" title="LinkedIn">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -62,7 +62,7 @@
                         </a>
                     @endif
                     @if($siteSettings?->youtube)
-                        <a href="{{ $siteSettings->youtube }}" target="_blank"
+                        <a href="{{ $siteSettings->youtube }}" target="_blank" rel="noopener noreferrer" 
                             class="bg-white/10 p-2 rounded hover:bg-red-600 transition-colors" title="YouTube">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -71,7 +71,7 @@
                         </a>
                     @endif
                     @if($siteSettings?->tiktok)
-                        <a href="{{ $siteSettings->tiktok }}" target="_blank"
+                        <a href="{{ $siteSettings->tiktok }}" target="_blank" rel="noopener noreferrer" 
                             class="bg-white/10 p-2 rounded hover:bg-black transition-colors" title="TikTok">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -118,7 +118,7 @@
                                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
                             <a href="https://wa.me/51{{ preg_replace('/\D/', '', $siteSettings->telefono) }}"
-                                target="_blank" class="text-xs">
+                                target="_blank" rel="noopener noreferrer" class="text-xs">
                                 {{ $siteSettings->telefono }}
                             </a>
                         </li>
@@ -157,23 +157,23 @@
             <div>
                 <h4 class="font-bold text-white mb-4 text-base border-b border-unmsm-dorado/30 pb-2">Institucional</h4>
                 <ul class="space-y-2">
-                    <li><a href="https://unmsm.edu.pe" target="_blank"
+                    <li><a href="https://unmsm.edu.pe" target="_blank" rel="noopener noreferrer" 
                             class="text-white/80 hover:text-unmsm-dorado transition-colors text-xs">UNMSM</a></li>
                     @if($siteSettings?->web_facultad)
-                        <li><a href="{{ $siteSettings->web_facultad }}" target="_blank"
+                        <li><a href="{{ $siteSettings->web_facultad }}" target="_blank" rel="noopener noreferrer" 
                                 class="text-white/80 hover:text-unmsm-dorado transition-colors text-xs">Facultad de
                                 Letras</a></li>
                     @else
-                        <li><a href="https://letras.unmsm.edu.pe" target="_blank"
+                        <li><a href="https://letras.unmsm.edu.pe" target="_blank" rel="noopener noreferrer" 
                                 class="text-white/80 hover:text-unmsm-dorado transition-colors text-xs">Facultad de
                                 Letras</a></li>
                     @endif
-                    <li><a href="https://sanmarket.unmsm.edu.pe" target="_blank"
+                    <li><a href="https://sanmarket.unmsm.edu.pe" target="_blank" rel="noopener noreferrer" 
                             class="text-white/80 hover:text-unmsm-dorado transition-colors text-xs">SanMarket</a></li>
-                    <li><a href="https://sum.unmsm.edu.pe" target="_blank"
+                    <li><a href="https://sum.unmsm.edu.pe" target="_blank" rel="noopener noreferrer" 
                             class="text-white/80 hover:text-unmsm-dorado transition-colors text-xs">SUM</a></li>
                     @if($siteSettings?->directorio_facultad)
-                        <li><a href="{{ $siteSettings->directorio_facultad }}" target="_blank"
+                        <li><a href="{{ $siteSettings->directorio_facultad }}" target="_blank" rel="noopener noreferrer" 
                                 class="text-white/80 hover:text-unmsm-dorado transition-colors text-xs">Directorio
                                 Facultad</a></li>
                     @endif

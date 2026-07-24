@@ -36,8 +36,11 @@ class DirectorioPosgrado extends Model
      */
     public static function agrupadosPorUnidad()
     {
+        // CASE WHEN en vez de FIELD(): FIELD() es específico de MySQL y no
+        // existe en SQLite (usado en desarrollo local), lo que rompía esta
+        // página con un error 500 fuera de producción.
         return self::activos()
-            ->orderByRaw("FIELD(unidad_nombre, 'AUTORIDADES', 'PERSONAL ADMINISTRATIVO') ASC")
+            ->orderByRaw("CASE unidad_nombre WHEN 'AUTORIDADES' THEN 1 WHEN 'PERSONAL ADMINISTRATIVO' THEN 2 ELSE 3 END ASC")
             ->orderBy('orden')
             ->get()
             ->groupBy('unidad_nombre');

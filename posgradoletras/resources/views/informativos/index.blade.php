@@ -18,7 +18,7 @@
                 <input type="text" id="searchInput" placeholder="Buscar documento..." 
                     class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 focus:border-unmsm-guinda focus:ring focus:ring-unmsm-guinda/20 shadow-sm transition-all text-gray-700 text-lg">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <i class="fas fa-search text-gray-400 text-xl"></i>
+                    <x-fas-search class="text-gray-400 text-xl" />
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
                     <!-- Título de Sección -->
                     <h2 class="flex items-center gap-3 text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-unmsm-guinda/10">
                         <span class="w-10 h-10 rounded-lg bg-unmsm-guinda/10 flex items-center justify-center text-unmsm-guinda text-lg">
-                            <i class="{{ $items->first()->icono }}"></i>
+                            <x-fa-icon :icon="$items->first()->icono ?? 'fas fa-folder'" />
                         </span>
                         {{ strtoupper($categoria) }}
                     </h2>
@@ -43,11 +43,11 @@
                                 <div class="flex-shrink-0">
                                     @if($item->es_pdf)
                                         <div class="w-12 h-12 rounded-lg bg-red-50 text-red-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                            <i class="fas fa-file-pdf"></i>
+                                            <x-fas-file-pdf />
                                         </div>
                                     @else
                                         <div class="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                            <i class="fas fa-link"></i>
+                                            <x-fas-link />
                                         </div>
                                     @endif
                                 </div>
@@ -65,10 +65,10 @@
                                         class="inline-flex items-center gap-2 text-sm font-medium {{ $item->es_pdf ? 'text-red-600 hover:text-red-800' : 'text-blue-600 hover:text-blue-800' }}">
                                         @if($item->es_pdf)
                                             <span>Descargar PDF</span>
-                                            <i class="fas fa-download text-xs"></i>
+                                            <x-fas-download class="text-xs" />
                                         @else
                                             <span>Visitar enlace</span>
-                                            <i class="fas fa-external-link-alt text-xs"></i>
+                                            <x-fas-external-link-alt class="text-xs" />
                                         @endif
                                     </a>
                                 </div>
@@ -82,7 +82,7 @@
             <!-- Estado Vacío (Búsqueda) -->
             <div id="noResults" class="hidden text-center py-12">
                 <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 text-3xl">
-                    <i class="fas fa-search"></i>
+                    <x-fas-search />
                 </div>
                 <h3 class="text-lg font-bold text-gray-700">No se encontraron resultados</h3>
                 <p class="text-gray-500">Intenta con otros términos de búsqueda.</p>
@@ -90,7 +90,7 @@
 
         @else
             <div class="text-center py-20 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-                <i class="fas fa-folder-open text-6xl text-gray-300 mb-4"></i>
+                <x-fas-folder-open class="text-6xl text-gray-300 mb-4" />
                 <p class="text-gray-500 font-medium">No hay documentos disponibles en este momento.</p>
             </div>
         @endif

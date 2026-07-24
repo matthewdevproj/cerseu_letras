@@ -28,8 +28,8 @@
                            <li>Arrastra las filas para reordenar (próximamente).</li>
                        </ul>
                        
-                       <button onclick="openModal()" class="w-full px-4 py-3 bg-red-700 text-white rounded-lg hover:bg-red-800 font-medium shadow-sm transition-all flex items-center justify-center gap-2">
-                           <i class="fas fa-plus"></i> Nuevo Documento
+                       <button onclick="openModal()" class="w-full px-4 py-3 bg-brand-red text-white rounded-lg hover:bg-red-800 font-medium shadow-sm transition-all flex items-center justify-center gap-2">
+                           <x-fas-plus /> Nuevo Documento
                        </button>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                     <div class="bg-gray-50 border-b px-5 py-4 flex justify-between items-center">
                         <div>
                             <h2 class="text-lg font-bold text-gray-800">Listado de Documentos</h2>
-                            <p class="text-xs text-gray-500"><i class="fas fa-layer-group mr-1"></i>Agrupados por categoría</p>
+                            <p class="text-xs text-gray-500"><x-fas-layer-group class="mr-1" />Agrupados por categoría</p>
                         </div>
                     </div>
 
@@ -72,15 +72,15 @@
                                                 <div class="flex items-start gap-3">
                                                     <div class="flex-shrink-0 mt-1">
                                                         @if($item->es_pdf)
-                                                            <i class="fas fa-file-pdf text-red-600 text-lg"></i>
+                                                            <x-fas-file-pdf class="text-red-600 text-lg" />
                                                         @else
-                                                            <i class="fas fa-link text-blue-600 text-lg"></i>
+                                                            <x-fas-link class="text-blue-600 text-lg" />
                                                         @endif
                                                     </div>
                                                     <div>
                                                         <span class="font-medium text-gray-800 text-sm block">{{ $item->titulo }}</span>
                                                         @if($item->url)
-                                                            <a href="{{ $item->url }}" target="_blank" class="text-xs text-blue-500 hover:underline truncate max-w-[200px] inline-block">
+                                                            <a href="{{ $item->url }}" target="_blank" rel="noopener noreferrer" class="text-xs text-blue-500 hover:underline truncate max-w-[200px] inline-block">
                                                                 {{ $item->url }}
                                                             </a>
                                                         @endif
@@ -95,25 +95,25 @@
                                             <td class="px-3 py-3 text-center">
                                                 <div class="flex flex-col items-center gap-1">
                                                     <button type="button" onclick="moveItem(this, 'up')" class="text-gray-400 hover:text-red-700 p-1">
-                                                        <i class="fas fa-chevron-up text-xs"></i>
+                                                        <x-fas-chevron-up class="text-xs" />
                                                     </button>
                                                     <button type="button" onclick="moveItem(this, 'down')" class="text-gray-400 hover:text-red-700 p-1">
-                                                        <i class="fas fa-chevron-down text-xs"></i>
+                                                        <x-fas-chevron-down class="text-xs" />
                                                     </button>
                                                 </div>
                                             </td>
                                             <td class="px-3 py-3 text-right">
                                                 <div class="flex justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                                                     <button type="button" onclick='editItem(@json($item))' 
-                                                        class="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Editar">
-                                                        <i class="fas fa-edit"></i>
+                                                        class="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Editar" aria-label="Editar">
+                                                        <x-fas-edit />
                                                     </button>
                                                     <form action="{{ route('admin.informativos.destroy', $item) }}" method="POST" 
                                                         class="inline-block" onsubmit="return confirm('¿Eliminar este documento?')">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors" title="Eliminar">
-                                                            <i class="fas fa-trash"></i>
+                                                        <button type="submit" class="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors" title="Eliminar" aria-label="Eliminar">
+                                                            <x-fas-trash />
                                                         </button>
                                                     </form>
                                                 </div>
@@ -122,8 +122,9 @@
                                     @endforeach
                                 @empty
                                     <tr>
-                                        <td colspan="3" class="px-4 py-8 text-center text-gray-500 text-sm">
-                                            No hay documentos registrados.
+                                        <td colspan="4" class="p-0">
+                                            <x-empty-state icon="fa-folder-open" title="No hay documentos registrados"
+                                                description="Usa el botón Nuevo Documento para agregar el primero." />
                                         </td>
                                     </tr>
                                 @endforelse
@@ -148,7 +149,7 @@
                         <div class="flex items-center justify-between">
                             <h3 class="text-base font-semibold leading-6 text-white" id="modal-title">Nuevo Documento</h3>
                             <button type="button" onclick="closeModal()" class="text-white hover:text-gray-200">
-                                <i class="fas fa-times"></i>
+                                <x-fas-times />
                             </button>
                         </div>
                     </div>
@@ -182,8 +183,8 @@
                                         <input type="text" id="cat_text" placeholder="Nombre de la nueva categoría" 
                                             oninput="updateRealCat(this.value)"
                                             class="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6">
-                                        <button type="button" onclick="cancelNewCat()" class="px-3 py-2 bg-gray-100 text-gray-600 rounded-md border border-gray-300 hover:bg-gray-200" title="Cancelar / Volver a lista">
-                                            <i class="fas fa-undo"></i>
+                                        <button type="button" onclick="cancelNewCat()" class="px-3 py-2 bg-gray-100 text-gray-600 rounded-md border border-gray-300 hover:bg-gray-200" title="Cancelar / Volver a lista" aria-label="Cancelar / Volver a lista">
+                                            <x-fas-undo />
                                         </button>
                                     </div>
                                 </div>
@@ -204,12 +205,12 @@
                                 <div class="grid grid-cols-2 gap-4">
                                     <label class="cursor-pointer border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50 has-[:checked]:bg-red-50 has-[:checked]:border-red-200 has-[:checked]:text-red-700">
                                         <input type="radio" name="tipo" value="0" checked onchange="toggleUploadType(0)" class="sr-only">
-                                        <i class="fas fa-file-pdf"></i>
+                                        <x-fas-file-pdf />
                                         <span class="text-sm font-medium">Archivo PDF</span>
                                     </label>
                                     <label class="cursor-pointer border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50 has-[:checked]:bg-blue-50 has-[:checked]:border-blue-200 has-[:checked]:text-blue-700">
                                         <input type="radio" name="tipo" value="1" onchange="toggleUploadType(1)" class="sr-only">
-                                        <i class="fas fa-link"></i>
+                                        <x-fas-link />
                                         <span class="text-sm font-medium">Enlace Externo</span>
                                     </label>
                                 </div>
@@ -427,9 +428,9 @@
                 body: JSON.stringify({ items: items })
             }).then(response => {
                 if (response.ok) {
-                    console.log('Orden guardado'); // Optional feedback
+                    window.showToast('Orden actualizado');
                 } else {
-                    console.error('Error al guardar orden');
+                    window.showToast('No se pudo guardar el nuevo orden', 'error');
                 }
             });
         }

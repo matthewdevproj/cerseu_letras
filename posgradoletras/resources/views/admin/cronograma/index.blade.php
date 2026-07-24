@@ -65,10 +65,10 @@
                                     @forelse($cronograma->documents as $doc)
                                         <div class="document-item flex items-center gap-2 p-3 bg-white border rounded-lg" data-id="{{ $doc->id }}">
                                             <input type="hidden" name="document_ids[]" value="{{ $doc->id }}">
-                                            <i class="fas fa-file-pdf text-red-600"></i>
+                                            <x-fas-file-pdf class="text-red-600" />
                                             <span class="flex-1 text-xs font-medium truncate">{{ $doc->display_title }}</span>
                                             <button type="button" onclick="removeDocumentField(this)" class="text-red-500 hover:text-red-700">
-                                                <i class="fas fa-times"></i>
+                                                <x-fas-times />
                                             </button>
                                         </div>
                                     @empty
@@ -77,17 +77,17 @@
                                 </div>
                                 <div class="flex gap-2">
                                     <button type="button" onclick="openUploadModal()" class="flex-1 px-3 py-2 border border-red-700 text-red-700 rounded-lg hover:bg-red-50 text-xs">
-                                        <i class="fas fa-cloud-upload-alt mr-1"></i> Subir Nuevo
+                                        <x-fas-cloud-upload-alt class="mr-1" /> Subir Nuevo
                                     </button>
                                     <button type="button" onclick="openLinkModal()" class="flex-1 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-xs">
-                                        <i class="fas fa-link mr-1"></i> Vincular
+                                        <x-fas-link class="mr-1" /> Vincular
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Botón Guardar -->
                             <button type="submit" class="w-full px-4 py-3 bg-red-700 text-white rounded-lg hover:bg-red-800 font-medium">
-                                <i class="fas fa-save mr-2"></i> Guardar Todo
+                                <x-fas-save class="mr-2" /> Guardar Todo
                             </button>
                         </div>
                     </div>
@@ -100,10 +100,10 @@
                         <div class="bg-gray-50 border-b px-5 py-4 flex justify-between items-center">
                             <div>
                                 <h2 class="text-lg font-bold text-gray-800">Ítems del Cronograma</h2>
-                                <p class="text-xs text-gray-500"><i class="fas fa-list-ol mr-1"></i>Usa las flechas para reordenar</p>
+                                <p class="text-xs text-gray-500"><x-fas-list-ol class="mr-1" />Usa las flechas para reordenar</p>
                             </div>
                             <button type="button" onclick="addItem()" class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm">
-                                <i class="fas fa-plus mr-1"></i> Nuevo Ítem
+                                <x-fas-plus class="mr-1" /> Nuevo Ítem
                             </button>
                         </div>
 
@@ -131,10 +131,10 @@
                                             <td class="px-3 py-3 text-center">
                                                 <div class="flex flex-col items-center gap-1">
                                                     <button type="button" onclick="moveRow(this, 'up')" class="text-gray-400 hover:text-red-700">
-                                                        <i class="fas fa-chevron-up text-xs"></i>
+                                                        <x-fas-chevron-up class="text-xs" />
                                                     </button>
                                                     <button type="button" onclick="moveRow(this, 'down')" class="text-gray-400 hover:text-red-700">
-                                                        <i class="fas fa-chevron-down text-xs"></i>
+                                                        <x-fas-chevron-down class="text-xs" />
                                                     </button>
                                                 </div>
                                             </td>
@@ -154,18 +154,18 @@
                                                 </td>
                                                 <td class="px-3 py-3">
                                                     <span class="inline-flex items-center px-2 py-1 bg-gray-100 border rounded text-xs text-gray-700">
-                                                        <i class="far fa-calendar mr-1"></i> {{ $item->fecha_text }}
+                                                        <x-far-calendar class="mr-1" /> {{ $item->fecha_text }}
                                                     </span>
                                                 </td>
                                             @endif
 
                                             <!-- Acciones -->
                                             <td class="px-3 py-3 text-right">
-                                                <button type="button" onclick="editItem(this)" class="text-blue-600 hover:text-blue-800 mr-2" title="Editar">
-                                                    <i class="fas fa-edit"></i>
+                                                <button type="button" onclick="editItem(this)" class="text-blue-600 hover:text-blue-800 mr-2" title="Editar" aria-label="Editar">
+                                                    <x-fas-edit />
                                                 </button>
-                                                <button type="button" onclick="removeItem(this)" class="text-red-500 hover:text-red-700" title="Eliminar">
-                                                    <i class="fas fa-trash"></i>
+                                                <button type="button" onclick="removeItem(this)" class="text-red-500 hover:text-red-700" title="Eliminar" aria-label="Eliminar">
+                                                    <x-fas-trash />
                                                 </button>
                                             </td>
                                         </tr>
@@ -187,7 +187,7 @@
                 <div class="p-6">
                     <h3 class="text-lg font-bold text-gray-800 mb-4">Subir Nuevo PDF</h3>
                     <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-sm text-blue-800">
-                        <i class="fas fa-info-circle mr-1"></i>
+                        <x-fas-info-circle class="mr-1" />
                         El archivo se guardará y vinculará automáticamente al cronograma.
                     </div>
                     <div class="mb-4">
@@ -205,7 +205,7 @@
                         Cancelar
                     </button>
                     <button type="button" onclick="confirmUploadDoc()" class="flex-1 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800">
-                        <i class="fas fa-check mr-1"></i> Agregar
+                        <x-fas-check class="mr-1" /> Agregar
                     </button>
                 </div>
             </div>
@@ -277,7 +277,7 @@
                         Cancelar
                     </button>
                     <button type="button" onclick="saveItem()" class="flex-1 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800">
-                        <i class="fas fa-check mr-1"></i> Guardar
+                        <x-fas-check class="mr-1" /> Guardar
                     </button>
                 </div>
             </div>
@@ -332,7 +332,7 @@
                     const el = document.createElement('button');
                     el.type = 'button';
                     el.className = 'w-full text-left px-4 py-3 hover:bg-gray-100 border-b flex justify-between items-center';
-                    el.innerHTML = '<span class="font-medium">' + doc.title + '</span><i class="fas fa-plus text-green-600"></i>';
+                    el.innerHTML = '<span class="font-medium">' + doc.title + '</span><x-fas-plus class="text-green-600" />';
                     el.onclick = function() { selectDoc(doc); };
                     container.appendChild(el);
                 });
@@ -403,10 +403,10 @@
             }
 
             div.innerHTML = hiddenFields +
-                '<i class="fas fa-file-pdf text-red-600"></i>' +
+                '<x-fas-file-pdf class="text-red-600" />' +
                 '<span class="flex-1 text-xs font-medium truncate">' + title + '</span>' +
                 badge +
-                '<button type="button" onclick="removeDocumentField(this)" class="text-red-500 hover:text-red-700"><i class="fas fa-times"></i></button>';
+                '<button type="button" onclick="removeDocumentField(this)" class="text-red-500 hover:text-red-700"><x-fas-times /></button>';
             
             container.appendChild(div);
         }
@@ -536,10 +536,10 @@
                 <td class="px-3 py-3 text-center">
                     <div class="flex flex-col items-center gap-1">
                         <button type="button" onclick="moveRow(this, 'up')" class="text-gray-400 hover:text-red-700">
-                            <i class="fas fa-chevron-up text-xs"></i>
+                            <x-fas-chevron-up class="text-xs" />
                         </button>
                         <button type="button" onclick="moveRow(this, 'down')" class="text-gray-400 hover:text-red-700">
-                            <i class="fas fa-chevron-down text-xs"></i>
+                            <x-fas-chevron-down class="text-xs" />
                         </button>
                     </div>
                 </td>`;
@@ -549,13 +549,13 @@
             } else {
                 html += `<td class="px-3 py-3"><span class="font-medium text-gray-800 text-sm">${actividad}</span>`;
                 if (sectionVal) html += `<div class="text-xs text-gray-400 mt-1">Sección: ${sectionVal}</div>`;
-                html += `</td><td class="px-3 py-3"><span class="inline-flex items-center px-2 py-1 bg-gray-100 border rounded text-xs text-gray-700"><i class="far fa-calendar mr-1"></i> ${fecha}</span></td>`;
+                html += `</td><td class="px-3 py-3"><span class="inline-flex items-center px-2 py-1 bg-gray-100 border rounded text-xs text-gray-700"><x-far-calendar class="mr-1" /> ${fecha}</span></td>`;
             }
 
             html += `
                 <td class="px-3 py-3 text-right">
-                    <button type="button" onclick="editItem(this)" class="text-blue-600 hover:text-blue-800 mr-2" title="Editar"><i class="fas fa-edit"></i></button>
-                    <button type="button" onclick="removeItem(this)" class="text-red-500 hover:text-red-700" title="Eliminar"><i class="fas fa-trash"></i></button>
+                    <button type="button" onclick="editItem(this)" class="text-blue-600 hover:text-blue-800 mr-2" title="Editar" aria-label="Editar"><x-fas-edit /></button>
+                    <button type="button" onclick="removeItem(this)" class="text-red-500 hover:text-red-700" title="Eliminar" aria-label="Eliminar"><x-fas-trash /></button>
                 </td>`;
 
             row.innerHTML = html;

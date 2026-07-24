@@ -11,7 +11,10 @@ export default defineConfig({
     build: {
         cssMinify: true,
         minify: 'esbuild',
-        target: 'es2015',
+        // es2015 rompe el uso interno de funciones async nativas de Alpine.js
+        // (AsyncFunction se transpila a algo que ya no tiene .catch) — es2020
+        // es el objetivo mínimo real que soportan los navegadores modernos.
+        target: 'es2020',
         cssCodeSplit: true,
         rollupOptions: {
             output: {

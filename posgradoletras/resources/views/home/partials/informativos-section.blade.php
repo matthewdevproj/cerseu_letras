@@ -2,7 +2,7 @@
     <div class="container mx-auto px-4 max-w-6xl">
         <div class="text-center mb-12">
             <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-3">
-                <i class="fas fa-file-alt text-unmsm-guinda mr-3"></i>
+                <x-fas-file-alt class="text-unmsm-guinda mr-3" />
                 Documentos y Recursos
             </h2>
             <p class="text-gray-600 text-lg">Accede a reglamentos, directivas e información institucional</p>
@@ -26,7 +26,7 @@
 
                         <div
                             class="w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-unmsm-guinda/5 text-unmsm-guinda flex items-center justify-center text-2xl md:text-4xl mb-4 md:mb-6 group-hover:bg-unmsm-guinda group-hover:text-white transition-colors shadow-sm relative z-10">
-                            <i class="{{ $items->first()->icono ?? 'fas fa-folder' }}"></i>
+                            <x-fa-icon :icon="$items->first()->icono ?? 'fas fa-folder'" />
                         </div>
 
                         <h3
@@ -40,7 +40,7 @@
 
                         <span
                             class="inline-flex items-center gap-2 text-unmsm-guinda font-bold text-sm bg-unmsm-guinda/5 px-4 py-2 rounded-full group-hover:bg-unmsm-guinda group-hover:text-white transition-all relative z-10">
-                            Explorar <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                            Explorar <x-fas-arrow-right class="text-xs group-hover:translate-x-1 transition-transform" />
                         </span>
                     </a>
                 @endforeach
@@ -50,12 +50,12 @@
                 <a href="{{ route('informativos.index') }}"
                     class="inline-flex items-center gap-2 bg-white border-2 border-unmsm-guinda text-unmsm-guinda px-8 py-3 rounded-xl font-bold hover:bg-unmsm-guinda hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg">
                     Ver todos los documentos
-                    <i class="fas fa-arrow-right"></i>
+                    <x-fas-arrow-right />
                 </a>
             </div>
         @else
             <div class="text-center py-12 bg-gray-50 rounded-xl">
-                <i class="fas fa-folder-open text-4xl text-gray-300 mb-4"></i>
+                <x-fas-folder-open class="text-4xl text-gray-300 mb-4" />
                 <p class="text-gray-500">No hay documentos disponibles en este momento.</p>
             </div>
         @endif

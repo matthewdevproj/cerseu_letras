@@ -2,26 +2,6 @@
 
 @section('title', 'Testimonios - Posgrado Letras UNMSM')
 
-@push('styles')
-    <style>
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
-@endpush
-
 @section('content')
     <!-- HERO DE SECCIÓN -->
     <x-hero-section title="Testimonios" label="Nuestros Egresados"
@@ -30,18 +10,18 @@
 
     <section class="container mx-auto px-6 py-16">
         @if(count($testimonios) > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in">
+            <div data-reveal-stagger class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($testimonios as $testimonio)
                     <div
-                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full">
+                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl motion-safe:hover:-translate-y-1.5 transition-all duration-300 border border-gray-100 flex flex-col h-full">
                         {{-- Header con gradiente y foto --}}
                         <div class="bg-gradient-to-r from-unmsm-guinda to-unmsm-guinda-light p-5">
                             <div class="flex items-center gap-4">
                                 {{-- Foto del egresado --}}
                                 <div class="flex-shrink-0">
                                     @if($testimonio->photo)
-                                        <img src="{{ $testimonio->photo_url }}" 
-                                            alt="{{ $testimonio->nombre }}"
+                                        <img src="{{ $testimonio->photo_url }}"
+                                            alt="{{ $testimonio->nombre }}" loading="lazy" decoding="async"
                                             class="w-20 h-20 rounded-full object-cover border-3 border-white/30 shadow-lg">
                                     @else
                                         <div class="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center border-3 border-white/30">
@@ -75,7 +55,7 @@
                                     </span> --}}
                                     <a href="{{ route('programas.show', $testimonio->programa->slug ?? '#') }}"
                                         class="text-unmsm-guinda hover:text-unmsm-dorado text-sm font-medium transition-colors flex items-center gap-1">
-                                        Ver programa <i class="fas fa-arrow-right text-xs"></i>
+                                        Ver programa <x-fas-arrow-right class="text-xs" />
                                     </a>
                                 @endif
                             </div>
@@ -86,7 +66,7 @@
         @else
             <div class="text-center py-20 fade-in">
                 <div class="inline-block p-6 rounded-full bg-gray-100 mb-4">
-                    <i class="fas fa-quote-left text-4xl text-gray-400"></i>
+                    <x-fas-quote-left class="text-4xl text-gray-400" />
                 </div>
                 <h3 class="text-xl font-bold text-gray-800 mb-2">No hay testimonios disponibles</h3>
                 <p class="text-gray-500">Pronto agregaremos testimonios de nuestros egresados.</p>

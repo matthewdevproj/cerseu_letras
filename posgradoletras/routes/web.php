@@ -11,6 +11,8 @@ use App\Http\Controllers\TestimonioController;
 use App\Http\Controllers\InstitucionalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DirectorioController;
+use App\Http\Controllers\DiplomadoController;
+use App\Http\Controllers\DiplomadoLeadController;
 
 // Página de inicio
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -23,6 +25,11 @@ Route::get('/directorio', [DirectorioController::class, 'index'])->name('directo
 // Programas (Maestrías y Doctorados)
 Route::get('/programas', [ProgramaController::class, 'index'])->name('programas.index');
 Route::get('/programas/{slug}', [ProgramaController::class, 'show'])->name('programas.show');
+
+// Diplomados (sección exclusiva, separada de Maestrías y Doctorados)
+Route::get('/diplomados', [DiplomadoController::class, 'index'])->name('diplomados.index');
+Route::get('/diplomados/admision', [DiplomadoController::class, 'admision'])->name('diplomados.admision');
+Route::post('/diplomados/solicitud', [DiplomadoLeadController::class, 'store'])->name('diplomados.solicitud');
 
 // Profesores
 Route::get('/profesores', [ProfesorController::class, 'index'])->name('profesores.index');
@@ -99,6 +106,10 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     // Cronograma Management
     Route::get('cronograma', [App\Http\Controllers\Admin\AdminCronogramaController::class, 'index'])->name('cronograma.index');
     Route::put('cronograma', [App\Http\Controllers\Admin\AdminCronogramaController::class, 'update'])->name('cronograma.update');
+
+    // Admisión Diplomados Management
+    Route::get('admision-diplomados', [App\Http\Controllers\Admin\AdminAdmisionDiplomadoController::class, 'index'])->name('admision-diplomados.index');
+    Route::put('admision-diplomados', [App\Http\Controllers\Admin\AdminAdmisionDiplomadoController::class, 'update'])->name('admision-diplomados.update');
 
     // Informativos Management
     Route::resource('informativos', App\Http\Controllers\Admin\AdminInformativoController::class);

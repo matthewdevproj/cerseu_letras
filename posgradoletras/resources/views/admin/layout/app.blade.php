@@ -1,25 +1,24 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="no-js">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="view-transition" content="same-origin">
+    <script>document.documentElement.classList.replace('no-js', 'js');</script>
     <title>@yield('title', 'Admin') - Posgrado Letras UNMSM</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {{-- Tipografías (Inter + Playfair Display) auto-alojadas vía @fontsource,
+         empaquetadas en app.css por Vite. Ya no se carga Google Fonts. --}}
+    {{-- Iconos: Font Awesome migrado a SVG inline (owenvoke/blade-fontawesome).
+         Sin CSS/webfont ni requests a CDN; sin flash de iconos. --}}
 
     <style>
         :root {
-            --brand: #761e23;
-            --brand-dark: #5a161a;
+            /* --brand y --brand-dark: definidos globalmente en resources/css/app.css */
             --brand-accent: #d4a017;
         }
 
@@ -152,6 +151,18 @@
             --tw-ring-color: var(--brand);
         }
 
+        .hover\:bg-brand-red:hover {
+            background-color: var(--brand-dark);
+        }
+
+        .hover\:border-brand-red:hover {
+            border-color: var(--brand);
+        }
+
+        .focus\:border-brand-red:focus {
+            border-color: var(--brand);
+        }
+
         .bg-brand-gold {
             background-color: var(--brand-accent);
         }
@@ -168,6 +179,27 @@
             --tw-ring-color: var(--brand-accent);
         }
 
+        .focus\:ring-brand-gold:focus {
+            --tw-ring-opacity: 1;
+            --tw-ring-color: var(--brand-accent);
+        }
+
+        .focus\:border-brand-gold:focus {
+            border-color: var(--brand-accent);
+        }
+
+        .hover\:bg-brand-gold:hover {
+            background-color: var(--brand-accent);
+        }
+
+        .hover\:text-brand-gold:hover {
+            color: var(--brand-accent);
+        }
+
+        .hover\:border-brand-gold:hover {
+            border-color: var(--brand-accent);
+        }
+
         .text-brand-navy {
             color: #1e3a8a;
         }
@@ -175,12 +207,64 @@
         .bg-brand-navy {
             background-color: #1e3a8a;
         }
+
+        .border-brand-navy {
+            border-color: #1e3a8a;
+        }
+
+        .ring-brand-navy {
+            --tw-ring-color: #1e3a8a;
+        }
+
+        .focus\:ring-brand-navy:focus {
+            --tw-ring-opacity: 1;
+            --tw-ring-color: #1e3a8a;
+        }
+
+        .focus\:border-brand-navy:focus {
+            border-color: #1e3a8a;
+        }
+
+        .hover\:border-brand-navy:hover {
+            border-color: #1e3a8a;
+        }
+
+        .hover\:bg-brand-navy:hover {
+            background-color: #14285e;
+        }
+
+        /* Red de seguridad de foco visible: algunos formularios suprimen el
+           outline nativo (focus:outline-none) confiando en focus:ring-* /
+           focus:border-* con colores personalizados (brand-red/gold/navy)
+           que no siempre ganan la cascada frente a los estilos base de
+           @tailwindcss/forms. Este outline explícito garantiza un foco
+           visible en todos los campos del admin sin depender de esa cadena. */
+        /* Red de seguridad de foco visible: varios formularios suprimen el
+           outline nativo (focus:outline-none) confiando en focus:ring-*
+           con colores personalizados que no siempre ganan la cascada.
+           !important sin @layer (Tailwind aquí no compila con @layer real)
+           garantiza un foco visible en todo el admin sin depender de esa
+           cadena de utilidades. */
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible,
+        button:focus-visible,
+        a:focus-visible,
+        [tabindex]:focus-visible {
+            outline: 2px solid var(--brand) !important;
+            outline-offset: 1px !important;
+        }
     </style>
 
     @stack('styles')
 </head>
 
 <body class="bg-gray-100 text-gray-800">
+    <a href="#main-content"
+        class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-brand-red focus:font-bold focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red">
+        Saltar al contenido principal
+    </a>
+
     <!-- Overlay Mobile -->
     <div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden backdrop-blur-sm" id="sidebarOverlay"></div>
 
@@ -193,7 +277,7 @@
             <div class="flex items-center gap-3">
                 <div
                     class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#761e23] to-[#5a161a] text-white flex items-center justify-center shadow-lg">
-                    <i class="fas fa-book-open"></i>
+                    <x-fas-book-open />
                 </div>
                 <div>
                     <h1 class="font-bold text-[#761e23] text-lg leading-tight">Letras</h1>
@@ -201,18 +285,17 @@
                 </div>
             </div>
             <button class="lg:hidden absolute top-4 right-4 text-gray-400 hover:text-gray-600" id="closeSidebar">
-                <i class="fas fa-times text-lg"></i>
+                <x-fas-times class="text-lg" />
             </button>
         </div>
 
         <!-- Navigation -->
-        <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+        <nav class="flex-1 overflow-y-auto p-4 space-y-1" aria-label="Administración">
             <p class="text-xs font-bold uppercase tracking-wider text-[#d4a017] mb-2 ml-2">General</p>
 
             <a href="{{ route('admin.dashboard') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.dashboard') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
-                <i
-                    class="fas fa-chart-pie w-5 text-lg {{ request()->routeIs('admin.dashboard') ? '' : 'text-gray-500' }}"></i>
+                <x-fas-chart-pie class="w-5 text-lg {{ request()->routeIs('admin.dashboard') ? '' : 'text-gray-500' }}" />
                 <span>Dashboard</span>
             </a>
 
@@ -220,15 +303,13 @@
 
             <a href="{{ route('admin.programas.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.programas.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
-                <i
-                    class="fas fa-graduation-cap w-5 text-lg {{ request()->routeIs('admin.programas.*') ? '' : 'text-gray-500' }}"></i>
+                <x-fas-graduation-cap class="w-5 text-lg {{ request()->routeIs('admin.programas.*') ? '' : 'text-gray-500' }}" />
                 <span>Programas</span>
             </a>
 
             <a href="{{ route('admin.docentes.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.docentes.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
-                <i
-                    class="fas fa-chalkboard-teacher w-5 text-lg {{ request()->routeIs('admin.docentes.*') ? '' : 'text-gray-500' }}"></i>
+                <x-fas-chalkboard-teacher class="w-5 text-lg {{ request()->routeIs('admin.docentes.*') ? '' : 'text-gray-500' }}" />
                 <span>Docentes</span>
             </a>
 
@@ -236,50 +317,49 @@
 
             <a href="{{ route('admin.testimonios.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.testimonios.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
-                <i
-                    class="fas fa-comments w-5 text-lg {{ request()->routeIs('admin.testimonios.*') ? '' : 'text-gray-500' }}"></i>
+                <x-fas-comments class="w-5 text-lg {{ request()->routeIs('admin.testimonios.*') ? '' : 'text-gray-500' }}" />
                 <span>Testimonios</span>
             </a>
 
             <a href="{{ route('admin.documents.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.documents.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
-                <i
-                    class="fas fa-folder-open w-5 text-lg {{ request()->routeIs('admin.documents.*') ? '' : 'text-gray-500' }}"></i>
+                <x-fas-folder-open class="w-5 text-lg {{ request()->routeIs('admin.documents.*') ? '' : 'text-gray-500' }}" />
                 <span>Documentos</span>
             </a>
 
             <a href="{{ route('admin.directorio.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.directorio.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
-                <i
-                    class="fas fa-address-book w-5 text-lg {{ request()->routeIs('admin.directorio.*') ? '' : 'text-gray-500' }}"></i>
+                <x-fas-address-book class="w-5 text-lg {{ request()->routeIs('admin.directorio.*') ? '' : 'text-gray-500' }}" />
                 <span>Directorio</span>
             </a>
 
             <a href="{{ route('admin.cronograma.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.cronograma.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
-                <i
-                    class="fas fa-calendar-alt w-5 text-lg {{ request()->routeIs('admin.cronograma.*') ? '' : 'text-gray-500' }}"></i>
+                <x-fas-calendar-alt class="w-5 text-lg {{ request()->routeIs('admin.cronograma.*') ? '' : 'text-gray-500' }}" />
                 <span>Cronograma</span>
+            </a>
+
+            <a href="{{ route('admin.admision-diplomados.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.admision-diplomados.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <x-fas-scroll class="w-5 text-lg {{ request()->routeIs('admin.admision-diplomados.*') ? '' : 'text-gray-500' }}" />
+                <span>Admisión Diplomados</span>
             </a>
 
             <a href="{{ route('admin.informativos.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.informativos.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
-                <i
-                    class="fas fa-info-circle w-5 text-lg {{ request()->routeIs('admin.informativos.*') ? '' : 'text-gray-500' }}"></i>
+                <x-fas-info-circle class="w-5 text-lg {{ request()->routeIs('admin.informativos.*') ? '' : 'text-gray-500' }}" />
                 <span>Recursos Informativos</span>
             </a>
 
             <a href="{{ route('admin.eventos.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.eventos.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
-                <i
-                    class="fas fa-calendar-day w-5 text-lg {{ request()->routeIs('admin.eventos.*') ? '' : 'text-gray-500' }}"></i>
+                <x-fas-calendar-day class="w-5 text-lg {{ request()->routeIs('admin.eventos.*') ? '' : 'text-gray-500' }}" />
                 <span>Eventos</span>
             </a>
 
             <a href="{{ route('admin.settings.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.settings.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
-                <i
-                    class="fas fa-cog w-5 text-lg {{ request()->routeIs('admin.settings.*') ? '' : 'text-gray-500' }}"></i>
+                <x-fas-cog class="w-5 text-lg {{ request()->routeIs('admin.settings.*') ? '' : 'text-gray-500' }}" />
                 <span>Configuración</span>
             </a>
         </nav>
@@ -288,7 +368,7 @@
         <div class="p-4 border-t border-gray-100">
             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                 class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-bold text-red-600 bg-red-50 hover:bg-red-100 transition-colors">
-                <i class="fas fa-sign-out-alt"></i>
+                <x-fas-sign-out-alt />
                 <span>Cerrar Sesión</span>
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
@@ -306,7 +386,7 @@
                 <button
                     class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 shadow-sm bg-white"
                     id="sidebarToggle">
-                    <i class="fas fa-bars text-gray-600"></i>
+                    <x-fas-bars class="text-gray-600" />
                 </button>
                 <div>
                     <h1 class="text-xl font-bold text-gray-800">@yield('title', 'Dashboard')</h1>
@@ -317,9 +397,9 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="{{ route('home') }}" target="_blank"
+                <a href="{{ route('home') }}" target="_blank" rel="noopener noreferrer"
                     class="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors">
-                    <i class="fas fa-external-link-alt"></i>
+                    <x-fas-external-link-alt />
                     <span>Ver Web Pública</span>
                 </a>
 
@@ -339,16 +419,16 @@
                         class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
                         <p class="px-4 py-2 text-xs font-bold text-gray-400 uppercase">Mi Cuenta</p>
                         <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                            <i class="fas fa-user-circle text-gray-400"></i> Perfil
+                            <x-fas-user-circle class="text-gray-400" /> Perfil
                         </a>
                         <a href="{{ route('admin.settings.index') }}"
                             class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                            <i class="fas fa-cog text-gray-400"></i> Configuración
+                            <x-fas-cog class="text-gray-400" /> Configuración
                         </a>
                         <hr class="my-2 border-gray-100">
                         <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                             class="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            <x-fas-sign-out-alt /> Cerrar Sesión
                         </a>
                     </div>
                 </div>
@@ -356,26 +436,15 @@
         </header>
 
         <!-- Content -->
-        <main class="flex-1 p-4 lg:p-8 w-full">
-            {{-- Alerts --}}
-            @if(session('success'))
-                <div class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center">
-                    <i class="fas fa-check-circle mr-3 text-green-500"></i>
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center">
-                    <i class="fas fa-exclamation-circle mr-3 text-red-500"></i>
-                    {{ session('error') }}
-                </div>
-            @endif
+        <main id="main-content" class="flex-1 p-4 lg:p-8 w-full">
+            {{-- Alerts (auto-descartables vía <x-flash-message>) --}}
+            <x-flash-message type="success" />
+            <x-flash-message type="error" />
 
             @if($errors->any())
                 <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
                     <div class="flex items-center mb-2">
-                        <i class="fas fa-exclamation-triangle mr-3 text-red-500"></i>
+                        <x-fas-exclamation-triangle class="mr-3 text-red-500" />
                         <strong>Errores de validación:</strong>
                     </div>
                     <ul class="list-disc list-inside ml-8 text-sm">
@@ -428,6 +497,11 @@
             });
         });
     </script>
+
+    {{-- Modal de confirmación de eliminación reutilizable (event-driven, Alpine) --}}
+    <x-confirm-delete-modal />
+
+    @include('layouts.partials.toast-container')
 
     @stack('scripts')
 </body>

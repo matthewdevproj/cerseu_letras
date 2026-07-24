@@ -27,18 +27,9 @@
                 {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
             </p>
 
-            <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
-
-                <x-text-input
-                    id="password"
-                    name="password"
-                    type="password"
-                    class="mt-1 block w-3/4"
-                    placeholder="{{ __('Password') }}"
-                />
-
-                <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
+            <div class="mt-6 w-3/4">
+                <x-floating-input id="password" name="password" label="Contraseña" type="password"
+                    autocomplete="current-password" :error="$errors->userDeletion->first('password')" />
             </div>
 
             <div class="mt-6 flex justify-end">

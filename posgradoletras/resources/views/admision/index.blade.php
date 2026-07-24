@@ -19,24 +19,8 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
 
 @push('styles')
     <style>
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .step-card {
-            border-left: 4px solid #761e23;
+            border-left: 4px solid var(--brand);
             transition: all 0.3s ease;
         }
 
@@ -48,7 +32,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
         .step-number {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, #761e23 0%, #5a161a 100%);
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -68,12 +52,12 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
             content: "✓";
             position: absolute;
             left: 0;
-            color: #761e23;
+            color: var(--brand);
             font-weight: bold;
         }
 
         .tab-btn.active {
-            background: #761e23;
+            background: var(--brand);
             color: white;
         }
 
@@ -218,9 +202,9 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                         nacionales y Magisterio Nacional
                                     </p>
                                     <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/dedff708-2b46-4e8a-9c8d-b035913e3b2a"
-                                        target="_blank"
+                                        target="_blank" rel="noopener noreferrer" 
                                         class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-unmsm-guinda text-white font-bold text-base md:text-xl rounded-lg hover:bg-red-900 transition-colors shadow-md">
-                                        S/ 350.00 <i class="fas fa-external-link-alt text-xs md:text-sm"></i>
+                                        S/ 350.00 <x-fas-external-link-alt class="text-xs md:text-sm" />
                                     </a>
                                 </div>
                                 {{-- S/ 450 --}}
@@ -229,9 +213,9 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                         Otros postulantes
                                     </p>
                                     <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/6cce262e-3c78-42d8-9b1c-2a0666273547"
-                                        target="_blank"
+                                        target="_blank" rel="noopener noreferrer" 
                                         class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-unmsm-guinda text-white font-bold text-base md:text-xl rounded-lg hover:bg-red-900 transition-colors shadow-md">
-                                        S/ 450.00 <i class="fas fa-external-link-alt text-xs md:text-sm"></i>
+                                        S/ 450.00 <x-fas-external-link-alt class="text-xs md:text-sm" />
                                     </a>
                                 </div>
                             </div>
@@ -249,9 +233,9 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                         nacionales y Magisterio Nacional
                                     </p>
                                     <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/92e3ea2e-818f-4288-b980-0ec85a359749"
-                                        target="_blank"
+                                        target="_blank" rel="noopener noreferrer" 
                                         class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-gray-800 text-white font-bold text-base md:text-xl rounded-lg hover:bg-gray-900 transition-colors shadow-md">
-                                        S/ 400.00 <i class="fas fa-external-link-alt text-xs md:text-sm"></i>
+                                        S/ 400.00 <x-fas-external-link-alt class="text-xs md:text-sm" />
                                     </a>
                                 </div>
                                 {{-- S/ 500 --}}
@@ -260,9 +244,9 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                         Otros postulantes
                                     </p>
                                     <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/5f1ffb8f-a462-4757-9443-a51407f51f2e"
-                                        target="_blank"
+                                        target="_blank" rel="noopener noreferrer" 
                                         class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-gray-800 text-white font-bold text-base md:text-xl rounded-lg hover:bg-gray-900 transition-colors shadow-md">
-                                        S/ 500.00 <i class="fas fa-external-link-alt text-xs md:text-sm"></i>
+                                        S/ 500.00 <x-fas-external-link-alt class="text-xs md:text-sm" />
                                     </a>
                                 </div>
                             </div>
@@ -425,7 +409,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                         <strong>Ingresar sus datos al siguiente enlace (necesitará el número de secuencia de su
                             comprobante de pago):</strong>
                     </p>
-                    <a href="https://posgrado.unmsm.edu.pe/admision/registro/index.php" target="_blank"
+                    <a href="https://posgrado.unmsm.edu.pe/admision/registro/index.php" target="_blank" rel="noopener noreferrer" 
                         class="text-unmsm-guinda hover:underline break-all">
                         https://posgrado.unmsm.edu.pe/admision/registro/index.php
                     </a>
@@ -436,7 +420,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                     <div class="flex items-start gap-3 mb-3">
                         <span
                             class="flex-shrink-0 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm">
-                            <i class="fab fa-youtube"></i>
+                            <x-fab-youtube />
                         </span>
                         <div class="flex-1">
                             <h4 class="font-bold text-gray-800 mb-1">Video tutorial: Generación del código de postulante
@@ -629,14 +613,14 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                 <!-- Advertencia de Fecha Límite -->
                 <div class="bg-red-50 border border-red-300 rounded-lg p-4 mb-6">
                     <p class="text-red-800 flex items-start gap-2 mb-2">
-                        <i class="fas fa-clock mt-1"></i>
+                        <x-fas-clock class="mt-1" />
                         <span>
                             La recepción de documentos será hasta la <strong>11:59 p.m. del 02 de abril del 2026</strong>.
                         </span>
                     </p>
                     <p class="text-red-800 ml-6 mb-2">
                         La recepción de documentos será exclusivamente por el formulario: <br>
-                        <a href="https://share.google/jHxcVcvkryeHseIsQ" target="_blank"
+                        <a href="https://share.google/jHxcVcvkryeHseIsQ" target="_blank" rel="noopener noreferrer" 
                             class="font-bold underline break-all hover:text-red-900">
                             https://share.google/jHxcVcvkryeHseIsQ
                         </a>
@@ -695,9 +679,9 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
 
                 <!-- Enlace al Formulario -->
                 <div class="text-center">
-                    <a href="https://share.google/jHxcVcvkryeHseIsQ" target="_blank"
+                    <a href="https://share.google/jHxcVcvkryeHseIsQ" target="_blank" rel="noopener noreferrer" 
                         class="inline-flex items-center gap-2 px-6 py-4 bg-unmsm-dorado text-white font-bold text-lg rounded-xl hover:bg-yellow-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full md:w-auto justify-center">
-                        <i class="fas fa-file-upload text-xl"></i>
+                        <x-fas-file-upload class="text-xl" />
                         <span>REMISIÓN DE DOCUMENTOS – ADMISIÓN POSGRADO LETRAS 2026-I</span>
                     </a>
                     <p class="text-sm text-gray-500 mt-3">Clic en el botón para acceder al formulario de envío</p>
@@ -787,7 +771,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                     <p class="text-gray-600 text-sm mt-4">
                         Cualquier información adicional, pueden revisar la página de la Dirección General de Estudios de
                         Posgrado
-                        <a href="https://posgrado.unmsm.edu.pe/" target="_blank"
+                        <a href="https://posgrado.unmsm.edu.pe/" target="_blank" rel="noopener noreferrer" 
                             class="text-unmsm-guinda font-medium hover:underline">
                             https://posgrado.unmsm.edu.pe/
                         </a>,
@@ -801,9 +785,9 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                     <!-- Enlace a Resultados / Ingresantes -->
                     <div class="text-center">
                         <a href="https://posgradoletras.unmsm.edu.pe/storage/documents/7JsBBeZHJcuqOXiI2MymlFwm5GfKPiIg6dYyetZQ.pdf"
-                            target="_blank"
+                            target="_blank" rel="noopener noreferrer" 
                             class="inline-flex items-center gap-2 px-6 py-4 bg-unmsm-dorado text-white font-bold text-lg rounded-xl hover:bg-yellow-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full md:w-auto justify-center">
-                            <i class="fas fa-file-pdf text-xl"></i>
+                            <x-fas-file-pdf class="text-xl" />
                             <span>VER INGRESANTES – ADMISIÓN POSGRADO LETRAS 2026-I</span>
                         </a>
                         <p class="text-sm text-gray-500 mt-3">Clic en el botón para ver la lista de ingresantes</p>
@@ -847,9 +831,9 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                         </div>
                         <div>
                             <span class="text-white/60 text-xs">WhatsApp</span>
-                            <a href="{{ $whatsapp }}" target="_blank"
+                            <a href="{{ $whatsapp }}" target="_blank" rel="noopener noreferrer" 
                                 class="font-medium hover:text-white/80 transition-colors flex items-center gap-1">
-                                {{ $telefono }} <i class="fas fa-external-link-alt text-xs"></i>
+                                {{ $telefono }} <x-fas-external-link-alt class="text-xs" />
                             </a>
                         </div>
                     </div>
@@ -861,7 +845,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                 <h4 class="font-bold text-gray-800 mb-4">Enlaces útiles</h4>
                 <div class="space-y-2">
                     <a href="https://posgrado.unmsm.edu.pe/admision/inscripcion/subir_Voucher/Subir/index.php"
-                        target="_blank" class="flex items-center gap-2 text-sm text-unmsm-guinda hover:underline">
+                        target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm text-unmsm-guinda hover:underline">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -869,7 +853,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                         </svg>
                         Subir comprobante de pago
                     </a>
-                    <a href="https://sanmarket.unmsm.edu.pe" target="_blank"
+                    <a href="https://sanmarket.unmsm.edu.pe" target="_blank" rel="noopener noreferrer" 
                         class="flex items-center gap-2 text-sm text-unmsm-guinda hover:underline">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -878,7 +862,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                         </svg>
                         SanMarket UNMSM
                     </a>
-                    <a href="https://posgrado.unmsm.edu.pe/" target="_blank"
+                    <a href="https://posgrado.unmsm.edu.pe/" target="_blank" rel="noopener noreferrer" 
                         class="flex items-center gap-2 text-sm text-unmsm-guinda hover:underline">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">

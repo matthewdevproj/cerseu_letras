@@ -43,7 +43,7 @@
                                     <div class="flex items-center gap-4 border-t border-gray-200 pt-6">
                                         <div class="flex-shrink-0">
                                             @if($testimonio->photo)
-                                                <img src="{{ $testimonio->photo_url }}" alt="{{ $testimonio->nombre }}"
+                                                <img src="{{ $testimonio->photo_url }}" alt="{{ $testimonio->nombre }}" loading="lazy" decoding="async"
                                                     class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md">
                                             @else
                                                 <div
@@ -77,35 +77,10 @@
                 <a href="{{ route('testimonios.index') }}"
                     class="inline-flex items-center gap-2 px-8 py-3 bg-white border-2 border-unmsm-guinda text-unmsm-guinda font-bold rounded-xl hover:bg-unmsm-guinda hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg group">
                     Leer más historias
-                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    <x-fas-arrow-right class="group-hover:translate-x-1 transition-transform" />
                 </a>
             </div>
         </div>
     </section>
 
-    @push('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                if (typeof Swiper !== 'undefined') {
-                    new Swiper('.testimonios-swiper', {
-                        slidesPerView: 1,
-                        spaceBetween: 30,
-                        loop: true,
-                        autoplay: {
-                            delay: 3500,
-                            disableOnInteraction: false,
-                        },
-                        pagination: {
-                            el: '.swiper-pagination',
-                            clickable: true,
-                        },
-                        breakpoints: {
-                            768: { slidesPerView: 2, spaceBetween: 30 },
-                            1024: { slidesPerView: 3, spaceBetween: 40 },
-                        }
-                    });
-                }
-            });
-        </script>
-    @endpush
 @endif

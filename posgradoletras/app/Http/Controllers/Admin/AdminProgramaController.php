@@ -64,6 +64,11 @@ class AdminProgramaController extends Controller
             'perfil_graduado' => 'nullable',      // JSON array string
             'plan_url' => 'nullable|max:255',
             'horario_url' => 'nullable|max:255',
+            'brochure_url' => 'nullable|max:255',
+            'admision_pdf_url' => 'nullable|max:255',
+            'horas_academicas' => 'nullable|integer',
+            'fecha_limite_inscripcion' => 'nullable|max:255',
+            'inversion_economica' => 'nullable',   // JSON object string
             'plan_estudios' => 'nullable',         // JSON array string
             'slug' => 'nullable|unique:programas,slug',
             'imagen_url' => 'nullable|max:255',
@@ -86,6 +91,11 @@ class AdminProgramaController extends Controller
         }
         if (isset($data['plan_estudios']) && is_string($data['plan_estudios'])) {
             $data['plan_estudios'] = json_decode($data['plan_estudios'], true) ?: [];
+        }
+        if (isset($data['inversion_economica']) && is_string($data['inversion_economica'])) {
+            $data['inversion_economica'] = $data['inversion_economica'] !== ''
+                ? json_decode($data['inversion_economica'], true)
+                : null;
         }
 
         // Generate slug if not provided
@@ -158,6 +168,11 @@ class AdminProgramaController extends Controller
             'perfil_graduado' => 'nullable',      // JSON array string
             'plan_url' => 'nullable|max:255',
             'horario_url' => 'nullable|max:255',
+            'brochure_url' => 'nullable|max:255',
+            'admision_pdf_url' => 'nullable|max:255',
+            'horas_academicas' => 'nullable|integer',
+            'fecha_limite_inscripcion' => 'nullable|max:255',
+            'inversion_economica' => 'nullable',   // JSON object string
             'plan_estudios' => 'nullable',         // JSON array string
             'slug' => 'nullable|unique:programas,slug,' . $programa->id, // Nullable to avoid validation failure if missing from form
             'imagen_url' => 'nullable|max:255',
@@ -180,6 +195,11 @@ class AdminProgramaController extends Controller
         }
         if (isset($data['plan_estudios']) && is_string($data['plan_estudios'])) {
             $data['plan_estudios'] = json_decode($data['plan_estudios'], true) ?: [];
+        }
+        if (isset($data['inversion_economica']) && is_string($data['inversion_economica'])) {
+            $data['inversion_economica'] = $data['inversion_economica'] !== ''
+                ? json_decode($data['inversion_economica'], true)
+                : null;
         }
 
         // Update slug if nombre changed and slug not manually provided

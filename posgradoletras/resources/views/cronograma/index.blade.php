@@ -1,6 +1,10 @@
 @extends('layouts.public')
 
-@section('title', 'Cronograma Académico {{ $cronograma?->code ?? "2026-I" }} - Posgrado Letras UNMSM')
+@php
+    $cronogramaCode = $cronograma?->code ?? '2026-I';
+@endphp
+
+@section('title', "Cronograma Académico {$cronogramaCode} - Posgrado Letras UNMSM")
 
 @push('styles')
     <style>
@@ -29,8 +33,10 @@
             background: #fef3f2;
         }
 
+        /* Mismo rojo institucional que el resto de la página (unmsm-guinda,
+           #6B1E20), para no mezclar dos tonos de rojo en un mismo archivo. */
         .section-heading td {
-            background: linear-gradient(135deg, #761e23 0%, #5a161a 100%);
+            background: #6B1E20;
             color: white;
             font-weight: 700;
             font-size: 0.95rem;
@@ -41,7 +47,7 @@
         .docs-card {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border: 1px solid #e2e8f0;
-            border-left: 4px solid #761e23;
+            border-left: 4px solid #6B1E20;
         }
 
         .docs-card ul {
@@ -50,53 +56,14 @@
         }
 
         .docs-card li a {
-            color: #761e23;
+            color: #6B1E20;
             text-decoration: none;
             transition: all 0.2s;
         }
 
         .docs-card li a:hover {
-            color: #d4af37;
+            color: #B6A350;
             text-decoration: underline;
-        }
-
-        .btn-unmsm {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, #761e23 0%, #5a161a 100%);
-            color: white;
-            padding: 0.875rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .btn-unmsm:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(118, 30, 35, 0.3);
-        }
-
-        .btn-unmsm-outline {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            background: white;
-            color: #761e23;
-            border: 2px solid #761e23;
-            padding: 0.875rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .btn-unmsm-outline:hover {
-            background: #761e23;
-            color: white;
         }
 
         .nota-fuente {
@@ -107,7 +74,7 @@
         }
 
         .nota-fuente a {
-            color: #761e23;
+            color: #6B1E20;
             font-weight: 500;
         }
     </style>
@@ -140,7 +107,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
-                    <a href="{{ $doc->url }}" target="_blank">
+                    <a href="{{ $doc->url }}" target="_blank" rel="noopener noreferrer">
                         {{ $doc->display_title }}
                     </a>
                 </li>
@@ -198,42 +165,23 @@
             </div>
         </div>
         @else
-        <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-8 text-center mb-8">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-yellow-500 mx-auto mb-4" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-            <p class="text-yellow-800 font-medium">No hay cronograma disponible actualmente.</p>
-            <p class="text-yellow-700 text-sm mt-2">El cronograma será publicado próximamente.</p>
+        <div class="bg-white border border-gray-200 rounded-xl mb-8 shadow-sm">
+            <x-empty-state icon="fa-calendar-days" title="No hay cronograma disponible actualmente"
+                description="El cronograma será publicado próximamente." />
         </div>
         @endif
 
         <!-- Botones de acción -->
         <div class="grid md:grid-cols-3 gap-4">
-            <a href="{{ route('admision') }}" class="btn-unmsm-outline text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                </svg>
+            <x-button href="{{ route('admision') }}" variant="outline" size="lg" icon="fas fa-user-plus">
                 Proceso de Admisión
-            </a>
-            <a href="{{ route('programas.index') }}" class="btn-unmsm text-center">
-                Ver Programas
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-            </a>
-            <a href="{{ route('tramites') }}" class="btn-unmsm-outline text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+            </x-button>
+            <x-button href="{{ route('programas.index') }}" size="lg">
+                Ver Programas <x-fas-arrow-right aria-hidden="true" />
+            </x-button>
+            <x-button href="{{ route('tramites') }}" variant="outline" size="lg" icon="fas fa-file-alt">
                 Trámites y Grados
-            </a>
+            </x-button>
         </div>
 
     </section>

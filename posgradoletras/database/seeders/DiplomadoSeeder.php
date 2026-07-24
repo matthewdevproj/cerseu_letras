@@ -2,65 +2,131 @@
 
 namespace Database\Seeders;
 
+use App\Models\Docente;
 use App\Models\Programa;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class DiplomadoSeeder extends Seeder
 {
+    /**
+     * Datos oficiales tomados de "Ajustes para la página web de Diplomados.pdf"
+     * (Observación N.° 3, cronograma y costos de derechos de enseñanza).
+     */
     public function run(): void
     {
+        $planEstudiosGenerico = [
+            ['ciclo' => '1', 'nombre' => 'Fundamentos Teóricos y Metodológicos', 'creditos' => 6, 'sumilla' => 'Marco teórico y metodológico base del diplomado.'],
+            ['ciclo' => '1', 'nombre' => 'Seminario de Especialización I', 'creditos' => 6, 'sumilla' => 'Profundización en las principales líneas temáticas del programa.'],
+            ['ciclo' => '2', 'nombre' => 'Seminario de Especialización II', 'creditos' => 6, 'sumilla' => 'Aplicación práctica de herramientas y casos de estudio.'],
+            ['ciclo' => '2', 'nombre' => 'Taller de Proyecto Final', 'creditos' => 6, 'sumilla' => 'Elaboración y sustentación del trabajo final del diplomado.'],
+        ];
+
         $diplomados = [
             [
-                'grado'    => 'Diplomado',
-                'nombre'   => 'Redacción Académica y Científica',
-                'mencion'  => null,
-                'modalidad' => 'Semipresencial',
-                'duracion' => 2,
-                'vacantes' => 30,
-                'creditos' => 24,
-                'sumilla'  => 'El Diplomado en Redacción Académica y Científica forma especialistas capaces de producir textos académicos y científicos con rigor metodológico, claridad expositiva y dominio de las normas de citación internacionales. Está orientado a docentes, investigadores, estudiantes de posgrado y profesionales que requieran fortalecer sus competencias comunicativas en contextos académicos.',
-                'modalidad' => 'Semipresencial',
-                'is_active' => true,
-                'objetivos_academicos' => [
-                    'Desarrollar competencias para la redacción de artículos científicos, tesis y documentos académicos de alto nivel.',
-                    'Aplicar las normas internacionales de citación y referenciación (APA, Chicago, MLA) en la producción académica.',
-                    'Fortalecer la capacidad crítica y argumentativa en la escritura académica.',
-                    'Elaborar proyectos de investigación con estructura y rigor metodológico adecuados.',
-                ],
-                'perfil_ingresante' => [
-                    'Bachilleres, licenciados o magísteres en cualquier disciplina.',
-                    'Interés en el desarrollo de habilidades de escritura académica y científica.',
-                    'Docentes universitarios y profesionales que deseen mejorar su producción académica.',
-                ],
-                'perfil_graduado' => [
-                    'Redactar textos académicos y científicos con claridad, coherencia y rigor argumentativo.',
-                    'Aplicar con solvencia las normas de citación y estilo científico internacionales.',
-                    'Planificar y ejecutar proyectos de investigación con una estructura metodológica sólida.',
-                    'Evaluar críticamente publicaciones académicas y científicas de su área de especialidad.',
-                ],
-                'plan_estudios' => [
-                    ['ciclo' => '1', 'nombre' => 'Fundamentos de la Escritura Académica', 'creditos' => 4, 'sumilla' => 'Introduce los principios básicos de la comunicación académica: coherencia, cohesión, claridad y adecuación al registro formal. Se estudian géneros discursivos académicos y científicos.'],
-                    ['ciclo' => '1', 'nombre' => 'Gramática y Estilo en la Escritura Científica', 'creditos' => 4, 'sumilla' => 'Revisión de las estructuras gramaticales del español académico. Análisis de errores frecuentes y estrategias para lograr precisión léxica y fluidez estilística en textos científicos.'],
-                    ['ciclo' => '1', 'nombre' => 'Normas de Citación y Referenciación Internacional', 'creditos' => 4, 'sumilla' => 'Estudio comparado de los sistemas de citación APA, Chicago y MLA. Práctica en la elaboración de bibliografías, notas al pie y referencias integradas en el texto académico.'],
-                    ['ciclo' => '2', 'nombre' => 'Redacción de Artículos Científicos y Ensayos', 'creditos' => 4, 'sumilla' => 'Metodología para la elaboración de artículos científicos: estructura IMRD (Introducción, Métodos, Resultados y Discusión). Taller de escritura de ensayos argumentativos y reseñas bibliográficas.'],
-                    ['ciclo' => '2', 'nombre' => 'Diseño de Proyectos de Investigación', 'creditos' => 4, 'sumilla' => 'Planificación y redacción de proyectos de investigación académica. Formulación de problemas, objetivos, hipótesis y marco teórico. Diseño metodológico y cronograma de actividades.'],
-                    ['ciclo' => '2', 'nombre' => 'Taller de Producción Académica', 'creditos' => 4, 'sumilla' => 'Espacio práctico para la elaboración y revisión de textos académicos propios. Los participantes desarrollan un artículo o proyecto final con acompañamiento docente, aplicando todos los contenidos del diplomado.'],
-                ],
+                'nombre' => 'Diplomado en Curaduría con Énfasis en Arte Peruano y Latinoamericano Moderno y Contemporáneo',
+                'costo_total' => 3000,
+                'fecha_limite_inscripcion' => '25 de septiembre de 2026',
+                'coordinador' => ['nombres' => 'Claudia', 'apellidos' => 'Rodríguez Salinas'],
+            ],
+            [
+                'nombre' => 'Diplomado en Filosofía de la Educación, Ética y Epistemología de las Ciencias Sociales',
+                'costo_total' => 1200,
+                'fecha_limite_inscripcion' => '28 de septiembre de 2026',
+                'coordinador' => ['nombres' => 'Jorge Luis', 'apellidos' => 'Mendoza Vargas'],
+            ],
+            [
+                'nombre' => 'Diplomado en Gestión Cultural y Desarrollo de Públicos',
+                'costo_total' => 3000,
+                'fecha_limite_inscripcion' => '25 de septiembre de 2026',
+                'coordinador' => ['nombres' => 'Ana María', 'apellidos' => 'Quispe Huamán'],
+            ],
+            [
+                'nombre' => 'Diplomado en Proyectos de Innovación Social con Inteligencia Artificial en Educación y Comunicaciones',
+                'costo_total' => 1500,
+                'fecha_limite_inscripcion' => '25 de septiembre de 2026',
+                'coordinador' => ['nombres' => 'Renato', 'apellidos' => 'Fernández Castro'],
+            ],
+            [
+                'nombre' => 'Diplomado Internacional de Lingüística Forense',
+                'costo_total' => 4450,
+                'fecha_limite_inscripcion' => '25 de septiembre de 2026',
+                'observaciones' => 'El costo incluye matrícula.',
+                'coordinador' => ['nombres' => 'Patricia', 'apellidos' => 'Ibáñez Torres'],
+            ],
+            [
+                'nombre' => 'Diplomado Internacional en Corrección Lingüística',
+                'costo_total' => 4000,
+                'fecha_limite_inscripcion' => '28 de septiembre de 2026',
+                'coordinador' => ['nombres' => 'Miguel Ángel', 'apellidos' => 'Torres Rojas'],
             ],
         ];
 
         foreach ($diplomados as $data) {
-            $base = $data['nombre'];
-            $slug = Str::slug($base);
+            $slug = Str::slug($data['nombre']);
             $original = $slug;
             $count = 1;
             while (Programa::where('slug', $slug)->exists()) {
                 $slug = $original . '-' . $count++;
             }
-            $data['slug'] = $slug;
 
-            Programa::create($data);
+            $cuota = round($data['costo_total'] / 2);
+
+            $programa = Programa::create([
+                'grado' => 'Diplomado',
+                'nombre' => $data['nombre'],
+                'mencion' => null,
+                'modalidad' => 'Virtual',
+                'duracion' => 2,
+                'vacantes' => 30,
+                'creditos' => 24,
+                'horas_academicas' => 480,
+                'fecha_limite_inscripcion' => $data['fecha_limite_inscripcion'],
+                'sumilla' => "El {$data['nombre']} está dirigido a profesionales y especialistas que buscan actualizar y profundizar sus conocimientos desde una perspectiva académica rigurosa, con un enfoque virtual y aplicado.",
+                'is_active' => true,
+                'slug' => $slug,
+                'objetivos_academicos' => [
+                    'Fortalecer competencias especializadas de acuerdo a los ejes temáticos del diplomado.',
+                    'Aplicar herramientas metodológicas actualizadas a problemas reales del campo de especialización.',
+                ],
+                'perfil_ingresante' => [
+                    'Bachilleres, licenciados o profesionales con interés en el área de especialización del diplomado.',
+                ],
+                'perfil_graduado' => [
+                    'Egresa con competencias especializadas aplicables a su ejercicio profesional o académico.',
+                ],
+                'plan_estudios' => $planEstudiosGenerico,
+                'inversion_economica' => [
+                    'derecho_inscripcion' => [
+                        'bachiller_unmsm' => 200,
+                        'otras_universidades' => 280,
+                    ],
+                    'costo_total' => $data['costo_total'],
+                    'costo_diploma' => 650,
+                    'cuotas' => [
+                        ['numero' => 1, 'monto' => $cuota, 'fecha' => 'Hasta 3 días hábiles después de publicados los resultados'],
+                        ['numero' => 2, 'monto' => $data['costo_total'] - $cuota, 'fecha' => 'Entre el 15 y el 30 de noviembre de 2026'],
+                    ],
+                    'modalidades_pago' => ['Pago único', 'Pago en dos cuotas'],
+                    'descuentos' => null,
+                    'observaciones' => $data['observaciones']
+                        ?? 'De no realizar el pago dentro de los 3 días hábiles posteriores a la publicación de resultados, se pierde la vacante automáticamente.',
+                ],
+            ]);
+
+            $coordinador = Docente::create([
+                'nombres' => $data['coordinador']['nombres'],
+                'apellidos' => $data['coordinador']['apellidos'],
+                'grado' => 'Dr.',
+                'email' => Str::slug($data['coordinador']['nombres'], '') . '.' . Str::slug($data['coordinador']['apellidos'], '') . '@unmsm.edu.pe',
+                'estado' => 1,
+            ]);
+
+            $programa->docentes()->attach($coordinador->id, [
+                'es_coordinador' => true,
+                'rol' => 'Coordinador',
+                'orden' => 0,
+            ]);
         }
     }
 }

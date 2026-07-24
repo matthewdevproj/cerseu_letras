@@ -5,7 +5,6 @@
 @push('styles')
     <style>
         :root {
-            --primary-color: #761e23;
             --accent-color: #d4af37;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -34,7 +33,7 @@
         <div class="flex items-center gap-4">
             <div
                 class="w-14 h-14 rounded-full bg-gradient-to-br from-brand-gold to-yellow-500 flex items-center justify-center text-white shadow-lg">
-                <i class="fas fa-user-plus text-2xl"></i>
+                <x-fas-user-plus class="text-2xl" />
             </div>
             <div>
                 <h2 class="text-2xl font-serif font-bold leading-7 text-gray-900 sm:text-3xl">
@@ -50,7 +49,8 @@
     <!-- Form Card -->
     <div class="card">
         <div class="p-6">
-            <form action="{{ route('admin.directorio.store') }}" method="POST">
+            <form action="{{ route('admin.directorio.store') }}" method="POST"
+                x-data="{ submitting: false }" @submit="submitting = true">
                 @csrf
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -164,19 +164,19 @@
                         <!-- Tips -->
                         <div class="bg-blue-50 rounded-lg border border-blue-200 p-4">
                             <h4 class="text-xs font-bold text-blue-800 uppercase mb-2 flex items-center gap-2">
-                                <i class="fas fa-lightbulb"></i> Consejos
+                                <x-fas-lightbulb /> Consejos
                             </h4>
                             <ul class="text-xs text-blue-700 space-y-2">
                                 <li class="flex items-start gap-2">
-                                    <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
+                                    <x-fas-check-circle class="text-blue-500 mt-0.5" />
                                     <span>Incluye el grado académico en el nombre (Ej: Dr., Dra., Mg.)</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
+                                    <x-fas-check-circle class="text-blue-500 mt-0.5" />
                                     <span>El cargo debe ser descriptivo y completo</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
+                                    <x-fas-check-circle class="text-blue-500 mt-0.5" />
                                     <span>Puedes crear nuevas unidades según sea necesario</span>
                                 </li>
                             </ul>
@@ -188,12 +188,13 @@
                 <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                     <a href="{{ route('admin.directorio.index') }}"
                         class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all">
-                        <i class="fas fa-arrow-left mr-2"></i> Volver al Listado
+                        <x-fas-arrow-left class="mr-2" /> Volver al Listado
                     </a>
-                    <button type="submit"
-                        class="inline-flex items-center px-6 py-2.5 border border-transparent rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg hover:shadow-xl transition-all">
-                        <i class="fas fa-save mr-2"></i>
-                        Guardar Personal
+                    <button type="submit" :disabled="submitting"
+                        class="inline-flex items-center px-6 py-2.5 border border-transparent rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed">
+                        <x-fas-spinner class="animate-spin mr-2" x-show="submitting" x-cloak aria-hidden="true" />
+                        <x-fas-save class="mr-2" x-show="!submitting" aria-hidden="true" />
+                        <span x-text="submitting ? 'Guardando...' : 'Guardar Personal'"></span>
                     </button>
                 </div>
             </form>

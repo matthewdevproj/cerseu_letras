@@ -5,8 +5,7 @@
 @push('styles')
     <style>
         :root {
-            --primary-color: #761e23;
-            --primary-dark: #5a161a;
+            /* --brand y --brand-dark ya vienen de admin.layout.app; se reutilizan aquí */
             --accent-color: #d4af37;
             --border-radius: 1rem;
             --transition: all 0.25s ease;
@@ -44,11 +43,11 @@
         text-decoration: none;
         }
         .nav-tabs .nav-link:hover {
-            color: var(--primary-color);
+            color: var(--brand);
             background: #fff5f5;
         }
         .nav-tabs .nav-link.active {
-            background: var(--primary-color) !important;
+            background: var(--brand) !important;
             color: white !important;
             box-shadow: 0 8px 18px rgba(118, 30, 35, 0.25);
         }
@@ -97,12 +96,6 @@
         /* Tab panes */
         .tab-content { padding-top: .5rem; }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .tab-pane.show { animation: fadeUp 0.2s ease-out; }
-
         /* Soft info blocks */
         .soft-info {
             background: #eff6ff;
@@ -126,7 +119,7 @@
             transform: translateY(-1px);
         }
         .ciclo-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
             color: white;
             padding: 1rem 1.25rem;
             display: flex;
@@ -217,7 +210,7 @@
         <div class="mb-8">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-lg bg-brand-red flex items-center justify-center text-white">
-                    <i class="fas fa-graduation-cap text-2xl"></i>
+                    <x-fas-graduation-cap class="text-2xl" />
                 </div>
                 <div>
                     <h2 class="text-2xl font-serif font-bold leading-7 text-gray-900 sm:text-3xl">
@@ -230,35 +223,36 @@
         <!-- Form Card -->
         <div class="card">
             <div class="p-6">
-                <form action="{{ route('admin.programas.update', $programa) }}" method="POST" enctype="multipart/form-data" id="form-programa">
+                <form action="{{ route('admin.programas.update', $programa) }}" method="POST" enctype="multipart/form-data" id="form-programa"
+                    x-data="{ submitting: false, tab: 'basico' }" @submit="submitting = true">
                     @csrf
                     @method('PUT')
 
                     <!-- Tabs Navigation -->
                     <ul class="nav nav-tabs mb-6 flex flex-wrap" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#basico" onclick="switchTab(event, 'basico')">
-                                <i class="fas fa-info-circle"></i> Básico
+                            <a class="nav-link" :class="tab === 'basico' ? 'active' : ''" href="#basico" @click.prevent="tab = 'basico'">
+                                <x-fas-info-circle /> Básico
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#contenido" onclick="switchTab(event, 'contenido')">
-                                <i class="fas fa-file-alt"></i> Contenido
+                            <a class="nav-link" :class="tab === 'contenido' ? 'active' : ''" href="#contenido" @click.prevent="tab = 'contenido'">
+                                <x-fas-file-alt /> Contenido
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#plan" onclick="switchTab(event, 'plan')">
-                                <i class="fas fa-book-open"></i> Plan de Estudios
+                            <a class="nav-link" :class="tab === 'plan' ? 'active' : ''" href="#plan" @click.prevent="tab = 'plan'">
+                                <x-fas-book-open /> Plan de Estudios
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#docentes" onclick="switchTab(event, 'docentes')">
-                                <i class="fas fa-users"></i> Plana Docente
+                            <a class="nav-link" :class="tab === 'docentes' ? 'active' : ''" href="#docentes" @click.prevent="tab = 'docentes'">
+                                <x-fas-users /> Plana Docente
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#config" onclick="switchTab(event, 'config')">
-                                <i class="fas fa-cog"></i> Config
+                            <a class="nav-link" :class="tab === 'config' ? 'active' : ''" href="#config" @click.prevent="tab = 'config'">
+                                <x-fas-cog /> Config
                             </a>
                         </li>
                     </ul>
@@ -266,7 +260,7 @@
                     <!-- Tab Content -->
                     <div class="tab-content">
                         <!-- TAB 1: Información Básica -->
-                        <div id="basico" class="tab-pane show">
+                        <div id="basico" x-show="tab === 'basico'" x-cloak>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                                 <div>
@@ -328,10 +322,23 @@
                                         class="block w-full py-2.5 px-4" placeholder="Magíster en...">
                                 </div>
                             </div>
+
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
+                                <div>
+                                    <label for="horas_academicas" class="form-label block">Horas Académicas</label>
+                                    <input type="number" name="horas_academicas" id="horas_academicas" value="{{ old('horas_academicas', $programa->horas_academicas) }}"
+                                        class="block w-full py-2.5 px-4" min="0" placeholder="480">
+                                </div>
+                                <div>
+                                    <label for="fecha_limite_inscripcion" class="form-label block">Fecha Límite Inscripción</label>
+                                    <input type="text" name="fecha_limite_inscripcion" id="fecha_limite_inscripcion" value="{{ old('fecha_limite_inscripcion', $programa->fecha_limite_inscripcion) }}"
+                                        class="block w-full py-2.5 px-4" placeholder="25 de septiembre de 2026">
+                                </div>
+                            </div>
                         </div>
 
                         <!-- TAB 2: Contenido -->
-                        <div id="contenido" class="tab-pane hidden">
+                        <div id="contenido" x-show="tab === 'contenido'" x-cloak>
                             <div class="space-y-6">
                                 <div>
                                     <label for="sumilla" class="form-label block">Sumilla</label>
@@ -345,12 +352,12 @@
                                 <!-- Objetivos Académicos (JSON) -->
                                 <div class="border border-gray-200 rounded-lg p-4">
                                     <label class="form-label block mb-3">
-                                        <i class="fas fa-bullseye mr-1"></i> Objetivos Académicos
+                                        <x-fas-bullseye class="mr-1" /> Objetivos Académicos
                                     </label>
                                     <div id="objetivos-list" class="space-y-2"></div>
                                     <button type="button" onclick="agregarObjetivo()" 
                                         class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
-                                        <i class="fas fa-plus mr-1"></i> Agregar Objetivo
+                                        <x-fas-plus class="mr-1" /> Agregar Objetivo
                                     </button>
                                     <input type="hidden" id="objetivos_academicos" name="objetivos_academicos">
                                 </div>
@@ -358,12 +365,12 @@
                                 <!-- Perfil del Ingresante (JSON) -->
                                 <div class="border border-gray-200 rounded-lg p-4">
                                     <label class="form-label block mb-3">
-                                        <i class="fas fa-user-graduate mr-1"></i> Perfil del Ingresante
+                                        <x-fas-user-graduate class="mr-1" /> Perfil del Ingresante
                                     </label>
                                     <div id="ingresante-list" class="space-y-2"></div>
                                     <button type="button" onclick="agregarIngresante()" 
                                         class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
-                                        <i class="fas fa-plus mr-1"></i> Agregar Item
+                                        <x-fas-plus class="mr-1" /> Agregar Item
                                     </button>
                                     <input type="hidden" id="perfil_ingresante" name="perfil_ingresante">
                                 </div>
@@ -371,12 +378,12 @@
                                 <!-- Perfil del Graduado (JSON) -->
                                 <div class="border border-gray-200 rounded-lg p-4">
                                     <label class="form-label block mb-3">
-                                        <i class="fas fa-award mr-1"></i> Perfil del Graduado
+                                        <x-fas-award class="mr-1" /> Perfil del Graduado
                                     </label>
                                     <div id="graduado-list" class="space-y-2"></div>
                                     <button type="button" onclick="agregarGraduado()" 
                                         class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
-                                        <i class="fas fa-plus mr-1"></i> Agregar Item
+                                        <x-fas-plus class="mr-1" /> Agregar Item
                                     </button>
                                     <input type="hidden" id="perfil_graduado" name="perfil_graduado">
                                 </div>
@@ -384,10 +391,10 @@
                         </div>
 
                         <!-- TAB 3: Plan de Estudios -->
-                        <div id="plan" class="tab-pane hidden">
+                        <div id="plan" x-show="tab === 'plan'" x-cloak>
                             <div class="soft-info mb-6">
                                 <div class="flex items-center gap-2 text-blue-800">
-                                    <i class="fas fa-info-circle text-xl"></i>
+                                    <x-fas-info-circle class="text-xl" />
                                     <p class="text-sm font-medium">Gestión Visual: Agrega cursos organizados por ciclo/semestre. Los datos se guardan como JSON.</p>
                                 </div>
                             </div>
@@ -398,11 +405,11 @@
                             <div class="mt-4 flex flex-wrap gap-3">
                                 <button type="button" onclick="agregarCiclo()"
                                     class="inline-flex items-center px-4 h-11 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
-                                    <i class="fas fa-plus-circle mr-2"></i> Agregar Ciclo
+                                    <x-fas-plus-circle class="mr-2" /> Agregar Ciclo
                                 </button>
                                 <button type="button" onclick="agregarSeccionElectivos()"
                                     class="inline-flex items-center px-4 h-11 border border-gray-400 text-gray-600 rounded-lg hover:bg-gray-100 transition-all">
-                                    <i class="fas fa-star mr-2"></i> Agregar Electivos
+                                    <x-fas-star class="mr-2" /> Agregar Electivos
                                 </button>
                             </div>
 
@@ -410,10 +417,10 @@
                         </div>
 
                         <!-- TAB 4: Plana Docente (TABLA) -->
-                        <div id="docentes" class="tab-pane hidden">
+                        <div id="docentes" x-show="tab === 'docentes'" x-cloak>
                             <div class="soft-info mb-6">
                                 <div class="flex items-center gap-2 text-blue-800">
-                                    <i class="fas fa-info-circle text-xl"></i>
+                                    <x-fas-info-circle class="text-xl" />
                                     <p class="text-sm font-medium">
                                         Asignación de Docentes: Selecciona los docentes que enseñan en este programa. Puedes indicar si es coordinador, su rol y el orden de visualización.
                                     </p>
@@ -439,93 +446,118 @@
 
                             <button type="button" onclick="agregarDocente()"
                                 class="mt-4 inline-flex items-center px-4 h-11 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
-                                <i class="fas fa-plus-circle mr-2"></i> Agregar Docente
+                                <x-fas-plus-circle class="mr-2" /> Agregar Docente
                             </button>
                         </div>
 
                         <!-- TAB 5: Configuración -->
-                        <div id="config" class="tab-pane hidden">
+                        <div id="config" x-show="tab === 'config'" x-cloak>
                             <div class="space-y-6">
                                 <!-- Plan de Estudios -->
-                                <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-red hover:shadow-sm transition-all">
-                                    <label class="form-label block mb-3">
-                                        <i class="fas fa-book text-brand-red mr-1"></i> Plan de Estudios
-                                    </label>
-                                    <div class="flex gap-3 items-end">
-                                        <div class="flex-1">
-                                            <label class="text-xs text-gray-500 mb-1 block">URL del Plan</label>
-                                            <input type="url" name="plan_url" id="plan_url" value="{{ old('plan_url', $programa->plan_url) }}"
-                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:border-brand-red transition-colors"
-                                                placeholder="https://ejemplo.com/plan.pdf">
-                                        </div>
-                                        <div class="flex gap-2">
-                                            <input type="file" id="plan_file" accept=".pdf,application/pdf" class="hidden">
-                                            <button type="button" onclick="document.getElementById('plan_file').click()"
-                                                class="px-4 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-all flex items-center gap-2">
-                                                <i class="fas fa-upload"></i> Subir PDF
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div id="plan_status" class="mt-2 text-xs hidden"></div>
-                                </div>
+                                <x-admin-file-upload mode="ajax" name="plan" label="Plan de Estudios" icon="fas fa-book"
+                                    accept=".pdf,application/pdf" :url-value="old('plan_url', $programa->plan_url)" />
 
                                 <!-- Horario -->
+                                <x-admin-file-upload mode="ajax" name="horario" label="Horario" icon="fas fa-calendar-alt"
+                                    accept=".pdf,application/pdf"
+                                    :url-value="old('horario_url', filter_var($programa->horario_url, FILTER_VALIDATE_URL) ? $programa->horario_url : '')"
+                                    :current-file-url="$programa->horario_url ? (filter_var($programa->horario_url, FILTER_VALIDATE_URL) ? $programa->horario_url : asset('storage/' . $programa->horario_url)) : null"
+                                    current-file-label="Ver horario actual" />
+
+                                <!-- Brochure (Diplomados) -->
+                                <x-admin-file-upload mode="ajax" name="brochure" label="Brochure (Diplomados)" icon="fas fa-file-pdf"
+                                    accept=".pdf,application/pdf"
+                                    :url-value="old('brochure_url', filter_var($programa->brochure_url, FILTER_VALIDATE_URL) ? $programa->brochure_url : '')"
+                                    :current-file-url="$programa->brochure_url ? (filter_var($programa->brochure_url, FILTER_VALIDATE_URL) ? $programa->brochure_url : asset('storage/' . $programa->brochure_url)) : null"
+                                    current-file-label="Ver brochure actual" />
+
+                                <!-- PDF Proceso de Admisión -->
+                                <x-admin-file-upload mode="ajax" name="admision_pdf" label="PDF Proceso de Admisión" icon="fas fa-file-signature"
+                                    accept=".pdf,application/pdf"
+                                    :url-value="old('admision_pdf_url', filter_var($programa->admision_pdf_url, FILTER_VALIDATE_URL) ? $programa->admision_pdf_url : '')"
+                                    :current-file-url="$programa->admision_pdf_url ? (filter_var($programa->admision_pdf_url, FILTER_VALIDATE_URL) ? $programa->admision_pdf_url : asset('storage/' . $programa->admision_pdf_url)) : null"
+                                    current-file-label="Ver PDF actual"
+                                    help-text='Si se deja vacío, el botón "Ver Proceso de Admisión" enlazará a la página general de Admisión.' />
+
+                                <!-- Inversión Económica (Diplomados) -->
+                                @php
+                                    $inv = $programa->inversion_economica ?? [];
+                                @endphp
                                 <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-red hover:shadow-sm transition-all">
                                     <label class="form-label block mb-3">
-                                        <i class="fas fa-calendar-alt text-brand-red mr-1"></i> Horario
+                                        <x-fas-money-bill-wave class="text-brand-red mr-1" /> Inversión Económica (Diplomados)
                                     </label>
-                                    @if($programa->horario_url)
-                                        <div class="mb-3 p-3 bg-green-50 rounded-lg border border-green-200 flex items-center gap-4" id="horario_current">
-                                            <i class="fas fa-file-pdf text-red-600 text-2xl"></i>
-                                            <a href="{{ filter_var($programa->horario_url, FILTER_VALIDATE_URL) ? $programa->horario_url : asset('storage/' . $programa->horario_url) }}" target="_blank" class="text-sm text-blue-600 hover:underline font-medium">Ver horario actual</a>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="text-xs text-gray-500 mb-1 block">Derecho de inscripción · Bachiller UNMSM (S/)</label>
+                                            <input type="number" id="inv_derecho_bachiller" value="{{ $inv['derecho_inscripcion']['bachiller_unmsm'] ?? '' }}"
+                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="200">
                                         </div>
-                                    @endif
-                                    <div class="flex gap-3 items-end">
-                                        <div class="flex-1">
-                                            <label class="text-xs text-gray-500 mb-1 block">URL del Horario</label>
-                                            <input type="url" name="horario_url" id="horario_url" value="{{ old('horario_url', filter_var($programa->horario_url, FILTER_VALIDATE_URL) ? $programa->horario_url : '') }}"
-                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:border-brand-red transition-colors"
-                                                placeholder="https://ejemplo.com/horario.pdf">
+                                        <div>
+                                            <label class="text-xs text-gray-500 mb-1 block">Derecho de inscripción · Otras universidades (S/)</label>
+                                            <input type="number" id="inv_derecho_otras" value="{{ $inv['derecho_inscripcion']['otras_universidades'] ?? '' }}"
+                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="280">
                                         </div>
-                                        <div class="flex gap-2">
-                                            <input type="file" id="horario_file" accept=".pdf,application/pdf" class="hidden">
-                                            <button type="button" onclick="document.getElementById('horario_file').click()"
-                                                class="px-4 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-all flex items-center gap-2">
-                                                <i class="fas fa-upload"></i> Subir PDF
-                                            </button>
+                                        <div>
+                                            <label class="text-xs text-gray-500 mb-1 block">Costo total del diplomado (S/)</label>
+                                            <input type="number" id="inv_costo_total" value="{{ $inv['costo_total'] ?? '' }}"
+                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="3000">
+                                        </div>
+                                        <div>
+                                            <label class="text-xs text-gray-500 mb-1 block">Costo del diploma (S/)</label>
+                                            <input type="number" id="inv_costo_diploma" value="{{ $inv['costo_diploma'] ?? '' }}"
+                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="650">
                                         </div>
                                     </div>
-                                    <div id="horario_status" class="mt-2 text-xs hidden"></div>
+
+                                    <div class="mt-4">
+                                        <label class="text-xs text-gray-500 mb-1 block">Modalidades de pago (separadas por coma)</label>
+                                        <input type="text" id="inv_modalidades_pago" value="{{ !empty($inv['modalidades_pago']) ? implode(', ', $inv['modalidades_pago']) : '' }}"
+                                            class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
+                                            placeholder="Pago único, Pago en dos cuotas">
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <label class="text-xs text-gray-500 mb-1 block">Descuentos o beneficios</label>
+                                        <input type="text" id="inv_descuentos" value="{{ $inv['descuentos'] ?? '' }}"
+                                            class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
+                                            placeholder="Ej: 10% de descuento por pago adelantado">
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <label class="text-xs text-gray-500 mb-1 block">Observaciones</label>
+                                        <textarea id="inv_observaciones" rows="2"
+                                            class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
+                                            placeholder="Condiciones adicionales...">{{ $inv['observaciones'] ?? '' }}</textarea>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <label class="text-xs text-gray-500 mb-2 block font-semibold">Cuotas</label>
+                                        <div id="cuotas-list" class="space-y-2">
+                                            @foreach(($inv['cuotas'] ?? []) as $cuota)
+                                                <div class="flex gap-2 items-center cuota-row">
+                                                    <input type="number" min="0" placeholder="Monto (S/)" value="{{ $cuota['monto'] ?? '' }}" class="cuota-monto block w-32 py-2 px-3 border border-gray-300 rounded-lg">
+                                                    <input type="text" placeholder="Fecha / condición de pago" value="{{ $cuota['fecha'] ?? '' }}" class="cuota-fecha block flex-1 py-2 px-3 border border-gray-300 rounded-lg">
+                                                    <button type="button" onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700"><x-fas-trash /></button>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <button type="button" onclick="agregarCuota()"
+                                            class="mt-2 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                            <x-fas-plus class="mr-1" /> Agregar Cuota
+                                        </button>
+                                    </div>
+
+                                    <input type="hidden" id="inversion_economica" name="inversion_economica">
                                 </div>
 
                                 <!-- Imagen del Programa -->
-                                <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-red hover:shadow-sm transition-all">
-                                    <label class="form-label block mb-3">
-                                        <i class="fas fa-image text-brand-red mr-1"></i> Imagen del Programa
-                                    </label>
-                                    @if($programa->imagen)
-                                        <div class="mb-3 p-3 bg-blue-50 rounded-lg border border-blue-200 flex items-center gap-4" id="imagen_current">
-                                            <img src="{{ filter_var($programa->imagen, FILTER_VALIDATE_URL) ? $programa->imagen : asset('storage/' . $programa->imagen) }}" alt="Imagen actual" class="w-20 h-14 object-cover rounded-lg shadow">
-                                            <span class="text-xs text-gray-600">Imagen actual</span>
-                                        </div>
-                                    @endif
-                                    <div class="flex gap-3 items-end">
-                                        <div class="flex-1">
-                                            <label class="text-xs text-gray-500 mb-1 block">URL de la Imagen</label>
-                                            <input type="url" name="imagen_url" id="imagen_url" value="{{ old('imagen_url', filter_var($programa->imagen, FILTER_VALIDATE_URL) ? $programa->imagen : '') }}"
-                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:border-brand-red transition-colors"
-                                                placeholder="https://ejemplo.com/imagen.jpg">
-                                        </div>
-                                        <div class="flex gap-2">
-                                            <input type="file" id="imagen_file" accept="image/*" class="hidden">
-                                            <button type="button" onclick="document.getElementById('imagen_file').click()"
-                                                class="px-4 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-all flex items-center gap-2">
-                                                <i class="fas fa-upload"></i> Subir Imagen
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div id="imagen_status" class="mt-2 text-xs hidden"></div>
-                                </div>
+                                <x-admin-file-upload mode="ajax" name="imagen" label="Imagen del Programa" icon="fas fa-image"
+                                    accept="image/*"
+                                    :url-value="old('imagen_url', filter_var($programa->imagen, FILTER_VALIDATE_URL) ? $programa->imagen : '')"
+                                    :current-file-url="$programa->imagen ? (filter_var($programa->imagen, FILTER_VALIDATE_URL) ? $programa->imagen : asset('storage/' . $programa->imagen)) : null"
+                                    current-file-label="Imagen actual" current-preview-type="image" />
                                 </div>
                             </div>
 
@@ -545,11 +577,13 @@
                     <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                         <a href="{{ route('admin.programas.index') }}"
                             class="inline-flex items-center px-4 h-11 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                            <i class="fas fa-arrow-left mr-2"></i> Volver
+                            <x-fas-arrow-left class="mr-2" /> Volver
                         </a>
-                        <button type="submit"
-                            class="inline-flex items-center px-6 h-11 rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg">
-                            <i class="fas fa-save mr-2"></i> Actualizar Programa
+                        <button type="submit" :disabled="submitting"
+                            class="inline-flex items-center px-6 h-11 rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed">
+                            <x-fas-spinner class="animate-spin mr-2" x-show="submitting" x-cloak />
+                            <x-fas-save class="mr-2" x-show="!submitting" />
+                            <span x-text="submitting ? 'Guardando...' : 'Actualizar Programa'"></span>
                         </button>
                     </div>
                 </form>
@@ -564,7 +598,7 @@
                 <div class="w-full max-w-lg rounded-2xl bg-white shadow-2xl overflow-hidden">
                     <div class="p-5 border-b border-gray-100 flex items-start gap-4">
                         <div class="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center">
-                            <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                            <x-fas-exclamation-triangle class="text-red-600 text-xl" />
                         </div>
 
                         <div class="flex-1">
@@ -575,7 +609,7 @@
 
                         <button type="button" onclick="cerrarModal()"
                             class="h-10 w-10 rounded-lg flex items-center justify-center hover:bg-gray-100 text-gray-500">
-                            <i class="fas fa-times"></i>
+                            <x-fas-times />
                         </button>
                     </div>
 
@@ -614,34 +648,6 @@
         <script id="graduado-data" type="application/json">{!! json_encode($programa->perfil_graduado ?? []) !!}</script>
 
         <script>
-            // ============================
-            //   TABS (FIX: click en icono/texto)
-            // ============================
-            function switchTab(event, tabId) {
-                event.preventDefault();
-
-                document.querySelectorAll('.tab-pane').forEach(pane => {
-                    pane.classList.add('hidden');
-                    pane.classList.remove('show');
-                });
-
-                document.querySelectorAll('.nav-tabs .nav-link').forEach(link => {
-                    link.classList.remove('active');
-                    link.classList.add('text-gray-500');
-                });
-
-                const selectedPane = document.getElementById(tabId);
-                if (selectedPane) {
-                    selectedPane.classList.remove('hidden');
-                    selectedPane.classList.add('show');
-                }
-
-                const link = event.target.closest('a.nav-link');
-                if (link) {
-                    link.classList.add('active');
-                    link.classList.remove('text-gray-500');
-                }
-            }
 
             // ============================
             //   PLAN DE ESTUDIOS
@@ -723,10 +729,10 @@
                         '</div>' +
                         '<div class="flex gap-2">' +
                             '<button type="button" class="px-3 py-1.5 bg-white text-gray-700 rounded text-sm hover:bg-gray-100" onclick="agregarCurso(\'' + cicloId + '\')">' +
-                                '<i class="fas fa-plus mr-1"></i> Curso' +
+                                '<x-fas-plus class="mr-1" /> Curso' +
                             '</button>' +
                             '<button type="button" class="px-3 py-1.5 bg-red-500 text-white rounded text-sm hover:bg-red-600" onclick="eliminarCiclo(\'' + cicloId + '\')">' +
-                                '<i class="fas fa-trash"></i>' +
+                                '<x-fas-trash />' +
                             '</button>' +
                         '</div>' +
                     '</div>' +
@@ -751,7 +757,7 @@
                     '<input type="number" class="py-2 px-3 text-sm" placeholder="Créd." value="' + creditos + '" data-field="creditos" min="1">' +
                     '<input type="text" class="py-2 px-3 text-sm" placeholder="Sumilla (opcional)" value="' + sumilla + '" data-field="sumilla">' +
                     '<button type="button" class="w-10 h-10 flex items-center justify-center bg-red-100 text-red-600 rounded-lg hover:bg-red-200" onclick="eliminarCurso(\'' + cursoId + '\')">' +
-                        '<i class="fas fa-times"></i>' +
+                        '<x-fas-times />' +
                     '</button>' +
                 '</div>';
             }
@@ -868,10 +874,10 @@
                         '<strong>Cursos Electivos</strong>' +
                         '<div class="flex gap-2">' +
                             '<button type="button" class="px-3 py-1.5 bg-white text-gray-700 rounded text-sm hover:bg-gray-100" onclick="agregarCursoElectivo()">' +
-                                '<i class="fas fa-plus mr-1"></i> Electivo' +
+                                '<x-fas-plus class="mr-1" /> Electivo' +
                             '</button>' +
                             '<button type="button" class="px-3 py-1.5 bg-red-500 text-white rounded text-sm hover:bg-red-600" onclick="eliminarSeccionElectivos()">' +
-                                '<i class="fas fa-trash"></i>' +
+                                '<x-fas-trash />' +
                             '</button>' +
                         '</div>' +
                     '</div>' +
@@ -948,11 +954,11 @@
                             <div class="flex gap-1 justify-center">
                                 <button type="button" onclick="moverDocenteArriba('${rowId}')"
                                     class="w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors" title="Subir">
-                                    <i class="fas fa-arrow-up"></i>
+                                    <x-fas-arrow-up />
                                 </button>
                                 <button type="button" onclick="moverDocenteAbajo('${rowId}')"
                                     class="w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors" title="Bajar">
-                                    <i class="fas fa-arrow-down"></i>
+                                    <x-fas-arrow-down />
                                 </button>
                             </div>
                         </td>
@@ -961,7 +967,7 @@
                             <button type="button"
                                 class="w-10 h-10 flex items-center justify-center bg-red-100 text-red-600 rounded-lg hover:bg-red-200"
                                 onclick="confirmarEliminar('${rowId}', 'docente')">
-                                <i class="fas fa-times"></i>
+                                <x-fas-times />
                             </button>
                         </td>
                     </tr>
@@ -1080,46 +1086,6 @@
                 });
             }
 
-            // ============================
-            //   LISTAS JSON (Objetivos, Ingresante, Graduado)
-            // ============================
-            function crearItemLista(listId, value = '') {
-                var list = document.getElementById(listId);
-                if (!list) return;
-
-                var itemId = listId + '-item-' + Date.now();
-                var row = document.createElement('div');
-                row.className = 'flex items-center gap-2';
-                row.id = itemId;
-                row.innerHTML = `
-                    <input type="text" class="flex-1 py-2 px-3 border border-gray-300 rounded-lg text-sm lista-item" 
-                           placeholder="Escribir item..." value="${value.replace(/"/g, '&quot;')}">
-                    <button type="button" onclick="eliminarItemLista('${itemId}')" 
-                        class="w-8 h-8 flex items-center justify-center bg-red-100 text-red-600 rounded-lg hover:bg-red-200">
-                        <i class="fas fa-times"></i>
-                    </button>
-                `;
-                list.appendChild(row);
-            }
-
-            function eliminarItemLista(itemId) {
-                var item = document.getElementById(itemId);
-                if (item) item.remove();
-            }
-
-            function agregarObjetivo() { crearItemLista('objetivos-list'); }
-            function agregarIngresante() { crearItemLista('ingresante-list'); }
-            function agregarGraduado() { crearItemLista('graduado-list'); }
-
-            function recogerListaJSON(listId) {
-                var items = [];
-                document.querySelectorAll('#' + listId + ' .lista-item').forEach(function(input) {
-                    var val = input.value.trim();
-                    if (val) items.push(val);
-                });
-                return JSON.stringify(items);
-            }
-
             function cargarListaExistente(dataId, listId) {
                 var dataEl = document.getElementById(dataId);
                 if (!dataEl) return;
@@ -1163,78 +1129,12 @@
                         document.getElementById('objetivos_academicos').value = recogerListaJSON('objetivos-list');
                         document.getElementById('perfil_ingresante').value = recogerListaJSON('ingresante-list');
                         document.getElementById('perfil_graduado').value = recogerListaJSON('graduado-list');
+                        document.getElementById('inversion_economica').value = recogerInversionEconomica();
                     });
                 }
-
-                // ============================
-                //   AJAX FILE UPLOAD
-                // ============================
-                setupFileUpload('plan_file', 'plan_url', 'plan_status', 'plan');
-                setupFileUpload('horario_file', 'horario_url', 'horario_status', 'horario');
-                setupFileUpload('imagen_file', 'imagen_url', 'imagen_status', 'imagen');
             });
-
-            function setupFileUpload(fileInputId, urlInputId, statusId, type) {
-                var fileInput = document.getElementById(fileInputId);
-                if (!fileInput) return;
-
-                fileInput.addEventListener('change', function() {
-                    if (this.files.length === 0) return;
-
-                    var file = this.files[0];
-                    var statusEl = document.getElementById(statusId);
-                    var urlInput = document.getElementById(urlInputId);
-
-                    // Show uploading status
-                    statusEl.classList.remove('hidden', 'text-green-600', 'text-red-600');
-                    statusEl.classList.add('text-blue-600');
-                    statusEl.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Subiendo ' + file.name + '...';
-
-                    var formData = new FormData();
-                    formData.append('file', file);
-                    formData.append('type', type);
-                    formData.append('program_name', document.getElementById('nombre').value || 'programa');
-                    formData.append('_token', '{{ csrf_token() }}');
-
-                    fetch('{{ route("admin.documents.uploadAjax") }}', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            return response.json().then(data => {
-                                throw new Error(data.error || data.message || 'Error de validación');
-                            });
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.success) {
-                            urlInput.value = data.url;
-                            statusEl.classList.remove('text-blue-600');
-                            statusEl.classList.add('text-green-600');
-                            statusEl.innerHTML = '<i class="fas fa-check-circle mr-1"></i> Subido: ' + data.filename;
-                        } else {
-                            statusEl.classList.remove('text-blue-600');
-                            statusEl.classList.add('text-red-600');
-                            statusEl.innerHTML = '<i class="fas fa-exclamation-circle mr-1"></i> Error: ' + (data.error || 'Error al subir');
-                        }
-                    })
-                    .catch(error => {
-                        statusEl.classList.remove('text-blue-600');
-                        statusEl.classList.add('text-red-600');
-                        statusEl.innerHTML = '<i class="fas fa-exclamation-circle mr-1"></i> ' + error.message;
-                        console.error('Upload error:', error);
-                    });
-
-                    // Clear file input
-                    this.value = '';
-                });
-            }
         </script>
+
+    @include('admin.programas._shared-form-scripts')
 @endsection
 

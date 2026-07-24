@@ -16,22 +16,6 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
 
 @push('styles')
     <style>
-        .fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .prose ul {
             list-style-type: disc;
             padding-left: 1.5rem;
@@ -68,16 +52,14 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                         <button @click="currentTab = 'maestria'"
                             :class="{ 'bg-unmsm-guinda text-white shadow-md': currentTab === 'maestria', 'text-gray-600 hover:bg-gray-50': currentTab !== 'maestria' }"
                             class="flex items-center justify-center lg:justify-start gap-2 lg:gap-3 px-3 lg:px-4 py-3 rounded-lg text-xs lg:text-sm font-bold transition-all w-full text-center lg:text-left">
-                            <i class="fas fa-graduation-cap text-base lg:text-lg"
-                                :class="{ 'text-unmsm-dorado': currentTab === 'maestria', 'text-gray-400': currentTab !== 'maestria' }"></i>
+                            <x-fas-graduation-cap class="text-base lg:text-lg" x-bind:class="{ 'text-unmsm-dorado': currentTab === 'maestria', 'text-gray-400': currentTab !== 'maestria' }" />
                             Grado de Magíster
                         </button>
 
                         <button @click="currentTab = 'doctorado'"
                             :class="{ 'bg-gray-900 text-white shadow-md': currentTab === 'doctorado', 'text-gray-600 hover:bg-gray-50': currentTab !== 'doctorado' }"
                             class="flex items-center justify-center lg:justify-start gap-2 lg:gap-3 px-3 lg:px-4 py-3 rounded-lg text-xs lg:text-sm font-bold transition-all w-full text-center lg:text-left">
-                            <i class="fas fa-user-graduate text-base lg:text-lg"
-                                :class="{ 'text-white': currentTab === 'doctorado', 'text-gray-400': currentTab !== 'doctorado' }"></i>
+                            <x-fas-user-graduate class="text-base lg:text-lg" x-bind:class="{ 'text-white': currentTab === 'doctorado', 'text-gray-400': currentTab !== 'doctorado' }" />
                             Grado de Doctor
                         </button>
                     </nav>
@@ -87,12 +69,12 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                         <div class="space-y-3 text-sm">
                             <a href="mailto:{{ $emailTramites }}"
                                 class="flex items-center gap-2 text-gray-700 hover:text-unmsm-guinda">
-                                <i class="far fa-envelope text-unmsm-guinda"></i>
+                                <x-far-envelope class="text-unmsm-guinda" />
                                 <span class="truncate">{{ $emailTramites }}</span>
                             </a>
-                            <a href="{{ $whatsapp }}" target="_blank"
+                            <a href="{{ $whatsapp }}" target="_blank" rel="noopener noreferrer" 
                                 class="flex items-center gap-2 text-gray-700 hover:text-green-600">
-                                <i class="fab fa-whatsapp text-green-500 text-lg"></i>
+                                <x-fab-whatsapp class="text-green-500 text-lg" />
                                 <span>{{ $telefono }}</span>
                             </a>
                         </div>
@@ -103,20 +85,20 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                         <h4 class="text-xs font-bold text-unmsm-guinda uppercase mb-3">Documentos</h4>
                         <div class="space-y-2 text-xs">
                             {{-- <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
-                                target="_blank"
+                                target="_blank" rel="noopener noreferrer" 
                                 class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
-                                <i class="fas fa-file-pdf text-red-500"></i>
+                                <x-fas-file-pdf class="text-red-500" />
                                 Plantilla Proyecto
                             </a> --}}
                             <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/03/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-1-1.pdf"
-                                target="_blank"
+                                target="_blank" rel="noopener noreferrer" 
                                 class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
-                                <i class="fas fa-file-pdf text-red-500"></i>
+                                <x-fas-file-pdf class="text-red-500" />
                                 Estructura de Tesis
                             </a>
-                            <a href="https://sanmarket.unmsm.edu.pe/" target="_blank"
+                            <a href="https://sanmarket.unmsm.edu.pe/" target="_blank" rel="noopener noreferrer" 
                                 class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
-                                <i class="fas fa-credit-card text-green-600"></i>
+                                <x-fas-credit-card class="text-green-600" />
                                 SanMarket (Pagos)
                             </a>
                         </div>
@@ -165,7 +147,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     <strong>1.1. Proyecto de tesis:</strong>
                                     respetando la plantilla oficial de proyecto:
                                     <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/GUIA-DE-PRESENTACION-DE-PROYECTO-DE-TESIS_2026FFF.pdf"
-                                        target="_blank" class="text-unmsm-guinda underline hover:text-unmsm-dorado">
+                                        target="_blank" rel="noopener noreferrer" class="text-unmsm-guinda underline hover:text-unmsm-dorado">
                                         Plantilla oficial de proyecto de tesis
                                     </a>.
                                 </li>
@@ -176,7 +158,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
 
                             <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4 not-prose rounded">
                                 <p class="text-xs text-blue-800 font-medium mb-2">
-                                    <i class="fas fa-info-circle mr-1"></i>
+                                    <x-fas-info-circle class="mr-1" />
                                     Indicaciones importantes:
                                 </p>
                                 <ul class="text-xs text-blue-900 list-disc pl-4 space-y-1">
@@ -217,17 +199,17 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     Tener concluida la tesis respetando la
                                     <strong><a
                                             href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf"
-                                            target="_blank" class="text-blue-600 underline hover:text-blue-800">DIRECTIVA DE
+                                            target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800">DIRECTIVA DE
                                             MODELO DE ESTRUCTURA DE TESIS</a></strong> – Programas de maestría y
                                     doctorado
                                     (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
                                     <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf"
-                                        target="_blank" class="text-unmsm-guinda hover:underline">
+                                        target="_blank" rel="noopener noreferrer" class="text-unmsm-guinda hover:underline">
                                         Ver directiva
                                     </a>
                                     |
                                     <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Modelo-de-caratula_biblioteca-1.pdf"
-                                        target="_blank" class="text-unmsm-guinda hover:underline">
+                                        target="_blank" rel="noopener noreferrer" class="text-unmsm-guinda hover:underline">
                                         Modelo de Carátula de Tesis
                                     </a>
                                 </li>
@@ -259,7 +241,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                 <li>
                                     <strong>Pago de tasas a la Facultad para obtención del grado de Magíster</strong>
                                     (TUPA 2008, R.R. N.º 01545-R-08); los pagos se realizan a través de
-                                    <a href="https://sanmarket.unmsm.edu.pe/#/" target="_blank"
+                                    <a href="https://sanmarket.unmsm.edu.pe/#/" target="_blank" rel="noopener noreferrer" 
                                         class="text-blue-600 underline hover:text-blue-800">
                                         SanMarket-UNMSM
                                     </a>.
@@ -428,7 +410,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                             <!-- Turnitin -->
                             <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mt-4 rounded">
                                 <h4 class="text-sm font-bold text-amber-800 mb-2">
-                                    <i class="fas fa-shield-alt mr-1"></i>
+                                    <x-fas-shield-alt class="mr-1" />
                                     Revisión antiplagio (Turnitin)
                                 </h4>
                                 <p class="text-xs text-amber-800 mb-2">
@@ -451,7 +433,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                             <!-- Foto y Declaración -->
                             <div class="bg-gray-50 rounded-lg p-4 mt-4 border border-gray-100">
                                 <h4 class="text-sm font-semibold text-gray-800 mb-2">
-                                    <i class="fas fa-camera mr-1 text-unmsm-dorado"></i>
+                                    <x-fas-camera class="mr-1 text-unmsm-dorado" />
                                     Documentos adicionales:
                                 </h4>
                                 <ul class="text-xs text-gray-700 space-y-1">
@@ -491,7 +473,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                         <div class="p-6 text-gray-600 text-sm">
                             <ul class="space-y-3">
                                 <li class="flex gap-3">
-                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <x-fas-check-circle class="text-green-500 mt-1" />
                                     <span>
                                         Una vez declarado expedito, el tesista solicita en FUT se le nombre
                                         <strong>Jurado Informante de Tesis</strong>, adjuntando la tesis en formato PDF
@@ -499,13 +481,13 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     </span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <x-fas-check-circle class="text-green-500 mt-1" />
                                     <span>
                                         Si en los informes hay observaciones a la tesis, el graduando deberá levantarlas.
                                     </span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <x-fas-check-circle class="text-green-500 mt-1" />
                                     <span>
                                         Con el informe y el levantamiento de observaciones, de ser el caso, se procede a
                                         solicitar <strong>Jurado Examinador</strong>, así como fecha y hora para la
@@ -513,7 +495,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     </span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <x-fas-check-circle class="text-green-500 mt-1" />
                                     <span>
                                         La determinación de la fecha de sustentación se comunica por correo electrónico
                                         desde <strong>{{ $emailTramites }}</strong> con una anticipación de
@@ -521,7 +503,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     </span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <x-fas-check-circle class="text-green-500 mt-1" />
                                     <span>
                                         La sustentación pública de la tesis será <strong>televisada</strong>.
                                     </span>
@@ -643,7 +625,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                             <ul>
                                 <li>
                                     <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Examen-de-doctorado_Fn-1FFF-1-1.pdf"
-                                        target="_blank" class="text-unmsm-guinda underline">
+                                        target="_blank" rel="noopener noreferrer" class="text-unmsm-guinda underline">
                                         Ver documento del Examen de Suficiencia Doctoral
                                     </a>
                                 </li>
@@ -674,7 +656,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                 <li>
                                     <strong>1.1. Proyecto:</strong> respetando la plantilla oficial:
                                     <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/GUIA-DE-PRESENTACION-DE-PROYECTO-DE-TESIS_2026FFF.pdf"
-                                        target="_blank" class="text-unmsm-guinda underline">
+                                        target="_blank" rel="noopener noreferrer" class="text-unmsm-guinda underline">
                                         Plantilla oficial de proyecto de tesis
                                     </a>.
                                 </li>
@@ -684,7 +666,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                             </ul>
                             <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4 not-prose rounded">
                                 <p class="text-xs text-blue-800 font-medium mb-2">
-                                    <i class="fas fa-info-circle mr-1"></i>
+                                    <x-fas-info-circle class="mr-1" />
                                     Consideraciones:
                                 </p>
                                 <ul class="list-disc text-xs text-blue-900 pl-4 space-y-1">
@@ -723,17 +705,17 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     Tener concluida la tesis, respetando la
                                     <strong><a
                                             href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf"
-                                            target="_blank" class="text-blue-600 underline hover:text-blue-800">DIRECTIVA
+                                            target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800">DIRECTIVA
                                             DE MODELO DE ESTRUCTURA DE TESIS</a> </strong> – Programas de maestría y
                                     doctorado
                                     (DICTAMEN N° 000002-2022-UPG-VDIP-FLCH/UNMSM):
                                     <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-2.pdf"
-                                        target="_blank" class="text-unmsm-guinda hover:underline">
+                                        target="_blank" rel="noopener noreferrer" class="text-unmsm-guinda hover:underline">
                                         Ver directiva
                                     </a>
                                     |
                                     <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2026/05/Modelo-de-caratula_biblioteca-1.pdf"
-                                        target="_blank" class="text-unmsm-guinda hover:underline">
+                                        target="_blank" rel="noopener noreferrer" class="text-unmsm-guinda hover:underline">
                                         Modelo de Carátula de Tesis
                                     </a>
                                 </li>
@@ -759,7 +741,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                 </li>
                                 <li>
                                     <strong>Pago de tasas a la Facultad para obtención del grado de Doctor</strong>
-                                    (vía <a href="https://sanmarket.unmsm.edu.pe/#/" target="_blank"
+                                    (vía <a href="https://sanmarket.unmsm.edu.pe/#/" target="_blank" rel="noopener noreferrer" 
                                         class="text-blue-600 underline hover:text-blue-800">SanMarket-UNMSM</a>),
                                     cada pago por separado con su respectiva boleta:
                                 </li>
@@ -909,7 +891,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                             <!-- Turnitin Doctorado -->
                             <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mt-4 rounded">
                                 <h4 class="text-sm font-bold text-amber-800 mb-2">
-                                    <i class="fas fa-shield-alt mr-1"></i>
+                                    <x-fas-shield-alt class="mr-1" />
                                     Revisión Turnitin
                                 </h4>
                                 <p class="text-xs text-amber-800 mb-2">
@@ -973,7 +955,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                         <div class="p-6 text-gray-600 text-sm">
                             <ul class="space-y-3">
                                 <li class="flex gap-3">
-                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <x-fas-check-circle class="text-green-500 mt-1" />
                                     <span>
                                         Una vez declarado expedito, el tesista solicita en FUT se le nombre
                                         <strong>Jurado Informante de Tesis</strong>, adjuntando la tesis en formato PDF
@@ -981,13 +963,13 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     </span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <x-fas-check-circle class="text-green-500 mt-1" />
                                     <span>
                                         Si en los informes hay observaciones a la tesis, el graduando deberá levantarlas.
                                     </span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <x-fas-check-circle class="text-green-500 mt-1" />
                                     <span>
                                         Con el informe y el levantamiento de observaciones, de ser el caso, se procede a
                                         solicitar <strong>Jurado Examinador</strong>, fecha y hora para la sustentación de
@@ -995,7 +977,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     </span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <x-fas-check-circle class="text-green-500 mt-1" />
                                     <span>
                                         La fecha de sustentación se comunica por correo electrónico desde
                                         <strong>{{ $emailTramites }}</strong> de la Unidad de Posgrado de la Facultad,
@@ -1003,7 +985,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                                     </span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <x-fas-check-circle class="text-green-500 mt-1" />
                                     <span>
                                         La sustentación pública de la tesis será <strong>televisada</strong>.
                                     </span>
@@ -1107,12 +1089,12 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                     <div class="space-y-3 text-sm">
                         <a href="mailto:{{ $emailTramites }}"
                             class="flex items-center gap-2 text-gray-700 hover:text-unmsm-guinda">
-                            <i class="far fa-envelope text-unmsm-guinda"></i>
+                            <x-far-envelope class="text-unmsm-guinda" />
                             <span class="truncate">{{ $emailTramites }}</span>
                         </a>
-                        <a href="{{ $whatsapp }}" target="_blank"
+                        <a href="{{ $whatsapp }}" target="_blank" rel="noopener noreferrer" 
                             class="flex items-center gap-2 text-gray-700 hover:text-green-600">
-                            <i class="fab fa-whatsapp text-green-500 text-lg"></i>
+                            <x-fab-whatsapp class="text-green-500 text-lg" />
                             <span>{{ $telefono }}</span>
                         </a>
                     </div>
@@ -1122,20 +1104,20 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ O EN config/contacts.php
                     <h4 class="text-xs font-bold text-unmsm-guinda uppercase mb-3">Documentos Rápidos</h4>
                     <div class="space-y-2 text-xs">
                         {{-- <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/06/Plantilla-oficial-de-Proyecto-de-Tesis.pdf"
-                            target="_blank"
+                            target="_blank" rel="noopener noreferrer" 
                             class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
-                            <i class="fas fa-file-pdf text-red-500"></i>
+                            <x-fas-file-pdf class="text-red-500" />
                             Plantilla Proyecto
                         </a> --}}
                         <a href="https://letras.unmsm.edu.pe/wp-content/uploads/2022/03/Directiva-de-Estrctura-de-tesis-Maestria-y-DoctoradoFFFFFFFFFF-1-1.pdf"
-                            target="_blank"
+                            target="_blank" rel="noopener noreferrer" 
                             class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
-                            <i class="fas fa-file-pdf text-red-500"></i>
+                            <x-fas-file-pdf class="text-red-500" />
                             Estructura de Tesis
                         </a>
-                        <a href="https://sanmarket.unmsm.edu.pe/" target="_blank"
+                        <a href="https://sanmarket.unmsm.edu.pe/" target="_blank" rel="noopener noreferrer" 
                             class="flex items-center gap-2 text-gray-600 hover:text-unmsm-guinda transition">
-                            <i class="fas fa-credit-card text-green-600"></i>
+                            <x-fas-credit-card class="text-green-600" />
                             SanMarket (Pagos)
                         </a>
                     </div>

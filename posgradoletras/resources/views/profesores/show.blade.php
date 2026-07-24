@@ -11,14 +11,16 @@
 
 @section('content')
     <!-- HERO DE SECCIÓN (Estilo uniforme) -->
-    <x-hero-section 
-        title="{{ $profesor->nombre_completo }}" 
-        label="Profesor Asesor"
-        subtitle="{{ $profesor->grado ?? 'Docente investigador de la Facultad de Letras y Ciencias Humanas' }}"
+    <x-hero-section
+        title="{{ $profesor->nombres }} {{ $profesor->apellidos }}"
         image="https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0007-Trim-frame-at-0m5s.jpg" />
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="container mx-auto px-4 py-12">
+        <x-breadcrumbs :items="[
+            ['label' => 'Plana Docente', 'url' => route('profesores.index')],
+            ['label' => $profesor->nombre_completo],
+        ]" />
         <div class="grid lg:grid-cols-4 gap-8">
 
             <!-- SIDEBAR: Tarjeta de Perfil -->
@@ -30,11 +32,11 @@
                         <div class="absolute inset-0 bg-unmsm-dorado rounded-full blur-md opacity-30 group-hover/card:opacity-50 transition-opacity"></div>
                         @if($profesor->foto)
                             <img src="{{ asset('storage/' . $profesor->foto) }}"
-                                 alt="{{ $profesor->nombre_completo }}"
+                                 alt="{{ $profesor->nombre_completo }}" decoding="async" width="192" height="192"
                                  class="relative w-full h-full rounded-full object-cover border-4 border-white shadow-lg">
                         @else
                             <div class="relative w-full h-full rounded-full bg-gray-100 border-4 border-white shadow-lg flex items-center justify-center text-unmsm-guinda">
-                                <i class="fas fa-user text-4xl"></i>
+                                <x-fas-user class="text-4xl" />
                             </div>
                         @endif
                     </div>
@@ -43,13 +45,6 @@
                     <h2 class="text-lg font-bold text-gray-900 text-center font-serif">
                         {{ $profesor->nombre_completo }}
                     </h2>
-
-                    <!-- Grado Académico (Badge) -->
-                    @if($profesor->grado)
-                        <span class="inline-block bg-unmsm-guinda/10 text-unmsm-guinda text-xs font-bold px-3 py-1 rounded-full mt-2">
-                            {{ $profesor->grado }}
-                        </span>
-                    @endif
 
                     <!-- Separador -->
                     <div class="w-full border-t border-gray-100 my-5"></div>
@@ -61,14 +56,14 @@
                                class="flex items-center gap-3 text-sm border border-gray-200 px-4 py-3 rounded-xl
                                       text-gray-700 hover:bg-unmsm-guinda hover:text-white hover:border-unmsm-guinda
                                       transition-all group">
-                                <i class="fas fa-envelope text-unmsm-guinda group-hover:text-white"></i>
+                                <x-fas-envelope class="text-unmsm-guinda group-hover:text-white" />
                                 <span class="truncate">{{ $profesor->email }}</span>
                             </a>
                         @endif
 
                         @if($profesor->telefono)
                             <div class="flex items-center gap-3 text-sm border border-gray-200 px-4 py-3 rounded-xl text-gray-700 bg-gray-50">
-                                <i class="fas fa-phone text-unmsm-guinda"></i>
+                                <x-fas-phone class="text-unmsm-guinda" />
                                 <span>{{ $profesor->telefono }}</span>
                             </div>
                         @endif
@@ -82,27 +77,27 @@
                             </p>
                             <div class="flex flex-col gap-3">
                                 @if($profesor->cti_vitae)
-                                    <a href="{{ $profesor->cti_vitae }}" target="_blank" 
+                                    <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer" 
                                        class="flex items-center gap-3 text-sm border border-blue-100 bg-blue-50/50 px-4 py-2.5 rounded-xl text-blue-700 hover:bg-blue-700 hover:text-white hover:border-blue-700 transition-all group">
-                                        <i class="fas fa-file-alt text-lg w-6 text-center"></i>
+                                        <x-fas-file-alt class="text-lg w-6 text-center" />
                                         <span class="font-medium">CTI Vitae</span>
-                                        <i class="fas fa-external-link-alt ml-auto text-xs opacity-50 group-hover:opacity-100"></i>
+                                        <x-fas-external-link-alt class="ml-auto text-xs opacity-50 group-hover:opacity-100" />
                                     </a>
                                 @endif
                                 @if($profesor->orcid)
-                                    <a href="{{ $profesor->orcid }}" target="_blank" 
+                                    <a href="{{ $profesor->orcid }}" target="_blank" rel="noopener noreferrer" 
                                        class="flex items-center gap-3 text-sm border border-green-100 bg-green-50/50 px-4 py-2.5 rounded-xl text-green-700 hover:bg-green-600 hover:text-white hover:border-green-600 transition-all group">
-                                        <i class="fab fa-orcid text-lg w-6 text-center"></i>
+                                        <x-fab-orcid class="text-lg w-6 text-center" />
                                         <span class="font-medium">ORCID</span>
-                                        <i class="fas fa-external-link-alt ml-auto text-xs opacity-50 group-hover:opacity-100"></i>
+                                        <x-fas-external-link-alt class="ml-auto text-xs opacity-50 group-hover:opacity-100" />
                                     </a>
                                 @endif
                                 @if($profesor->linkedin)
-                                    <a href="{{ $profesor->linkedin }}" target="_blank" 
+                                    <a href="{{ $profesor->linkedin }}" target="_blank" rel="noopener noreferrer" 
                                        class="flex items-center gap-3 text-sm border border-blue-100 bg-blue-50/50 px-4 py-2.5 rounded-xl text-blue-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all group">
-                                        <i class="fab fa-linkedin text-lg w-6 text-center"></i>
+                                        <x-fab-linkedin class="text-lg w-6 text-center" />
                                         <span class="font-medium">LinkedIn</span>
-                                        <i class="fas fa-external-link-alt ml-auto text-xs opacity-50 group-hover:opacity-100"></i>
+                                        <x-fas-external-link-alt class="ml-auto text-xs opacity-50 group-hover:opacity-100" />
                                     </a>
                                 @endif
                             </div>
@@ -113,7 +108,7 @@
                     <div class="w-full mt-6 pt-4 border-t border-gray-100">
                         <a href="{{ route('profesores.index') }}"
                            class="inline-flex items-center text-sm font-medium text-unmsm-guinda hover:text-unmsm-dorado transition-colors group">
-                            <i class="fas fa-arrow-left mr-2 transform group-hover:-translate-x-1 transition-transform"></i>
+                            <x-fas-arrow-left class="mr-2 transform group-hover:-translate-x-1 transition-transform" />
                             Volver al listado
                         </a>
                     </div>
@@ -127,7 +122,7 @@
                 <article class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 hover:shadow-lg transition-shadow duration-300">
                     <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3 font-serif">
                         <div class="w-10 h-10 rounded-full bg-unmsm-guinda/10 flex items-center justify-center">
-                            <i class="fas fa-user-circle text-unmsm-guinda"></i>
+                            <x-fas-user-circle class="text-unmsm-guinda" />
                         </div>
                         Biografía
                     </h2>
@@ -149,7 +144,7 @@
                     <article class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 hover:shadow-lg transition-shadow duration-300">
                         <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3 font-serif">
                             <div class="w-10 h-10 rounded-full bg-unmsm-guinda/10 flex items-center justify-center">
-                                <i class="fas fa-flask text-unmsm-guinda"></i>
+                                <x-fas-flask class="text-unmsm-guinda" />
                             </div>
                             Líneas de Investigación
                         </h3>
@@ -167,27 +162,41 @@
                 @endif
 
                 <!-- Card Grupo de Investigación -->
-                @if($profesor->grupo_investigacion)
+                @php
+                    // El grupo puede venir como arreglo asociativo (['nombre'=>..,'link'=>..]),
+                    // como lista indexada heredada (['Nombre del grupo']) o como texto plano.
+                    // Solo se muestra la tarjeta si hay un nombre real, para no dejar una
+                    // sección vacía cuando el docente no tiene grupo.
+                    $grupo = $profesor->grupo_investigacion;
+                    $nombreGrupo = '';
+                    $linkGrupo = null;
+                    if (is_array($grupo)) {
+                        if (array_key_exists('nombre', $grupo)) {
+                            $nombreGrupo = trim((string) ($grupo['nombre'] ?? ''));
+                            $linkGrupo = $grupo['link'] ?? null;
+                        } else {
+                            $nombreGrupo = trim((string) collect($grupo)->first(fn ($v) => filled($v)));
+                        }
+                    } else {
+                        $nombreGrupo = trim((string) $grupo);
+                    }
+                    $hasGrupo = $nombreGrupo !== '';
+                @endphp
+                @if($hasGrupo)
                     <article class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 hover:shadow-lg transition-shadow duration-300">
                         <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3 font-serif">
                             <div class="w-10 h-10 rounded-full bg-unmsm-guinda/10 flex items-center justify-center">
-                                <i class="fas fa-users text-unmsm-guinda"></i>
+                                <x-fas-users class="text-unmsm-guinda" />
                             </div>
                             Grupo de Investigación
                         </h3>
                         <div class="bg-gradient-to-r from-unmsm-guinda/5 to-transparent rounded-xl p-5 border-l-4 border-unmsm-guinda">
                             <p class="text-gray-800 font-semibold flex items-center gap-2">
-                                <i class="fas fa-bookmark text-unmsm-dorado"></i>
-                                @php
-                                    $grupo = $profesor->grupo_investigacion;
-                                    $nombreGrupo = is_array($grupo) ? ($grupo['nombre'] ?? '') : $grupo;
-                                    $linkGrupo = is_array($grupo) ? ($grupo['link'] ?? '') : null;
-                                @endphp
-
+                                <x-fas-bookmark class="text-unmsm-dorado" />
                                 @if($linkGrupo)
-                                    <a href="{{ $linkGrupo }}" target="_blank" class="hover:text-unmsm-guinda transition-colors underline decoration-unmsm-dorado/40">
+                                    <a href="{{ $linkGrupo }}" target="_blank" rel="noopener noreferrer" class="hover:text-unmsm-guinda transition-colors underline decoration-unmsm-dorado/40">
                                         {{ $nombreGrupo }}
-                                        <i class="fas fa-external-link-alt text-[10px] ml-1 opacity-50"></i>
+                                        <x-fas-external-link-alt class="text-[10px] ml-1 opacity-50" />
                                     </a>
                                 @else
                                     {{ $nombreGrupo }}
@@ -202,7 +211,7 @@
                     <article class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 hover:shadow-lg transition-shadow duration-300">
                         <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3 font-serif">
                             <div class="w-10 h-10 rounded-full bg-unmsm-guinda/10 flex items-center justify-center">
-                                <i class="fas fa-graduation-cap text-unmsm-guinda"></i>
+                                <x-fas-graduation-cap class="text-unmsm-guinda" />
                             </div>
                             Programas de Posgrado
                         </h3>
@@ -227,7 +236,7 @@
                                             Coordinador
                                         </span>
                                     @else
-                                        <i class="fas fa-arrow-right text-gray-400 group-hover:text-unmsm-guinda group-hover:translate-x-1 transition-all"></i>
+                                        <x-fas-arrow-right class="text-gray-400 group-hover:text-unmsm-guinda group-hover:translate-x-1 transition-all" />
                                     @endif
                                 </a>
                             @endforeach

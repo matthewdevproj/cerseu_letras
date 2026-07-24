@@ -71,7 +71,7 @@
 
                         <div class="flex gap-3 pt-4 border-t border-gray-100">
                             @if($profesor['cti_vitae'])
-                                <a href="{{ $profesor['cti_vitae'] }}" target="_blank"
+                                <a href="{{ $profesor['cti_vitae'] }}" target="_blank" rel="noopener noreferrer"
                                     class="inline-flex items-center gap-2 text-sm border border-gray-200 px-4 py-2 rounded hover:bg-unmsm-guinda/5 text-gray-600 transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
@@ -82,7 +82,7 @@
                                 </a>
                             @endif
                             @if($profesor['orcid'])
-                                <a href="{{ $profesor['orcid'] }}" target="_blank"
+                                <a href="{{ $profesor['orcid'] }}" target="_blank" rel="noopener noreferrer"
                                     class="inline-flex items-center gap-2 text-sm border border-gray-200 px-4 py-2 rounded hover:bg-unmsm-guinda/5 text-gray-600 transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">

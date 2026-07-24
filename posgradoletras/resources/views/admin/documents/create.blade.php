@@ -10,7 +10,7 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-3 text-sm">
                     <li><a href="{{ route('admin.documents.index') }}"
                             class="text-gray-500 hover:text-brand-gold">Documentos</a></li>
-                    <li class="flex items-center"><i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i><span
+                    <li class="flex items-center"><x-fas-chevron-right class="text-gray-400 mx-2 text-xs" /><span
                             class="text-gray-700">Nuevo</span></li>
                 </ol>
             </nav>
@@ -57,7 +57,7 @@
             <!-- File Upload -->
             <div class="border border-gray-200 rounded-lg p-4">
                 <label class="block text-sm font-medium text-gray-700 mb-3">
-                    <i class="fas fa-file-upload text-brand-red mr-1"></i> Archivo
+                    <x-fas-file-upload class="text-brand-red mr-1" /> Archivo
                 </label>
                 <div class="flex gap-3 items-end">
                     <div class="flex-1">
@@ -70,7 +70,7 @@
                         <input type="file" name="file" id="file" class="hidden">
                         <button type="button" onclick="document.getElementById('file').click()"
                             class="px-4 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-all flex items-center gap-2">
-                            <i class="fas fa-upload"></i> Subir Archivo
+                            <x-fas-upload /> Subir Archivo
                         </button>
                     </div>
                 </div>
@@ -92,11 +92,11 @@
             <div class="flex justify-between items-center pt-4 border-t border-gray-200">
                 <a href="{{ route('admin.documents.index') }}"
                     class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                    <i class="fas fa-arrow-left mr-2"></i> Volver
+                    <x-fas-arrow-left class="mr-2" /> Volver
                 </a>
                 <button type="submit"
                     class="inline-flex items-center px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg">
-                    <i class="fas fa-save mr-2"></i> Guardar Documento
+                    <x-fas-save class="mr-2" /> Guardar Documento
                 </button>
             </div>
         </form>

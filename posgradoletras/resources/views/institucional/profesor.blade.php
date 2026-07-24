@@ -57,10 +57,10 @@
         <h2 style="color: #680D10; margin-bottom: 1rem;">Enlaces Externos</h2>
         <div style="display: flex; gap: 1rem;">
             @if(isset($profesor['orcid']) && $profesor['orcid'])
-                <a href="{{ $profesor['orcid'] }}" target="_blank" class="btn">Ver ORCID</a>
+                <a href="{{ $profesor['orcid'] }}" target="_blank" rel="noopener noreferrer" class="btn">Ver ORCID</a>
             @endif
             @if(isset($profesor['cti_vitae']) && $profesor['cti_vitae'])
-                <a href="{{ $profesor['cti_vitae'] }}" target="_blank" class="btn">Ver CTI Vitae</a>
+                <a href="{{ $profesor['cti_vitae'] }}" target="_blank" rel="noopener noreferrer" class="btn">Ver CTI Vitae</a>
             @endif
         </div>
     </div>

@@ -7,8 +7,8 @@
         <!-- Header -->
         <div class="mb-8">
             <a href="{{ route('admin.eventos.index') }}"
-                class="text-brand-navy hover:underline text-sm mb-2 inline-flex items-center">
-                <i class="fas fa-arrow-left mr-2"></i> Volver a Eventos
+                class="text-brand-red hover:underline text-sm mb-2 inline-flex items-center">
+                <x-fas-arrow-left class="mr-2" /> Volver a Eventos
             </a>
             <h2 class="text-2xl font-serif font-bold text-gray-900">Editar Evento</h2>
             <p class="mt-1 text-sm text-gray-500">Modifique los datos del evento.</p>
@@ -16,7 +16,8 @@
 
         <!-- Form -->
         <form action="{{ route('admin.eventos.update', $evento) }}" method="POST" enctype="multipart/form-data"
-            class="bg-white shadow-sm border border-gray-200 rounded-lg">
+            class="bg-white shadow-sm border border-gray-200 rounded-lg"
+            x-data="{ submitting: false }" @submit="submitting = true">
             @csrf
             @method('PUT')
 
@@ -27,7 +28,7 @@
                         Título del Evento <span class="text-red-500">*</span>
                     </label>
                     <input type="text" name="titulo" id="titulo" value="{{ old('titulo', $evento->titulo) }}" required
-                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-navy focus:ring-brand-navy @error('titulo') border-red-300 @enderror"
+                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red @error('titulo') border-red-300 @enderror"
                         placeholder="Ej: Conferencia de Literatura Peruana">
                     @error('titulo')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -40,63 +41,15 @@
                         Descripción (opcional)
                     </label>
                     <textarea name="descripcion" id="descripcion" rows="3"
-                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-navy focus:ring-brand-navy"
+                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red"
                         placeholder="Breve descripción del evento...">{{ old('descripcion', $evento->descripcion) }}</textarea>
                 </div>
 
                 <!-- Imagen Actual + Nueva -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                        Imagen/Afiche
-                    </label>
-
-                    <!-- Imagen actual del servidor -->
-                    @if($evento->imagen)
-                        <div id="currentImageContainer" class="mb-4 p-4 bg-gray-50 rounded-lg flex items-center gap-4">
-                            <img src="{{ asset('storage/' . $evento->imagen) }}" alt="{{ $evento->titulo }}"
-                                class="h-24 w-auto rounded-lg object-cover">
-                            <div>
-                                <p class="text-sm text-gray-600">Imagen actual</p>
-                                <p class="text-xs text-gray-400">Sube una nueva imagen para reemplazarla</p>
-                            </div>
-                        </div>
-                    @endif
-
-                    <!-- Preview de nueva imagen (hidden by default) -->
-                    <div id="imagePreviewContainer" class="hidden mb-4 p-4 bg-green-50 rounded-lg border border-green-200">
-                        <div class="flex items-center gap-4">
-                            <img id="imagePreview" src="" alt="Preview" class="h-24 w-auto rounded-lg object-cover">
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-green-800">Nueva imagen seleccionada:</p>
-                                <p id="imageName" class="text-sm text-gray-900"></p>
-                                <p id="imageSize" class="text-xs text-gray-500"></p>
-                            </div>
-                            <button type="button" onclick="removeImage()" class="text-red-500 hover:text-red-700 p-2">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div id="uploadArea"
-                        class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-brand-navy transition-colors cursor-pointer">
-                        <div class="space-y-1 text-center">
-                            <i class="fas fa-image text-4xl text-gray-400"></i>
-                            <div class="flex text-sm text-gray-600">
-                                <label for="imagen"
-                                    class="relative cursor-pointer bg-white rounded-md font-medium text-brand-navy hover:underline focus-within:outline-none">
-                                    <span>{{ $evento->imagen ? 'Cambiar imagen' : 'Subir imagen' }}</span>
-                                    <input id="imagen" name="imagen" type="file" class="sr-only" accept="image/*"
-                                        onchange="previewImage(event)">
-                                </label>
-                                <p class="pl-1">o arrastrar y soltar</p>
-                            </div>
-                            <p class="text-xs text-gray-500">PNG, JPG, WEBP, GIF hasta 5MB</p>
-                        </div>
-                    </div>
-                    @error('imagen')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-admin-file-upload mode="direct" name="imagen" label="Imagen/Afiche" accept="image/*"
+                    layout="inline" with-live-preview preview-size="w-24 h-24"
+                    :current-path="$evento->imagen"
+                    help-text="PNG, JPG, WEBP, GIF hasta 5MB. Deja vacío para mantener la imagen actual." />
 
                 <!-- Fechas -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -106,7 +59,7 @@
                         </label>
                         <input type="date" name="fecha_inicio" id="fecha_inicio"
                             value="{{ old('fecha_inicio', $evento->fecha_inicio->format('Y-m-d')) }}" required
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-navy focus:ring-brand-navy">
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red">
                         @error('fecha_inicio')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -117,7 +70,7 @@
                         </label>
                         <input type="date" name="fecha_fin" id="fecha_fin"
                             value="{{ old('fecha_fin', $evento->fecha_fin?->format('Y-m-d')) }}"
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-navy focus:ring-brand-navy">
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red">
                         @error('fecha_fin')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -131,7 +84,7 @@
                             Tipo de Enlace
                         </label>
                         <select name="tipo_url" id="tipo_url"
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-navy focus:ring-brand-navy">
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red">
                             <option value="">Sin enlace</option>
                             <option value="externo" {{ old('tipo_url', $evento->tipo_url) == 'externo' ? 'selected' : '' }}>
                                 Enlace externo</option>
@@ -144,7 +97,7 @@
                             URL del Enlace
                         </label>
                         <input type="text" name="url" id="url" value="{{ old('url', $evento->url) }}"
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-navy focus:ring-brand-navy"
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red"
                             placeholder="https://ejemplo.com o URL del PDF">
                         @error('url')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -159,13 +112,13 @@
                             Orden (para home)
                         </label>
                         <input type="number" name="orden" id="orden" value="{{ old('orden', $evento->orden) }}" min="0"
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-navy focus:ring-brand-navy">
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red">
                         <p class="mt-1 text-xs text-gray-500">Menor número = aparece primero</p>
                     </div>
                     <div class="flex items-center pt-6">
                         <label class="flex items-center cursor-pointer">
                             <input type="checkbox" name="activo" value="1" {{ old('activo', $evento->activo) ? 'checked' : '' }}
-                                class="rounded border-gray-300 text-brand-navy shadow-sm focus:border-brand-navy focus:ring-brand-navy">
+                                class="rounded border-gray-300 text-brand-red shadow-sm focus:border-brand-red focus:ring-brand-red">
                             <span class="ml-2 text-sm text-gray-700">Evento activo (visible en el sitio)</span>
                         </label>
                     </div>
@@ -178,49 +131,13 @@
                     class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors">
                     Cancelar
                 </a>
-                <button type="submit"
-                    class="px-6 py-2 bg-brand-navy text-white rounded-lg hover:bg-blue-900 font-medium transition-colors">
-                    <i class="fas fa-save mr-2"></i> Actualizar Evento
+                <button type="submit" :disabled="submitting"
+                    class="px-6 py-2 bg-brand-red text-white rounded-lg hover:bg-red-800 font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
+                    <x-fas-spinner class="animate-spin mr-2" x-show="submitting" x-cloak aria-hidden="true" />
+                    <x-fas-save class="mr-2" x-show="!submitting" aria-hidden="true" />
+                    <span x-text="submitting ? 'Actualizando...' : 'Actualizar Evento'"></span>
                 </button>
             </div>
         </form>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        function previewImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById('imagePreview').src = e.target.result;
-                    document.getElementById('imageName').textContent = file.name;
-                    document.getElementById('imageSize').textContent = formatFileSize(file.size);
-                    document.getElementById('imagePreviewContainer').classList.remove('hidden');
-                    // Ocultar imagen actual si existe
-                    const currentImg = document.getElementById('currentImageContainer');
-                    if (currentImg) currentImg.classList.add('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function removeImage() {
-            document.getElementById('imagen').value = '';
-            document.getElementById('imagePreview').src = '';
-            document.getElementById('imagePreviewContainer').classList.add('hidden');
-            // Mostrar imagen actual si existe
-            const currentImg = document.getElementById('currentImageContainer');
-            if (currentImg) currentImg.classList.remove('hidden');
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-    </script>
-@endpush

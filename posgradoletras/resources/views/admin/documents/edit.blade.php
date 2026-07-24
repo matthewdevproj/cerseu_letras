@@ -10,7 +10,7 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-3 text-sm">
                     <li><a href="{{ route('admin.documents.index') }}"
                             class="text-gray-500 hover:text-brand-gold">Documentos</a></li>
-                    <li class="flex items-center"><i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i><span
+                    <li class="flex items-center"><x-fas-chevron-right class="text-gray-400 mx-2 text-xs" /><span
                             class="text-gray-700">Editar</span></li>
                 </ol>
             </nav>
@@ -38,19 +38,19 @@
             <div class="p-4 bg-blue-50 rounded-lg border border-blue-200 flex items-center gap-4">
                 @if($document->is_pdf)
                     <div class="h-12 w-12 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
-                        <i class="fas fa-file-pdf text-xl"></i>
+                        <x-fas-file-pdf class="text-xl" />
                     </div>
                 @elseif($document->is_image)
                     <img class="h-12 w-12 rounded-lg object-cover" src="{{ $document->url }}"
                         alt="{{ $document->original_name }}">
                 @else
                     <div class="h-12 w-12 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center">
-                        <i class="fas fa-file text-xl"></i>
+                        <x-fas-file class="text-xl" />
                     </div>
                 @endif
                 <div class="flex-1">
                     <p class="text-sm font-medium text-gray-900">{{ $document->original_name }}</p>
-                    <a href="{{ $document->url }}" target="_blank" class="text-xs text-blue-600 hover:underline">Ver archivo
+                    <a href="{{ $document->url }}" target="_blank" rel="noopener noreferrer" class="text-xs text-blue-600 hover:underline">Ver archivo
                         actual</a>
                 </div>
             </div>
@@ -96,13 +96,13 @@
             <!-- Replace File -->
             <div class="border border-gray-200 rounded-lg p-4">
                 <label class="block text-sm font-medium text-gray-700 mb-3">
-                    <i class="fas fa-sync text-brand-red mr-1"></i> Reemplazar Archivo (opcional)
+                    <x-fas-sync class="text-brand-red mr-1" /> Reemplazar Archivo (opcional)
                 </label>
                 <div class="flex gap-2">
                     <input type="file" name="file" id="file" class="hidden">
                     <button type="button" onclick="document.getElementById('file').click()"
                         class="px-4 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-all flex items-center gap-2">
-                        <i class="fas fa-upload"></i> Subir Nuevo Archivo
+                        <x-fas-upload /> Subir Nuevo Archivo
                     </button>
                 </div>
                 <div id="file_status" class="mt-2 text-xs text-gray-500"></div>
@@ -122,11 +122,11 @@
             <div class="flex justify-between items-center pt-4 border-t border-gray-200">
                 <a href="{{ route('admin.documents.index') }}"
                     class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                    <i class="fas fa-arrow-left mr-2"></i> Volver
+                    <x-fas-arrow-left class="mr-2" /> Volver
                 </a>
                 <button type="submit"
                     class="inline-flex items-center px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg">
-                    <i class="fas fa-save mr-2"></i> Guardar Cambios
+                    <x-fas-save class="mr-2" /> Guardar Cambios
                 </button>
             </div>
         </form>

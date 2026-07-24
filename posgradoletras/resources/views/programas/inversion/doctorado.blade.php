@@ -30,10 +30,10 @@
 
     {{-- Admisión / Derecho de inscripción --}}
     <section class="space-y-4">
-        <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
-            <i class="fas fa-user-plus text-unmsm-dorado"></i>
+        <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+            <x-fas-user-plus class="text-unmsm-dorado" />
             Admisión
-        </h4>
+        </h3>
 
         <p class="text-sm text-gray-700">
             El pago por derecho de inscripción a los programas es el siguiente:
@@ -69,10 +69,10 @@
 
     {{-- Créditos --}}
     <section class="space-y-4">
-        <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
-            <i class="fas fa-coins text-unmsm-dorado"></i>
+        <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+            <x-fas-coins class="text-unmsm-dorado" />
             Créditos
-        </h4>
+        </h3>
 
         <p class="text-sm text-gray-700 text-justify">
             Cada curso del programa tiene un valor en créditos. Es de acuerdo al
@@ -94,10 +94,10 @@
 
     {{-- Costo total del programa --}}
     <section class="space-y-4">
-        <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
-            <i class="fas fa-calculator text-unmsm-dorado"></i>
+        <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+            <x-fas-calculator class="text-unmsm-dorado" />
             Costo total del programa
-        </h4>
+        </h3>
 
         <div class="flex justify-center">
             <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm inline-block min-w-[220px]">
@@ -113,16 +113,16 @@
 
     {{-- Costos por semestre --}}
     <section class="space-y-6">
-        <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
-            <i class="fas fa-calendar-alt text-unmsm-dorado"></i>
+        <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+            <x-fas-calendar-alt class="text-unmsm-dorado" />
             Costos por semestre
-        </h4>
+        </h3>
 
         <div class="grid md:grid-cols-2 gap-6">
             @foreach($semestres as $num => $datos)
                 <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm">
                     <div class="bg-unmsm-guinda text-white px-4 py-3">
-                        <h5 class="font-semibold text-center">{{ $nombreSemestre[$num] }} semestre</h5>
+                        <h4 class="font-semibold text-center">{{ $nombreSemestre[$num] }} semestre</h4>
                     </div>
 
                     <table class="w-full text-sm">
@@ -155,9 +155,9 @@
 
     {{-- Nota: cuotas y descuento --}}
     <section class="bg-green-50 border border-green-200 rounded-xl p-4 md:p-5 space-y-2">
-        <h4 class="text-sm font-semibold text-green-800">
+        <h3 class="text-sm font-semibold text-green-800">
             Condiciones de pago
-        </h4>
+        </h3>
         <ul class="list-disc list-inside text-sm text-green-900 space-y-1 text-justify">
             <li>
                 El costo por semestre <span class="font-semibold">se divide en cuatro cuotas</span>,
@@ -178,9 +178,9 @@
     <section class="bg-unmsm-guinda/5 border border-unmsm-guinda/20 rounded-xl p-4 md:p-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
             <div>
-                <h4 class="text-base md:text-lg font-semibold text-unmsm-guinda">
+                <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda">
                     Informes
-                </h4>
+                </h3>
                 <p class="text-sm text-gray-700">
                     Para mayor detalle sobre pagos, cronogramas y matrícula,
                     comuníquese con la Unidad de Posgrado.
@@ -196,7 +196,7 @@
                 </p>
                 <p>
                     <span class="font-semibold text-unmsm-guinda">Teléfono / WhatsApp:&nbsp;</span>
-                    <a href="{{ config('contacts.whatsapp', 'https://wa.me/51982085037') }}" target="_blank"
+                    <a href="{{ config('contacts.whatsapp', 'https://wa.me/51982085037') }}" target="_blank" rel="noopener noreferrer"
                         rel="noopener noreferrer"
                         class="text-gray-800 underline decoration-unmsm-guinda/60 decoration-2 underline-offset-2">
                         {{ config('contacts.telefono', '982 085 037') }}

@@ -599,8 +599,8 @@
                 <ul>
                     <li>📧 {{ config('institucional.contacto.email') }}</li>
                     <li>📱 {{ config('institucional.contacto.telefono') }}</li>
-                    <li><a href="{{ config('institucional.contacto.web_facultad') }}" target="_blank">Web Facultad</a></li>
-                    <li><a href="{{ config('institucional.contacto.sanmarket') }}" target="_blank">Sanmarket</a></li>
+                    <li><a href="{{ config('institucional.contacto.web_facultad') }}" target="_blank" rel="noopener noreferrer">Web Facultad</a></li>
+                    <li><a href="{{ config('institucional.contacto.sanmarket') }}" target="_blank" rel="noopener noreferrer">Sanmarket</a></li>
                 </ul>
             </div>
         </div>

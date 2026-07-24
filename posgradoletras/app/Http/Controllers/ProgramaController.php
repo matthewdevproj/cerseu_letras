@@ -12,13 +12,12 @@ class ProgramaController extends Controller
         // Obtener el filtro de tipo desde la URL
         $tipoFiltro = $request->get('tipo', 'todos');
 
-        $campos = ['id', 'nombre', 'mencion', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad'];
+        $campos = ['id', 'nombre', 'mencion', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad', 'horas_academicas', 'brochure_url'];
 
         $maestrias = Programa::activos()->maestrias()->select($campos)->orderBy('nombre')->get();
         $doctorados = Programa::activos()->doctorados()->select($campos)->orderBy('nombre')->get();
-        $diplomados = Programa::activos()->diplomados()->select($campos)->orderBy('nombre')->get();
 
-        return view('programas.index', compact('maestrias', 'doctorados', 'diplomados', 'tipoFiltro'));
+        return view('programas.index', compact('maestrias', 'doctorados', 'tipoFiltro'));
     }
 
     public function show($slug)
@@ -58,6 +57,11 @@ class ProgramaController extends Controller
                 'perfil_graduado',
                 'plan_url',
                 'horario_url',
+                'brochure_url',
+                'admision_pdf_url',
+                'horas_academicas',
+                'fecha_limite_inscripcion',
+                'inversion_economica',
                 'por_que_text',
                 'sumilla',
                 'plan_estudios',

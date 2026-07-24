@@ -8,7 +8,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="stat-card stat-brand bg-white rounded-xl p-6 shadow-sm hover:-translate-y-1 transition-transform">
             <div class="stat-icon w-12 h-12 rounded-xl flex items-center justify-center mb-4">
-                <i class="fas fa-graduation-cap text-xl"></i>
+                <x-fas-graduation-cap class="text-xl" />
             </div>
             <h2 class="text-3xl font-bold text-gray-800 font-serif">{{ $stats['total_programas'] }}</h2>
             <p class="text-sm text-gray-500 mt-1">Programas publicados</p>
@@ -16,7 +16,7 @@
 
         <div class="stat-card stat-accent bg-white rounded-xl p-6 shadow-sm hover:-translate-y-1 transition-transform">
             <div class="stat-icon w-12 h-12 rounded-xl flex items-center justify-center mb-4">
-                <i class="fas fa-chalkboard-teacher text-xl"></i>
+                <x-fas-chalkboard-teacher class="text-xl" />
             </div>
             <h2 class="text-3xl font-bold text-gray-800 font-serif">{{ $stats['total_docentes'] }}</h2>
             <p class="text-sm text-gray-500 mt-1">Plana Docente</p>
@@ -24,7 +24,7 @@
 
         <div class="stat-card stat-dark bg-white rounded-xl p-6 shadow-sm hover:-translate-y-1 transition-transform">
             <div class="stat-icon w-12 h-12 rounded-xl flex items-center justify-center mb-4">
-                <i class="fas fa-quote-left text-xl"></i>
+                <x-fas-quote-left class="text-xl" />
             </div>
             <h2 class="text-3xl font-bold text-gray-800 font-serif">{{ $stats['testimonios_publicados'] }}</h2>
             <p class="text-sm text-gray-500 mt-1">Testimonios activos</p>
@@ -32,7 +32,7 @@
 
         <div class="stat-card stat-brand bg-white rounded-xl p-6 shadow-sm hover:-translate-y-1 transition-transform">
             <div class="stat-icon w-12 h-12 rounded-xl flex items-center justify-center mb-4">
-                <i class="fas fa-address-book text-xl"></i>
+                <x-fas-address-book class="text-xl" />
             </div>
             <h2 class="text-3xl font-bold text-gray-800 font-serif">{{ $stats['total_directorio'] }}</h2>
             <p class="text-sm text-gray-500 mt-1">Personal Directorio</p>
@@ -40,7 +40,7 @@
 
         <div class="stat-card stat-accent bg-white rounded-xl p-6 shadow-sm hover:-translate-y-1 transition-transform">
             <div class="stat-icon w-12 h-12 rounded-xl flex items-center justify-center mb-4">
-                <i class="fas fa-calendar-day text-xl"></i>
+                <x-fas-calendar-day class="text-xl" />
             </div>
             <h2 class="text-3xl font-bold text-gray-800 font-serif">{{ $stats['eventos_activos'] }}</h2>
             <p class="text-sm text-gray-500 mt-1">Eventos activos</p>
@@ -53,7 +53,7 @@
             <div class="bg-white rounded-xl shadow-sm h-full">
                 <div class="p-6 border-b border-gray-100">
                     <h5 class="font-bold text-lg text-[#761e23] flex items-center gap-2">
-                        <i class="fas fa-rocket"></i>
+                        <x-fas-rocket />
                         Acciones Rápidas
                     </h5>
                     <p class="text-sm text-gray-500">Accesos directos a las funciones más usadas</p>
@@ -66,14 +66,14 @@
                                 class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
                                 <div
                                     class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-[#761e23] transition-all">
-                                    <i class="fas fa-graduation-cap text-xl"></i>
+                                    <x-fas-graduation-cap class="text-xl" />
                                 </div>
                                 <h6 class="font-bold text-gray-800">Programas</h6>
                                 <p class="text-xs text-gray-500">Maestrías, Doctorados y Diplomados</p>
                             </a>
                             <a href="{{ route('admin.programas.create') }}"
                                 class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
-                                <i class="fas fa-plus mr-1"></i> Nuevo
+                                <x-fas-plus class="mr-1" /> Nuevo
                             </a>
                         </div>
 
@@ -83,14 +83,14 @@
                                 class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
                                 <div
                                     class="action-icon-circle w-14 h-14 rounded-full bg-[#d4a017]/10 flex items-center justify-center mx-auto mb-3 text-[#d4a017] transition-all">
-                                    <i class="fas fa-chalkboard-teacher text-xl"></i>
+                                    <x-fas-chalkboard-teacher class="text-xl" />
                                 </div>
                                 <h6 class="font-bold text-gray-800">Docentes</h6>
                                 <p class="text-xs text-gray-500">Plana académica</p>
                             </a>
                             <a href="{{ route('admin.docentes.create') }}"
                                 class="btn-accent-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
-                                <i class="fas fa-plus mr-1"></i> Nuevo
+                                <x-fas-plus class="mr-1" /> Nuevo
                             </a>
                         </div>
 
@@ -100,14 +100,14 @@
                                 class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
                                 <div
                                     class="action-icon-circle w-14 h-14 rounded-full bg-[#5a161a]/10 flex items-center justify-center mx-auto mb-3 text-[#5a161a] transition-all">
-                                    <i class="fas fa-comments text-xl"></i>
+                                    <x-fas-comments class="text-xl" />
                                 </div>
                                 <h6 class="font-bold text-gray-800">Testimonios</h6>
                                 <p class="text-xs text-gray-500">Experiencias egresados</p>
                             </a>
                             <a href="{{ route('admin.testimonios.create') }}"
                                 class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
-                                <i class="fas fa-plus mr-1"></i> Nuevo
+                                <x-fas-plus class="mr-1" /> Nuevo
                             </a>
                         </div>
 
@@ -117,14 +117,14 @@
                                 class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
                                 <div
                                     class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-[#761e23] transition-all">
-                                    <i class="fas fa-address-book text-xl"></i>
+                                    <x-fas-address-book class="text-xl" />
                                 </div>
                                 <h6 class="font-bold text-gray-800">Directorio</h6>
                                 <p class="text-xs text-gray-500">Personal administrativo</p>
                             </a>
                             <a href="{{ route('admin.directorio.create') }}"
                                 class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
-                                <i class="fas fa-plus mr-1"></i> Nuevo
+                                <x-fas-plus class="mr-1" /> Nuevo
                             </a>
                         </div>
 
@@ -134,14 +134,14 @@
                                 class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
                                 <div
                                     class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-gray-500 transition-all">
-                                    <i class="fas fa-cog text-xl"></i>
+                                    <x-fas-cog class="text-xl" />
                                 </div>
                                 <h6 class="font-bold text-gray-800">Configuración</h6>
                                 <p class="text-xs text-gray-500">Ajustes del sitio</p>
                             </a>
                             <a href="{{ route('admin.settings.index') }}"
                                 class="text-center py-2 px-4 rounded-lg border border-gray-300 text-gray-500 text-sm font-semibold hover:bg-gray-50 transition-colors">
-                                <i class="fas fa-edit mr-1"></i> Editar
+                                <x-fas-edit class="mr-1" /> Editar
                             </a>
                         </div>
 
@@ -151,14 +151,14 @@
                                 class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
                                 <div
                                     class="action-icon-circle w-14 h-14 rounded-full bg-[#d4a017]/10 flex items-center justify-center mx-auto mb-3 text-[#d4a017] transition-all">
-                                    <i class="fas fa-calendar-day text-xl"></i>
+                                    <x-fas-calendar-day class="text-xl" />
                                 </div>
                                 <h6 class="font-bold text-gray-800">Eventos</h6>
                                 <p class="text-xs text-gray-500">Actividades y afiches</p>
                             </a>
                             <a href="{{ route('admin.eventos.create') }}"
                                 class="btn-accent-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
-                                <i class="fas fa-plus mr-1"></i> Nuevo
+                                <x-fas-plus class="mr-1" /> Nuevo
                             </a>
                         </div>
                     </div>
@@ -176,32 +176,32 @@
                     <div class="space-y-2">
                         <a href="{{ route('admin.testimonios.index') }}"
                             class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
-                            <i class="fas fa-comment-dots text-gray-400"></i>
+                            <x-fas-comment-dots class="text-gray-400" />
                             <div class="flex-1">
                                 <h6 class="font-bold text-sm text-gray-800">Testimonios</h6>
                                 <p class="text-xs text-gray-500">Experiencias de egresados</p>
                             </div>
-                            <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+                            <x-fas-chevron-right class="text-gray-300 text-xs" />
                         </a>
 
                         <a href="{{ route('admin.directorio.index') }}"
                             class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
-                            <i class="fas fa-address-book text-gray-400"></i>
+                            <x-fas-address-book class="text-gray-400" />
                             <div class="flex-1">
                                 <h6 class="font-bold text-sm text-gray-800">Directorio</h6>
                                 <p class="text-xs text-gray-500">Personal administrativo</p>
                             </div>
-                            <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+                            <x-fas-chevron-right class="text-gray-300 text-xs" />
                         </a>
 
-                        <a href="{{ route('home') }}" target="_blank"
+                        <a href="{{ route('home') }}" target="_blank" rel="noopener noreferrer"
                             class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
-                            <i class="fas fa-globe text-gray-400"></i>
+                            <x-fas-globe class="text-gray-400" />
                             <div class="flex-1">
                                 <h6 class="font-bold text-sm text-gray-800">Ver Sitio Web</h6>
                                 <p class="text-xs text-gray-500">Abrir página pública</p>
                             </div>
-                            <i class="fas fa-external-link-alt text-gray-300 text-xs"></i>
+                            <x-fas-external-link-alt class="text-gray-300 text-xs" />
                         </a>
                     </div>
 

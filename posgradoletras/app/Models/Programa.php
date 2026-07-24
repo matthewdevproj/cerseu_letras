@@ -21,6 +21,11 @@ class Programa extends Model
         'perfil_graduado',
         'plan_url',
         'horario_url',
+        'brochure_url',
+        'admision_pdf_url',
+        'horas_academicas',
+        'fecha_limite_inscripcion',
+        'inversion_economica',
         'por_que_text',
         'sumilla',
         'plan_estudios',
@@ -33,11 +38,13 @@ class Programa extends Model
         'vacantes' => 'integer',
         'duracion' => 'integer',
         'creditos' => 'integer',
+        'horas_academicas' => 'integer',
         'is_active' => 'boolean',
         'plan_estudios' => 'array',
         'objetivos_academicos' => 'array',
         'perfil_ingresante' => 'array',
-        'perfil_graduado' => 'array'
+        'perfil_graduado' => 'array',
+        'inversion_economica' => 'array',
     ];
 
     // Relaciones
@@ -113,7 +120,14 @@ class Programa extends Model
             'Diplomado' => 'Diplomado en ',
             default     => 'Magíster en ',
         };
-        $texto = $prefix . $this->nombre;
+
+        // Los diplomados suelen tener su propio nombre completo (p. ej. "Diplomado Internacional de...")
+        // y no deben llevar el prefijo duplicado.
+        if (Str::startsWith(Str::lower($this->nombre), ['diplomado', 'doctorado', 'maestría', 'maestria'])) {
+            $texto = $this->nombre;
+        } else {
+            $texto = $prefix . $this->nombre;
+        }
 
         if ($this->mencion) {
             $texto .= ' con mención en ' . $this->mencion;

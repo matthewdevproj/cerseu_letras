@@ -10,13 +10,13 @@
 
     <div class="container mx-auto px-4 py-12">
         @if($eventos->count() > 0)
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div data-reveal-stagger class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($eventos as $evento)
                     <article
-                        class="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
+                        class="group bg-white rounded-xl shadow-md hover:shadow-xl motion-safe:hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
                         <!-- Imagen del evento -->
                         <div class="relative h-56 overflow-hidden">
-                            <img src="{{ $evento->imagen_url }}" alt="{{ $evento->titulo }}"
+                            <img src="{{ $evento->imagen_url }}" alt="{{ $evento->titulo }}" loading="lazy" decoding="async"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
 
                             <!-- Badge de fecha -->
@@ -30,11 +30,11 @@
                                 <div class="absolute top-4 right-4">
                                     @if($evento->es_pdf)
                                         <span class="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold">
-                                            <i class="fas fa-file-pdf mr-1"></i> PDF
+                                            <x-fas-file-pdf class="mr-1" /> PDF
                                         </span>
                                     @else
                                         <span class="bg-blue-600 text-white px-2 py-1 rounded text-xs font-bold">
-                                            <i class="fas fa-external-link-alt mr-1"></i> Enlace
+                                            <x-fas-external-link-alt class="mr-1" /> Enlace
                                         </span>
                                     @endif
                                 </div>
@@ -56,15 +56,15 @@
 
                             <div class="flex items-center justify-between">
                                 <div class="text-sm text-gray-500">
-                                    <i class="far fa-calendar-alt text-unmsm-dorado mr-1"></i>
+                                    <x-far-calendar-alt class="text-unmsm-dorado mr-1" />
                                     {{ $evento->fecha_formateada }}
                                 </div>
 
                                 @if($evento->tiene_url)
-                                    <a href="{{ $evento->url }}" target="_blank"
+                                    <a href="{{ $evento->url }}" target="_blank" rel="noopener noreferrer"
                                         class="inline-flex items-center gap-2 px-4 py-2 bg-unmsm-guinda text-white text-sm font-bold rounded-lg hover:bg-red-800 transition-colors">
                                         {{ $evento->es_pdf ? 'Descargar' : 'Ver más' }}
-                                        <i class="fas fa-arrow-right text-xs"></i>
+                                        <x-fas-arrow-right class="text-xs" />
                                     </a>
                                 @endif
                             </div>
@@ -82,7 +82,7 @@
         @else
             <div class="text-center py-16">
                 <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-calendar-alt text-4xl text-gray-400"></i>
+                    <x-fas-calendar-alt class="text-4xl text-gray-400" />
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-2">No hay eventos disponibles</h3>
                 <p class="text-gray-600">Próximamente publicaremos nuevas actividades.</p>

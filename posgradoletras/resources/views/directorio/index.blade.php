@@ -2,26 +2,6 @@
 
 @section('title', 'Directorio de Posgrado - Posgrado Letras UNMSM')
 
-@push('styles')
-    <style>
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
-@endpush
-
 @section('content')
 
     <!-- HERO DE SECCIÓN -->
@@ -41,9 +21,9 @@
                     <div class="flex items-center gap-4 mb-8">
                         <div class="w-12 h-12 bg-unmsm-guinda rounded-full flex items-center justify-center text-white">
                             @if($unidad == 'AUTORIDADES')
-                                <i class="fas fa-user-tie text-xl"></i>
+                                <x-fas-user-tie class="text-xl" />
                             @else
-                                <i class="fas fa-users text-xl"></i>
+                                <x-fas-users class="text-xl" />
                             @endif
                         </div>
                         <div>
@@ -82,7 +62,7 @@
                                                 @if($persona->correo_persona)
                                                     <a href="mailto:{{ $persona->correo_persona }}"
                                                         class="text-sm text-unmsm-guinda hover:text-unmsm-dorado transition-colors flex items-center gap-2">
-                                                        <i class="fas fa-envelope text-xs"></i>
+                                                        <x-fas-envelope class="text-xs" />
                                                         {{ $persona->correo_persona }}
                                                     </a>
                                                 @else
@@ -92,7 +72,7 @@
                                             <td class="px-6 py-5">
                                                 @if($persona->anexo)
                                                     <span class="text-sm text-gray-700 flex items-center gap-2">
-                                                        <i class="fas fa-phone text-xs text-gray-400"></i>
+                                                        <x-fas-phone class="text-xs text-gray-400" />
                                                         {{ $persona->anexo }}
                                                     </span>
                                                 @else
@@ -111,7 +91,7 @@
             <!-- Sin datos -->
             <div class="text-center py-20">
                 <div class="inline-block p-6 rounded-full bg-gray-100 mb-4">
-                    <i class="fas fa-address-book text-4xl text-gray-400"></i>
+                    <x-fas-address-book class="text-4xl text-gray-400" />
                 </div>
                 <h3 class="text-xl font-bold text-gray-800 mb-2">No hay información disponible</h3>
                 <p class="text-gray-500">El directorio aún no ha sido configurado.</p>

@@ -42,10 +42,10 @@
 
                     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
                         @if(isset($profesor['orcid']) && $profesor['orcid'])
-                            <a href="{{ $profesor['orcid'] }}" target="_blank" style="font-size: 0.85rem; color: #680D10;">ORCID ↁE/a>
+                            <a href="{{ $profesor['orcid'] }}" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #680D10;">ORCID ↁE/a>
                         @endif
                         @if(isset($profesor['cti_vitae']) && $profesor['cti_vitae'])
-                            <a href="{{ $profesor['cti_vitae'] }}" target="_blank" style="font-size: 0.85rem; color: #680D10;">CTI Vitae
+                            <a href="{{ $profesor['cti_vitae'] }}" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #680D10;">CTI Vitae
                                 ↁE/a>
                         @endif
                     </div>

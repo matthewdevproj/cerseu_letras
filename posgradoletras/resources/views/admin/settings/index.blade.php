@@ -13,14 +13,15 @@
         {{-- Mensajes de éxito --}}
 
 
-        <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6"
+            x-data="{ submitting: false }" @submit="submitting = true">
             @csrf
             @method('PUT')
 
             {{-- Información General --}}
             <div class="bg-white rounded-lg shadow p-6 space-y-4">
                 <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                    <i class="fas fa-info-circle text-unmsm-guinda"></i>
+                    <x-fas-info-circle class="text-unmsm-guinda" />
                     Información General
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -42,133 +43,23 @@
 
                 {{-- Logo y Favicon con subida de archivo --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
-                    {{-- Logo --}}
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            <i class="fas fa-image text-unmsm-guinda mr-1"></i> Logo del Sitio
-                        </label>
-                        <div class="flex items-start gap-4">
-                            {{-- Preview --}}
-                            <div class="flex-shrink-0">
-                                <div id="logo_preview_container" class="relative group">
-                                    @if($settings->logo_path)
-                                        <img id="logo_preview" src="{{ asset('storage/' . $settings->logo_path) }}"
-                                            alt="Logo actual"
-                                            class="w-24 h-24 object-contain border border-gray-200 rounded-lg bg-gray-50 p-2">
-                                        <div
-                                            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                                            <span id="logo_label" class="text-white text-xs">Actual</span>
-                                        </div>
-                                    @else
-                                        <div id="logo_placeholder"
-                                            class="w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
-                                            <i class="fas fa-image text-2xl text-gray-400"></i>
-                                        </div>
-                                        <img id="logo_preview" src="" alt="Preview logo"
-                                            class="w-24 h-24 object-contain border border-gray-200 rounded-lg bg-gray-50 p-2 hidden">
-                                    @endif
-                                </div>
-                            </div>
-                            {{-- Input --}}
-                            <div class="flex-1">
-                                <input type="file" name="logo" id="logo_input" accept="image/*"
-                                    onchange="previewImage(this, 'logo_preview', 'logo_placeholder', 'logo_label')"
-                                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-unmsm-guinda file:text-white hover:file:bg-unmsm-guinda/90 cursor-pointer">
-                                <p class="text-xs text-gray-500 mt-1">PNG, JPG, SVG. Máx 2MB.</p>
-                                @error('logo')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
-                                @if($settings->logo_path)
-                                    <label class="inline-flex items-center mt-2 text-sm text-gray-600">
-                                        <input type="checkbox" name="remove_logo" value="1"
-                                            class="rounded border-gray-300 text-unmsm-guinda focus:ring-unmsm-guinda mr-2">
-                                        Eliminar logo actual
-                                    </label>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
+                    <x-admin-file-upload mode="direct" name="logo" label="Logo del Sitio" icon="fas fa-image text-unmsm-guinda"
+                        accept="image/*" layout="inline" with-live-preview
+                        :current-path="$settings->logo_path" remove-checkbox-name="remove_logo"
+                        remove-label="Eliminar logo actual" help-text="PNG, JPG, SVG. Máx 2MB." />
 
-                    {{-- Favicon --}}
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            <i class="fas fa-star text-unmsm-dorado mr-1"></i> Favicon
-                        </label>
-                        <div class="flex items-start gap-4">
-                            {{-- Preview --}}
-                            <div class="flex-shrink-0">
-                                <div id="favicon_preview_container" class="relative group">
-                                    @if($settings->favicon_path)
-                                        <img id="favicon_preview" src="{{ asset('storage/' . $settings->favicon_path) }}"
-                                            alt="Favicon actual"
-                                            class="w-16 h-16 object-contain border border-gray-200 rounded-lg bg-gray-50 p-2">
-                                        <div
-                                            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                                            <span id="favicon_label" class="text-white text-xs">Actual</span>
-                                        </div>
-                                    @else
-                                        <div id="favicon_placeholder"
-                                            class="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
-                                            <i class="fas fa-star text-xl text-gray-400"></i>
-                                        </div>
-                                        <img id="favicon_preview" src="" alt="Preview favicon"
-                                            class="w-16 h-16 object-contain border border-gray-200 rounded-lg bg-gray-50 p-2 hidden">
-                                    @endif
-                                </div>
-                            </div>
-                            {{-- Input --}}
-                            <div class="flex-1">
-                                <input type="file" name="favicon" id="favicon_input" accept="image/*,.ico"
-                                    onchange="previewImage(this, 'favicon_preview', 'favicon_placeholder', 'favicon_label')"
-                                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-unmsm-dorado file:text-unmsm-guinda hover:file:bg-unmsm-dorado/90 cursor-pointer">
-                                <p class="text-xs text-gray-500 mt-1">ICO, PNG. 32x32 o 64x64 px.</p>
-                                @error('favicon')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
-                                @if($settings->favicon_path)
-                                    <label class="inline-flex items-center mt-2 text-sm text-gray-600">
-                                        <input type="checkbox" name="remove_favicon" value="1"
-                                            class="rounded border-gray-300 text-unmsm-guinda focus:ring-unmsm-guinda mr-2">
-                                        Eliminar favicon actual
-                                    </label>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
+                    <x-admin-file-upload mode="direct" name="favicon" label="Favicon" icon="fas fa-star text-unmsm-dorado"
+                        accept="image/*,.ico" layout="inline" with-live-preview preview-size="w-16 h-16" placeholder-icon="fa-star"
+                        file-button-class="file:bg-unmsm-dorado file:text-unmsm-guinda hover:file:bg-unmsm-dorado/90"
+                        :current-path="$settings->favicon_path" remove-checkbox-name="remove_favicon"
+                        remove-label="Eliminar favicon actual" help-text="ICO, PNG. 32x32 o 64x64 px." />
                 </div>
             </div>
-
-            <script>
-                function previewImage(input, previewId, placeholderId, labelId) {
-                    const preview = document.getElementById(previewId);
-                    const placeholder = document.getElementById(placeholderId);
-                    const label = document.getElementById(labelId);
-
-                    if (input.files && input.files[0]) {
-                        const reader = new FileReader();
-
-                        reader.onload = function (e) {
-                            preview.src = e.target.result;
-                            preview.classList.remove('hidden');
-
-                            if (placeholder) {
-                                placeholder.classList.add('hidden');
-                            }
-
-                            if (label) {
-                                label.textContent = 'Nuevo';
-                            }
-                        }
-
-                        reader.readAsDataURL(input.files[0]);
-                    }
-                }
-            </script>
 
             {{-- Información de Contacto --}}
             <div class="bg-white rounded-lg shadow p-6 space-y-4">
                 <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                    <i class="fas fa-address-card text-unmsm-guinda"></i>
+                    <x-fas-address-card class="text-unmsm-guinda" />
                     Información de Contacto
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -215,16 +106,49 @@
                 </div>
             </div>
 
+            {{-- Encabezado de Diplomados --}}
+            <div class="bg-white rounded-lg shadow p-6 space-y-4">
+                <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                    <x-fas-scroll class="text-unmsm-guinda" />
+                    Encabezado de Diplomados
+                </h2>
+                <p class="text-sm text-gray-500 -mt-2">Título, texto institucional y claim que se muestran en el hero de la página /diplomados.</p>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Título principal</label>
+                    <input type="text" name="diplomados_hero_titulo"
+                        value="{{ old('diplomados_hero_titulo', $settings->diplomados_hero_titulo) }}"
+                        placeholder="Diplomados"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Texto institucional</label>
+                    <textarea name="diplomados_hero_texto" rows="3"
+                        placeholder="Especializa tus conocimientos con programas diseñados para responder a los desafíos contemporáneos..."
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">{{ old('diplomados_hero_texto', $settings->diplomados_hero_texto) }}</textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Claim institucional</label>
+                    <input type="text" name="diplomados_hero_claim"
+                        value="{{ old('diplomados_hero_claim', $settings->diplomados_hero_claim) }}"
+                        placeholder="El conocimiento evoluciona. Tu formación también."
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                </div>
+                <x-admin-file-upload mode="direct" name="diplomados_hero_imagen" label="Imagen de fondo del hero"
+                    accept="image/*" layout="stacked" preview-size="w-32 h-20"
+                    :current-path="$settings->diplomados_hero_imagen" remove-checkbox-name="remove_diplomados_hero_imagen"
+                    remove-label="Eliminar imagen actual" />
+            </div>
+
             {{-- Redes Sociales --}}
             <div class="bg-white rounded-lg shadow p-6 space-y-4">
                 <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                    <i class="fas fa-share-alt text-unmsm-guinda"></i>
+                    <x-fas-share-alt class="text-unmsm-guinda" />
                     Redes Sociales
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                            <i class="fab fa-facebook text-blue-600 mr-1"></i> Facebook
+                            <x-fab-facebook class="text-blue-600 mr-1" /> Facebook
                         </label>
                         <input type="url" name="facebook" value="{{ old('facebook', $settings->facebook) }}"
                             placeholder="https://facebook.com/..."
@@ -235,7 +159,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                            <i class="fab fa-instagram text-pink-600 mr-1"></i> Instagram
+                            <x-fab-instagram class="text-pink-600 mr-1" /> Instagram
                         </label>
                         <input type="url" name="instagram" value="{{ old('instagram', $settings->instagram) }}"
                             placeholder="https://instagram.com/..."
@@ -246,7 +170,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                            <i class="fab fa-linkedin text-blue-700 mr-1"></i> LinkedIn
+                            <x-fab-linkedin class="text-blue-700 mr-1" /> LinkedIn
                         </label>
                         <input type="url" name="linkedin" value="{{ old('linkedin', $settings->linkedin) }}"
                             placeholder="https://linkedin.com/company/..."
@@ -257,7 +181,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                            <i class="fab fa-twitter text-sky-500 mr-1"></i> X (Twitter)
+                            <x-fab-twitter class="text-sky-500 mr-1" /> X (Twitter)
                         </label>
                         <input type="url" name="twitter" value="{{ old('twitter', $settings->twitter) }}"
                             placeholder="https://x.com/..."
@@ -268,7 +192,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                            <i class="fab fa-youtube text-red-600 mr-1"></i> YouTube
+                            <x-fab-youtube class="text-red-600 mr-1" /> YouTube
                         </label>
                         <input type="url" name="youtube" value="{{ old('youtube', $settings->youtube) }}"
                             placeholder="https://youtube.com/@..."
@@ -279,7 +203,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                            <i class="fab fa-tiktok mr-1"></i> TikTok
+                            <x-fab-tiktok class="mr-1" /> TikTok
                         </label>
                         <input type="url" name="tiktok" value="{{ old('tiktok', $settings->tiktok) }}"
                             placeholder="https://tiktok.com/@..."
@@ -294,7 +218,7 @@
             {{-- URLs Externas --}}
             <div class="bg-white rounded-lg shadow p-6 space-y-4">
                 <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                    <i class="fas fa-external-link-alt text-unmsm-guinda"></i>
+                    <x-fas-external-link-alt class="text-unmsm-guinda" />
                     Enlaces Externos
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -322,10 +246,11 @@
 
             {{-- Botón Guardar --}}
             <div class="flex justify-end">
-                <button type="submit"
-                    class="px-8 py-3 bg-unmsm-guinda text-white rounded-lg font-semibold hover:bg-unmsm-guinda/90 transition-colors flex items-center gap-2">
-                    <i class="fas fa-save"></i>
-                    Guardar Configuración
+                <button type="submit" :disabled="submitting"
+                    class="px-8 py-3 bg-unmsm-guinda text-white rounded-lg font-semibold hover:bg-unmsm-guinda/90 transition-colors flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                    <x-fas-spinner class="animate-spin" x-show="submitting" x-cloak />
+                    <x-fas-save x-show="!submitting" />
+                    <span x-text="submitting ? 'Guardando...' : 'Guardar Configuración'"></span>
                 </button>
             </div>
         </form>

@@ -5,8 +5,7 @@
 @push('styles')
 <style>
     :root {
-        --primary-color: #761e23;
-        --primary-dark: #5a161a;
+        /* --brand y --brand-dark ya vienen de admin.layout.app; se reutilizan aquí */
         --accent-color: #d4af37;
         --border-radius: 1rem;
         --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -38,11 +37,11 @@
 
     .nav-tabs .nav-link:hover {
         background: #f8f9fa;
-        color: var(--primary-color);
+        color: var(--brand);
     }
 
     .nav-tabs .nav-link.active {
-        background: var(--primary-color);
+        background: var(--brand);
         color: white;
         box-shadow: 0 4px 6px rgba(118, 30, 35, 0.3);
     }
@@ -65,18 +64,18 @@
     }
 
     .form-control:focus, .form-select:focus {
-        border-color: var(--primary-color);
+        border-color: var(--brand);
         box-shadow: 0 0 0 0.2rem rgba(118, 30, 35, 0.15);
     }
 
     .btn-primary {
-        background: var(--primary-color);
+        background: var(--brand);
         border: none;
         box-shadow: 0 4px 6px rgba(118, 30, 35, 0.3);
     }
 
     .btn-primary:hover {
-        background: var(--primary-dark);
+        background: var(--brand-dark);
         transform: translateY(-2px);
     }
 
@@ -86,20 +85,14 @@
 
     .programa-checkbox:hover {
         background: #f8f9fa;
-        border-color: var(--primary-color);
+        border-color: var(--brand);
     }
 
     .programa-checkbox.checked {
         background: rgba(118, 30, 35, 0.05);
-        border-color: var(--primary-color);
+        border-color: var(--brand);
     }
 
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateY(15px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .tab-pane.show { animation: slideIn 0.3s ease-out; }
 </style>
 @endpush
 
@@ -115,33 +108,34 @@
     <!-- Form Card -->
     <div class="card">
         <div class="p-6">
-            <form action="{{ route('admin.docentes.store') }}" method="POST" enctype="multipart/form-data" id="form-docente">
+            <form action="{{ route('admin.docentes.store') }}" method="POST" enctype="multipart/form-data" id="form-docente"
+                x-data="{ submitting: false, tab: 'personal' }" @submit="submitting = true">
                 @csrf
 
                 <!-- Tabs Navigation -->
                 <ul class="nav nav-tabs mb-6 flex border-b border-gray-200" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active px-4 py-3 text-sm font-medium border-b-2 border-brand-red text-brand-red" 
-                           data-tab="personal" href="#personal" onclick="switchTab(event, 'personal')">
-                            <i class="fas fa-user mr-2"></i> Datos Personales
+                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'personal' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                           href="#personal" @click.prevent="tab = 'personal'">
+                            <x-fas-user class="mr-2" aria-hidden="true" /> Datos Personales
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
-                           data-tab="contacto" href="#contacto" onclick="switchTab(event, 'contacto')">
-                            <i class="fas fa-envelope mr-2"></i> Contacto
+                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'contacto' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                           href="#contacto" @click.prevent="tab = 'contacto'">
+                            <x-fas-envelope class="mr-2" aria-hidden="true" /> Contacto
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
-                           data-tab="academico" href="#academico" onclick="switchTab(event, 'academico')">
-                            <i class="fas fa-book-open mr-2"></i> Info Académica
+                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'academico' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                           href="#academico" @click.prevent="tab = 'academico'">
+                            <x-fas-book-open class="mr-2" aria-hidden="true" /> Info Académica
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 text-sm font-medium text-gray-500 hover:text-brand-red" 
-                           data-tab="programas" href="#programas" onclick="switchTab(event, 'programas')">
-                            <i class="fas fa-graduation-cap mr-2"></i> Programas
+                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'programas' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                           href="#programas" @click.prevent="tab = 'programas'">
+                            <x-fas-graduation-cap class="mr-2" aria-hidden="true" /> Programas
                         </a>
                     </li>
                 </ul>
@@ -149,7 +143,7 @@
                 <!-- Tab Content -->
                 <div class="tab-content">
                     <!-- TAB 1: Datos Personales -->
-                    <div id="personal" class="tab-pane show">
+                    <div id="personal" x-show="tab === 'personal'" x-cloak>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="nombres" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
@@ -193,15 +187,9 @@
                             </div>
 
                             <div>
-                                <label for="foto" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                    Foto de Perfil
-                                </label>
-                                <input type="file" name="foto" id="foto" accept="image/*"
-                                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-brand-gold file:text-white hover:file:bg-yellow-600 cursor-pointer">
-                                <p class="mt-1 text-xs text-gray-500">JPG, PNG. Máximo 2MB.</p>
-                                @error('foto')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
+                                <x-admin-file-upload mode="direct" name="foto" label="Foto de Perfil"
+                                    accept="image/*" layout="inline" with-live-preview preview-size="w-20 h-20"
+                                    help-text="JPG, PNG. Máximo 2MB." />
                             </div>
                         </div>
 
@@ -220,7 +208,7 @@
                     </div>
 
                     <!-- TAB 2: Contacto -->
-                    <div id="contacto" class="tab-pane hidden">
+                    <div id="contacto" x-show="tab === 'contacto'" x-cloak>
                         <div class="grid grid-cols-1 gap-6">
                             <div>
                                 <label for="email" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
@@ -237,7 +225,7 @@
 
                         <div class="mt-6 pt-6 border-t border-gray-200">
                             <h4 class="text-sm font-bold text-gray-700 mb-4 flex items-center gap-2">
-                                <i class="fas fa-globe text-brand-gold"></i> Perfiles Académicos
+                                <x-fas-globe class="text-brand-gold" /> Perfiles Académicos
                             </h4>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
@@ -280,7 +268,7 @@
                     </div>
 
                     <!-- TAB 3: Info Académica -->
-                    <div id="academico" class="tab-pane hidden">
+                    <div id="academico" x-show="tab === 'academico'" x-cloak>
                         <div class="space-y-6">
                             <div>
                                 <label for="biografia" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
@@ -333,10 +321,10 @@
                     </div>
 
                     <!-- TAB 4: Programas -->
-                    <div id="programas" class="tab-pane hidden">
+                    <div id="programas" x-show="tab === 'programas'" x-cloak>
                         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                             <div class="flex items-center gap-2 text-blue-800">
-                                <i class="fas fa-info-circle text-xl"></i>
+                                <x-fas-info-circle class="text-xl" />
                                 <p class="text-sm font-medium">Seleccione los programas de posgrado donde participa este docente.</p>
                             </div>
                         </div>
@@ -365,44 +353,16 @@
                 <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                     <a href="{{ route('admin.docentes.index') }}"
                         class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all">
-                        <i class="fas fa-arrow-left mr-2"></i> Volver al Listado
+                        <x-fas-arrow-left class="mr-2" /> Volver al Listado
                     </a>
-                    <button type="submit"
-                        class="inline-flex items-center px-6 py-2.5 border border-transparent rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg hover:shadow-xl transition-all">
-                        <i class="fas fa-save mr-2"></i>
-                        Guardar Docente
+                    <button type="submit" :disabled="submitting"
+                        class="inline-flex items-center px-6 py-2.5 border border-transparent rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed">
+                        <x-fas-spinner class="animate-spin mr-2" x-show="submitting" x-cloak aria-hidden="true" />
+                        <x-fas-save class="mr-2" x-show="!submitting" aria-hidden="true" />
+                        <span x-text="submitting ? 'Guardando...' : 'Guardar Docente'"></span>
                     </button>
                 </div>
             </form>
         </div>
     </div>
-
-    <script>
-        function switchTab(event, tabId) {
-            event.preventDefault();
-            
-            // Hide all tab panes
-            document.querySelectorAll('.tab-pane').forEach(pane => {
-                pane.classList.add('hidden');
-                pane.classList.remove('show');
-            });
-            
-            // Remove active state from all nav links
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active', 'border-b-2', 'border-brand-red', 'text-brand-red');
-                link.classList.add('text-gray-500');
-            });
-            
-            // Show selected tab pane
-            const selectedPane = document.getElementById(tabId);
-            if (selectedPane) {
-                selectedPane.classList.remove('hidden');
-                selectedPane.classList.add('show');
-            }
-            
-            // Activate clicked nav link
-            event.target.classList.add('active', 'border-b-2', 'border-brand-red', 'text-brand-red');
-            event.target.classList.remove('text-gray-500');
-        }
-    </script>
 @endsection

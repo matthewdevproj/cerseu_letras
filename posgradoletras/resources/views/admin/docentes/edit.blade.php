@@ -5,8 +5,7 @@
 @push('styles')
 <style>
     :root {
-        --primary-color: #761e23;
-        --primary-dark: #5a161a;
+        /* --brand y --brand-dark ya vienen de admin.layout.app; se reutilizan aquí */
         --accent-color: #d4af37;
         --border-radius: 1rem;
         --transition: all 0.25s ease;
@@ -43,11 +42,11 @@
         text-decoration: none;
     }
     .nav-tabs .nav-link:hover {
-        color: var(--primary-color);
+        color: var(--brand);
         background: #fff5f5;
     }
     .nav-tabs .nav-link.active {
-        background: var(--primary-color) !important;
+        background: var(--brand) !important;
         color: white !important;
         box-shadow: 0 8px 18px rgba(118, 30, 35, 0.25);
     }
@@ -92,11 +91,6 @@
 
     /* Tab panes */
     .tab-content { padding-top: .5rem; }
-    @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .tab-pane.show { animation: fadeUp 0.2s ease-out; }
 
     /* Soft info blocks */
     .soft-info {
@@ -182,7 +176,7 @@
                      class="current-photo w-16 h-16 object-cover rounded-full">
             @else
                 <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                    <i class="fas fa-user text-2xl"></i>
+                    <x-fas-user class="text-2xl" />
                 </div>
             @endif
             <div>
@@ -199,30 +193,31 @@
     <!-- Form Card -->
     <div class="card">
         <div class="p-6">
-            <form action="{{ route('admin.docentes.update', $docente) }}" method="POST" enctype="multipart/form-data" id="form-docente">
+            <form action="{{ route('admin.docentes.update', $docente) }}" method="POST" enctype="multipart/form-data" id="form-docente"
+                x-data="{ submitting: false, tab: 'personal' }" @submit="submitting = true">
                 @csrf
                 @method('PUT')
 
                 <!-- Tabs Navigation -->
                 <ul class="nav nav-tabs mb-6 flex flex-wrap" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#personal" onclick="switchTab(event, 'personal')">
-                            <i class="fas fa-user"></i> Datos Personales
+                        <a class="nav-link" :class="tab === 'personal' ? 'active' : ''" href="#personal" @click.prevent="tab = 'personal'">
+                            <x-fas-user aria-hidden="true" /> Datos Personales
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contacto" onclick="switchTab(event, 'contacto')">
-                            <i class="fas fa-envelope"></i> Contacto
+                        <a class="nav-link" :class="tab === 'contacto' ? 'active' : ''" href="#contacto" @click.prevent="tab = 'contacto'">
+                            <x-fas-envelope aria-hidden="true" /> Contacto
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#academico" onclick="switchTab(event, 'academico')">
-                            <i class="fas fa-book-open"></i> Info Académica
+                        <a class="nav-link" :class="tab === 'academico' ? 'active' : ''" href="#academico" @click.prevent="tab = 'academico'">
+                            <x-fas-book-open aria-hidden="true" /> Info Académica
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#programas" onclick="switchTab(event, 'programas')">
-                            <i class="fas fa-graduation-cap"></i> Programas
+                        <a class="nav-link" :class="tab === 'programas' ? 'active' : ''" href="#programas" @click.prevent="tab = 'programas'">
+                            <x-fas-graduation-cap aria-hidden="true" /> Programas
                         </a>
                     </li>
                 </ul>
@@ -230,7 +225,7 @@
                 <!-- Tab Content -->
                 <div class="tab-content">
                     <!-- TAB 1: Datos Personales -->
-                    <div id="personal" class="tab-pane show">
+                    <div id="personal" x-show="tab === 'personal'" x-cloak>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="nombres" class="form-label block">
@@ -269,38 +264,10 @@
                             </div>
 
                             <div>
-                                <label for="foto" class="form-label block">Foto de Perfil</label>
-                                @if($docente->foto)
-                                    <div id="currentPhotoContainer" class="mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200 flex items-center gap-4">
-                                        <img src="{{ asset('storage/' . $docente->foto) }}" alt="Foto actual"
-                                             class="w-14 h-14 object-cover rounded-lg border-2 border-white shadow">
-                                        <div class="flex-1">
-                                            <p class="text-sm font-medium text-gray-700">Foto actual</p>
-                                            <p class="text-xs text-gray-500">Sube una nueva imagen para reemplazarla</p>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                <!-- Preview de nueva foto -->
-                                <div id="photoPreviewContainer" class="hidden mb-3 p-3 bg-green-50 rounded-lg border border-green-200 flex items-center gap-4">
-                                    <img id="photoPreview" src="" alt="Preview"
-                                         class="w-14 h-14 object-cover rounded-lg border-2 border-white shadow">
-                                    <div class="flex-1">
-                                        <p class="text-sm font-medium text-green-800">Nueva foto seleccionada:</p>
-                                        <p id="photoName" class="text-sm text-gray-900"></p>
-                                        <p id="photoSize" class="text-xs text-gray-500"></p>
-                                    </div>
-                                    <button type="button" onclick="removePhoto()" class="text-red-500 hover:text-red-700 p-2">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-
-                                <input type="file" name="foto" id="foto" accept="image/*" onchange="previewPhoto(event)"
-                                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-brand-gold file:text-white hover:file:bg-yellow-600 cursor-pointer">
-                                <p class="mt-1 text-xs text-gray-500">JPG, PNG, WEBP, GIF. Máximo 5MB. Dejar vacío para mantener la foto actual.</p>
-                                @error('foto')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
+                                <x-admin-file-upload mode="direct" name="foto" label="Foto de Perfil"
+                                    accept="image/*" layout="inline" with-live-preview preview-size="w-20 h-20"
+                                    :current-path="$docente->foto"
+                                    help-text="JPG, PNG, WEBP, GIF. Máximo 5MB. Dejar vacío para mantener la foto actual." />
                             </div>
                         </div>
 
@@ -319,7 +286,7 @@
                     </div>
 
                     <!-- TAB 2: Contacto -->
-                    <div id="contacto" class="tab-pane hidden">
+                    <div id="contacto" x-show="tab === 'contacto'" x-cloak>
                         <div class="grid grid-cols-1 gap-6">
                             <div>
                                 <label for="email" class="form-label block">Correo Electrónico</label>
@@ -333,7 +300,7 @@
 
                         <div class="mt-6 pt-6 border-t border-gray-200">
                             <h4 class="text-sm font-bold text-gray-700 mb-4 flex items-center gap-2">
-                                <i class="fas fa-globe text-brand-gold"></i> Perfiles Académicos
+                                <x-fas-globe class="text-brand-gold" /> Perfiles Académicos
                             </h4>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
@@ -367,7 +334,7 @@
                     </div>
 
                     <!-- TAB 3: Info Académica -->
-                    <div id="academico" class="tab-pane hidden">
+                    <div id="academico" x-show="tab === 'academico'" x-cloak>
                         <div class="space-y-6">
                             <div>
                                 <label for="biografia" class="form-label block">Biografía</label>
@@ -416,10 +383,10 @@
                     </div>
 
                     <!-- TAB 4: Programas (Solo Lectura) -->
-                    <div id="programas" class="tab-pane hidden">
+                    <div id="programas" x-show="tab === 'programas'" x-cloak>
                         <div class="soft-warn mb-6">
                             <div class="flex items-center gap-2 text-amber-800">
-                                <i class="fas fa-info-circle text-xl"></i>
+                                <x-fas-info-circle class="text-xl" />
                                 <p class="text-sm font-medium">
                                     La asignación de docentes a programas se gestiona desde la vista de edición de cada programa.
                                 </p>
@@ -443,7 +410,7 @@
                                                 <td data-label="Programa">
                                                     <div class="flex items-center gap-3">
                                                         <div class="w-10 h-10 rounded-lg bg-brand-red/10 flex items-center justify-center text-brand-red">
-                                                            <i class="fas fa-graduation-cap text-xl"></i>
+                                                            <x-fas-graduation-cap class="text-xl" />
                                                         </div>
                                                         <div>
                                                             <div class="text-sm font-semibold text-gray-800">{{ $programa->titulo_completo }}</div>
@@ -471,7 +438,7 @@
                                                     <a href="{{ route('admin.programas.edit', $programa) }}"
                                                        class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600"
                                                        title="Editar programa">
-                                                        <i class="fas fa-external-link-alt"></i>
+                                                        <x-fas-external-link-alt />
                                                     </a>
                                                 </td>
                                             </tr>
@@ -481,7 +448,7 @@
                             </div>
                         @else
                             <div class="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-                                <i class="fas fa-graduation-cap text-5xl text-gray-300 mb-4"></i>
+                                <x-fas-graduation-cap class="text-5xl text-gray-300 mb-4" />
                                 <p class="text-gray-500">Este docente no está asignado a ningún programa.</p>
                                 <p class="text-sm text-gray-400 mt-1">
                                     Puedes asignarlo desde la vista de edición de un programa.
@@ -495,78 +462,16 @@
                 <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                     <a href="{{ route('admin.docentes.index') }}"
                         class="inline-flex items-center px-4 h-11 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                        <i class="fas fa-arrow-left mr-2"></i> Volver al Listado
+                        <x-fas-arrow-left class="mr-2" /> Volver al Listado
                     </a>
-                    <button type="submit"
-                        class="inline-flex items-center px-6 h-11 rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg">
-                        <i class="fas fa-save mr-2"></i>
-                        Actualizar Docente
+                    <button type="submit" :disabled="submitting"
+                        class="inline-flex items-center px-6 h-11 rounded-lg text-sm font-medium text-white bg-brand-gold hover:bg-yellow-600 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed">
+                        <x-fas-spinner class="animate-spin mr-2" x-show="submitting" x-cloak aria-hidden="true" />
+                        <x-fas-save class="mr-2" x-show="!submitting" aria-hidden="true" />
+                        <span x-text="submitting ? 'Actualizando...' : 'Actualizar Docente'"></span>
                     </button>
                 </div>
             </form>
         </div>
     </div>
-
-    <script>
-        function switchTab(event, tabId) {
-            event.preventDefault();
-
-            document.querySelectorAll('.tab-pane').forEach(pane => {
-                pane.classList.add('hidden');
-                pane.classList.remove('show');
-            });
-
-            document.querySelectorAll('.nav-tabs .nav-link').forEach(link => {
-                link.classList.remove('active');
-                link.classList.add('text-gray-500');
-            });
-
-            const selectedPane = document.getElementById(tabId);
-            if (selectedPane) {
-                selectedPane.classList.remove('hidden');
-                selectedPane.classList.add('show');
-            }
-
-            const link = event.target.closest('a.nav-link');
-            if (link) {
-                link.classList.add('active');
-                link.classList.remove('text-gray-500');
-            }
-        }
-
-        // Preview de foto
-        function previewPhoto(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('photoPreview').src = e.target.result;
-                    document.getElementById('photoName').textContent = file.name;
-                    document.getElementById('photoSize').textContent = formatFileSize(file.size);
-                    document.getElementById('photoPreviewContainer').classList.remove('hidden');
-                    // Ocultar foto actual si existe
-                    const currentPhoto = document.getElementById('currentPhotoContainer');
-                    if (currentPhoto) currentPhoto.classList.add('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function removePhoto() {
-            document.getElementById('foto').value = '';
-            document.getElementById('photoPreview').src = '';
-            document.getElementById('photoPreviewContainer').classList.add('hidden');
-            // Mostrar foto actual si existe
-            const currentPhoto = document.getElementById('currentPhotoContainer');
-            if (currentPhoto) currentPhoto.classList.remove('hidden');
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-    </script>
 @endsection

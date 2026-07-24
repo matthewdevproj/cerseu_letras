@@ -2,26 +2,6 @@
 
 @section('title', 'Nosotros - Posgrado Letras UNMSM')
 
-@push('styles')
-    <style>
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
-@endpush
-
 @section('content')
     <!-- HERO DE SECCIÓN -->
     <x-hero-section title="Nosotros" label="Unidad de Posgrado"
@@ -92,7 +72,7 @@
                         <h4 class="font-bold text-unmsm-guinda text-lg mb-2">{{ $autoridad['nombre'] }}</h4>
                         <p class="text-xs font-bold text-gray-500 mb-4 uppercase tracking-wide">{{ $autoridad['cargo'] }}</p>
                         <div class="flex items-center gap-2 text-sm text-gray-600 min-w-0">
-                            <i class="fas fa-envelope text-unmsm-dorado flex-shrink-0"></i>
+                            <x-fas-envelope class="text-unmsm-dorado flex-shrink-0" />
                             <span class="truncate">{{ $autoridad['email'] }}</span>
                         </div>
                     </div>

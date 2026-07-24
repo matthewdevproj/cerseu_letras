@@ -9,36 +9,36 @@
         <div class="hidden lg:flex items-center space-x-6">
             @if($siteSettings?->email)
                 <a href="mailto:{{ $siteSettings->email }}" class="flex items-center hover:text-gray-300 transition gap-2">
-                    <i class="fas fa-envelope"></i>
+                    <x-fas-envelope />
                     <span>{{ $siteSettings->email }}</span>
                 </a>
                 <span class="text-white/30">|</span>
             @endif
             @if($siteSettings?->telefono)
                 <span class="flex items-center gap-2">
-                    <i class="fas fa-phone"></i>
+                    <x-fas-phone />
                     <span>{{ $siteSettings->telefono }}</span>
                 </span>
                 <span class="text-white/30">|</span>
             @endif
             @if($siteSettings?->web_facultad)
-                <a href="{{ $siteSettings->web_facultad }}" target="_blank"
+                <a href="{{ $siteSettings->web_facultad }}" target="_blank" rel="noopener noreferrer" 
                     class="flex items-center hover:text-gray-300 transition gap-2">
-                    <i class="fas fa-globe"></i>
+                    <x-fas-globe />
                     <span>Web Facultad</span>
                 </a>
                 <span class="text-white/30">|</span>
             @endif
             @if($siteSettings?->directorio_facultad)
-                <a href="{{ $siteSettings->directorio_facultad }}" target="_blank"
+                <a href="{{ $siteSettings->directorio_facultad }}" target="_blank" rel="noopener noreferrer" 
                     class="flex items-center hover:text-gray-300 transition gap-2">
-                    <i class="fas fa-globe"></i>
+                    <x-fas-globe />
                     <span>Directorio</span>
                 </a>
                 <span class="text-white/30">|</span>
             @endif
             <a href="{{ route('directorio') }}" class="flex items-center hover:text-gray-300 transition gap-2">
-                <i class="fas fa-globe"></i>
+                <x-fas-globe />
                 <span>Directorio Posgrado</span>
             </a>
 
@@ -48,7 +48,7 @@
             @if($siteSettings?->email)
                 <a href="mailto:{{ $siteSettings->email }}"
                     class="flex items-center hover:text-gray-300 transition gap-1 min-w-0">
-                    <i class="fas fa-envelope text-xs flex-shrink-0"></i>
+                    <x-fas-envelope class="text-xs flex-shrink-0" />
                     <span class="truncate">{{ $siteSettings->email }}</span>
                 </a>
             @endif
@@ -58,33 +58,33 @@
 
         <div class="flex items-center space-x-4 ml-auto lg:ml-0">
             @if($siteSettings?->facebook)
-                <a href="{{ $siteSettings->facebook }}" target="_blank" class="hover:text-gray-300" title="Facebook">
-                    <i class="fab fa-facebook-f"></i>
+                <a href="{{ $siteSettings->facebook }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="Facebook">
+                    <x-fab-facebook-f />
                 </a>
             @endif
             @if($siteSettings?->instagram)
-                <a href="{{ $siteSettings->instagram }}" target="_blank" class="hover:text-gray-300" title="Instagram">
-                    <i class="fab fa-instagram"></i>
+                <a href="{{ $siteSettings->instagram }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="Instagram">
+                    <x-fab-instagram />
                 </a>
             @endif
             @if($siteSettings?->youtube)
-                <a href="{{ $siteSettings->youtube }}" target="_blank" class="hover:text-gray-300" title="YouTube">
-                    <i class="fab fa-youtube"></i>
+                <a href="{{ $siteSettings->youtube }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="YouTube">
+                    <x-fab-youtube />
                 </a>
             @endif
             @if($siteSettings?->linkedin)
-                <a href="{{ $siteSettings->linkedin }}" target="_blank" class="hover:text-gray-300" title="LinkedIn">
-                    <i class="fab fa-linkedin-in"></i>
+                <a href="{{ $siteSettings->linkedin }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="LinkedIn">
+                    <x-fab-linkedin-in />
                 </a>
             @endif
             @if($siteSettings?->twitter)
-                <a href="{{ $siteSettings->twitter }}" target="_blank" class="hover:text-gray-300" title="X (Twitter)">
-                    <i class="fab fa-twitter"></i>
+                <a href="{{ $siteSettings->twitter }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="X (Twitter)">
+                    <x-fab-twitter />
                 </a>
             @endif
             @if($siteSettings?->tiktok)
-                <a href="{{ $siteSettings->tiktok }}" target="_blank" class="hover:text-gray-300" title="TikTok">
-                    <i class="fab fa-tiktok"></i>
+                <a href="{{ $siteSettings->tiktok }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="TikTok">
+                    <x-fab-tiktok />
                 </a>
             @endif
         </div>

@@ -36,11 +36,15 @@ class AdminSiteSettingsController extends Controller
             'site_description' => 'nullable|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'favicon' => 'nullable|file|mimes:ico,png,jpg,jpeg,gif,svg|max:512',
+            'diplomados_hero_imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
             'email' => 'nullable|email|max:255',
             'email_admision' => 'nullable|email|max:255',
             'telefono' => 'nullable|string|max:50',
             'direccion' => 'nullable|string',
             'horario_atencion' => 'nullable|string|max:255',
+            'diplomados_hero_titulo' => 'nullable|string|max:255',
+            'diplomados_hero_texto' => 'nullable|string',
+            'diplomados_hero_claim' => 'nullable|string|max:255',
             'facebook' => 'nullable|url|max:500',
             'instagram' => 'nullable|url|max:500',
             'twitter' => 'nullable|url|max:500',
@@ -65,6 +69,9 @@ class AdminSiteSettingsController extends Controller
         $settings->telefono = $validated['telefono'] ?? null;
         $settings->direccion = $validated['direccion'] ?? null;
         $settings->horario_atencion = $validated['horario_atencion'] ?? null;
+        $settings->diplomados_hero_titulo = $validated['diplomados_hero_titulo'] ?? null;
+        $settings->diplomados_hero_texto = $validated['diplomados_hero_texto'] ?? null;
+        $settings->diplomados_hero_claim = $validated['diplomados_hero_claim'] ?? null;
         $settings->facebook = $validated['facebook'] ?? null;
         $settings->instagram = $validated['instagram'] ?? null;
         $settings->twitter = $validated['twitter'] ?? null;
@@ -89,6 +96,19 @@ class AdminSiteSettingsController extends Controller
                 Storage::disk('public')->delete($settings->logo_path);
             }
             $settings->logo_path = null;
+        }
+
+        // Manejar subida de imagen del Hero de Diplomados
+        if ($request->hasFile('diplomados_hero_imagen')) {
+            if ($settings->diplomados_hero_imagen && Storage::disk('public')->exists($settings->diplomados_hero_imagen)) {
+                Storage::disk('public')->delete($settings->diplomados_hero_imagen);
+            }
+            $settings->diplomados_hero_imagen = $request->file('diplomados_hero_imagen')->store('settings', 'public');
+        } elseif ($request->boolean('remove_diplomados_hero_imagen')) {
+            if ($settings->diplomados_hero_imagen && Storage::disk('public')->exists($settings->diplomados_hero_imagen)) {
+                Storage::disk('public')->delete($settings->diplomados_hero_imagen);
+            }
+            $settings->diplomados_hero_imagen = null;
         }
 
         // Manejar subida de Favicon

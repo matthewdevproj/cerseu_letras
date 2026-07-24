@@ -20,9 +20,10 @@ class DatabaseSeeder extends Seeder
             
             // Datos principales
             ProgramasSeeder::class,
+            DiplomadoSeeder::class,
             DocentesSeeder::class,
             DirectorioPosgradoSeeder::class,
-            
+
             // Relaciones
             DocenteProgramaSeeder::class,
             
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
             TestimoniosSeeder::class,
             DocumentsSeeder::class,
             CronogramasSeeder::class,
+            AdmisionDiplomadoSettingSeeder::class,
         ]);
     }
 }
