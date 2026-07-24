@@ -89,8 +89,8 @@
 
 @section('content')
     {{-- HERO PRINCIPAL: pantalla completa, carrusel de campus + stats integrados al pie --}}
-    <header class="relative w-full h-screen min-h-[600px] overflow-hidden flex flex-col">
-        {{-- Carrusel de fondo --}}
+    <header class="relative w-full h-screen min-h-[600px] overflow-hidden">
+        {{-- Carrusel de fondo (overlay absoluto: llena todo el header) --}}
         <div class="swiper hero-swiper absolute inset-0 z-0">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
@@ -111,36 +111,34 @@
             </div>
         </div>
 
-        {{-- Contenido principal (centrado verticalmente en el espacio disponible) --}}
-        <div class="relative z-20 flex-1 flex items-center">
-            <div class="container mx-auto px-6 text-white pt-28 pb-10">
-                <div class="max-w-4xl animate-fade-in">
-                    <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs md:text-sm mb-4 drop-shadow">
-                        Universidad Nacional Mayor de San Marcos · Decana de América
-                    </p>
-                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.05] mb-6 drop-shadow-lg">
-                        Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas
-                    </h1>
-                    <p class="text-base md:text-xl text-gray-200 max-w-2xl mb-8 font-light leading-relaxed">
-                        Formamos investigadores y profesionales comprometidos con el desarrollo cultural y social del
-                        país, mediante programas de Maestría, Doctorado y Diplomados de alto rigor académico.
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="{{ route('programas.index') }}"
-                            class="px-7 py-3 bg-unmsm-dorado text-unmsm-guinda font-bold rounded-lg hover:bg-yellow-400 transition shadow-lg motion-safe:hover:-translate-y-1 duration-200 text-sm md:text-base">
-                            Ver Programas
-                        </a>
-                        <a href="{{ route('admision') }}"
-                            class="px-7 py-3 border border-white/80 text-white font-bold rounded-lg hover:bg-white/10 transition text-sm md:text-base">
-                            Admisión 2026-I
-                        </a>
-                    </div>
+        {{-- Contenido principal: overlay centrado verticalmente (deja aire para los stats al pie) --}}
+        <div class="container mx-auto px-6 absolute inset-0 z-20 text-white flex items-center pb-36 md:pb-32 pointer-events-none">
+            <div class="max-w-4xl animate-fade-in pointer-events-auto">
+                <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs md:text-sm mb-4 drop-shadow">
+                    Universidad Nacional Mayor de San Marcos · Decana de América
+                </p>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.05] mb-6 drop-shadow-lg">
+                    Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas
+                </h1>
+                <p class="text-base md:text-xl text-gray-200 max-w-2xl mb-8 font-light leading-relaxed">
+                    Formamos investigadores y profesionales comprometidos con el desarrollo cultural y social del
+                    país, mediante programas de Maestría, Doctorado y Diplomados de alto rigor académico.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="{{ route('programas.index') }}"
+                        class="px-7 py-3 bg-unmsm-dorado text-unmsm-guinda font-bold rounded-lg hover:bg-yellow-400 transition shadow-lg motion-safe:hover:-translate-y-1 duration-200 text-sm md:text-base">
+                        Ver Programas
+                    </a>
+                    <a href="{{ route('admision') }}"
+                        class="px-7 py-3 border border-white/80 text-white font-bold rounded-lg hover:bg-white/10 transition text-sm md:text-base">
+                        Admisión 2026-I
+                    </a>
                 </div>
             </div>
         </div>
 
         {{-- Stats integrados al pie del hero (banda translúcida sobre el carrusel) --}}
-        <div class="relative z-20 border-t border-unmsm-dorado/40 bg-black/40 backdrop-blur-md">
+        <div class="absolute bottom-0 left-0 right-0 z-20 border-t border-unmsm-dorado/40 bg-black/40 backdrop-blur-md">
             <div class="container mx-auto px-6 py-5">
                 <div data-reveal class="grid grid-cols-2 stats-grid gap-3 text-center">
                     <div class="flex flex-col items-center p-3 rounded-xl stats-item">
@@ -171,7 +169,6 @@
                         <div class="text-2xl md:text-3xl font-bold text-white" data-count-to="20" data-count-suffix="+">20+</div>
                         <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">Docentes Renacyt</div>
                     </div>
-                    <!-- Último stat: col-span-2 en mobile (centrado), el CSS lo resetea a 1 en desktop -->
                     <div class="col-span-2 flex flex-col items-center p-3 rounded-xl stats-item">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 md:w-8 md:h-8 text-unmsm-dorado mb-1" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
