@@ -93,19 +93,19 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     <div class="slide-bg"
-                        style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0007-Trim-frame-at-0m5s.jpg');">
+                        style="background-image: url('{{ asset('images/campus-aerea.jpg') }}');">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
                 </div>
                 <div class="swiper-slide">
                     <div class="slide-bg"
-                        style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/DJI_0018-Trim-frame-at-0m2s.jpg');">
+                        style="background-image: url('{{ asset('images/campus-aerea-2.jpg') }}');">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
                 </div>
                 <div class="swiper-slide">
                     <div class="slide-bg"
-                        style="background-image: url('https://letras.unmsm.edu.pe/wp-content/uploads/2025/12/IMG_1565-scaled.jpg');">
+                        style="background-image: url('{{ asset('images/campus-fachada.jpg') }}');">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
                 </div>
@@ -118,9 +118,10 @@
                     class="text-3xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-4 max-w-4xl drop-shadow-lg">
                     Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas
                 </h1>
-                <p class="text-base md:text-lg text-gray-200 max-w-lg mb-6 font-light leading-snug">
-                    Formamos investigadores y profesionales comprometidos con el desarrollo cultural y social del país, a
-                    través de programas de Maestría y Doctorado de alto rigor académico.
+                <p class="text-base md:text-lg text-gray-200 max-w-xl mb-6 font-light leading-relaxed">
+                    Desde la <span class="text-unmsm-dorado font-medium">Decana de América</span>, formamos investigadores
+                    y profesionales comprometidos con el desarrollo cultural y social del país, mediante programas de
+                    Maestría, Doctorado y Diplomados de alto rigor académico.
                 </p>
                 <div class="flex flex-wrap gap-4 pointer-events-auto">
                     <a href="{{ route('programas.index') }}"
@@ -321,53 +322,54 @@
     </div>
 </section>
     
-    <section class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div
-                    class="bg-white p-10 rounded-2xl shadow-sm border-t-4 border-unmsm-guinda relative overflow-hidden group hover:shadow-xl transition-shadow">
-                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-32 h-32 text-unmsm-guinda">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59" />
-                        </svg>
+    {{-- BANDA INSTITUCIONAL: identidad San Marcos + Misión / Visión --}}
+    <section class="relative py-20 bg-unmsm-guinda text-white overflow-hidden">
+        {{-- textura de puntos sutil (marca, no genérico) --}}
+        <div class="absolute inset-0 opacity-[0.06]"
+            style="background-image: radial-gradient(circle at 1px 1px, #fff 1.5px, transparent 0); background-size: 34px 34px;">
+        </div>
+        {{-- resplandor dorado --}}
+        <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-unmsm-dorado/20 blur-3xl"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-3xl mx-auto text-center mb-14" data-reveal>
+                <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-3">
+                    Universidad Nacional Mayor de San Marcos · Decana de América
+                </p>
+                <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 leading-tight">
+                    Tradición humanística, vocación de futuro
+                </h2>
+                <p class="text-gray-200/90 text-lg leading-relaxed">
+                    En la universidad más antigua de América, la Unidad de Posgrado forma investigadores y líderes que
+                    piensan el país desde las letras y las ciencias humanas.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8" data-reveal-stagger>
+                {{-- Misión --}}
+                <div class="bg-white/[0.07] backdrop-blur-sm rounded-2xl p-8 border border-white/10 motion-safe:hover:-translate-y-1.5 transition-transform duration-300">
+                    <div class="flex items-center gap-4 mb-5">
+                        <span class="w-12 h-12 rounded-xl bg-unmsm-dorado text-unmsm-guinda flex items-center justify-center flex-shrink-0">
+                            <x-fas-bullseye class="text-xl" aria-hidden="true" />
+                        </span>
+                        <h3 class="text-2xl font-serif font-bold">Misión</h3>
                     </div>
-                    <h3 class="text-2xl font-serif font-bold text-unmsm-guinda mb-4 flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-                        </svg>
-                        Misión
-                    </h3>
-                    <p class="text-gray-600 leading-relaxed text-justify">
+                    <p class="text-gray-200/90 leading-relaxed">
                         Formar profesionales humanistas altamente especializados en investigación rigurosa, pensamiento
                         crítico y producción de conocimiento, capaces de responder a los desafíos culturales, sociales y
                         académicos del país y la región.
                     </p>
                 </div>
 
-                <div
-                    class="bg-white p-10 rounded-2xl shadow-sm border-t-4 border-blue-900 relative overflow-hidden group hover:shadow-xl transition-shadow">
-                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-32 h-32 text-blue-900">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
+                {{-- Visión --}}
+                <div class="bg-white/[0.07] backdrop-blur-sm rounded-2xl p-8 border border-white/10 motion-safe:hover:-translate-y-1.5 transition-transform duration-300">
+                    <div class="flex items-center gap-4 mb-5">
+                        <span class="w-12 h-12 rounded-xl bg-unmsm-dorado text-unmsm-guinda flex items-center justify-center flex-shrink-0">
+                            <x-fas-eye class="text-xl" aria-hidden="true" />
+                        </span>
+                        <h3 class="text-2xl font-serif font-bold">Visión</h3>
                     </div>
-                    <h3 class="text-2xl font-serif font-bold text-blue-900 mb-4 flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Visión
-                    </h3>
-                    <p class="text-gray-600 leading-relaxed text-justify">
+                    <p class="text-gray-200/90 leading-relaxed">
                         Ser un referente nacional e internacional en estudios humanísticos, consolidando una comunidad
                         académica innovadora, crítica y comprometida con la transformación de la realidad desde las letras y
                         las ciencias humanas.
