@@ -501,7 +501,8 @@
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-12">
                 <div>
-                    <h3 class="text-white text-2xl font-serif font-bold mb-6 section-title">Contáctanos</h3>
+                    <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs mb-2">Estamos para ayudarte</p>
+                    <h3 class="text-white text-2xl font-serif font-bold mb-4 section-title">Contáctanos</h3>
                     <p class="mb-8 font-light">Estamos a tu disposición para resolver cualquier duda sobre nuestros
                         programas y procesos.</p>
 
@@ -581,42 +582,42 @@
                     <div class="mt-8 flex gap-4">
                         @if ($siteSettings?->facebook)
                             <a href="{{ $siteSettings->facebook }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-blue-600 transition text-white"
+                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-blue-600 transition text-white"
                                 title="Facebook">
                                 <x-fab-facebook-f />
                             </a>
                         @endif
                         @if ($siteSettings?->instagram)
                             <a href="{{ $siteSettings->instagram }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-pink-600 transition text-white"
+                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-pink-600 transition text-white"
                                 title="Instagram">
                                 <x-fab-instagram />
                             </a>
                         @endif
                         @if ($siteSettings?->twitter)
                             <a href="{{ $siteSettings->twitter }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-sky-500 transition text-white"
+                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-sky-500 transition text-white"
                                 title="X (Twitter)">
                                 <x-fab-twitter />
                             </a>
                         @endif
                         @if ($siteSettings?->linkedin)
                             <a href="{{ $siteSettings->linkedin }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-blue-700 transition text-white"
+                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-blue-700 transition text-white"
                                 title="LinkedIn">
                                 <x-fab-linkedin-in />
                             </a>
                         @endif
                         @if ($siteSettings?->youtube)
                             <a href="{{ $siteSettings->youtube }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-red-600 transition text-white"
+                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-red-600 transition text-white"
                                 title="YouTube">
                                 <x-fab-youtube />
                             </a>
                         @endif
                         @if ($siteSettings?->tiktok)
                             <a href="{{ $siteSettings->tiktok }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-10 h-10 rounded bg-white/5 flex items-center justify-center hover:bg-black transition text-white"
+                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-black transition text-white"
                                 title="TikTok">
                                 <x-fab-tiktok />
                             </a>
