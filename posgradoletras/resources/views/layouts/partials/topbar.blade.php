@@ -58,32 +58,32 @@
 
         <div class="flex items-center space-x-4 ml-auto lg:ml-0">
             @if($siteSettings?->facebook)
-                <a href="{{ $siteSettings->facebook }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="Facebook">
+                <a href="{{ $siteSettings->facebook }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="Facebook" aria-label="Facebook">
                     <x-fab-facebook-f />
                 </a>
             @endif
             @if($siteSettings?->instagram)
-                <a href="{{ $siteSettings->instagram }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="Instagram">
+                <a href="{{ $siteSettings->instagram }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="Instagram" aria-label="Instagram">
                     <x-fab-instagram />
                 </a>
             @endif
             @if($siteSettings?->youtube)
-                <a href="{{ $siteSettings->youtube }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="YouTube">
+                <a href="{{ $siteSettings->youtube }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="YouTube" aria-label="YouTube">
                     <x-fab-youtube />
                 </a>
             @endif
             @if($siteSettings?->linkedin)
-                <a href="{{ $siteSettings->linkedin }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="LinkedIn">
+                <a href="{{ $siteSettings->linkedin }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="LinkedIn" aria-label="LinkedIn">
                     <x-fab-linkedin-in />
                 </a>
             @endif
             @if($siteSettings?->twitter)
-                <a href="{{ $siteSettings->twitter }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="X (Twitter)">
+                <a href="{{ $siteSettings->twitter }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="X (Twitter)" aria-label="X (Twitter)">
                     <x-fab-twitter />
                 </a>
             @endif
             @if($siteSettings?->tiktok)
-                <a href="{{ $siteSettings->tiktok }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="TikTok">
+                <a href="{{ $siteSettings->tiktok }}" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300" title="TikTok" aria-label="TikTok">
                     <x-fab-tiktok />
                 </a>
             @endif

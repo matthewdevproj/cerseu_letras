@@ -33,10 +33,14 @@
         'lg' => 'px-8 py-3.5 text-base',
     ];
 
+    // Los variantes sólidos ganan profundidad (sombra que se realza en hover);
+    // outline/ghost quedan planos para no competir visualmente.
+    $depth = $variant === 'solid' ? ' shadow-sm hover:shadow-md motion-safe:hover:-translate-y-0.5' : '';
+
     $classes = 'inline-flex items-center justify-center gap-2 rounded-lg font-bold transition-all duration-200 '
         . 'motion-safe:active:translate-y-px '
         . 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current '
-        . ($palettes[$color][$variant] ?? $palettes['guinda']['solid']) . ' '
+        . ($palettes[$color][$variant] ?? $palettes['guinda']['solid']) . $depth . ' '
         . ($sizes[$size] ?? $sizes['md'])
         . ($block ? ' w-full' : '');
 

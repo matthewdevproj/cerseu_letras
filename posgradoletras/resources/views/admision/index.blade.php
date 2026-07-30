@@ -77,21 +77,32 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
 
         .cronograma-table th,
         .cronograma-table td {
-            padding: 0.75rem 1rem;
+            padding: 0.9rem 1rem;
             text-align: left;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid #eef0f2;
+            vertical-align: middle;
         }
 
-        .cronograma-table th {
-            background: #f9fafb;
-            font-weight: 600;
-            color: #374151;
-            font-size: 0.75rem;
+        .cronograma-table thead th {
+            background: #faf7f2;
+            font-weight: 700;
+            color: #6B1E20;
+            font-size: 0.7rem;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
+            border-bottom: 2px solid rgba(182, 163, 80, 0.4);
+        }
+
+        .cronograma-table tbody tr {
+            transition: background-color 0.15s ease;
+        }
+
+        .cronograma-table tbody tr:nth-child(even) {
+            background: #fcfbf9;
         }
 
         .cronograma-table tbody tr:hover {
-            background: #fef3f2;
+            background: #f8f1ec;
         }
     </style>
 @endpush
@@ -133,8 +144,19 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
 
                 <!-- Cronograma -->
                 <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md">
-                    <div class="bg-unmsm-guinda text-white p-4">
-                        <h3 class="font-bold text-lg font-serif">Cronograma del Proceso de Admisión 2026-I</h3>
+                    <div class="relative overflow-hidden bg-gradient-to-br from-unmsm-guinda to-[#5a161a] text-white px-5 py-5">
+                        <div class="pointer-events-none absolute -right-6 -top-8 opacity-10">
+                            <x-fas-calendar-days class="text-[7rem]" aria-hidden="true" />
+                        </div>
+                        <div class="relative flex items-start gap-3">
+                            <span class="mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-white/10">
+                                <x-fas-calendar-days class="text-lg text-unmsm-dorado" aria-hidden="true" />
+                            </span>
+                            <div>
+                                <h3 class="font-serif text-lg font-bold leading-tight">Cronograma del Proceso de Admisión 2026-I</h3>
+                                <p class="mt-0.5 text-xs text-white/70">Fechas clave del proceso para maestrías y doctorados.</p>
+                            </div>
+                        </div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="cronograma-table">

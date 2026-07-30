@@ -60,32 +60,92 @@
 
         .cronograma-table th,
         .cronograma-table td {
-            padding: 0.75rem 1rem;
+            padding: 0.9rem 1rem;
             text-align: left;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid #eef0f2;
+            vertical-align: middle;
         }
 
-        .cronograma-table th {
-            background: #f9fafb;
-            font-weight: 600;
-            color: #374151;
-            font-size: 0.75rem;
+        .cronograma-table thead th {
+            background: #faf7f2;
+            font-weight: 700;
+            color: #6B1E20;
+            font-size: 0.7rem;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
+            border-bottom: 2px solid rgba(182, 163, 80, 0.4);
+        }
+
+        .cronograma-table tbody tr {
+            transition: background-color 0.15s ease;
+        }
+
+        .cronograma-table tbody tr:nth-child(even) {
+            background: #fcfbf9;
+        }
+
+        .cronograma-table tbody tr:hover {
+            background: #f8f1ec;
+        }
+
+        /* Fila con convocatoria activa: acento guinda a la izquierda */
+        .cronograma-table tbody tr.row-activo td:first-child {
+            box-shadow: inset 3px 0 0 var(--brand);
         }
 
         .estado-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.35rem;
-            padding: 0.2rem 0.65rem;
+            gap: 0.4rem;
+            padding: 0.25rem 0.7rem;
             border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .estado-badge .estado-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 9999px;
+            background: currentColor;
+            flex-shrink: 0;
         }
 
         .estado-activo { background: #dcfce7; color: #166534; }
         .estado-proximamente { background: #fef3c7; color: #92400e; }
         .estado-cerrado { background: #f3f4f6; color: #4b5563; }
+
+        /* Punto pulsante solo en estado Activo, para llamar la atención */
+        .estado-activo .estado-dot {
+            position: relative;
+        }
+
+        .estado-activo .estado-dot::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 9999px;
+            background: currentColor;
+            animation: estadoPulse 1.8s ease-out infinite;
+        }
+
+        @keyframes estadoPulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            70%, 100% { transform: scale(2.6); opacity: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .estado-activo .estado-dot::after { animation: none; }
+        }
+
+        /* Leyenda de estados */
+        .cronograma-legend-dot {
+            width: 0.55rem;
+            height: 0.55rem;
+            border-radius: 9999px;
+            display: inline-block;
+        }
 
         .mobile-side-nav::-webkit-scrollbar {
             display: none;
@@ -181,40 +241,103 @@
 
                 {{-- Sección 2: Cronograma de admisión --}}
                 <section id="cronograma" class="admision-section is-hidden bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md">
-                    <div class="bg-unmsm-guinda text-white p-4">
-                        <h2 class="font-bold text-lg font-serif">Cronograma de Admisión</h2>
+                    {{-- Encabezado con degradado, icono y leyenda de estados --}}
+                    <div class="relative overflow-hidden bg-gradient-to-br from-unmsm-guinda to-[#5a161a] text-white px-5 py-5">
+                        <div class="pointer-events-none absolute -right-6 -top-8 opacity-10">
+                            <x-fas-calendar-days class="text-[7rem]" aria-hidden="true" />
+                        </div>
+                        <div class="relative flex items-start gap-3">
+                            <span class="mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-white/10">
+                                <x-fas-calendar-days class="text-lg text-unmsm-dorado" aria-hidden="true" />
+                            </span>
+                            <div>
+                                <h2 class="font-serif text-lg font-bold leading-tight">Cronograma de Admisión</h2>
+                                <p class="mt-0.5 text-xs text-white/70">Fechas de inscripción y cierre por convocatoria de diplomados.</p>
+                            </div>
+                        </div>
+                        {{-- Leyenda --}}
+                        <div class="relative mt-4 flex flex-wrap gap-x-5 gap-y-1.5 text-[0.7rem] font-semibold text-white/80">
+                            <span class="inline-flex items-center gap-1.5"><span class="cronograma-legend-dot" style="background:#22c55e"></span> Activo</span>
+                            <span class="inline-flex items-center gap-1.5"><span class="cronograma-legend-dot" style="background:#f59e0b"></span> Próximamente</span>
+                            <span class="inline-flex items-center gap-1.5"><span class="cronograma-legend-dot" style="background:#9ca3af"></span> Cerrado</span>
+                        </div>
                     </div>
-                    <div class="overflow-x-auto">
+
+                    {{-- Tabla (desktop) --}}
+                    <div class="hidden md:block overflow-x-auto">
                         <table class="cronograma-table">
                             <thead>
                                 <tr>
                                     <th>Programa</th>
                                     <th>Convocatoria</th>
-                                    <th>Fecha de inscripción</th>
+                                    <th>Inscripción</th>
                                     <th>Fecha límite</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($cronogramaItems as $item)
-                                    <tr>
-                                        <td class="font-medium text-gray-800">{{ $item->programa }}</td>
+                                    <tr @class(['row-activo' => $item->estado === 'Activo'])>
+                                        <td class="font-semibold text-gray-800">{{ $item->programa }}</td>
                                         <td class="text-gray-600">{{ $item->convocatoria }}</td>
-                                        <td class="text-gray-600">{{ $item->fecha_inscripcion }}</td>
-                                        <td class="text-unmsm-guinda font-semibold">{{ $item->fecha_limite }}</td>
+                                        <td class="text-gray-600">
+                                            <span class="inline-flex items-center gap-1.5">
+                                                <x-far-calendar class="text-gray-400 text-xs" aria-hidden="true" />
+                                                {{ $item->fecha_inscripcion }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="inline-flex items-center gap-1.5 font-semibold text-unmsm-guinda">
+                                                <x-far-clock class="text-unmsm-dorado text-xs" aria-hidden="true" />
+                                                {{ $item->fecha_limite }}
+                                            </span>
+                                        </td>
                                         <td>
                                             <span class="estado-badge {{ $estadoClases[$item->estado] ?? 'estado-activo' }}">
-                                                {{ $item->estado }}
+                                                <span class="estado-dot"></span>{{ $item->estado }}
                                             </span>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center text-gray-500 italic py-6">El cronograma se encuentra en actualización.</td>
+                                        <td colspan="5" class="text-center text-gray-500 italic py-8">El cronograma se encuentra en actualización.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
+                    </div>
+
+                    {{-- Tarjetas (móvil): evita el scroll horizontal de la tabla --}}
+                    <div class="md:hidden divide-y divide-gray-100">
+                        @forelse($cronogramaItems as $item)
+                            <div @class(['p-4', 'border-l-[3px] border-unmsm-guinda' => $item->estado === 'Activo'])>
+                                <div class="flex items-start justify-between gap-3">
+                                    <div class="min-w-0">
+                                        <h3 class="font-bold text-gray-800 leading-tight">{{ $item->programa }}</h3>
+                                        <p class="mt-0.5 text-xs text-gray-500">{{ $item->convocatoria }}</p>
+                                    </div>
+                                    <span class="estado-badge flex-shrink-0 {{ $estadoClases[$item->estado] ?? 'estado-activo' }}">
+                                        <span class="estado-dot"></span>{{ $item->estado }}
+                                    </span>
+                                </div>
+                                <div class="mt-3 grid grid-cols-2 gap-3">
+                                    <div class="min-w-0 rounded-lg bg-gray-50 px-3 py-2">
+                                        <p class="flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-wide text-gray-400">
+                                            <x-far-calendar aria-hidden="true" /> Inscripción
+                                        </p>
+                                        <p class="mt-0.5 text-sm text-gray-700 break-words">{{ $item->fecha_inscripcion }}</p>
+                                    </div>
+                                    <div class="min-w-0 rounded-lg bg-unmsm-guinda/5 px-3 py-2">
+                                        <p class="flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-wide text-unmsm-dorado">
+                                            <x-far-clock aria-hidden="true" /> Fecha límite
+                                        </p>
+                                        <p class="mt-0.5 text-sm font-semibold text-unmsm-guinda break-words">{{ $item->fecha_limite }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <p class="p-6 text-center text-sm italic text-gray-500">El cronograma se encuentra en actualización.</p>
+                        @endforelse
                     </div>
                 </section>
 

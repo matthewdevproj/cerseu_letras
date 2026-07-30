@@ -18,7 +18,9 @@
             vertical-align: middle;
         }
 
-        @keyframes fadeIn {
+        /* Nombre propio (heroFadeIn) para NO pisar el @keyframes fadeIn global
+           de app.css, del que dependen las .program-card y otras vistas. */
+        @keyframes heroFadeIn {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -30,8 +32,8 @@
             }
         }
 
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
+        .animate-hero-in {
+            animation: heroFadeIn 0.8s ease-out forwards;
         }
 
         /* Hero Swiper Styles */
@@ -113,7 +115,7 @@
 
         {{-- Contenido principal: overlay centrado verticalmente (deja aire para los stats al pie) --}}
         <div class="container mx-auto px-6 absolute inset-0 z-20 text-white flex items-center pb-36 md:pb-32 pointer-events-none">
-            <div class="max-w-4xl animate-fade-in pointer-events-auto">
+            <div class="max-w-4xl animate-hero-in pointer-events-auto">
                 <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs md:text-sm mb-4 drop-shadow">
                     Universidad Nacional Mayor de San Marcos · Decana de América
                 </p>

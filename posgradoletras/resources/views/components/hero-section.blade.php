@@ -25,8 +25,9 @@
                 class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500" fetchpriority="high"
                 decoding="async" width="1200" height="600" onload="this.style.opacity='1'" style="opacity:0">
         </picture>
-        {{-- Overlay guinda sólido --}}
-        <div class="absolute inset-0 bg-[#6B1E20]/80"></div>
+        {{-- Overlay guinda en degradado (más oscuro abajo): da profundidad y
+             mejora el contraste del texto sobre la imagen sin recursos extra. --}}
+        <div class="absolute inset-0 bg-gradient-to-t from-[#6B1E20]/95 via-[#6B1E20]/80 to-[#6B1E20]/70"></div>
     </div>
 
     {{-- Texto Hero --}}

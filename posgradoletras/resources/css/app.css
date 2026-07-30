@@ -2,6 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Componentes del footer. Se centralizan aquí (en vez de repetir cadenas
+ * largas de utilidades en cada <a>) para aligerar el HTML, unificar las
+ * micro-interacciones y garantizar estados :focus-visible accesibles.
+ * Solo CSS/tokens de Tailwind — sin JS ni imágenes: no afecta el rendimiento.
+ */
+@layer components {
+    /* Enlace de listado con micro-desplazamiento y chevron en hover/focus. */
+    .footer-link {
+        @apply inline-flex items-center text-xs text-white/70 rounded-sm
+               transition-colors duration-200
+               hover:text-unmsm-dorado focus-visible:text-unmsm-dorado
+               focus-visible:outline focus-visible:outline-2
+               focus-visible:outline-offset-2 focus-visible:outline-unmsm-dorado;
+    }
+
+    .footer-link::before {
+        content: "";
+        width: 0;
+        height: 1px;
+        margin-right: 0;
+        background-color: currentColor;
+        transition: width 0.2s ease, margin-right 0.2s ease;
+    }
+
+    .footer-link:hover::before,
+    .footer-link:focus-visible::before {
+        width: 0.75rem;
+        margin-right: 0.5rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .footer-link::before {
+            transition: none;
+        }
+    }
+
+    /* Botón social circular, con realce dorado y leve elevación en hover. */
+    .footer-social {
+        @apply inline-flex h-9 w-9 items-center justify-center rounded-full
+               bg-white/10 text-white transition-all duration-200
+               hover:bg-unmsm-dorado hover:text-unmsm-guinda
+               focus-visible:bg-unmsm-dorado focus-visible:text-unmsm-guinda
+               focus-visible:outline focus-visible:outline-2
+               focus-visible:outline-offset-2 focus-visible:outline-unmsm-dorado
+               motion-safe:hover:-translate-y-0.5;
+    }
+
+    /* Encabezado de columna con acento dorado corto en lugar de borde completo. */
+    .footer-heading {
+        @apply text-sm font-bold uppercase tracking-wider text-white mb-5 pb-2 relative;
+    }
+
+    .footer-heading::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 2rem;
+        height: 2px;
+        @apply bg-unmsm-dorado;
+    }
+}
+
 /* Alpine.js - Prevenir parpadeo del contenido oculto */
 [x-cloak] {
     display: none !important;

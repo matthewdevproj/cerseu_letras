@@ -49,7 +49,8 @@
 
             <!-- Buscador -->
             <div class="relative w-full md:w-72 group">
-                <input type="text" id="searchInput" placeholder="Buscar programa..."
+                <input type="search" id="searchInput" placeholder="Buscar programa..."
+                    aria-label="Buscar programa por nombre o descripción"
                     class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-unmsm-guinda focus:ring-1 focus:ring-unmsm-guinda text-sm transition-all">
                 <div class="absolute left-3 top-3 text-gray-400 group-focus-within:text-unmsm-guinda transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
@@ -79,7 +80,7 @@
         </div>
 
         <!-- Mensaje Sin Resultados -->
-        <div id="noResults" class="hidden text-center py-20">
+        <div id="noResults" class="hidden text-center py-20" role="status" aria-live="polite">
             <div class="inline-block p-6 rounded-full bg-gray-100 mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
