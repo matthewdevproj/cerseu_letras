@@ -63,14 +63,26 @@ Laravel— y con eso los correos habrían acabado rechazados o en spam.
 que sale de Configuración → Contacto en el panel, no de un valor fijo en el
 código. Cambiarlo ahí cambia el destino.
 
-Tras cambiarlo:
+Tras rellenarlo:
 
 ```bash
 php artisan config:clear
-php artisan tinker --execute='Mail::raw("prueba", fn($m) => $m->to("tu@correo.pe")->subject("Prueba"));'
+php artisan correo:probar                    # al correo de admisión
+php artisan correo:probar tu@correo.pe       # o a donde prefieras
 ```
 
-Si llega, ya está.
+El comando envía una solicitud de ejemplo igual que la del formulario —sin
+guardarla en la base—, avisa si sigue en modo `log` y, si el envío falla, lista
+las causas habituales.
+
+## Qué está ya comprobado
+
+`tests/Feature/CorreoSolicitudTest.php` verifica en cada ejecución de la suite
+que el aviso sale al enviar el formulario, que va al correo de admisión
+configurado en el panel, que responder escribe al solicitante, que el remitente
+es del dominio `unmsm.edu.pe` y que **la solicitud se guarda aunque el envío
+falle**. Lo único que no puede comprobar un test es el transporte real: para eso
+está `correo:probar`.
 
 ## Aviso sobre la caché de configuración
 
