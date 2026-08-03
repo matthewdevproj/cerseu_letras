@@ -32,6 +32,13 @@ class DatabaseSeeder extends Seeder
             DocumentsSeeder::class,
             CronogramasSeeder::class,
             AdmisionDiplomadoSettingSeeder::class,
+
+            // Sin estos tres, una instalación nueva arranca con el menú vacío
+            // y con /tramites, /admision y /nosotros en blanco: ese contenido
+            // es administrable y no vive en las vistas.
+            MenuItemSeeder::class,
+            ContenidoInicialSeeder::class,
+            NosotrosContentSeeder::class,
         ]);
     }
 }

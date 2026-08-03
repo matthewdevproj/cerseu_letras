@@ -9,6 +9,12 @@ class SiteSettingsSeeder extends Seeder
 {
     public function run(): void
     {
+        // `site_settings` es de una sola fila: el modelo lo impide en
+        // `creating`, y un `create` a secas rompía la cadena de seeders.
+        if (SiteSetting::query()->exists()) {
+            return;
+        }
+
         SiteSetting::create([
             'site_name' => 'Unidad de Posgrado de Letras',
             'site_description' => 'Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas - Programas de Maestría y Doctorado',
