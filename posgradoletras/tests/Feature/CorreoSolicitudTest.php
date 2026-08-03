@@ -119,4 +119,74 @@ class CorreoSolicitudTest extends TestCase
 
         $this->assertSame(1, DiplomadoLead::count());
     }
+
+    public function test_un_fallo_de_envio_queda_anotado_en_la_solicitud(): void
+    {
+        Mail::shouldReceive('to')->andThrow(new \RuntimeException('SMTP caído'));
+
+        $this->post(route('diplomados.solicitud'), $this->solicitud());
+
+        $lead = DiplomadoLead::firstOrFail();
+
+        // Lo que hace visible el fallo en el panel. Sin esto, una solicitud sin
+        // avisar es idéntica a una avisada.
+        $this->assertTrue($lead->avisoPendiente());
+        $this->assertStringContainsString('SMTP caído', $lead->aviso_error);
+    }
+
+    public function test_un_envio_correcto_deja_la_solicitud_sin_marca(): void
+    {
+        Mail::fake();
+
+        $this->post(route('diplomados.solicitud'), $this->solicitud());
+
+        $lead = DiplomadoLead::firstOrFail();
+
+        $this->assertFalse($lead->avisoPendiente());
+        $this->assertNotNull($lead->aviso_enviado_en);
+    }
+
+    public function test_el_modo_log_no_cuenta_como_enviado(): void
+    {
+        // En modo `log` Mail no lanza excepción, así que sin la comprobación
+        // explícita el panel daría por avisadas solicitudes que nadie recibió.
+        config(['mail.default' => 'log']);
+
+        $this->post(route('diplomados.solicitud'), $this->solicitud());
+
+        $this->assertTrue(DiplomadoLead::firstOrFail()->avisoPendiente());
+    }
+
+    public function test_se_puede_reenviar_el_aviso_desde_el_panel(): void
+    {
+        $lead = DiplomadoLead::create($this->solicitud());
+        $lead->forceFill(['aviso_error' => 'SMTP caído'])->save();
+
+        Mail::fake();
+
+        $this->actingAs($this->administrador())
+            ->post(route('admin.leads.reenviar', $lead))
+            ->assertRedirect();
+
+        Mail::assertSent(NuevaSolicitudDiplomado::class);
+        $this->assertFalse($lead->fresh()->avisoPendiente());
+    }
+
+    public function test_reenviar_el_aviso_exige_haber_entrado_al_panel(): void
+    {
+        $lead = DiplomadoLead::create($this->solicitud());
+
+        $this->post(route('admin.leads.reenviar', $lead))->assertRedirect(route('login'));
+    }
+
+    private function administrador(): \App\Models\User
+    {
+        return \App\Models\User::create([
+            'name' => 'Admin',
+            'email' => 'admin@unmsm.edu.pe',
+            'password' => bcrypt('secreta-de-prueba'),
+            'role' => 'admin',
+            'is_active' => true,
+        ]);
+    }
 }

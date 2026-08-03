@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDiplomadoLeadRequest;
-use App\Mail\NuevaSolicitudDiplomado;
 use App\Models\DiplomadoLead;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
+use App\Services\AvisoDeSolicitud;
 
 class DiplomadoLeadController extends Controller
 {
@@ -14,13 +12,11 @@ class DiplomadoLeadController extends Controller
     {
         $lead = DiplomadoLead::create($request->validated());
 
-        try {
-            // Mismo origen de datos que el resto del sitio: el destinatario es
-            // el correo configurado en el panel, no el del fichero de config.
-            Mail::to(\App\Models\SiteSetting::contacto('admision'))->send(new NuevaSolicitudDiplomado($lead));
-        } catch (\Throwable $e) {
-            Log::error('No se pudo enviar el correo de solicitud de información de diplomado: ' . $e->getMessage());
-        }
+        // Guardar primero y avisar después, en ese orden: el registro de la
+        // solicitud no puede depender de que el correo funcione. Si el envío
+        // falla queda anotado en el propio lead y el panel lo señala; el
+        // visitante no se entera, que es lo correcto — su solicitud sí está.
+        AvisoDeSolicitud::enviar($lead);
 
         return back()->with('success', '¡Gracias! Tu solicitud fue registrada. Nos pondremos en contacto contigo pronto.');
     }

@@ -109,6 +109,22 @@ DKIM** al DNS de `unmsm.edu.pe`, o los correos acaban en spam: también pasa por
 En los cuatro casos, tras cambiarlo: `php artisan config:clear` y
 `php artisan correo:probar`.
 
+### El panel avisa de los correos que no salieron
+
+Cada solicitud guarda si su aviso llegó a enviarse. Las que no, salen en
+*Solicitudes* con la etiqueta **«Aviso no enviado»** —el motivo aparece al pasar
+el ratón— y un botón para **reintentar el envío**. Así, en cuanto haya
+transporte, se recuperan las que entraron mientras el correo no funcionaba sin
+copiar nada a mano.
+
+El modo `log` **no cuenta como enviado**: escribe en el log del servidor y no lo
+recibe nadie, así que darlo por bueno en el panel sería engañoso.
+
+El formulario público nunca se bloquea por esto. El envío tiene un límite de
+10 segundos (`MAIL_TIMEOUT`); antes heredaba el del `php.ini`, normalmente 60, y
+en un servidor con el puerto de salida cerrado eso acababa en un 500 para el
+visitante aunque su solicitud sí se hubiera guardado.
+
 ### Mientras tanto no se pierde nada
 
 Las solicitudes de diplomado **se guardan en la base y salen en el panel**

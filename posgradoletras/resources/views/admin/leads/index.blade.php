@@ -5,6 +5,20 @@
 @section('content')
     <div class="max-w-7xl mx-auto">
 
+        {{-- Esta pantalla no mostraba ningún aviso: el mensaje de «Solicitud
+             eliminada» se perdía, y el motivo de un reenvío fallido también. --}}
+        @if (session('success'))
+            <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
             <div>
                 <h1 class="text-xl font-bold text-gray-800 mb-1">Solicitudes de información</h1>
@@ -89,6 +103,15 @@
                                     </td>
                                     <td class="px-4 py-3">
                                         <span class="block font-semibold text-gray-900">{{ $lead->nombres }} {{ $lead->apellidos }}</span>
+                                        @if ($lead->avisoPendiente())
+                                            {{-- La solicitud está guardada; lo que no salió es el aviso por
+                                                 correo. Sin este distintivo, una y otra son indistinguibles. --}}
+                                            <span class="mt-1 inline-flex items-center gap-1 rounded bg-amber-100 px-1.5 py-0.5 text-[11px] font-semibold text-amber-800"
+                                                title="{{ $lead->aviso_error }}">
+                                                <x-fas-triangle-exclamation aria-hidden="true" />
+                                                Aviso no enviado
+                                            </span>
+                                        @endif
                                         @if ($lead->correo)
                                             <a href="mailto:{{ $lead->correo }}" class="text-xs text-unmsm-guinda hover:underline break-all">
                                                 {{ $lead->correo }}
@@ -121,7 +144,18 @@
                                             <span class="text-gray-300">—</span>
                                         @endif
                                     </td>
-                                    <td class="px-4 py-3 text-right">
+                                    <td class="px-4 py-3 text-right whitespace-nowrap">
+                                        @if ($lead->avisoPendiente())
+                                            <form method="POST" action="{{ route('admin.leads.reenviar', $lead) }}" class="inline">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="mr-2 text-amber-600 hover:text-amber-800 transition-colors"
+                                                    aria-label="Reenviar el aviso de la solicitud de {{ trim($lead->nombres . ' ' . $lead->apellidos) }}"
+                                                    title="Reintentar el aviso por correo">
+                                                    <x-fas-paper-plane aria-hidden="true" />
+                                                </button>
+                                            </form>
+                                        @endif
                                         {{-- El modal de confirmación vive una sola vez en el layout admin
                                              y se abre despachando este evento. --}}
                                         <button type="button"

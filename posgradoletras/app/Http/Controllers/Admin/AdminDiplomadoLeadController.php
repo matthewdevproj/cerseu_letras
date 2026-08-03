@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\DiplomadoLead;
 use App\Models\Programa;
+use App\Services\AvisoDeSolicitud;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -86,6 +87,25 @@ class AdminDiplomadoLeadController extends Controller
         }, $nombre, [
             'Content-Type' => 'text/csv; charset=UTF-8',
         ]);
+    }
+
+    /**
+     * Reintenta el aviso por correo de una solicitud.
+     *
+     * Sirve para las que llegaron mientras el correo no estaba configurado: una
+     * vez puestas las credenciales, se reenvían desde aquí sin tener que
+     * copiar los datos a mano.
+     */
+    public function reenviarAviso(DiplomadoLead $lead)
+    {
+        if (AvisoDeSolicitud::enviar($lead)) {
+            return back()->with('success', 'Aviso reenviado.');
+        }
+
+        // Se muestra el motivo tal cual: quien administra necesita saber si es
+        // que falta la contraseña, si el servidor rechaza o si no hay
+        // destinatario configurado.
+        return back()->with('error', 'No se pudo enviar: ' . $lead->aviso_error);
     }
 
     public function destroy(DiplomadoLead $lead)

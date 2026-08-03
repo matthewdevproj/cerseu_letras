@@ -132,6 +132,7 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     // Solicitudes de información de diplomados (leads del formulario público)
     Route::get('leads', [App\Http\Controllers\Admin\AdminDiplomadoLeadController::class, 'index'])->name('leads.index');
     Route::get('leads/export', [App\Http\Controllers\Admin\AdminDiplomadoLeadController::class, 'export'])->name('leads.export');
+    Route::post('leads/{lead}/reenviar-aviso', [App\Http\Controllers\Admin\AdminDiplomadoLeadController::class, 'reenviarAviso'])->name('leads.reenviar');
     Route::delete('leads/{lead}', [App\Http\Controllers\Admin\AdminDiplomadoLeadController::class, 'destroy'])->name('leads.destroy');
 
     // Cronograma de Admisión (sección de la portada)

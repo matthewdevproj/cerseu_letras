@@ -45,7 +45,13 @@ return [
             'port' => env('MAIL_PORT', 2525),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
+            // Con `null` manda `default_socket_timeout` del php.ini, que suele
+            // ser 60 s. Si el servidor tiene el puerto de salida bloqueado, el
+            // formulario público se queda esperando ese minuto y acaba en un
+            // 500 por tiempo de ejecución: el visitante ve un error aunque su
+            // solicitud sí se haya guardado. Con 10 s el envío falla rápido y
+            // el aviso queda marcado como pendiente en el panel.
+            'timeout' => (int) env('MAIL_TIMEOUT', 10),
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
 
