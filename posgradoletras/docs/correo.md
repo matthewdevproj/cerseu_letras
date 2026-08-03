@@ -39,12 +39,37 @@ En el `.env` de **producción** (no en el repositorio):
 
 ```
 MAIL_MAILER=smtp
-MAIL_HOST=<servidor SMTP de la UNMSM>
+MAIL_SCHEME=smtp
+MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587
-MAIL_USERNAME=<cuenta>
-MAIL_PASSWORD=<contraseña>
-MAIL_SCHEME=tls
+MAIL_USERNAME=admisionposgrado.letras@unmsm.edu.pe
+MAIL_PASSWORD=<contraseña de aplicación>
 ```
+
+Todo eso **ya está puesto salvo la contraseña**.
+
+### Gmail no acepta la contraseña de la cuenta
+
+Desde 2022 Google no permite autenticar en SMTP con la contraseña normal. Hace
+falta una **contraseña de aplicación**: 16 caracteres, generada aparte, y que
+exige tener activada la verificación en dos pasos en la cuenta.
+
+Si se usa la contraseña de la cuenta, Gmail responde:
+
+```
+535-5.7.8 Username and Password not accepted
+```
+
+Cómo generarla: entrar en la cuenta → *Seguridad* → activar *Verificación en 2
+pasos* → *Contraseñas de aplicaciones* → crear una para «Correo». Se copia sin
+espacios en `MAIL_PASSWORD`.
+
+Si la cuenta es de Google Workspace del dominio `unmsm.edu.pe`, puede que el
+administrador tenga desactivadas las contraseñas de aplicación; en ese caso hay
+que pedirle que las habilite o que configure un relé SMTP.
+
+`MAIL_SCHEME` va en `smtp` (puerto 587, STARTTLS). Con `tls` Laravel 12 falla:
+*«The "tls" scheme is not supported»*. Para el puerto 465 sería `smtps`.
 
 **El remitente ya está puesto** en `.env` y `.env.example`:
 
