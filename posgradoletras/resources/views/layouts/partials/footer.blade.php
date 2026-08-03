@@ -2,7 +2,7 @@
     // Singleton cacheado compartido con el resto del sitio (misma clave
     // 'site_settings'): evita una segunda query/entrada de cache redundante.
     $siteSettings = \App\Models\SiteSetting::get();
-    $footerEmail = $siteSettings?->email ?? config('contacts.general', 'admisionposgrado.letras@unmsm.edu.pe');
+    $footerEmail = $siteSettings?->email ?? \App\Models\SiteSetting::contacto('general');
 
     // Redes definidas: se recorren en un solo bucle para no repetir markup.
     $socials = array_filter([
@@ -15,7 +15,13 @@
     ], fn ($s) => !empty($s['url']));
 @endphp
 
-<footer class="relative bg-unmsm-guinda text-white">
+{{-- Degradado de negro a rojo, enlazando con la sección oscura que lo precede
+     (`to-[#1a0e10]`) y descendiendo hasta el guinda de marca.
+
+     Los tres tonos comparten el mismo matiz rojo (~358°) y sólo varían en
+     luminosidad: así no aparecen los reflejos metálicos que salían al pasar
+     por el guinda claro (#8B1114), más saturado y de matiz distinto. --}}
+<footer class="relative bg-gradient-to-b from-[#1A0E10] via-[#3A1214] to-unmsm-guinda text-white">
     {{-- Acento dorado degradado en el borde superior (más fino y elegante que el border-t-4 plano) --}}
     <div class="h-1 w-full bg-gradient-to-r from-transparent via-unmsm-dorado to-transparent" aria-hidden="true"></div>
 
@@ -28,9 +34,15 @@
         <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
             {{-- Marca --}}
             <div>
-                <img src="{{ $siteSettings?->logo_path ? asset('storage/' . $siteSettings->logo_path) : asset('images/logo-letras-blanco.png') }}"
+                {{-- El pie va sobre fondo guinda, así que el logo se fuerza a
+                     blanco con el mismo filtro que usa el navbar sobre el hero.
+                     Antes se servía el archivo tal cual: si había un logo subido
+                     desde el panel (caso de producción), salía oscuro sobre
+                     oscuro y era casi ilegible. El filtro funciona con cualquier
+                     logo que se cargue, sin exigir una variante blanca aparte. --}}
+                <img src="{{ $siteSettings?->logo_path ? asset('storage/' . $siteSettings->logo_path) : asset('images/logo-letras.webp') }}"
                     alt="{{ $siteSettings?->site_name ?? 'Logo Letras UNMSM' }}"
-                    class="mb-4 h-16 w-auto" loading="lazy" decoding="async" width="64" height="64">
+                    class="mb-4 h-16 w-auto brightness-0 invert" loading="lazy" decoding="async" width="314" height="64">
                 <p class="mb-5 max-w-xs text-xs leading-relaxed text-white/70">
                     {{ $siteSettings?->site_description ?? 'La Unidad de Posgrado forma profesionales humanistas especializados en investigación, con alta rigurosidad, ética y calidad académica.' }}
                 </p>

@@ -33,7 +33,7 @@ class AdminProgramaController extends Controller
             }
         }
 
-        $programas = $query->get();
+        $programas = $query->paginate(25)->withQueryString();
         return view('admin.programas.index', compact('programas'));
     }
 
@@ -74,7 +74,9 @@ class AdminProgramaController extends Controller
             'imagen_url' => 'nullable|max:255',
             'sumilla' => 'nullable|string',
             'por_que_text' => 'nullable|string',
-            'is_active' => 'boolean',
+            'estado' => 'nullable|in:publicado,proximamente,borrador',
+            'costo_por_credito' => 'nullable|integer|min:0',
+            'semestres_inversion' => 'nullable',   // JSON array string
         ]);
 
         $data = $validated;
@@ -88,6 +90,9 @@ class AdminProgramaController extends Controller
         }
         if (isset($data['perfil_graduado']) && is_string($data['perfil_graduado'])) {
             $data['perfil_graduado'] = json_decode($data['perfil_graduado'], true) ?: [];
+        }
+        if (isset($data['semestres_inversion']) && is_string($data['semestres_inversion'])) {
+            $data['semestres_inversion'] = json_decode($data['semestres_inversion'], true) ?: [];
         }
         if (isset($data['plan_estudios']) && is_string($data['plan_estudios'])) {
             $data['plan_estudios'] = json_decode($data['plan_estudios'], true) ?: [];
@@ -178,7 +183,9 @@ class AdminProgramaController extends Controller
             'imagen_url' => 'nullable|max:255',
             'sumilla' => 'nullable|string',
             'por_que_text' => 'nullable|string',
-            'is_active' => 'boolean',
+            'estado' => 'nullable|in:publicado,proximamente,borrador',
+            'costo_por_credito' => 'nullable|integer|min:0',
+            'semestres_inversion' => 'nullable',   // JSON array string
         ]);
 
         $data = $validated;
@@ -192,6 +199,9 @@ class AdminProgramaController extends Controller
         }
         if (isset($data['perfil_graduado']) && is_string($data['perfil_graduado'])) {
             $data['perfil_graduado'] = json_decode($data['perfil_graduado'], true) ?: [];
+        }
+        if (isset($data['semestres_inversion']) && is_string($data['semestres_inversion'])) {
+            $data['semestres_inversion'] = json_decode($data['semestres_inversion'], true) ?: [];
         }
         if (isset($data['plan_estudios']) && is_string($data['plan_estudios'])) {
             $data['plan_estudios'] = json_decode($data['plan_estudios'], true) ?: [];
@@ -263,13 +273,19 @@ class AdminProgramaController extends Controller
     }
 
     /**
-     * Toggle the active status of a programa.
+     * Alterna entre publicado y borrador desde el listado (atajo rápido).
+     * El estado «Próximamente» se elige en el formulario del programa.
      */
     public function toggleActive(Programa $programa)
     {
-        $programa->update(['is_active' => !$programa->is_active]);
+        $nuevo = $programa->es_publicado
+            ? Programa::ESTADO_BORRADOR
+            : Programa::ESTADO_PUBLICADO;
 
-        $status = $programa->is_active ? 'activado' : 'desactivado';
+        $programa->update(['estado' => $nuevo]);
+
+        $status = $nuevo === Programa::ESTADO_PUBLICADO ? 'publicado' : 'pasado a borrador';
+
         return redirect()->route('admin.programas.index')
             ->with('success', "Programa {$status} exitosamente.");
     }

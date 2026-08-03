@@ -22,3 +22,9 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Copias de seguridad de la base: contienen datos reales, no van al repositorio.
+/storage/backups
+
+# Instalador de Composer descargado en local.
+/composer.phar

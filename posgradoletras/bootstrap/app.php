@@ -14,6 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'isAdmin' => \App\Http\Middleware\IsAdmin::class,
         ]);
+
+        // Deja una sola nota de licencia de Font Awesome por página en vez de
+        // una por icono (~23 KB de HTML en la portada).
+        $middleware->web(append: [
+            \App\Http\Middleware\CompactarAtribucionIconos::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -193,7 +193,7 @@
     <!-- Form Card -->
     <div class="card">
         <div class="p-6">
-            <form action="{{ route('admin.docentes.update', $docente) }}" method="POST" enctype="multipart/form-data" id="form-docente"
+            <form action="{{ route('admin.docentes.update', $docente) }}" method="POST" data-avisar-sin-guardar enctype="multipart/form-data" id="form-docente"
                 x-data="{ submitting: false, tab: 'personal' }" @submit="submitting = true">
                 @csrf
                 @method('PUT')

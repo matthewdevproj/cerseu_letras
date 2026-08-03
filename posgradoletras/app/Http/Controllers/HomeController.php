@@ -10,9 +10,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $maestrias = Programa::activos()->maestrias()->orderBy('nombre')->get();
-        $doctorados = Programa::activos()->doctorados()->orderBy('nombre')->get();
-        $diplomados = Programa::activos()->diplomados()->orderBy('nombre')->get();
+        $maestrias = Programa::visibles()->maestrias()->ordenPublicacion()->get();
+        $doctorados = Programa::visibles()->doctorados()->ordenPublicacion()->get();
+        $diplomados = Programa::visibles()->diplomados()->ordenPublicacion()->get();
 
         // Obtener docentes que son coordinadores de programa
         $docentes = Docente::activos()
@@ -29,9 +29,12 @@ class HomeController extends Controller
             ->limit(6)
             ->get();
 
-        // Obtener testimonios publicados recientes
+        // Obtener testimonios publicados recientes.
+        // `with('programa')` evita una consulta por testimonio: la sección
+        // muestra el programa de cada uno.
         $testimonios = Testimonio::publicados()
             ->recientes()
+            ->with('programa')
             ->get();
 
         return view('home', compact('maestrias', 'doctorados', 'diplomados', 'docentes', 'testimonios'));

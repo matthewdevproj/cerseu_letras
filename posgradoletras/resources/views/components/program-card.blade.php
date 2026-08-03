@@ -12,9 +12,16 @@
 @php
     $duracion = $programa->duracion_formateada ?? (($programa->duracion ?? $duracionDefault) . ' ' . $duracionUnit);
     $descripcion = $programa->presentacion ?? $programa->sumilla ?? 'Sin descripción disponible';
+    // Los programas anunciados como próxima oferta se marcan y llevan a su
+    // aviso, no a una ficha vacía.
+    $esProximamente = $programa->es_proximamente ?? false;
+    if ($esProximamente) {
+        $descripcion = $programa->sumilla ?: 'Pronto publicaremos el plan de estudios, la inversión y las fechas de admisión de este programa.';
+        $primaryCtaLabel = 'Recibir información';
+    }
 @endphp
 
-<div class="program-card fade-in bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl motion-safe:hover:-translate-y-1.5 transition-all duration-300 border border-gray-100 group flex flex-col h-full"
+<div {{ $attributes->merge(['class' => 'program-card fade-in bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl motion-safe:hover:-translate-y-1.5 transition-all duration-300 border border-gray-100 group flex flex-col h-full']) }}
     @if($tipo) data-type="{{ $tipo }}" @endif
     data-title="{{ strtolower($programa->titulo_completo) }}"
     data-desc="{{ strtolower($descripcion) }}">
@@ -29,12 +36,17 @@
             aria-label="Ver más detalle de {{ $programa->titulo_completo }}"
             class="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 focus-visible:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-[-4px]">
             <span class="px-6 py-2 border border-white text-white font-bold rounded-full hover:bg-white hover:text-unmsm-guinda transition-colors shadow-2xl transform scale-90 group-hover:scale-100 group-focus-visible:scale-100 duration-300">
-                Ver más detalle
+                {{ $esProximamente ? 'Próximamente' : 'Ver más detalle' }}
             </span>
         </a>
 
-        <div class="absolute top-4 left-4 z-20">
+        <div class="absolute top-4 left-4 z-20 flex flex-wrap gap-2">
             <span class="px-3 py-1 {{ $badgeColor }} text-white text-xs font-bold rounded shadow-lg">{{ $badgeLabel }}</span>
+            @if ($esProximamente)
+                <span class="px-3 py-1 bg-unmsm-dorado text-unmsm-guinda text-xs font-bold rounded shadow-lg">
+                    Próximamente
+                </span>
+            @endif
         </div>
 
         <div class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
@@ -65,8 +77,8 @@
                 class="block w-full text-center py-2.5 rounded-lg border border-unmsm-guinda text-unmsm-guinda font-bold text-sm hover:bg-unmsm-guinda hover:text-white focus-visible:bg-unmsm-guinda focus-visible:text-white transition-all duration-300">
                 {{ $primaryCtaLabel }}
             </a>
-            @if($showBrochure && $programa->brochure_url)
-                <a href="{{ $programa->brochure_url }}" target="_blank" rel="noopener noreferrer"
+            @if($showBrochure && $programa->brochure_link)
+                <a href="{{ $programa->brochure_link }}" target="_blank" rel="noopener noreferrer"
                     class="block w-full text-center py-2.5 rounded-lg bg-unmsm-dorado/10 text-unmsm-guinda font-bold text-sm hover:bg-unmsm-dorado hover:text-white focus-visible:bg-unmsm-dorado focus-visible:text-white transition-all duration-300">
                     <x-fas-file-pdf class="mr-1" aria-hidden="true" /> Brochure
                 </a>

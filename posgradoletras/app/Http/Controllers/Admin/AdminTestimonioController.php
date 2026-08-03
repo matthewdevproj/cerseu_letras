@@ -31,7 +31,7 @@ class AdminTestimonioController extends Controller
             $query->where('estado', $request->estado);
         }
 
-        $testimonios = $query->latest()->get();
+        $testimonios = $query->latest()->paginate(25)->withQueryString();
 
         return view('admin.testimonios.index', compact('testimonios'));
     }

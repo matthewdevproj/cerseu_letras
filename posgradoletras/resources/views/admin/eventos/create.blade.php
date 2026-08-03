@@ -15,7 +15,7 @@
         </div>
 
         <!-- Form -->
-        <form action="{{ route('admin.eventos.store') }}" method="POST" enctype="multipart/form-data"
+        <form action="{{ route('admin.eventos.store') }}" method="POST" data-avisar-sin-guardar enctype="multipart/form-data"
             class="bg-white shadow-sm border border-gray-200 rounded-lg"
             x-data="{ submitting: false }" @submit="submitting = true">
             @csrf
@@ -122,7 +122,7 @@
 
             <!-- Actions -->
             <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 rounded-b-lg">
-                <a href="{{ route('admin.eventos.index') }}"
+                <a data-salir-sin-guardar href="{{ route('admin.eventos.index') }}"
                     class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors">
                     Cancelar
                 </a>

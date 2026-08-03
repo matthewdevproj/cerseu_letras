@@ -7,7 +7,10 @@
     {{-- HERO DE DIPLOMADOS (con formulario de solicitud de información integrado) --}}
     <section class="relative w-full overflow-hidden">
         <div class="absolute inset-0">
-            <img src="{{ $settings?->diplomados_hero_imagen ? asset('storage/' . $settings->diplomados_hero_imagen) : asset('images/campus-fachada.jpg') }}"
+            {{-- WebP en vez del JPG: esta cabecera no pasa por
+                 <x-hero-section>, así que se quedó cargando el original de
+                 963 KB con prioridad alta. El WebP pesa 279 KB. --}}
+            <img src="{{ $settings?->diplomados_hero_imagen ? asset('storage/' . $settings->diplomados_hero_imagen) : asset('images/campus-fachada.webp') }}"
                 alt="Diplomados" class="absolute inset-0 w-full h-full object-cover"
                 width="1600" height="900" fetchpriority="high" decoding="async">
             <div class="absolute inset-0 bg-unmsm-guinda/85"></div>
@@ -22,7 +25,7 @@
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-4 drop-shadow-lg leading-tight">
                         {{ $settings?->diplomados_hero_titulo ?? 'Diplomados' }}
                     </h1>
-                    <p class="text-gray-200 max-w-xl font-light text-lg leading-relaxed mb-4">
+                    <p class="text-gray-200 max-w-xl font-normal text-lg leading-relaxed mb-4">
                         {{ $settings?->diplomados_hero_texto ?? 'Especializa tus conocimientos con programas diseñados para responder a los desafíos contemporáneos desde las humanidades, las ciencias sociales y las nuevas tecnologías.' }}
                     </p>
                     <p class="text-unmsm-dorado font-bold text-xl mb-8">
@@ -54,9 +57,33 @@
 
                         <x-floating-input name="correo" label="Correo electrónico" type="email" :required="true" autocomplete="email" id="lead_correo" />
 
+                        {{-- País y región salen de listas reales en vez de texto
+                             libre, que traía «peru», «Perú » y regiones mal
+                             escritas, imposibles de agrupar después. Las sirve
+                             el propio sitio (ver App\Services\GeografiaService),
+                             no un tercero desde el navegador del visitante. --}}
                         <div class="grid grid-cols-2 gap-4">
-                            <x-floating-input name="pais" label="País" value="Perú" :required="true" autocomplete="country-name" id="lead_pais" />
-                            <x-floating-input name="region" label="Región" :required="true" id="lead_region" />
+                            <div data-campo>
+                                <x-floating-input name="pais" label="País" type="select" :required="true"
+                                    autocomplete="country" id="lead_pais">
+                                    <option value=""></option>
+                                </x-floating-input>
+                            </div>
+
+                            <div data-campo>
+                                <x-floating-input name="region" label="Región" type="select" :required="true"
+                                    id="lead_region">
+                                    <option value=""></option>
+                                </x-floating-input>
+                            </div>
+
+                            {{-- Respaldo para los países sin división administrativa
+                                 y para cuando las listas no cargan. Lo activa el JS;
+                                 deshabilitado no viaja en el envío. --}}
+                            <div data-campo class="hidden">
+                                <x-floating-input name="region" label="Región" :required="true"
+                                    id="lead_region_libre" disabled="disabled" />
+                            </div>
                         </div>
 
                         <x-floating-input name="telefono" label="Teléfono" type="tel" :required="true" autocomplete="tel" id="lead_telefono" />
@@ -101,7 +128,7 @@
 
     {{-- CONTÁCTANOS --}}
     @php
-        $whatsappLink = config('contacts.whatsapp', 'https://wa.me/51982085037');
+        $whatsappLink = \App\Models\SiteSetting::contacto('whatsapp');
     @endphp
     <section class="bg-gray-900 border-t-4 border-unmsm-dorado">
         <div class="container mx-auto px-6 py-12">
@@ -113,8 +140,8 @@
                     <x-fas-envelope class="text-unmsm-dorado mt-1" />
                     <div>
                         <p class="text-xs uppercase text-gray-500 font-bold">Email</p>
-                        <a href="mailto:{{ $settings?->email_admision ?? config('contacts.admision') }}" class="hover:text-unmsm-dorado transition-colors">
-                            {{ $settings?->email_admision ?? config('contacts.admision') }}
+                        <a href="mailto:{{ \App\Models\SiteSetting::contacto('admision') }}" class="hover:text-unmsm-dorado transition-colors">
+                            {{ \App\Models\SiteSetting::contacto('admision') }}
                         </a>
                     </div>
                 </div>
@@ -123,7 +150,7 @@
                     <div>
                         <p class="text-xs uppercase text-gray-500 font-bold">WhatsApp</p>
                         <a href="{{ $whatsappLink }}" target="_blank" rel="noopener noreferrer" class="hover:text-unmsm-dorado transition-colors">
-                            {{ $settings?->telefono ?? config('contacts.telefono') }}
+                            {{ \App\Models\SiteSetting::contacto('telefono') }}
                         </a>
                     </div>
                 </div>

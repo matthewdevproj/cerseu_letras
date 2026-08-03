@@ -39,12 +39,21 @@ class AdminSiteSettingsController extends Controller
             'diplomados_hero_imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
             'email' => 'nullable|email|max:255',
             'email_admision' => 'nullable|email|max:255',
+            'email_tramites' => 'nullable|email|max:255',
             'telefono' => 'nullable|string|max:50',
             'direccion' => 'nullable|string',
             'horario_atencion' => 'nullable|string|max:255',
             'diplomados_hero_titulo' => 'nullable|string|max:255',
             'diplomados_hero_texto' => 'nullable|string',
             'diplomados_hero_claim' => 'nullable|string|max:255',
+            'home_hero_kicker' => 'nullable|string|max:255',
+            'home_hero_titulo' => 'nullable|string|max:255',
+            'home_hero_texto' => 'nullable|string',
+            'home_hero_cta1_texto' => 'nullable|string|max:60',
+            'home_hero_cta1_url' => 'nullable|string|max:500',
+            'home_hero_cta2_texto' => 'nullable|string|max:60',
+            'home_hero_cta2_url' => 'nullable|string|max:500',
+            'home_stat_docentes' => 'nullable|integer|min:0|max:9999',
             'facebook' => 'nullable|url|max:500',
             'instagram' => 'nullable|url|max:500',
             'twitter' => 'nullable|url|max:500',
@@ -66,12 +75,21 @@ class AdminSiteSettingsController extends Controller
         $settings->site_description = $validated['site_description'] ?? null;
         $settings->email = $validated['email'] ?? null;
         $settings->email_admision = $validated['email_admision'] ?? null;
+        $settings->email_tramites = $validated['email_tramites'] ?? null;
         $settings->telefono = $validated['telefono'] ?? null;
         $settings->direccion = $validated['direccion'] ?? null;
         $settings->horario_atencion = $validated['horario_atencion'] ?? null;
         $settings->diplomados_hero_titulo = $validated['diplomados_hero_titulo'] ?? null;
         $settings->diplomados_hero_texto = $validated['diplomados_hero_texto'] ?? null;
         $settings->diplomados_hero_claim = $validated['diplomados_hero_claim'] ?? null;
+        $settings->home_hero_kicker = $validated['home_hero_kicker'] ?? null;
+        $settings->home_hero_titulo = $validated['home_hero_titulo'] ?? null;
+        $settings->home_hero_texto = $validated['home_hero_texto'] ?? null;
+        $settings->home_hero_cta1_texto = $validated['home_hero_cta1_texto'] ?? null;
+        $settings->home_hero_cta1_url = $validated['home_hero_cta1_url'] ?? null;
+        $settings->home_hero_cta2_texto = $validated['home_hero_cta2_texto'] ?? null;
+        $settings->home_hero_cta2_url = $validated['home_hero_cta2_url'] ?? null;
+        $settings->home_stat_docentes = $validated['home_stat_docentes'] ?? null;
         $settings->facebook = $validated['facebook'] ?? null;
         $settings->instagram = $validated['instagram'] ?? null;
         $settings->twitter = $validated['twitter'] ?? null;
@@ -88,7 +106,7 @@ class AdminSiteSettingsController extends Controller
                 Storage::disk('public')->delete($settings->logo_path);
             }
             // Guardar nuevo logo
-            $logoPath = $request->file('logo')->store('settings', 'public');
+            $logoPath = \App\Support\OptimizadorImagen::guardar($request->file('logo'), 'settings', 'public', 700);
             $settings->logo_path = $logoPath;
         } elseif ($request->has('remove_logo') && $request->remove_logo) {
             // Eliminar logo si se marcó checkbox
@@ -103,7 +121,7 @@ class AdminSiteSettingsController extends Controller
             if ($settings->diplomados_hero_imagen && Storage::disk('public')->exists($settings->diplomados_hero_imagen)) {
                 Storage::disk('public')->delete($settings->diplomados_hero_imagen);
             }
-            $settings->diplomados_hero_imagen = $request->file('diplomados_hero_imagen')->store('settings', 'public');
+            $settings->diplomados_hero_imagen = \App\Support\OptimizadorImagen::guardar($request->file('diplomados_hero_imagen'), 'settings');
         } elseif ($request->boolean('remove_diplomados_hero_imagen')) {
             if ($settings->diplomados_hero_imagen && Storage::disk('public')->exists($settings->diplomados_hero_imagen)) {
                 Storage::disk('public')->delete($settings->diplomados_hero_imagen);

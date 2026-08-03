@@ -223,7 +223,7 @@
         <!-- Form Card -->
         <div class="card">
             <div class="p-6">
-                <form action="{{ route('admin.programas.update', $programa) }}" method="POST" enctype="multipart/form-data" id="form-programa"
+                <form action="{{ route('admin.programas.update', $programa) }}" method="POST" data-avisar-sin-guardar enctype="multipart/form-data" id="form-programa"
                     x-data="{ submitting: false, tab: 'basico' }" @submit="submitting = true">
                     @csrf
                     @method('PUT')
@@ -479,6 +479,82 @@
                                     current-file-label="Ver PDF actual"
                                     help-text='Si se deja vacío, el botón "Ver Proceso de Admisión" enlazará a la página general de Admisión.' />
 
+                                {{-- Tarifas por periodo. Antes vivían escritas en las plantillas de
+                                     maestría y doctorado y se recalculaban aparte en la ficha del
+                                     programa; ahora salen de aquí y alimentan ambos sitios. --}}
+                                <div class="border border-gray-200 rounded-lg p-4 mb-4 hover:border-brand-red hover:shadow-sm transition-all"
+                                    x-data="inversionPeriodos(
+                                        {{ (int) ($programa->costo_por_credito ?? 0) }},
+                                        {{ Illuminate\Support\Js::from($programa->semestres_inversion ?? []) }},
+                                        '{{ $programa->grado === 'Diplomado' ? 'Módulo' : 'Semestre' }}'
+                                    )">
+                                    <label class="form-label block mb-3">
+                                        <x-fas-calculator class="text-brand-red mr-1" /> Tarifas por {{ $programa->grado === 'Diplomado' ? 'módulo' : 'semestre' }}
+                                    </label>
+
+                                    <input type="hidden" name="costo_por_credito" :value="costoCredito">
+                                    <input type="hidden" name="semestres_inversion" :value="JSON.stringify(periodos)">
+
+                                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="text-xs text-gray-500 mb-1 block">Costo por crédito (S/)</label>
+                                            <input type="number" min="0" x-model.number="costoCredito"
+                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" placeholder="160">
+                                        </div>
+                                        <div class="flex items-end">
+                                            <p class="text-sm text-gray-600">
+                                                Inversión total calculada:
+                                                <strong class="text-brand-red" x-text="'S/ ' + total.toLocaleString('es-PE')"></strong>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-sm">
+                                            <thead class="bg-gray-50 text-xs text-gray-600 uppercase">
+                                                <tr>
+                                                    <th class="px-3 py-2 text-left">{{ $programa->grado === 'Diplomado' ? 'Módulo' : 'Semestre' }}</th>
+                                                    <th class="px-3 py-2 text-left">Matrícula (S/)</th>
+                                                    <th class="px-3 py-2 text-left">Créditos</th>
+                                                    <th class="px-3 py-2 text-left">Subtotal</th>
+                                                    <th class="px-3 py-2 text-right w-12"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template x-for="(p, i) in periodos" :key="i">
+                                                    <tr class="border-b">
+                                                        <td class="px-3 py-2 text-gray-500" x-text="etiqueta + ' ' + (i + 1)"></td>
+                                                        <td class="px-3 py-2">
+                                                            <input type="number" min="0" x-model.number="p.matricula"
+                                                                class="w-full border border-gray-200 rounded px-2 py-1">
+                                                        </td>
+                                                        <td class="px-3 py-2">
+                                                            <input type="number" min="0" x-model.number="p.creditos"
+                                                                class="w-full border border-gray-200 rounded px-2 py-1">
+                                                        </td>
+                                                        <td class="px-3 py-2 text-gray-700"
+                                                            x-text="'S/ ' + ((p.matricula || 0) + (p.creditos || 0) * (costoCredito || 0)).toLocaleString('es-PE')"></td>
+                                                        <td class="px-3 py-2 text-right">
+                                                            <button type="button" @click="eliminar(i)"
+                                                                class="text-red-500 hover:text-red-700" aria-label="Quitar periodo">
+                                                                <x-fas-trash />
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <button type="button" @click="agregar()"
+                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-red-700 text-red-700 rounded-lg hover:bg-red-50">
+                                        <x-fas-plus class="mr-1" /> Agregar periodo
+                                    </button>
+                                    <p class="text-xs text-gray-400 mt-2">
+                                        Déjalo sin periodos para que la página muestre «Inversión por definir».
+                                    </p>
+                                </div>
+
                                 <!-- Inversión Económica (Diplomados) -->
                                 @php
                                     $inv = $programa->inversion_economica ?? [];
@@ -562,13 +638,16 @@
                             </div>
 
                             <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                                <label class="flex items-center cursor-pointer">
-                                    <input type="hidden" name="is_active" value="0">
-                                    <input type="checkbox" name="is_active" value="1"
-                                        class="h-5 w-5 text-brand-gold border-gray-300 rounded"
-                                        {{ old('is_active', $programa->is_active) ? 'checked' : '' }}>
-                                    <span class="ml-3 text-sm font-medium text-gray-700">Programa activo (visible en web)</span>
-                                </label>
+                                <label for="estado" class="block text-sm font-semibold text-gray-700 mb-2">Estado de publicación</label>
+                                <select id="estado" name="estado" x-data="{ estado: '{{ old('estado', $programa->estado) }}' }" x-model="estado"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                                    @foreach (\App\Models\Programa::ESTADOS as $valor => $info)
+                                        <option value="{{ $valor }}" @selected(old('estado', $programa->estado) === $valor)>{{ $info['label'] }}</option>
+                                    @endforeach
+                                </select>
+                                <template x-for="(info, valor) in {{ Illuminate\Support\Js::from(collect(\App\Models\Programa::ESTADOS)->map(fn ($i) => $i['ayuda'])) }}" :key="valor">
+                                    <p x-show="estado === valor" class="text-xs text-gray-500 mt-2" x-text="info"></p>
+                                </template>
                             </div>
                         </div>
                     </div>
@@ -648,6 +727,7 @@
         <script id="graduado-data" type="application/json">{!! json_encode($programa->perfil_graduado ?? []) !!}</script>
 
         <script>
+
 
             // ============================
             //   PLAN DE ESTUDIOS

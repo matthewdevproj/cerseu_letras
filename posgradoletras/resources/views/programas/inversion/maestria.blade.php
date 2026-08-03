@@ -1,28 +1,39 @@
 {{-- Inversión económica – MAESTRÍAS --}}
 
 @php
-    $emailContacto = 'admisionposgrado.letras@unmsm.edu.pe';
-    $costoPorCredito = 160;
+    $emailContacto = \App\Models\SiteSetting::contacto('admision');
 
-    // Solo datos base por semestre (matrícula y créditos)
-    $semestres = [
-        1 => ['matricula' => 310, 'creditos' => 14],
-        2 => ['matricula' => 400, 'creditos' => 16],
-        3 => ['matricula' => 400, 'creditos' => 20],
-        4 => ['matricula' => 400, 'creditos' => 22],
-    ];
+    // Importes administrables desde el panel (Programas → Inversión).
+    // Se mantienen los nombres de variables que ya usaba el resto de la
+    // plantilla para no tocar el marcado.
+    $costoPorCredito = $programa->costo_por_credito;
+    $filas = $programa->semestres_calculados;
 
-    // Calcular totales
-    $costoTotal = 0;
-    foreach ($semestres as &$sem) {
-        $sem['costoSemestre'] = $sem['creditos'] * $costoPorCredito;
-        $sem['cuotaMensual'] = $sem['costoSemestre'] / 4;
-        $costoTotal += $sem['matricula'] + $sem['costoSemestre'];
+    $semestres = [];
+    foreach ($filas as $fila) {
+        $semestres[$fila['numero']] = [
+            'matricula' => $fila['matricula'],
+            'creditos' => $fila['creditos'],
+            'costoSemestre' => $fila['costo_semestre'],
+            'cuotaMensual' => $fila['cuota_mensual'],
+        ];
     }
-    unset($sem);
 
-    $nombreSemestre = [1 => 'Primer', 2 => 'Segundo', 3 => 'Tercer', 4 => 'Cuarto'];
+    $costoTotal = $programa->costo_total ?? 0;
+    $nombreSemestre = [1 => 'Primer', 2 => 'Segundo', 3 => 'Tercer', 4 => 'Cuarto', 5 => 'Quinto', 6 => 'Sexto'];
 @endphp
+
+@if (empty($semestres))
+    {{-- Sin importes cargados: se avisa en lugar de mostrar ceros. --}}
+    <div class="rounded-xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-800">
+        <p class="font-semibold mb-1">Inversión por definir</p>
+        <p>
+            Aún no se ha publicado el detalle económico de este programa.
+            Escríbenos a <a href="mailto:{{ $emailContacto }}" class="underline font-semibold">{{ $emailContacto }}</a>
+            para recibir la información.
+        </p>
+    </div>
+@else
 
 <div class="space-y-8">
 
@@ -196,10 +207,10 @@
                 </p>
                 <p>
                     <span class="font-semibold text-unmsm-guinda">Teléfono / WhatsApp:&nbsp;</span>
-                    <a href="{{ config('contacts.whatsapp', 'https://wa.me/51982085037') }}" target="_blank" rel="noopener noreferrer"
+                    <a href="{{ \App\Models\SiteSetting::contacto('whatsapp') }}" target="_blank" rel="noopener noreferrer"
                         rel="noopener noreferrer"
                         class="text-gray-800 underline decoration-unmsm-guinda/60 decoration-2 underline-offset-2">
-                        {{ config('contacts.telefono', '982 085 037') }}
+                        {{ \App\Models\SiteSetting::contacto('telefono') }}
                     </a>
                 </p>
             </div>
@@ -207,3 +218,4 @@
     </section>
 
 </div>
+@endif

@@ -17,7 +17,31 @@
       "PowerShell(php --version 2>&1; Write-Host \"---\"; Get-Item \"C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\.env\" -ErrorAction SilentlyContinue | Select-Object Name)",
       "PowerShell(docker context ls *)",
       "PowerShell(docker context use *)",
-      "PowerShell(cmd /c \"dir /s /b C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\resources\\\\views\\\\admin\\\\\")"
+      "PowerShell(cmd /c \"dir /s /b C:\\\\Users\\\\User\\\\Desktop\\\\Repos\\\\Posgrado\\\\PosgradoLetras8\\\\posgradoletras\\\\resources\\\\views\\\\admin\\\\\")",
+      "Bash(git log *)",
+      "Bash(npm run *)",
+      "Bash(php artisan *)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://127.0.0.1:8123/diplomados)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://127.0.0.1:8123/diplomados/admision)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://127.0.0.1:8123/admin/admision-diplomados)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://127.0.0.1:8123/)",
+      "Bash(grep -rn '$request->all\\(\\)\\\\|->validate\\(' app/Http/Controllers)",
+      "Bash(awk -F: '{s+=$2} END{print s}')",
+      "Bash(awk -F: '{t+=$2} END{print \"imgs totales=\"t}')",
+      "Bash(xargs echo \"imgs con loading:\")",
+      "Bash(sort -t: -k2 -rn)",
+      "Bash(curl -s -o /tmp/home.html -w \"%{http_code}\" http://127.0.0.1:8123/)",
+      "Read(//tmp/**)",
+      "Bash(php -v)",
+      "Bash(curl -s -o /dev/null -w \"diplomados/admision -> %{http_code}\\\\n\" http://127.0.0.1:8123/diplomados/admision)",
+      "Bash(curl -s -o /dev/null -w \"admision -> %{http_code}\\\\n\" http://127.0.0.1:8123/admision)",
+      "Read(//c/Program Files/Google/Chrome/Application/**)",
+      "Read(//c/Program Files \\\\\\(x86\\\\\\)/Google/Chrome/Application/**)",
+      "Bash('/c/Program Files \\(x86\\)/Google/Chrome/Application/chrome.exe' --headless=new --hide-scrollbars --disable-gpu --force-device-scale-factor=1 --virtual-time-budget=3000 --window-size=1400,1700 --screenshot=C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Desktop-Repos-Posgrado-PosgradoLetras8/381e00b1-e983-4914-914c-be0574aef491/scratchpad/diplomados-cronograma-desktop.png 'http://127.0.0.1:8123/diplomados/admision#cronograma')",
+      "Bash('/c/Program Files \\(x86\\)/Google/Chrome/Application/chrome.exe' --headless=new --hide-scrollbars --disable-gpu --force-device-scale-factor=1 --virtual-time-budget=3000 --window-size=390,1700 --screenshot=C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Desktop-Repos-Posgrado-PosgradoLetras8/381e00b1-e983-4914-914c-be0574aef491/scratchpad/diplomados-cronograma-mobile.png 'http://127.0.0.1:8123/diplomados/admision#cronograma')",
+      "Bash('/c/Program Files \\(x86\\)/Google/Chrome/Application/chrome.exe' --headless=new --hide-scrollbars --disable-gpu --force-device-scale-factor=1 --virtual-time-budget=3000 --window-size=1400,2600 --screenshot=C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Desktop-Repos-Posgrado-PosgradoLetras8/381e00b1-e983-4914-914c-be0574aef491/scratchpad/admision-cronograma-desktop.png http://127.0.0.1:8123/admision)",
+      "Bash('/c/Program Files \\(x86\\)/Google/Chrome/Application/chrome.exe' --headless=new --hide-scrollbars --disable-gpu --force-device-scale-factor=1 --virtual-time-budget=3000 --window-size=400,900 --screenshot=C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Desktop-Repos-Posgrado-PosgradoLetras8/381e00b1-e983-4914-914c-be0574aef491/scratchpad/dip-mobile-check.png 'http://127.0.0.1:8123/diplomados/admision#cronograma')",
+      "Bash('/c/Program Files \\(x86\\)/Google/Chrome/Application/chrome.exe' --headless=new --hide-scrollbars --disable-gpu --force-device-scale-factor=1 --virtual-time-budget=3000 --window-size=400,1000 --screenshot=C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Desktop-Repos-Posgrado-PosgradoLetras8/381e00b1-e983-4914-914c-be0574aef491/scratchpad/dip-mobile-fixed.png 'http://127.0.0.1:8123/diplomados/admision#cronograma')"
     ]
   }
 }

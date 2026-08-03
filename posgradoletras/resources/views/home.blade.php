@@ -36,9 +36,30 @@
             animation: heroFadeIn 0.8s ease-out forwards;
         }
 
-        /* Hero Swiper Styles */
-        .hero-swiper {
+        /* Hero Swiper Styles.
+
+           El posicionamiento se declara aquí y no solo con la clase `absolute`
+           de Tailwind porque el CSS propio de Swiper trae `.swiper{position:
+           relative}` y, al cargarse después en la cascada, gana: el carrusel
+           dejaba de ser un overlay, entraba como ítem del flex y colapsaba a
+           altura 0 (hero en blanco).
+
+           El alto sale de `inset: 0`, no de `height: 100%`, porque el hero usa
+           `min-height` y un porcentaje no resuelve contra ella. Con el alto ya
+           resuelto aquí, el 100% de wrapper y slides sí funciona.
+
+           El selector va compuesto (`.hero-swiper.swiper`) a propósito: el CSS
+           de Swiper se carga como chunk diferido y se inyecta en el <head>
+           DESPUÉS de este bloque, así que con la misma especificidad ganaría
+           él. Con dos clases (0,2,0) este bloque manda. */
+        .hero-swiper.swiper {
+            position: absolute;
+            inset: 0;
             width: 100%;
+        }
+
+        .hero-swiper.swiper .swiper-wrapper,
+        .hero-swiper.swiper .swiper-slide {
             height: 100%;
         }
 
@@ -76,14 +97,57 @@
                 grid-template-columns: repeat(5, minmax(0, 1fr));
                 gap: 0;
             }
-            .stats-grid > div {
-                background-color: transparent !important;
+            .stats-grid > * {
                 border-radius: 0 !important;
                 border-right: 1px solid rgba(107, 114, 128, 0.3);
                 grid-column: span 1 / span 1 !important;
             }
-            .stats-grid > div:last-child {
+            .stats-grid > *:last-child {
                 border-right: none;
+            }
+        }
+
+        /* Indicadores que además son accesos directos (Obs. N.º 1): necesitan una
+           señal visual clara de que se puede hacer clic —tinte dorado, subrayado
+           de la etiqueta y una flecha que aparece— sin ensuciar la portada. */
+        .stats-link {
+            transition: background-color .25s ease, transform .25s ease;
+        }
+
+        .stats-link:hover,
+        .stats-link:focus-visible {
+            background-color: rgba(201, 170, 54, .14);
+        }
+
+        .stats-link .stats-label {
+            text-decoration: underline;
+            text-decoration-color: transparent;
+            text-underline-offset: 3px;
+            transition: color .25s ease, text-decoration-color .25s ease;
+        }
+
+        .stats-link:hover .stats-label,
+        .stats-link:focus-visible .stats-label {
+            color: #C9AA36;
+            text-decoration-color: currentColor;
+        }
+
+        .stats-link .stats-arrow {
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: opacity .25s ease, transform .25s ease;
+        }
+
+        .stats-link:hover .stats-arrow,
+        .stats-link:focus-visible .stats-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .stats-link,
+            .stats-link .stats-arrow {
+                transition: none;
             }
         }
     </style>
@@ -91,8 +155,15 @@
 
 @section('content')
     {{-- HERO PRINCIPAL: pantalla completa, carrusel de campus + stats integrados al pie --}}
-    <header class="relative w-full h-screen min-h-[600px] overflow-hidden">
+    {{-- `min-h-screen` en vez de `h-screen`: si el contenido necesita más alto
+         (móviles estrechos, tipografía ampliada), el hero crece en lugar de
+         recortarlo. --}}
+    <header class="relative w-full min-h-screen flex flex-col overflow-hidden">
         {{-- Carrusel de fondo (overlay absoluto: llena todo el header) --}}
+        {{-- Solo la primera diapositiva trae su fondo en el marcado. Las otras
+             dos llevan la ruta en `data-bg-diferido` y las carga `carousels.js`
+             cuando el navegador está ocioso: antes las tres se descargaban de
+             golpe (≈690 KB) para enseñar una sola. --}}
         <div class="swiper hero-swiper absolute inset-0 z-0">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
@@ -101,81 +172,144 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="slide-bg" style="background-image: url('{{ asset('images/campus-aerea-2.jpg') }}'); background-image: image-set(url('{{ asset('images/campus-aerea-2.webp') }}') type('image/webp'), url('{{ asset('images/campus-aerea-2.jpg') }}') type('image/jpeg'));"></div>
+                    <div class="slide-bg" data-bg-diferido="{{ asset('images/campus-aerea-2.webp') }}" data-bg-respaldo="{{ asset('images/campus-aerea-2.jpg') }}"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="slide-bg" style="background-image: url('{{ asset('images/campus-fachada.jpg') }}'); background-image: image-set(url('{{ asset('images/campus-fachada.webp') }}') type('image/webp'), url('{{ asset('images/campus-fachada.jpg') }}') type('image/jpeg'));"></div>
+                    <div class="slide-bg" data-bg-diferido="{{ asset('images/campus-fachada.webp') }}" data-bg-respaldo="{{ asset('images/campus-fachada.jpg') }}"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>
             </div>
         </div>
 
-        {{-- Contenido principal: overlay centrado verticalmente (deja aire para los stats al pie) --}}
-        <div class="container mx-auto px-6 absolute inset-0 z-20 text-white flex items-center pb-36 md:pb-32 pointer-events-none">
-            <div class="max-w-4xl animate-hero-in pointer-events-auto">
-                <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs md:text-sm mb-4 drop-shadow">
-                    Universidad Nacional Mayor de San Marcos · Decana de América
+        {{-- Contenido principal. Va en flujo normal (no superpuesto): así nunca
+             puede quedar por debajo de la cabecera fija ni por detrás de la banda
+             de indicadores, pase lo que pase con el alto del texto o del viewport.
+             `pt-*` reserva el alto de la cabecera fija (topbar + navbar). --}}
+        <div class="relative z-20 flex-1 flex items-center text-white pt-32 sm:pt-36 lg:pt-32 pb-8">
+            <div class="container mx-auto px-6">
+            @php
+                // Textos editables desde el panel (Configuración → Portada). Los
+                // valores de respaldo son los que llevaba escritos la plantilla:
+                // mientras no se toque nada, la portada se ve igual que antes.
+                $ajustesHero = \App\Models\SiteSetting::get();
+                $heroKicker = $ajustesHero?->home_hero_kicker
+                    ?: 'Universidad Nacional Mayor de San Marcos · Decana de América';
+                $heroTitulo = $ajustesHero?->home_hero_titulo
+                    ?: 'Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas';
+                $heroTexto = $ajustesHero?->home_hero_texto
+                    ?: 'Formamos investigadores y profesionales comprometidos con el desarrollo cultural y social del país, mediante programas de Maestría, Doctorado y Diplomados de alto rigor académico.';
+                $heroCta1Texto = $ajustesHero?->home_hero_cta1_texto ?: 'Ver diplomados';
+                $heroCta1Url = $ajustesHero?->home_hero_cta1_url ?: route('diplomados.index');
+                $heroCta2Texto = $ajustesHero?->home_hero_cta2_texto ?: 'Admisión de diplomados';
+                $heroCta2Url = $ajustesHero?->home_hero_cta2_url ?: route('diplomados.admision');
+            @endphp
+            <div class="max-w-4xl animate-hero-in">
+                <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-[11px] sm:text-xs md:text-sm mb-3 md:mb-4 drop-shadow">
+                    {{ $heroKicker }}
                 </p>
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.05] mb-6 drop-shadow-lg">
-                    Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas
+                <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.1] md:leading-[1.05] mb-4 md:mb-6 drop-shadow-lg text-balance">
+                    {{ $heroTitulo }}
                 </h1>
-                <p class="text-base md:text-xl text-gray-200 max-w-2xl mb-8 font-light leading-relaxed">
-                    Formamos investigadores y profesionales comprometidos con el desarrollo cultural y social del
-                    país, mediante programas de Maestría, Doctorado y Diplomados de alto rigor académico.
+                <p class="text-sm sm:text-base md:text-xl text-gray-200 max-w-2xl mb-6 md:mb-8 font-normal leading-relaxed">
+                    {{ $heroTexto }}
                 </p>
+                {{-- Accesos principales orientados a la oferta de diplomados (Obs. N.º 1).
+                     Dos acciones claramente diferenciadas: explorar la oferta
+                     (botón sólido) y conocer el proceso de postulación (contorno). --}}
                 <div class="flex flex-wrap gap-4">
-                    <a href="{{ route('programas.index') }}"
-                        class="px-7 py-3 bg-unmsm-dorado text-unmsm-guinda font-bold rounded-lg hover:bg-yellow-400 transition shadow-lg motion-safe:hover:-translate-y-1 duration-200 text-sm md:text-base">
-                        Ver Programas
-                    </a>
-                    <a href="{{ route('admision') }}"
-                        class="px-7 py-3 border border-white/80 text-white font-bold rounded-lg hover:bg-white/10 transition text-sm md:text-base">
-                        Admisión 2026-I
-                    </a>
+                    @if ($heroCta1Texto)
+                        <a href="{{ $heroCta1Url }}"
+                            class="group inline-flex items-center gap-2 px-7 py-3 bg-unmsm-dorado text-unmsm-guinda font-bold rounded-lg hover:bg-yellow-400 transition shadow-lg motion-safe:hover:-translate-y-1 duration-200 text-sm md:text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2">
+                            {{ $heroCta1Texto }}
+                            <x-fas-arrow-right class="text-xs motion-safe:group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                        </a>
+                    @endif
+                    @if ($heroCta2Texto)
+                        <a href="{{ $heroCta2Url }}"
+                            class="inline-flex items-center gap-2 px-7 py-3 border border-white/80 text-white font-bold rounded-lg hover:bg-white/10 hover:border-white transition text-sm md:text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2">
+                            <x-fas-user-plus class="text-xs" aria-hidden="true" />
+                            {{ $heroCta2Texto }}
+                        </a>
+                    @endif
                 </div>
+            </div>
             </div>
         </div>
 
-        {{-- Stats integrados al pie del hero (banda translúcida sobre el carrusel) --}}
-        <div class="absolute bottom-0 left-0 right-0 z-20 border-t border-unmsm-dorado/40 bg-black/40 backdrop-blur-md">
-            <div class="container mx-auto px-6 py-5">
-                <div data-reveal class="grid grid-cols-2 stats-grid gap-3 text-center">
-                    <div class="flex flex-col items-center p-3 rounded-xl stats-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 md:w-8 md:h-8 text-unmsm-dorado mb-1" aria-hidden="true">
+        {{-- Indicadores al pie del hero. También en flujo normal (`mt-auto`), de
+             modo que su alto real —mayor en móvil, donde ocupan varias filas—
+             siempre se respeta en lugar de taparse con el contenido. --}}
+        <div class="relative z-20 mt-auto border-t border-unmsm-dorado/40 bg-black/40 backdrop-blur-md">
+            <div class="container mx-auto px-6 py-4 sm:py-5">
+                {{-- Los tres primeros indicadores son además accesos directos a su
+                     sección (Obs. N.º 1, sugerencia complementaria). Los dos últimos
+                     son datos institucionales y se mantienen como texto. --}}
+                <div data-reveal class="grid grid-cols-2 stats-grid gap-2 sm:gap-3 text-center">
+                    <a href="{{ route('programas.index') }}?tipo=maestria"
+                        class="stats-item stats-link group relative flex flex-col items-center p-2 sm:p-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-[-2px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                         </svg>
-                        <div class="text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($maestrias) }}">{{ count($maestrias) }}</div>
-                        <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">Maestrías</div>
-                    </div>
-                    <div class="flex flex-col items-center p-3 rounded-xl stats-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 md:w-8 md:h-8 text-unmsm-dorado mb-1" aria-hidden="true">
+                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($maestrias) }}">{{ count($maestrias) }}</div>
+                        <div class="stats-label inline-flex items-center gap-1 text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">
+                            Maestrías
+                            <x-fas-arrow-right class="stats-arrow text-[0.65em]" aria-hidden="true" />
+                        </div>
+                        <span class="sr-only">Ver la sección general de maestrías</span>
+                    </a>
+                    <a href="{{ route('programas.index') }}?tipo=doctorado"
+                        class="stats-item stats-link group relative flex flex-col items-center p-2 sm:p-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-[-2px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897M6 10.5v5.5a2.25 2.25 0 002.25 2.25h11.5a2.25 2.25 0 002.25-2.25v-5.5" />
                         </svg>
-                        <div class="text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($doctorados) }}">{{ count($doctorados) }}</div>
-                        <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">Doctorados</div>
-                    </div>
-                    <div class="flex flex-col items-center p-3 rounded-xl stats-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 md:w-8 md:h-8 text-unmsm-dorado mb-1" aria-hidden="true">
+                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($doctorados) }}">{{ count($doctorados) }}</div>
+                        <div class="stats-label inline-flex items-center gap-1 text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">
+                            Doctorados
+                            <x-fas-arrow-right class="stats-arrow text-[0.65em]" aria-hidden="true" />
+                        </div>
+                        <span class="sr-only">Ver la sección general de doctorados</span>
+                    </a>
+                    <a href="{{ route('diplomados.index') }}"
+                        class="stats-item stats-link group relative flex flex-col items-center p-2 sm:p-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-[-2px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                         </svg>
-                        <div class="text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($diplomados) }}">{{ count($diplomados) }}</div>
-                        <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">Diplomados</div>
-                    </div>
-                    <div class="flex flex-col items-center p-3 rounded-xl stats-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 md:w-8 md:h-8 text-unmsm-dorado mb-1" aria-hidden="true">
+                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($diplomados) }}">{{ count($diplomados) }}</div>
+                        <div class="stats-label inline-flex items-center gap-1 text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">
+                            Diplomados
+                            <x-fas-arrow-right class="stats-arrow text-[0.65em]" aria-hidden="true" />
+                        </div>
+                        <span class="sr-only">Ver la sección general de diplomados</span>
+                    </a>
+                    <div class="flex flex-col items-center p-2 sm:p-3 rounded-xl stats-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                         </svg>
-                        <div class="text-2xl md:text-3xl font-bold text-white" data-count-to="20" data-count-suffix="+">20+</div>
+                        @php
+                            // Editable en Configuración → Portada. No se puede
+                            // calcular: no guardamos la condición RENACYT de los
+                            // docentes.
+                            $docentesRenacyt = \App\Models\SiteSetting::get()?->home_stat_docentes ?: 20;
+                        @endphp
+                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ $docentesRenacyt }}" data-count-suffix="+">{{ $docentesRenacyt }}+</div>
                         <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">Docentes Renacyt</div>
                     </div>
-                    <div class="col-span-2 flex flex-col items-center p-3 rounded-xl stats-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 md:w-8 md:h-8 text-unmsm-dorado mb-1" aria-hidden="true">
+                    <div class="col-span-2 flex flex-col items-center p-2 sm:p-3 rounded-xl stats-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
                         </svg>
-                        <div class="text-2xl md:text-3xl font-bold text-white" data-count-to="473">473</div>
+                        @php
+                            // Se calcula, no se escribe: estaba fijado en 473, que era
+                            // lo correcto en 2024 y envejecía solo cada 12 de mayo.
+                            // La UNMSM se fundó el 12 de mayo de 1551.
+                            // `diffInYears` devuelve float en Carbon 3: hay que truncarlo
+                            // o sale «475.22759525922» en pantalla.
+                            $aniosUnmsm = (int) \Carbon\Carbon::create(1551, 5, 12)->diffInYears(now());
+                        @endphp
+                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ $aniosUnmsm }}">{{ $aniosUnmsm }}</div>
                         <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">Años de Historia</div>
                     </div>
                 </div>
@@ -183,7 +317,19 @@
         </div>
     </header>
     
-<section id="admision" class="relative py-16 md:py-20 bg-gradient-to-b from-gray-900 to-[#1a0e10] text-white overflow-hidden">
+{{-- CRONOGRAMA DE ADMISIÓN (Obs. N.º 2): todo el contenido —encabezado, etapas
+     y botón— se administra desde /admin/cronograma-admision. La sección entera
+     desaparece cuando no hay convocatoria activa o no quedan etapas visibles. --}}
+@php
+    $cronoAdmision = \App\Models\CronogramaAdmision::get();
+    $pasosAdmision = $cronoAdmision?->is_visible
+        ? $cronoAdmision->pasos->where('is_visible', true)
+        : collect();
+@endphp
+
+@if ($pasosAdmision->isNotEmpty())
+<section id="admision" class="relative py-16 md:py-20 bg-gradient-to-b from-gray-900 to-[#1a0e10] text-white overflow-hidden"
+    aria-labelledby="cronograma-admision-titulo">
     {{-- textura de puntos + resplandor guinda (consistente con la banda institucional) --}}
     <div class="absolute inset-0 opacity-[0.05]"
         style="background-image: radial-gradient(circle at 1px 1px, #fff 1.5px, transparent 0); background-size: 34px 34px;">
@@ -192,128 +338,96 @@
 
     <div class="max-w-7xl mx-auto px-6 relative z-10">
         <div class="text-center mb-12">
-            <span class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-2 block">Proceso de Admisión
-                2026-I</span>
-            <h2 class="text-3xl md:text-4xl font-bold mb-2 font-serif">Cronograma de Admisión</h2>
+            @if ($cronoAdmision->eyebrow)
+                <span class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-2 block">{{ $cronoAdmision->eyebrow }}</span>
+            @endif
+            <h2 id="cronograma-admision-titulo" class="text-3xl md:text-4xl font-bold mb-2 font-serif">
+                {{ $cronoAdmision->titulo ?: 'Cronograma de Admisión' }}
+            </h2>
             <div class="w-16 h-1 bg-unmsm-dorado mx-auto mt-3 rounded-full"></div>
         </div>
 
-        {{-- Pasos del cronograma de admisión (data-driven: editar aquí actualiza
-             desktop y móvil a la vez). --}}
-        @php
-            $pasosAdmision = [
-                [
-                    'icon' => 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z',
-                    'titulo' => 'Inscripción de postulantes',
-                    'fecha' => '5 ene - 02 abr',
-                    'detalle' => '+ Envío de expediente',
-                    'titulo_movil' => 'Inscripción de postulantes y envío de expediente',
-                    'fecha_movil' => '5 de enero al 02 de abril del 2026',
-                    'destacado' => true,
-                ],
-                [
-                    'icon' => 'M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5',
-                    'titulo' => 'Examen de conocimiento y entrevistas',
-                    'fecha' => '06 de abril',
-                    'detalle' => 'Maestrías',
-                    'titulo_movil' => 'Examen de conocimientos y entrevistas para maestrías',
-                    'fecha_movil' => '6 de abril 2026',
-                    'destacado' => false,
-                ],
-                [
-                    'icon' => 'M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897',
-                    'titulo' => 'Examen de conocimiento y entrevistas',
-                    'fecha' => '07 de abril',
-                    'detalle' => 'Doctorados',
-                    'titulo_movil' => 'Examen de conocimientos y entrevistas para doctorados',
-                    'fecha_movil' => '7 de abril 2026',
-                    'destacado' => false,
-                ],
-                [
-                    'icon' => 'M2.25 8.25h19.5M2.25 9h19.5m-6.75 9.75h3.75',
-                    'titulo' => 'Evaluación del expediente',
-                    'fecha' => 'Hasta el 06 de abril',
-                    'detalle' => 'Revisión de documentos',
-                    'titulo_movil' => 'Evaluación de expediente',
-                    'fecha_movil' => 'Hasta el 6 de abril 2026',
-                    'destacado' => false,
-                ],
-                [
-                    'icon' => 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-                    'titulo' => 'Publicación de Resultados',
-                    'fecha' => '09 de abril',
-                    'detalle' => 'Lista oficial',
-                    'titulo_movil' => 'Publicación de resultados',
-                    'fecha_movil' => '9 de abril 2026',
-                    'destacado' => false,
-                ],
-            ];
-        @endphp
-
-        <!-- Versión Desktop: timeline horizontal (data-driven) -->
+        <!-- Versión Desktop: timeline horizontal -->
         <div class="hidden lg:block">
             <div class="relative" style="margin-bottom: 3rem;">
                 <div class="absolute" style="top: -3px; left: 10%; right: 10%; height: 2px; background: linear-gradient(90deg, rgba(201,170,54,.15), #C9AA36 50%, rgba(201,170,54,.15)); z-index: 0;"></div>
 
-                <div class="flex justify-between items-start gap-4" style="position: relative; z-index: 1;">
+                <ol class="flex justify-between items-start gap-4 list-none" style="position: relative; z-index: 1;">
                     @foreach ($pasosAdmision as $paso)
-                        <div class="flex-1 relative group" style="min-width: 0;">
-                            <div class="{{ $paso['destacado'] ? 'bg-white border-unmsm-guinda' : 'bg-white/[0.06] ring-1 ring-white/10 border-unmsm-dorado hover:bg-white/[0.1]' }} rounded-xl p-4 border-b-4 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        <li class="flex-1 relative group" style="min-width: 0;">
+                            <div class="{{ $paso->destacado ? 'bg-white border-unmsm-guinda' : 'bg-white/[0.06] ring-1 ring-white/10 border-unmsm-dorado hover:bg-white/[0.1]' }} rounded-xl p-4 border-b-4 shadow-lg transition-all duration-300 motion-safe:hover:-translate-y-1 hover:shadow-xl h-full">
                                 <div class="text-center">
-                                    <div class="w-14 h-14 {{ $paso['destacado'] ? 'bg-unmsm-guinda text-white' : 'bg-unmsm-dorado/20 text-unmsm-dorado ring-1 ring-unmsm-dorado/30' }} rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    <div class="w-14 h-14 {{ $paso->destacado ? 'bg-unmsm-guinda text-white' : 'bg-unmsm-dorado/20 text-unmsm-dorado ring-1 ring-unmsm-dorado/30' }} rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg motion-safe:group-hover:scale-110 transition-transform duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="{{ $paso['icon'] }}" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="{{ $paso->icono_path }}" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-sm font-bold {{ $paso['destacado'] ? 'text-gray-800' : 'text-white' }} mb-1 leading-tight">{{ $paso['titulo'] }}</h3>
-                                    <p class="{{ $paso['destacado'] ? 'text-unmsm-guinda' : 'text-unmsm-dorado' }} font-bold text-xs mb-1">{{ $paso['fecha'] }}</p>
-                                    <p class="{{ $paso['destacado'] ? 'text-gray-500' : 'text-gray-300' }} text-[10px] font-medium">{{ $paso['detalle'] }}</p>
+                                    <h3 class="text-sm font-bold {{ $paso->destacado ? 'text-gray-800' : 'text-white' }} mb-1 leading-tight">{{ $paso->titulo }}</h3>
+                                    @if ($paso->fecha_display)
+                                        <p class="{{ $paso->destacado ? 'text-unmsm-guinda' : 'text-unmsm-dorado' }} font-bold text-xs mb-1">{{ $paso->fecha_display }}</p>
+                                    @endif
+                                    @if ($paso->detalle)
+                                        <p class="{{ $paso->destacado ? 'text-gray-500' : 'text-gray-300' }} text-[10px] font-medium">{{ $paso->detalle }}</p>
+                                    @endif
+                                    @if ($paso->publico)
+                                        <p class="{{ $paso->destacado ? 'text-gray-500' : 'text-gray-300' }} text-[10px] font-medium">{{ $paso->publico }}</p>
+                                    @endif
                                 </div>
                             </div>
                             <div class="absolute" style="top: -8px; left: 50%; transform: translateX(-50%); width: 12px; height: 12px; background-color: #C9AA36; border-radius: 50%; border: 3px solid #1a0e10; box-shadow: 0 0 0 1px rgba(201,170,54,.4), 0 4px 6px -1px rgba(0, 0, 0, 0.3); z-index: 10;"></div>
-                        </div>
+                        </li>
                     @endforeach
-                </div>
+                </ol>
             </div>
         </div>
 
-        <!-- Versión Mobile: timeline vertical (data-driven) -->
-        <div class="lg:hidden relative">
-            <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-white/15"></div>
+        <!-- Versión Mobile: timeline vertical -->
+        <ol class="lg:hidden relative list-none">
+            <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-white/15" aria-hidden="true"></div>
 
             @foreach ($pasosAdmision as $paso)
-                <div class="relative mb-8 last:mb-0">
+                <li class="relative mb-8 last:mb-0">
                     <div class="flex items-center">
-                        <div class="relative z-10 w-12 h-12 {{ $paso['destacado'] ? 'bg-unmsm-guinda text-white' : 'bg-unmsm-dorado/20 text-unmsm-dorado ring-1 ring-unmsm-dorado/30' }} rounded-full flex items-center justify-center shadow-lg flex-shrink-0 border-2 border-[#1a0e10]">
+                        <div class="relative z-10 w-12 h-12 {{ $paso->destacado ? 'bg-unmsm-guinda text-white' : 'bg-unmsm-dorado/20 text-unmsm-dorado ring-1 ring-unmsm-dorado/30' }} rounded-full flex items-center justify-center shadow-lg flex-shrink-0 border-2 border-[#1a0e10]">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="{{ $paso['icon'] }}" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="{{ $paso->icono_path }}" />
                             </svg>
                         </div>
                         <div class="ml-4 flex-1">
-                            <div class="{{ $paso['destacado'] ? 'bg-white border-unmsm-guinda text-gray-800' : 'bg-white/[0.06] ring-1 ring-white/10 border-unmsm-dorado' }} rounded-lg p-4 border-l-4 shadow-lg">
-                                <h3 class="text-base font-bold {{ $paso['destacado'] ? 'text-gray-900' : 'text-white' }}">{{ $paso['titulo_movil'] }}</h3>
-                                <p class="{{ $paso['destacado'] ? 'text-unmsm-guinda' : 'text-unmsm-dorado' }} font-bold text-xs">{{ $paso['fecha_movil'] }}</p>
+                            <div class="{{ $paso->destacado ? 'bg-white border-unmsm-guinda text-gray-800' : 'bg-white/[0.06] ring-1 ring-white/10 border-unmsm-dorado' }} rounded-lg p-4 border-l-4 shadow-lg">
+                                <h3 class="text-base font-bold {{ $paso->destacado ? 'text-gray-900' : 'text-white' }}">
+                                    {{ $paso->titulo }}@if ($paso->publico) <span class="font-medium">· {{ $paso->publico }}</span>@endif
+                                </h3>
+                                @if ($paso->fecha_display)
+                                    <p class="{{ $paso->destacado ? 'text-unmsm-guinda' : 'text-unmsm-dorado' }} font-bold text-xs mt-0.5">{{ $paso->fecha_display }}</p>
+                                @endif
+                                @if ($paso->detalle)
+                                    <p class="{{ $paso->destacado ? 'text-gray-500' : 'text-gray-300' }} text-xs mt-0.5">{{ $paso->detalle }}</p>
+                                @endif
                             </div>
                         </div>
                     </div>
-                </div>
+                </li>
             @endforeach
-        </div>
+        </ol>
 
         <!-- Botón Principal -->
-        <div class="flex flex-col items-center mt-8">
-            <a href="https://posgradoletras.unmsm.edu.pe/admision"
-                class="bg-gradient-to-r from-unmsm-guinda to-red-900 hover:from-red-800 hover:to-unmsm-guinda text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center gap-3 border border-red-800/50">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-                </svg>
-                Iniciar Inscripción
-            </a>
-        </div>
+        @if ($cronoAdmision->boton_texto && $cronoAdmision->boton_url)
+            <div class="flex flex-col items-center mt-8">
+                <a href="{{ $cronoAdmision->boton_url }}"
+                    class="bg-gradient-to-r from-unmsm-guinda to-red-900 hover:from-red-800 hover:to-unmsm-guinda text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 motion-safe:transform motion-safe:hover:scale-105 shadow-2xl flex items-center gap-3 border border-red-800/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-5 h-5" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                    </svg>
+                    {{ $cronoAdmision->boton_texto }}
+                </a>
+            </div>
+        @endif
     </div>
 </section>
+@endif
     
     {{-- FRANJA INSTITUCIONAL (compacta): identidad San Marcos + CTA a Nosotros.
          Misión/Visión completas viven en /nosotros; aquí solo el sello. --}}
@@ -357,78 +471,67 @@
                 </p>
             </div>
 
-            <!-- Filtros -->
-            <div class="flex flex-wrap justify-center gap-4 mb-12">
-                <button onclick="filterPrograms('todos')" id="filter-todos"
-                    class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-unmsm-guinda text-white shadow-lg transform scale-105">
-                    <x-fas-globe /> Todos
+            {{-- Filtros (Obs. N.º 3): el orden prioriza la oferta de diplomados y
+                 "Diplomados" queda activo al cargar la página. "Todos" se mantiene
+                 al final para poder ver la oferta académica completa. --}}
+            @php
+                $filtroBase = 'filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-guinda focus-visible:outline-offset-2';
+                $filtroActivo = $filtroBase . ' bg-unmsm-guinda text-white shadow-lg scale-105';
+                $filtroInactivo = $filtroBase . ' bg-white text-gray-600 hover:bg-gray-100 shadow-sm';
+            @endphp
+            <div class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-12" role="group"
+                aria-label="Filtrar programas por tipo">
+                <button type="button" data-filter="diplomado" id="filter-diplomado" aria-pressed="true"
+                    class="{{ $filtroActivo }}">
+                    <x-fas-scroll aria-hidden="true" /> Diplomados
                 </button>
-                <button onclick="filterPrograms('maestria')" id="filter-maestria"
-                    class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-white text-gray-600 hover:bg-gray-100 shadow-sm">
-                    <x-fas-graduation-cap /> Maestrías
+                <button type="button" data-filter="maestria" id="filter-maestria" aria-pressed="false"
+                    class="{{ $filtroInactivo }}">
+                    <x-fas-graduation-cap aria-hidden="true" /> Maestrías
                 </button>
-                <button onclick="filterPrograms('doctorado')" id="filter-doctorado"
-                    class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-white text-gray-600 hover:bg-gray-100 shadow-sm">
-                    <x-fas-book-reader /> Doctorados
+                <button type="button" data-filter="doctorado" id="filter-doctorado" aria-pressed="false"
+                    class="{{ $filtroInactivo }}">
+                    <x-fas-book-reader aria-hidden="true" /> Doctorados
                 </button>
-                <button onclick="filterPrograms('diplomado')" id="filter-diplomado"
-                    class="filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 bg-white text-gray-600 hover:bg-gray-100 shadow-sm">
-                    <x-fas-scroll /> Diplomados
+                <button type="button" data-filter="todos" id="filter-todos" aria-pressed="false"
+                    class="{{ $filtroInactivo }}">
+                    <x-fas-globe aria-hidden="true" /> Todos
                 </button>
             </div>
 
             <!-- Grid de Programas -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="programas-grid">
                 {{-- Cards vía componente reutilizable <x-program-card> (mismo usado
-                     en /programas y /diplomados): DRY, accesible y consistente. --}}
+                     en /programas y /diplomados): DRY, accesible y consistente.
+                     Los diplomados se renderizan primero porque son los visibles
+                     al cargar: así el navegador pinta antes lo que se ve. --}}
+                @foreach ($diplomados as $programa)
+                    <x-program-card :programa="$programa" tipo="diplomado"
+                        badge-label="Diplomado" badge-color="bg-amber-600"
+                        duracion-unit="módulos" primary-cta-label="Más información"
+                        :show-brochure="true" />
+                @endforeach
+
                 @foreach ($maestrias as $programa)
-                    <x-program-card :programa="$programa" tipo="maestria"
+                    <x-program-card :programa="$programa" tipo="maestria" class="hidden"
                         badge-label="Maestría" badge-color="bg-unmsm-guinda" />
                 @endforeach
 
                 @foreach ($doctorados as $programa)
-                    <x-program-card :programa="$programa" tipo="doctorado"
+                    <x-program-card :programa="$programa" tipo="doctorado" class="hidden"
                         badge-label="Doctorado" badge-color="bg-gray-900" />
                 @endforeach
-
-                @foreach ($diplomados as $programa)
-                    <x-program-card :programa="$programa" tipo="diplomado"
-                        badge-label="Diplomado" badge-color="bg-amber-600"
-                        duracion-unit="módulos" primary-cta-label="Más información" />
-                @endforeach
             </div>
+
+            {{-- Mensaje para el caso en que un filtro no tenga programas vigentes. --}}
+            <p id="programas-empty" role="status"
+                class="hidden text-center text-gray-500 py-12">
+                Por el momento no hay programas disponibles en esta categoría.
+            </p>
 
         </div>
     </section>
 
-    <script defer>
-        // FILTRADO DE PROGRAMAS (optimizado)
-        function filterPrograms(type) {
-            const cards = document.querySelectorAll('.program-card');
-            const buttons = document.querySelectorAll('.filter-btn');
-
-            // Reset y activar en un solo loop
-            buttons.forEach(btn => {
-                const isActive = btn.id === 'filter-' + type;
-                btn.classList.toggle('bg-unmsm-guinda', isActive);
-                btn.classList.toggle('text-white', isActive);
-                btn.classList.toggle('shadow-lg', isActive);
-                btn.classList.toggle('scale-105', isActive);
-                btn.classList.toggle('bg-white', !isActive);
-                btn.classList.toggle('text-gray-600', !isActive);
-            });
-
-            // Filtrar cards
-            cards.forEach(card => {
-                const isVisible = type === 'todos' || card.dataset.type === type;
-                card.classList.toggle('hidden', !isVisible);
-                if (isVisible) {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }
-            });
-        }
-    </script>
 
     <!-- TESTIMONIOS -->
     @include('home.partials.testimonios-section')
@@ -465,161 +568,151 @@
 
     @include('home.partials.informativos-section')
 
+    {{-- Sección de contacto: llamada a la acción, no ficha de datos.
+
+         Antes repetía email, teléfono, dirección, horario y las seis redes
+         justo encima del pie, que muestra exactamente lo mismo: ~950px
+         seguidos con la misma información. Ahora el pie es la referencia
+         canónica (y acompaña a todas las páginas) y aquí solo quedan los dos
+         caminos por los que la gente escribe de verdad, con el mapa como
+         protagonista. --}}
     @php
-        $siteSettings = \App\Models\SiteSetting::get();
+        $contactoWhatsapp = \App\Models\SiteSetting::contacto('whatsapp');
+        $contactoAdmision = \App\Models\SiteSetting::contacto('admision');
     @endphp
-    <section id="contacto" class="bg-gradient-to-b from-gray-900 to-[#1a0e10] text-gray-300 py-16 border-t border-white/10">
+    <section id="contacto" class="bg-gradient-to-b from-gray-900 to-[#1a0e10] text-gray-300 py-14 border-t border-white/10">
         <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-2 gap-12">
-                <div>
+            {{-- Encabezado y botones comparten fila en escritorio: con solo dos
+                 CTA, apilarlos dejaba la mitad de la banda vacía. --}}
+            <div class="mb-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                <div class="max-w-xl">
                     <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs mb-2">Estamos para ayudarte</p>
-                    <h3 class="text-white text-2xl font-serif font-bold mb-4 section-title">Contáctanos</h3>
-                    <p class="mb-8 font-light">Estamos a tu disposición para resolver cualquier duda sobre nuestros
-                        programas y procesos.</p>
-
-                    <ul class="space-y-6">
-                        @if ($siteSettings?->email)
-                            <li class="flex items-center gap-4 group">
-                                <div
-                                    class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-unmsm-guinda transition-colors text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <span class="block text-xs uppercase tracking-wider text-gray-500">Email</span>
-                                    <a href="mailto:{{ $siteSettings->email }}"
-                                        class="text-white hover:text-unmsm-dorado transition">{{ $siteSettings->email }}</a>
-                                </div>
-                            </li>
-                        @endif
-                        @if ($siteSettings?->telefono)
-                            <li class="flex items-center gap-4 group">
-                                <div
-                                    class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-green-600 transition-colors text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <span class="block text-xs uppercase tracking-wider text-gray-500">WhatsApp</span>
-                                    <a href="https://wa.me/51{{ preg_replace('/\D/', '', $siteSettings->telefono) }}"
-                                        target="_blank" rel="noopener noreferrer" class="text-white hover:text-green-500 transition">+51
-                                        {{ $siteSettings->telefono }}</a>
-                                </div>
-                            </li>
-                        @endif
-                        @if ($siteSettings?->direccion)
-                            <li class="flex items-center gap-4 group">
-                                <div
-                                    class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-unmsm-guinda transition-colors text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <span class="block text-xs uppercase tracking-wider text-gray-500">Ubicación</span>
-                                    <p class="text-white">{{ $siteSettings->direccion }}</p>
-                                </div>
-                            </li>
-                        @endif
-                        @if ($siteSettings?->horario_atencion)
-                            <li class="flex items-center gap-4 group">
-                                <div
-                                    class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center group-hover:bg-unmsm-dorado transition-colors text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <span class="block text-xs uppercase tracking-wider text-gray-500">Horario de
-                                        Atención</span>
-                                    <p class="text-white">{{ $siteSettings->horario_atencion }}</p>
-                                </div>
-                            </li>
-                        @endif
-                    </ul>
-
-                    <div class="mt-8 flex gap-4">
-                        @if ($siteSettings?->facebook)
-                            <a href="{{ $siteSettings->facebook }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-blue-600 transition text-white"
-                                title="Facebook">
-                                <x-fab-facebook-f />
-                            </a>
-                        @endif
-                        @if ($siteSettings?->instagram)
-                            <a href="{{ $siteSettings->instagram }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-pink-600 transition text-white"
-                                title="Instagram">
-                                <x-fab-instagram />
-                            </a>
-                        @endif
-                        @if ($siteSettings?->twitter)
-                            <a href="{{ $siteSettings->twitter }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-sky-500 transition text-white"
-                                title="X (Twitter)">
-                                <x-fab-twitter />
-                            </a>
-                        @endif
-                        @if ($siteSettings?->linkedin)
-                            <a href="{{ $siteSettings->linkedin }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-blue-700 transition text-white"
-                                title="LinkedIn">
-                                <x-fab-linkedin-in />
-                            </a>
-                        @endif
-                        @if ($siteSettings?->youtube)
-                            <a href="{{ $siteSettings->youtube }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-red-600 transition text-white"
-                                title="YouTube">
-                                <x-fab-youtube />
-                            </a>
-                        @endif
-                        @if ($siteSettings?->tiktok)
-                            <a href="{{ $siteSettings->tiktok }}" target="_blank" rel="noopener noreferrer" 
-                                class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:scale-110 hover:bg-black transition text-white"
-                                title="TikTok">
-                                <x-fab-tiktok />
-                            </a>
-                        @endif
-                    </div>
+                    <h3 class="text-white text-2xl font-serif font-bold mb-3 section-title">Contáctanos</h3>
+                    <p class="font-normal">¿Dudas sobre admisión, programas o trámites? Escríbenos y te
+                        respondemos en horario de oficina. Los datos completos de la Unidad están
+                        al pie de esta página.</p>
                 </div>
 
-                <div class="rounded-xl overflow-hidden bg-gray-800 h-[350px] shadow-lg border border-gray-700">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d487.7251388091363!2d-77.08159160793049!3d-12.057201313094351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c9470823c4f5%3A0xc528a60911019861!2sFacultad%20de%20Letras%20y%20Ciencias%20Humanas%20-%20UNMSM!5e0!3m2!1ses!2spe!4v1764687672723!5m2!1ses!2spe"
-                        class="w-full h-full" style="border:0;" allowfullscreen="" loading="lazy"
-                        title="Ubicación de la Facultad de Letras y Ciencias Humanas - UNMSM"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="flex flex-col sm:flex-row flex-wrap gap-4 lg:flex-shrink-0">
+                @if ($contactoWhatsapp)
+                    <a href="{{ $contactoWhatsapp }}" target="_blank" rel="noopener noreferrer"
+                        class="group inline-flex items-center gap-3 rounded-xl bg-green-600 px-6 py-4 font-semibold text-white shadow-lg transition-all hover:bg-green-500 motion-safe:hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-400">
+                        <x-fab-whatsapp class="text-xl" aria-hidden="true" />
+                        <span>
+                            <span class="block leading-tight">Escríbenos por WhatsApp</span>
+                            <span class="block text-[11px] font-normal text-white/80 leading-tight">Consultas de admisión</span>
+                        </span>
+                    </a>
+                @endif
+                @if ($contactoAdmision)
+                    <a href="mailto:{{ $contactoAdmision }}"
+                        class="group inline-flex items-center gap-3 rounded-xl bg-white/5 px-6 py-4 font-semibold text-white ring-1 ring-white/15 transition-all hover:bg-white/10 hover:ring-unmsm-dorado/50 motion-safe:hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-unmsm-dorado">
+                        <x-fas-envelope class="text-xl text-unmsm-dorado" aria-hidden="true" />
+                        <span>
+                            <span class="block leading-tight">Escribir un correo</span>
+                            <span class="block text-[11px] font-normal text-white/60 leading-tight">{{ $contactoAdmision }}</span>
+                        </span>
+                    </a>
+                @endif
                 </div>
             </div>
+
+                {{-- Mapa con carga bajo demanda.
+
+                     El `iframe` de Google Maps arrastra cientos de KB y varias
+                     peticiones a terceros en la página más visitada del sitio,
+                     incluso para quien nunca mira el mapa. Aquí se muestra una
+                     previsualización auto-alojada (16 KB) y el mapa real solo se
+                     inserta al pulsar. Ventaja añadida: no se contacta a Google
+                     hasta que el visitante lo pide.
+
+                     Sin JS, el bloque degrada a un enlace a Google Maps. --}}
+                <div x-data="{ cargado: false }"
+                    class="relative rounded-xl overflow-hidden bg-gray-800 h-[300px] md:h-[340px] shadow-lg border border-gray-700">
+
+                    <template x-if="cargado">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d487.7251388091363!2d-77.08159160793049!3d-12.057201313094351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c9470823c4f5%3A0xc528a60911019861!2sFacultad%20de%20Letras%20y%20Ciencias%20Humanas%20-%20UNMSM!5e0!3m2!1ses!2spe!4v1764687672723!5m2!1ses!2spe"
+                            class="w-full h-full" style="border:0;" allowfullscreen
+                            title="Ubicación de la Facultad de Letras y Ciencias Humanas - UNMSM"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </template>
+
+                    <button type="button" x-show="!cargado" @click="cargado = true"
+                        class="group absolute inset-0 w-full h-full flex flex-col items-center justify-center gap-3 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-[-4px]">
+                        {{-- Mapa real (teselas de OpenStreetMap, servidas desde el
+                             propio sitio). Antes había una foto del campus
+                             desenfocada al 45%: no se entendía que fuera un mapa. --}}
+                        <img src="{{ asset('images/mapa-preview.webp') }}" alt="Mapa de la ubicación de la Facultad"
+                            class="absolute inset-0 w-full h-full object-cover"
+                            loading="lazy" decoding="async" width="720" height="400">
+
+                        {{-- Marcador en el centro, donde está la Facultad --}}
+                        <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full flex flex-col items-center" aria-hidden="true">
+                            <span class="w-9 h-9 rounded-full bg-unmsm-guinda text-white flex items-center justify-center shadow-lg ring-4 ring-white/70 motion-safe:group-hover:scale-110 transition-transform">
+                                <x-fas-location-dot class="text-sm" />
+                            </span>
+                            <span class="w-0 h-0 border-x-[6px] border-x-transparent border-t-[8px] border-t-unmsm-guinda -mt-0.5"></span>
+                        </span>
+
+                        {{-- Llamada a la acción sobre un velo inferior: deja ver el
+                             mapa y mantiene el texto legible --}}
+                        <span class="absolute inset-x-0 bottom-0 z-10 flex items-center justify-between gap-3 px-4 py-3 bg-gradient-to-t from-black/85 via-black/60 to-transparent text-left">
+                            <span class="flex items-center gap-2.5 text-white">
+                                <span class="w-9 h-9 rounded-full bg-unmsm-guinda flex items-center justify-center shadow motion-safe:group-hover:scale-110 transition-transform flex-shrink-0">
+                                    <x-fas-map-location-dot class="text-sm" aria-hidden="true" />
+                                </span>
+                                <span>
+                                    <span class="block font-bold text-sm leading-tight">Ver el mapa interactivo</span>
+                                    <span class="block text-[11px] text-white/70 leading-tight">Se cargará desde Google Maps al pulsar</span>
+                                </span>
+                            </span>
+                        </span>
+
+                        {{-- Atribución exigida por la licencia de OpenStreetMap --}}
+                        <span class="absolute right-1 top-1 z-10 px-1.5 py-0.5 rounded bg-white/75 text-[9px] text-gray-700 leading-none">
+                            © OpenStreetMap
+                        </span>
+                    </button>
+
+                    {{-- Respaldo sin JavaScript --}}
+                    <noscript>
+                        <a href="https://maps.google.com/?q=Facultad+de+Letras+y+Ciencias+Humanas+UNMSM"
+                            target="_blank" rel="noopener noreferrer"
+                            class="absolute inset-0 flex items-center justify-center text-white font-bold underline">
+                            Ver ubicación en Google Maps
+                        </a>
+                    </noscript>
+                </div>
 
         </div>
     </section>
 
-    {{-- ── Popup de anuncios ── 
-    <x-popup-announcements
-        :anuncios="[
-            [
-                'imagen'     => 'https://letras.unmsm.edu.pe/wp-content/uploads/2026/04/Anuncio-posgrado-2026-1.jpeg',
-                'alt'        => 'A nuestros ingresantes de posgrado 2026-1 - Información sobre códigos de alumno',
-                'link'       => '',
-                'link_texto' => '',
-            ],
-        ]"
-        :open_delay="1200"
-        :auto_advance="false"
-    /> --}}
+    {{-- Popup de anuncios.
+
+         Se administra en el panel (Anuncios de la portada) y vive solo aquí:
+         es la única vista que lo incluye, así que no puede colarse en el resto
+         del sitio. Antes era un array escrito en esta plantilla, y estaba
+         comentado porque apagarlo exigía editar el código y desplegar.
+
+         Si no hay ninguno vigente, `paraPopup()` devuelve un array vacío y el
+         componente no pinta nada — ni marcado, ni CSS, ni JS. --}}
+    @php
+        $anunciosPopup = \App\Models\Anuncio::paraPopup();
+        $ajustesPopup = \App\Models\SiteSetting::ajustesPopup();
+
+        // Vista previa desde el panel: fuerza la aparición saltándose el
+        // «una vez por sesión», que si no obliga a limpiar el navegador para
+        // volver a verlo. Solo para administradores.
+        $previsualizando = request()->boolean('previsualizar_anuncios')
+            && auth()->user()?->isAdmin();
+    @endphp
+    @if ($anunciosPopup)
+        <x-popup-announcements :anuncios="$anunciosPopup"
+            :open_delay="$previsualizando ? 0 : $ajustesPopup['retardo']"
+            :show_once_per_session="! $previsualizando && $ajustesPopup['frecuencia'] === 'sesion'"
+            :cookie_hours="$previsualizando ? 1 : ($ajustesPopup['frecuencia'] === 'dia' ? 24 : 1)"
+            :auto_advance="$ajustesPopup['autoAvance']" />
+    @endif
 
 @endsection

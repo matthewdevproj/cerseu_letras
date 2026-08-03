@@ -150,6 +150,11 @@
                 </tbody>
             </table>
         </div>
+
+        {{-- Paginación: el listado ya no trae todas las filas de golpe. --}}
+        <div class="px-4 py-3 border-t border-gray-100">
+            {!! $testimonios->onEachSide(1)->links() !!}
+        </div>
         
         </div>
     </div>

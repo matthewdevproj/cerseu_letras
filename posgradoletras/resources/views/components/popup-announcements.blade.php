@@ -67,8 +67,13 @@
     background       : var(--pp-bg);
     border-radius    : var(--pp-radius);
     box-shadow       : var(--pp-shadow);
-    width            : 100%;
-    max-width        : 520px;
+    /* La ventana se ajusta al ancho que pide la imagen, en vez de imponerle
+       520 px: con un cartel vertical (limitado por `max-height`) sobraba
+       margen a los lados, igual que antes sobraba arriba y abajo. El mínimo
+       evita que un cartel muy estrecho deje la cabecera y el pie apretados. */
+    width            : fit-content;
+    min-width        : min(340px, 100%);
+    max-width        : min(520px, 100%);
     max-height       : 90vh;
     display          : flex;
     flex-direction   : column;
@@ -139,34 +144,64 @@
 }
 
 /* ── Slider track ────────────────────────────────────────────── */
+/* Solo la diapositiva visible ocupa sitio.
+
+   Antes iban en fila y se desplazaban con `translateX`, lo que obligaba a que
+   todas midieran lo mismo: con carteles de distinta forma, los más bajos
+   dejaban un hueco blanco debajo. Ocultando las demás, el alto lo marca la que
+   se está viendo y no hay nada que calcular.
+
+   Se pierde el deslizamiento lateral y se gana un fundido; a cambio, la
+   ventana se ciñe a cada anuncio. */
 .posgrado-popup-track-wrap {
-    flex             : 1;
+    flex             : 0 1 auto;
     min-height       : 0;
     overflow         : hidden;
     position         : relative;
 }
 .posgrado-popup-track {
-    display          : flex;
-    height           : 100%;
-    transition       : transform 0.42s var(--pp-ease);
-    will-change      : transform;
+    display          : block;
 }
 .posgrado-popup-slide {
-    flex             : 0 0 100%;
+    display          : none;
     width            : 100%;
-    display          : flex;
     flex-direction   : column;
     overflow-y       : auto;
     overscroll-behavior: contain;
+    max-height       : 100%;
+}
+.posgrado-popup-slide.pp-visible {
+    display          : flex;
+    animation        : ppAparecer 0.3s var(--pp-ease);
+}
+@keyframes ppAparecer {
+    from { opacity: 0; transform: translateX(12px); }
+    to   { opacity: 1; transform: none; }
 }
 
 /* ── Image ───────────────────────────────────────────────────── */
+/* Proporción fija 4:5 (formato cartel).
+
+   El marco es siempre el mismo, así la ventana no cambia de tamaño ni de
+   posición al pasar de un anuncio a otro.
+
+   La imagen lo llena con `cover`: sin márgenes de ningún tipo, a cambio de
+   recortar lo que sobre por los lados o por arriba y abajo. Por eso el panel
+   indica la resolución exacta que hay que subir, y avisa cuando la imagen
+   llega con otra forma. */
 .posgrado-popup-img-box {
     position         : relative;
     overflow         : hidden;
-    background       : #F4F4F4;
     aspect-ratio     : 4 / 5;
+    /* Alto definido + `width: auto`: así `aspect-ratio` calcula el ancho y la
+       forma se respeta aunque haya que encoger por falta de pantalla. El
+       descuento deja sitio a cabecera, botón, puntos y pie. */
+    height           : min(650px, calc(90vh - 260px));
+    width            : auto;
+    max-width        : 100%;
+    margin           : 0 auto;
     flex-shrink      : 0;
+    background       : #1F2937;
 }
 .posgrado-popup-img-link {
     display          : block;
@@ -175,10 +210,10 @@
     height           : 100%;
 }
 .posgrado-popup-img {
+    display          : block;
     width            : 100%;
     height           : 100%;
-    object-fit       : contain;
-    display          : block;
+    object-fit       : cover;
     transition       : transform 0.4s var(--pp-ease);
 }
 .posgrado-popup-img-link:hover .posgrado-popup-img,
@@ -354,7 +389,8 @@
         flex-shrink  : 0;
     }
     .posgrado-popup-img-box {
-        aspect-ratio : 4 / 5;
+        /* En móvil hay menos cromo alrededor: cabe algo más de cartel. */
+        height : min(650px, calc(90vh - 220px));
     }
 }
 
@@ -434,22 +470,37 @@
 
                     {{-- Image box --}}
                     <div class="posgrado-popup-img-box">
+
                         @if($hasLink)
+                        {{-- Con botón de acción abajo, la imagen sale del orden
+                             de tabulación: eran dos paradas seguidas al mismo
+                             destino. Sigue siendo pulsable con el ratón, y sin
+                             `aria-hidden` para no silenciar el `alt`. --}}
                         <a href="{{ $anuncio['link'] }}"
                            class="posgrado-popup-img-link"
                            data-pp-cta="1"
-                           tabindex="{{ $isFirst ? '0' : '-1' }}"
+                           tabindex="{{ $hasLabel ? '-1' : ($isFirst ? '0' : '-1') }}"
+                           @if($hasLabel) data-pp-sin-tab="1" @endif
                            aria-label="{{ $anuncio['link_texto'] ?? ($anuncio['alt'] ?? 'Ver anuncio') }}">
                         @endif
 
                             <img src="{{ $anuncio['imagen'] }}"
                                  alt="{{ $anuncio['alt'] ?? 'Anuncio ' . ($i + 1) }}"
                                  class="posgrado-popup-img"
-                                 loading="{{ $isFirst ? 'eager' : 'lazy' }}"
+                                 {{-- Todas en `eager`: son pocas, el visitante
+                                      va a verlas, y con `lazy` el alto de la
+                                      ventana se calculaba sobre una imagen aún
+                                      sin dimensiones al cambiar de anuncio. --}}
+                                 loading="eager"
                                  decoding="async"
                                  @if($isFirst) fetchpriority="high" @endif
-                                 width="520"
-                                 height="650">
+                                 {{-- Medidas reales del archivo. Sin ellas el
+                                      navegador no sabe cuánto reservar y la
+                                      ventana pega un salto al cargar. --}}
+                                 @if(!empty($anuncio['ancho']) && !empty($anuncio['alto']))
+                                     width="{{ $anuncio['ancho'] }}"
+                                     height="{{ $anuncio['alto'] }}"
+                                 @endif>
 
                         @if($hasLink)
                         </a>
@@ -658,10 +709,32 @@
         isOpen = false;
         stopAuto();
 
-        /* Devolver foco al elemento previo */
-        if (prevActive && typeof prevActive.focus === 'function') {
-            prevActive.focus();
+        /* Devolver el foco fuera del diálogo.
+
+           El popup se abre solo al cargar, así que `prevActive` suele ser
+           <body>, que no es enfocable: `focus()` no hacía nada y el foco se
+           quedaba dentro de un contenedor ya marcado `aria-hidden="true"` —
+           un lector de pantalla se queda leyendo algo oculto y con el teclado
+           no se sabe dónde se está. Si no hay un elemento previo válido, se
+           lleva al contenido principal. */
+        var destino = (prevActive && typeof prevActive.focus === 'function'
+            && prevActive !== document.body && document.contains(prevActive))
+            ? prevActive
+            : (document.getElementById('main-content')
+               || document.querySelector('main, h1')
+               || document.body);
+
+        if (destino === document.body || destino.tabIndex < 0) {
+            /* `tabindex="-1"` lo hace enfocable por script sin meterlo en el
+               orden de tabulación; se retira al perder el foco. */
+            destino.setAttribute('tabindex', '-1');
+            destino.addEventListener('blur', function quitar() {
+                destino.removeAttribute('tabindex');
+                destino.removeEventListener('blur', quitar);
+            });
         }
+
+        destino.focus({ preventScroll: true });
 
         emit('close', { lastSlide: current });
     }
@@ -675,18 +748,27 @@
         var prev = current;
         current  = idx;
 
-        /* Mover track */
-        if (track) track.style.transform = 'translateX(-' + (idx * 100) + '%)';
-
-        /* Actualizar slides */
+        /* Mostrar solo la diapositiva activa: es lo que hace que la ventana
+           se ajuste a cada anuncio sin medir nada. */
         slides && slides.forEach(function (slide, i) {
             var active = i === idx;
+            slide.classList.toggle('pp-visible', active);
             slide.setAttribute('aria-hidden', active ? 'false' : 'true');
-            /* Tabindex de interactivos dentro del slide */
-            slide.querySelectorAll('a[href], button').forEach(function (el) {
+            /* Tabindex de interactivos dentro del slide.
+
+               Se excluye lo marcado con `data-pp-sin-tab`: la imagen enlazada
+               repite el destino del botón de acción, y sin esto volvería a
+               entrar en el orden de tabulación en cada cambio de anuncio. */
+            slide.querySelectorAll('a[href]:not([data-pp-sin-tab]), button').forEach(function (el) {
                 el.setAttribute('tabindex', active ? '0' : '-1');
             });
         });
+
+        if (isInit && slides && slides[idx]) {
+            slides[idx].style.animation = 'none';
+            void slides[idx].offsetHeight;
+            slides[idx].style.animation = '';
+        }
 
         /* Actualizar dots */
         dots && dots.forEach(function (dot, i) {

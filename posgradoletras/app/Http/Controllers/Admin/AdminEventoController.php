@@ -38,7 +38,7 @@ class AdminEventoController extends Controller
         $validated['orden'] = $validated['orden'] ?? 0;
 
         if ($request->hasFile('imagen')) {
-            $validated['imagen'] = $request->file('imagen')->store('eventos', 'public');
+            $validated['imagen'] = \App\Support\OptimizadorImagen::guardar($request->file('imagen'), 'eventos');
         }
 
         Evento::create($validated);
@@ -74,7 +74,7 @@ class AdminEventoController extends Controller
             if ($evento->imagen) {
                 Storage::disk('public')->delete($evento->imagen);
             }
-            $validated['imagen'] = $request->file('imagen')->store('eventos', 'public');
+            $validated['imagen'] = \App\Support\OptimizadorImagen::guardar($request->file('imagen'), 'eventos');
         }
 
         // Limpiar URL si se quita el tipo

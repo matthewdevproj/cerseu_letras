@@ -30,17 +30,17 @@
 
             <!-- Botones de Filtro -->
             <div class="flex p-1 bg-gray-100 rounded-lg overflow-x-auto max-w-full">
-                <button onclick="filterPrograms('todos')"
+                <button type="button" data-filter="todos"
                     class="filter-btn px-4 md:px-6 py-2 rounded-md text-sm font-bold transition-all whitespace-nowrap {{ $tipoFiltro == 'todos' ? 'bg-white text-unmsm-guinda shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200' }}"
                     id="btn-todos">
                     Todos ({{ count($maestrias) + count($doctorados) }})
                 </button>
-                <button onclick="filterPrograms('maestria')"
+                <button type="button" data-filter="maestria"
                     class="filter-btn px-4 md:px-6 py-2 rounded-md text-sm font-bold transition-all whitespace-nowrap {{ $tipoFiltro == 'maestria' ? 'bg-white text-unmsm-guinda shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200' }}"
                     id="btn-maestria">
                     Maestrías ({{ count($maestrias) }})
                 </button>
-                <button onclick="filterPrograms('doctorado')"
+                <button type="button" data-filter="doctorado"
                     class="filter-btn px-4 md:px-6 py-2 rounded-md text-sm font-bold transition-all whitespace-nowrap {{ $tipoFiltro == 'doctorado' ? 'bg-white text-unmsm-guinda shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200' }}"
                     id="btn-doctorado">
                     Doctorados ({{ count($doctorados) }})
@@ -90,7 +90,7 @@
             </div>
             <h3 class="text-xl font-bold text-gray-800 mb-2">No se encontraron programas</h3>
             <p class="text-gray-500">Intenta buscar con otros términos o cambia el filtro.</p>
-            <button onclick="filterPrograms('todos'); document.getElementById('searchInput').value=''"
+            <button type="button" id="reset-filtros"
                 class="mt-4 text-unmsm-guinda font-bold hover:underline">
                 Ver todos los programas
             </button>
@@ -117,65 +117,31 @@
 
 @push('scripts')
     <script>
-        const grid = document.getElementById('programsGrid');
-        const noResults = document.getElementById('noResults');
-        const searchInput = document.getElementById('searchInput');
-        const cards = document.querySelectorAll('.program-card');
-        let currentFilter = '{{ $tipoFiltro }}';
-
-        function updateVisibility() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            let visibleCount = 0;
-
-            cards.forEach(card => {
-                const type = card.dataset.type;
-                const title = card.dataset.title;
-                const desc = card.dataset.desc;
-
-                const matchesFilter = currentFilter === 'todos' || type === currentFilter;
-                const matchesSearch = searchTerm === '' ||
-                    title.includes(searchTerm) ||
-                    desc.includes(searchTerm);
-
-                if (matchesFilter && matchesSearch) {
-                    card.classList.remove('hidden-filter');
-                    visibleCount++;
-                } else {
-                    card.classList.add('hidden-filter');
-                }
+        // El filtro vive en `resources/js/filtro-programas.js` (probado con
+        // Vitest); aquí solo se le pasan las piezas y el aspecto de esta vista,
+        // que difiere del de la portada. `app.js` es un módulo: se evalúa antes
+        // del DOMContentLoaded, así que la función ya existe.
+        document.addEventListener('DOMContentLoaded', () => {
+            const buscador = document.getElementById('searchInput');
+            const filtro = window.montarFiltroProgramas({
+                grid: document.getElementById('programsGrid'),
+                botones: Array.from(document.querySelectorAll('.filter-btn')),
+                mensajeVacio: document.getElementById('noResults'),
+                campoBusqueda: buscador,
+                filtroInicial: @json($tipoFiltro),
+                claseOculta: 'hidden-filter',
+                clasesActivo: ['bg-white', 'text-unmsm-guinda', 'shadow-sm'],
+                clasesInactivo: ['text-gray-500', 'hover:bg-gray-200'],
+                claseInactivoExtra: null,
+                ocultarGridVacio: true,
             });
 
-            // Mostrar/ocultar mensaje de sin resultados
-            if (visibleCount === 0 && cards.length > 0) {
-                noResults.classList.remove('hidden');
-                grid.classList.add('hidden');
-            } else {
-                noResults.classList.add('hidden');
-                grid.classList.remove('hidden');
-            }
-        }
-
-        // Filtrado por botones
-        function filterPrograms(type) {
-            currentFilter = type;
-
-            // Actualizar estilos botones
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-white', 'text-unmsm-guinda', 'shadow-sm');
-                btn.classList.add('text-gray-500', 'hover:bg-gray-200');
+            // "Ver todos los programas" del mensaje de sin resultados: limpia
+            // también el texto buscado, no solo el filtro de tipo.
+            document.getElementById('reset-filtros')?.addEventListener('click', () => {
+                if (buscador) buscador.value = '';
+                filtro?.aplicar('todos');
             });
-
-            const activeBtn = document.getElementById(`btn-${type}`);
-            activeBtn.classList.remove('text-gray-500', 'hover:bg-gray-200');
-            activeBtn.classList.add('bg-white', 'text-unmsm-guinda', 'shadow-sm');
-
-            updateVisibility();
-        }
-
-        // Buscador
-        searchInput.addEventListener('input', updateVisibility);
-
-        // Init
-        document.addEventListener('DOMContentLoaded', updateVisibility);
+        });
     </script>
 @endpush

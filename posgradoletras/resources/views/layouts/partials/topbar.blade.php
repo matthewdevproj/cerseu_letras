@@ -14,13 +14,10 @@
                 </a>
                 <span class="text-white/30">|</span>
             @endif
-            @if($siteSettings?->telefono)
-                <span class="flex items-center gap-2">
-                    <x-fas-phone />
-                    <span>{{ $siteSettings->telefono }}</span>
-                </span>
-                <span class="text-white/30">|</span>
-            @endif
+            {{-- El teléfono se retiró de aquí: era texto plano (no se podía
+                 pulsar) y repetía el dato que ya dan el pie de página y el
+                 botón flotante de WhatsApp. La barra queda para el correo y
+                 los accesos institucionales. --}}
             @if($siteSettings?->web_facultad)
                 <a href="{{ $siteSettings->web_facultad }}" target="_blank" rel="noopener noreferrer" 
                     class="flex items-center hover:text-gray-300 transition gap-2">

@@ -5,8 +5,7 @@
 
 @section('content')
     <!-- HERO DE SECCIÓN -->
-    <x-hero-section title="Nosotros" label="Unidad de Posgrado"
-        subtitle="La misión, la visión y los valores que guían a la Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas."
+    <x-hero-section :title="$tituloHero" label="Unidad de Posgrado" :subtitle="$subtituloHero"
         :image="asset('images/campus-fachada.jpg')" />
 
     <section class="container mx-auto px-6 py-16">
@@ -20,14 +19,16 @@
                     <span class="absolute left-0 top-1.5 bottom-1.5 w-1.5 rounded-full bg-unmsm-guinda"></span>
                     <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs mb-2">Nuestra razón de ser</p>
                     <h2 class="text-3xl font-serif font-bold text-gray-900 mb-4">Misión</h2>
-                    <p class="text-gray-600 text-lg leading-relaxed">{{ $mision }}</p>
+                    {{-- HTML redactado por un administrador; no admite entrada de
+                         visitantes, por eso se imprime sin escapar. --}}
+                    <div class="text-gray-600 text-lg leading-relaxed prose max-w-none">{!! $mision !!}</div>
                 </div>
 
                 <div class="relative pl-6">
                     <span class="absolute left-0 top-1.5 bottom-1.5 w-1.5 rounded-full bg-unmsm-dorado"></span>
                     <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs mb-2">Hacia dónde vamos</p>
                     <h2 class="text-3xl font-serif font-bold text-gray-900 mb-4">Visión</h2>
-                    <p class="text-gray-600 text-lg leading-relaxed">{{ $vision }}</p>
+                    <div class="text-gray-600 text-lg leading-relaxed prose max-w-none">{!! $vision !!}</div>
                 </div>
             </div>
 

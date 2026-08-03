@@ -2,7 +2,8 @@
 // suficiente para español, con los mismos family-names que espera Tailwind
 // ('Inter', 'Merriweather') y el panel admin ('Playfair Display').
 // font-display: swap viene por defecto en @fontsource → sin texto invisible.
-import '@fontsource/inter/latin-300.css';
+// El peso 300 se retiró: solo lo usaban 4 elementos y cada peso son ~23 KB de
+// woff2. Esos casos caen al 400, que es imperceptible en textos de apoyo.
 import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-500.css';
 import '@fontsource/inter/latin-600.css';
@@ -10,6 +11,18 @@ import '@fontsource/inter/latin-700.css';
 import '@fontsource/merriweather/latin-700.css';
 import '@fontsource/playfair-display/latin-600.css';
 import '@fontsource/playfair-display/latin-700.css';
+
+import { crearBuscador } from './site-search';
+import {
+    crearCronogramaAdmision,
+    crearEditorContenido,
+    crearInversionPeriodos,
+    crearMenuNavegacion,
+} from './repetidores';
+import { montarFiltroProgramas } from './filtro-programas';
+import { montarAvisoSinGuardar } from './aviso-sin-guardar';
+import { montarEditores } from './editor-texto';
+import { montarSelectorGeografico } from './selector-geografico';
 
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
@@ -135,7 +148,77 @@ window.showToast = function (message, type = 'success') {
     window.dispatchEvent(new CustomEvent('toast:show', { detail: { message, type } }));
 };
 
+/*
+ * Puente con las plantillas Blade.
+ *
+ * Alpine resuelve `x-data="nombre(...)"` contra el ámbito global, así que los
+ * componentes extraídos se exponen aquí. Se registran al evaluar el módulo —no
+ * dentro de `initApp`— para que existan antes de que Alpine recorra el DOM.
+ * Vivir en módulos es lo que permite probarlos con Vitest, imposible mientras
+ * estaban escritos dentro del HTML.
+ */
+window.siteSearch = (urlSugerencias = '/buscar/sugerencias') => {
+    const base = crearBuscador({ urlSugerencias });
+
+    // El módulo se mantiene libre de DOM para poder probarlo en Vitest; lo que
+    // depende de la página se envuelve aquí.
+    return {
+        ...base,
+
+        mover(delta) {
+            base.mover.call(this, delta);
+            this.$nextTick(() => {
+                document.getElementById('site-search-opt-' + this.activo)
+                    ?.scrollIntoView({ block: 'nearest' });
+            });
+        },
+
+        irAlActivo(event) {
+            const url = base.irAlActivo.call(this, event);
+            // Sin selección, el formulario navega a la página de resultados.
+            if (url) window.location.href = url;
+        },
+    };
+};
+window.cronogramaAdmision = crearCronogramaAdmision;
+window.editorContenido = crearEditorContenido;
+window.inversionPeriodos = crearInversionPeriodos;
+window.menuNavegacion = crearMenuNavegacion;
+// /programas monta su propia variante (clases y buscador propios) desde la vista.
+window.montarFiltroProgramas = montarFiltroProgramas;
+
 function initApp() {
+    // Filtro de «Nuestros programas» (portada y /programas): se monta solo si
+    // la sección existe en la página.
+    // Panel: editor con formato en lugar de pedir HTML a mano. Se monta
+    // antes del aviso de cambios para que la instantánea inicial incluya ya
+    // el contenido normalizado por el editor y no salte un falso positivo.
+    montarEditores();
+
+    // Panel: avisa antes de abandonar un formulario con cambios pendientes.
+    montarAvisoSinGuardar();
+
+    // Formulario de diplomados: país y región desde listas reales. Se monta
+    // solo si la página los tiene.
+    const selectPais = document.getElementById('lead_pais');
+    if (selectPais) {
+        montarSelectorGeografico({
+            selectPais,
+            selectRegion: document.getElementById('lead_region'),
+            inputRegionLibre: document.getElementById('lead_region_libre'),
+            // ISO alpha-2, que es lo que da symfony/intl. Con el 'PER' de antes
+            // el país no se preseleccionaba y la región arrancaba vacía.
+            paisInicial: selectPais.dataset.valorInicial || 'PE',
+            regionInicial: document.getElementById('lead_region')?.dataset.valorInicial || null,
+        });
+    }
+
+    montarFiltroProgramas({
+        grid: document.getElementById('programas-grid'),
+        botones: Array.from(document.querySelectorAll('.filter-btn')),
+        mensajeVacio: document.getElementById('programas-empty'),
+    });
+
     Alpine.start();
     initScrollReveal();
     initAnimatedCounters();

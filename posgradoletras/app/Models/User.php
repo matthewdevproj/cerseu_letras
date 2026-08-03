@@ -36,6 +36,20 @@ class User extends Authenticatable
     ];
 
     /**
+     * Valores por defecto en memoria, iguales a los de la tabla.
+     *
+     * Sin esto, un usuario recién creado sin indicar `is_active` queda con
+     * `null` en la instancia aunque en la base de datos se guarde `true`, y
+     * cualquier comprobación sobre ese objeto lo trataría como inactivo.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'role' => 'user',
+        'is_active' => true,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

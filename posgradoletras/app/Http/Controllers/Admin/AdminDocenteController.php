@@ -31,7 +31,7 @@ class AdminDocenteController extends Controller
             $query->where('grado', 'like', $request->grado . '%');
         }
 
-        $docentes = $query->ordenados()->get();
+        $docentes = $query->ordenados()->paginate(25)->withQueryString();
 
         return view('admin.docentes.index', compact('docentes'));
     }
@@ -71,7 +71,7 @@ class AdminDocenteController extends Controller
 
         // Handle photo upload
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('docentes', 'public');
+            $validated['foto'] = \App\Support\OptimizadorImagen::guardar($request->file('foto'), 'docentes', 'public', 800);
         }
 
         // Transformar lineas_investigacion de string (textarea) a array
@@ -129,7 +129,7 @@ class AdminDocenteController extends Controller
             if ($docente->foto) {
                 Storage::disk('public')->delete($docente->foto);
             }
-            $validated['foto'] = $request->file('foto')->store('docentes', 'public');
+            $validated['foto'] = \App\Support\OptimizadorImagen::guardar($request->file('foto'), 'docentes', 'public', 800);
         }
 
         // Transformar lineas_investigacion de string (textarea) a array

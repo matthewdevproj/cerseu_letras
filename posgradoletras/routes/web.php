@@ -17,6 +17,10 @@ use App\Http\Controllers\DiplomadoLeadController;
 // Página de inicio
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Buscador global
+Route::get('/buscar', [App\Http\Controllers\SearchController::class, 'index'])->name('search');
+Route::get('/buscar/sugerencias', [App\Http\Controllers\SearchController::class, 'suggest'])->name('search.suggest');
+
 // Directorio de Posgrado
 Route::get('/directorio', [DirectorioController::class, 'index'])->name('directorio');
 
@@ -49,6 +53,15 @@ Route::get('/cronograma', function () {
 })->name('cronograma');
 
 // Nosotros
+// Países y regiones del formulario de diplomados. El sitio hace de
+// intermediario con el servicio externo para no añadir peticiones a terceros
+// desde el navegador del visitante (ver App\Services\GeografiaService).
+// La ruta lleva versión: al cambiar el formato de los datos —como el paso de
+// códigos ISO3 a ISO2— las respuestas ya cacheadas en los navegadores no
+// colisionan con las nuevas. Subir el número invalida todo de golpe.
+Route::get('/geografia/v2/paises', [App\Http\Controllers\GeografiaController::class, 'paises'])->name('geografia.paises');
+Route::get('/geografia/v2/paises/{codigo}/regiones', [App\Http\Controllers\GeografiaController::class, 'regiones'])->name('geografia.regiones');
+
 Route::get('/nosotros', [NosotrosController::class, 'index'])->name('nosotros');
 
 // Rutas de Testimonios
@@ -106,6 +119,39 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     // Cronograma Management
     Route::get('cronograma', [App\Http\Controllers\Admin\AdminCronogramaController::class, 'index'])->name('cronograma.index');
     Route::put('cronograma', [App\Http\Controllers\Admin\AdminCronogramaController::class, 'update'])->name('cronograma.update');
+
+    // Contenido de páginas largas (/tramites, /admision)
+    Route::get('contenido', [App\Http\Controllers\Admin\AdminContentPageController::class, 'index'])->name('contenido.index');
+    Route::get('contenido/{slug}', [App\Http\Controllers\Admin\AdminContentPageController::class, 'edit'])->name('contenido.edit');
+    Route::put('contenido/{slug}', [App\Http\Controllers\Admin\AdminContentPageController::class, 'update'])->name('contenido.update');
+
+    // Usuarios del panel
+    Route::resource('users', App\Http\Controllers\Admin\AdminUserController::class)->except(['show']);
+    Route::post('users/{user}/toggle', [App\Http\Controllers\Admin\AdminUserController::class, 'toggleActive'])->name('users.toggle');
+
+    // Solicitudes de información de diplomados (leads del formulario público)
+    Route::get('leads', [App\Http\Controllers\Admin\AdminDiplomadoLeadController::class, 'index'])->name('leads.index');
+    Route::get('leads/export', [App\Http\Controllers\Admin\AdminDiplomadoLeadController::class, 'export'])->name('leads.export');
+    Route::delete('leads/{lead}', [App\Http\Controllers\Admin\AdminDiplomadoLeadController::class, 'destroy'])->name('leads.destroy');
+
+    // Cronograma de Admisión (sección de la portada)
+    // Papelera única: lo borrado en cualquier sección se recupera desde aquí.
+    Route::get('papelera', [App\Http\Controllers\Admin\AdminPapeleraController::class, 'index'])->name('papelera.index');
+    Route::post('papelera/{tipo}/{id}/restaurar', [App\Http\Controllers\Admin\AdminPapeleraController::class, 'restaurar'])->name('papelera.restaurar');
+
+    // Anuncios del popup de la portada.
+    Route::post('anuncios/ajustes', [App\Http\Controllers\Admin\AdminAnuncioController::class, 'ajustes'])->name('anuncios.ajustes');
+    Route::get('anuncios/papelera', [App\Http\Controllers\Admin\AdminAnuncioController::class, 'papelera'])->name('anuncios.papelera');
+    Route::post('anuncios/{id}/restaurar', [App\Http\Controllers\Admin\AdminAnuncioController::class, 'restaurar'])->name('anuncios.restaurar');
+    Route::post('anuncios/{anuncio}/toggle', [App\Http\Controllers\Admin\AdminAnuncioController::class, 'toggle'])->name('anuncios.toggle');
+    Route::resource('anuncios', App\Http\Controllers\Admin\AdminAnuncioController::class)->except(['show']);
+
+    // Menú de navegación (antes escrito a mano en navbar.blade.php).
+    Route::get('menu', [App\Http\Controllers\Admin\AdminMenuController::class, 'index'])->name('menu.index');
+    Route::put('menu', [App\Http\Controllers\Admin\AdminMenuController::class, 'update'])->name('menu.update');
+
+    Route::get('cronograma-admision', [App\Http\Controllers\Admin\AdminCronogramaAdmisionController::class, 'index'])->name('cronograma-admision.index');
+    Route::put('cronograma-admision', [App\Http\Controllers\Admin\AdminCronogramaAdmisionController::class, 'update'])->name('cronograma-admision.update');
 
     // Admisión Diplomados Management
     Route::get('admision-diplomados', [App\Http\Controllers\Admin\AdminAdmisionDiplomadoController::class, 'index'])->name('admision-diplomados.index');

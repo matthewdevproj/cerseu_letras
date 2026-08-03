@@ -1,7 +1,7 @@
 {{-- Inversión económica – DIPLOMADOS (parametrizable por programa) --}}
 
 @php
-    $emailContacto = config('contacts.admision', 'admisionposgrado.letras@unmsm.edu.pe');
+    $emailContacto = \App\Models\SiteSetting::contacto('admision');
     $inversion = $programa->inversion_economica;
 @endphp
 
@@ -173,10 +173,10 @@
                     </p>
                     <p>
                         <span class="font-semibold text-unmsm-guinda">Teléfono / WhatsApp:&nbsp;</span>
-                        <a href="{{ config('contacts.whatsapp', 'https://wa.me/51982085037') }}" target="_blank" rel="noopener noreferrer"
+                        <a href="{{ \App\Models\SiteSetting::contacto('whatsapp') }}" target="_blank" rel="noopener noreferrer"
                             rel="noopener noreferrer"
                             class="text-gray-800 underline decoration-unmsm-guinda/60 decoration-2 underline-offset-2">
-                            {{ config('contacts.telefono', '982 085 037') }}
+                            {{ \App\Models\SiteSetting::contacto('telefono') }}
                         </a>
                     </p>
                 </div>

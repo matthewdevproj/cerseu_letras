@@ -10,7 +10,7 @@ class DiplomadoController extends Controller
 {
     public function index()
     {
-        $diplomados = Programa::activos()->diplomados()->orderBy('nombre')->get();
+        $diplomados = Programa::visibles()->diplomados()->ordenPublicacion()->get();
         $settings = SiteSetting::get();
 
         return view('diplomados.index', compact('diplomados', 'settings'));

@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="no-js">
 @php
-    use Illuminate\Support\Facades\Cache;
-    $siteSettings = Cache::remember('site_settings', 3600, function () {
-        return \App\Models\SiteSetting::first();
-    });
+    // Vía el accesor del modelo: comparte la misma memoria por petición que el
+    // resto de la aplicación en lugar de releer el caché por su cuenta.
+    $siteSettings = \App\Models\SiteSetting::get();
 @endphp
 
 <head>
@@ -50,6 +49,10 @@
     <meta name="description" content="{{ $seoDescription }}">
     <link rel="canonical" href="{{ url()->current() }}">
 
+    {{-- Metaetiquetas propias de una vista (p. ej. `robots` en páginas que aún
+         no deben indexarse). --}}
+    @stack('meta')
+
     {{-- Open Graph (Facebook, WhatsApp, LinkedIn) --}}
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="{{ $seoSiteName }}">
@@ -88,7 +91,7 @@
     {{-- Preload del logo LCP (auto-alojado; sin dependencia externa).
          Coincide con el src que usa el navbar para no precargar en balde. --}}
     <link rel="preload" as="image" fetchpriority="high"
-        href="{{ $siteSettings?->logo_path ? asset('storage/' . $siteSettings->logo_path) : asset('images/logo-letras.png') }}">
+        href="{{ $siteSettings?->logo_path ? asset('storage/' . $siteSettings->logo_path) : asset('images/logo-letras.webp') }}">
 
     <!-- Scripts (Alpine.js + plugin Collapse ya empaquetados en app.js; [x-cloak] ya está en app.css) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -114,7 +117,7 @@
     @include('layouts.partials.footer')
 
     <!-- WhatsApp Float Button -->
-    <a href="{{ config('contacts.whatsapp', 'https://wa.me/51982085037') }}" target="_blank" rel="noopener noreferrer"
+    <a href="{{ \App\Models\SiteSetting::contacto('whatsapp') }}" target="_blank" rel="noopener noreferrer"
         aria-label="Contáctanos por WhatsApp"
         class="fixed bottom-6 left-6 z-50 flex items-center p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 motion-safe:hover:scale-105 transition-all duration-300 group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
         <x-fab-whatsapp class="text-3xl" />

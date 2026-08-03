@@ -377,56 +377,31 @@
                             <div>
                                 <p class="text-xs text-gray-500 uppercase font-bold">Inversión Total</p>
                                 <p class="font-bold text-gray-900">
-                                    @php
-                                        $grado = strtolower($programa->grado);
-                                        $costoTotal = null;
-
-                                        if ($grado === 'diplomado' && !empty($programa->inversion_economica['costo_total'])) {
-                                            $costoTotal = $programa->inversion_economica['costo_total'];
-                                        }
-                                    @endphp
-                                    @if($costoTotal !== null)
-                                        S/&nbsp;{{ number_format($costoTotal, 0) }}
+                                    {{-- El importe lo calcula el modelo a partir de los datos del panel.
+                                         Antes se recalculaba aquí con las tarifas escritas a mano, que
+                                         podían quedar desalineadas con la pestaña de Inversión. --}}
+                                    @if ($programa->costo_total !== null)
+                                        S/&nbsp;{{ number_format($programa->costo_total, 0) }}
                                     @else
-                                    @php
-                                        // Usar estructura idéntica a los templates de inversión (fallback mientras no se configure inversion_economica)
-                                        if ($grado === 'doctorado') {
-                                            $costoPorCredito = 210;
-                                            $semestresData = [
-                                                ['matricula' => 310, 'creditos' => 14],
-                                                ['matricula' => 500, 'creditos' => 14],
-                                                ['matricula' => 500, 'creditos' => 14],
-                                                ['matricula' => 500, 'creditos' => 10],
-                                                ['matricula' => 500, 'creditos' => 10],
-                                                ['matricula' => 500, 'creditos' => 10],
-                                            ];
-                                        } elseif ($grado === 'diplomado') {
-                                            $costoPorCredito = 120;
-                                            $semestresData = [
-                                                ['matricula' => 200, 'creditos' => 12],
-                                                ['matricula' => 200, 'creditos' => 12],
-                                            ];
-                                        } else {
-                                            $costoPorCredito = 160;
-                                            $semestresData = [
-                                                ['matricula' => 310, 'creditos' => 14],
-                                                ['matricula' => 400, 'creditos' => 16],
-                                                ['matricula' => 400, 'creditos' => 20],
-                                                ['matricula' => 400, 'creditos' => 22],
-                                            ];
-                                        }
-
-                                        // Calcular costo total
-                                        $costoTotal = 0;
-                                        foreach ($semestresData as $sem) {
-                                            $costoTotal += $sem['matricula'] + ($sem['creditos'] * $costoPorCredito);
-                                        }
-                                    @endphp
-                                    S/&nbsp;{{ number_format($costoTotal, 0) }}
+                                        <span class="text-gray-400 font-medium">Por definir</span>
                                     @endif
                                 </p>
                             </div>
                         </div>
+
+                        {{-- Orden de acciones solicitado por Posgrado (Obs. N.º 4):
+                             1) Brochure  2) Postular Ahora  3) Consultar por WhatsApp.
+                             El brochure se oculta por completo cuando el programa
+                             todavía no tiene uno cargado, sin dejar hueco. --}}
+                        @if ($programa->brochure_link)
+                            <a href="{{ $programa->brochure_link }}" target="_blank" rel="noopener noreferrer"
+                                class="group/brochure flex w-full items-center justify-center gap-2 py-3 mb-3 rounded-lg bg-unmsm-dorado/15 border border-unmsm-dorado/50 text-unmsm-guinda text-center font-bold text-sm hover:bg-unmsm-dorado hover:text-white hover:border-unmsm-dorado focus-visible:bg-unmsm-dorado focus-visible:text-white transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-guinda focus-visible:outline-offset-2">
+                                <x-fas-file-pdf aria-hidden="true" />
+                                Brochure
+                                <x-fas-arrow-up-right-from-square class="text-[0.7em] opacity-70 motion-safe:group-hover/brochure:translate-x-0.5 transition-transform" aria-hidden="true" />
+                                <span class="sr-only">(se abre en una pestaña nueva)</span>
+                            </a>
+                        @endif
 
                         <!-- Botón Principal -->
                         <x-button href="{{ $programa->grado === 'Diplomado' ? route('diplomados.admision') : route('admision') }}"
@@ -434,7 +409,7 @@
                             Postular Ahora
                         </x-button>
 
-                        <a href="{{ config('contacts.whatsapp', 'https://wa.me/51982085037') }}" target="_blank" rel="noopener noreferrer" 
+                        <a href="{{ \App\Models\SiteSetting::contacto('whatsapp') }}" target="_blank" rel="noopener noreferrer"
                             class="block w-full py-3 bg-white border border-gray-300 text-gray-700 text-center rounded-lg font-bold hover:bg-gray-50 transition text-sm">
                             <x-fab-whatsapp class="mr-2 text-green-600" /> Consultar por WhatsApp
                         </a>
@@ -448,16 +423,24 @@
                         <h2 class="font-bold mb-4 relative z-10">¿Necesitas ayuda?</h2>
                         <p class="text-sm text-gray-400 mb-4 relative z-10">Contáctanos directamente:</p>
 
-                        <a href="mailto:admisionposgrado.letras@unmsm.edu.pe"
-                            class="flex items-center gap-3 text-sm hover:text-unmsm-dorado transition mb-3 relative z-10">
-                            <x-fas-envelope class="text-unmsm-dorado" />
-                            admisionposgrado.letras@unmsm.edu.pe
-                        </a>
-                        <a href="tel:+51982085037"
-                            class="flex items-center gap-3 text-sm hover:text-unmsm-dorado transition relative z-10">
-                            <x-fas-phone class="text-unmsm-dorado" />
-                            982 085 037
-                        </a>
+                        @php
+                            $contactoEmail = \App\Models\SiteSetting::contacto('admision');
+                            $contactoTelefono = \App\Models\SiteSetting::contacto('telefono');
+                        @endphp
+                        @if ($contactoEmail)
+                            <a href="mailto:{{ $contactoEmail }}"
+                                class="flex items-center gap-3 text-sm hover:text-unmsm-dorado transition mb-3 relative z-10 break-all">
+                                <x-fas-envelope class="text-unmsm-dorado flex-shrink-0" aria-hidden="true" />
+                                {{ $contactoEmail }}
+                            </a>
+                        @endif
+                        @if ($contactoTelefono)
+                            <a href="tel:+51{{ preg_replace('/\D/', '', $contactoTelefono) }}"
+                                class="flex items-center gap-3 text-sm hover:text-unmsm-dorado transition relative z-10">
+                                <x-fas-phone class="text-unmsm-dorado flex-shrink-0" aria-hidden="true" />
+                                {{ $contactoTelefono }}
+                            </a>
+                        @endif
                     </div>
 
                 </div>

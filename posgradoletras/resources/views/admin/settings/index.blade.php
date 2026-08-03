@@ -13,7 +13,7 @@
         {{-- Mensajes de éxito --}}
 
 
-        <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6"
+        <form action="{{ route('admin.settings.update') }}" method="POST" data-avisar-sin-guardar enctype="multipart/form-data" class="space-y-6"
             x-data="{ submitting: false }" @submit="submitting = true">
             @csrf
             @method('PUT')
@@ -82,7 +82,22 @@
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email de Trámites</label>
+                        <input type="email" name="email_tramites"
+                            value="{{ old('email_tramites', $settings->email_tramites) }}"
+                            placeholder="upg.letras@unmsm.edu.pe"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda @error('email_tramites') border-red-500 @enderror">
+                        <p class="text-xs text-gray-400 mt-1">Grados, títulos y certificados (página de Trámites).</p>
+                        @error('email_tramites')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
+                <p class="text-xs text-gray-500 -mt-2">
+                    <x-fas-circle-info class="mr-1" aria-hidden="true" />
+                    El enlace de WhatsApp del sitio se genera a partir del teléfono, no hace falta configurarlo aparte.
+                </p>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
@@ -103,6 +118,81 @@
                         value="{{ old('horario_atencion', $settings->horario_atencion) }}"
                         placeholder="Lunes a Viernes de 8:00 am a 5:00 pm"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                </div>
+            </div>
+
+            {{-- Encabezado de la portada --}}
+            <div class="bg-white rounded-lg shadow p-6 space-y-4">
+                <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                    <x-fas-house class="text-unmsm-guinda" />
+                    Encabezado de la portada
+                </h2>
+                <p class="text-sm text-gray-500 -mt-2">
+                    Lo primero que se ve al entrar al sitio. Si dejas un campo vacío se
+                    usa el texto que traía la página, así que se puede ir cambiando de
+                    uno en uno sin dejar huecos.
+                </p>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Antetítulo</label>
+                    <input type="text" name="home_hero_kicker"
+                        value="{{ old('home_hero_kicker', $settings->home_hero_kicker) }}"
+                        placeholder="Universidad Nacional Mayor de San Marcos · Decana de América"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Titular</label>
+                    <input type="text" name="home_hero_titulo"
+                        value="{{ old('home_hero_titulo', $settings->home_hero_titulo) }}"
+                        placeholder="Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Bajada</label>
+                    <textarea name="home_hero_texto" rows="3"
+                        placeholder="Formamos investigadores y profesionales comprometidos con el desarrollo cultural y social del país…"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">{{ old('home_hero_texto', $settings->home_hero_texto) }}</textarea>
+                </div>
+                <div class="grid gap-4 md:grid-cols-2">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Botón principal — texto</label>
+                        <input type="text" name="home_hero_cta1_texto"
+                            value="{{ old('home_hero_cta1_texto', $settings->home_hero_cta1_texto) }}"
+                            placeholder="Ver diplomados"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Botón principal — enlace</label>
+                        <input type="text" name="home_hero_cta1_url"
+                            value="{{ old('home_hero_cta1_url', $settings->home_hero_cta1_url) }}"
+                            placeholder="/diplomados"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Botón secundario — texto</label>
+                        <input type="text" name="home_hero_cta2_texto"
+                            value="{{ old('home_hero_cta2_texto', $settings->home_hero_cta2_texto) }}"
+                            placeholder="Admisión de diplomados"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Botón secundario — enlace</label>
+                        <input type="text" name="home_hero_cta2_url"
+                            value="{{ old('home_hero_cta2_url', $settings->home_hero_cta2_url) }}"
+                            placeholder="/diplomados/admision"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Docentes RENACYT (contador del hero)</label>
+                    <input type="number" name="home_stat_docentes" min="0" max="9999"
+                        value="{{ old('home_stat_docentes', $settings->home_stat_docentes) }}"
+                        placeholder="20"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                    <p class="text-xs text-gray-500 mt-1">
+                        Se muestra con un «+» detrás. Las demás cifras del contador
+                        (maestrías, doctorados, diplomados y años de historia) se
+                        calculan solas y no hay que tocarlas.
+                    </p>
                 </div>
             </div>
 

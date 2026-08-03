@@ -26,7 +26,7 @@ class AdminDocumentController extends Controller
             $query->where('type', $request->type);
         }
 
-        $documents = $query->orderBy('created_at', 'desc')->get();
+        $documents = $query->orderBy('created_at', 'desc')->paginate(25)->withQueryString();
 
         // Get distinct types for filter
         $types = Document::select('type')->distinct()->pluck('type');
@@ -50,7 +50,7 @@ class AdminDocumentController extends Controller
         $validated = $request->validate([
             'type' => 'required|string|max:50',
             'title' => 'nullable|string|max:255',
-            'file' => 'required_without:url|file|max:10240',
+            'file' => 'required_without:url|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,webp|max:10240',
             'url' => 'required_without:file|nullable|url',
             'published' => 'boolean',
         ]);
@@ -94,7 +94,7 @@ class AdminDocumentController extends Controller
             'title' => 'nullable|string|max:255',
             'original_name' => 'required|string|max:255',
             'url' => 'nullable|string',
-            'file' => 'nullable|file|max:10240',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,webp|max:10240',
             'published' => 'boolean',
         ]);
 
@@ -155,7 +155,7 @@ class AdminDocumentController extends Controller
     {
         try {
             $request->validate([
-                'file' => 'required|file|max:10240',
+                'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,webp|max:10240',
                 'type' => 'required|string|max:50',
                 'program_name' => 'nullable|string|max:255',
             ]);

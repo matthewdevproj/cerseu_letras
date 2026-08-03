@@ -138,12 +138,12 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
             </div>
         </div>
 
-        <div class="grid lg:grid-cols-3 gap-8">
+        <div class="grid lg:grid-cols-3 gap-8 items-start">
             <!-- Columna Principal -->
             <div class="lg:col-span-2 space-y-8">
 
                 <!-- Cronograma -->
-                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md">
+                <div class="bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-sm ring-1 ring-gray-900/[0.06] transition-shadow duration-300 hover:shadow-lg">
                     <div class="relative overflow-hidden bg-gradient-to-br from-unmsm-guinda to-[#5a161a] text-white px-5 py-5">
                         <div class="pointer-events-none absolute -right-6 -top-8 opacity-10">
                             <x-fas-calendar-days class="text-[7rem]" aria-hidden="true" />
@@ -153,128 +153,13 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                 <x-fas-calendar-days class="text-lg text-unmsm-dorado" aria-hidden="true" />
                             </span>
                             <div>
-                                <h3 class="font-serif text-lg font-bold leading-tight">Cronograma del Proceso de Admisión 2026-I</h3>
-                                <p class="mt-0.5 text-xs text-white/70">Fechas clave del proceso para maestrías y doctorados.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="cronograma-table">
-                            <thead>
-                                <tr>
-                                    <th>Actividad</th>
-                                    <th>Fecha</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="font-medium text-gray-800">Inscripción de postulantes y envío de expediente
-                                    </td>
-                                    <td class="text-unmsm-guinda font-semibold">Hasta el 02 de abril del 2026 </td>
-                                </tr>
-                                <tr>
-                                    <td class="font-medium text-gray-800">Examen de conocimientos y entrevistas para
-                                        maestrías
-                                    </td>
-                                    <td class="text-gray-600">6 de abril 2026 </td>
-                                </tr>
-                                <tr>
-                                    <td class="font-medium text-gray-800">Examen de conocimientos y entrevistas para
-                                        doctorados</td>
-                                    <td class="text-gray-600">7 de abril 2026 </td>
-                                </tr>
-                                <tr>
-                                    <td class="font-medium text-gray-800">Evaluación de expediente</td>
-                                    <td class="text-gray-600">Hasta el 6 de abril 2026 </td>
-                                </tr>
-                                <tr class="bg-green-50">
-                                    <td class="font-bold text-green-800">Publicación de resultados</td>
-                                    <td class="text-green-700 font-bold">9 de abril 2026</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 1: Realizar el pago por derecho a
-                        Inscripción</h3>
-
-                    <div class="bg-unmsm-guinda/5 border-l-4 border-unmsm-dorado p-4 mb-6">
-                        <p class="text-gray-700 text-sm">
-                            <strong>Importante:</strong> Antes de realizar el pago por derecho de inscripción verifique que
-                            el programa de su
-                            interés participe en el proceso de admisión actual y que esté dentro del cronograma establecido
-                            en el
-                            presente proceso de admisión.
-                        </p>
-                    </div>
-
-                    <h4 class="font-bold text-md text-gray-800 mb-3">Costos de Inscripción</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
-                        {{-- Maestría --}}
-                        <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-                            <div class="bg-unmsm-guinda text-white p-3 md:p-4 text-center">
-                                <h4 class="font-bold text-base md:text-lg">Maestría</h4>
-                            </div>
-                            <div class="p-3 md:p-5 space-y-3 md:space-y-4">
-                                {{-- S/ 350 --}}
-                                <div class="text-center p-3 md:p-4 bg-gray-50 rounded-lg border border-gray-100">
-                                    <p class="text-xs md:text-sm text-gray-600 mb-2 md:mb-3">
-                                        Graduados y personal administrativo de la UNMSM, docentes de universidades
-                                        nacionales y Magisterio Nacional
-                                    </p>
-                                    <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/dedff708-2b46-4e8a-9c8d-b035913e3b2a"
-                                        target="_blank" rel="noopener noreferrer" 
-                                        class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-unmsm-guinda text-white font-bold text-base md:text-xl rounded-lg hover:bg-red-900 transition-colors shadow-md">
-                                        S/ 350.00 <x-fas-external-link-alt class="text-xs md:text-sm" />
-                                    </a>
-                                </div>
-                                {{-- S/ 450 --}}
-                                <div class="text-center p-3 md:p-4 bg-gray-50 rounded-lg border border-gray-100">
-                                    <p class="text-xs md:text-sm text-gray-600 mb-2 md:mb-3">
-                                        Otros postulantes
-                                    </p>
-                                    <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/6cce262e-3c78-42d8-9b1c-2a0666273547"
-                                        target="_blank" rel="noopener noreferrer" 
-                                        class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-unmsm-guinda text-white font-bold text-base md:text-xl rounded-lg hover:bg-red-900 transition-colors shadow-md">
-                                        S/ 450.00 <x-fas-external-link-alt class="text-xs md:text-sm" />
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- Doctorado --}}
-                        <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-                            <div class="bg-gray-800 text-white p-3 md:p-4 text-center">
-                                <h4 class="font-bold text-base md:text-lg">Doctorado</h4>
-                            </div>
-                            <div class="p-3 md:p-5 space-y-3 md:space-y-4">
-                                {{-- S/ 400 --}}
-                                <div class="text-center p-3 md:p-4 bg-gray-50 rounded-lg border border-gray-100">
-                                    <p class="text-xs md:text-sm text-gray-600 mb-2 md:mb-3">
-                                        Graduados y personal administrativo de la UNMSM, docentes de universidades
-                                        nacionales y Magisterio Nacional
-                                    </p>
-                                    <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/92e3ea2e-818f-4288-b980-0ec85a359749"
-                                        target="_blank" rel="noopener noreferrer" 
-                                        class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-gray-800 text-white font-bold text-base md:text-xl rounded-lg hover:bg-gray-900 transition-colors shadow-md">
-                                        S/ 400.00 <x-fas-external-link-alt class="text-xs md:text-sm" />
-                                    </a>
-                                </div>
-                                {{-- S/ 500 --}}
-                                <div class="text-center p-3 md:p-4 bg-gray-50 rounded-lg border border-gray-100">
-                                    <p class="text-xs md:text-sm text-gray-600 mb-2 md:mb-3">
-                                        Otros postulantes
-                                    </p>
-                                    <a href="https://sanmarket.unmsm.edu.pe/#/catalogo/5f1ffb8f-a462-4757-9443-a51407f51f2e"
-                                        target="_blank" rel="noopener noreferrer" 
-                                        class="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-gray-800 text-white font-bold text-base md:text-xl rounded-lg hover:bg-gray-900 transition-colors shadow-md">
-                                        S/ 500.00 <x-fas-external-link-alt class="text-xs md:text-sm" />
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                <h3 class="font-serif text-lg font-bold leading-tight">{{ ($secciones[0] ?? null)?->titulo }}</h3>
+{!! ($secciones[0] ?? null)?->cuerpo_renderizado !!}
+</div>
+                <div class="group bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif tracking-tight">{{ ($secciones[1] ?? null)?->titulo }}</h3>
+{!! ($secciones[1] ?? null)?->cuerpo_renderizado !!}
+</div>
 
                 <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif mt-6">Procedimiento de pago de
                     inscripción</h3>
@@ -290,13 +175,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                 <p class="text-sm text-gray-600 mb-3">Registrarse con correo de dominio Gmail.</p>
                             </div>
                         </div>
-                        <div class="w-full aspect-video rounded-lg overflow-hidden shadow-md">
-                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/wDpbuHt1xg4"
-                                title="Tutorial: Generar ticket en SanMarket-UNMSM" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen>
-                            </iframe>
-                        </div>
+                        <x-video-embed id="wDpbuHt1xg4" title="Tutorial: Generar ticket en SanMarket-UNMSM" />
                     </div>
 
                     <!-- Paso 2: Realizar el pago -->
@@ -310,519 +189,49 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                     BCP o mediante Yape.</p>
                             </div>
                         </div>
-                        <div class="w-full aspect-video rounded-lg overflow-hidden shadow-md">
-                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/feg7DN0pSLM"
-                                title="Tutorial: Realizar el pago en BCP o Yape" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen>
-                            </iframe>
-                        </div>
+                        <x-video-embed id="feg7DN0pSLM" title="Tutorial: Realizar el pago en BCP o Yape" />
                     </div>
                 </div>
             </div>
 
-            <!-- Paso 2: Registrar comprobante -->
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 2: Generación del código de postulante
-                    -
-                    Inscripción Admisión</h3>
+            {{-- Requisitos de postulación.
 
-                <div class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-6">
-                    <p class="text-gray-700 text-sm">
-                        Con la finalidad de que usted pueda adjuntar el comprobante de pago y habilitar su inscripción,
-                        ponemos a su disposición este módulo.
-                    </p>
-                </div>
-
-                <h4 class="font-bold text-md text-gray-800 mb-3">Deberá tener en cuenta lo siguiente:</h4>
-
-                <div class="space-y-4 mb-6">
-                    <div class="flex items-start gap-3">
-                        <div
-                            class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                    d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-700 text-sm">
-                            El <strong>comprobante de pago</strong> que adjunte deberá ser <strong>legible</strong> y
-                            estar
-                            <strong>a nombre de la Universidad Nacional Mayor de San Marcos</strong>, ya que estará
-                            sujeto a una verificación.
-                            De no cumplir con estas especificaciones, su inscripción será invalidada así haya obtenido
-                            una vacante.
-                        </p>
-                    </div>
-
-                    <div class="flex items-start gap-3">
-                        <div
-                            class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                    d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-700 text-sm">
-                            El pago por el derecho de admisión necesariamente tiene que ser realizado a través de la
-                            <strong> <a href="https://sanmarket.unmsm.edu.pe/#/"
-                                    class="text-unmsm-guinda font-semibold hover:underline">
-                                    plataforma de SanMarket
-                                </a></strong>.
-                        </p>
-                    </div>
-
-                    <div class="flex items-start gap-3">
-                        <div
-                            class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                    d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-700 text-sm">
-                            El <strong>número de documento de identidad</strong> que especifique al momento de
-                            registrarse,
-                            podrá ser usado una <strong>sola vez</strong>.
-                        </p>
-                    </div>
-
-                    <div class="flex items-start gap-3">
-                        <div
-                            class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                    d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-700 text-sm">
-                            Deberá ingresar el <strong>Número de secuencia de pago</strong> que aparece en su
-                            comprobante de pago
-                            para poder registrarse en el sistema.
-                        </p>
-                    </div>
-
-                    <div class="flex items-start gap-3">
-                        <div
-                            class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda rounded-full flex items-center justify-center mt-0.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                    d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-700 text-sm">
-                            Si tiene algún inconveniente en el registro, agradeceremos que nos pueda escribir
-                            indicando sus nombres y apellidos y el número de documento de identidad al siguiente correo:
-                            <a href="mailto:admision.dgep@unmsm.edu.pe"
-                                class="text-unmsm-guinda font-semibold hover:underline">
-                                admision.dgep@unmsm.edu.pe
-                            </a>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 border border-gray-300 rounded-lg p-4 mb-6">
-                    <p class="text-gray-700 text-sm mb-2">
-                        <strong>Ingresar sus datos al siguiente enlace (necesitará el número de secuencia de su
-                            comprobante de pago):</strong>
-                    </p>
-                    <a href="https://posgrado.unmsm.edu.pe/admision/registro/index.php" target="_blank" rel="noopener noreferrer" 
-                        class="text-unmsm-guinda hover:underline break-all">
-                        https://posgrado.unmsm.edu.pe/admision/registro/index.php
-                    </a>
-                </div>
-
-                {{-- Video tutorial --}}
-                <div class="border border-gray-200 rounded-lg p-4 bg-white">
-                    <div class="flex items-start gap-3 mb-3">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm">
-                            <x-fab-youtube />
-                        </span>
-                        <div class="flex-1">
-                            <h4 class="font-bold text-gray-800 mb-1">Video tutorial: Generación del código de postulante
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="w-full aspect-video rounded-lg overflow-hidden shadow-md">
-                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/yLDo0Eezwbg?si=vyBC9GyRwbxoxwnz"
-                            title="Tutorial: Generación del código de postulante" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-                        </iframe>
-                    </div>
-                </div>
-            </div>
+                 Comparte fila con el cronograma, que mide 726 px más, así que
+                 debajo queda columna vacía. Se probó a rellenarla y ninguna
+                 alternativa compensa: a una columna la página pasa de 3613 a
+                 5142 px, con el cronograma a ancho completo a 5531, y volver
+                 pegajosa esta tarjeta (1696 px) la congelaría en un viewport
+                 de ~900 px dejando su mitad inferior fuera de alcance.
+                 El hueco se queda: es el arreglo más barato de los cuatro. --}}
+            <div class="group bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
+                <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif tracking-tight">{{ ($secciones[3] ?? null)?->titulo }}</h3>
+{!! ($secciones[3] ?? null)?->cuerpo_renderizado !!}
+</div>
 
             <!-- Paso 3: Requisitos -->
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                <h3 class="font-bold text-lg text-unmsm-guinda mb-6 font-serif">Conoce los requisitos para
-                    postular a los programas de Maestría y Doctorado</h3>
-
-                <!-- MAESTRÍA -->
-                <div class="mb-8">
-                    <div class="bg-unmsm-guinda text-white p-4 rounded-t-lg">
-                        <h4 class="font-bold text-lg">MAESTRÍA</h4>
-                    </div>
-                    <div class="border border-gray-200 rounded-b-lg p-4">
-                        <ol class="space-y-4 text-gray-700 text-sm">
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
-                                <div>
-                                    <span class="font-medium">
-                                        <a
-                                            href="https://posgrado.unmsm.edu.pe/doc/resumen-hv-postulante"class="text-unmsm-guinda font-semibold hover:underline">
-                                            Resumen de la hoja de vida del postulante.
-                                        </a></span>
-                                    <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de
-                                        acuerdo a los rubros del formato de hoja de vida del postulante <a
-                                            href="https://posgradoletras.unmsm.edu.pe/storage/documents/mSJpl6uNu4dZ5LwoPXKn5uolbMc8ouQpHqVnfunN.pdf"class="text-unmsm-guinda font-semibold hover:underline">
-                                            (criterios de evaluación).
-                                        </a></p>
-                                </div>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
-                                <span><a
-                                        href="https://www.gob.pe/488-obtener-constancia-de-inscripcion-de-diplomas"class="text-unmsm-guinda font-semibold hover:underline">
-                                        Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor
-                                        emitida por SUNEDU (*).</a></span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                                <span>Anteproyecto de Investigación de acuerdo con la postulación (<a
-                                        href="https://posgradoletras.unmsm.edu.pe/storage/documents/BDH3cVZFD8H9Cu9vOG8xXpiQjp5ynEYYZ5n0uxqS.pdf"class="text-unmsm-guinda font-semibold hover:underline">
-                                        Modelo para Maestrías</a>
-
-                                    ).</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
-                                <span>Copia simple del documento de identidad (DNI, carné de extranjería o
-                                    pasaporte).</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
-                                <span>Partida de nacimiento.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
-                                <span>Recibo de pago por <a
-                                        href="https://posgrado.unmsm.edu.pe/admision/guia-pago"class="text-unmsm-guinda font-semibold hover:underline">
-                                        derecho de inscripción</a>, realizado a través de <a
-                                        href="https://sanmarket.unmsm.edu.pe/#/"class="text-unmsm-guinda font-semibold hover:underline">
-                                        SanMarket-UNMSM</a>,
-                                    culminando en BCP (App o agente) o Yape.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
-                                <span>Una foto tamaño pasaporte con fondo blanco, sin gafas.</span>
-                            </li>
-                        </ol>
-                        <div
-                            class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 space-y-2">
-                            <p><strong>(*)</strong> Los postulantes que obtuvieron el grado de Bachiller en la
-                                Universidad
-                                Nacional Mayor de San Marcos solo presentarán copia simple.</p>
-                            <p>En el caso de graduados en el extranjero, los grados y títulos deberán estar revalidados
-                                o
-                                reconocidos según las normas vigentes.</p>
-                            <p>Solo las personas con discapacidad deberán presentar su carnet de CONADIS.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DOCTORADO -->
-                <div>
-                    <div class="bg-gray-800 text-white p-4 rounded-t-lg">
-                        <h4 class="font-bold text-lg">DOCTORADO</h4>
-                    </div>
-                    <div class="border border-gray-200 rounded-b-lg p-4">
-                        <ol class="space-y-4 text-gray-700 text-sm">
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
-                                <div>
-                                    <span class="font-medium"><a
-                                            href="https://posgrado.unmsm.edu.pe/doc/resumen-hv-postulante"class="text-unmsm-guinda font-semibold hover:underline">
-                                            Resumen de la hoja de vida del postulante</a>.</span>
-                                    <p class="text-gray-500 mt-1">Curriculum vitae, documentado, foliado y ordenado de
-                                        acuerdo a los rubros del formato de hoja de vida del postulante (<a
-                                            href="https://posgradoletras.unmsm.edu.pe/storage/documents/mSJpl6uNu4dZ5LwoPXKn5uolbMc8ouQpHqVnfunN.pdf"class="text-unmsm-guinda font-semibold hover:underline">
-                                            criterios de evaluación</a>).</p>
-                                </div>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
-                                <span><a
-                                        href="https://www.gob.pe/488-obtener-constancia-de-inscripcion-de-diplomas"class="text-unmsm-guinda font-semibold hover:underline">
-                                        Constancia de inscripción en línea del grado de Bachiller, Maestro o Doctor emitida
-                                        por SUNEDU (*).</a></span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                                <span>Anteproyecto de Investigación de acuerdo con la postulación (<a
-                                        href="https://posgradoletras.unmsm.edu.pe/storage/documents/lddPyyzez9PMwcPQvdVCQ00Xy6Yru6famN8Nkpth.pdf"class="text-unmsm-guinda font-semibold hover:underline">
-                                        Modelo para Doctorados</a>).</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
-                                <span>Certificado de suficiencia de un idioma extranjero o lenguas originarias.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
-                                <span>Copia simple del documento de identidad (DNI, carné de extranjería o
-                                    pasaporte).</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
-                                <span>Partida de nacimiento.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">7</span>
-                                <span>Recibo de pago por <a
-                                        href="https://posgrado.unmsm.edu.pe/admision/guia-pago"class="text-unmsm-guinda font-semibold hover:underline">
-                                        derecho de inscripción</a>, realizado a través de <a
-                                        href="https://sanmarket.unmsm.edu.pe/#/"class="text-unmsm-guinda font-semibold hover:underline">
-                                        SanMarket-UNMSM</a>,
-                                    culminando en BCP (App o agente) o Yape.</span>
-                            </li>
-                            <li class="flex gap-3">
-                                <span
-                                    class="flex-shrink-0 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">8</span>
-                                <span>Una foto tamaño pasaporte con fondo blanco, sin gafas.</span>
-                            </li>
-                        </ol>
-                        <div
-                            class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 space-y-2">
-                            <p><strong>(*)</strong> Los postulantes que obtuvieron el grado de Maestro o Doctor en la
-                                Universidad Nacional Mayor de San Marcos solo presentarán copia simple.</p>
-                            <p>En el caso de graduados en el extranjero, los grados y títulos deberán estar revalidados
-                                o
-                                reconocidos según las normas vigentes.</p>
-                            <p>Solo las personas con discapacidad deberán presentar su carnet de CONADIS.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="group self-stretch bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
+                <h3 class="font-bold text-lg text-unmsm-guinda mb-6 font-serif">{{ ($secciones[2] ?? null)?->titulo }}</h3>
+{!! ($secciones[2] ?? null)?->cuerpo_renderizado !!}
+</div>
 
             <!-- Envío de Expediente -->
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">Paso 3: Envío de Expediente</h3>
-
-                <p class="text-gray-700 mb-4">
-                    Antes de enviar el expediente, deberá contar con su <strong>código de postulante</strong>.
-                </p>
-
-                <!-- Advertencia de Fecha Límite -->
-                <div class="bg-red-50 border border-red-300 rounded-lg p-4 mb-6">
-                    <p class="text-red-800 flex items-start gap-2 mb-2">
-                        <x-fas-clock class="mt-1" />
-                        <span>
-                            La recepción de documentos será hasta la <strong>11:59 p.m. del 02 de abril del 2026</strong>.
-                        </span>
-                    </p>
-                    <p class="text-red-800 ml-6 mb-2">
-                        La recepción de documentos será exclusivamente por el formulario: <br>
-                        <a href="https://share.google/jHxcVcvkryeHseIsQ" target="_blank" rel="noopener noreferrer" 
-                            class="font-bold underline break-all hover:text-red-900">
-                            https://share.google/jHxcVcvkryeHseIsQ
-                        </a>
-                    </p>
-                    <p class="text-red-700 text-sm mt-2 font-medium ml-6">
-                        No se recibirán documentos posteriores a la fecha y hora señalada.
-                    </p>
-                </div>
-
-                <div class="bg-gray-50 rounded-lg p-4 mb-6">
-                    <p class="font-bold text-gray-800 mb-3">Forma de envío para la evaluación de expediente:</p>
-                    <div class="grid md:grid-cols-2 gap-6 text-sm">
-                        <div>
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="bg-unmsm-guinda text-white px-2 py-1 rounded text-xs font-bold">PDF</span>
-                                <span class="font-bold text-gray-800">En archivo PDF</span>
-                            </div>
-                            <ul class="text-gray-600 space-y-2">
-                                <li class="flex items-start gap-2">
-                                    <span class="text-unmsm-guinda">•</span>
-                                    <span>Anteproyecto de investigación.</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-unmsm-guinda">•</span>
-                                    <span>Formato de hoja de vida con código de postulante, constancia SUNEDU,
-                                        certificado de suficiencia.</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-unmsm-guinda">•</span>
-                                    <span>CV documentado conforme a la hoja de vida del postulante.</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-unmsm-guinda">•</span>
-                                    <span>Partida de nacimiento y DNI.</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-unmsm-guinda">•</span>
-                                    <span>Recibo de pago.</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="bg-unmsm-dorado text-unmsm-guinda px-2 py-1 rounded text-xs font-bold">JPG</span>
-                                <span class="font-bold text-gray-800">En archivo JPG</span>
-                            </div>
-                            <ul class="text-gray-600 space-y-2">
-                                <li class="flex items-start gap-2">
-                                    <span class="text-unmsm-guinda">•</span>
-                                    <span>Foto.</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Enlace al Formulario -->
-                <div class="text-center">
-                    <a href="https://share.google/jHxcVcvkryeHseIsQ" target="_blank" rel="noopener noreferrer" 
-                        class="inline-flex items-center gap-2 px-6 py-4 bg-unmsm-dorado text-white font-bold text-lg rounded-xl hover:bg-yellow-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full md:w-auto justify-center">
-                        <x-fas-file-upload class="text-xl" />
-                        <span>REMISIÓN DE DOCUMENTOS – ADMISIÓN POSGRADO LETRAS 2026-I</span>
-                    </a>
-                    <p class="text-sm text-gray-500 mt-3">Clic en el botón para acceder al formulario de envío</p>
-                </div>
-            </div>
+            <div class="group self-stretch bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
+                <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif tracking-tight">{{ ($secciones[4] ?? null)?->titulo }}</h3>
+{!! ($secciones[4] ?? null)?->cuerpo_renderizado !!}
+</div>
 
             <!-- Resultados -->
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md space-y-6">
+            <div class="group self-stretch bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 space-y-6 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
 
                 <!-- PASO 4 -->
                 <div>
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">
-                        Paso 4: Evaluaciones del proceso de admisión
-                    </h3>
-
-                    <!-- Examen -->
-                    <div class="bg-unmsm-guinda/5 border border-unmsm-guinda/20 rounded-lg p-5 mb-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-unmsm-guinda/10 rounded-full flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-unmsm-guinda" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9.75 3v1.5m4.5-1.5v1.5M4.5 7.5h15M6.75 7.5v11.25A2.25 2.25 0 009 21h6a2.25 2.25 0 002.25-2.25V7.5" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-unmsm-guinda font-medium">Examen de conocimientos</p>
-                                <p class="text-gray-600 text-sm">
-                                    Maestrías: <strong>06 de Abril de 2026</strong><br>
-                                    Doctorados: <strong>07 de Abril de 2026</strong><br>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Entrevista -->
-                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-5">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 14.25c3.313 0 6-2.686 6-6S15.313 2.25 12 2.25 6 4.936 6 8.25s2.687 6 6 6z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4.5 21a7.5 7.5 0 0115 0" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-yellow-800 font-medium">Entrevista personal</p>
-                                <p class="text-yellow-700 text-sm">
-                                    Maestrías: <strong>06 de Abril de 2026</strong><br>
-                                    Doctorados: <strong>07 de Abril de 2026</strong><br>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DIVISOR SUAVE -->
-                <hr class="border-gray-200">
-
-                <!-- PASO 5 -->
-                <div>
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif">
-                        Paso 5: Visualizar los Resultados
-                    </h3>
-
-                    <div class="bg-green-50 border border-green-200 rounded-lg p-5">
-                        <div class="flex items-center gap-4 mb-3">
-                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-green-800 font-medium">Publicación de resultados</p>
-                                <p class="text-green-700 text-xl font-bold">09 de Abril del 2026</p>
-                            </div>
-                        </div>
-                        <p class="text-green-700 text-sm">
-                            Los resultados serán publicados aquí y también serán enviados a sus correos electrónicos.
-                        </p>
-                    </div>
-
-                    <p class="text-gray-600 text-sm mt-4">
-                        Cualquier información adicional, pueden revisar la página de la Dirección General de Estudios de
-                        Posgrado
-                        <a href="https://posgrado.unmsm.edu.pe/" target="_blank" rel="noopener noreferrer" 
-                            class="text-unmsm-guinda font-medium hover:underline">
-                            https://posgrado.unmsm.edu.pe/
-                        </a>,
-                        si hubiera otra consulta escribir al correo
-                        <a href="mailto:{{ $emailGeneral }}" class="text-unmsm-guinda font-medium hover:underline">
-                            {{ $emailGeneral }}
-                        </a>.
-                    </p> <br>
-
-
-                    <!-- Enlace a Resultados / Ingresantes -->
-                    <div class="text-center">
-                        <a href="https://posgradoletras.unmsm.edu.pe/storage/documents/7JsBBeZHJcuqOXiI2MymlFwm5GfKPiIg6dYyetZQ.pdf"
-                            target="_blank" rel="noopener noreferrer" 
-                            class="inline-flex items-center gap-2 px-6 py-4 bg-unmsm-dorado text-white font-bold text-lg rounded-xl hover:bg-yellow-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full md:w-auto justify-center">
-                            <x-fas-file-pdf class="text-xl" />
-                            <span>VER INGRESANTES – ADMISIÓN POSGRADO LETRAS 2026-I</span>
-                        </a>
-                        <p class="text-sm text-gray-500 mt-3">Clic en el botón para ver la lista de ingresantes</p>
-                    </div>
-
-                </div>
-
-            </div>
+                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif tracking-tight">{{ ($secciones[5] ?? null)?->titulo }}</h3>
+{!! ($secciones[5] ?? null)?->cuerpo_renderizado !!}
+</div>
 
 
         </div>
 
-        <!-- Sidebar -->
         <div class="lg:col-span-1 space-y-6">
             <!-- Contacto -->
             <div class="bg-unmsm-guinda text-white rounded-2xl p-6 shadow-xl sticky top-24">
@@ -863,7 +272,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
             </div>
 
             <!-- Enlaces útiles -->
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
+            <div class="group bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
                 <h4 class="font-bold text-gray-800 mb-4">Enlaces útiles</h4>
                 <div class="space-y-2">
                     <a href="https://posgrado.unmsm.edu.pe/admision/inscripcion/subir_Voucher/Subir/index.php"

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Informativo extends Model
 {
+    use \App\Models\Concerns\InvalidatesSearchIndex, SoftDeletes;
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -59,7 +62,9 @@ class Informativo extends Model
     public function getIconoAttribute(): string
     {
         return match (strtolower($this->categoria)) {
-            'reglamento' => 'fas fa-gavel',
+            // `gavel` evocaba tribunal; los reglamentos aquí son documentos
+            // normativos que se descargan, no resoluciones judiciales.
+            'reglamento' => 'fas fa-file-contract',
             'directiva' => 'fas fa-file-signature',
             'información', 'informacion' => 'fas fa-info-circle',
             default => 'fas fa-file-alt'

@@ -95,7 +95,7 @@
     <!-- Form Card -->
     <div class="card">
         <div class="p-6">
-            <form action="{{ route('admin.programas.store') }}" method="POST" enctype="multipart/form-data" id="form-programa"
+            <form action="{{ route('admin.programas.store') }}" method="POST" data-avisar-sin-guardar enctype="multipart/form-data" id="form-programa"
                 x-data="{ submitting: false, tab: 'basico' }" @submit="submitting = true">
                 @csrf
 
@@ -419,13 +419,16 @@
                         </div>
 
                         <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                            <label class="flex items-center cursor-pointer">
-                                <input type="hidden" name="is_active" value="0">
-                                <input type="checkbox" name="is_active" value="1"
-                                    class="h-5 w-5 text-brand-gold border-gray-300 rounded"
-                                    {{ old('is_active', true) ? 'checked' : '' }}>
-                                <span class="ml-3 text-sm font-medium text-gray-700">Programa activo (visible en web)</span>
-                            </label>
+                            <label for="estado" class="block text-sm font-semibold text-gray-700 mb-2">Estado de publicación</label>
+                            <select id="estado" name="estado" x-data="{ estado: '{{ old('estado', \App\Models\Programa::ESTADO_PUBLICADO) }}' }" x-model="estado"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                                @foreach (\App\Models\Programa::ESTADOS as $valor => $info)
+                                    <option value="{{ $valor }}" @selected(old('estado', \App\Models\Programa::ESTADO_PUBLICADO) === $valor)>{{ $info['label'] }}</option>
+                                @endforeach
+                            </select>
+                            <template x-for="(info, valor) in {{ Illuminate\Support\Js::from(collect(\App\Models\Programa::ESTADOS)->map(fn ($i) => $i['ayuda'])) }}" :key="valor">
+                                <p x-show="estado === valor" class="text-xs text-gray-500 mt-2" x-text="info"></p>
+                            </template>
                         </div>
                     </div>
                 </div>

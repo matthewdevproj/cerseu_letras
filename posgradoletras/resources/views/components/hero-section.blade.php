@@ -46,7 +46,7 @@
                 {{ $title }}
             </h1>
             @if($subtitle)
-                <p class="text-gray-200 max-w-2xl font-light text-lg leading-relaxed">{{ $subtitle }}</p>
+                <p class="text-gray-200 max-w-2xl font-normal text-lg leading-relaxed">{{ $subtitle }}</p>
             @endif
         </div>
     </div>

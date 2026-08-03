@@ -339,6 +339,22 @@
                 <span>Cronograma</span>
             </a>
 
+            <a href="{{ route('admin.leads.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.leads.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <x-fas-inbox class="w-5 text-lg {{ request()->routeIs('admin.leads.*') ? '' : 'text-gray-500' }}" />
+                <span>Solicitudes</span>
+                @php $leadsPendientes = \App\Models\DiplomadoLead::where('created_at', '>=', now()->subDays(7))->count(); @endphp
+                @if ($leadsPendientes > 0)
+                    <span class="ml-auto px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-bold">{{ $leadsPendientes }}</span>
+                @endif
+            </a>
+
+            <a href="{{ route('admin.cronograma-admision.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.cronograma-admision.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <x-fas-timeline class="w-5 text-lg {{ request()->routeIs('admin.cronograma-admision.*') ? '' : 'text-gray-500' }}" />
+                <span>Cronograma Admisión</span>
+            </a>
+
             <a href="{{ route('admin.admision-diplomados.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.admision-diplomados.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
                 <x-fas-scroll class="w-5 text-lg {{ request()->routeIs('admin.admision-diplomados.*') ? '' : 'text-gray-500' }}" />
@@ -355,6 +371,36 @@
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.eventos.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
                 <x-fas-calendar-day class="w-5 text-lg {{ request()->routeIs('admin.eventos.*') ? '' : 'text-gray-500' }}" />
                 <span>Eventos</span>
+            </a>
+
+            <a href="{{ route('admin.contenido.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.contenido.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <x-fas-file-lines class="w-5 text-lg {{ request()->routeIs('admin.contenido.*') ? '' : 'text-gray-500' }}" />
+                <span>Contenido</span>
+            </a>
+
+            <a href="{{ route('admin.anuncios.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.anuncios.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <x-fas-bullhorn class="w-5 text-lg {{ request()->routeIs('admin.anuncios.*') ? '' : 'text-gray-500' }}" />
+                <span>Anuncios de portada</span>
+            </a>
+
+            <a href="{{ route('admin.menu.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.menu.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <x-fas-bars class="w-5 text-lg {{ request()->routeIs('admin.menu.*') ? '' : 'text-gray-500' }}" />
+                <span>Menú de navegación</span>
+            </a>
+
+            <a href="{{ route('admin.papelera.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.papelera.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <x-fas-trash-arrow-up class="w-5 text-lg {{ request()->routeIs('admin.papelera.*') ? '' : 'text-gray-500' }}" />
+                <span>Papelera</span>
+            </a>
+
+            <a href="{{ route('admin.users.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.users.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <x-fas-user-shield class="w-5 text-lg {{ request()->routeIs('admin.users.*') ? '' : 'text-gray-500' }}" />
+                <span>Usuarios</span>
             </a>
 
             <a href="{{ route('admin.settings.index') }}"

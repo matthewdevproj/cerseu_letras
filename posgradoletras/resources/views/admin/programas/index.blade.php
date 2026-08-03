@@ -97,17 +97,11 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap text-center">
-                                @if($programa->is_active)
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        <span class="w-1.5 h-1.5 bg-green-600 rounded-full mr-1.5"></span>
-                                        Activo
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                        <span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-1.5"></span>
-                                        Inactivo
-                                    </span>
-                                @endif
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $programa->estado_badge }}"
+                                    title="{{ \App\Models\Programa::ESTADOS[$programa->estado]['ayuda'] ?? '' }}">
+                                    <span class="w-1.5 h-1.5 {{ $programa->estado_punto }} rounded-full mr-1.5"></span>
+                                    {{ $programa->estado_label }}
+                                </span>
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -161,6 +155,11 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        {{-- Paginación: el listado ya no trae todas las filas de golpe. --}}
+        <div class="px-4 py-3 border-t border-gray-100">
+            {!! $programas->onEachSide(1)->links() !!}
         </div>
 
         </div>

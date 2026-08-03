@@ -75,7 +75,7 @@ class AdminAdmisionDiplomadoController extends Controller
                     if ($settings->hero_imagen && Storage::disk('public')->exists($settings->hero_imagen)) {
                         Storage::disk('public')->delete($settings->hero_imagen);
                     }
-                    $settings->hero_imagen = $request->file('hero_imagen')->store('admision-diplomados', 'public');
+                    $settings->hero_imagen = \App\Support\OptimizadorImagen::guardar($request->file('hero_imagen'), 'admision-diplomados');
                 } elseif ($request->boolean('remove_hero_imagen')) {
                     if ($settings->hero_imagen && Storage::disk('public')->exists($settings->hero_imagen)) {
                         Storage::disk('public')->delete($settings->hero_imagen);

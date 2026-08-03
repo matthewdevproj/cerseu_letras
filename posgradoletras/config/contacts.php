@@ -2,10 +2,21 @@
 
 /**
  * ==========================================================
- *  CONFIGURACIÓN DE CORREOS DE CONTACTO POR ÁREA
+ *  CONTACTOS — SOLO VALORES DE RESPALDO
  * ==========================================================
- * 
- * Modifica estos correos según las necesidades de cada área.
+ *
+ * Los datos de contacto que muestra el sitio se editan desde el panel
+ * (Configuración → Contacto) y se leen con:
+ *
+ *     \App\Models\SiteSetting::contacto('general'|'admision'|'tramites'|'telefono'|'whatsapp')
+ *
+ * Este fichero solo se usa cuando el campo correspondiente está vacío en la
+ * base de datos, p. ej. en una instalación recién creada. NO edites aquí para
+ * cambiar lo que ve el visitante: hazlo en el panel, o quedará desincronizado
+ * (que es justo el problema que este cambio vino a resolver).
+ *
+ * El enlace de WhatsApp se deriva del teléfono; el valor de abajo solo actúa
+ * si no hay teléfono configurado.
  */
 
 return [
