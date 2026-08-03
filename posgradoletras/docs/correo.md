@@ -64,12 +64,67 @@ Cómo generarla: entrar en la cuenta → *Seguridad* → activar *Verificación 
 pasos* → *Contraseñas de aplicaciones* → crear una para «Correo». Se copia sin
 espacios en `MAIL_PASSWORD`.
 
-Si la cuenta es de Google Workspace del dominio `unmsm.edu.pe`, puede que el
-administrador tenga desactivadas las contraseñas de aplicación; en ese caso hay
-que pedirle que las habilite o que configure un relé SMTP.
-
 `MAIL_SCHEME` va en `smtp` (puerto 587, STARTTLS). Con `tls` Laravel 12 falla:
 *«The "tls" scheme is not supported»*. Para el puerto 465 sería `smtps`.
+
+### Si las contraseñas de aplicación «no están disponibles»
+
+**Usar la contraseña de la cuenta no es una alternativa.** Google la rechaza en
+SMTP desde mayo de 2022; no es configurable desde aquí.
+
+Antes de descartarlas, comprobar lo más habitual: **la opción solo aparece si la
+cuenta tiene la verificación en dos pasos activada**. Sin 2FA no está en el
+menú, y es fácil concluir que el dominio la bloquea cuando no es así.
+
+Si con 2FA activa sigue sin aparecer, la bloquea el administrador de Workspace
+de `unmsm.edu.pe`. Opciones, de mejor a peor:
+
+**1. Relé SMTP de Google** — `smtp-relay.gmail.com`, puerto 587. El
+administrador autoriza la **IP del servidor** en *Apps → Gmail → Enrutamiento →
+Servicio de relé SMTP*. Autentica por IP, así que **no hace falta contraseña**:
+
+```
+MAIL_HOST=smtp-relay.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=
+MAIL_PASSWORD=
+```
+
+Es lo indicado para una cuenta institucional: nadie tiene que custodiar una
+credencial y no se rompe si alguien cambia la contraseña del buzón.
+
+**2. Servidor de correo propio de la universidad.** Conviene preguntarlo antes
+que nada: si el área de sistemas facilita un `mail.unmsm.edu.pe` o similar,
+funciona con usuario y contraseña normales — la restricción es de Google, no del
+protocolo. Sería lo más rápido.
+
+**3. Que el administrador habilite las contraseñas de aplicación** para esa
+cuenta.
+
+**4. Servicio transaccional** (Brevo, Mailgun, Resend). Solo cambia el bloque
+`MAIL_*`, el código no se toca. Pero exige que el administrador añada **SPF y
+DKIM** al DNS de `unmsm.edu.pe`, o los correos acaban en spam: también pasa por
+él, así que no evita la gestión.
+
+En los cuatro casos, tras cambiarlo: `php artisan config:clear` y
+`php artisan correo:probar`.
+
+### Mientras tanto no se pierde nada
+
+Las solicitudes de diplomado **se guardan en la base y salen en el panel**
+(Solicitudes) aunque el correo falle. El aviso es una comodidad, no el registro.
+Lo que sí queda inutilizable hasta que haya transporte es **recuperar la
+contraseña** del panel. No hay comando para eso; se hace con tinker, en el
+servidor:
+
+```bash
+php artisan tinker
+>>> $u = App\Models\User::where('email', 'correo@unmsm.edu.pe')->first();
+>>> $u->password = Hash::make('la-nueva'); $u->save();
+```
+
+El enlace de recuperación que envía la web sigue existiendo y funcionando: lo
+único que falta es el transporte que lo entregue.
 
 **El remitente ya está puesto** en `.env` y `.env.example`:
 
