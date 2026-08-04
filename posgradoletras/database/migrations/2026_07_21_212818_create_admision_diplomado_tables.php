@@ -54,7 +54,10 @@ return new class extends Migration
         // Sección 2: Cronograma de Admisión (filas editables)
         Schema::create('admision_diplomado_cronograma_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('admision_diplomado_setting_id')->constrained('admision_diplomado_settings')->cascadeOnDelete();
+            $table->foreignId('admision_diplomado_setting_id');
+            $table->foreign('admision_diplomado_setting_id', 'admision_cronograma_setting_id_foreign')
+                ->references('id')->on('admision_diplomado_settings')
+                ->cascadeOnDelete();
             $table->string('programa');
             $table->string('convocatoria')->nullable();
             $table->string('fecha_inscripcion')->nullable();

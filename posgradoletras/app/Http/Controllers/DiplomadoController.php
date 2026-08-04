@@ -11,14 +11,18 @@ class DiplomadoController extends Controller
     public function index()
     {
         $diplomados = Programa::visibles()->diplomados()->ordenPublicacion()->get();
-        $settings = SiteSetting::get();
+        $settings = SiteSetting::first();
 
         return view('diplomados.index', compact('diplomados', 'settings'));
     }
 
     public function admision()
     {
-        $admisionSettings = AdmisionDiplomadoSetting::get();
+        $admisionSettings = AdmisionDiplomadoSetting::with('cronogramaItems')->first()
+            ?? AdmisionDiplomadoSetting::create([
+                'hero_titulo' => 'Convocatoria 2026-I',
+                'hero_subtitulo' => 'Sección Diplomados · Unidad de Posgrado',
+            ]);
 
         return view('diplomados.admision', compact('admisionSettings'));
     }
