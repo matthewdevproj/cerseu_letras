@@ -43,7 +43,7 @@
                 {{-- Columna derecha: formulario de solicitud de información --}}
                 <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8">
                     <h2 class="text-xl font-bold text-gray-900 mb-1">¡Solicitar Información!</h2>
-                    <p class="text-sm text-gray-500 mb-5">Cuéntanos tus datos y te contactaremos.</p>
+                    <p class="text-sm text-gray-500 mb-5">Déjanos tus datos y nos pondremos en contacto contigo. </p>
 
                     <x-flash-message type="success" />
 
