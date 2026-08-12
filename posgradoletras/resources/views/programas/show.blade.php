@@ -4,7 +4,12 @@
 
 @section('content')
     <!-- HERO DE SECCIÓN -->
-    <x-hero-section :title="$programa->titulo_completo" :label="$programa->grado" :subtitle="'Grado que otorga: ' . ($programa->grado_otorga ?? $programa->grado)" :image="$programa->imagen_url" />
+    {{-- El subtítulo es la denominación del título que otorga el programa, con
+         su propio rótulo editable. Sin denominación cargada no se pasa nada y
+         el hero no dibuja el párrafo: antes se rellenaba solo con «Grado que
+         otorga: …», que en un diplomado no corresponde (Obs. N.º 4). --}}
+    <x-hero-section :title="$programa->titulo_completo" :label="$programa->grado"
+        :subtitle="$programa->denominacion_otorga_texto" :image="$programa->imagen_url" />
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="container mx-auto px-4 py-12">
@@ -26,12 +31,14 @@
             <div class="lg:col-span-2">
                 <div class="space-y-4">
 
-                    {{-- Coordinador del Programa --}}
+                    {{-- Responsable académico: la denominación («Coordinador» o
+                         «Coordinadora») se configura por programa. --}}
                     @php
-                        $coordinador = $programa->docentes->firstWhere('pivot.es_coordinador', 1);
+                        $coordinador = $programa->coordinador;
                     @endphp
                     @if($coordinador)
-                        <x-docente-mini-card :profesor="$coordinador" variant="coordinador" />
+                        <x-docente-mini-card :profesor="$coordinador" variant="coordinador"
+                            :denominacion="\App\Models\Programa::denominacionCoordinador($coordinador->pivot->coordinador_denominacion)" />
                     @endif
 
                     {{-- Presentación --}}
@@ -248,7 +255,9 @@
                     ])
                         <div class="grid gap-4">
                             @foreach ($programa->docentes as $profesor)
-                                <x-docente-mini-card :profesor="$profesor" variant="list" :es-coordinador="(bool) $profesor->pivot->es_coordinador" />
+                                <x-docente-mini-card :profesor="$profesor" variant="list"
+                                    :es-coordinador="(bool) $profesor->pivot->es_coordinador"
+                                    :denominacion="\App\Models\Programa::denominacionCoordinador($profesor->pivot->coordinador_denominacion)" />
                             @endforeach
                         </div>
                     @endcomponent
@@ -338,6 +347,22 @@
                                 <p class="font-bold text-gray-900">{{ $programa->creditos }} Académicos</p>
                             </div>
                         </div>
+
+                        {{-- Horas académicas (Obs. N.º 6): va justo debajo de
+                             Créditos y solo aparece si el programa las tiene
+                             cargadas, para no anunciar un dato incompleto. --}}
+                        @if($programa->horas_academicas)
+                            <div class="flex items-center gap-4 mb-5">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-unmsm-guinda">
+                                    <x-fas-hourglass-half />
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 uppercase font-bold">Horas académicas</p>
+                                    <p class="font-bold text-gray-900">{{ number_format($programa->horas_academicas, 0) }} horas</p>
+                                </div>
+                            </div>
+                        @endif
 
                         <!-- Ítem Duración -->
                         <div class="flex items-center gap-4 mb-5">

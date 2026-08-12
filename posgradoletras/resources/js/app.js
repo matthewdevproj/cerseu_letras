@@ -18,6 +18,7 @@ import {
     crearEditorContenido,
     crearInversionPeriodos,
     crearMenuNavegacion,
+    crearModalidadesPago,
 } from './repetidores';
 import { montarFiltroProgramas } from './filtro-programas';
 import { montarAvisoSinGuardar } from './aviso-sin-guardar';
@@ -184,6 +185,7 @@ window.cronogramaAdmision = crearCronogramaAdmision;
 window.editorContenido = crearEditorContenido;
 window.inversionPeriodos = crearInversionPeriodos;
 window.menuNavegacion = crearMenuNavegacion;
+window.modalidadesPago = crearModalidadesPago;
 // /programas monta su propia variante (clases y buscador propios) desde la vista.
 window.montarFiltroProgramas = montarFiltroProgramas;
 

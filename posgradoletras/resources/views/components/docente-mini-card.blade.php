@@ -1,4 +1,6 @@
-@props(['profesor', 'variant' => 'list', 'esCoordinador' => false])
+{{-- `denominacion` permite rotular a la persona responsable como «Coordinador»
+     o «Coordinadora» según el programa (Obs. N.º 1). --}}
+@props(['profesor', 'variant' => 'list', 'esCoordinador' => false, 'denominacion' => 'Coordinador'])
 
 @php
     $isCoordinador = $variant === 'coordinador';
@@ -33,11 +35,10 @@
 
         <div class="flex-1">
             @if($isCoordinador)
+                {{-- Solo el encabezado: la etiqueta con la estrella que lo
+                     repetía al lado se retiró por duplicar la denominación. --}}
                 <div class="flex items-center gap-2 mb-1">
-                    <h4 class="text-sm font-bold text-unmsm-guinda uppercase tracking-wide">Coordinador del Programa</h4>
-                    <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-unmsm-guinda text-white text-[10px] font-semibold rounded">
-                        <x-fas-star aria-hidden="true" /> Coordinador
-                    </span>
+                    <h4 class="text-sm font-bold text-unmsm-guinda uppercase tracking-wide">{{ $denominacion }} del Programa</h4>
                 </div>
                 <p class="text-base font-semibold text-gray-900">{{ $profesor->nombre }}</p>
             @else
@@ -48,7 +49,7 @@
                         </h5>
                         @if($esCoordinador)
                             <span class="inline-flex items-center gap-1 px-2 py-1 bg-unmsm-guinda text-white text-xs font-semibold rounded flex-shrink-0">
-                                <x-fas-star aria-hidden="true" /> Coordinador
+                                <x-fas-star aria-hidden="true" /> {{ $denominacion }}
                             </span>
                         @endif
                     </div>

@@ -19,6 +19,7 @@ class ProgramasSeeder extends Seeder
                 'vacantes' => 20,
                 'duracion' => 4,
                 'creditos' => 48,
+                'grado_otorga_label' => 'Grado que otorga',
                 'grado_otorga' => 'Magíster en Literatura Peruana y Latinoamericana',
                 'slug' => Str::slug('Literatura Peruana y Latinoamericana'),
                 'objetivos_academicos' => [
@@ -54,6 +55,7 @@ class ProgramasSeeder extends Seeder
                 'vacantes' => 15,
                 'duracion' => 4,
                 'creditos' => 48,
+                'grado_otorga_label' => 'Grado que otorga',
                 'grado_otorga' => 'Magíster en Lingüística',
                 'slug' => Str::slug('Lingüística'),
                 'objetivos_academicos' => [
@@ -89,6 +91,7 @@ class ProgramasSeeder extends Seeder
                 'vacantes' => 10,
                 'duracion' => 6,
                 'creditos' => 64,
+                'grado_otorga_label' => 'Grado que otorga',
                 'grado_otorga' => 'Doctor en Literatura Peruana y Latinoamericana',
                 'slug' => Str::slug('Doctorado Literatura Peruana y Latinoamericana'),
                 'objetivos_academicos' => [

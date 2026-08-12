@@ -317,18 +317,33 @@
                                         class="block w-full py-2.5 px-4" min="0" placeholder="72">
                                 </div>
                                 <div>
-                                    <label for="grado_otorga" class="form-label block">Grado Otorga</label>
-                                    <input type="text" name="grado_otorga" id="grado_otorga" value="{{ old('grado_otorga', $programa->grado_otorga) }}"
-                                        class="block w-full py-2.5 px-4" placeholder="Magíster en...">
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
-                                <div>
                                     <label for="horas_academicas" class="form-label block">Horas Académicas</label>
                                     <input type="number" name="horas_academicas" id="horas_academicas" value="{{ old('horas_academicas', $programa->horas_academicas) }}"
                                         class="block w-full py-2.5 px-4" min="0" placeholder="480">
+                                    <p class="mt-1 text-xs text-gray-400">Se muestra en «Información Clave», debajo de Créditos. Vacío: no aparece.</p>
                                 </div>
+                            </div>
+
+                            {{-- Denominación del título que otorga: rótulo y contenido,
+                                 ambos editables y ambos opcionales (Obs. N.º 4). --}}
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                                <div>
+                                    <label for="grado_otorga_label" class="form-label block">Denominación · rótulo</label>
+                                    <input type="text" name="grado_otorga_label" id="grado_otorga_label" value="{{ old('grado_otorga_label', $programa->grado_otorga_label) }}"
+                                        class="block w-full py-2.5 px-4" maxlength="100" placeholder="Otorga / Grado que otorga">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="grado_otorga" class="form-label block">Denominación · contenido</label>
+                                    <input type="text" name="grado_otorga" id="grado_otorga" value="{{ old('grado_otorga', $programa->grado_otorga) }}"
+                                        class="block w-full py-2.5 px-4" maxlength="255" placeholder="Diploma en Curaduría con Énfasis en...">
+                                </div>
+                                <p class="md:col-span-3 -mt-3 text-xs text-gray-400">
+                                    Se muestra bajo el título en la portada del programa, como «Rótulo: contenido».
+                                    Si dejas el contenido vacío no se muestra nada: no se completa solo con «Grado que otorga».
+                                </p>
+                            </div>
+
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
                                 <div>
                                     <label for="fecha_limite_inscripcion" class="form-label block">Fecha Límite Inscripción</label>
                                     <input type="text" name="fecha_limite_inscripcion" id="fecha_limite_inscripcion" value="{{ old('fecha_limite_inscripcion', $programa->fecha_limite_inscripcion) }}"
@@ -422,7 +437,7 @@
                                 <div class="flex items-center gap-2 text-blue-800">
                                     <x-fas-info-circle class="text-xl" />
                                     <p class="text-sm font-medium">
-                                        Asignación de Docentes: Selecciona los docentes que enseñan en este programa. Puedes indicar si es coordinador, su rol y el orden de visualización.
+                                        Asignación de Docentes: Selecciona los docentes que enseñan en este programa. Puedes indicar quién coordina, con qué denominación («Coordinador» o «Coordinadora»), su rol y el orden de visualización.
                                     </p>
                                 </div>
                             </div>
@@ -431,9 +446,10 @@
                                 <table class="docentes-table" id="tabla-docentes">
                                     <thead>
                                         <tr>
-                                            <th style="width: 40%">Docente</th>
-                                            <th style="width: 12%">Coordinador</th>
-                                            <th style="width: 25%">Rol / Cargo</th>
+                                            <th style="width: 30%">Docente</th>
+                                            <th style="width: 10%">Coordinador</th>
+                                            <th style="width: 15%">Denominación</th>
+                                            <th style="width: 22%">Rol / Cargo</th>
                                             <th style="width: 10%">Mover</th>
                                             <th style="width: 13%">Acción</th>
                                         </tr>
@@ -587,12 +603,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="mt-4">
-                                        <label class="text-xs text-gray-500 mb-1 block">Modalidades de pago (separadas por coma)</label>
-                                        <input type="text" id="inv_modalidades_pago" value="{{ !empty($inv['modalidades_pago']) ? implode(', ', $inv['modalidades_pago']) : '' }}"
-                                            class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                            placeholder="Pago único, Pago en dos cuotas">
-                                    </div>
+                                    {{-- Resto de la versión anterior: las modalidades se
+                                         escribían como una lista de texto separada por
+                                         comas. Ahora se editan abajo con sus cuotas,
+                                         montos y fechas; el valor antiguo se conserva
+                                         para no perderlo y solo se muestra en la ficha
+                                         (bajo «Condiciones de pago») mientras el
+                                         diplomado no tenga cargadas las nuevas. --}}
+                                    <input type="hidden" id="inv_modalidades_pago"
+                                        value="{{ !empty($inv['modalidades_pago']) ? implode(', ', $inv['modalidades_pago']) : '' }}">
 
                                     <div class="mt-4">
                                         <label class="text-xs text-gray-500 mb-1 block">Descuentos o beneficios</label>
@@ -608,25 +627,12 @@
                                             placeholder="Condiciones adicionales...">{{ $inv['observaciones'] ?? '' }}</textarea>
                                     </div>
 
-                                    <div class="mt-4">
-                                        <label class="text-xs text-gray-500 mb-2 block font-semibold">Cuotas</label>
-                                        <div id="cuotas-list" class="space-y-2">
-                                            @foreach(($inv['cuotas'] ?? []) as $cuota)
-                                                <div class="flex gap-2 items-center cuota-row">
-                                                    <input type="number" min="0" placeholder="Monto (S/)" value="{{ $cuota['monto'] ?? '' }}" class="cuota-monto block w-32 py-2 px-3 border border-gray-300 rounded-lg">
-                                                    <input type="text" placeholder="Fecha / condición de pago" value="{{ $cuota['fecha'] ?? '' }}" class="cuota-fecha block flex-1 py-2 px-3 border border-gray-300 rounded-lg">
-                                                    <button type="button" onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700"><x-fas-trash /></button>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <button type="button" onclick="agregarCuota()"
-                                            class="mt-2 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
-                                            <x-fas-plus class="mr-1" /> Agregar Cuota
-                                        </button>
-                                    </div>
-
                                     <input type="hidden" id="inversion_economica" name="inversion_economica">
                                 </div>
+
+                                @include('admin.programas._modalidades-pago', [
+                                    'modalidades' => $programa->modalidades_de_pago,
+                                ])
 
                                 <!-- Imagen del Programa -->
                                 <x-admin-file-upload mode="ajax" name="imagen" label="Imagen del Programa" icon="fas fa-image"
@@ -717,6 +723,7 @@
             'rol' => $d->pivot->rol,
             'orden' => $d->pivot->orden,
             'es_coordinador' => (bool) $d->pivot->es_coordinador,
+            'coordinador_denominacion' => $d->pivot->coordinador_denominacion,
         ];
     })->values()) !!}
         </script>
@@ -987,6 +994,10 @@
             // ============================
             let docenteRowCounter = 0;
 
+            // Denominaciones admitidas para el responsable académico; la lista
+            // la define el modelo para no mantenerla en dos sitios.
+            const DENOMINACIONES_COORDINADOR = @json(\App\Models\Programa::DENOMINACIONES_COORDINADOR);
+
             function escapeHtml(str) {
                 return String(str ?? '')
                     .replaceAll('&', '&amp;')
@@ -1003,6 +1014,9 @@
                 const selectedId = data.id ?? '';
                 const rol = escapeHtml(data.rol ?? '');
                 const esCoord = !!data.es_coordinador;
+                const denominacion = DENOMINACIONES_COORDINADOR.includes(data.coordinador_denominacion)
+                    ? data.coordinador_denominacion
+                    : DENOMINACIONES_COORDINADOR[0];
 
                 return `
                     <tr id="${rowId}" class="docente-row">
@@ -1023,6 +1037,17 @@
                                 <input type="checkbox" name="docentes_coordinador_checkbox" value="1" class="h-4 w-4 text-brand-gold border-gray-300 rounded docente-coord-checkbox" ${esCoord ? 'checked' : ''}>
                                 <span>Sí</span>
                             </label>
+                        </td>
+
+                        {{-- Nunca se deshabilita: los campos viajan como arrays
+                             paralelos y un select deshabilitado no se envía,
+                             desalineando el resto de las columnas. Solo se
+                             atenúa cuando el docente no coordina. --}}
+                        <td data-label="Denominación">
+                            <select name="docentes_coordinador_denominacion[]"
+                                class="block w-full py-2 px-3 text-sm docente-denominacion-select ${esCoord ? '' : 'opacity-50'}">
+                                ${DENOMINACIONES_COORDINADOR.map(d => `<option value="${d}" ${d === denominacion ? 'selected' : ''}>${d}</option>`).join('')}
+                            </select>
                         </td>
 
                         <td data-label="Rol / Cargo">
@@ -1198,6 +1223,12 @@
                         const hiddenInput = e.target.previousElementSibling;
                         if (hiddenInput && hiddenInput.type === 'hidden') {
                             hiddenInput.value = e.target.checked ? '1' : '0';
+                        }
+
+                        // La denominación solo aplica a quien coordina.
+                        const select = e.target.closest('tr')?.querySelector('.docente-denominacion-select');
+                        if (select) {
+                            select.classList.toggle('opacity-50', !e.target.checked);
                         }
                     }
                 });

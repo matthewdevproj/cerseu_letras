@@ -5,6 +5,7 @@ import {
     crearEditorContenido,
     crearInversionPeriodos,
     crearMenuNavegacion,
+    crearModalidadesPago,
 } from './repetidores.js';
 
 describe('repetidor base', () => {
@@ -273,5 +274,101 @@ describe('menú de navegación', () => {
         m.agregar();
 
         expect(m.items[0].vigente_hasta).toBe('');
+    });
+});
+
+describe('modalidades de pago (diplomados)', () => {
+    it('normaliza lo guardado y garantiza al menos una cuota editable', () => {
+        const m = crearModalidadesPago([
+            { nombre: 'Pago único', cuotas: [{ etiqueta: 'Cuota única', monto: 3000, fecha: '16, 17 y 18 de septiembre' }] },
+            { nombre: 'Pago fraccionado', cuotas: [] },
+        ]);
+
+        expect(m.modalidades).toHaveLength(2);
+        expect(m.modalidades[0].cuotas[0].monto).toBe(3000);
+        // Sin cuotas guardadas se ofrece una fila en blanco para editar.
+        expect(m.modalidades[1].cuotas).toHaveLength(1);
+        expect(m.modalidades[1].cuotas[0]).toEqual({ etiqueta: '', monto: null, fecha: '' });
+    });
+
+    it('sugiere la etiqueta según cuántas cuotas tenga la modalidad', () => {
+        const m = crearModalidadesPago([{ nombre: 'Pago único', cuotas: [{ monto: 3000 }] }]);
+        const modalidad = m.modalidades[0];
+
+        expect(m.etiquetaSugerida(modalidad, 0)).toBe('Cuota única');
+
+        m.agregarCuota(modalidad);
+        expect(m.etiquetaSugerida(modalidad, 0)).toBe('Cuota 1');
+        expect(m.etiquetaSugerida(modalidad, 1)).toBe('Cuota 2');
+    });
+
+    it('agrega y quita cuotas dentro de una modalidad sin tocar las demás', () => {
+        const m = crearModalidadesPago([
+            { nombre: 'A', cuotas: [{ monto: 1 }] },
+            { nombre: 'B', cuotas: [{ monto: 2 }, { monto: 3 }] },
+        ]);
+
+        m.agregarCuota(m.modalidades[0]);
+        expect(m.modalidades[0].cuotas).toHaveLength(2);
+        expect(m.modalidades[1].cuotas).toHaveLength(2);
+
+        m.eliminarCuota(m.modalidades[1], 0);
+        expect(m.modalidades[1].cuotas.map((c) => c.monto)).toEqual([3]);
+
+        // Un índice inexistente no altera la lista.
+        m.eliminarCuota(m.modalidades[1], 9);
+        expect(m.modalidades[1].cuotas).toHaveLength(1);
+    });
+
+    it('el payload descarta filas vacías, rellena etiquetas y no lleva uid', () => {
+        const m = crearModalidadesPago([
+            {
+                nombre: 'Pago fraccionado',
+                cuotas: [
+                    { etiqueta: '', monto: 1500, fecha: 'Del 16 al 18 de septiembre' },
+                    { etiqueta: '', monto: 1500, fecha: 'Hasta el 30 de noviembre' },
+                    { etiqueta: '', monto: null, fecha: '   ' },
+                ],
+            },
+            { nombre: 'Vacía', cuotas: [{ etiqueta: '', monto: null, fecha: '' }] },
+        ]);
+
+        const payload = JSON.parse(m.payload);
+
+        // La modalidad sin cuotas utilizables desaparece.
+        expect(payload).toHaveLength(1);
+        expect(payload[0].cuotas).toHaveLength(2);
+        expect(payload[0].cuotas.map((c) => c.etiqueta)).toEqual(['Cuota 1', 'Cuota 2']);
+        expect(JSON.stringify(payload)).not.toContain('uid');
+    });
+
+    it('una sola cuota se etiqueta como cuota única en el payload', () => {
+        const m = crearModalidadesPago([
+            { nombre: 'Pago único', cuotas: [{ etiqueta: '', monto: '3000', fecha: '16 de septiembre' }] },
+        ]);
+
+        expect(JSON.parse(m.payload)[0].cuotas[0]).toEqual({
+            etiqueta: 'Cuota única',
+            monto: 3000,
+            fecha: '16 de septiembre',
+        });
+    });
+
+    it('una cuota solo con fecha se conserva, sin monto', () => {
+        const m = crearModalidadesPago([
+            { nombre: 'Pago único', cuotas: [{ etiqueta: 'Cuota única', monto: '', fecha: 'Por confirmar' }] },
+        ]);
+
+        expect(JSON.parse(m.payload)[0].cuotas[0]).toEqual({
+            etiqueta: 'Cuota única',
+            monto: null,
+            fecha: 'Por confirmar',
+        });
+    });
+
+    it('tolera una entrada vacía o inválida', () => {
+        expect(JSON.parse(crearModalidadesPago().payload)).toEqual([]);
+        expect(JSON.parse(crearModalidadesPago(null).payload)).toEqual([]);
+        expect(JSON.parse(crearModalidadesPago('nada').payload)).toEqual([]);
     });
 });

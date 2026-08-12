@@ -26,7 +26,7 @@
                         {{ $settings?->diplomados_hero_titulo ?? 'Diplomados' }}
                     </h1>
                     <p class="text-gray-200 max-w-xl font-normal text-lg leading-relaxed mb-4">
-                        {{ $settings?->diplomados_hero_texto ?? 'Especializa tus conocimientos con programas diseñados para responder a los desafíos contemporáneos desde las humanidades, las ciencias sociales y las nuevas tecnologías.' }}
+                        {{ $settings?->diplomados_hero_texto ?? 'Especializa tus conocimientos con programas diseñados para responder a los desafíos contemporáneos desde las humanidades y las nuevas tecnologías.' }}
                     </p>
                     <p class="text-unmsm-dorado font-bold text-xl mb-8">
                         {{ $settings?->diplomados_hero_claim ?? 'El conocimiento evoluciona. Tu formación también.' }}
@@ -126,68 +126,9 @@
         </div>
     </section>
 
-    {{-- CONTÁCTANOS --}}
-    @php
-        $whatsappLink = \App\Models\SiteSetting::contacto('whatsapp');
-    @endphp
-    <section class="bg-gray-900 border-t-4 border-unmsm-dorado">
-        <div class="container mx-auto px-6 py-12">
-            <h2 class="text-2xl font-bold text-white mb-2">| Contáctanos</h2>
-            <p class="text-gray-400 mb-8">Estamos a tu disposición para resolver cualquier duda sobre nuestros programas y procesos.</p>
-
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-gray-200">
-                <div class="flex items-start gap-3">
-                    <x-fas-envelope class="text-unmsm-dorado mt-1" />
-                    <div>
-                        <p class="text-xs uppercase text-gray-500 font-bold">Email</p>
-                        <a href="mailto:{{ \App\Models\SiteSetting::contacto('admision') }}" class="hover:text-unmsm-dorado transition-colors">
-                            {{ \App\Models\SiteSetting::contacto('admision') }}
-                        </a>
-                    </div>
-                </div>
-                <div class="flex items-start gap-3">
-                    <x-fab-whatsapp class="text-unmsm-dorado mt-1" />
-                    <div>
-                        <p class="text-xs uppercase text-gray-500 font-bold">WhatsApp</p>
-                        <a href="{{ $whatsappLink }}" target="_blank" rel="noopener noreferrer" class="hover:text-unmsm-dorado transition-colors">
-                            {{ \App\Models\SiteSetting::contacto('telefono') }}
-                        </a>
-                    </div>
-                </div>
-                <div class="flex items-start gap-3">
-                    <x-fas-location-dot class="text-unmsm-dorado mt-1" />
-                    <div>
-                        <p class="text-xs uppercase text-gray-500 font-bold">Ubicación</p>
-                        <p>{{ $settings?->direccion ?? 'Ciudad Universitaria, Av. Venezuela s/n, Lima' }}</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-3">
-                    <x-far-clock class="text-unmsm-dorado mt-1" />
-                    <div>
-                        <p class="text-xs uppercase text-gray-500 font-bold">Horario de atención</p>
-                        <p>{{ $settings?->horario_atencion ?? 'Lunes a Viernes de 8:00 am a 16:00 pm' }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex gap-4 mt-8">
-                @if($settings?->facebook)
-                    <a href="{{ $settings->facebook }}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white"><x-fab-facebook-f /></a>
-                @endif
-                @if($settings?->instagram)
-                    <a href="{{ $settings->instagram }}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white"><x-fab-instagram /></a>
-                @endif
-                @if($settings?->twitter)
-                    <a href="{{ $settings->twitter }}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white"><x-fab-twitter /></a>
-                @endif
-                @if($settings?->linkedin)
-                    <a href="{{ $settings->linkedin }}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white"><x-fab-linkedin-in /></a>
-                @endif
-                @if($settings?->tiktok)
-                    <a href="{{ $settings->tiktok }}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white"><x-fab-tiktok /></a>
-                @endif
-            </div>
-        </div>
-    </section>
+    {{-- La sección «Contáctanos» que iba aquí se retiró (Obs. N.º 7): repetía
+         ubicación, correo, WhatsApp, horario y redes, que ya están en el pie de
+         página junto con los enlaces rápidos e institucionales. El footer queda
+         como único cierre de contacto y navegación. --}}
 
 @endsection

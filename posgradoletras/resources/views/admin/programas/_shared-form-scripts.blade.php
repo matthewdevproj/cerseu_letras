@@ -29,39 +29,30 @@
     function agregarIngresante() { crearItemLista('ingresante-list'); }
     function agregarGraduado() { crearItemLista('graduado-list'); }
 
-    function agregarCuota() {
-        var list = document.getElementById('cuotas-list');
-        var row = document.createElement('div');
-        row.className = 'flex gap-2 items-center cuota-row';
-        row.innerHTML =
-            '<input type="number" min="0" placeholder="Monto (S/)" class="cuota-monto block w-32 py-2 px-3 border border-gray-300 rounded-lg">' +
-            '<input type="text" placeholder="Fecha / condición de pago" class="cuota-fecha block flex-1 py-2 px-3 border border-gray-300 rounded-lg">' +
-            '<button type="button" onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700"><x-fas-trash /></button>';
-        list.appendChild(row);
-    }
-
+    /**
+     * Importes y textos de la inversión económica de un diplomado.
+     *
+     * Las cuotas ya no se recogen aquí: pasaron a «Modalidades de pago», que las
+     * agrupa con su nombre y sus fechas y viaja en su propio campo
+     * (`inversion_modalidades`), que el controlador funde con este objeto.
+     */
     function recogerInversionEconomica() {
-        var bachiller = document.getElementById('inv_derecho_bachiller').value;
-        var otras = document.getElementById('inv_derecho_otras').value;
-        var costoTotal = document.getElementById('inv_costo_total').value;
-        var costoDiploma = document.getElementById('inv_costo_diploma').value;
-        var modalidades = document.getElementById('inv_modalidades_pago').value;
-        var descuentos = document.getElementById('inv_descuentos').value;
-        var observaciones = document.getElementById('inv_observaciones').value;
+        var valor = function(id) {
+            var el = document.getElementById(id);
+            return el ? el.value.trim() : '';
+        };
 
-        var tieneAlgo = bachiller || otras || costoTotal || costoDiploma || modalidades || descuentos || observaciones;
+        var bachiller = valor('inv_derecho_bachiller');
+        var otras = valor('inv_derecho_otras');
+        var costoTotal = valor('inv_costo_total');
+        var costoDiploma = valor('inv_costo_diploma');
+        var modalidades = valor('inv_modalidades_pago');
+        var descuentos = valor('inv_descuentos');
+        var observaciones = valor('inv_observaciones');
 
-        var cuotas = [];
-        document.querySelectorAll('#cuotas-list .cuota-row').forEach(function(row, index) {
-            var monto = row.querySelector('.cuota-monto').value;
-            var fecha = row.querySelector('.cuota-fecha').value;
-            if (monto || fecha) {
-                cuotas.push({ numero: index + 1, monto: monto ? parseFloat(monto) : 0, fecha: fecha || null });
-                tieneAlgo = true;
-            }
-        });
-
-        if (!tieneAlgo) return '';
+        if (!(bachiller || otras || costoTotal || costoDiploma || modalidades || descuentos || observaciones)) {
+            return '';
+        }
 
         var data = {
             derecho_inscripcion: (bachiller || otras) ? {
@@ -70,7 +61,6 @@
             } : null,
             costo_total: costoTotal ? parseFloat(costoTotal) : null,
             costo_diploma: costoDiploma ? parseFloat(costoDiploma) : null,
-            cuotas: cuotas,
             modalidades_pago: modalidades ? modalidades.split(',').map(function(s) { return s.trim(); }).filter(Boolean) : [],
             descuentos: descuentos || null,
             observaciones: observaciones || null,

@@ -56,6 +56,9 @@ class ProgramaController extends Controller
                 'duracion',
                 'creditos',
                 'grado_otorga',
+                // Rótulo de la denominación: sin él la portada mostraría solo
+                // el contenido, sin el «Otorga:» que lo precede.
+                'grado_otorga_label',
                 'objetivos_academicos',
                 'perfil_ingresante',
                 'perfil_graduado',

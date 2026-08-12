@@ -59,6 +59,8 @@ class AdminProgramaController extends Controller
             'duracion' => 'nullable|integer',
             'vacantes' => 'nullable|integer',
             'creditos' => 'nullable|integer',
+            'grado_otorga' => 'nullable|max:255',
+            'grado_otorga_label' => 'nullable|max:100',
             'objetivos_academicos' => 'nullable', // JSON array string
             'perfil_ingresante' => 'nullable',    // JSON array string
             'perfil_graduado' => 'nullable',      // JSON array string
@@ -69,6 +71,7 @@ class AdminProgramaController extends Controller
             'horas_academicas' => 'nullable|integer',
             'fecha_limite_inscripcion' => 'nullable|max:255',
             'inversion_economica' => 'nullable',   // JSON object string
+            'inversion_modalidades' => 'nullable|string', // JSON array string (modalidades de pago)
             'plan_estudios' => 'nullable',         // JSON array string
             'slug' => 'nullable|unique:programas,slug',
             'imagen_url' => 'nullable|max:255',
@@ -103,6 +106,14 @@ class AdminProgramaController extends Controller
                 : null;
         }
 
+        // Viaja en un campo aparte del formulario, pero se guarda dentro del
+        // mismo JSON; no es una columna, así que no debe llegar al modelo.
+        $data['inversion_economica'] = $this->conModalidadesDePago(
+            $data['inversion_economica'] ?? null,
+            $data['inversion_modalidades'] ?? null
+        );
+        unset($data['inversion_modalidades']);
+
         // Generate slug if not provided
         if (empty($data['slug'])) {
             $baseName = $data['nombre'];
@@ -126,20 +137,7 @@ class AdminProgramaController extends Controller
 
         $programa = Programa::create($data);
 
-        // Docentes sync (using parallel arrays from form)
-        if ($request->has('docentes_asignados')) {
-            $docentesData = [];
-            foreach ($request->docentes_asignados as $index => $docenteId) {
-                if ($docenteId) {
-                    $docentesData[$docenteId] = [
-                        'es_coordinador' => ($request->docentes_coordinador[$index] ?? '0') == '1',
-                        'rol' => $request->docentes_rol[$index] ?? null,
-                        'orden' => $request->docentes_orden[$index] ?? 0
-                    ];
-                }
-            }
-            $programa->docentes()->sync($docentesData);
-        }
+        $this->sincronizarDocentes($request, $programa);
 
         return redirect()->route('admin.programas.index')
             ->with('success', 'Programa creado exitosamente.');
@@ -168,6 +166,7 @@ class AdminProgramaController extends Controller
             'vacantes' => 'nullable|integer',
             'creditos' => 'nullable|integer',
             'grado_otorga' => 'nullable|max:255',
+            'grado_otorga_label' => 'nullable|max:100',
             'objetivos_academicos' => 'nullable', // JSON array string
             'perfil_ingresante' => 'nullable',    // JSON array string
             'perfil_graduado' => 'nullable',      // JSON array string
@@ -178,6 +177,7 @@ class AdminProgramaController extends Controller
             'horas_academicas' => 'nullable|integer',
             'fecha_limite_inscripcion' => 'nullable|max:255',
             'inversion_economica' => 'nullable',   // JSON object string
+            'inversion_modalidades' => 'nullable|string', // JSON array string (modalidades de pago)
             'plan_estudios' => 'nullable',         // JSON array string
             'slug' => 'nullable|unique:programas,slug,' . $programa->id, // Nullable to avoid validation failure if missing from form
             'imagen_url' => 'nullable|max:255',
@@ -212,6 +212,14 @@ class AdminProgramaController extends Controller
                 : null;
         }
 
+        // Viaja en un campo aparte del formulario, pero se guarda dentro del
+        // mismo JSON; no es una columna, así que no debe llegar al modelo.
+        $data['inversion_economica'] = $this->conModalidadesDePago(
+            $data['inversion_economica'] ?? null,
+            $data['inversion_modalidades'] ?? null
+        );
+        unset($data['inversion_modalidades']);
+
         // Update slug if nombre changed and slug not manually provided
         if (empty($data['slug']) && ($programa->nombre !== $data['nombre'] || $programa->mencion !== ($data['mencion'] ?? null))) {
             $baseName = $data['nombre'];
@@ -235,25 +243,97 @@ class AdminProgramaController extends Controller
 
         $programa->update($data);
 
-        // Docentes sync (using parallel arrays from form)
-        if ($request->has('docentes_asignados')) {
-            $docentesData = [];
-            foreach ($request->docentes_asignados as $index => $docenteId) {
-                if ($docenteId) {
-                    $docentesData[$docenteId] = [
-                        'es_coordinador' => ($request->docentes_coordinador[$index] ?? '0') == '1',
-                        'rol' => $request->docentes_rol[$index] ?? null,
-                        'orden' => $request->docentes_orden[$index] ?? 0
-                    ];
-                }
-            }
-            $programa->docentes()->sync($docentesData);
-        } else {
-            $programa->docentes()->detach();
-        }
+        $this->sincronizarDocentes($request, $programa);
 
         return redirect()->route('admin.programas.index')
             ->with('success', 'Programa actualizado exitosamente.');
+    }
+
+    /**
+     * Funde las modalidades de pago del repetidor con el resto de la inversión
+     * económica, que el formulario envía como dos campos distintos (Obs. N.º 2).
+     *
+     * Solo se descartan las modalidades sin cuotas utilizables; si no queda
+     * ninguna, la clave se omite para no dejar un array vacío en el JSON.
+     *
+     * @param  array<string, mixed>|null  $inversion
+     */
+    private function conModalidadesDePago(?array $inversion, ?string $modalidadesJson): ?array
+    {
+        $modalidades = [];
+
+        foreach ((array) json_decode((string) $modalidadesJson, true) as $modalidad) {
+            if (!is_array($modalidad) || empty($modalidad['cuotas'])) {
+                continue;
+            }
+
+            $modalidades[] = [
+                'nombre' => trim((string) ($modalidad['nombre'] ?? '')) ?: null,
+                'cuotas' => array_values(array_map(fn ($cuota) => [
+                    'etiqueta' => trim((string) ($cuota['etiqueta'] ?? '')) ?: null,
+                    'monto' => is_numeric($cuota['monto'] ?? null) ? (float) $cuota['monto'] : null,
+                    'fecha' => trim((string) ($cuota['fecha'] ?? '')) ?: null,
+                ], (array) $modalidad['cuotas'])),
+            ];
+        }
+
+        if ($modalidades === []) {
+            // Sin modalidades no se toca lo que hubiera: `modalidades` se
+            // elimina solo si el JSON llegó y quedó vacío tras limpiarlo.
+            if ($inversion !== null) {
+                unset($inversion['modalidades']);
+            }
+
+            return $inversion;
+        }
+
+        $inversion ??= [];
+        $inversion['modalidades'] = $modalidades;
+
+        return $inversion;
+    }
+
+    /**
+     * Guarda la plana docente que envía el formulario como arrays paralelos.
+     *
+     * Estaba duplicada en `store` y `update`, con la única diferencia de que
+     * una desasignaba al no recibir filas y la otra no; sincronizar con un
+     * array vacío hace lo mismo en ambos casos.
+     *
+     * `coordinador_denominacion` guarda «Coordinador» o «Coordinadora» según lo
+     * elegido para ese programa (Obs. N.º 1); cualquier otro valor se descarta.
+     */
+    private function sincronizarDocentes(Request $request, Programa $programa): void
+    {
+        $asignados = (array) $request->input('docentes_asignados', []);
+        $coordinadores = (array) $request->input('docentes_coordinador', []);
+        $denominaciones = (array) $request->input('docentes_coordinador_denominacion', []);
+        $roles = (array) $request->input('docentes_rol', []);
+        $ordenes = (array) $request->input('docentes_orden', []);
+
+        $docentesData = [];
+
+        foreach ($asignados as $index => $docenteId) {
+            if (!$docenteId) {
+                continue;
+            }
+
+            $esCoordinador = ($coordinadores[$index] ?? '0') == '1';
+            $denominacion = trim((string) ($denominaciones[$index] ?? ''));
+
+            $docentesData[$docenteId] = [
+                'es_coordinador' => $esCoordinador,
+                // Solo tiene sentido en quien coordina; en el resto se limpia
+                // para que no quede un valor huérfano si se desmarca la casilla.
+                'coordinador_denominacion' => $esCoordinador && in_array($denominacion, Programa::DENOMINACIONES_COORDINADOR, true)
+                    ? $denominacion
+                    : null,
+                'rol' => $roles[$index] ?? null,
+                'orden' => $ordenes[$index] ?? 0,
+            ];
+        }
+
+        $programa->docentes()->sync($docentesData);
     }
 
     /**

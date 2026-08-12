@@ -231,6 +231,36 @@
 }
 
 /*
+ * Texto justificado solo a partir de tablet (Obs. N.º 3).
+ *
+ * En móvil la columna es tan estrecha que `text-align: justify` reparte el
+ * sobrante entre poquísimas palabras y abre "ríos" de espacio en blanco entre
+ * ellas. La regla convive con la utilidad `text-justify` de Tailwind —que se
+ * sigue usando en las plantillas— y solo la neutraliza por debajo del breakpoint
+ * `md` (768 px): en tablet y escritorio el diseño no cambia en absoluto.
+ *
+ * Va después de `@tailwind utilities`, así que gana con la misma especificidad
+ * sin necesidad de `!important`.
+ */
+@media (max-width: 767.98px) {
+    .text-justify {
+        text-align: left;
+        /* Sin justificar no hacen falta guiones; se evita que el navegador
+           parta palabras largas innecesariamente. */
+        hyphens: manual;
+    }
+}
+
+/* A partir de tablet se mantiene el justificado, con partición de palabras
+   para que los espacios entre ellas no se disparen en columnas estrechas. */
+@media (min-width: 768px) {
+    .text-justify {
+        hyphens: auto;
+        overflow-wrap: break-word;
+    }
+}
+
+/*
  * Scroll suave para la navegación por anclas internas. Se desactiva por
  * completo si el usuario prefiere menos movimiento.
  */

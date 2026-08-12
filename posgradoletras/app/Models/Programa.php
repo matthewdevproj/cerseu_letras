@@ -18,7 +18,10 @@ class Programa extends Model
         'vacantes',
         'duracion',
         'creditos',
-        // 'grado_otorga', // Se genera automáticamente, ya no es necesario guardarlo aunque la columna exista
+        // Denominación del título que otorga: rótulo y contenido, ambos
+        // editables y ambos opcionales (ver getDenominacionOtorgaAttribute).
+        'grado_otorga',
+        'grado_otorga_label',
         'objetivos_academicos',
         'perfil_ingresante',
         'perfil_graduado',
@@ -70,6 +73,12 @@ class Programa extends Model
         ],
     ];
 
+    /**
+     * Denominaciones admitidas para el responsable académico (Obs. N.º 1).
+     * La primera es la que se aplica cuando el programa no ha elegido ninguna.
+     */
+    public const DENOMINACIONES_COORDINADOR = ['Coordinador', 'Coordinadora'];
+
     protected $casts = [
         'vacantes' => 'integer',
         'duracion' => 'integer',
@@ -89,7 +98,7 @@ class Programa extends Model
     public function docentes()
     {
         return $this->belongsToMany(Docente::class, 'docente_programa')
-            ->withPivot('es_coordinador', 'rol', 'orden')
+            ->withPivot('es_coordinador', 'coordinador_denominacion', 'rol', 'orden')
             ->withTimestamps()
             ->orderBy('docente_programa.orden');
     }
@@ -182,27 +191,74 @@ class Programa extends Model
         };
     }
 
-    public function getGradoOtorgaAttribute($value)
+    /**
+     * Rótulo con el que se presenta el título que otorga el programa.
+     *
+     * Antes el texto se generaba aquí («Magíster en …») y la ficha lo anunciaba
+     * siempre como «Grado que otorga». En un diplomado eso es incorrecto —no es
+     * un grado académico— y no había forma de cambiarlo. Ahora tanto el rótulo
+     * como el contenido salen de la base de datos y pueden quedar vacíos.
+     *
+     * Devuelve null cuando no hay nada que mostrar, para que la vista pueda
+     * omitir el bloque entero en lugar de dejar una etiqueta suelta.
+     *
+     * @return array{label: ?string, texto: string}|null
+     */
+    public function getDenominacionOtorgaAttribute(): ?array
     {
-        $prefix = match($this->grado) {
-            'Doctorado' => 'Doctor en ',
-            'Diplomado' => 'Diplomado en ',
-            default     => 'Magíster en ',
-        };
+        $texto = trim((string) $this->grado_otorga);
 
-        // Los diplomados suelen tener su propio nombre completo (p. ej. "Diplomado Internacional de...")
-        // y no deben llevar el prefijo duplicado.
-        if (Str::startsWith(Str::lower($this->nombre), ['diplomado', 'doctorado', 'maestría', 'maestria'])) {
-            $texto = $this->nombre;
-        } else {
-            $texto = $prefix . $this->nombre;
+        if ($texto === '') {
+            return null;
         }
 
-        if ($this->mencion) {
-            $texto .= ' con mención en ' . $this->mencion;
+        $label = trim((string) $this->grado_otorga_label);
+
+        return [
+            'label' => $label !== '' ? $label : null,
+            'texto' => $texto,
+        ];
+    }
+
+    /**
+     * La denominación ya compuesta («Otorga: Diploma en …»), o null si el
+     * programa aún no la tiene definida.
+     */
+    public function getDenominacionOtorgaTextoAttribute(): ?string
+    {
+        $denominacion = $this->denominacion_otorga;
+
+        if ($denominacion === null) {
+            return null;
         }
 
-        return $texto;
+        return $denominacion['label']
+            ? $denominacion['label'] . ': ' . $denominacion['texto']
+            : $denominacion['texto'];
+    }
+
+    // Coordinación académica
+
+    /**
+     * Docente marcado como responsable del programa, si lo hay.
+     */
+    public function getCoordinadorAttribute(): ?Docente
+    {
+        return $this->docentes->firstWhere('pivot.es_coordinador', 1);
+    }
+
+    /**
+     * Denominación del responsable académico: «Coordinador» o «Coordinadora»
+     * según se haya configurado en el programa. Sin valor guardado se mantiene
+     * la denominación que el sitio venía usando.
+     */
+    public static function denominacionCoordinador(?string $valor): string
+    {
+        $valor = trim((string) $valor);
+
+        return in_array($valor, self::DENOMINACIONES_COORDINADOR, true)
+            ? $valor
+            : self::DENOMINACIONES_COORDINADOR[0];
     }
 
     // Inversión económica
@@ -266,6 +322,75 @@ class Programa extends Model
             fn ($f) => $f['matricula'] + $f['costo_semestre'],
             $filas
         ));
+    }
+
+    /**
+     * Modalidades de pago de los derechos de enseñanza, ya normalizadas
+     * (Obs. N.º 2).
+     *
+     * Punto único de lectura para la plantilla: resuelve aquí la convivencia
+     * entre el formato estructurado que carga el panel y las `cuotas` planas
+     * que quedaron de la versión anterior, para que la vista no tenga que
+     * conocer las dos formas. Las cuotas sin monto ni fecha se descartan: son
+     * filas que el panel deja al añadir y no completar.
+     *
+     * @return array<int, array{nombre:string, cuotas:array<int, array{etiqueta:string, monto:?float, fecha:?string}>}>
+     */
+    public function getModalidadesDePagoAttribute(): array
+    {
+        $inversion = (array) ($this->inversion_economica ?? []);
+
+        $modalidades = !empty($inversion['modalidades'])
+            ? (array) $inversion['modalidades']
+            // Respaldo: las cuotas sueltas de antes se presentan como una única
+            // modalidad, sin nombre, para no dejar de mostrar importes ya cargados.
+            : [['nombre' => null, 'cuotas' => (array) ($inversion['cuotas'] ?? [])]];
+
+        $normalizadas = [];
+
+        foreach ($modalidades as $modalidad) {
+            if (!is_array($modalidad)) {
+                continue;
+            }
+
+            $cuotas = [];
+
+            foreach ((array) ($modalidad['cuotas'] ?? []) as $i => $cuota) {
+                if (!is_array($cuota)) {
+                    continue;
+                }
+
+                $monto = $cuota['monto'] ?? null;
+                $fecha = trim((string) ($cuota['fecha'] ?? ''));
+
+                if (($monto === null || $monto === '') && $fecha === '') {
+                    continue;
+                }
+
+                $etiqueta = trim((string) ($cuota['etiqueta'] ?? ''));
+
+                $cuotas[] = [
+                    'etiqueta' => $etiqueta !== '' ? $etiqueta : 'Cuota ' . ($cuota['numero'] ?? $i + 1),
+                    'monto' => is_numeric($monto) ? (float) $monto : null,
+                    'fecha' => $fecha !== '' ? $fecha : null,
+                ];
+            }
+
+            if ($cuotas === []) {
+                continue;
+            }
+
+            $nombre = trim((string) ($modalidad['nombre'] ?? ''));
+
+            $normalizadas[] = [
+                // Sin nombre guardado se deduce del número de cuotas, que es
+                // exactamente lo que distingue una modalidad de la otra.
+                'nombre' => $nombre !== '' ? $nombre : (count($cuotas) === 1 ? 'Pago único' : 'Pago fraccionado'),
+                'cuotas' => $cuotas,
+            ];
+        }
+
+        return $normalizadas;
     }
 
     /**

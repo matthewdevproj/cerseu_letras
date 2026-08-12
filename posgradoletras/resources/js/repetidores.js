@@ -171,6 +171,73 @@ export function crearMenuNavegacion(iniciales = []) {
 }
 
 /**
+ * Modalidades de pago de un diplomado (Obs. N.º 2).
+ *
+ * Repetidor de dos niveles: cada modalidad («Pago único», «Pago fraccionado»…)
+ * tiene su propia lista de cuotas con monto y fecha. No se limita a dos cuotas
+ * a propósito: el documento describe ese caso, pero la estructura admite las
+ * que haga falta sin volver a tocar código.
+ *
+ * La etiqueta de cada cuota se sugiere sola («Cuota única» cuando hay una,
+ * «Cuota 1», «Cuota 2»… cuando hay varias) y solo se guarda si quien edita la
+ * escribe: así renumerar al añadir o quitar no deja etiquetas contradictorias.
+ */
+export function crearModalidadesPago(iniciales = []) {
+    const nuevaCuota = () => ({ etiqueta: '', monto: null, fecha: '' });
+
+    const base = crearRepetidor(
+        (Array.isArray(iniciales) ? iniciales : []).map((m) => ({
+            nombre: m.nombre ?? '',
+            cuotas: Array.isArray(m.cuotas) && m.cuotas.length
+                ? m.cuotas.map((c) => ({
+                      etiqueta: c.etiqueta ?? '',
+                      monto: c.monto ?? null,
+                      fecha: c.fecha ?? '',
+                  }))
+                : [nuevaCuota()],
+        })),
+        () => ({ nombre: '', cuotas: [nuevaCuota()] })
+    );
+
+    return {
+        ...base,
+
+        get modalidades() {
+            return this.elementos;
+        },
+
+        /** Lo que viaja al servidor: sin `uid` y sin filas del todo vacías. */
+        get payload() {
+            return JSON.stringify(
+                this.elementos.map((m) => ({
+                    nombre: m.nombre,
+                    cuotas: m.cuotas
+                        .filter((c) => c.monto !== null && c.monto !== '' || (c.fecha || '').trim() !== '')
+                        .map((c, i) => ({
+                            etiqueta: (c.etiqueta || '').trim() || this.etiquetaSugerida(m, i),
+                            monto: c.monto === '' || c.monto === null ? null : Number(c.monto),
+                            fecha: (c.fecha || '').trim() || null,
+                        })),
+                })).filter((m) => m.cuotas.length > 0)
+            );
+        },
+
+        etiquetaSugerida(modalidad, indice) {
+            return modalidad.cuotas.length === 1 ? 'Cuota única' : `Cuota ${indice + 1}`;
+        },
+
+        agregarCuota(modalidad) {
+            modalidad.cuotas.push(nuevaCuota());
+        },
+
+        eliminarCuota(modalidad, indice) {
+            if (indice < 0 || indice >= modalidad.cuotas.length) return;
+            modalidad.cuotas.splice(indice, 1);
+        },
+    };
+}
+
+/**
  * Tarifas por periodo de un programa.
  *
  * El total se recalcula en vivo mientras se edita: matrícula del periodo más
