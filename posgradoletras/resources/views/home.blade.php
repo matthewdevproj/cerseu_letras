@@ -642,12 +642,41 @@
                         class="group absolute inset-0 w-full h-full flex flex-col items-center justify-center gap-3 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-[-4px]">
                         {{-- Mapa real (teselas de OpenStreetMap, servidas desde el
                              propio sitio). Antes había una foto del campus
-                             desenfocada al 45%: no se entendía que fuera un mapa. --}}
-                        <img src="{{ asset('images/mapa-preview.webp') }}" alt="Mapa de la ubicación de la Facultad"
-                            class="absolute inset-0 w-full h-full object-cover"
-                            loading="lazy" decoding="async" width="720" height="400">
+                             desenfocada al 45%: no se entendía que fuera un mapa.
 
-                        {{-- Marcador en el centro, donde está la Facultad --}}
+                             La imagen está compuesta centrada exactamente en las
+                             coordenadas de la Facultad (-12.0570461, -77.0814630,
+                             el nodo «Facultad de Letras y Ciencias Humanas» de
+                             OpenStreetMap). Ese centrado es lo que sostiene al
+                             marcador de abajo: con `object-cover` y el
+                             `object-position` por defecto (50% 50%), el centro de
+                             la imagen cae siempre en el centro del bloque, sea cual
+                             sea el ancho de la pantalla. Si se regenera la imagen,
+                             debe seguir centrada en ese punto.
+
+                             Se sirve en tres anchos porque el bloque llega a 1488
+                             CSS px: la versión única de 720 px que había antes se
+                             ampliaba 1,7x (3,4x en pantallas retina) y se veía
+                             pixelada. Los `sizes` describen el ancho real del
+                             contenedor en cada breakpoint —no `100vw`, que haría
+                             pedir siempre el archivo más grande. --}}
+                        <img src="{{ asset('images/mapa-preview.webp') }}"
+                            srcset="{{ asset('images/mapa-preview.webp') }} 1200w,
+                                    {{ asset('images/mapa-preview-1600.webp') }} 1600w,
+                                    {{ asset('images/mapa-preview@2x.webp') }} 2400w"
+                            sizes="(min-width: 1536px) 1488px,
+                                   (min-width: 1280px) 1232px,
+                                   (min-width: 1024px) 976px,
+                                   (min-width: 768px) 720px,
+                                   (min-width: 640px) 592px,
+                                   calc(100vw - 3rem)"
+                            alt="Mapa de la Ciudad Universitaria de la UNMSM con la ubicación de la Facultad de Letras y Ciencias Humanas"
+                            class="absolute inset-0 w-full h-full object-cover"
+                            loading="lazy" decoding="async" width="1200" height="340">
+
+                        {{-- Marcador sobre la Facultad: la punta del triángulo queda
+                             en el centro exacto del bloque, que es el punto de las
+                             coordenadas (ver la nota de la imagen). --}}
                         <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full flex flex-col items-center" aria-hidden="true">
                             <span class="w-9 h-9 rounded-full bg-unmsm-guinda text-white flex items-center justify-center shadow-lg ring-4 ring-white/70 motion-safe:group-hover:scale-110 transition-transform">
                                 <x-fas-location-dot class="text-sm" />
