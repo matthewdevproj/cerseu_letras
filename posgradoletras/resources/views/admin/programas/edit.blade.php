@@ -601,6 +601,12 @@
                                             <input type="number" id="inv_costo_diploma" value="{{ $inv['costo_diploma'] ?? '' }}"
                                                 class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="650">
                                         </div>
+                                        <div>
+                                            <label class="text-xs text-gray-500 mb-1 block">Costo por matrícula (S/)</label>
+                                            <input type="number" id="inv_costo_matricula" value="{{ $inv['costo_matricula'] ?? '' }}"
+                                                class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="200">
+                                            <p class="mt-1 text-xs text-gray-400">Se muestra en la ficha debajo del pago de diploma. Vacío: no aparece.</p>
+                                        </div>
                                     </div>
 
                                     {{-- Resto de la versión anterior: las modalidades se
@@ -613,25 +619,24 @@
                                     <input type="hidden" id="inv_modalidades_pago"
                                         value="{{ !empty($inv['modalidades_pago']) ? implode(', ', $inv['modalidades_pago']) : '' }}">
 
-                                    <div class="mt-4">
-                                        <label class="text-xs text-gray-500 mb-1 block">Descuentos o beneficios</label>
-                                        <input type="text" id="inv_descuentos" value="{{ $inv['descuentos'] ?? '' }}"
-                                            class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                            placeholder="Ej: 10% de descuento por pago adelantado">
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <label class="text-xs text-gray-500 mb-1 block">Observaciones</label>
-                                        <textarea id="inv_observaciones" rows="2"
-                                            class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                            placeholder="Condiciones adicionales...">{{ $inv['observaciones'] ?? '' }}</textarea>
-                                    </div>
+                                    {{-- «Descuentos» y «Observaciones» pasaron a ser
+                                         puntos de la lista de condiciones, que se
+                                         edita abajo. Se conservan ocultos para no
+                                         perder lo ya escrito: el modelo los usa de
+                                         respaldo mientras el diplomado no tenga la
+                                         lista cargada. --}}
+                                    <input type="hidden" id="inv_descuentos" value="{{ $inv['descuentos'] ?? '' }}">
+                                    <input type="hidden" id="inv_observaciones" value="{{ $inv['observaciones'] ?? '' }}">
 
                                     <input type="hidden" id="inversion_economica" name="inversion_economica">
                                 </div>
 
                                 @include('admin.programas._modalidades-pago', [
                                     'modalidades' => $programa->modalidades_de_pago,
+                                ])
+
+                                @include('admin.programas._condiciones-pago', [
+                                    'condiciones' => $programa->condiciones_de_pago,
                                 ])
 
                                 <!-- Imagen del Programa -->

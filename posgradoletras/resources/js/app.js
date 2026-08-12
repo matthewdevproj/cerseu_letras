@@ -14,6 +14,7 @@ import '@fontsource/playfair-display/latin-700.css';
 
 import { crearBuscador } from './site-search';
 import {
+    crearCondicionesPago,
     crearCronogramaAdmision,
     crearEditorContenido,
     crearInversionPeriodos,
@@ -181,6 +182,7 @@ window.siteSearch = (urlSugerencias = '/buscar/sugerencias') => {
         },
     };
 };
+window.condicionesPago = crearCondicionesPago;
 window.cronogramaAdmision = crearCronogramaAdmision;
 window.editorContenido = crearEditorContenido;
 window.inversionPeriodos = crearInversionPeriodos;
@@ -196,9 +198,6 @@ function initApp() {
     // antes del aviso de cambios para que la instantánea inicial incluya ya
     // el contenido normalizado por el editor y no salte un falso positivo.
     montarEditores();
-
-    // Panel: avisa antes de abandonar un formulario con cambios pendientes.
-    montarAvisoSinGuardar();
 
     // Formulario de diplomados: país y región desde listas reales. Se monta
     // solo si la página los tiene.
@@ -222,6 +221,25 @@ function initApp() {
     });
 
     Alpine.start();
+
+    // Panel: avisa antes de abandonar un formulario con cambios pendientes.
+    //
+    // La instantánea inicial tiene que tomarse con el formulario ya en reposo,
+    // y varias partes se rellenan solas después de este punto: los repetidores
+    // escriben su JSON en campos ocultos vía `:value` (que Alpine no evalúa
+    // hasta arrancar) y la ficha de programa genera las filas de la plana
+    // docente desde su propio `DOMContentLoaded`. Si se midiera antes, esos
+    // campos pasarían de vacíos a llenos por su cuenta y el aviso saltaría
+    // nada más abrir la ficha, sin que nadie hubiera tocado nada.
+    //
+    // Por eso se espera a `load`, que llega después de todos los
+    // `DOMContentLoaded`. Si la página ya terminó de cargar, se monta al vuelo.
+    if (document.readyState === 'complete') {
+        montarAvisoSinGuardar();
+    } else {
+        window.addEventListener('load', () => montarAvisoSinGuardar(), { once: true });
+    }
+
     initScrollReveal();
     initAnimatedCounters();
 

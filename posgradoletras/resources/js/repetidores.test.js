@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
     crearRepetidor,
+    crearCondicionesPago,
     crearCronogramaAdmision,
     crearEditorContenido,
     crearInversionPeriodos,
@@ -370,5 +371,45 @@ describe('modalidades de pago (diplomados)', () => {
         expect(JSON.parse(crearModalidadesPago().payload)).toEqual([]);
         expect(JSON.parse(crearModalidadesPago(null).payload)).toEqual([]);
         expect(JSON.parse(crearModalidadesPago('nada').payload)).toEqual([]);
+    });
+});
+
+describe('condiciones de pago (diplomados)', () => {
+    it('acepta tanto cadenas sueltas como objetos con texto', () => {
+        const c = crearCondicionesPago(['Primera', { texto: 'Segunda' }]);
+
+        expect(c.condiciones.map((x) => x.texto)).toEqual(['Primera', 'Segunda']);
+    });
+
+    it('el payload descarta líneas en blanco, recorta y no lleva uid', () => {
+        const c = crearCondicionesPago(['  Con espacios  ', '', '   ', 'Otra']);
+
+        const payload = JSON.parse(c.payload);
+
+        expect(payload).toEqual(['Con espacios', 'Otra']);
+        expect(JSON.stringify(payload)).not.toContain('uid');
+    });
+
+    it('agrega, elimina y reordena conservando el resto', () => {
+        const c = crearCondicionesPago(['A', 'B', 'C']);
+
+        c.agregar();
+        expect(c.condiciones).toHaveLength(4);
+        expect(c.condiciones[3].texto).toBe('');
+
+        c.eliminar(3);
+        c.mover(0, 1);
+        expect(JSON.parse(c.payload)).toEqual(['B', 'A', 'C']);
+
+        // Fuera de rango: no altera la lista.
+        c.mover(0, -1);
+        c.eliminar(9);
+        expect(JSON.parse(c.payload)).toEqual(['B', 'A', 'C']);
+    });
+
+    it('tolera una entrada vacía o inválida', () => {
+        expect(JSON.parse(crearCondicionesPago().payload)).toEqual([]);
+        expect(JSON.parse(crearCondicionesPago(null).payload)).toEqual([]);
+        expect(JSON.parse(crearCondicionesPago('nada').payload)).toEqual([]);
     });
 });

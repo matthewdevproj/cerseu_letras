@@ -46,11 +46,12 @@
         var otras = valor('inv_derecho_otras');
         var costoTotal = valor('inv_costo_total');
         var costoDiploma = valor('inv_costo_diploma');
+        var costoMatricula = valor('inv_costo_matricula');
         var modalidades = valor('inv_modalidades_pago');
         var descuentos = valor('inv_descuentos');
         var observaciones = valor('inv_observaciones');
 
-        if (!(bachiller || otras || costoTotal || costoDiploma || modalidades || descuentos || observaciones)) {
+        if (!(bachiller || otras || costoTotal || costoDiploma || costoMatricula || modalidades || descuentos || observaciones)) {
             return '';
         }
 
@@ -61,6 +62,7 @@
             } : null,
             costo_total: costoTotal ? parseFloat(costoTotal) : null,
             costo_diploma: costoDiploma ? parseFloat(costoDiploma) : null,
+            costo_matricula: costoMatricula ? parseFloat(costoMatricula) : null,
             modalidades_pago: modalidades ? modalidades.split(',').map(function(s) { return s.trim(); }).filter(Boolean) : [],
             descuentos: descuentos || null,
             observaciones: observaciones || null,

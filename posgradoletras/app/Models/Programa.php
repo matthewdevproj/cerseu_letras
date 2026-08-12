@@ -394,6 +394,52 @@ class Programa extends Model
     }
 
     /**
+     * Condiciones de pago como lista de puntos.
+     *
+     * Antes se armaban a partir de tres campos sueltos —`modalidades_pago` en
+     * texto libre, `descuentos` y `observaciones`—, así que solo cabían tres
+     * puntos y cada uno con un significado fijo. Ahora se guardan en
+     * `condiciones` como una lista que se administra entera desde el panel.
+     *
+     * Los tres campos antiguos siguen sirviendo de respaldo mientras un
+     * diplomado no tenga la lista cargada, para no dejar de mostrar lo que ya
+     * estuviera publicado.
+     *
+     * @return array<int, string>
+     */
+    public function getCondicionesDePagoAttribute(): array
+    {
+        $inversion = (array) ($this->inversion_economica ?? []);
+
+        if (!empty($inversion['condiciones'])) {
+            $lista = array_map(
+                fn ($c) => trim((string) (is_array($c) ? ($c['texto'] ?? '') : $c)),
+                (array) $inversion['condiciones']
+            );
+
+            return array_values(array_filter($lista, fn ($c) => $c !== ''));
+        }
+
+        // Respaldo con el formato anterior.
+        $lista = [];
+
+        $modalidades = array_filter(array_map('trim', (array) ($inversion['modalidades_pago'] ?? [])));
+        if ($modalidades !== []) {
+            $lista[] = 'Modalidades de pago: ' . implode(', ', $modalidades) . '.';
+        }
+
+        foreach (['descuentos', 'observaciones'] as $clave) {
+            $valor = trim((string) ($inversion[$clave] ?? ''));
+
+            if ($valor !== '') {
+                $lista[] = $valor;
+            }
+        }
+
+        return $lista;
+    }
+
+    /**
      * Etiqueta del periodo según el grado ("Primer semestre" / "Módulo 1").
      */
     public function etiquetaPeriodo(int $numero): string

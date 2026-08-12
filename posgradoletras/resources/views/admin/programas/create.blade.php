@@ -393,6 +393,12 @@
                                         <input type="number" id="inv_costo_diploma" value="{{ old('inv_costo_diploma') }}"
                                             class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="650">
                                     </div>
+                                    <div>
+                                        <label class="text-xs text-gray-500 mb-1 block">Costo por matrícula (S/)</label>
+                                        <input type="number" id="inv_costo_matricula" value="{{ old('inv_costo_matricula') }}"
+                                            class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="200">
+                                        <p class="mt-1 text-xs text-gray-400">Se muestra en la ficha debajo del pago de diploma. Vacío: no aparece.</p>
+                                    </div>
                                 </div>
 
                                 {{-- Formato anterior de las modalidades (lista separada
@@ -400,24 +406,17 @@
                                      guardar; las modalidades reales se editan abajo. --}}
                                 <input type="hidden" id="inv_modalidades_pago" value="">
 
-                                <div class="mt-4">
-                                    <label class="text-xs text-gray-500 mb-1 block">Descuentos o beneficios</label>
-                                    <input type="text" id="inv_descuentos"
-                                        class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                        placeholder="Ej: 10% de descuento por pago adelantado">
-                                </div>
-
-                                <div class="mt-4">
-                                    <label class="text-xs text-gray-500 mb-1 block">Observaciones</label>
-                                    <textarea id="inv_observaciones" rows="2"
-                                        class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                        placeholder="Condiciones adicionales..."></textarea>
-                                </div>
+                                {{-- «Descuentos» y «Observaciones» pasaron a ser puntos
+                                     de la lista de condiciones, que se edita abajo. --}}
+                                <input type="hidden" id="inv_descuentos" value="">
+                                <input type="hidden" id="inv_observaciones" value="">
 
                                 <input type="hidden" id="inversion_economica" name="inversion_economica">
                             </div>
 
                             @include('admin.programas._modalidades-pago', ['modalidades' => []])
+
+                            @include('admin.programas._condiciones-pago', ['condiciones' => []])
 
                             <!-- Imagen del Programa -->
                             <x-admin-file-upload mode="ajax" name="imagen" label="Imagen del Programa" icon="fas fa-image"

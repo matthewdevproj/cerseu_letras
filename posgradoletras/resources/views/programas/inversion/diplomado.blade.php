@@ -14,11 +14,9 @@
     $inversion = $programa->inversion_economica;
     $modalidades = $programa->modalidades_de_pago;
 
-    // Las modalidades ya estructuradas sustituyen a la lista de texto libre
-    // anterior; esta solo se sigue mostrando en «Condiciones de pago» mientras
-    // el programa no tenga cargadas las nuevas.
-    $modalidadesTexto = $modalidades === [] ? (array) ($inversion['modalidades_pago'] ?? []) : [];
-    $hayCondiciones = $modalidadesTexto !== [] || !empty($inversion['descuentos']) || !empty($inversion['observaciones']);
+    // Lista de condiciones ya resuelta por el modelo (punto único: admite tanto
+    // la lista administrable como los tres campos sueltos anteriores).
+    $condiciones = $programa->condiciones_de_pago;
 @endphp
 
 @if(!$inversion)
@@ -176,26 +174,39 @@
             </section>
         @endif
 
+        {{-- Costo por matrícula. Va después del bloque del diploma y, como el
+             resto de importes, solo aparece si el diplomado lo tiene cargado. --}}
+        @if(!empty($inversion['costo_matricula']))
+            <section class="space-y-4">
+                <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+                    <x-fas-file-invoice-dollar class="text-unmsm-dorado" />
+                    Costo por matrícula
+                </h3>
+
+                <div class="flex justify-center">
+                    <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm inline-block min-w-[220px]">
+                        <div class="bg-unmsm-guinda text-white text-center py-5 px-8">
+                            <span class="text-3xl font-bold">S/&nbsp;{{ number_format($inversion['costo_matricula'], 0) }}</span>
+                        </div>
+                        <div class="bg-white text-center py-3 px-4">
+                            <p class="text-sm text-gray-600 font-medium">Costo por matrícula</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        @endif
+
         {{-- 4. Condiciones de pago --}}
-        @if($hayCondiciones)
+        @if($condiciones !== [])
             <section class="bg-green-50 border border-green-200 rounded-xl p-4 md:p-5 space-y-2">
                 <h3 class="text-sm font-semibold text-green-800 flex items-center gap-2">
                     <x-fas-percentage class="text-green-600" />
                     Condiciones de pago
                 </h3>
                 <ul class="list-disc list-inside text-sm text-green-900 space-y-1 text-justify">
-                    @if($modalidadesTexto !== [])
-                        <li>
-                            <span class="font-semibold">Modalidades de pago:</span>
-                            {{ implode(', ', $modalidadesTexto) }}.
-                        </li>
-                    @endif
-                    @if(!empty($inversion['descuentos']))
-                        <li>{{ $inversion['descuentos'] }}</li>
-                    @endif
-                    @if(!empty($inversion['observaciones']))
-                        <li>{{ $inversion['observaciones'] }}</li>
-                    @endif
+                    @foreach($condiciones as $condicion)
+                        <li>{{ $condicion }}</li>
+                    @endforeach
                 </ul>
             </section>
         @endif

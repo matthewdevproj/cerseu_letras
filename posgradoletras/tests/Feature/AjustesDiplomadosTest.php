@@ -182,6 +182,65 @@ class AjustesDiplomadosTest extends TestCase
         $this->assertStringNotContainsString('Costo total', $html);
     }
 
+    public function test_el_costo_por_matricula_va_debajo_del_pago_de_diploma(): void
+    {
+        $programa = $this->diplomado([
+            'inversion_economica' => [
+                'costo_total' => 3650,
+                'costo_diploma' => 650,
+                'costo_matricula' => 200,
+            ],
+        ]);
+
+        $html = $this->get(route('programas.show', $programa->slug))->assertOk()->getContent();
+
+        $this->assertStringContainsString('Costo por matrícula', $html);
+        $this->assertStringContainsString('S/&nbsp;200', $html);
+        $this->assertLessThan(
+            strpos($html, 'Costo por matrícula'),
+            strpos($html, 'Pago de diploma'),
+            'El costo por matrícula debe ir después del bloque de pago de diploma',
+        );
+        // Y antes de las condiciones, que cierran el apartado junto a Informes.
+        $this->assertLessThan(
+            strpos($html, 'Informes'),
+            strpos($html, 'Costo por matrícula'),
+        );
+    }
+
+    public function test_sin_costo_por_matricula_no_se_muestra_el_bloque(): void
+    {
+        $programa = $this->diplomado(['inversion_economica' => ['costo_total' => 3650]]);
+
+        $this->get(route('programas.show', $programa->slug))
+            ->assertOk()
+            ->assertDontSee('Costo por matrícula');
+    }
+
+    public function test_el_panel_guarda_el_costo_por_matricula(): void
+    {
+        $programa = $this->diplomado();
+
+        $this->actingAs($this->admin())
+            ->put(route('admin.programas.update', $programa), [
+                'nombre' => $programa->nombre,
+                'grado' => 'Diplomado',
+                'inversion_economica' => json_encode([
+                    'costo_total' => 3650,
+                    'costo_diploma' => 650,
+                    'costo_matricula' => 200,
+                ]),
+            ])
+            ->assertRedirect(route('admin.programas.index'));
+
+        $inversion = $programa->fresh()->inversion_economica;
+
+        $this->assertEquals(200, $inversion['costo_matricula']);
+        // No pisa los importes que ya estaban.
+        $this->assertEquals(3650, $inversion['costo_total']);
+        $this->assertEquals(650, $inversion['costo_diploma']);
+    }
+
     public function test_el_pago_unico_y_el_fraccionado_muestran_montos_y_fechas(): void
     {
         $programa = $this->diplomado([
@@ -304,6 +363,132 @@ class AjustesDiplomadosTest extends TestCase
         $this->assertSame('Pago único', $inversion['modalidades'][0]['nombre']);
         // Se compara por valor: al serializar a JSON, 3000.0 vuelve como entero.
         $this->assertEquals(3000, $inversion['modalidades'][0]['cuotas'][0]['monto']);
+    }
+
+    // Condiciones de pago como lista administrable
+
+    public function test_las_condiciones_de_pago_se_muestran_como_lista(): void
+    {
+        $programa = $this->diplomado([
+            'inversion_economica' => [
+                'condiciones' => [
+                    'Descuento del 10 % por pago adelantado del íntegro.',
+                    'Los pagos se realizan en el Banco de la Nación o vía SUM.',
+                    'La matrícula se habilita tras validar el expediente.',
+                ],
+            ],
+        ]);
+
+        $this->assertCount(3, $programa->condiciones_de_pago);
+
+        $html = $this->get(route('programas.show', $programa->slug))->assertOk()->getContent();
+
+        $this->assertStringContainsString('Condiciones de pago', $html);
+        foreach ($programa->condiciones_de_pago as $condicion) {
+            $this->assertStringContainsString(e($condicion), $html);
+        }
+        // Se respeta el orden en que se administraron.
+        $this->assertLessThan(
+            strpos($html, 'La matrícula se habilita'),
+            strpos($html, 'Descuento del 10'),
+        );
+    }
+
+    public function test_los_campos_sueltos_anteriores_siguen_apareciendo_como_lista(): void
+    {
+        // Formato previo: modalidades en texto libre, descuentos y observaciones.
+        $programa = $this->diplomado([
+            'inversion_economica' => [
+                'modalidades_pago' => ['Pago único', 'Pago en dos cuotas'],
+                'descuentos' => '10 % por pago adelantado',
+                'observaciones' => 'Pagos vía SanMarket',
+            ],
+        ]);
+
+        $this->assertSame([
+            'Modalidades de pago: Pago único, Pago en dos cuotas.',
+            '10 % por pago adelantado',
+            'Pagos vía SanMarket',
+        ], $programa->condiciones_de_pago);
+
+        $this->get(route('programas.show', $programa->slug))
+            ->assertOk()
+            ->assertSee('10 % por pago adelantado')
+            ->assertSee('Pagos vía SanMarket');
+    }
+
+    public function test_la_lista_manda_sobre_los_campos_anteriores(): void
+    {
+        $programa = $this->diplomado([
+            'inversion_economica' => [
+                'condiciones' => ['Única condición vigente.'],
+                'descuentos' => 'Texto antiguo que no debe mostrarse',
+            ],
+        ]);
+
+        $this->assertSame(['Única condición vigente.'], $programa->condiciones_de_pago);
+
+        $this->get(route('programas.show', $programa->slug))
+            ->assertOk()
+            ->assertSee('Única condición vigente.')
+            ->assertDontSee('Texto antiguo que no debe mostrarse');
+    }
+
+    public function test_sin_condiciones_no_se_muestra_el_bloque(): void
+    {
+        $programa = $this->diplomado(['inversion_economica' => ['costo_total' => 3650]]);
+
+        $this->assertSame([], $programa->condiciones_de_pago);
+
+        $this->get(route('programas.show', $programa->slug))
+            ->assertOk()
+            ->assertDontSee('Condiciones de pago');
+    }
+
+    public function test_el_panel_guarda_la_lista_de_condiciones(): void
+    {
+        $programa = $this->diplomado();
+
+        $this->actingAs($this->admin())
+            ->put(route('admin.programas.update', $programa), [
+                'nombre' => $programa->nombre,
+                'grado' => 'Diplomado',
+                'inversion_economica' => json_encode(['costo_total' => 3650]),
+                'inversion_condiciones' => json_encode([
+                    'Primera condición',
+                    '   ',               // en blanco: se descarta
+                    'Segunda condición',
+                ]),
+            ])
+            ->assertRedirect(route('admin.programas.index'));
+
+        $this->assertSame(
+            ['Primera condición', 'Segunda condición'],
+            $programa->fresh()->inversion_economica['condiciones'],
+        );
+    }
+
+    public function test_vaciar_la_lista_devuelve_el_control_a_los_campos_anteriores(): void
+    {
+        $programa = $this->diplomado([
+            'inversion_economica' => [
+                'condiciones' => ['Se va a borrar'],
+                'descuentos' => 'Respaldo antiguo',
+            ],
+        ]);
+
+        $this->actingAs($this->admin())
+            ->put(route('admin.programas.update', $programa), [
+                'nombre' => $programa->nombre,
+                'grado' => 'Diplomado',
+                'inversion_economica' => json_encode(['descuentos' => 'Respaldo antiguo']),
+                'inversion_condiciones' => json_encode([]),
+            ]);
+
+        $fresco = $programa->fresh();
+
+        $this->assertArrayNotHasKey('condiciones', $fresco->inversion_economica);
+        $this->assertSame(['Respaldo antiguo'], $fresco->condiciones_de_pago);
     }
 
     // Obs. N.º 4 — Denominación del título que otorga

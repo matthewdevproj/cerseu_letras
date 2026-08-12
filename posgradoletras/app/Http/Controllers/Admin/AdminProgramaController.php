@@ -72,6 +72,7 @@ class AdminProgramaController extends Controller
             'fecha_limite_inscripcion' => 'nullable|max:255',
             'inversion_economica' => 'nullable',   // JSON object string
             'inversion_modalidades' => 'nullable|string', // JSON array string (modalidades de pago)
+            'inversion_condiciones' => 'nullable|string',  // JSON array string (condiciones de pago)
             'plan_estudios' => 'nullable',         // JSON array string
             'slug' => 'nullable|unique:programas,slug',
             'imagen_url' => 'nullable|max:255',
@@ -106,13 +107,17 @@ class AdminProgramaController extends Controller
                 : null;
         }
 
-        // Viaja en un campo aparte del formulario, pero se guarda dentro del
-        // mismo JSON; no es una columna, así que no debe llegar al modelo.
+        // Viajan en campos aparte del formulario, pero se guardan dentro del
+        // mismo JSON; no son columnas, así que no deben llegar al modelo.
         $data['inversion_economica'] = $this->conModalidadesDePago(
             $data['inversion_economica'] ?? null,
             $data['inversion_modalidades'] ?? null
         );
-        unset($data['inversion_modalidades']);
+        $data['inversion_economica'] = $this->conCondicionesDePago(
+            $data['inversion_economica'],
+            $data['inversion_condiciones'] ?? null
+        );
+        unset($data['inversion_modalidades'], $data['inversion_condiciones']);
 
         // Generate slug if not provided
         if (empty($data['slug'])) {
@@ -178,6 +183,7 @@ class AdminProgramaController extends Controller
             'fecha_limite_inscripcion' => 'nullable|max:255',
             'inversion_economica' => 'nullable',   // JSON object string
             'inversion_modalidades' => 'nullable|string', // JSON array string (modalidades de pago)
+            'inversion_condiciones' => 'nullable|string',  // JSON array string (condiciones de pago)
             'plan_estudios' => 'nullable',         // JSON array string
             'slug' => 'nullable|unique:programas,slug,' . $programa->id, // Nullable to avoid validation failure if missing from form
             'imagen_url' => 'nullable|max:255',
@@ -212,13 +218,17 @@ class AdminProgramaController extends Controller
                 : null;
         }
 
-        // Viaja en un campo aparte del formulario, pero se guarda dentro del
-        // mismo JSON; no es una columna, así que no debe llegar al modelo.
+        // Viajan en campos aparte del formulario, pero se guardan dentro del
+        // mismo JSON; no son columnas, así que no deben llegar al modelo.
         $data['inversion_economica'] = $this->conModalidadesDePago(
             $data['inversion_economica'] ?? null,
             $data['inversion_modalidades'] ?? null
         );
-        unset($data['inversion_modalidades']);
+        $data['inversion_economica'] = $this->conCondicionesDePago(
+            $data['inversion_economica'],
+            $data['inversion_condiciones'] ?? null
+        );
+        unset($data['inversion_modalidades'], $data['inversion_condiciones']);
 
         // Update slug if nombre changed and slug not manually provided
         if (empty($data['slug']) && ($programa->nombre !== $data['nombre'] || $programa->mencion !== ($data['mencion'] ?? null))) {
@@ -289,6 +299,41 @@ class AdminProgramaController extends Controller
 
         $inversion ??= [];
         $inversion['modalidades'] = $modalidades;
+
+        return $inversion;
+    }
+
+    /**
+     * Funde la lista de condiciones de pago con el resto de la inversión
+     * económica; el formulario las envía en su propio campo.
+     *
+     * Sin condiciones se elimina la clave en lugar de dejar un array vacío,
+     * para que el modelo pueda recurrir a los campos antiguos como respaldo.
+     *
+     * @param  array<string, mixed>|null  $inversion
+     */
+    private function conCondicionesDePago(?array $inversion, ?string $condicionesJson): ?array
+    {
+        $condiciones = [];
+
+        foreach ((array) json_decode((string) $condicionesJson, true) as $condicion) {
+            $texto = trim((string) (is_array($condicion) ? ($condicion['texto'] ?? '') : $condicion));
+
+            if ($texto !== '') {
+                $condiciones[] = $texto;
+            }
+        }
+
+        if ($condiciones === []) {
+            if ($inversion !== null) {
+                unset($inversion['condiciones']);
+            }
+
+            return $inversion;
+        }
+
+        $inversion ??= [];
+        $inversion['condiciones'] = $condiciones;
 
         return $inversion;
     }

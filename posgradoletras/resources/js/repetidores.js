@@ -238,6 +238,39 @@ export function crearModalidadesPago(iniciales = []) {
 }
 
 /**
+ * Condiciones de pago de un diplomado: lista de puntos.
+ *
+ * Sustituye a los tres campos sueltos de antes (modalidades en texto libre,
+ * descuentos y observaciones), que limitaban el bloque a tres líneas de
+ * significado fijo.
+ */
+export function crearCondicionesPago(iniciales = []) {
+    const base = crearRepetidor(
+        (Array.isArray(iniciales) ? iniciales : []).map((c) => ({
+            texto: typeof c === 'string' ? c : c?.texto ?? '',
+        })),
+        () => ({ texto: '' })
+    );
+
+    return {
+        ...base,
+
+        get condiciones() {
+            return this.elementos;
+        },
+
+        /** Lo que viaja al servidor: sin `uid` y sin líneas en blanco. */
+        get payload() {
+            return JSON.stringify(
+                this.elementos
+                    .map((c) => (c.texto || '').trim())
+                    .filter(Boolean)
+            );
+        },
+    };
+}
+
+/**
  * Tarifas por periodo de un programa.
  *
  * El total se recalcula en vivo mientras se edita: matrícula del periodo más
