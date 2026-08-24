@@ -19,7 +19,7 @@ fábrica.
 **1. Recuperar la contraseña.** Las rutas existen y funcionan
 (`GET/POST forgot-password`, `GET/POST reset-password`), y `User` usa
 `Notifiable`, así que el mecanismo está completo. Lo único que falta es el
-transporte. Hoy, si alguien de Posgrado olvida su contraseña, el enlace de
+transporte. Hoy, si alguien del CERSEU olvida su contraseña, el enlace de
 recuperación acaba en un fichero de log del servidor: hace falta que alguien con
 acceso por SSH lo saque de ahí, o restablecerla por consola.
 
@@ -42,7 +42,7 @@ MAIL_MAILER=smtp
 MAIL_SCHEME=smtp
 MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587
-MAIL_USERNAME=admisionposgrado.letras@unmsm.edu.pe
+MAIL_USERNAME=cerseu.letras@unmsm.edu.pe
 MAIL_PASSWORD=<contraseña de aplicación>
 ```
 
@@ -145,8 +145,8 @@ El enlace de recuperación que envía la web sigue existiendo y funcionando: lo
 **El remitente ya está puesto** en `.env` y `.env.example`:
 
 ```
-MAIL_FROM_ADDRESS="admisionposgrado.letras@unmsm.edu.pe"
-MAIL_FROM_NAME="Unidad de Posgrado - Letras UNMSM"
+MAIL_FROM_ADDRESS="cerseu.letras@unmsm.edu.pe"
+MAIL_FROM_NAME="CERSEU Letras UNMSM"
 ```
 
 Solo faltan las cuatro líneas de conexión de arriba, que son credenciales.
@@ -155,7 +155,7 @@ El remitente es un buzón real del dominio `unmsm.edu.pe`, que es lo que exigen
 SPF y DKIM: antes estaba en `hello@example.com` —el valor de fábrica de
 Laravel— y con eso los correos habrían acabado rechazados o en spam.
 
-**Las solicitudes de diplomado llegan a `admisionposgrado.letras@unmsm.edu.pe`**,
+**Las solicitudes de información llegan a `cerseu.letras@unmsm.edu.pe`**,
 que sale de Configuración → Contacto en el panel, no de un valor fijo en el
 código. Cambiarlo ahí cambia el destino.
 

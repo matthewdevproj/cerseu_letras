@@ -30,13 +30,14 @@
             'description' => $seoDescription,
             'url' => url('/'),
             'logo' => $seoImage,
-            'sameAs' => [
-                'https://www.facebook.com/posgradoletrasUNMSM/',
-                'https://www.instagram.com/posgradoletrasunmsm/',
-                'https://www.linkedin.com/in/posgrado-de-la-facultad-de-letras-unmsm-1a95862ab/',
-                'https://x.com/PGLetras_UNMSM',
-                'https://www.tiktok.com/@posgradoletrasunmsm',
-            ],
+            'sameAs' => array_values(array_filter([
+                $siteSettings?->facebook,
+                $siteSettings?->instagram,
+                $siteSettings?->linkedin,
+                $siteSettings?->twitter,
+                $siteSettings?->youtube,
+                $siteSettings?->tiktok,
+            ])),
             'parentOrganization' => [
                 '@type' => 'CollegeOrUniversity',
                 'name' => 'Universidad Nacional Mayor de San Marcos',

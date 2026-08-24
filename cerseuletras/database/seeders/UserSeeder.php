@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $admin = User::firstOrCreate(
-            ['email' => 'admin@posgrado.unmsm.edu.pe'],
+            ['email' => 'admin@cerseuletras.unmsm.edu.pe'],
             [
                 'name' => 'Administrador',
                 'password' => Hash::make('admin123'),

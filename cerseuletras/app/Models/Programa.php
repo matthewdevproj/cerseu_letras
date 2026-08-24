@@ -569,7 +569,7 @@ class Programa extends Model
         }
         
         // Para rutas locales (ahora siempre serán relativas como 'documents/...')
-        // asset('storage/' + ruta) generará: https://posgrado.../storage/documents/...
+        // asset('storage/' + ruta) generará: https://cerseuletras.../storage/documents/...
         return asset('storage/' . $this->imagen);
     }
     
