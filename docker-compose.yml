@@ -15,8 +15,10 @@ services:
     networks:
       - laravel-network
     environment:
-      - APP_ENV=production
-      - APP_DEBUG=false
+      # Solo la URL. APP_ENV y APP_DEBUG viven en cerseuletras/.env, no aquí:
+      # una variable de entorno del contenedor gana sobre el .env y además se
+      # cuela en $_SERVER, donde PHPUnit no puede pisarla —con APP_ENV clavado,
+      # la suite entera corría fuera del entorno de pruebas.
       - APP_URL=https://cerseuletras.unmsm.edu.pe
 
   # Nginx Web Server

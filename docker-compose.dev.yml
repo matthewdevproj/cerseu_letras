@@ -9,16 +9,32 @@
 services:
   app:
     environment:
-      # El compose base fija APP_ENV=production y APP_DEBUG=false como
-      # variables del contenedor, y esas ganan sobre el .env —el Dotenv de
-      # Laravel es inmutable y no pisa lo que ya viene del entorno—. Sin esto,
-      # desarrollar contra Docker daba páginas 500 en blanco, sin traza.
-      - APP_ENV=local
-      - APP_DEBUG=true
+      # Solo la URL. APP_ENV y APP_DEBUG se ponen en cerseuletras/.env
+      # (APP_ENV=local, APP_DEBUG=true): exportarlas aquí las mete en $_SERVER,
+      # donde PHPUnit no puede sobrescribirlas ni con force="true", y la suite
+      # acaba corriendo contra la base de desarrollo en vez de la de pruebas.
       - APP_URL=http://localhost
     ports:
       # Servidor de Vite, para `npm run dev` con recarga en caliente.
       - "5173:5173"
+    volumes:
+      # vendor/ y node_modules/ salen del bind mount y viven en volúmenes
+      # dentro del contenedor.
+      #
+      # No es por rendimiento: sobre el bind mount de Docker Desktop en Windows,
+      # readdir() TRUNCA los directorios grandes. En vendor/owenvoke/blade-
+      # fontawesome/resources/svg/solid, scandir() ve los 1758 SVG pero
+      # FilesystemIterator —el que usan Symfony Finder y, por debajo, blade-icons—
+      # devuelve solo 926, siempre los mismos. El resultado es que la mitad de
+      # los iconos no existe para la aplicación y cualquier página que use uno de
+      # ellos revienta con «Unable to locate a class or view for component».
+      #
+      # Con volúmenes nombrados los ficheros están en el sistema de archivos de
+      # Linux y se listan enteros. A cambio, `composer install` y `npm install`
+      # hay que correrlos DENTRO del contenedor —que es justo lo que dice el
+      # README— y el editor del host no ve esas carpetas.
+      - vendor-data:/var/www/html/vendor
+      - node-modules:/var/www/html/node_modules
 
   web:
     volumes:
@@ -28,3 +44,7 @@ services:
       # Compose fusiona los volúmenes por ruta de destino, de modo que esta
       # línea sustituye a la del compose base en lugar de sumarse.
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+volumes:
+  vendor-data:
+  node-modules:

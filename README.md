@@ -98,6 +98,16 @@ El fichero se llama `docker-compose.dev.yml` y no `docker-compose.override.yml`
 a propósito: con ese nombre Compose lo aplicaría solo, y el servidor acabaría
 con el modo depuración encendido tras un `git pull`.
 
+La capa saca además `vendor/` y `node_modules/` del bind mount a volúmenes
+nombrados. **En Windows esto no es opcional**: sobre el bind mount de Docker
+Desktop, `readdir()` trunca los directorios grandes —en la carpeta de iconos de
+FontAwesome, `scandir()` ve los 1758 SVG pero `FilesystemIterator` devuelve
+926— y la mitad de los iconos deja de existir para la aplicación, con lo que
+cualquier página que use uno revienta con «Unable to locate a class or view for
+component». Como contrapartida, `composer install` y `npm install` hay que
+ejecutarlos dentro del contenedor —que es lo que indican los pasos de abajo— y
+el editor del host no ve esas dos carpetas.
+
 ### 3. Instalar dependencias y configurar Laravel
 
 En los comandos de abajo, si levantaste con la capa de desarrollo, añade los
