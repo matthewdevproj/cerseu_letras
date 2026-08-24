@@ -93,12 +93,12 @@ class AdmisionSettingSeeder extends Seeder
             'resultados_enlace' => null,
             'resultados_pdf_url' => null,
 
-            'contacto_telefono' => '982 085 037',
+            'contacto_telefono' => '914 033 129',
             'contacto_correo' => 'cerseu.letras@unmsm.edu.pe',
             'contacto_direccion' => 'Ciudad Universitaria, Av. Venezuela s/n, Lima',
             'contacto_sitio_web' => 'https://cerseuletras.unmsm.edu.pe',
             'contacto_qr_path' => null,
-            'contacto_whatsapp' => 'https://wa.me/51982085037',
+            'contacto_whatsapp' => 'https://wa.me/51914033129',
         ]);
 
         $settings->cronogramaItems()->createMany([

@@ -41,6 +41,7 @@ class SiteSetting extends Model
         'email_admision',
         'email_tramites',
         'telefono',
+        'anexo',
         'direccion',
         'horario_atencion',
         'facebook',

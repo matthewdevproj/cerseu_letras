@@ -18,6 +18,8 @@ class Programa extends Model
         'vacantes',
         'duracion',
         'creditos',
+        'sesiones',
+        'modulos',
         // Denominación del título que otorga: rótulo y contenido, ambos
         // editables y ambos opcionales (ver getDenominacionOtorgaAttribute).
         'grado_otorga',
@@ -155,6 +157,11 @@ class Programa extends Model
         return $query->where('grado', TipoOferta::Curso->grado());
     }
 
+    public function scopeEspecializaciones($query)
+    {
+        return $query->where('grado', TipoOferta::Especializacion->grado());
+    }
+
     public function scopeDeTipo($query, TipoOferta $tipo)
     {
         return $query->where('grado', $tipo->grado());
@@ -168,6 +175,33 @@ class Programa extends Model
     public function esCurso(): bool
     {
         return $this->grado === TipoOferta::Curso->grado();
+    }
+
+    /**
+     * Lo que se anuncia de esta oferta, ya formateado: «12 sesiones», «6 meses»…
+     *
+     * Cada tipo se mide distinto (ver TipoOferta::medidas). Se omite lo que no
+     * tenga valor, de modo que una ficha a medio llenar no pinta chips vacíos.
+     *
+     * @return list<string>
+     */
+    public function medidasFormateadas(): array
+    {
+        $tipo = $this->tipoOferta();
+
+        if (! $tipo) {
+            return [];
+        }
+
+        $medidas = [];
+
+        foreach ($tipo->medidas() as $campo => $unidad) {
+            if ($valor = $this->{$campo}) {
+                $medidas[] = $valor . ' ' . $unidad;
+            }
+        }
+
+        return $medidas;
     }
 
     /**
@@ -187,11 +221,13 @@ class Programa extends Model
     /** El tipo de oferta al que pertenece, o null si el grado es de antes. */
     public function tipoOferta(): ?TipoOferta
     {
-        return match ($this->grado) {
-            'Taller' => TipoOferta::Taller,
-            'Curso'  => TipoOferta::Curso,
-            default  => null,
-        };
+        foreach (TipoOferta::cases() as $tipo) {
+            if ($tipo->grado() === $this->grado) {
+                return $tipo;
+            }
+        }
+
+        return null;
     }
 
     // Accessors

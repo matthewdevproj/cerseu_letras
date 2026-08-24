@@ -248,30 +248,19 @@
                      sección (Obs. N.º 1, sugerencia complementaria). Los dos últimos
                      son datos institucionales y se mantienen como texto. --}}
                 <div data-reveal class="grid grid-cols-2 stats-grid gap-2 sm:gap-3 text-center">
-                    <a href="{{ route('cursos.index') }}"
-                        class="stats-item stats-link group relative flex flex-col items-center p-2 sm:p-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-[-2px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                        </svg>
-                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($cursos) }}">{{ count($cursos) }}</div>
-                        <div class="stats-label inline-flex items-center gap-1 text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">
-                            Cursos
-                            <x-fas-arrow-right class="stats-arrow text-[0.65em]" aria-hidden="true" />
-                        </div>
-                        <span class="sr-only">Ver la sección general de cursos</span>
-                    </a>
-                    <a href="{{ route('talleres.index') }}"
-                        class="stats-item stats-link group relative flex flex-col items-center p-2 sm:p-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-[-2px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                        </svg>
-                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($talleres) }}">{{ count($talleres) }}</div>
-                        <div class="stats-label inline-flex items-center gap-1 text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">
-                            Talleres
-                            <x-fas-arrow-right class="stats-arrow text-[0.65em]" aria-hidden="true" />
-                        </div>
-                        <span class="sr-only">Ver la sección general de talleres</span>
-                    </a>
+                    @foreach (\App\Models\TipoOferta::cases() as $t)
+                        <a href="{{ route($t->slug() . '.index') }}"
+                            class="stats-item stats-link group relative flex flex-col items-center p-2 sm:p-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-unmsm-dorado">
+                            <x-fas-graduation-cap class="w-6 h-6 sm:w-7 sm:h-7 mb-1 text-unmsm-dorado" aria-hidden="true" />
+                            <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white"
+                                data-count-to="{{ count($ofertaPorTipo[$t->value] ?? []) }}">{{ count($ofertaPorTipo[$t->value] ?? []) }}</div>
+                            <div class="stats-label inline-flex items-center gap-1 text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">
+                                {{ $t->plural() }}
+                                <x-fas-arrow-right class="stats-arrow text-[0.65em]" aria-hidden="true" />
+                            </div>
+                            <span class="sr-only">Ver la sección de {{ mb_strtolower($t->plural()) }}</span>
+                        </a>
+                    @endforeach
                     <div class="flex flex-col items-center p-2 sm:p-3 rounded-xl stats-item">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
@@ -468,14 +457,12 @@
             @endphp
             <div class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-12" role="group"
                 aria-label="Filtrar cursos por tipo">
-                <button type="button" data-filter="taller" id="filter-taller" aria-pressed="true"
-                    class="{{ $filtroActivo }}">
-                    <x-fas-scroll aria-hidden="true" /> Talleres
-                </button>
-                <button type="button" data-filter="curso" id="filter-curso" aria-pressed="false"
-                    class="{{ $filtroInactivo }}">
-                    <x-fas-graduation-cap aria-hidden="true" /> Cursos
-                </button>
+                @foreach (\App\Models\TipoOferta::cases() as $t)
+                    <button type="button" data-filter="{{ $t->value }}" id="filter-{{ $t->value }}" aria-pressed="{{ $loop->first ? 'true' : 'false' }}"
+                        class="{{ $loop->first ? $filtroActivo : $filtroInactivo }}">
+                        <x-fas-graduation-cap aria-hidden="true" /> {{ $t->plural() }}
+                    </button>
+                @endforeach
                 <button type="button" data-filter="todos" id="filter-todos" aria-pressed="false"
                     class="{{ $filtroInactivo }}">
                     <x-fas-globe aria-hidden="true" /> Todos
@@ -484,22 +471,21 @@
 
             <!-- Grid de Programas -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="programas-grid">
-                {{-- Cards vía componente reutilizable <x-program-card> (mismo usado
-                     en /cursos y /talleres): DRY, accesible y consistente.
-                     Los talleres se renderizan primero porque son los visibles
-                     al cargar: así el navegador pinta antes lo que se ve. --}}
-                @foreach ($talleres as $programa)
-                    <x-program-card :programa="$programa" tipo="taller"
-                        badge-label="Taller" badge-color="bg-unmsm-azul-light"
-                        duracion-unit="semanas" primary-cta-label="Más información"
-                        :show-brochure="true" />
-                @endforeach
-
-                @foreach ($cursos as $programa)
-                    <x-program-card :programa="$programa" tipo="curso" class="hidden"
-                        badge-label="Curso" badge-color="bg-unmsm-azul"
-                        duracion-unit="meses" primary-cta-label="Más información"
-                        :show-brochure="true" />
+                {{-- Cards vía componente reutilizable <x-program-card> (el mismo de
+                     /cursos, /talleres y /especializaciones): DRY, accesible y
+                     consistente. El bucle recorre los tipos, así que añadir uno
+                     no obliga a tocar esta vista. El primero se pinta visible
+                     porque es el filtro activo al cargar; el resto arranca
+                     oculto y lo destapa el filtro. --}}
+                @foreach ($ofertaPorTipo as $tipoOferta => $items)
+                    @php $t = \App\Models\TipoOferta::from($tipoOferta); @endphp
+                    @foreach ($items as $programa)
+                        <x-program-card :programa="$programa" :tipo="$t->value"
+                            :badge-label="$t->singular()"
+                            :badge-color="$loop->parent->first ? 'bg-unmsm-azul-light' : 'bg-unmsm-azul'"
+                            :class="$loop->parent->first ? '' : 'hidden'"
+                            primary-cta-label="Más información" :show-brochure="true" />
+                    @endforeach
                 @endforeach
             </div>
 

@@ -55,7 +55,7 @@ return new class extends Migration {
             'site_description' => 'CERSEU de la Facultad de Letras y Ciencias Humanas de la Universidad Nacional Mayor de San Marcos',
             'email' => 'cerseu.letras@unmsm.edu.pe',
             'email_admision' => 'cerseu.letras@unmsm.edu.pe',
-            'telefono' => '982 085 037',
+            'telefono' => '914 033 129',
             'direccion' => 'Ciudad Universitaria, Av. Venezuela s/n, Lima',
             'facebook' => 'https://www.facebook.com/p/Cerseu-Letras-UNMSM-61558727160131/',
             'instagram' => 'https://www.instagram.com/cerseuletras/',

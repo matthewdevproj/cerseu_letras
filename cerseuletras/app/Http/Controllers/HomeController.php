@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Programa;
+use App\Models\TipoOferta;
 use App\Models\Docente;
 use App\Models\Testimonio;
 
@@ -10,8 +11,14 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $cursos = Programa::visibles()->cursos()->ordenPublicacion()->get();
-        $talleres = Programa::visibles()->talleres()->ordenPublicacion()->get();
+        // Agrupada por tipo y en el orden del enum: la portada la recorre sin
+        // saber cuántos tipos hay ni cómo se llaman.
+        $ofertaPorTipo = [];
+
+        foreach (TipoOferta::cases() as $tipo) {
+            $ofertaPorTipo[$tipo->value] = Programa::visibles()
+                ->deTipo($tipo)->ordenPublicacion()->get();
+        }
 
         // Obtener docentes que son coordinadores de programa
         $docentes = Docente::activos()
@@ -36,6 +43,6 @@ class HomeController extends Controller
             ->with('programa')
             ->get();
 
-        return view('home', compact('cursos', 'talleres', 'docentes', 'testimonios'));
+        return view('home', compact('ofertaPorTipo', 'docentes', 'testimonios'));
     }
 }

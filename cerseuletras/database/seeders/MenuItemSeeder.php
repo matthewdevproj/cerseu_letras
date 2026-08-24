@@ -60,16 +60,21 @@ class MenuItemSeeder extends Seeder
                     ['etiqueta' => 'Cronograma Académico', 'route_name' => 'cronograma', 'icono' => 'fas-calendar-alt'],
                 ],
             ],
-            // La oferta del CERSEU: cursos (meses) y talleres (semanas). Ninguno
-            // lleva desplegable porque cada uno es un solo destino; las
-            // maestrías y doctorados de la Unidad de Posgrado ya no existen.
+            // La oferta del CERSEU, de la más corta a la más larga: talleres
+            // (horas académicas), cursos (sesiones y horas) y especializaciones
+            // (módulos y meses). Ninguno lleva desplegable porque cada uno es un
+            // solo destino.
+            [
+                'etiqueta' => 'Talleres', 'icono' => 'fas-certificate',
+                'route_name' => 'talleres.index',
+            ],
             [
                 'etiqueta' => 'Cursos', 'icono' => 'fas-graduation-cap',
                 'route_name' => 'cursos.index',
             ],
             [
-                'etiqueta' => 'Talleres', 'icono' => 'fas-certificate',
-                'route_name' => 'talleres.index',
+                'etiqueta' => 'Especializaciones', 'icono' => 'fas-award',
+                'route_name' => 'especializaciones.index',
             ],
             [
                 // Sin desplegable: su única subentrada apuntaba a esta misma

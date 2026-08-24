@@ -48,7 +48,7 @@ class AdminProgramaController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|max:255',
-            'grado' => 'required|in:Taller,Curso',
+            'grado' => ['required', \Illuminate\Validation\Rule::in(\App\Models\TipoOferta::grados())],
             'mencion' => 'nullable|max:255',
             'modalidad' => 'nullable|max:100',
             'duracion' => 'nullable|integer',
@@ -64,6 +64,8 @@ class AdminProgramaController extends Controller
             'brochure_url' => 'nullable|max:255',
             'admision_pdf_url' => 'nullable|max:255',
             'horas_academicas' => 'nullable|integer',
+            'sesiones' => 'nullable|integer',
+            'modulos' => 'nullable|integer',
             'fecha_limite_inscripcion' => 'nullable|max:255',
             'inversion_economica' => 'nullable',   // JSON object string
             'inversion_modalidades' => 'nullable|string', // JSON array string (modalidades de pago)
@@ -159,7 +161,7 @@ class AdminProgramaController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|max:255',
-            'grado' => 'required|in:Taller,Curso',
+            'grado' => ['required', \Illuminate\Validation\Rule::in(\App\Models\TipoOferta::grados())],
             'mencion' => 'nullable|max:255',
             'modalidad' => 'nullable|max:100',
             'duracion' => 'nullable|integer',
@@ -175,6 +177,8 @@ class AdminProgramaController extends Controller
             'brochure_url' => 'nullable|max:255',
             'admision_pdf_url' => 'nullable|max:255',
             'horas_academicas' => 'nullable|integer',
+            'sesiones' => 'nullable|integer',
+            'modulos' => 'nullable|integer',
             'fecha_limite_inscripcion' => 'nullable|max:255',
             'inversion_economica' => 'nullable',   // JSON object string
             'inversion_modalidades' => 'nullable|string', // JSON array string (modalidades de pago)

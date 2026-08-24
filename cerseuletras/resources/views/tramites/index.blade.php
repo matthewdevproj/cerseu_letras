@@ -5,8 +5,8 @@
 @php
     // Correos y teléfono de contacto (ver config/contacts.php).
     $emailTramites = config('contacts.tramites', 'cerseu.letras@unmsm.edu.pe');
-    $telefono = config('contacts.telefono', '982 085 037');
-    $whatsapp = config('contacts.whatsapp', 'https://wa.me/51982085037');
+    $telefono = config('contacts.telefono', '914 033 129');
+    $whatsapp = config('contacts.whatsapp', 'https://wa.me/51914033129');
 @endphp
 
 @push('styles')

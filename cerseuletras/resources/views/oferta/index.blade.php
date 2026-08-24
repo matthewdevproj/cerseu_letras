@@ -119,8 +119,8 @@
 
         <div data-reveal class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @forelse($programas as $programa)
-                <x-program-card :programa="$programa" :badge-label="$tipo->singular()" badge-color="bg-unmsm-azul-light"
-                    :duracion-unit="$tipo->unidadDuracion()"
+                <x-program-card :programa="$programa" :badge-label="$tipo->singular()"
+                    badge-color="bg-unmsm-azul-light"
                     primary-cta-label="Más información" :show-brochure="true" />
             @empty
                 <x-empty-state class="col-span-full" icon="fa-graduation-cap" title="Próximamente"

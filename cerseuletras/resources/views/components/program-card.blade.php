@@ -3,18 +3,16 @@
     'tipo' => null,
     'badgeLabel' => null,
     'badgeColor' => 'bg-unmsm-azul',
-    'duracionDefault' => null,
-    'duracionUnit' => 'semestres',
     'primaryCtaLabel' => 'Ver Plan de Estudios',
     'showBrochure' => false,
 ])
 
 @php
-    // Sin duración no hay chip: concatenar a secas dejaba la píldora con la
-    // unidad suelta —un «meses» sin número— en la oferta que se mide en horas.
-    $numeroDuracion = $programa->duracion ?? $duracionDefault;
-    $duracion = $programa->duracion_formateada
-        ?? ($numeroDuracion ? $numeroDuracion . ' ' . $duracionUnit : null);
+    // Cada tipo se anuncia con sus propias medidas —horas, sesiones, módulos,
+    // meses— y el modelo las devuelve ya formateadas. La tarjeta solo las
+    // recorre: así no hay que tocarla cuando aparece un tipo nuevo, y ninguna
+    // oferta acaba mostrando un chip con la unidad suelta y sin cifra.
+    $medidas = $programa->medidasFormateadas();
     $descripcion = $programa->presentacion ?? $programa->sumilla ?? 'Sin descripción disponible';
     // Los cursos anunciados como próxima oferta se marcan y llevan a su
     // aviso, no a una ficha vacía.
@@ -54,17 +52,18 @@
         </div>
 
         <div class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 transition-opacity duration-300 group-hover:opacity-10">
-            @if($duracion)
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-dorado text-unmsm-azul text-xs font-bold rounded-full shadow-lg">
-                    <x-far-clock aria-hidden="true" /> {{ $duracion }}
+            @foreach($medidas as $i => $medida)
+                <span @class([
+                    'inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full shadow-lg',
+                    'bg-unmsm-dorado text-unmsm-azul' => $i === 0,
+                    'bg-white/95 text-gray-800' => $i > 0,
+                ])>
+                    <x-far-clock aria-hidden="true" /> {{ $medida }}
                 </span>
-            @endif
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
-                <x-fas-university aria-hidden="true" /> {{ $programa->modalidad }}
-            </span>
-            @if($programa->horas_academicas)
+            @endforeach
+            @if($programa->modalidad)
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 text-gray-800 text-xs font-bold rounded-full shadow-lg">
-                    <x-fas-hourglass-half aria-hidden="true" /> {{ $programa->horas_academicas }} horas
+                    <x-fas-university aria-hidden="true" /> {{ $programa->modalidad }}
                 </span>
             @endif
         </div>

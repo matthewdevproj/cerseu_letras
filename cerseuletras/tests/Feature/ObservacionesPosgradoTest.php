@@ -134,7 +134,7 @@ class ObservacionesPosgradoTest extends TestCase
         preg_match_all('/data-filter="([a-z]+)"/', $html, $m);
         $orden = $m[1];
 
-        $this->assertSame(['taller', 'curso', 'todos'], $orden);
+        $this->assertSame(['taller', 'curso', 'especializacion', 'todos'], $orden);
         $this->assertStringContainsString(
             'data-filter="taller" id="filter-taller" aria-pressed="true"',
             $html,

@@ -26,10 +26,14 @@ class OfertaPorTipoTest extends TestCase
 
     public static function tipos(): array
     {
-        return [
-            'talleres' => [TipoOferta::Taller],
-            'cursos' => [TipoOferta::Curso],
-        ];
+        // Del enum, no a mano: al añadir un tipo queda cubierto sin tocar esto.
+        $tipos = [];
+
+        foreach (TipoOferta::cases() as $tipo) {
+            $tipos[$tipo->slug()] = [$tipo];
+        }
+
+        return $tipos;
     }
 
     private function admin(): User
@@ -53,7 +57,7 @@ class OfertaPorTipoTest extends TestCase
     public function test_el_listado_muestra_solo_la_oferta_de_su_tipo(TipoOferta $tipo): void
     {
         $propio = $this->programa($tipo, 'Lo propio de ' . $tipo->plural());
-        $otro = $tipo === TipoOferta::Taller ? TipoOferta::Curso : TipoOferta::Taller;
+        $otro = collect(TipoOferta::cases())->first(fn ($t) => $t !== $tipo);
         $ajeno = $this->programa($otro, 'Lo ajeno de ' . $otro->plural());
 
         $this->get(route($tipo->slug() . '.index'))
@@ -121,7 +125,7 @@ class OfertaPorTipoTest extends TestCase
         );
 
         // El otro módulo no se toca al guardar este.
-        $otro = $tipo === TipoOferta::Taller ? TipoOferta::Curso : TipoOferta::Taller;
+        $otro = collect(TipoOferta::cases())->first(fn ($t) => $t !== $tipo);
         $this->assertNotSame(
             'Titular de ' . $tipo->plural(),
             AdmisionSetting::deTipo($otro)->first()?->hero_titulo,

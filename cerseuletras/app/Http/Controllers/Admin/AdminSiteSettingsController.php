@@ -42,6 +42,7 @@ class AdminSiteSettingsController extends Controller
             'email_admision' => 'nullable|email|max:255',
             'email_tramites' => 'nullable|email|max:255',
             'telefono' => 'nullable|string|max:50',
+            'anexo' => 'nullable|string|max:20',
             'direccion' => 'nullable|string',
             'horario_atencion' => 'nullable|string|max:255',
             'talleres_hero_titulo' => 'nullable|string|max:255',
@@ -81,6 +82,7 @@ class AdminSiteSettingsController extends Controller
         $settings->email_admision = $validated['email_admision'] ?? null;
         $settings->email_tramites = $validated['email_tramites'] ?? null;
         $settings->telefono = $validated['telefono'] ?? null;
+        $settings->anexo = $validated['anexo'] ?? null;
         $settings->direccion = $validated['direccion'] ?? null;
         $settings->horario_atencion = $validated['horario_atencion'] ?? null;
         // Un hero por módulo (talleres y cursos), con los mismos tres campos.

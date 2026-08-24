@@ -102,10 +102,16 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
                         <input type="text" name="telefono" value="{{ old('telefono', $settings->telefono) }}"
-                            placeholder="982 085 037"
+                            placeholder="914 033 129"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul">
                     </div>
-                    <div class="md:col-span-2">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Anexo</label>
+                        <input type="text" name="anexo" value="{{ old('anexo', $settings->anexo) }}"
+                            placeholder="2808"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul">
+                    </div>
+                    <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
                         <input type="text" name="direccion" value="{{ old('direccion', $settings->direccion) }}"
                             placeholder="Ciudad Universitaria, Av. Venezuela s/n, Lima"

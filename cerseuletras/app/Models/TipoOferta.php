@@ -3,18 +3,22 @@
 namespace App\Models;
 
 /**
- * Los dos tipos de oferta corta del CERSEU: talleres y cursos.
+ * Los tipos de oferta del CERSEU: talleres, cursos y especializaciones.
  *
  * Comparten estructura completa —página, admisión, cronograma y formulario de
- * solicitud— y se distinguen por duración: un curso se mide en meses y un
- * taller en semanas. Como todo lo demás es idéntico, el sitio los sirve con el
- * mismo código y este enum concentra lo único que cambia entre ellos: el
- * rótulo, el segmento de URL y el valor de `programas.grado`.
+ * solicitud— y se distinguen por duración: un taller se mide en semanas, y un
+ * curso o una especialización en meses. Como todo lo demás es idéntico, el
+ * sitio los sirve con el mismo código y este enum concentra lo único que cambia
+ * entre ellos: el rótulo, el segmento de URL y el valor de `programas.grado`.
+ *
+ * Añadir un tipo es añadir un case: rutas, menú, panel, filtros de la portada y
+ * pruebas se generan a partir de cases().
  */
 enum TipoOferta: string
 {
     case Taller = 'taller';
     case Curso = 'curso';
+    case Especializacion = 'especializacion';
 
     /** Valor de `programas.grado` que corresponde a este tipo. */
     public function grado(): string
@@ -22,6 +26,7 @@ enum TipoOferta: string
         return match ($this) {
             self::Taller => 'Taller',
             self::Curso => 'Curso',
+            self::Especializacion => 'Especialización',
         };
     }
 
@@ -37,20 +42,28 @@ enum TipoOferta: string
         return match ($this) {
             self::Taller => 'Talleres',
             self::Curso => 'Cursos',
+            self::Especializacion => 'Especializaciones',
         };
     }
 
     /**
-     * Unidad en que se mide la duración.
+     * Cómo se mide cada tipo, en pares columna → unidad.
      *
-     * Es la única diferencia real entre los dos tipos: un curso dura meses y
-     * un taller, semanas.
+     * No comparten escala: un taller se anuncia por horas académicas, un curso
+     * por sesiones y horas, y una especialización por módulos y meses. Antes
+     * había una sola «unidad de duración» por tipo y las vistas pintaban
+     * siempre los mismos tres chips, lo que obligaba a inventar una duración
+     * para ofertas que no la tienen. Declarar aquí las medidas deja a las
+     * vistas recorriendo lo que haya, sin saber de tipos.
+     *
+     * @return array<string, string>
      */
-    public function unidadDuracion(): string
+    public function medidas(): array
     {
         return match ($this) {
-            self::Taller => 'semanas',
-            self::Curso => 'meses',
+            self::Taller => ['horas_academicas' => 'horas académicas'],
+            self::Curso => ['sesiones' => 'sesiones', 'horas_academicas' => 'horas académicas'],
+            self::Especializacion => ['modulos' => 'módulos', 'duracion' => 'meses'],
         };
     }
 
@@ -60,6 +73,7 @@ enum TipoOferta: string
         return match ($this) {
             self::Taller => 'talleres',
             self::Curso => 'cursos',
+            self::Especializacion => 'especializaciones',
         };
     }
 
@@ -77,11 +91,13 @@ enum TipoOferta: string
      */
     public static function desdeSlug(?string $slug): ?self
     {
-        return match ($slug) {
-            'talleres' => self::Taller,
-            'cursos' => self::Curso,
-            default => null,
-        };
+        foreach (self::cases() as $tipo) {
+            if ($tipo->slug() === $slug) {
+                return $tipo;
+            }
+        }
+
+        return null;
     }
 
     /** Los grados que corresponden a oferta corta (no a grados académicos). */
