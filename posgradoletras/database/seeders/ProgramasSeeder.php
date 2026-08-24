@@ -12,7 +12,7 @@ class ProgramasSeeder extends Seeder
     {
         $programas = [
             [
-                'grado' => 'Maestría',
+                'grado' => 'Curso',
                 'nombre' => 'Literatura Peruana y Latinoamericana',
                 'mencion' => null,
                 'modalidad' => 'Presencial',
@@ -40,7 +40,7 @@ class ProgramasSeeder extends Seeder
                 'plan_url' => null,
                 'horario_url' => null,
                 'por_que_text' => 'Porque es el único programa en el país con este enfoque especializado en literatura peruana y latinoamericana.',
-                'sumilla' => 'Programa de maestría que forma investigadores especializados en el estudio crítico de la literatura peruana y latinoamericana.',
+                'sumilla' => 'Curso que forma lectores críticos y especializados en literatura peruana y latinoamericana.',
                 'plan_estudios' => [
                     'Semestre I' => ['Teoría Literaria Contemporánea', 'Literatura Colonial', 'Seminario de Investigación I'],
                     'Semestre II' => ['Literatura del Siglo XIX', 'Literatura del Siglo XX', 'Seminario de Investigación II'],
@@ -48,7 +48,7 @@ class ProgramasSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'grado' => 'Maestría',
+                'grado' => 'Curso',
                 'nombre' => 'Lingüística',
                 'mencion' => null,
                 'modalidad' => 'Presencial',
@@ -76,7 +76,7 @@ class ProgramasSeeder extends Seeder
                 'plan_url' => null,
                 'horario_url' => null,
                 'por_que_text' => 'Por su enfoque integral en lingüística teórica y aplicada con énfasis en lenguas peruanas.',
-                'sumilla' => 'Maestría especializada en el estudio científico del lenguaje y sus aplicaciones.',
+                'sumilla' => 'Curso especializado en el estudio científico del lenguaje y sus aplicaciones.',
                 'plan_estudios' => [
                     'Semestre I' => ['Teoría Lingüística', 'Fonología', 'Seminario de Investigación I'],
                     'Semestre II' => ['Sintaxis', 'Semántica', 'Seminario de Investigación II'],
@@ -84,8 +84,8 @@ class ProgramasSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'grado' => 'Doctorado',
-                'nombre' => 'Literatura Peruana y Latinoamericana',
+                'grado' => 'Curso',
+                'nombre' => 'Investigación en Literatura Peruana y Latinoamericana',
                 'mencion' => null,
                 'modalidad' => 'Presencial',
                 'vacantes' => 10,
@@ -93,7 +93,7 @@ class ProgramasSeeder extends Seeder
                 'creditos' => 64,
                 'grado_otorga_label' => 'Grado que otorga',
                 'grado_otorga' => 'Doctor en Literatura Peruana y Latinoamericana',
-                'slug' => Str::slug('Doctorado Literatura Peruana y Latinoamericana'),
+                'slug' => Str::slug('Investigación en Literatura Peruana y Latinoamericana'),
                 'objetivos_academicos' => [
                     'Formar investigadores de alto nivel en literatura',
                     'Producir conocimiento original en estudios literarios',
@@ -112,7 +112,7 @@ class ProgramasSeeder extends Seeder
                 'plan_url' => null,
                 'horario_url' => null,
                 'por_que_text' => 'Es el único doctorado del país enfocado exclusivamente en literatura peruana y latinoamericana.',
-                'sumilla' => 'Doctorado para la formación de investigadores de excelencia en literatura peruana y latinoamericana.',
+                'sumilla' => 'Curso de investigación avanzada en literatura peruana y latinoamericana.',
                 'plan_estudios' => [
                     'Año I' => ['Seminario de Investigación Avanzada I', 'Tópicos Avanzados en Literatura'],
                     'Año II' => ['Seminario de Investigación Avanzada II', 'Seminario de Tesis'],

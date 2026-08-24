@@ -1,11 +1,11 @@
 @extends('layouts.public')
 
-@section('title', 'Nosotros - Posgrado Letras UNMSM')
-@section('meta_description', 'Misión, visión, valores y autoridades de la Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas de la UNMSM.')
+@section('title', 'Nosotros - CERSEU Letras UNMSM')
+@section('meta_description', 'Misión, visión, valores y autoridades del CERSEU de la Facultad de Letras y Ciencias Humanas de la UNMSM.')
 
 @section('content')
     <!-- HERO DE SECCIÓN -->
-    <x-hero-section :title="$tituloHero" label="Unidad de Posgrado" :subtitle="$subtituloHero"
+    <x-hero-section :title="$tituloHero" label="CERSEU" :subtitle="$subtituloHero"
         :image="asset('images/campus-fachada.jpg')" />
 
     <section class="container mx-auto px-6 py-16">
@@ -16,7 +16,7 @@
             {{-- Misión + Visión --}}
             <div class="lg:col-span-2 space-y-12" data-reveal>
                 <div class="relative pl-6">
-                    <span class="absolute left-0 top-1.5 bottom-1.5 w-1.5 rounded-full bg-unmsm-guinda"></span>
+                    <span class="absolute left-0 top-1.5 bottom-1.5 w-1.5 rounded-full bg-unmsm-azul"></span>
                     <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs mb-2">Nuestra razón de ser</p>
                     <h2 class="text-3xl font-serif font-bold text-gray-900 mb-4">Misión</h2>
                     {{-- HTML redactado por un administrador; no admite entrada de
@@ -34,7 +34,7 @@
 
             {{-- Valores — tarjeta de marca --}}
             <aside data-reveal>
-                <div class="bg-unmsm-guinda text-white rounded-2xl p-8 shadow-lg h-full relative overflow-hidden">
+                <div class="bg-unmsm-azul text-white rounded-2xl p-8 shadow-lg h-full relative overflow-hidden">
                     <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/5"></div>
                     <h2 class="text-2xl font-serif font-bold mb-6 flex items-center gap-3 relative z-10">
                         <x-fas-star class="text-unmsm-dorado" aria-hidden="true" /> Valores
@@ -54,22 +54,22 @@
         {{-- Autoridades --}}
         <div>
             <div class="flex items-center gap-4 mb-8">
-                <div class="w-12 h-12 rounded-full bg-unmsm-guinda text-white flex items-center justify-center flex-shrink-0">
+                <div class="w-12 h-12 rounded-full bg-unmsm-azul text-white flex items-center justify-center flex-shrink-0">
                     <x-fas-user-tie class="text-xl" aria-hidden="true" />
                 </div>
                 <div>
                     <h2 class="text-2xl md:text-3xl font-serif font-bold text-gray-900">Autoridades</h2>
-                    <p class="text-gray-500 text-sm">Equipo directivo de la Unidad de Posgrado</p>
+                    <p class="text-gray-500 text-sm">Equipo directivo del CERSEU</p>
                 </div>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6" data-reveal-stagger>
                 @foreach($autoridades as $autoridad)
                     <div class="bg-white p-6 rounded-xl border border-gray-100 border-l-4 border-l-unmsm-dorado shadow-sm hover:shadow-lg motion-safe:hover:-translate-y-1.5 transition-all duration-300">
-                        <h3 class="font-bold text-unmsm-guinda text-lg mb-1 leading-tight">{{ $autoridad['nombre'] }}</h3>
+                        <h3 class="font-bold text-unmsm-azul text-lg mb-1 leading-tight">{{ $autoridad['nombre'] }}</h3>
                         <p class="text-xs font-bold text-gray-500 mb-4 uppercase tracking-wide">{{ $autoridad['cargo'] }}</p>
                         <a href="mailto:{{ $autoridad['email'] }}"
-                            class="flex items-center gap-2 text-sm text-gray-600 hover:text-unmsm-guinda transition-colors min-w-0">
+                            class="flex items-center gap-2 text-sm text-gray-600 hover:text-unmsm-azul transition-colors min-w-0">
                             <x-fas-envelope class="text-unmsm-dorado flex-shrink-0" aria-hidden="true" />
                             <span class="truncate">{{ $autoridad['email'] }}</span>
                         </a>

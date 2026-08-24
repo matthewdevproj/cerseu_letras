@@ -43,7 +43,7 @@
     .nav-tabs .nav-link.active {
         background: var(--brand);
         color: white;
-        box-shadow: 0 4px 6px rgba(118, 30, 35, 0.3);
+        box-shadow: 0 4px 6px rgba(20, 59, 99, 0.3);
     }
 
     .form-label {
@@ -65,13 +65,13 @@
 
     .form-control:focus, .form-select:focus {
         border-color: var(--brand);
-        box-shadow: 0 0 0 0.2rem rgba(118, 30, 35, 0.15);
+        box-shadow: 0 0 0 0.2rem rgba(20, 59, 99, 0.15);
     }
 
     .btn-primary {
         background: var(--brand);
         border: none;
-        box-shadow: 0 4px 6px rgba(118, 30, 35, 0.3);
+        box-shadow: 0 4px 6px rgba(20, 59, 99, 0.3);
     }
 
     .btn-primary:hover {
@@ -89,7 +89,7 @@
     }
 
     .programa-checkbox.checked {
-        background: rgba(118, 30, 35, 0.05);
+        background: rgba(20, 59, 99, 0.05);
         border-color: var(--brand);
     }
 
@@ -115,27 +115,27 @@
                 <!-- Tabs Navigation -->
                 <ul class="nav nav-tabs mb-6 flex border-b border-gray-200" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'personal' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'personal' ? 'active border-b-2 border-brand-azul text-brand-azul' : 'text-gray-500 hover:text-brand-azul'"
                            href="#personal" @click.prevent="tab = 'personal'">
                             <x-fas-user class="mr-2" aria-hidden="true" /> Datos Personales
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'contacto' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'contacto' ? 'active border-b-2 border-brand-azul text-brand-azul' : 'text-gray-500 hover:text-brand-azul'"
                            href="#contacto" @click.prevent="tab = 'contacto'">
                             <x-fas-envelope class="mr-2" aria-hidden="true" /> Contacto
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'academico' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'academico' ? 'active border-b-2 border-brand-azul text-brand-azul' : 'text-gray-500 hover:text-brand-azul'"
                            href="#academico" @click.prevent="tab = 'academico'">
                             <x-fas-book-open class="mr-2" aria-hidden="true" /> Info Académica
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'programas' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                        <a class="nav-link px-4 py-3 text-sm font-medium" :class="tab === 'programas' ? 'active border-b-2 border-brand-azul text-brand-azul' : 'text-gray-500 hover:text-brand-azul'"
                            href="#programas" @click.prevent="tab = 'programas'">
-                            <x-fas-graduation-cap class="mr-2" aria-hidden="true" /> Programas
+                            <x-fas-graduation-cap class="mr-2" aria-hidden="true" /> Cursos
                         </a>
                     </li>
                 </ul>
@@ -325,13 +325,13 @@
                         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                             <div class="flex items-center gap-2 text-blue-800">
                                 <x-fas-info-circle class="text-xl" />
-                                <p class="text-sm font-medium">Seleccione los programas de posgrado donde participa este docente.</p>
+                                <p class="text-sm font-medium">Seleccione los cursos de posgrado donde participa este docente.</p>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             @foreach($programas as $programa)
-                                <label class="programa-checkbox flex items-center p-4 border border-gray-200 rounded-lg hover:border-brand-red cursor-pointer transition-all">
+                                <label class="programa-checkbox flex items-center p-4 border border-gray-200 rounded-lg hover:border-brand-azul cursor-pointer transition-all">
                                     <input type="checkbox" name="programas[]" value="{{ $programa->id }}"
                                         class="h-5 w-5 text-brand-gold focus:ring-brand-gold border-gray-300 rounded"
                                         {{ in_array($programa->id, old('programas', [])) ? 'checked' : '' }}

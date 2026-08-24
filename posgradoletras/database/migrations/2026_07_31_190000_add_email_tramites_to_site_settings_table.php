@@ -21,7 +21,7 @@ return new class extends Migration
         // Se arranca con el valor que el sitio ya venía mostrando.
         DB::table('site_settings')
             ->whereNull('email_tramites')
-            ->update(['email_tramites' => config('contacts.tramites', 'upg.letras@unmsm.edu.pe')]);
+            ->update(['email_tramites' => config('contacts.tramites', 'cerseu.letras@unmsm.edu.pe')]);
     }
 
     public function down(): void

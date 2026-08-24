@@ -27,8 +27,8 @@ class ObservacionesPosgradoTest extends TestCase
         $res = $this->get('/');
 
         $res->assertOk()
-            ->assertSee('Ver diplomados')
-            ->assertSee('Admisión de diplomados')
+            ->assertSee('Ver talleres')
+            ->assertSee('Admisión de talleres')
             ->assertDontSee('>Ver Programas<', false);
 
         // Los indicadores de Maestrías/Doctorados/Diplomados enlazan a su sección.
@@ -126,7 +126,7 @@ class ObservacionesPosgradoTest extends TestCase
     }
 
     /** Obs. N.º 3 — filtros reordenados y "Diplomados" activo por defecto. */
-    public function test_los_filtros_priorizan_diplomados(): void
+    public function test_los_filtros_priorizan_talleres(): void
     {
         $html = $this->get('/')->assertOk()->getContent();
 
@@ -134,9 +134,9 @@ class ObservacionesPosgradoTest extends TestCase
         preg_match_all('/data-filter="([a-z]+)"/', $html, $m);
         $orden = $m[1];
 
-        $this->assertSame(['diplomado', 'maestria', 'doctorado', 'todos'], $orden);
+        $this->assertSame(['taller', 'curso', 'todos'], $orden);
         $this->assertStringContainsString(
-            'data-filter="diplomado" id="filter-diplomado" aria-pressed="true"',
+            'data-filter="taller" id="filter-taller" aria-pressed="true"',
             $html,
         );
     }
@@ -145,7 +145,7 @@ class ObservacionesPosgradoTest extends TestCase
     public function test_el_brochure_aparece_antes_de_postular_y_se_oculta_sin_archivo(): void
     {
         $programa = Programa::create([
-            'grado' => 'Diplomado',
+            'grado' => 'Taller',
             'nombre' => 'Diplomado de Prueba',
             'modalidad' => 'Virtual',
             'duracion' => 2,
@@ -154,7 +154,7 @@ class ObservacionesPosgradoTest extends TestCase
             'brochure_url' => 'documents/brochure.pdf',
         ]);
 
-        $html = $this->get(route('programas.show', $programa->slug))->assertOk()->getContent();
+        $html = $this->get($programa->url)->assertOk()->getContent();
 
         $posBrochure = strpos($html, 'Brochure');
         $posPostular = strpos($html, 'Postular Ahora');
@@ -164,7 +164,7 @@ class ObservacionesPosgradoTest extends TestCase
 
         // Sin brochure el botón desaparece por completo.
         $programa->update(['brochure_url' => null]);
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertDontSee('Brochure');
     }
@@ -173,7 +173,7 @@ class ObservacionesPosgradoTest extends TestCase
     public function test_el_buscador_devuelve_resultados_por_relevancia(): void
     {
         Programa::create([
-            'grado' => 'Diplomado', 'nombre' => 'Diplomado en Lingüística Forense',
+            'grado' => 'Taller', 'nombre' => 'Taller en Lingüística Forense',
             'modalidad' => 'Virtual', 'duracion' => 2, 'creditos' => 12, 'is_active' => true,
         ]);
 
@@ -181,7 +181,7 @@ class ObservacionesPosgradoTest extends TestCase
         $primero = $res->json('resultados.0');
 
         $this->assertStringContainsString('Lingüística Forense', $primero['titulo']);
-        $this->assertSame('Diplomados', $primero['categoria']);
+        $this->assertSame('Talleres', $primero['categoria']);
         $this->assertArrayHasKey('url', $primero);
         // Los campos internos de puntuación no deben filtrarse al JSON.
         $this->assertArrayNotHasKey('_titulo_norm', $primero);
@@ -194,7 +194,7 @@ class ObservacionesPosgradoTest extends TestCase
         $this->get('/buscar?q=zzzqqq')->assertOk()->assertSee('No encontramos resultados');
 
         // La página de resultados agrupa por categoría.
-        $this->get('/buscar?q=linguistica')->assertOk()->assertSee('Diplomados');
+        $this->get('/buscar?q=linguistica')->assertOk()->assertSee('Talleres');
     }
 
     /** Obs. N.º 4 — el enlace del brochure no depende del entorno donde se subió. */
@@ -224,7 +224,7 @@ class ObservacionesPosgradoTest extends TestCase
     public function test_la_inversion_se_calcula_desde_los_datos_del_programa(): void
     {
         $programa = Programa::create([
-            'grado' => 'Maestría', 'nombre' => 'Maestría con Tarifas',
+            'grado' => 'Curso', 'nombre' => 'Maestría con Tarifas',
             'modalidad' => 'Presencial', 'duracion' => 4, 'creditos' => 30,
             'estado' => Programa::ESTADO_PUBLICADO,
             'costo_por_credito' => 100,
@@ -242,7 +242,7 @@ class ObservacionesPosgradoTest extends TestCase
         $this->assertSame(3700, $programa->costo_total);
 
         // La ficha muestra ese mismo total, sin recalcularlo por su cuenta.
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertSee('3,700');
     }
@@ -251,7 +251,7 @@ class ObservacionesPosgradoTest extends TestCase
     public function test_el_costo_total_cerrado_manda_sobre_el_calculo(): void
     {
         $programa = Programa::create([
-            'grado' => 'Diplomado', 'nombre' => 'Diplomado con Precio Cerrado',
+            'grado' => 'Taller', 'nombre' => 'Diplomado con Precio Cerrado',
             'modalidad' => 'Virtual', 'duracion' => 2, 'creditos' => 12,
             'estado' => Programa::ESTADO_PUBLICADO,
             'costo_por_credito' => 120,
@@ -266,7 +266,7 @@ class ObservacionesPosgradoTest extends TestCase
     public function test_sin_tarifas_la_ficha_dice_por_definir(): void
     {
         $programa = Programa::create([
-            'grado' => 'Maestría', 'nombre' => 'Maestría sin Tarifas',
+            'grado' => 'Curso', 'nombre' => 'Maestría sin Tarifas',
             'modalidad' => 'Presencial', 'duracion' => 4, 'creditos' => 30,
             'estado' => Programa::ESTADO_PUBLICADO,
             'costo_por_credito' => null,
@@ -274,7 +274,7 @@ class ObservacionesPosgradoTest extends TestCase
         ]);
 
         $this->assertNull($programa->costo_total);
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertSee('Por definir');
     }
@@ -283,16 +283,16 @@ class ObservacionesPosgradoTest extends TestCase
     public function test_un_programa_en_borrador_responde_404(): void
     {
         $programa = Programa::create([
-            'grado' => 'Diplomado', 'nombre' => 'Diplomado Secreto',
+            'grado' => 'Taller', 'nombre' => 'Diplomado Secreto',
             'modalidad' => 'Virtual', 'duracion' => 2, 'creditos' => 12,
             'estado' => Programa::ESTADO_BORRADOR,
         ]);
 
-        $this->get(route('programas.show', $programa->slug))->assertNotFound();
+        $this->get($programa->url)->assertNotFound();
 
         // Tampoco aparece en listados ni en el buscador.
         $this->get('/')->assertOk()->assertDontSee('Diplomado Secreto');
-        $this->get(route('diplomados.index'))->assertOk()->assertDontSee('Diplomado Secreto');
+        $this->get(route('talleres.index'))->assertOk()->assertDontSee('Diplomado Secreto');
         $this->getJson('/buscar/sugerencias?q=secreto')->assertJsonPath('total', 0);
 
         // `is_active` se mantiene sincronizado con el estado.
@@ -303,21 +303,21 @@ class ObservacionesPosgradoTest extends TestCase
     public function test_un_programa_proximamente_muestra_el_aviso(): void
     {
         $programa = Programa::create([
-            'grado' => 'Diplomado', 'nombre' => 'Diplomado en Archivística',
+            'grado' => 'Taller', 'nombre' => 'Diplomado en Archivística',
             'modalidad' => 'Virtual', 'duracion' => 2, 'creditos' => 12,
             'estado' => Programa::ESTADO_PROXIMAMENTE,
         ]);
 
         // Su página avisa en lugar de mostrar una ficha vacía.
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
-            ->assertSee('Pronto publicaremos la información de este programa')
+            ->assertSee('Pronto publicaremos la información de este curso')
             ->assertSee('Diplomado en Archivística')
             ->assertSee('noindex', false)
             ->assertDontSee('Postular Ahora');
 
         // Sí se anuncia en los listados, con su etiqueta.
-        $this->get(route('diplomados.index'))
+        $this->get(route('talleres.index'))
             ->assertOk()
             ->assertSee('Diplomado en Archivística')
             ->assertSee('Próximamente');
@@ -329,12 +329,12 @@ class ObservacionesPosgradoTest extends TestCase
     public function test_un_programa_publicado_muestra_su_ficha_completa(): void
     {
         $programa = Programa::create([
-            'grado' => 'Diplomado', 'nombre' => 'Diplomado Vigente',
+            'grado' => 'Taller', 'nombre' => 'Diplomado Vigente',
             'modalidad' => 'Virtual', 'duracion' => 2, 'creditos' => 12,
             'estado' => Programa::ESTADO_PUBLICADO,
         ]);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertSee('Diplomado Vigente')
             ->assertSee('Postular Ahora')
@@ -347,20 +347,20 @@ class ObservacionesPosgradoTest extends TestCase
     public function test_un_estado_invalido_cae_a_borrador(): void
     {
         $programa = Programa::create([
-            'grado' => 'Maestría', 'nombre' => 'Maestría Rara',
+            'grado' => 'Curso', 'nombre' => 'Maestría Rara',
             'modalidad' => 'Presencial', 'duracion' => 4, 'creditos' => 40,
             'estado' => 'lo-que-sea',
         ]);
 
         $this->assertSame(Programa::ESTADO_BORRADOR, $programa->fresh()->estado);
-        $this->get(route('programas.show', $programa->slug))->assertNotFound();
+        $this->get($programa->url)->assertNotFound();
     }
 
     /** Estados: el atajo del panel alterna entre publicado y borrador. */
     public function test_el_panel_alterna_publicado_y_borrador(): void
     {
         $programa = Programa::create([
-            'grado' => 'Maestría', 'nombre' => 'Maestría Toggle',
+            'grado' => 'Curso', 'nombre' => 'Maestría Toggle',
             'modalidad' => 'Presencial', 'duracion' => 4, 'creditos' => 40,
             'estado' => Programa::ESTADO_PUBLICADO,
         ]);
@@ -380,7 +380,7 @@ class ObservacionesPosgradoTest extends TestCase
         $this->getJson('/buscar/sugerencias?q=paleografia')->assertJsonPath('total', 0);
 
         Programa::create([
-            'grado' => 'Diplomado', 'nombre' => 'Diplomado en Paleografía',
+            'grado' => 'Taller', 'nombre' => 'Diplomado en Paleografía',
             'modalidad' => 'Virtual', 'duracion' => 2, 'creditos' => 12, 'is_active' => true,
         ]);
 

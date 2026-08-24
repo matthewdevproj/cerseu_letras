@@ -19,9 +19,8 @@ class AdminController extends Controller
         $stats = [
             'total_programas' => Programa::count(),
             'programas_activos' => Programa::activos()->count(),
-            'total_maestrias' => Programa::maestrias()->count(),
-            'total_doctorados' => Programa::doctorados()->count(),
-            'total_diplomados' => Programa::diplomados()->count(),
+            'total_cursos' => Programa::cursos()->count(),
+            'total_talleres' => Programa::talleres()->count(),
             'total_docentes' => Docente::count(),
             'docentes_activos' => Docente::activos()->count(),
             'total_testimonios' => Testimonio::count(),

@@ -58,8 +58,8 @@ return new class extends Migration
 
         $pasos = [
             ['Inscripción de postulantes', '5 ene', '02 abr', '+ Envío de expediente', null, 'inscripcion', true],
-            ['Examen de conocimiento y entrevistas', '06 de abril', null, null, 'Maestrías', 'examen', false],
-            ['Examen de conocimiento y entrevistas', '07 de abril', null, null, 'Doctorados', 'birrete', false],
+            ['Examen de conocimiento y entrevistas', '06 de abril', null, null, 'Cursos', 'examen', false],
+            ['Examen de conocimiento y entrevistas', '07 de abril', null, null, 'Talleres', 'birrete', false],
             ['Evaluación del expediente', 'Hasta el 06 de abril', null, 'Revisión de documentos', null, 'expediente', false],
             ['Publicación de Resultados', '09 de abril', null, 'Lista oficial', null, 'check', false],
         ];

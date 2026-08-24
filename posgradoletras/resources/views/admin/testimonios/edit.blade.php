@@ -44,7 +44,7 @@
                     Editar Testimonio
                 </h2>
                 <p class="mt-1 text-sm text-gray-500">
-                    {{ $testimonio->nombre }} · {{ $testimonio->programa->nombre ?? 'Sin programa' }}
+                    {{ $testimonio->nombre }} · {{ $testimonio->programa->nombre ?? 'Sin curso' }}
                 </p>
             </div>
         </div>
@@ -77,11 +77,11 @@
                         <!-- Programa -->
                         <div>
                             <label for="programa_id" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">
-                                Programa <span class="text-red-500">*</span>
+                                Curso <span class="text-red-500">*</span>
                             </label>
                             <select name="programa_id" id="programa_id"
                                 class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:ring-brand-gold focus:border-brand-gold" required>
-                                <option value="">Seleccionar programa...</option>
+                                <option value="">Seleccionar curso...</option>
                                 @foreach($programas as $programa)
                                     <option value="{{ $programa->id }}" {{ old('programa_id', $testimonio->programa_id) == $programa->id ? 'selected' : '' }}>
                                         {{ $programa->grado }} en {{ $programa->nombre }}
@@ -100,7 +100,7 @@
                             </label>
                             <textarea name="contenido" id="contenido" rows="6"
                                 class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:ring-brand-gold focus:border-brand-gold"
-                                placeholder="Escribe el testimonio del egresado aquí..." required>{{ old('contenido', $testimonio->contenido) }}</textarea>
+                                placeholder="Escribe el testimonio del participante aquí..." required>{{ old('contenido', $testimonio->contenido) }}</textarea>
                             <p class="mt-1 text-xs text-gray-500">Se recomienda entre 50 y 200 palabras.</p>
                             @error('contenido')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

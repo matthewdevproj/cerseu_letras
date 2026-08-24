@@ -11,9 +11,9 @@
 @php
     $palettes = [
         'guinda' => [
-            'solid' => 'bg-unmsm-guinda text-white hover:bg-red-900 focus-visible:bg-red-900',
-            'outline' => 'border border-unmsm-guinda text-unmsm-guinda hover:bg-unmsm-guinda hover:text-white focus-visible:bg-unmsm-guinda focus-visible:text-white',
-            'ghost' => 'text-unmsm-guinda hover:underline',
+            'solid' => 'bg-unmsm-azul text-white hover:bg-unmsm-azul-dark focus-visible:bg-unmsm-azul-dark',
+            'outline' => 'border border-unmsm-azul text-unmsm-azul hover:bg-unmsm-azul hover:text-white focus-visible:bg-unmsm-azul focus-visible:text-white',
+            'ghost' => 'text-unmsm-azul hover:underline',
         ],
         'brand' => [
             'solid' => 'text-white hover:opacity-90 focus-visible:opacity-90 [background:var(--brand)] hover:[background:var(--brand-dark)]',
@@ -21,8 +21,8 @@
             'ghost' => '[color:var(--brand)] hover:underline',
         ],
         'gold' => [
-            'solid' => 'bg-unmsm-dorado/10 text-unmsm-guinda hover:bg-unmsm-dorado hover:text-white focus-visible:bg-unmsm-dorado focus-visible:text-white',
-            'outline' => 'border border-unmsm-dorado text-unmsm-guinda hover:bg-unmsm-dorado hover:text-white focus-visible:bg-unmsm-dorado focus-visible:text-white',
+            'solid' => 'bg-unmsm-dorado/10 text-unmsm-azul hover:bg-unmsm-dorado hover:text-white focus-visible:bg-unmsm-dorado focus-visible:text-white',
+            'outline' => 'border border-unmsm-dorado text-unmsm-azul hover:bg-unmsm-dorado hover:text-white focus-visible:bg-unmsm-dorado focus-visible:text-white',
             'ghost' => 'text-unmsm-dorado hover:underline',
         ],
     ];

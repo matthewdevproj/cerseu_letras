@@ -3,8 +3,8 @@
 @endphp
 
 @if($eventos->count() > 0)
-    <section class="relative py-16 bg-gradient-to-b from-gray-900 to-[#1a0e10] text-white overflow-hidden">
-        <div class="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[46rem] h-[46rem] rounded-full bg-unmsm-guinda/20 blur-3xl"></div>
+    <section class="relative py-16 bg-gradient-to-b from-gray-900 to-[#0C1217] text-white overflow-hidden">
+        <div class="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[46rem] h-[46rem] rounded-full bg-unmsm-azul/20 blur-3xl"></div>
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-8">
                 <h2 class="text-3xl md:text-4xl font-serif font-bold mb-3">Eventos</h2>
@@ -32,7 +32,7 @@
 
                             <!-- Fecha en esquina -->
                             <div class="absolute bottom-3 left-3">
-                                <div class="bg-unmsm-guinda text-white px-3 py-2 rounded-lg text-center shadow-lg">
+                                <div class="bg-unmsm-azul text-white px-3 py-2 rounded-lg text-center shadow-lg">
                                     <span class="block text-2xl font-bold leading-none">{{ $evento->fecha_inicio->format('d') }}</span>
                                     <span class="block text-xs uppercase mt-1">{{ $evento->fecha_inicio->translatedFormat('M') }}</span>
                                 </div>

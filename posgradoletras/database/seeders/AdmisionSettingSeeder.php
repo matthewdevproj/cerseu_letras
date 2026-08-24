@@ -2,20 +2,26 @@
 
 namespace Database\Seeders;
 
-use App\Models\AdmisionDiplomadoSetting;
+use App\Models\AdmisionSetting;
+use App\Models\TipoOferta;
 use Illuminate\Database\Seeder;
 
-class AdmisionDiplomadoSettingSeeder extends Seeder
+class AdmisionSettingSeeder extends Seeder
 {
     /**
      * Contenido oficial tomado de "Ajustes para la página web de Diplomados.pdf"
      * y "Mejoras_admisión.pdf" (este último prevalece para la página de Admisión).
+     *
+     * Siembra el módulo de talleres con ese contenido y el de cursos con la
+     * misma estructura vacía, para que el panel tenga dónde escribir desde el
+     * primer arranque en vez de crear la fila al primer guardado.
      */
     public function run(): void
     {
-        $settings = AdmisionDiplomadoSetting::create([
+        $settings = AdmisionSetting::create([
+            'tipo' => TipoOferta::Taller->value,
             'hero_titulo' => 'Convocatoria 2026-I',
-            'hero_subtitulo' => 'Sección Diplomados · Unidad de Posgrado',
+            'hero_subtitulo' => 'Sección Talleres · CERSEU',
             'pasos' => [
                 [
                     'numero' => 1,
@@ -26,7 +32,7 @@ class AdmisionDiplomadoSettingSeeder extends Seeder
                 [
                     'numero' => 2,
                     'titulo' => 'Requisitos para postular',
-                    'descripcion' => 'Debe cumplir los requisitos establecidos por la Dirección General de Estudios de Posgrado para postular al diplomado correspondiente.',
+                    'descripcion' => 'Debe cumplir los requisitos establecidos por la Dirección General de Estudios de Posgrado para postular al taller correspondiente.',
                     'icono' => 'fa-list-check',
                 ],
                 [
@@ -50,12 +56,12 @@ class AdmisionDiplomadoSettingSeeder extends Seeder
                 [
                     'numero' => 6,
                     'titulo' => 'Resultados',
-                    'descripcion' => 'La relación de postulantes admitidos será publicada en el portal web de la Unidad de Posgrado.',
+                    'descripcion' => 'La relación de postulantes admitidos será publicada en el portal web del CERSEU.',
                     'icono' => 'fa-clipboard-check',
                 ],
             ],
 
-            'requisitos_email' => 'admisionposgrado.letras@unmsm.edu.pe',
+            'requisitos_email' => 'cerseu.letras@unmsm.edu.pe',
             'requisitos_lista' => [
                 'Ficha de datos del postulante.',
                 'Título universitario y/o grado de bachiller (*).',
@@ -83,12 +89,12 @@ class AdmisionDiplomadoSettingSeeder extends Seeder
             'pago_link_sanmarket' => 'https://sanmarket.unmsm.edu.pe/#/',
             'pago_observaciones' => 'De no realizar el pago en los plazos establecidos, perderá automáticamente su vacante.',
 
-            'resultados_texto' => 'La relación de postulantes admitidos será publicada en el portal web de la Unidad de Posgrado.',
+            'resultados_texto' => 'La relación de postulantes admitidos será publicada en el portal web del CERSEU.',
             'resultados_enlace' => null,
             'resultados_pdf_url' => null,
 
             'contacto_telefono' => '982 085 037',
-            'contacto_correo' => 'admisionposgrado.letras@unmsm.edu.pe',
+            'contacto_correo' => 'cerseu.letras@unmsm.edu.pe',
             'contacto_direccion' => 'Ciudad Universitaria, Av. Venezuela s/n, Lima',
             'contacto_sitio_web' => 'https://posgradoletras.unmsm.edu.pe',
             'contacto_qr_path' => null,
@@ -145,5 +151,13 @@ class AdmisionDiplomadoSettingSeeder extends Seeder
                 'orden' => 6,
             ],
         ]);
+
+        AdmisionSetting::firstOrCreate(
+            ['tipo' => TipoOferta::Curso->value],
+            [
+                'hero_titulo' => 'Convocatoria 2026-I',
+                'hero_subtitulo' => 'Sección Cursos · CERSEU',
+            ]
+        );
     }
 }

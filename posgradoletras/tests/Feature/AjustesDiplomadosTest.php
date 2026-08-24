@@ -26,7 +26,7 @@ class AjustesDiplomadosTest extends TestCase
     private function diplomado(array $atributos = []): Programa
     {
         return Programa::create(array_merge([
-            'grado' => 'Diplomado',
+            'grado' => 'Taller',
             'nombre' => 'Diplomado de Prueba',
             'modalidad' => 'Virtual',
             'duracion' => 2,
@@ -60,9 +60,9 @@ class AjustesDiplomadosTest extends TestCase
         $programa = $this->diplomado();
         $this->coordinador($programa, null);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
-            ->assertSee('Coordinador del Programa');
+            ->assertSee('Coordinador del Curso');
     }
 
     public function test_la_denominacion_puede_ser_coordinadora_en_cada_programa(): void
@@ -70,10 +70,10 @@ class AjustesDiplomadosTest extends TestCase
         $programa = $this->diplomado();
         $this->coordinador($programa, 'Coordinadora');
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
-            ->assertSee('Coordinadora del Programa')
-            ->assertDontSee('Coordinador del Programa');
+            ->assertSee('Coordinadora del Curso')
+            ->assertDontSee('Coordinador del Curso');
     }
 
     public function test_no_queda_la_etiqueta_que_repetia_la_denominacion(): void
@@ -81,11 +81,11 @@ class AjustesDiplomadosTest extends TestCase
         $programa = $this->diplomado();
         $this->coordinador($programa, 'Coordinadora');
 
-        $html = $this->get(route('programas.show', $programa->slug))->assertOk()->getContent();
+        $html = $this->get($programa->url)->assertOk()->getContent();
 
         // El encabezado aparece una sola vez y ya no le acompaña la etiqueta
         // con la estrella que repetía la denominación.
-        $this->assertSame(1, substr_count($html, 'Coordinadora del Programa'));
+        $this->assertSame(1, substr_count($html, 'Coordinadora del Curso'));
         $this->assertStringNotContainsString('Coordinadora</span>', $html);
     }
 
@@ -106,7 +106,7 @@ class AjustesDiplomadosTest extends TestCase
         $this->actingAs($this->admin())
             ->put(route('admin.programas.update', $programa), [
                 'nombre' => $programa->nombre,
-                'grado' => 'Diplomado',
+                'grado' => 'Taller',
                 'docentes_asignados' => [$coordina->id, $otro->id],
                 'docentes_coordinador' => ['1', '0'],
                 // La segunda fila envía denominación aunque no coordine: no debe guardarse.
@@ -139,10 +139,10 @@ class AjustesDiplomadosTest extends TestCase
             ],
         ]);
 
-        $html = $this->get(route('programas.show', $programa->slug))->assertOk()->getContent();
+        $html = $this->get($programa->url)->assertOk()->getContent();
 
         $posiciones = [
-            'Costo total del diplomado' => strpos($html, 'Costo total del diplomado'),
+            'Costo total del taller' => strpos($html, 'Costo total del taller'),
             'Modalidades de pago' => strpos($html, 'Modalidades de pago'),
             'Pago de diploma' => strpos($html, 'Pago de diploma'),
             'Condiciones de pago' => strpos($html, 'Condiciones de pago'),
@@ -160,7 +160,7 @@ class AjustesDiplomadosTest extends TestCase
     {
         $programa = $this->diplomado(['inversion_economica' => ['costo_total' => 3650]]);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertSee('3,650')
             ->assertSee('Incluye la totalidad de los derechos de enseñanza y el costo del diploma.');
@@ -170,7 +170,7 @@ class AjustesDiplomadosTest extends TestCase
     {
         $programa = $this->diplomado(['inversion_economica' => ['costo_diploma' => 650]]);
 
-        $html = $this->get(route('programas.show', $programa->slug))->assertOk()->getContent();
+        $html = $this->get($programa->url)->assertOk()->getContent();
 
         $this->assertStringContainsString('Costo del diploma', $html);
         $this->assertStringContainsString(
@@ -192,7 +192,7 @@ class AjustesDiplomadosTest extends TestCase
             ],
         ]);
 
-        $html = $this->get(route('programas.show', $programa->slug))->assertOk()->getContent();
+        $html = $this->get($programa->url)->assertOk()->getContent();
 
         $this->assertStringContainsString('Costo por matrícula', $html);
         $this->assertStringContainsString('S/&nbsp;200', $html);
@@ -212,7 +212,7 @@ class AjustesDiplomadosTest extends TestCase
     {
         $programa = $this->diplomado(['inversion_economica' => ['costo_total' => 3650]]);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertDontSee('Costo por matrícula');
     }
@@ -224,7 +224,7 @@ class AjustesDiplomadosTest extends TestCase
         $this->actingAs($this->admin())
             ->put(route('admin.programas.update', $programa), [
                 'nombre' => $programa->nombre,
-                'grado' => 'Diplomado',
+                'grado' => 'Taller',
                 'inversion_economica' => json_encode([
                     'costo_total' => 3650,
                     'costo_diploma' => 650,
@@ -257,7 +257,7 @@ class AjustesDiplomadosTest extends TestCase
             ],
         ]);
 
-        $html = $this->get(route('programas.show', $programa->slug))->assertOk()->getContent();
+        $html = $this->get($programa->url)->assertOk()->getContent();
 
         foreach (['Pago único', 'Cuota única', '3,000', '16, 17 y 18 de septiembre',
                   'Pago fraccionado', 'Cuota 1', 'Cuota 2', '1,500',
@@ -288,7 +288,7 @@ class AjustesDiplomadosTest extends TestCase
 
         $this->assertCount(3, $programa->modalidades_de_pago[0]['cuotas']);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertSee('Cuota 3')
             ->assertSee('Noviembre');
@@ -312,7 +312,7 @@ class AjustesDiplomadosTest extends TestCase
         $this->assertSame('Pago fraccionado', $modalidades[0]['nombre']);
         $this->assertSame('Cuota 1', $modalidades[0]['cuotas'][0]['etiqueta']);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertSee('1,500')
             ->assertSee('Marzo');
@@ -332,7 +332,7 @@ class AjustesDiplomadosTest extends TestCase
 
         $this->assertSame([], $programa->modalidades_de_pago);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertDontSee('Modalidades de pago');
     }
@@ -344,7 +344,7 @@ class AjustesDiplomadosTest extends TestCase
         $this->actingAs($this->admin())
             ->put(route('admin.programas.update', $programa), [
                 'nombre' => $programa->nombre,
-                'grado' => 'Diplomado',
+                'grado' => 'Taller',
                 'inversion_economica' => json_encode(['costo_total' => 3650, 'costo_diploma' => 650]),
                 'inversion_modalidades' => json_encode([
                     ['nombre' => 'Pago único', 'cuotas' => [
@@ -381,7 +381,7 @@ class AjustesDiplomadosTest extends TestCase
 
         $this->assertCount(3, $programa->condiciones_de_pago);
 
-        $html = $this->get(route('programas.show', $programa->slug))->assertOk()->getContent();
+        $html = $this->get($programa->url)->assertOk()->getContent();
 
         $this->assertStringContainsString('Condiciones de pago', $html);
         foreach ($programa->condiciones_de_pago as $condicion) {
@@ -411,7 +411,7 @@ class AjustesDiplomadosTest extends TestCase
             'Pagos vía SanMarket',
         ], $programa->condiciones_de_pago);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertSee('10 % por pago adelantado')
             ->assertSee('Pagos vía SanMarket');
@@ -428,7 +428,7 @@ class AjustesDiplomadosTest extends TestCase
 
         $this->assertSame(['Única condición vigente.'], $programa->condiciones_de_pago);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertSee('Única condición vigente.')
             ->assertDontSee('Texto antiguo que no debe mostrarse');
@@ -440,7 +440,7 @@ class AjustesDiplomadosTest extends TestCase
 
         $this->assertSame([], $programa->condiciones_de_pago);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertDontSee('Condiciones de pago');
     }
@@ -452,7 +452,7 @@ class AjustesDiplomadosTest extends TestCase
         $this->actingAs($this->admin())
             ->put(route('admin.programas.update', $programa), [
                 'nombre' => $programa->nombre,
-                'grado' => 'Diplomado',
+                'grado' => 'Taller',
                 'inversion_economica' => json_encode(['costo_total' => 3650]),
                 'inversion_condiciones' => json_encode([
                     'Primera condición',
@@ -480,7 +480,7 @@ class AjustesDiplomadosTest extends TestCase
         $this->actingAs($this->admin())
             ->put(route('admin.programas.update', $programa), [
                 'nombre' => $programa->nombre,
-                'grado' => 'Diplomado',
+                'grado' => 'Taller',
                 'inversion_economica' => json_encode(['descuentos' => 'Respaldo antiguo']),
                 'inversion_condiciones' => json_encode([]),
             ]);
@@ -500,7 +500,7 @@ class AjustesDiplomadosTest extends TestCase
         $this->assertNull($programa->denominacion_otorga);
         $this->assertNull($programa->denominacion_otorga_texto);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertDontSee('Grado que otorga');
     }
@@ -517,7 +517,7 @@ class AjustesDiplomadosTest extends TestCase
             $programa->denominacion_otorga_texto,
         );
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertSee('Otorga: Diploma en Curaduría con Énfasis en Arte Peruano');
     }
@@ -536,7 +536,7 @@ class AjustesDiplomadosTest extends TestCase
             'grado_otorga' => 'Diploma en algo',
         ]);
 
-        $datos = ['nombre' => $programa->nombre, 'grado' => 'Diplomado'];
+        $datos = ['nombre' => $programa->nombre, 'grado' => 'Taller'];
 
         $this->actingAs($this->admin())
             ->put(route('admin.programas.update', $programa), $datos + [
@@ -560,13 +560,13 @@ class AjustesDiplomadosTest extends TestCase
 
     public function test_la_portada_de_diplomados_no_menciona_ciencias_sociales(): void
     {
-        SiteSetting::query()->update(['diplomados_hero_texto' => null]);
+        SiteSetting::query()->update(['talleres_hero_texto' => null]);
         SiteSetting::clearCache();
 
-        $this->get(route('diplomados.index'))
+        $this->get(route('talleres.index'))
             ->assertOk()
             ->assertDontSee('ciencias sociales')
-            ->assertSee('Especializa tus conocimientos con programas diseñados para responder a los desafíos contemporáneos desde las humanidades y las nuevas tecnologías.');
+            ->assertSee('Especializa tus conocimientos con talleres diseñados para responder a los desafíos contemporáneos desde las humanidades y las nuevas tecnologías.');
     }
 
     // Obs. N.º 6 — Horas académicas
@@ -575,7 +575,7 @@ class AjustesDiplomadosTest extends TestCase
     {
         $programa = $this->diplomado(['horas_academicas' => 480]);
 
-        $html = $this->get(route('programas.show', $programa->slug))->assertOk()->getContent();
+        $html = $this->get($programa->url)->assertOk()->getContent();
 
         $this->assertStringContainsString('Horas académicas', $html);
         $this->assertStringContainsString('480 horas', $html);
@@ -587,7 +587,7 @@ class AjustesDiplomadosTest extends TestCase
     {
         $programa = $this->diplomado(['horas_academicas' => null]);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertDontSee('Horas académicas');
     }
@@ -599,7 +599,7 @@ class AjustesDiplomadosTest extends TestCase
         $this->actingAs($this->admin())
             ->put(route('admin.programas.update', $programa), [
                 'nombre' => $programa->nombre,
-                'grado' => 'Diplomado',
+                'grado' => 'Taller',
                 'horas_academicas' => '520',
             ]);
 
@@ -610,7 +610,7 @@ class AjustesDiplomadosTest extends TestCase
 
     public function test_la_portada_de_diplomados_ya_no_duplica_el_contacto(): void
     {
-        $html = $this->get(route('diplomados.index'))->assertOk()->getContent();
+        $html = $this->get(route('talleres.index'))->assertOk()->getContent();
 
         $this->assertStringNotContainsString('| Contáctanos', $html);
         $this->assertStringNotContainsString('Horario de atención', $html);
@@ -622,10 +622,10 @@ class AjustesDiplomadosTest extends TestCase
 
     // Compatibilidad: los demás grados no cambian
 
-    public function test_una_maestria_conserva_su_ficha_y_su_denominacion(): void
+    public function test_un_curso_convertido_conserva_su_ficha_y_su_denominacion(): void
     {
         $programa = Programa::create([
-            'grado' => 'Maestría',
+            'grado' => 'Curso',
             'nombre' => 'Lingüística',
             'modalidad' => 'Presencial',
             'duracion' => 4,
@@ -637,10 +637,10 @@ class AjustesDiplomadosTest extends TestCase
             'semestres_inversion' => [['matricula' => 310, 'creditos' => 14]],
         ]);
 
-        $this->get(route('programas.show', $programa->slug))
+        $this->get($programa->url)
             ->assertOk()
             ->assertSee('Grado que otorga: Magíster en Lingüística')
-            ->assertSee('Costos por semestre')
+            ->assertSee('Cursos')
             ->assertSee('Postular Ahora');
     }
 }

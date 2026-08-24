@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="view-transition" content="same-origin">
     <script>document.documentElement.classList.replace('no-js', 'js');</script>
-    <title>@yield('title', 'Admin') - Posgrado Letras UNMSM</title>
+    <title>@yield('title', 'Admin') - CERSEU Letras UNMSM</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -40,7 +40,7 @@
         }
 
         .nav-link.active {
-            background-color: rgba(118, 30, 35, 0.08);
+            background-color: rgba(20, 59, 99, 0.08);
             border-left-color: var(--brand);
             color: var(--brand);
         }
@@ -50,7 +50,7 @@
         }
 
         .nav-link:hover {
-            background-color: rgba(118, 30, 35, 0.04);
+            background-color: rgba(20, 59, 99, 0.04);
         }
 
         .nav-link:hover i {
@@ -64,7 +64,7 @@
 
         .stat-brand {
             --card-color: var(--brand);
-            --icon-bg: rgba(118, 30, 35, 0.1);
+            --icon-bg: rgba(20, 59, 99, 0.1);
         }
 
         .stat-accent {
@@ -74,7 +74,7 @@
 
         .stat-dark {
             --card-color: var(--brand-dark);
-            --icon-bg: rgba(90, 22, 26, 0.1);
+            --icon-bg: rgba(15, 43, 72, 0.1);
         }
 
         .stat-icon {
@@ -130,36 +130,36 @@
         }
 
         /* Custom Utilities Compatibility */
-        .bg-brand-red {
+        .bg-brand-azul {
             background-color: var(--brand);
         }
 
-        .text-brand-red {
+        .text-brand-azul {
             color: var(--brand);
         }
 
-        .border-brand-red {
+        .border-brand-azul {
             border-color: var(--brand);
         }
 
-        .ring-brand-red {
+        .ring-brand-azul {
             --tw-ring-color: var(--brand);
         }
 
-        .focus\:ring-brand-red:focus {
+        .focus\:ring-brand-azul:focus {
             --tw-ring-opacity: 1;
             --tw-ring-color: var(--brand);
         }
 
-        .hover\:bg-brand-red:hover {
+        .hover\:bg-brand-azul:hover {
             background-color: var(--brand-dark);
         }
 
-        .hover\:border-brand-red:hover {
+        .hover\:border-brand-azul:hover {
             border-color: var(--brand);
         }
 
-        .focus\:border-brand-red:focus {
+        .focus\:border-brand-azul:focus {
             border-color: var(--brand);
         }
 
@@ -235,7 +235,7 @@
 
         /* Red de seguridad de foco visible: algunos formularios suprimen el
            outline nativo (focus:outline-none) confiando en focus:ring-* /
-           focus:border-* con colores personalizados (brand-red/gold/navy)
+           focus:border-* con colores personalizados (brand-azul/gold/navy)
            que no siempre ganan la cascada frente a los estilos base de
            @tailwindcss/forms. Este outline explícito garantiza un foco
            visible en todos los campos del admin sin depender de esa cadena. */
@@ -261,7 +261,7 @@
 
 <body class="bg-gray-100 text-gray-800">
     <a href="#main-content"
-        class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-brand-red focus:font-bold focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red">
+        class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-brand-azul focus:font-bold focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-azul">
         Saltar al contenido principal
     </a>
 
@@ -276,12 +276,12 @@
         <div class="p-6 border-b border-gray-100">
             <div class="flex items-center gap-3">
                 <div
-                    class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#761e23] to-[#5a161a] text-white flex items-center justify-center shadow-lg">
+                    class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#143B63] to-[#0F2B48] text-white flex items-center justify-center shadow-lg">
                     <x-fas-book-open />
                 </div>
                 <div>
-                    <h1 class="font-bold text-[#761e23] text-lg leading-tight">Letras</h1>
-                    <p class="text-xs text-gray-500 font-medium">Posgrado Admin</p>
+                    <h1 class="font-bold text-[#143B63] text-lg leading-tight">Letras</h1>
+                    <p class="text-xs text-gray-500 font-medium">CERSEU Admin</p>
                 </div>
             </div>
             <button class="lg:hidden absolute top-4 right-4 text-gray-400 hover:text-gray-600" id="closeSidebar">
@@ -304,7 +304,7 @@
             <a href="{{ route('admin.programas.index') }}"
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.programas.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
                 <x-fas-graduation-cap class="w-5 text-lg {{ request()->routeIs('admin.programas.*') ? '' : 'text-gray-500' }}" />
-                <span>Programas</span>
+                <span>Cursos</span>
             </a>
 
             <a href="{{ route('admin.docentes.index') }}"
@@ -343,7 +343,7 @@
                 class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.leads.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
                 <x-fas-inbox class="w-5 text-lg {{ request()->routeIs('admin.leads.*') ? '' : 'text-gray-500' }}" />
                 <span>Solicitudes</span>
-                @php $leadsPendientes = \App\Models\DiplomadoLead::where('created_at', '>=', now()->subDays(7))->count(); @endphp
+                @php $leadsPendientes = \App\Models\Lead::where('created_at', '>=', now()->subDays(7))->count(); @endphp
                 @if ($leadsPendientes > 0)
                     <span class="ml-auto px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-bold">{{ $leadsPendientes }}</span>
                 @endif
@@ -355,10 +355,10 @@
                 <span>Cronograma Admisión</span>
             </a>
 
-            <a href="{{ route('admin.admision-diplomados.index') }}"
-                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.admision-diplomados.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
-                <x-fas-scroll class="w-5 text-lg {{ request()->routeIs('admin.admision-diplomados.*') ? '' : 'text-gray-500' }}" />
-                <span>Admisión Diplomados</span>
+            <a href="{{ route('admin.admision.index', 'talleres') }}"
+                class="nav-link flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin.admision.*') ? 'active' : 'text-gray-800 hover:bg-gray-50' }}">
+                <x-fas-scroll class="w-5 text-lg {{ request()->routeIs('admin.admision.*') ? '' : 'text-gray-500' }}" />
+                <span>Admisión Talleres</span>
             </a>
 
             <a href="{{ route('admin.informativos.index') }}"
@@ -457,7 +457,7 @@
                             <p class="text-xs text-gray-500">Administrador</p>
                         </div>
                         <div
-                            class="w-10 h-10 rounded-full bg-[#5a161a] text-[#d4a017] flex items-center justify-center font-bold border-2 border-[#d4a017]">
+                            class="w-10 h-10 rounded-full bg-[#0F2B48] text-[#d4a017] flex items-center justify-center font-bold border-2 border-[#d4a017]">
                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                         </div>
                     </button>

@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>En mantenimiento — Posgrado Letras UNMSM</title>
+    <title>En mantenimiento — CERSEU Letras UNMSM</title>
     {{-- Página autocontenida (sin dependencias): se muestra en mantenimiento. --}}
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
             min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;
-            color:#fff;background:#6B1E20;position:relative;overflow:hidden;padding:2rem}
+            color:#fff;background:#143B63;position:relative;overflow:hidden;padding:2rem}
         body::before{content:"";position:absolute;inset:0;opacity:.06;
             background-image:radial-gradient(circle at 1px 1px,#fff 1.5px,transparent 0);background-size:34px 34px}
         body::after{content:"";position:absolute;top:-6rem;right:-6rem;width:24rem;height:24rem;border-radius:50%;
@@ -24,7 +24,7 @@
     <div class="wrap">
         <p class="kicker">Universidad Nacional Mayor de San Marcos</p>
         <h1>Estamos en mantenimiento</h1>
-        <p>La Unidad de Posgrado está realizando mejoras en el sitio.
+        <p>El CERSEU está realizando mejoras en el sitio.
             Volveremos en breve. Gracias por tu paciencia.</p>
     </div>
 </body>

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDiplomadoLeadRequest extends FormRequest
+class StoreLeadRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -34,8 +34,8 @@ class StoreDiplomadoLeadRequest extends FormRequest
             'pais.required' => 'Por favor indica tu país.',
             'region.required' => 'Por favor indica tu región o departamento.',
             'telefono.required' => 'Por favor ingresa tu teléfono.',
-            'programa_id.required' => 'Por favor selecciona el diplomado de tu interés.',
-            'programa_id.exists' => 'El diplomado seleccionado no es válido.',
+            'programa_id.required' => 'Por favor selecciona la opción de tu interés.',
+            'programa_id.exists' => 'La opción seleccionada no es válida.',
         ];
     }
 }

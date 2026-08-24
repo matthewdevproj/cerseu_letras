@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
-class AdmisionDiplomadoSetting extends Model
+class AdmisionSetting extends Model
 {
     protected $fillable = [
+        'tipo',
         'hero_titulo',
         'hero_subtitulo',
         'hero_imagen',
@@ -33,6 +34,7 @@ class AdmisionDiplomadoSetting extends Model
     ];
 
     protected $casts = [
+        'tipo' => TipoOferta::class,
         'pasos' => 'array',
         'requisitos_lista' => 'array',
         'pago_instrucciones' => 'array',
@@ -40,18 +42,31 @@ class AdmisionDiplomadoSetting extends Model
 
     public function cronogramaItems()
     {
-        return $this->hasMany(AdmisionDiplomadoCronogramaItem::class)->orderBy('orden')->orderBy('id');
+        return $this->hasMany(AdmisionCronogramaItem::class)->orderBy('orden')->orderBy('id');
     }
 
-    public static function get(): ?self
+    public function scopeDeTipo($query, TipoOferta $tipo)
     {
-        return Cache::remember('admision_diplomado_settings', 3600, function () {
-            return self::with('cronogramaItems')->first();
+        return $query->where('tipo', $tipo->value);
+    }
+
+    /**
+     * Ajustes de admisión de un tipo, cacheados por separado.
+     *
+     * La clave lleva el tipo dentro: talleres y cursos se editan por separado
+     * y una sola clave habría hecho que guardar uno mostrara el otro.
+     */
+    public static function get(TipoOferta $tipo): ?self
+    {
+        return Cache::remember("admision_settings:{$tipo->value}", 3600, function () use ($tipo) {
+            return self::with('cronogramaItems')->deTipo($tipo)->first();
         });
     }
 
-    public static function clearCache(): void
+    public static function clearCache(?TipoOferta $tipo = null): void
     {
-        Cache::forget('admision_diplomado_settings');
+        foreach ($tipo ? [$tipo] : TipoOferta::cases() as $t) {
+            Cache::forget("admision_settings:{$t->value}");
+        }
     }
 }

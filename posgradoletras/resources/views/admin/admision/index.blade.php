@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', 'Admisión Diplomados')
+@section('title', 'Admisión Talleres')
 
 @push('styles')
     <style>
@@ -25,10 +25,27 @@
 @section('content')
     <div class="max-w-6xl mx-auto">
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h1 class="text-xl font-bold text-gray-800 mb-1">Admisión de Diplomados</h1>
-            <p class="text-sm text-gray-500 mb-6">Contenido de <code>/diplomados/admision</code> — todas las secciones son editables.</p>
+            <h1 class="text-xl font-bold text-gray-800 mb-1">Admisión de {{ $tipo->plural() }}</h1>
+            <p class="text-sm text-gray-500 mb-4">Contenido de <code>/{{ $tipo->slug() }}/admision</code> — todas las secciones son editables.</p>
 
-            <form action="{{ route('admin.admision-diplomados.update') }}" method="POST" id="admisionForm" enctype="multipart/form-data"
+            {{-- Selector de módulo: talleres y cursos se configuran por separado
+                 con esta misma pantalla, y sin él no habría cómo pasar de uno a
+                 otro salvo escribiendo la URL a mano. --}}
+            <div class="flex gap-2 mb-6" role="tablist" aria-label="Módulo a configurar">
+                @foreach (\App\Models\TipoOferta::cases() as $opcion)
+                    <a href="{{ route('admin.admision.index', $opcion->slug()) }}"
+                        @class([
+                            'px-4 py-2 rounded-lg text-sm font-semibold transition-colors',
+                            'bg-unmsm-azul text-white' => $opcion === $tipo,
+                            'bg-gray-100 text-gray-600 hover:bg-gray-200' => $opcion !== $tipo,
+                        ])
+                        @if ($opcion === $tipo) aria-current="page" @endif>
+                        {{ $opcion->plural() }}
+                    </a>
+                @endforeach
+            </div>
+
+            <form action="{{ route('admin.admision.update', $tipo->slug()) }}" method="POST" id="admisionForm" enctype="multipart/form-data"
                 x-data="{ submitting: false, tab: 'tab-hero' }" @submit="submitting = true">
                 @csrf
                 @method('PUT')
@@ -60,7 +77,7 @@
                         <div>
                             <label class="form-label block">Subtítulo del Hero</label>
                             <input type="text" name="hero_subtitulo" value="{{ old('hero_subtitulo', $settings->hero_subtitulo) }}"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="Sección Diplomados · Unidad de Posgrado">
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="Sección Talleres · CERSEU">
                         </div>
                         <div class="md:col-span-2 border border-gray-200 rounded-lg p-4">
                             <x-admin-file-upload mode="direct" name="hero_imagen" label="Imagen de fondo del Hero"
@@ -78,7 +95,7 @@
                         <x-fas-info-circle class="mr-1" /> Los 6 pasos de la guía de admisión. Puedes editar el ícono (nombre de ícono FontAwesome, ej. <code>fa-calendar-days</code>).
                     </div>
                     <div id="pasos-list" class="space-y-3"></div>
-                    <button type="button" onclick="agregarPaso()" class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-red-700 text-red-700 rounded-lg hover:bg-red-50">
+                    <button type="button" onclick="agregarPaso()" class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-unmsm-azul text-unmsm-azul rounded-lg hover:bg-unmsm-azul/5">
                         <x-fas-plus class="mr-1" /> Agregar Paso
                     </button>
                 </div>
@@ -87,7 +104,7 @@
                 <div id="tab-cronograma" x-show="tab === 'tab-cronograma'" x-cloak>
                     <div class="flex justify-between items-center mb-4">
                         <p class="text-sm text-gray-500"><x-fas-list-ol class="mr-1" />Usa las flechas para reordenar</p>
-                        <button type="button" onclick="addCronogramaRow()" class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm">
+                        <button type="button" onclick="addCronogramaRow()" class="px-4 py-2 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark text-sm">
                             <x-fas-plus class="mr-1" /> Nueva Fila
                         </button>
                     </div>
@@ -96,7 +113,7 @@
                             <thead class="bg-gray-100 text-xs text-gray-600 uppercase">
                                 <tr>
                                     <th class="px-3 py-3 text-center w-14">Orden</th>
-                                    <th class="px-3 py-3 text-left">Programa</th>
+                                    <th class="px-3 py-3 text-left">Curso</th>
                                     <th class="px-3 py-3 text-left">Convocatoria</th>
                                     <th class="px-3 py-3 text-left">Fecha Inscripción</th>
                                     <th class="px-3 py-3 text-left">Fecha Límite</th>
@@ -109,8 +126,8 @@
                                     <tr class="cronograma-row border-b hover:bg-gray-50" data-id="{{ $item->id }}">
                                         <td class="px-3 py-2 text-center">
                                             <div class="flex flex-col items-center gap-1">
-                                                <button type="button" onclick="moveCronogramaRow(this, 'up')" class="text-gray-400 hover:text-red-700"><x-fas-chevron-up class="text-xs" /></button>
-                                                <button type="button" onclick="moveCronogramaRow(this, 'down')" class="text-gray-400 hover:text-red-700"><x-fas-chevron-down class="text-xs" /></button>
+                                                <button type="button" onclick="moveCronogramaRow(this, 'up')" class="text-gray-400 hover:text-unmsm-azul"><x-fas-chevron-up class="text-xs" /></button>
+                                                <button type="button" onclick="moveCronogramaRow(this, 'down')" class="text-gray-400 hover:text-unmsm-azul"><x-fas-chevron-down class="text-xs" /></button>
                                             </div>
                                         </td>
                                         <td class="px-3 py-2"><input type="text" class="cg-programa w-full border border-gray-200 rounded px-2 py-1" value="{{ $item->programa }}"></td>
@@ -145,7 +162,7 @@
                         <div class="border border-gray-200 rounded-lg p-4">
                             <label class="form-label block mb-3">Listado de requisitos</label>
                             <div id="requisitos-list" class="space-y-2"></div>
-                            <button type="button" onclick="agregarRequisito()" class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-red-700 text-red-700 rounded-lg hover:bg-red-50">
+                            <button type="button" onclick="agregarRequisito()" class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-unmsm-azul text-unmsm-azul rounded-lg hover:bg-unmsm-azul/5">
                                 <x-fas-plus class="mr-1" /> Agregar Requisito
                             </button>
                         </div>
@@ -182,7 +199,7 @@
                         <div class="border border-gray-200 rounded-lg p-4">
                             <label class="form-label block mb-3">Pasos para el pago (con video opcional)</label>
                             <div id="pago-instrucciones-list" class="space-y-3"></div>
-                            <button type="button" onclick="agregarPagoInstruccion()" class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-red-700 text-red-700 rounded-lg hover:bg-red-50">
+                            <button type="button" onclick="agregarPagoInstruccion()" class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-unmsm-azul text-unmsm-azul rounded-lg hover:bg-unmsm-azul/5">
                                 <x-fas-plus class="mr-1" /> Agregar Paso
                             </button>
                         </div>
@@ -254,7 +271,7 @@
 
                 <div class="mt-8 pt-6 border-t border-gray-200">
                     <button type="submit" :disabled="submitting"
-                        class="px-6 py-3 bg-red-700 text-white rounded-lg hover:bg-red-800 font-medium disabled:opacity-60 disabled:cursor-not-allowed">
+                        class="px-6 py-3 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark font-medium disabled:opacity-60 disabled:cursor-not-allowed">
                         <x-fas-spinner class="animate-spin mr-2" x-show="submitting" x-cloak />
                         <x-fas-save class="mr-2" x-show="!submitting" />
                         <span x-text="submitting ? 'Guardando...' : 'Guardar Todo'"></span>
@@ -322,8 +339,8 @@
             tr.dataset.isNew = '1';
             tr.innerHTML =
                 '<td class="px-3 py-2 text-center"><div class="flex flex-col items-center gap-1">' +
-                '<button type="button" onclick="moveCronogramaRow(this, \'up\')" class="text-gray-400 hover:text-red-700"><x-fas-chevron-up class="text-xs" /></button>' +
-                '<button type="button" onclick="moveCronogramaRow(this, \'down\')" class="text-gray-400 hover:text-red-700"><x-fas-chevron-down class="text-xs" /></button></div></td>' +
+                '<button type="button" onclick="moveCronogramaRow(this, \'up\')" class="text-gray-400 hover:text-unmsm-azul"><x-fas-chevron-up class="text-xs" /></button>' +
+                '<button type="button" onclick="moveCronogramaRow(this, \'down\')" class="text-gray-400 hover:text-unmsm-azul"><x-fas-chevron-down class="text-xs" /></button></div></td>' +
                 '<td class="px-3 py-2"><input type="text" class="cg-programa w-full border border-gray-200 rounded px-2 py-1"></td>' +
                 '<td class="px-3 py-2"><input type="text" class="cg-convocatoria w-full border border-gray-200 rounded px-2 py-1"></td>' +
                 '<td class="px-3 py-2"><input type="text" class="cg-fecha-inscripcion w-full border border-gray-200 rounded px-2 py-1"></td>' +

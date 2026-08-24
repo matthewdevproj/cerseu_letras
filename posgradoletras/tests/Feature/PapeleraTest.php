@@ -25,7 +25,7 @@ class PapeleraTest extends TestCase
         return Programa::create($extra + [
             'nombre' => 'Maestría en Lingüística',
             'slug' => 'maestria-en-linguistica',
-            'grado' => 'Maestría',
+            'grado' => 'Curso',
             'is_active' => true,
         ]);
     }
@@ -37,7 +37,7 @@ class PapeleraTest extends TestCase
         $this->actingAs($this->admin())->delete("/admin/programas/{$programa->id}");
 
         $this->assertSoftDeleted($programa);
-        $this->get('/programas')->assertOk()->assertDontSee('Maestría en Lingüística');
+        $this->get('/cursos')->assertOk()->assertDontSee('Maestría en Lingüística');
     }
 
     public function test_lo_borrado_aparece_en_la_papelera(): void
@@ -61,7 +61,7 @@ class PapeleraTest extends TestCase
             ->assertRedirect(route('admin.papelera.index'));
 
         $this->assertNull($programa->fresh()->deleted_at);
-        $this->get('/programas')->assertOk()->assertSee('Maestría en Lingüística');
+        $this->get('/cursos')->assertOk()->assertSee('Maestría en Lingüística');
     }
 
     public function test_la_papelera_junta_lo_borrado_de_varias_secciones(): void

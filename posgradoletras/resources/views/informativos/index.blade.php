@@ -1,12 +1,12 @@
 @extends('layouts.public')
 
-@section('title', 'Documentos y Recursos - Posgrado Letras UNMSM')
+@section('title', 'Documentos y Recursos - CERSEU Letras UNMSM')
 
 @section('content')
 
     <!-- HERO -->
     <x-hero-section title="Documentos y Recursos" label="Área Informativa"
-        subtitle="Reglamentos, directivas e información institucional del Posgrado."
+        subtitle="Reglamentos, directivas e información institucional del CERSEU."
         :image="asset('images/campus-aerea.jpg')" />
 
     <!-- CONTENIDO -->
@@ -16,7 +16,7 @@
         <div class="mb-10 max-w-2xl mx-auto">
             <div class="relative">
                 <input type="text" id="searchInput" placeholder="Buscar documento..." 
-                    class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 focus:border-unmsm-guinda focus:ring focus:ring-unmsm-guinda/20 shadow-sm transition-all text-gray-700 text-lg">
+                    class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 focus:border-unmsm-azul focus:ring focus:ring-unmsm-azul/20 shadow-sm transition-all text-gray-700 text-lg">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <x-fas-search class="text-gray-400 text-xl" />
                 </div>
@@ -28,8 +28,8 @@
             @foreach($informativos as $categoria => $items)
                 <section class="mb-12 category-section">
                     <!-- Título de Sección -->
-                    <h2 class="flex items-center gap-3 text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-unmsm-guinda/10">
-                        <span class="w-10 h-10 rounded-lg bg-unmsm-guinda/10 flex items-center justify-center text-unmsm-guinda text-lg">
+                    <h2 class="flex items-center gap-3 text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-unmsm-azul/10">
+                        <span class="w-10 h-10 rounded-lg bg-unmsm-azul/10 flex items-center justify-center text-unmsm-azul text-lg">
                             <x-fa-icon :icon="$items->first()->icono ?? 'fas fa-folder'" />
                         </span>
                         {{ strtoupper($categoria) }}
@@ -38,7 +38,7 @@
                     <!-- Grid de Documentos -->
                     <div class="grid md:grid-cols-2 gap-6">
                         @foreach($items as $item)
-                            <div class="document-card group bg-white border border-gray-200 rounded-xl p-5 hover:shadow-lg hover:border-unmsm-guinda/30 transition-all duration-300 flex items-start gap-4">
+                            <div class="document-card group bg-white border border-gray-200 rounded-xl p-5 hover:shadow-lg hover:border-unmsm-azul/30 transition-all duration-300 flex items-start gap-4">
                                 <!-- Icono -->
                                 <div class="flex-shrink-0">
                                     @if($item->es_pdf)
@@ -46,7 +46,7 @@
                                             <x-fas-file-pdf />
                                         </div>
                                     @else
-                                        <div class="w-12 h-12 rounded-lg bg-unmsm-guinda/10 text-unmsm-guinda flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                        <div class="w-12 h-12 rounded-lg bg-unmsm-azul/10 text-unmsm-azul flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
                                             <x-fas-link />
                                         </div>
                                     @endif
@@ -54,7 +54,7 @@
 
                                 <!-- Contenido -->
                                 <div class="flex-1 min-w-0">
-                                    <h3 class="document-title font-bold text-gray-800 group-hover:text-unmsm-guinda transition-colors mb-1 line-clamp-2" title="{{ $item->titulo }}">
+                                    <h3 class="document-title font-bold text-gray-800 group-hover:text-unmsm-azul transition-colors mb-1 line-clamp-2" title="{{ $item->titulo }}">
                                         {{ $item->titulo }}
                                     </h3>
                                     @if($item->categoria)
@@ -62,7 +62,7 @@
                                     @endif
                                     
                                     <a href="{{ $item->url }}" target="{{ $item->es_enlace ? '_blank' : '_self' }}" rel="nofollow"
-                                        class="inline-flex items-center gap-2 text-sm font-medium {{ $item->es_pdf ? 'text-red-600 hover:text-red-800' : 'text-unmsm-guinda hover:text-unmsm-dorado' }}">
+                                        class="inline-flex items-center gap-2 text-sm font-medium {{ $item->es_pdf ? 'text-red-600 hover:text-red-800' : 'text-unmsm-azul hover:text-unmsm-dorado' }}">
                                         @if($item->es_pdf)
                                             <span>Descargar PDF</span>
                                             <x-fas-download class="text-xs" />

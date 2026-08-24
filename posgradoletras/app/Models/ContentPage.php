@@ -21,11 +21,13 @@ class ContentPage extends Model
 
     /** Pestañas disponibles por página (vacío = sin pestañas). */
     public const GRUPOS = [
-        'tramites' => ['maestria' => 'Grado de Magíster', 'doctorado' => 'Grado de Doctor'],
+        // /tramites no lleva pestañas: era la separación entre grado de
+        // Magíster y de Doctor, y el CERSEU no otorga grados académicos.
+        'tramites' => [],
         'admision' => [],
         // En /nosotros el grupo no es una pestaña sino el sitio donde va cada
         // sección: misión y visión son bloques únicos y cada valor es una
-        // entrada de la lista de la tarjeta guinda.
+        // entrada de la lista de la tarjeta azul.
         'nosotros' => ['mision' => 'Misión', 'vision' => 'Visión', 'valor' => 'Valor (uno por entrada)'],
     ];
 

@@ -3,24 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Programa;
-use Illuminate\Http\Request;
 
 class ProgramaController extends Controller
 {
-    public function index(Request $request)
-    {
-        // Obtener el filtro de tipo desde la URL
-        $tipoFiltro = $request->get('tipo', 'todos');
-
-        // `estado` es necesario para que la tarjeta sepa marcar «Próximamente».
-        $campos = ['id', 'nombre', 'mencion', 'slug', 'grado', 'vacantes', 'duracion', 'creditos', 'sumilla', 'imagen', 'modalidad', 'horas_academicas', 'brochure_url', 'estado'];
-
-        $maestrias = Programa::visibles()->maestrias()->select($campos)->ordenPublicacion()->get();
-        $doctorados = Programa::visibles()->doctorados()->select($campos)->ordenPublicacion()->get();
-
-        return view('programas.index', compact('maestrias', 'doctorados', 'tipoFiltro'));
-    }
-
+    /**
+     * La ficha de un taller o de un curso.
+     *
+     * El listado ya no vive aquí: cada tipo tiene el suyo en OfertaController,
+     * bajo /talleres y /cursos. Este controlador solo sirve la ficha, que es
+     * idéntica para los dos.
+     */
     public function show($slug)
     {
         // Los borradores no existen de cara al público: se descartan en la

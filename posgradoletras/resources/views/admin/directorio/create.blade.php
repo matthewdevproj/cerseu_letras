@@ -111,7 +111,7 @@
                                 </label>
                                 <input type="text" name="cargo" id="cargo" value="{{ old('cargo') }}"
                                     class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:ring-brand-gold focus:border-brand-gold"
-                                    placeholder="Ej: Directora de la Unidad de Posgrado" required>
+                                    placeholder="Ej: Directora del CERSEU" required>
                                 @error('cargo')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror

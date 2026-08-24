@@ -1,0 +1,870 @@
+{
+    "docentes": [
+        {
+            "nombres": "Nora",
+            "apellidos": "Solis"
+        },
+        {
+            "nombres": "Luis Alberto",
+            "apellidos": "Mamani Quispe"
+        },
+        {
+            "nombres": "Agustín",
+            "apellidos": "Prado"
+        },
+        {
+            "nombres": "Roberto",
+            "apellidos": "Katayama"
+        },
+        {
+            "nombres": "Juan",
+            "apellidos": "Ubilluz"
+        },
+        {
+            "nombres": "Yony",
+            "apellidos": "Cárdenas"
+        },
+        {
+            "nombres": "Franklin",
+            "apellidos": "Ibáñez"
+        },
+        {
+            "nombres": "Dante",
+            "apellidos": "Dávila"
+        },
+        {
+            "nombres": "Katy",
+            "apellidos": "Olaya"
+        },
+        {
+            "nombres": "María C.",
+            "apellidos": "Chavarría Mendoza"
+        },
+        {
+            "nombres": "Javier Teófilo",
+            "apellidos": "Suárez Trejo"
+        },
+        {
+            "nombres": "Rodrigo",
+            "apellidos": "Sarmiento"
+        },
+        {
+            "nombres": "Julio",
+            "apellidos": "Villanueva Chang"
+        },
+        {
+            "nombres": "Leonardo",
+            "apellidos": "Chihuán"
+        },
+        {
+            "nombres": "Marco",
+            "apellidos": "Lovón"
+        },
+        {
+            "nombres": "Daysi",
+            "apellidos": "Saravia"
+        },
+        {
+            "nombres": "Luciana",
+            "apellidos": "Aliaga Balletta"
+        },
+        {
+            "nombres": "Rolando",
+            "apellidos": "Rocha"
+        },
+        {
+            "nombres": "Aaron",
+            "apellidos": "Torres"
+        },
+        {
+            "nombres": "Verónica",
+            "apellidos": "Sánchez"
+        }
+    ],
+    "cursos": [
+        {
+            "nombre": "Curso-taller: Lenguaje en Acción: Estrategias de intervención para dificultades lingüísticas en edad escolar (Módulo I)",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Nora Solis",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Nora Solis (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Curso-taller de elaboración de preguntas de opción múltiple",
+            "escuela": "Lingüística",
+            "modalidad": "Híbrida",
+            "horas_academicas": 10,
+            "docente": "Luis Alberto Mamani Quispe",
+            "sumilla": "Curso de 10 horas académicas en modalidad híbrida, a cargo de Luis Alberto Mamani Quispe (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Redacción y Ortografía I",
+            "escuela": "Literatura",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Agustín Prado",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Agustín Prado (Escuela de Literatura)."
+        },
+        {
+            "nombre": "Seminario: Las novelas históricas de Mario Vargas Llosa (una lectura desde las utopías)",
+            "escuela": "Literatura",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Agustín Prado",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Agustín Prado (Escuela de Literatura)."
+        },
+        {
+            "nombre": "Redacción de Tesis I",
+            "escuela": "Filosofía",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Roberto Katayama",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Roberto Katayama (Escuela de Filosofía)."
+        },
+        {
+            "nombre": "Redacción de Tesis II",
+            "escuela": "Filosofía",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Roberto Katayama",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Roberto Katayama (Escuela de Filosofía)."
+        },
+        {
+            "nombre": "Taller: Miradas críticas de la política contemporánea",
+            "escuela": "Comunicación Social",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Juan Ubilluz",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Juan Ubilluz (Escuela de Comunicación Social)."
+        },
+        {
+            "nombre": "Didáctica de la Enseñanza Niños I",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Educar el Pensamiento: ¿por qué filosofía hoy?",
+            "escuela": "Filosofía",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Franklin Ibáñez",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Franklin Ibáñez (Escuela de Filosofía)."
+        },
+        {
+            "nombre": "Seminario: Introducción a la «Metafísica» de Aristóteles",
+            "escuela": "Filosofía",
+            "modalidad": "Virtual",
+            "horas_academicas": 16,
+            "docente": "Dante Dávila",
+            "sumilla": "Curso de 16 horas académicas en modalidad virtual, a cargo de Dante Dávila (Escuela de Filosofía)."
+        },
+        {
+            "nombre": "Didáctica de la Enseñanza Niños II",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Curso-taller: Lenguaje en Acción: Estrategias de intervención para dificultades lingüísticas en edad escolar (Módulo II)",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Nora Solis",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Nora Solis (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Capacitación sobre terapia del lenguaje: Trastornos del Lenguaje y Evaluación Lingüística (Módulo I)",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 20,
+            "docente": "Katy Olaya",
+            "sumilla": "Curso de 20 horas académicas en modalidad virtual, a cargo de Katy Olaya (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Curso-taller: Introducción a la Fonética General Articulatoria (Módulo I)",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 15,
+            "docente": "María C. Chavarría Mendoza",
+            "sumilla": "Curso de 15 horas académicas en modalidad virtual, a cargo de María C. Chavarría Mendoza (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Taller: Laboratorio de mediación de lectura (LAVAlab): cajas de aprendizaje innovadoras",
+            "escuela": "Literatura",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Javier Teófilo Suárez Trejo",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Javier Teófilo Suárez Trejo (Escuela de Literatura)."
+        },
+        {
+            "nombre": "Capacitación sobre terapia del lenguaje: Trastornos del Lenguaje y Evaluación Lingüística (Módulo II)",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 20,
+            "docente": "Katy Olaya",
+            "sumilla": "Curso de 20 horas académicas en modalidad virtual, a cargo de Katy Olaya (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Gramática Avanzada del Inglés I",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Curso-taller: Introducción a la Fonética General Articulatoria (Módulo II)",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 10,
+            "docente": "María C. Chavarría Mendoza",
+            "sumilla": "Curso de 10 horas académicas en modalidad virtual, a cargo de María C. Chavarría Mendoza (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Curso: La ruta del zorro: los inicios del jazz y su relación con la canción popular nacional en América",
+            "escuela": "Literatura",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Rodrigo Sarmiento",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Rodrigo Sarmiento (Escuela de Literatura)."
+        },
+        {
+            "nombre": "Curso-taller: De cerca nadie es normal",
+            "escuela": "Comunicación Social",
+            "modalidad": "Presencial",
+            "horas_academicas": 12,
+            "docente": "Julio Villanueva Chang",
+            "sumilla": "Curso de 12 horas académicas en modalidad presencial, a cargo de Julio Villanueva Chang (Escuela de Comunicación Social)."
+        },
+        {
+            "nombre": "Gramática Avanzada del Inglés II",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Oratoria y Teatro I",
+            "escuela": "Filosofía",
+            "modalidad": "Presencial",
+            "horas_academicas": 15,
+            "docente": "Leonardo Chihuán",
+            "sumilla": "Curso de 15 horas académicas en modalidad presencial, a cargo de Leonardo Chihuán (Escuela de Filosofía)."
+        },
+        {
+            "nombre": "Normas APA I",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 10,
+            "docente": "Luis Alberto Mamani Quispe",
+            "sumilla": "Curso de 10 horas académicas en modalidad virtual, a cargo de Luis Alberto Mamani Quispe (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Composición Avanzada del Inglés I",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Didática do Português como Língua Pluricêntrica na Formação Docente",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 15,
+            "docente": "Marco Lovón",
+            "sumilla": "Curso de 15 horas académicas en modalidad virtual, a cargo de Marco Lovón (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Curso: Literatura tusán y nikkei",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Daysi Saravia",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Daysi Saravia (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Diseño de proyectos de tesis cualitativa para la comunicación organizacional y audiovisual",
+            "escuela": "Comunicación Social",
+            "modalidad": "Virtual",
+            "horas_academicas": 16,
+            "docente": "Luciana Aliaga Balletta",
+            "sumilla": "Curso de 16 horas académicas en modalidad virtual, a cargo de Luciana Aliaga Balletta (Escuela de Comunicación Social)."
+        },
+        {
+            "nombre": "Composición Avanzada del Inglés II",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Curso-taller: APA sin clichés: más allá de la norma en la producción investigativa",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 20,
+            "docente": "Rolando Rocha",
+            "sumilla": "Curso de 20 horas académicas en modalidad virtual, a cargo de Rolando Rocha (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Introducción a la Política de Aristóteles",
+            "escuela": "Filosofía",
+            "modalidad": "Virtual",
+            "horas_academicas": 12,
+            "docente": "Dante Dávila",
+            "sumilla": "Curso de 12 horas académicas en modalidad virtual, a cargo de Dante Dávila (Escuela de Filosofía)."
+        },
+        {
+            "nombre": "Investigación cuantitativa, cualitativa y mixta",
+            "escuela": "Filosofía",
+            "modalidad": "Virtual",
+            "horas_academicas": 24,
+            "docente": "Roberto Katayama",
+            "sumilla": "Curso de 24 horas académicas en modalidad virtual, a cargo de Roberto Katayama (Escuela de Filosofía)."
+        },
+        {
+            "nombre": "Práctica de la Enseñanza del Inglés I",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Práctica de la Enseñanza del Inglés II",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "¿Puede ser la lingüística queer y feminista?",
+            "escuela": "Lingüística",
+            "modalidad": "Presencial",
+            "horas_academicas": 12,
+            "docente": "Aaron Torres",
+            "sumilla": "Curso de 12 horas académicas en modalidad presencial, a cargo de Aaron Torres (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Fonética y Fonología del Inglés I",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Didáctica, diálogo y participación: estrategias para el acompañamiento en aula y con grupos",
+            "escuela": "Filosofía",
+            "modalidad": "Virtual",
+            "horas_academicas": 25,
+            "docente": "Verónica Sánchez",
+            "sumilla": "Curso de 25 horas académicas en modalidad virtual, a cargo de Verónica Sánchez (Escuela de Filosofía)."
+        },
+        {
+            "nombre": "Fonética y Fonología del Inglés II",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Didáctica de la Enseñanza del Inglés Adulto I",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        },
+        {
+            "nombre": "Didáctica de la Enseñanza del Inglés Adulto II",
+            "escuela": "Lingüística",
+            "modalidad": "Virtual",
+            "horas_academicas": 60,
+            "docente": "Yony Cárdenas",
+            "sumilla": "Curso de 60 horas académicas en modalidad virtual, a cargo de Yony Cárdenas (Escuela de Lingüística)."
+        }
+    ],
+    "cronograma": [
+        {
+            "programa": "Curso-taller: Lenguaje en Acción: Estrategias de intervención para dificultades lingüísticas en edad escolar (Módulo I)",
+            "convocatoria": "Enero",
+            "fecha_inscripcion": "17/01/2026",
+            "fecha_limite": "31/01/2026",
+            "estado": "Activo",
+            "orden": 0,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Curso-taller de elaboración de preguntas de opción múltiple",
+            "convocatoria": "Enero",
+            "fecha_inscripcion": "19/01/2026",
+            "fecha_limite": "23/01/2026",
+            "estado": "Activo",
+            "orden": 1,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Redacción y Ortografía I",
+            "convocatoria": "Enero",
+            "fecha_inscripcion": "12/01/2026",
+            "fecha_limite": "28/01/2026",
+            "estado": "Activo",
+            "orden": 2,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Seminario: Las novelas históricas de Mario Vargas Llosa (una lectura desde las utopías)",
+            "convocatoria": "Enero",
+            "fecha_inscripcion": "13/01/2026",
+            "fecha_limite": "29/01/2026",
+            "estado": "Activo",
+            "orden": 3,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Redacción de Tesis I",
+            "convocatoria": "Enero",
+            "fecha_inscripcion": "05/01/2026",
+            "fecha_limite": "09/01/2026",
+            "estado": "Activo",
+            "orden": 4,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Redacción de Tesis II",
+            "convocatoria": "Enero",
+            "fecha_inscripcion": "12/01/2026",
+            "fecha_limite": "14/01/2026",
+            "estado": "Activo",
+            "orden": 5,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Taller: Miradas críticas de la política contemporánea",
+            "convocatoria": "Enero",
+            "fecha_inscripcion": "09/01/2025",
+            "fecha_limite": "23/01/2025",
+            "estado": "Por confirmar",
+            "orden": 6,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Didáctica de la Enseñanza Niños I",
+            "convocatoria": "Enero",
+            "fecha_inscripcion": "10/02/2026",
+            "fecha_limite": "31/01/2026",
+            "estado": "Por confirmar",
+            "orden": 7,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Educar el Pensamiento: ¿por qué filosofía hoy?",
+            "convocatoria": "Enero",
+            "fecha_inscripcion": "26/01/2026",
+            "fecha_limite": "04/02/2026",
+            "estado": "Activo",
+            "orden": 8,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Redacción de Tesis I",
+            "convocatoria": "Febrero",
+            "fecha_inscripcion": "02/02/2026",
+            "fecha_limite": "06/02/2026",
+            "estado": "Activo",
+            "orden": 9,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Seminario: Introducción a la «Metafísica» de Aristóteles",
+            "convocatoria": "Febrero",
+            "fecha_inscripcion": "03/02/2026",
+            "fecha_limite": "26/02/2026",
+            "estado": "Activo",
+            "orden": 10,
+            "whatsapp": "https://chat.whatsapp.com/FtfsTSrZMGhJWQI5bYbGhK",
+            "codigo": "239I-2601110"
+        },
+        {
+            "programa": "Didáctica de la Enseñanza Niños II",
+            "convocatoria": "Febrero",
+            "fecha_inscripcion": "07/02/2026",
+            "fecha_limite": "28/02/2026",
+            "estado": "Activo",
+            "orden": 11,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Curso-taller: Lenguaje en Acción: Estrategias de intervención para dificultades lingüísticas en edad escolar (Módulo II)",
+            "convocatoria": "Febrero",
+            "fecha_inscripcion": "07/02/2026",
+            "fecha_limite": "21/02/2025",
+            "estado": "Por confirmar",
+            "orden": 12,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Redacción de Tesis II",
+            "convocatoria": "Febrero",
+            "fecha_inscripcion": "09/02/2026",
+            "fecha_limite": "13/02/2026",
+            "estado": "Activo",
+            "orden": 13,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Capacitación sobre terapia del lenguaje: Trastornos del Lenguaje y Evaluación Lingüística (Módulo I)",
+            "convocatoria": "Febrero",
+            "fecha_inscripcion": "11/02/2026",
+            "fecha_limite": "18/02/2026",
+            "estado": "Activo",
+            "orden": 14,
+            "whatsapp": "https://chat.whatsapp.com/DWpTSquQNrSCLI31HkKd2R",
+            "codigo": "1Y2L-26012603"
+        },
+        {
+            "programa": "Redacción de Tesis I",
+            "convocatoria": "Febrero",
+            "fecha_inscripcion": "16/02/2026",
+            "fecha_limite": "20/02/2026",
+            "estado": "Activo",
+            "orden": 15,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Curso-taller: Introducción a la Fonética General Articulatoria (Módulo I)",
+            "convocatoria": "Febrero",
+            "fecha_inscripcion": "17/02/2026",
+            "fecha_limite": "07/03/2026",
+            "estado": "Activo",
+            "orden": 16,
+            "whatsapp": "https://chat.whatsapp.com/Gb8qLSCK7enIMEX20Y1jrs",
+            "codigo": "YW92-26011303"
+        },
+        {
+            "programa": "Taller: Laboratorio de mediación de lectura (LAVAlab): cajas de aprendizaje innovadoras",
+            "convocatoria": "Febrero",
+            "fecha_inscripcion": "20/02/2026",
+            "fecha_limite": "27/02/2026",
+            "estado": "Activo",
+            "orden": 17,
+            "whatsapp": "https://chat.whatsapp.com/BvDkt32q5jv7ye6T0c5BEA",
+            "codigo": "N5IW-2601090"
+        },
+        {
+            "programa": "Redacción de Tesis II",
+            "convocatoria": "Febrero",
+            "fecha_inscripcion": "23/02/2026",
+            "fecha_limite": "27/02/2026",
+            "estado": "Activo",
+            "orden": 18,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Capacitación sobre terapia del lenguaje: Trastornos del Lenguaje y Evaluación Lingüística (Módulo II)",
+            "convocatoria": "Febrero",
+            "fecha_inscripcion": "24/02/2026",
+            "fecha_limite": "03/03/2026",
+            "estado": "Activo",
+            "orden": 19,
+            "whatsapp": "https://chat.whatsapp.com/DWpTSquQNrSCLI31HkKd2R",
+            "codigo": "1Y2L-26012603"
+        },
+        {
+            "programa": "Gramática Avanzada del Inglés I",
+            "convocatoria": "Marzo",
+            "fecha_inscripcion": "07/03/2026",
+            "fecha_limite": "28/03/2026",
+            "estado": "Activo",
+            "orden": 20,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Curso-taller: Introducción a la Fonética General Articulatoria (Módulo II)",
+            "convocatoria": "Marzo",
+            "fecha_inscripcion": "17/03/2026",
+            "fecha_limite": "28/03/2026",
+            "estado": "Activo",
+            "orden": 21,
+            "whatsapp": "https://chat.whatsapp.com/Gb8qLSCK7enIMEX20Y1jrs",
+            "codigo": "YW92-26011303"
+        },
+        {
+            "programa": "Curso: La ruta del zorro: los inicios del jazz y su relación con la canción popular nacional en América",
+            "convocatoria": "Marzo",
+            "fecha_inscripcion": "10/03/2026",
+            "fecha_limite": "03/04/2025",
+            "estado": "Por confirmar",
+            "orden": 22,
+            "whatsapp": "https://chat.whatsapp.com/H8rfBmY8nvx0o7ovtcc8EM",
+            "codigo": "RNH4-26011903"
+        },
+        {
+            "programa": "Curso-taller: De cerca nadie es normal",
+            "convocatoria": "Marzo",
+            "fecha_inscripcion": "19/03/2026",
+            "fecha_limite": "21/03/2026",
+            "estado": "Activo",
+            "orden": 23,
+            "whatsapp": "https://chat.whatsapp.com/BZioroTc8LyLLZXsnnGxQ2",
+            "codigo": ""
+        },
+        {
+            "programa": "Gramática Avanzada del Inglés II",
+            "convocatoria": "Abril",
+            "fecha_inscripcion": "11/04/2026",
+            "fecha_limite": "02/05/2026",
+            "estado": "Activo",
+            "orden": 24,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Redacción y Ortografía I",
+            "convocatoria": "Abril",
+            "fecha_inscripcion": "14/04/2026",
+            "fecha_limite": "30/04/2026",
+            "estado": "Activo",
+            "orden": 25,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Oratoria y Teatro I",
+            "convocatoria": "Abril",
+            "fecha_inscripcion": "18/04/2026",
+            "fecha_limite": "16/05/2026",
+            "estado": "Activo",
+            "orden": 26,
+            "whatsapp": "https://chat.whatsapp.com/LuFoVFlNvII8DuG8NvXe0k",
+            "codigo": ""
+        },
+        {
+            "programa": "Normas APA I",
+            "convocatoria": "Mayo",
+            "fecha_inscripcion": "05/05/2026",
+            "fecha_limite": "21/05/2026",
+            "estado": "Activo",
+            "orden": 27,
+            "whatsapp": "https://chat.whatsapp.com/G4klH0EQX1S92r2a4twAaX",
+            "codigo": ""
+        },
+        {
+            "programa": "Redacción de Tesis I",
+            "convocatoria": "Mayo",
+            "fecha_inscripcion": "08/05/2026",
+            "fecha_limite": "15/05/2026",
+            "estado": "Activo",
+            "orden": 28,
+            "whatsapp": "https://chat.whatsapp.com/L7dj60ayGm55q9JnATxwUB",
+            "codigo": ""
+        },
+        {
+            "programa": "Composición Avanzada del Inglés I",
+            "convocatoria": "Mayo",
+            "fecha_inscripcion": "09/05/2026",
+            "fecha_limite": "30/05/2026",
+            "estado": "Activo",
+            "orden": 29,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Redacción de Tesis II",
+            "convocatoria": "Mayo",
+            "fecha_inscripcion": "16/05/2026",
+            "fecha_limite": "23/05/2026",
+            "estado": "Activo",
+            "orden": 30,
+            "whatsapp": "https://chat.whatsapp.com/L7dj60ayGm55q9JnATxwUB",
+            "codigo": ""
+        },
+        {
+            "programa": "Didática do Português como Língua Pluricêntrica na Formação Docente",
+            "convocatoria": "Mayo",
+            "fecha_inscripcion": "30/05/2026",
+            "fecha_limite": "06/06/2026",
+            "estado": "Activo",
+            "orden": 31,
+            "whatsapp": "https://chat.whatsapp.com/CAnraiDbLyuB4XF6YXH5Ou",
+            "codigo": ""
+        },
+        {
+            "programa": "Curso: Literatura tusán y nikkei",
+            "convocatoria": "Junio",
+            "fecha_inscripcion": "05/06/2026",
+            "fecha_limite": "10/07/2026",
+            "estado": "Activo",
+            "orden": 32,
+            "whatsapp": "https://chat.whatsapp.com/Gqa7NM2CVJPEMFp6xqOhGc",
+            "codigo": ""
+        },
+        {
+            "programa": "Diseño de proyectos de tesis cualitativa para la comunicación organizacional y audiovisual",
+            "convocatoria": "Junio",
+            "fecha_inscripcion": "07/06/2026",
+            "fecha_limite": "28/06/2026",
+            "estado": "Activo",
+            "orden": 33,
+            "whatsapp": "https://chat.whatsapp.com/Lhn7tpfyxRlL3TPnd6Ofsk",
+            "codigo": ""
+        },
+        {
+            "programa": "Composición Avanzada del Inglés II",
+            "convocatoria": "Junio",
+            "fecha_inscripcion": "06/06/2026",
+            "fecha_limite": "27/06/2026",
+            "estado": "Activo",
+            "orden": 34,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Curso-taller: APA sin clichés: más allá de la norma en la producción investigativa",
+            "convocatoria": "Junio",
+            "fecha_inscripcion": "16/06/2026",
+            "fecha_limite": "30/06/2026",
+            "estado": "Activo",
+            "orden": 35,
+            "whatsapp": "https://chat.whatsapp.com/JdTu8TrbcCXLBaFnkDcobA",
+            "codigo": ""
+        },
+        {
+            "programa": "Oratoria y Teatro I",
+            "convocatoria": "Julio",
+            "fecha_inscripcion": "11/07/2026",
+            "fecha_limite": "08/08/2026",
+            "estado": "Activo",
+            "orden": 36,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Introducción a la Política de Aristóteles",
+            "convocatoria": "Julio",
+            "fecha_inscripcion": "07/07/2026",
+            "fecha_limite": "23/07/2006",
+            "estado": "Por confirmar",
+            "orden": 37,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Investigación cuantitativa, cualitativa y mixta",
+            "convocatoria": "Julio",
+            "fecha_inscripcion": "03/07/2026",
+            "fecha_limite": "20/07/2026",
+            "estado": "Activo",
+            "orden": 38,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Práctica de la Enseñanza del Inglés I",
+            "convocatoria": "Julio",
+            "fecha_inscripcion": "04/07/2026",
+            "fecha_limite": "25/07/2026",
+            "estado": "Activo",
+            "orden": 39,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Práctica de la Enseñanza del Inglés II",
+            "convocatoria": "Agosto",
+            "fecha_inscripcion": "01/08/2026",
+            "fecha_limite": "22/08/2026",
+            "estado": "Activo",
+            "orden": 40,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "¿Puede ser la lingüística queer y feminista?",
+            "convocatoria": "Agosto",
+            "fecha_inscripcion": "8/3/2026",
+            "fecha_limite": "8/7/2026",
+            "estado": "Activo",
+            "orden": 41,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Fonética y Fonología del Inglés I",
+            "convocatoria": "Setiembre",
+            "fecha_inscripcion": "05/09/2026",
+            "fecha_limite": "26/09/2026",
+            "estado": "Activo",
+            "orden": 42,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Didáctica, diálogo y participación: estrategias para el acompañamiento en aula y con grupos",
+            "convocatoria": "Setiembre",
+            "fecha_inscripcion": "9/1/2026",
+            "fecha_limite": "9/29/2026",
+            "estado": "Por confirmar",
+            "orden": 43,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Fonética y Fonología del Inglés II",
+            "convocatoria": "Octubre",
+            "fecha_inscripcion": "03/10/2026",
+            "fecha_limite": "24/10/2026",
+            "estado": "Activo",
+            "orden": 44,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Didáctica de la Enseñanza del Inglés Adulto I",
+            "convocatoria": "Noviembre",
+            "fecha_inscripcion": "7/11/2026",
+            "fecha_limite": "28/11/2026",
+            "estado": "Activo",
+            "orden": 45,
+            "whatsapp": "",
+            "codigo": ""
+        },
+        {
+            "programa": "Didáctica de la Enseñanza del Inglés Adulto II",
+            "convocatoria": "Diciembre",
+            "fecha_inscripcion": "5/12/2026",
+            "fecha_limite": "26/12/2026",
+            "estado": "Activo",
+            "orden": 46,
+            "whatsapp": "",
+            "codigo": ""
+        }
+    ]
+}

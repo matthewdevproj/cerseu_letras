@@ -7,7 +7,7 @@ use App\Models\Programa;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-class DiplomadoSeeder extends Seeder
+class TalleresSeeder extends Seeder
 {
     /**
      * Datos oficiales tomados de "Ajustes para la página web de Diplomados.pdf"
@@ -16,46 +16,46 @@ class DiplomadoSeeder extends Seeder
     public function run(): void
     {
         $planEstudiosGenerico = [
-            ['ciclo' => '1', 'nombre' => 'Fundamentos Teóricos y Metodológicos', 'creditos' => 6, 'sumilla' => 'Marco teórico y metodológico base del diplomado.'],
-            ['ciclo' => '1', 'nombre' => 'Seminario de Especialización I', 'creditos' => 6, 'sumilla' => 'Profundización en las principales líneas temáticas del programa.'],
+            ['ciclo' => '1', 'nombre' => 'Fundamentos Teóricos y Metodológicos', 'creditos' => 6, 'sumilla' => 'Marco teórico y metodológico base del taller.'],
+            ['ciclo' => '1', 'nombre' => 'Seminario de Especialización I', 'creditos' => 6, 'sumilla' => 'Profundización en las principales líneas temáticas del curso.'],
             ['ciclo' => '2', 'nombre' => 'Seminario de Especialización II', 'creditos' => 6, 'sumilla' => 'Aplicación práctica de herramientas y casos de estudio.'],
-            ['ciclo' => '2', 'nombre' => 'Taller de Proyecto Final', 'creditos' => 6, 'sumilla' => 'Elaboración y sustentación del trabajo final del diplomado.'],
+            ['ciclo' => '2', 'nombre' => 'Taller de Proyecto Final', 'creditos' => 6, 'sumilla' => 'Elaboración y sustentación del trabajo final del taller.'],
         ];
 
         $diplomados = [
             [
-                'nombre' => 'Diplomado en Curaduría con Énfasis en Arte Peruano y Latinoamericano Moderno y Contemporáneo',
+                'nombre' => 'Taller en Curaduría con Énfasis en Arte Peruano y Latinoamericano Moderno y Contemporáneo',
                 'costo_total' => 3000,
                 'fecha_limite_inscripcion' => '25 de septiembre de 2026',
                 'coordinador' => ['nombres' => 'Claudia', 'apellidos' => 'Rodríguez Salinas'],
             ],
             [
-                'nombre' => 'Diplomado en Filosofía de la Educación, Ética y Epistemología de las Ciencias Sociales',
+                'nombre' => 'Taller en Filosofía de la Educación, Ética y Epistemología de las Ciencias Sociales',
                 'costo_total' => 1200,
                 'fecha_limite_inscripcion' => '28 de septiembre de 2026',
                 'coordinador' => ['nombres' => 'Jorge Luis', 'apellidos' => 'Mendoza Vargas'],
             ],
             [
-                'nombre' => 'Diplomado en Gestión Cultural y Desarrollo de Públicos',
+                'nombre' => 'Taller en Gestión Cultural y Desarrollo de Públicos',
                 'costo_total' => 3000,
                 'fecha_limite_inscripcion' => '25 de septiembre de 2026',
                 'coordinador' => ['nombres' => 'Ana María', 'apellidos' => 'Quispe Huamán'],
             ],
             [
-                'nombre' => 'Diplomado en Proyectos de Innovación Social con Inteligencia Artificial en Educación y Comunicaciones',
+                'nombre' => 'Taller en Proyectos de Innovación Social con Inteligencia Artificial en Educación y Comunicaciones',
                 'costo_total' => 1500,
                 'fecha_limite_inscripcion' => '25 de septiembre de 2026',
                 'coordinador' => ['nombres' => 'Renato', 'apellidos' => 'Fernández Castro'],
             ],
             [
-                'nombre' => 'Diplomado Internacional de Lingüística Forense',
+                'nombre' => 'Taller Internacional de Lingüística Forense',
                 'costo_total' => 4450,
                 'fecha_limite_inscripcion' => '25 de septiembre de 2026',
                 'observaciones' => 'El costo incluye matrícula.',
                 'coordinador' => ['nombres' => 'Patricia', 'apellidos' => 'Ibáñez Torres'],
             ],
             [
-                'nombre' => 'Diplomado Internacional en Corrección Lingüística',
+                'nombre' => 'Taller Internacional en Corrección Lingüística',
                 'costo_total' => 4000,
                 'fecha_limite_inscripcion' => '28 de septiembre de 2026',
                 'coordinador' => ['nombres' => 'Miguel Ángel', 'apellidos' => 'Torres Rojas'],
@@ -73,7 +73,7 @@ class DiplomadoSeeder extends Seeder
             $cuota = round($data['costo_total'] / 2);
 
             $programa = Programa::create([
-                'grado' => 'Diplomado',
+                'grado' => 'Taller',
                 'nombre' => $data['nombre'],
                 'mencion' => null,
                 'modalidad' => 'Virtual',

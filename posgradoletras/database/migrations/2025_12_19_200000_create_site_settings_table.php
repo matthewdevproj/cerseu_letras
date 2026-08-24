@@ -14,13 +14,13 @@ return new class extends Migration {
             $table->id();
 
             // Información General
-            $table->string('site_name')->default('Unidad de Posgrado - Facultad de Letras y Ciencias Humanas');
+            $table->string('site_name')->default('CERSEU - Facultad de Letras y Ciencias Humanas');
             $table->text('site_description')->nullable();
             $table->string('logo_path')->nullable();
             $table->string('favicon_path')->nullable();
 
             // Colores
-            $table->string('primary_color')->default('#7f1d1d'); // guinda
+            $table->string('primary_color')->default('#143B63'); // azul institucional
             $table->string('secondary_color')->default('#fbbf24'); // dorado
 
             // Header y Footer
@@ -51,10 +51,10 @@ return new class extends Migration {
 
         // Insertar configuración inicial con los datos proporcionados
         DB::table('site_settings')->insert([
-            'site_name' => 'Unidad de Posgrado - Facultad de Letras y Ciencias Humanas',
-            'site_description' => 'Posgrado de la Facultad de Letras y Ciencias Humanas de la Universidad Nacional Mayor de San Marcos',
-            'email' => 'posgrado.letras@unmsm.edu.pe',
-            'email_admision' => 'admisionposgrado.letras@unmsm.edu.pe',
+            'site_name' => 'CERSEU - Facultad de Letras y Ciencias Humanas',
+            'site_description' => 'CERSEU de la Facultad de Letras y Ciencias Humanas de la Universidad Nacional Mayor de San Marcos',
+            'email' => 'cerseu.letras@unmsm.edu.pe',
+            'email_admision' => 'cerseu.letras@unmsm.edu.pe',
             'telefono' => '982 085 037',
             'direccion' => 'Ciudad Universitaria, Av. Venezuela s/n, Lima',
             'facebook' => 'https://www.facebook.com/posgradoletrasUNMSM/',
@@ -65,7 +65,7 @@ return new class extends Migration {
             'tiktok' => 'https://www.tiktok.com/@posgradoletrasunmsm',
             'web_facultad' => 'https://letras.unmsm.edu.pe',
             'directorio_facultad' => 'https://letras.unmsm.edu.pe/directorio/',
-            'primary_color' => '#7f1d1d',
+            'primary_color' => '#143B63',
             'secondary_color' => '#fbbf24',
             'created_at' => now(),
             'updated_at' => now(),

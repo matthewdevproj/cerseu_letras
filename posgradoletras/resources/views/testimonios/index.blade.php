@@ -1,11 +1,11 @@
 @extends('layouts.public')
 
-@section('title', 'Testimonios - Posgrado Letras UNMSM')
+@section('title', 'Testimonios - CERSEU Letras UNMSM')
 
 @section('content')
     <!-- HERO DE SECCIÓN -->
-    <x-hero-section title="Testimonios" label="Nuestros Egresados"
-        subtitle="Conoce las experiencias de quienes han pasado por nuestros programas de posgrado"
+    <x-hero-section title="Testimonios" label="Voces del CERSEU"
+        subtitle="Conoce las experiencias de quienes han pasado por nuestros cursos de posgrado"
         :image="asset('images/campus-fachada.jpg')" />
 
     <section class="container mx-auto px-6 py-16">
@@ -15,9 +15,9 @@
                     <div
                         class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl motion-safe:hover:-translate-y-1.5 transition-all duration-300 border border-gray-100 flex flex-col h-full">
                         {{-- Header con gradiente y foto --}}
-                        <div class="bg-gradient-to-r from-unmsm-guinda to-unmsm-guinda-light p-5">
+                        <div class="bg-gradient-to-r from-unmsm-azul to-unmsm-azul-light p-5">
                             <div class="flex items-center gap-4">
-                                {{-- Foto del egresado --}}
+                                {{-- Foto de quien da el testimonio --}}
                                 <div class="flex-shrink-0">
                                     @if($testimonio->photo)
                                         <img src="{{ $testimonio->photo_url }}"
@@ -53,9 +53,9 @@
                                     {{-- <span class="text-unmsm-dorado font-bold text-sm">
                                         Egresado
                                     </span> --}}
-                                    <a href="{{ route('programas.show', $testimonio->programa->slug ?? '#') }}"
-                                        class="text-unmsm-guinda hover:text-unmsm-dorado text-sm font-medium transition-colors flex items-center gap-1">
-                                        Ver programa <x-fas-arrow-right class="text-xs" />
+                                    <a href="{{ $testimonio->programa?->url ?? '#' }}"
+                                        class="text-unmsm-azul hover:text-unmsm-dorado text-sm font-medium transition-colors flex items-center gap-1">
+                                        Ver curso <x-fas-arrow-right class="text-xs" />
                                     </a>
                                 @endif
                             </div>
@@ -69,7 +69,7 @@
                     <x-fas-quote-left class="text-4xl text-gray-400" />
                 </div>
                 <h3 class="text-xl font-bold text-gray-800 mb-2">No hay testimonios disponibles</h3>
-                <p class="text-gray-500">Pronto agregaremos testimonios de nuestros egresados.</p>
+                <p class="text-gray-500">Pronto agregaremos testimonios de nuestros participantes.</p>
             </div>
         @endif
     </section>

@@ -43,12 +43,12 @@
     }
     .nav-tabs .nav-link:hover {
         color: var(--brand);
-        background: #fff5f5;
+        background: #F2F7FC;
     }
     .nav-tabs .nav-link.active {
         background: var(--brand) !important;
         color: white !important;
-        box-shadow: 0 8px 18px rgba(118, 30, 35, 0.25);
+        box-shadow: 0 8px 18px rgba(20, 59, 99, 0.25);
     }
 
     /* Labels */
@@ -184,7 +184,7 @@
                     {{ $docente->nombre_completo }}
                 </h2>
                 <p class="mt-1 text-sm text-gray-500">
-                    {{ $docente->grado ?? 'Docente' }} · {{ $docente->programas->count() }} programa(s) asociado(s)
+                    {{ $docente->grado ?? 'Docente' }} · {{ $docente->programas->count() }} curso(s) asociado(s)
                 </p>
             </div>
         </div>
@@ -217,7 +217,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" :class="tab === 'programas' ? 'active' : ''" href="#programas" @click.prevent="tab = 'programas'">
-                            <x-fas-graduation-cap aria-hidden="true" /> Programas
+                            <x-fas-graduation-cap aria-hidden="true" /> Cursos
                         </a>
                     </li>
                 </ul>
@@ -388,7 +388,7 @@
                             <div class="flex items-center gap-2 text-amber-800">
                                 <x-fas-info-circle class="text-xl" />
                                 <p class="text-sm font-medium">
-                                    La asignación de docentes a programas se gestiona desde la vista de edición de cada programa.
+                                    La asignación de docentes a cursos se gestiona desde la vista de edición de cada curso.
                                 </p>
                             </div>
                         </div>
@@ -398,7 +398,7 @@
                                 <table class="docentes-table">
                                     <thead>
                                         <tr>
-                                            <th style="width: 50%">Programa</th>
+                                            <th style="width: 50%">Curso</th>
                                             <th style="width: 20%">Tipo</th>
                                             <th style="width: 20%">Rol</th>
                                             <th style="width: 10%">Acción</th>
@@ -409,7 +409,7 @@
                                             <tr>
                                                 <td data-label="Programa">
                                                     <div class="flex items-center gap-3">
-                                                        <div class="w-10 h-10 rounded-lg bg-brand-red/10 flex items-center justify-center text-brand-red">
+                                                        <div class="w-10 h-10 rounded-lg bg-brand-azul/10 flex items-center justify-center text-brand-azul">
                                                             <x-fas-graduation-cap class="text-xl" />
                                                         </div>
                                                         <div>
@@ -437,7 +437,7 @@
                                                 <td data-label="Acción">
                                                     <a href="{{ route('admin.programas.edit', $programa) }}"
                                                        class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600"
-                                                       title="Editar programa">
+                                                       title="Editar curso">
                                                         <x-fas-external-link-alt />
                                                     </a>
                                                 </td>
@@ -449,9 +449,9 @@
                         @else
                             <div class="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-300">
                                 <x-fas-graduation-cap class="text-5xl text-gray-300 mb-4" />
-                                <p class="text-gray-500">Este docente no está asignado a ningún programa.</p>
+                                <p class="text-gray-500">Este docente no está asignado a ningún curso.</p>
                                 <p class="text-sm text-gray-400 mt-1">
-                                    Puedes asignarlo desde la vista de edición de un programa.
+                                    Puedes asignarlo desde la vista de edición de un curso.
                                 </p>
                             </div>
                         @endif

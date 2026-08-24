@@ -145,19 +145,53 @@ class Programa extends Model
             ->orderBy('nombre');
     }
 
-    public function scopeMaestrias($query)
+    public function scopeTalleres($query)
     {
-        return $query->where('grado', 'Maestría');
+        return $query->where('grado', TipoOferta::Taller->grado());
     }
 
-    public function scopeDoctorados($query)
+    public function scopeCursos($query)
     {
-        return $query->where('grado', 'Doctorado');
+        return $query->where('grado', TipoOferta::Curso->grado());
     }
 
-    public function scopeDiplomados($query)
+    public function scopeDeTipo($query, TipoOferta $tipo)
     {
-        return $query->where('grado', 'Diplomado');
+        return $query->where('grado', $tipo->grado());
+    }
+
+    public function esTaller(): bool
+    {
+        return $this->grado === TipoOferta::Taller->grado();
+    }
+
+    public function esCurso(): bool
+    {
+        return $this->grado === TipoOferta::Curso->grado();
+    }
+
+    /**
+     * URL pública de la ficha, bajo el módulo que le corresponde.
+     *
+     * Cada tipo tiene su propio prefijo (/talleres/…, /cursos/…), así que la
+     * ruta no se puede escribir a mano desde las vistas sin repetir en cada
+     * una la decisión de a qué módulo pertenece la fila.
+     */
+    public function getUrlAttribute(): string
+    {
+        $tipo = $this->tipoOferta() ?? TipoOferta::Curso;
+
+        return route($tipo->slug() . '.show', $this->slug);
+    }
+
+    /** El tipo de oferta al que pertenece, o null si el grado es de antes. */
+    public function tipoOferta(): ?TipoOferta
+    {
+        return match ($this->grado) {
+            'Taller' => TipoOferta::Taller,
+            'Curso'  => TipoOferta::Curso,
+            default  => null,
+        };
     }
 
     // Accessors
@@ -172,7 +206,9 @@ class Programa extends Model
     public function getDuracionFormateadaAttribute()
     {
         if (!$this->duracion) return null;
-        $unidad = $this->grado === 'Diplomado' ? 'módulos' : 'semestres';
+        // Un taller se mide en semanas y un curso en meses; ninguno de los dos
+        // se organiza por semestres, que era la unidad de las maestrías.
+        $unidad = $this->esTaller() ? 'semanas' : 'meses';
         return "{$this->duracion} {$unidad}";
     }
 
@@ -184,10 +220,9 @@ class Programa extends Model
     public function getTipoAttribute()
     {
         return match($this->grado) {
-            'Maestría'  => 'maestria',
-            'Doctorado' => 'doctorado',
-            'Diplomado' => 'diplomado',
-            default     => strtolower($this->grado),
+            'Taller' => 'taller',
+            'Curso'  => 'curso',
+            default  => strtolower($this->grado),
         };
     }
 
@@ -440,17 +475,14 @@ class Programa extends Model
     }
 
     /**
-     * Etiqueta del periodo según el grado ("Primer semestre" / "Módulo 1").
+     * Etiqueta del periodo ("Módulo 1").
+     *
+     * Talleres y cursos se organizan por módulos. La variante por semestres
+     * era de las maestrías y doctorados, que el CERSEU no ofrece.
      */
     public function etiquetaPeriodo(int $numero): string
     {
-        if ($this->grado === 'Diplomado') {
-            return 'Módulo ' . $numero;
-        }
-
-        $ordinales = [1 => 'Primer', 2 => 'Segundo', 3 => 'Tercer', 4 => 'Cuarto', 5 => 'Quinto', 6 => 'Sexto'];
-
-        return ($ordinales[$numero] ?? $numero . '.º') . ' semestre';
+        return 'Módulo ' . $numero;
     }
 
     // Estado de publicación
@@ -525,9 +557,8 @@ class Programa extends Model
         // pantalla de peso y una dependencia externa en la ruta crítica.
         if (!$this->imagen) {
             return match($this->grado) {
-                'Maestría'  => asset('images/programa-maestria.webp'),
-                'Diplomado' => asset('images/programa-diplomado.webp'),
-                default     => asset('images/programa-doctorado.webp'),
+                'Curso' => asset('images/programa-curso.webp'),
+                default => asset('images/programa-taller.webp'),
             };
         }
         

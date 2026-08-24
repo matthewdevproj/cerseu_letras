@@ -6,11 +6,11 @@
      `inversion_modalidades`, que el controlador funde con el resto de la
      inversión económica. --}}
 
-<div class="border border-gray-200 rounded-lg p-4 hover:border-brand-red hover:shadow-sm transition-all"
+<div class="border border-gray-200 rounded-lg p-4 hover:border-brand-azul hover:shadow-sm transition-all"
     x-data="modalidadesPago({{ Illuminate\Support\Js::from($modalidades ?? []) }})">
 
     <label class="form-label block mb-1">
-        <x-fas-calendar-alt class="text-brand-red mr-1" /> Modalidades de pago (Diplomados)
+        <x-fas-calendar-alt class="text-brand-azul mr-1" /> Modalidades de pago (Talleres)
     </label>
     <p class="text-xs text-gray-400 mb-4">
         Se muestran en la ficha debajo del costo total. La fecha aparece bajo el monto de cada cuota.
@@ -61,7 +61,7 @@
     </div>
 
     <button type="button" @click="agregar()"
-        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-azul text-brand-azul rounded-lg hover:bg-brand-azul hover:text-white transition-all">
         <x-fas-plus class="mr-1" /> Agregar modalidad
     </button>
 </div>

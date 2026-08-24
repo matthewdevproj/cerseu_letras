@@ -3,24 +3,30 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\DiplomadoLead;
+use App\Models\Lead;
 use App\Models\Programa;
+use App\Models\TipoOferta;
 use App\Services\AvisoDeSolicitud;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * Solicitudes de información de diplomados.
+ * Solicitudes de información de talleres y cursos.
  *
- * El formulario público ya guardaba en `diplomado_leads`, pero no existía
- * ninguna pantalla para consultarlas: si fallaba el envío del correo, el
- * contacto quedaba inaccesible. Esta pantalla las expone y permite exportarlas.
+ * El formulario público ya guardaba las solicitudes, pero no existía ninguna
+ * pantalla para consultarlas: si fallaba el envío del correo, el contacto
+ * quedaba inaccesible. Esta pantalla las expone y permite exportarlas.
+ *
+ * Las de los dos módulos se listan juntas —quien atiende las revisa igual— con
+ * un filtro por tipo para separarlas cuando hace falta.
  */
-class AdminDiplomadoLeadController extends Controller
+class AdminLeadController extends Controller
 {
     public function index(Request $request)
     {
-        $leads = DiplomadoLead::query()
+        $tipo = TipoOferta::desdeSlug($request->string('tipo')->toString());
+
+        $leads = Lead::query()
             // Evita una consulta por fila al mostrar el programa de cada lead.
             ->with('programa:id,nombre,mencion,grado,slug')
             ->when($request->filled('q'), function ($query) use ($request) {
@@ -33,15 +39,18 @@ class AdminDiplomadoLeadController extends Controller
                 });
             })
             ->when($request->filled('programa'), fn ($q) => $q->where('programa_id', $request->integer('programa')))
+            ->when($tipo, fn ($q) => $q->deTipo($tipo))
             ->latest()
             ->paginate(25)
             ->withQueryString();
 
         return view('admin.leads.index', [
             'leads' => $leads,
-            'programas' => Programa::diplomados()->orderBy('nombre')->get(['id', 'nombre', 'mencion']),
-            'total' => DiplomadoLead::count(),
-            'ultimos7' => DiplomadoLead::where('created_at', '>=', now()->subDays(7))->count(),
+            'tipo' => $tipo,
+            'programas' => Programa::whereIn('grado', TipoOferta::grados())
+                ->orderBy('nombre')->get(['id', 'nombre', 'mencion']),
+            'total' => Lead::count(),
+            'ultimos7' => Lead::where('created_at', '>=', now()->subDays(7))->count(),
         ]);
     }
 
@@ -53,12 +62,15 @@ class AdminDiplomadoLeadController extends Controller
      */
     public function export(Request $request): StreamedResponse
     {
-        $consulta = DiplomadoLead::query()
+        $tipo = TipoOferta::desdeSlug($request->string('tipo')->toString());
+
+        $consulta = Lead::query()
             ->with('programa:id,nombre,mencion')
             ->when($request->filled('programa'), fn ($q) => $q->where('programa_id', $request->integer('programa')))
+            ->when($tipo, fn ($q) => $q->deTipo($tipo))
             ->latest();
 
-        $nombre = 'solicitudes-diplomados-' . now()->format('Y-m-d') . '.csv';
+        $nombre = 'solicitudes-' . ($tipo?->slug() ?? 'todas') . '-' . now()->format('Y-m-d') . '.csv';
 
         return response()->streamDownload(function () use ($consulta) {
             $salida = fopen('php://output', 'w');
@@ -66,12 +78,13 @@ class AdminDiplomadoLeadController extends Controller
             // BOM UTF-8: sin él, Excel en Windows rompe las tildes.
             fwrite($salida, "\xEF\xBB\xBF");
 
-            fputcsv($salida, ['Fecha', 'Nombres', 'Apellidos', 'Correo', 'Teléfono', 'País', 'Región', 'Programa'], ';');
+            fputcsv($salida, ['Fecha', 'Tipo', 'Nombres', 'Apellidos', 'Correo', 'Teléfono', 'País', 'Región', 'Oferta'], ';');
 
             $consulta->chunk(500, function ($filas) use ($salida) {
                 foreach ($filas as $lead) {
                     fputcsv($salida, [
                         $lead->created_at?->format('d/m/Y H:i'),
+                        $lead->tipo?->singular() ?? '—',
                         $lead->nombres,
                         $lead->apellidos,
                         $lead->correo,
@@ -96,7 +109,7 @@ class AdminDiplomadoLeadController extends Controller
      * vez puestas las credenciales, se reenvían desde aquí sin tener que
      * copiar los datos a mano.
      */
-    public function reenviarAviso(DiplomadoLead $lead)
+    public function reenviarAviso(Lead $lead)
     {
         if (AvisoDeSolicitud::enviar($lead)) {
             return back()->with('success', 'Aviso reenviado.');
@@ -108,7 +121,7 @@ class AdminDiplomadoLeadController extends Controller
         return back()->with('error', 'No se pudo enviar: ' . $lead->aviso_error);
     }
 
-    public function destroy(DiplomadoLead $lead)
+    public function destroy(Lead $lead)
     {
         $lead->delete();
 

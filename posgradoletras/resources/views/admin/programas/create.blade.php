@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', 'Nuevo Programa')
+@section('title', 'Nuevo Curso')
 
 @push('styles')
     <style>
@@ -21,7 +21,7 @@
         .nav-tabs .nav-link.active {
             background: var(--brand);
             color: white;
-            box-shadow: 0 4px 6px rgba(118, 30, 35, 0.3);
+            box-shadow: 0 4px 6px rgba(20, 59, 99, 0.3);
         }
         .nav-tabs .nav-link.active i {
             color: white !important;
@@ -87,9 +87,9 @@
     <!-- Header -->
     <div class="mb-8">
         <h2 class="text-2xl font-serif font-bold leading-7 text-gray-900 sm:text-3xl">
-            Crear Nuevo Programa
+            Crear Nuevo Curso
         </h2>
-        <p class="mt-1 text-sm text-gray-500">Completa la información del programa de posgrado.</p>
+        <p class="mt-1 text-sm text-gray-500">Completa la información del curso de posgrado.</p>
     </div>
 
     <!-- Form Card -->
@@ -103,35 +103,35 @@
                 <ul class="nav nav-tabs mb-6 flex flex-wrap border-b border-gray-200" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium"
-                           :class="tab === 'basico' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                           :class="tab === 'basico' ? 'active border-b-2 border-brand-azul text-brand-azul' : 'text-gray-500 hover:text-brand-azul'"
                            href="#basico" @click.prevent="tab = 'basico'">
                             <x-fas-info-circle class="mr-2" /> Básico
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium"
-                           :class="tab === 'contenido' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                           :class="tab === 'contenido' ? 'active border-b-2 border-brand-azul text-brand-azul' : 'text-gray-500 hover:text-brand-azul'"
                            href="#contenido" @click.prevent="tab = 'contenido'">
                             <x-fas-file-alt class="mr-2" /> Contenido
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium"
-                           :class="tab === 'plan' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                           :class="tab === 'plan' ? 'active border-b-2 border-brand-azul text-brand-azul' : 'text-gray-500 hover:text-brand-azul'"
                            href="#plan" @click.prevent="tab = 'plan'">
                             <x-fas-book-open class="mr-2" /> Plan de Estudios
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium"
-                           :class="tab === 'docentes' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                           :class="tab === 'docentes' ? 'active border-b-2 border-brand-azul text-brand-azul' : 'text-gray-500 hover:text-brand-azul'"
                            href="#docentes" @click.prevent="tab = 'docentes'">
                             <x-fas-users class="mr-2" /> Plana Docente
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-4 py-3 text-sm font-medium"
-                           :class="tab === 'config' ? 'active border-b-2 border-brand-red text-brand-red' : 'text-gray-500 hover:text-brand-red'"
+                           :class="tab === 'config' ? 'active border-b-2 border-brand-azul text-brand-azul' : 'text-gray-500 hover:text-brand-azul'"
                            href="#config" @click.prevent="tab = 'config'">
                             <x-fas-cog class="mr-2" /> Config
                         </a>
@@ -151,9 +151,9 @@
                                 <select name="grado" id="grado"
                                     class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" required>
                                     <option value="">Seleccionar...</option>
-                                    <option value="Maestría" {{ old('grado') == 'Maestría' ? 'selected' : '' }}>Maestría</option>
-                                    <option value="Doctorado" {{ old('grado') == 'Doctorado' ? 'selected' : '' }}>Doctorado</option>
-                                    <option value="Diplomado" {{ old('grado') == 'Diplomado' ? 'selected' : '' }}>Diplomado</option>
+                                    @foreach (\App\Models\TipoOferta::cases() as $t)
+                                        <option value="{{ $t->grado() }}" {{ old('grado') == $t->grado() ? 'selected' : '' }}>{{ $t->singular() }}</option>
+                                    @endforeach
                                 </select>
                                 @error('grado')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -231,7 +231,7 @@
                                     class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" maxlength="255" placeholder="Diploma en Curaduría con Énfasis en...">
                             </div>
                             <p class="md:col-span-3 -mt-3 text-xs text-gray-400">
-                                Se muestra bajo el título en la portada del programa, como «Rótulo: contenido».
+                                Se muestra bajo el título en la portada del curso, como «Rótulo: contenido».
                                 Si dejas el contenido vacío no se muestra nada: no se completa solo con «Grado que otorga».
                             </p>
                         </div>
@@ -252,10 +252,10 @@
                                 <label for="sumilla" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">Sumilla</label>
                                 <textarea name="sumilla" id="sumilla" rows="3"
                                     class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
-                                    placeholder="Breve descripción del programa...">{{ old('sumilla') }}</textarea>
+                                    placeholder="Breve descripción del curso...">{{ old('sumilla') }}</textarea>
                             </div>
                             <div>
-                                <label for="por_que_text" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">¿Por qué elegir este programa?</label>
+                                <label for="por_que_text" class="form-label block text-xs font-bold text-gray-600 uppercase mb-2">¿Por qué elegir este curso?</label>
                                 <textarea name="por_que_text" id="por_que_text" rows="4"
                                     class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg"
                                     placeholder="Razones para elegir...">{{ old('por_que_text') }}</textarea>
@@ -268,7 +268,7 @@
                                 </label>
                                 <div id="objetivos-list" class="space-y-2"></div>
                                 <button type="button" onclick="agregarObjetivo()" 
-                                    class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                    class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-azul text-brand-azul rounded-lg hover:bg-brand-azul hover:text-white transition-all">
                                     <x-fas-plus class="mr-1" /> Agregar Objetivo
                                 </button>
                                 <input type="hidden" id="objetivos_academicos" name="objetivos_academicos">
@@ -281,7 +281,7 @@
                                 </label>
                                 <div id="ingresante-list" class="space-y-2"></div>
                                 <button type="button" onclick="agregarIngresante()" 
-                                    class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                    class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-azul text-brand-azul rounded-lg hover:bg-brand-azul hover:text-white transition-all">
                                     <x-fas-plus class="mr-1" /> Agregar Item
                                 </button>
                                 <input type="hidden" id="perfil_ingresante" name="perfil_ingresante">
@@ -294,7 +294,7 @@
                                 </label>
                                 <div id="graduado-list" class="space-y-2"></div>
                                 <button type="button" onclick="agregarGraduado()" 
-                                    class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                    class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-azul text-brand-azul rounded-lg hover:bg-brand-azul hover:text-white transition-all">
                                     <x-fas-plus class="mr-1" /> Agregar Item
                                 </button>
                                 <input type="hidden" id="perfil_graduado" name="perfil_graduado">
@@ -316,7 +316,7 @@
 
                         <div class="mt-4 flex gap-3">
                             <button type="button" onclick="agregarCiclo()" 
-                                class="inline-flex items-center px-4 py-2 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                class="inline-flex items-center px-4 py-2 border border-brand-azul text-brand-azul rounded-lg hover:bg-brand-azul hover:text-white transition-all">
                                 <x-fas-plus-circle class="mr-2" /> Agregar Ciclo
                             </button>
                             <button type="button" onclick="agregarSeccionElectivos()" 
@@ -333,7 +333,7 @@
                         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                             <div class="flex items-center gap-2 text-blue-800">
                                 <x-fas-info-circle class="text-xl" />
-                                <p class="text-sm font-medium">Asigna docentes a este programa. Puedes definir coordinador, rol y orden de aparición.</p>
+                                <p class="text-sm font-medium">Asigna docentes a este curso. Puedes definir coordinador, rol y orden de aparición.</p>
                             </div>
                         </div>
 
@@ -341,7 +341,7 @@
                         <div id="docentes-list" class="space-y-3"></div>
 
                         <button type="button" onclick="agregarDocente()" 
-                            class="mt-4 inline-flex items-center px-4 py-2 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                            class="mt-4 inline-flex items-center px-4 py-2 border border-brand-azul text-brand-azul rounded-lg hover:bg-brand-azul hover:text-white transition-all">
                             <x-fas-plus-circle class="mr-2" /> Agregar Docente
                         </button>
                     </div>
@@ -358,7 +358,7 @@
                                 accept=".pdf,application/pdf" :url-value="old('horario_url')" />
 
                             <!-- Brochure (Diplomados) -->
-                            <x-admin-file-upload mode="ajax" name="brochure" label="Brochure (Diplomados)" icon="fas fa-file-pdf"
+                            <x-admin-file-upload mode="ajax" name="brochure" label="Brochure (Talleres)" icon="fas fa-file-pdf"
                                 accept=".pdf,application/pdf" :url-value="old('brochure_url')" />
 
                             <!-- PDF Proceso de Admisión -->
@@ -367,9 +367,9 @@
                                 help-text='Si se deja vacío, el botón "Ver Proceso de Admisión" enlazará a la página general de Admisión.' />
 
                             <!-- Inversión Económica (Diplomados) -->
-                            <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-red hover:shadow-sm transition-all">
+                            <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-azul hover:shadow-sm transition-all">
                                 <label class="form-label block text-xs font-bold text-gray-600 uppercase mb-3">
-                                    <x-fas-money-bill-wave class="text-brand-red mr-1" /> Inversión Económica (Diplomados)
+                                    <x-fas-money-bill-wave class="text-brand-azul mr-1" /> Inversión Económica (Talleres)
                                 </label>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -384,7 +384,7 @@
                                             class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="280">
                                     </div>
                                     <div>
-                                        <label class="text-xs text-gray-500 mb-1 block">Costo total del diplomado (S/)</label>
+                                        <label class="text-xs text-gray-500 mb-1 block">Costo total del taller (S/)</label>
                                         <input type="number" id="inv_costo_total" value="{{ old('inv_costo_total') }}"
                                             class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="3000">
                                     </div>
@@ -419,7 +419,7 @@
                             @include('admin.programas._condiciones-pago', ['condiciones' => []])
 
                             <!-- Imagen del Programa -->
-                            <x-admin-file-upload mode="ajax" name="imagen" label="Imagen del Programa" icon="fas fa-image"
+                            <x-admin-file-upload mode="ajax" name="imagen" label="Imagen del Curso" icon="fas fa-image"
                                 accept="image/*" :url-value="old('imagen_url')" />
                         </div>
 
@@ -781,7 +781,7 @@
         //   JSON ANTES DE ENVIAR
         // ============================
         document.addEventListener('DOMContentLoaded', function() {
-            var form = document.getElementById('form-programa');
+            var form = document.getElementById('form-curso');
             if (!form) return;
 
             form.addEventListener('submit', function() {

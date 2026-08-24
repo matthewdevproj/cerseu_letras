@@ -14,7 +14,7 @@
                 <div class="card">
                     <div style="text-align: center; margin-bottom: 1rem;">
                         <div
-                            style="width: 100px; height: 100px; background: linear-gradient(135deg, #680D10 0%, #B6A350 100%); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: bold;">
+                            style="width: 100px; height: 100px; background: linear-gradient(135deg, #103050 0%, #B6A350 100%); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: bold;">
                             {{ strtoupper(substr($profesor['nombre'], 0, 1)) }}
                         </div>
                         <h3 style="margin-bottom: 0.25rem;">{{ $profesor['nombre'] }}</h3>
@@ -27,7 +27,7 @@
 
                     <div style="margin-bottom: 1rem;">
                         <p><strong>Email:</strong> <a href="mailto:{{ $profesor['email'] }}"
-                                style="color: #680D10;">{{ $profesor['email'] }}</a></p>
+                                style="color: #103050;">{{ $profesor['email'] }}</a></p>
 
                         @if(isset($profesor['lineas_investigacion']) && count($profesor['lineas_investigacion']) > 0)
                             <p style="margin-top: 0.5rem;"><strong>Líneas de investigación:</strong></p>
@@ -42,10 +42,10 @@
 
                     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
                         @if(isset($profesor['orcid']) && $profesor['orcid'])
-                            <a href="{{ $profesor['orcid'] }}" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #680D10;">ORCID ↁE/a>
+                            <a href="{{ $profesor['orcid'] }}" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #103050;">ORCID ↁE/a>
                         @endif
                         @if(isset($profesor['cti_vitae']) && $profesor['cti_vitae'])
-                            <a href="{{ $profesor['cti_vitae'] }}" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #680D10;">CTI Vitae
+                            <a href="{{ $profesor['cti_vitae'] }}" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #103050;">CTI Vitae
                                 ↁE/a>
                         @endif
                     </div>

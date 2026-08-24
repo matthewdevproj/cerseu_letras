@@ -76,7 +76,7 @@
                                     @endforelse
                                 </div>
                                 <div class="flex gap-2">
-                                    <button type="button" onclick="openUploadModal()" class="flex-1 px-3 py-2 border border-red-700 text-red-700 rounded-lg hover:bg-red-50 text-xs">
+                                    <button type="button" onclick="openUploadModal()" class="flex-1 px-3 py-2 border border-unmsm-azul text-unmsm-azul rounded-lg hover:bg-unmsm-azul/5 text-xs">
                                         <x-fas-cloud-upload-alt class="mr-1" /> Subir Nuevo
                                     </button>
                                     <button type="button" onclick="openLinkModal()" class="flex-1 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-xs">
@@ -86,7 +86,7 @@
                             </div>
 
                             <!-- Botón Guardar -->
-                            <button type="submit" class="w-full px-4 py-3 bg-red-700 text-white rounded-lg hover:bg-red-800 font-medium">
+                            <button type="submit" class="w-full px-4 py-3 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark font-medium">
                                 <x-fas-save class="mr-2" /> Guardar Todo
                             </button>
                         </div>
@@ -102,7 +102,7 @@
                                 <h2 class="text-lg font-bold text-gray-800">Ítems del Cronograma</h2>
                                 <p class="text-xs text-gray-500"><x-fas-list-ol class="mr-1" />Usa las flechas para reordenar</p>
                             </div>
-                            <button type="button" onclick="addItem()" class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm">
+                            <button type="button" onclick="addItem()" class="px-4 py-2 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark text-sm">
                                 <x-fas-plus class="mr-1" /> Nuevo Ítem
                             </button>
                         </div>
@@ -120,7 +120,7 @@
                                 </thead>
                                 <tbody id="items-tbody">
                                     @foreach($cronograma->items as $item)
-                                        <tr class="item-row border-b {{ $item->is_section_heading ? 'bg-red-50 border-l-4 border-l-red-700' : 'hover:bg-gray-50' }}"
+                                        <tr class="item-row border-b {{ $item->is_section_heading ? 'bg-unmsm-azul/5 border-l-4 border-l-unmsm-azul' : 'hover:bg-gray-50' }}"
                                             data-id="{{ $item->id }}"
                                             data-is-section="{{ $item->is_section_heading ? '1' : '0' }}"
                                             data-section-val="{{ $item->section }}"
@@ -130,10 +130,10 @@
                                             <!-- Orden -->
                                             <td class="px-3 py-3 text-center">
                                                 <div class="flex flex-col items-center gap-1">
-                                                    <button type="button" onclick="moveRow(this, 'up')" class="text-gray-400 hover:text-red-700">
+                                                    <button type="button" onclick="moveRow(this, 'up')" class="text-gray-400 hover:text-unmsm-azul">
                                                         <x-fas-chevron-up class="text-xs" />
                                                     </button>
-                                                    <button type="button" onclick="moveRow(this, 'down')" class="text-gray-400 hover:text-red-700">
+                                                    <button type="button" onclick="moveRow(this, 'down')" class="text-gray-400 hover:text-unmsm-azul">
                                                         <x-fas-chevron-down class="text-xs" />
                                                     </button>
                                                 </div>
@@ -142,7 +142,7 @@
                                             @if($item->is_section_heading)
                                                 <!-- Section Heading -->
                                                 <td colspan="2" class="px-3 py-3">
-                                                    <span class="font-bold text-red-800 uppercase text-sm">{{ $item->actividad }}</span>
+                                                    <span class="font-bold text-unmsm-azul uppercase text-sm">{{ $item->actividad }}</span>
                                                 </td>
                                             @else
                                                 <!-- Normal Item -->
@@ -204,7 +204,7 @@
                     <button type="button" onclick="closeUploadModal()" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
                         Cancelar
                     </button>
-                    <button type="button" onclick="confirmUploadDoc()" class="flex-1 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800">
+                    <button type="button" onclick="confirmUploadDoc()" class="flex-1 px-4 py-2 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark">
                         <x-fas-check class="mr-1" /> Agregar
                     </button>
                 </div>
@@ -276,7 +276,7 @@
                     <button type="button" onclick="closeItemModal()" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
                         Cancelar
                     </button>
-                    <button type="button" onclick="saveItem()" class="flex-1 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800">
+                    <button type="button" onclick="saveItem()" class="flex-1 px-4 py-2 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark">
                         <x-fas-check class="mr-1" /> Guardar
                     </button>
                 </div>
@@ -510,14 +510,14 @@
                     row.dataset.sectionVal = sectionVal;
                     row.dataset.actividad = actividad;
                     row.dataset.fecha = fecha;
-                    row.className = 'item-row border-b ' + (isSection ? 'bg-red-50 border-l-4 border-l-red-700' : 'hover:bg-gray-50');
+                    row.className = 'item-row border-b ' + (isSection ? 'bg-unmsm-azul/5 border-l-4 border-l-unmsm-azul' : 'hover:bg-gray-50');
                     updateRowHTML(row, isSection, actividad, sectionVal, fecha);
                 }
             } else {
                 // Crear nuevo
                 const newId = 'new_' + (++newItemCounter);
                 const tr = document.createElement('tr');
-                tr.className = 'item-row border-b ' + (isSection ? 'bg-red-50 border-l-4 border-l-red-700' : 'hover:bg-gray-50');
+                tr.className = 'item-row border-b ' + (isSection ? 'bg-unmsm-azul/5 border-l-4 border-l-unmsm-azul' : 'hover:bg-gray-50');
                 tr.dataset.id = newId;
                 tr.dataset.isNew = '1';
                 tr.dataset.isSection = isSection ? '1' : '0';
@@ -535,17 +535,17 @@
             let html = `
                 <td class="px-3 py-3 text-center">
                     <div class="flex flex-col items-center gap-1">
-                        <button type="button" onclick="moveRow(this, 'up')" class="text-gray-400 hover:text-red-700">
+                        <button type="button" onclick="moveRow(this, 'up')" class="text-gray-400 hover:text-unmsm-azul">
                             <x-fas-chevron-up class="text-xs" />
                         </button>
-                        <button type="button" onclick="moveRow(this, 'down')" class="text-gray-400 hover:text-red-700">
+                        <button type="button" onclick="moveRow(this, 'down')" class="text-gray-400 hover:text-unmsm-azul">
                             <x-fas-chevron-down class="text-xs" />
                         </button>
                     </div>
                 </td>`;
 
             if (isSection) {
-                html += `<td colspan="2" class="px-3 py-3"><span class="font-bold text-red-800 uppercase text-sm">${actividad}</span></td>`;
+                html += `<td colspan="2" class="px-3 py-3"><span class="font-bold text-unmsm-azul uppercase text-sm">${actividad}</span></td>`;
             } else {
                 html += `<td class="px-3 py-3"><span class="font-medium text-gray-800 text-sm">${actividad}</span>`;
                 if (sectionVal) html += `<div class="text-xs text-gray-400 mt-1">Sección: ${sectionVal}</div>`;

@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Error del servidor — Posgrado Letras UNMSM</title>
+    <title>Error del servidor — CERSEU Letras UNMSM</title>
     {{-- Página autocontenida (sin dependencias): se muestra aunque la app falle. --}}
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
             min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;
-            color:#fff;background:#6B1E20;position:relative;overflow:hidden;padding:2rem}
+            color:#fff;background:#143B63;position:relative;overflow:hidden;padding:2rem}
         body::before{content:"";position:absolute;inset:0;opacity:.06;
             background-image:radial-gradient(circle at 1px 1px,#fff 1.5px,transparent 0);background-size:34px 34px}
         body::after{content:"";position:absolute;top:-6rem;right:-6rem;width:24rem;height:24rem;border-radius:50%;
@@ -20,7 +20,7 @@
         .kicker{color:#C9AA36;font-weight:700;letter-spacing:.15em;text-transform:uppercase;font-size:.8rem;margin-bottom:.75rem}
         h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(1.6rem,5vw,2.2rem);margin-bottom:1rem}
         p{color:rgba(255,255,255,.85);line-height:1.6;margin-bottom:2rem}
-        a{display:inline-block;background:#C9AA36;color:#6B1E20;font-weight:700;text-decoration:none;
+        a{display:inline-block;background:#C9AA36;color:#143B63;font-weight:700;text-decoration:none;
             padding:.85rem 1.75rem;border-radius:.5rem;transition:background .2s}
         a:hover{background:#fff}
     </style>

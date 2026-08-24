@@ -24,7 +24,7 @@ class PanelInversionCamposTest extends TestCase
     private function diplomado(): Programa
     {
         return Programa::create([
-            'grado' => 'Diplomado',
+            'grado' => 'Taller',
             'nombre' => 'Diplomado de Prueba',
             'modalidad' => 'Virtual',
             'duracion' => 2,

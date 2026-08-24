@@ -36,16 +36,20 @@ class AdminSiteSettingsController extends Controller
             'site_description' => 'nullable|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'favicon' => 'nullable|file|mimes:ico,png,jpg,jpeg,gif,svg|max:512',
-            'diplomados_hero_imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+            'talleres_hero_imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+            'cursos_hero_imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
             'email' => 'nullable|email|max:255',
             'email_admision' => 'nullable|email|max:255',
             'email_tramites' => 'nullable|email|max:255',
             'telefono' => 'nullable|string|max:50',
             'direccion' => 'nullable|string',
             'horario_atencion' => 'nullable|string|max:255',
-            'diplomados_hero_titulo' => 'nullable|string|max:255',
-            'diplomados_hero_texto' => 'nullable|string',
-            'diplomados_hero_claim' => 'nullable|string|max:255',
+            'talleres_hero_titulo' => 'nullable|string|max:255',
+            'talleres_hero_texto' => 'nullable|string',
+            'talleres_hero_claim' => 'nullable|string|max:255',
+            'cursos_hero_titulo' => 'nullable|string|max:255',
+            'cursos_hero_texto' => 'nullable|string',
+            'cursos_hero_claim' => 'nullable|string|max:255',
             'home_hero_kicker' => 'nullable|string|max:255',
             'home_hero_titulo' => 'nullable|string|max:255',
             'home_hero_texto' => 'nullable|string',
@@ -79,9 +83,13 @@ class AdminSiteSettingsController extends Controller
         $settings->telefono = $validated['telefono'] ?? null;
         $settings->direccion = $validated['direccion'] ?? null;
         $settings->horario_atencion = $validated['horario_atencion'] ?? null;
-        $settings->diplomados_hero_titulo = $validated['diplomados_hero_titulo'] ?? null;
-        $settings->diplomados_hero_texto = $validated['diplomados_hero_texto'] ?? null;
-        $settings->diplomados_hero_claim = $validated['diplomados_hero_claim'] ?? null;
+        // Un hero por módulo (talleres y cursos), con los mismos tres campos.
+        foreach (\App\Models\TipoOferta::cases() as $tipo) {
+            foreach (['titulo', 'texto', 'claim'] as $campo) {
+                $llave = $tipo->prefijoHero() . '_hero_' . $campo;
+                $settings->{$llave} = $validated[$llave] ?? null;
+            }
+        }
         $settings->home_hero_kicker = $validated['home_hero_kicker'] ?? null;
         $settings->home_hero_titulo = $validated['home_hero_titulo'] ?? null;
         $settings->home_hero_texto = $validated['home_hero_texto'] ?? null;
@@ -116,17 +124,21 @@ class AdminSiteSettingsController extends Controller
             $settings->logo_path = null;
         }
 
-        // Manejar subida de imagen del Hero de Diplomados
-        if ($request->hasFile('diplomados_hero_imagen')) {
-            if ($settings->diplomados_hero_imagen && Storage::disk('public')->exists($settings->diplomados_hero_imagen)) {
-                Storage::disk('public')->delete($settings->diplomados_hero_imagen);
+        // Imagen del hero de cada módulo (talleres y cursos).
+        foreach (\App\Models\TipoOferta::cases() as $tipo) {
+            $campo = $tipo->prefijoHero() . '_hero_imagen';
+
+            if ($request->hasFile($campo)) {
+                if ($settings->{$campo} && Storage::disk('public')->exists($settings->{$campo})) {
+                    Storage::disk('public')->delete($settings->{$campo});
+                }
+                $settings->{$campo} = \App\Support\OptimizadorImagen::guardar($request->file($campo), 'settings');
+            } elseif ($request->boolean('remove_' . $campo)) {
+                if ($settings->{$campo} && Storage::disk('public')->exists($settings->{$campo})) {
+                    Storage::disk('public')->delete($settings->{$campo});
+                }
+                $settings->{$campo} = null;
             }
-            $settings->diplomados_hero_imagen = \App\Support\OptimizadorImagen::guardar($request->file('diplomados_hero_imagen'), 'settings');
-        } elseif ($request->boolean('remove_diplomados_hero_imagen')) {
-            if ($settings->diplomados_hero_imagen && Storage::disk('public')->exists($settings->diplomados_hero_imagen)) {
-                Storage::disk('public')->delete($settings->diplomados_hero_imagen);
-            }
-            $settings->diplomados_hero_imagen = null;
         }
 
         // Manejar subida de Favicon

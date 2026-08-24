@@ -14,11 +14,10 @@ class ProfesorController extends Controller
             ->ordenados()
             ->get();
 
-        $maestrias = Programa::activos()->maestrias()->orderBy('nombre')->get();
-        $doctorados = Programa::activos()->doctorados()->orderBy('nombre')->get();
-        $diplomados = Programa::activos()->diplomados()->orderBy('nombre')->get();
+        $cursos = Programa::activos()->cursos()->orderBy('nombre')->get();
+        $talleres = Programa::activos()->talleres()->orderBy('nombre')->get();
 
-        return view('profesores.index', compact('profesores', 'maestrias', 'doctorados', 'diplomados'));
+        return view('profesores.index', compact('profesores', 'cursos', 'talleres'));
     }
 
     public function byPrograma($slug)
@@ -30,11 +29,10 @@ class ProfesorController extends Controller
             ->orderBy('docente_programa.orden')
             ->get();
 
-        $maestrias = Programa::activos()->maestrias()->orderBy('nombre')->get();
-        $doctorados = Programa::activos()->doctorados()->orderBy('nombre')->get();
-        $diplomados = Programa::activos()->diplomados()->orderBy('nombre')->get();
+        $cursos = Programa::activos()->cursos()->orderBy('nombre')->get();
+        $talleres = Programa::activos()->talleres()->orderBy('nombre')->get();
 
-        return view('profesores.index', compact('profesores', 'selectedPrograma', 'maestrias', 'doctorados', 'diplomados'));
+        return view('profesores.index', compact('profesores', 'selectedPrograma', 'cursos', 'talleres'));
     }
 
     public function show($slug)

@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Mail\NuevaSolicitudDiplomado;
-use App\Models\DiplomadoLead;
+use App\Mail\NuevaSolicitudInformacion;
+use App\Models\Lead;
 use App\Models\SiteSetting;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 /**
- * Envía a la Unidad el aviso de una solicitud de diplomado y anota el resultado.
+ * Envía al CERSEU el aviso de una solicitud y anota el resultado.
  *
  * Está aparte del controlador porque hay dos sitios que lo necesitan: el
  * formulario público y el botón de reenviar del panel. Y porque lo importante
@@ -22,7 +22,7 @@ use Illuminate\Support\Str;
  */
 class AvisoDeSolicitud
 {
-    public static function enviar(DiplomadoLead $lead): bool
+    public static function enviar(Lead $lead): bool
     {
         // En modo `log` Laravel escribe el mensaje en el fichero de log y
         // devuelve éxito. Darlo por enviado en el panel sería mentir: nadie lo
@@ -38,9 +38,9 @@ class AvisoDeSolicitud
         }
 
         try {
-            Mail::to($destino)->send(new NuevaSolicitudDiplomado($lead));
+            Mail::to($destino)->send(new NuevaSolicitudInformacion($lead));
         } catch (\Throwable $e) {
-            Log::error('No se pudo enviar el aviso de la solicitud de diplomado #' . $lead->id . ': ' . $e->getMessage());
+            Log::error('No se pudo enviar el aviso de la solicitud #' . $lead->id . ': ' . $e->getMessage());
 
             return self::anotarFallo($lead, $e->getMessage());
         }
@@ -56,7 +56,7 @@ class AvisoDeSolicitud
     /**
      * Guarda el motivo del fallo recortado a lo que cabe en la columna.
      */
-    private static function anotarFallo(DiplomadoLead $lead, string $motivo): bool
+    private static function anotarFallo(Lead $lead, string $motivo): bool
     {
         $lead->forceFill([
             'aviso_enviado_en' => null,

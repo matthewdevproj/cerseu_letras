@@ -137,23 +137,19 @@ class SearchController extends Controller
         return Cache::remember('search_index', 1800, function () {
             $items = [];
 
-            // Programas: diplomados primero (oferta prioritaria), luego maestrías
-            // y doctorados. El `peso` desempata entre resultados igual de buenos.
+            // Oferta: talleres primero (la prioritaria), luego cursos. El `peso`
+            // desempata entre resultados igual de buenos.
             foreach (Programa::visibles()->get() as $programa) {
-                $esDiplomado = $programa->grado === 'Diplomado';
+                $esTaller = $programa->esTaller();
 
                 $items[] = $this->item(
                     titulo: $programa->titulo_completo,
                     descripcion: Str::limit(strip_tags((string) $programa->sumilla), 160),
-                    url: route('programas.show', $programa->slug),
-                    categoria: match ($programa->grado) {
-                        'Diplomado' => 'Diplomados',
-                        'Doctorado' => 'Doctorados',
-                        default => 'Maestrías',
-                    },
-                    peso: $esDiplomado ? 25 : 15,
-                    // El grado va en el cuerpo para que "maestría" o "doctorado"
-                    // encuentren también los programas, no solo su página índice.
+                    url: $programa->url,
+                    categoria: $programa->tipoOferta()?->plural() ?? 'Oferta académica',
+                    peso: $esTaller ? 25 : 15,
+                    // El grado va en el cuerpo para que "taller" o "curso"
+                    // encuentren también las fichas, no solo su página índice.
                     extra: [$programa->grado, $programa->mencion, $programa->modalidad],
                 );
             }
@@ -209,42 +205,44 @@ class SearchController extends Controller
     {
         return [
             [
-                'titulo' => 'Diplomados',
-                'descripcion' => 'Oferta vigente de diplomados de la Unidad de Posgrado.',
-                'url' => route('diplomados.index'),
-                'categoria' => 'Diplomados',
+                'titulo' => 'Talleres',
+                'descripcion' => 'Oferta vigente de talleres del CERSEU.',
+                'url' => route('talleres.index'),
+                'categoria' => 'Talleres',
                 'peso' => 70,
-                'extra' => ['diplomado', 'programas cortos', 'especialización'],
+                'extra' => ['taller', 'formación corta', 'especialización'],
             ],
             [
-                'titulo' => 'Admisión de diplomados',
-                'descripcion' => 'Requisitos, cronograma, pago e inscripción para los diplomados.',
-                'url' => route('diplomados.admision'),
+                'titulo' => 'Admisión de talleres',
+                'descripcion' => 'Requisitos, cronograma, pago e inscripción para los talleres.',
+                'url' => route('talleres.admision'),
+                'categoria' => 'Admisión',
+                'peso' => 60,
+                'extra' => ['postular', 'inscripción', 'convocatoria', 'requisitos'],
+            ],
+            [
+                'titulo' => 'Cursos',
+                'descripcion' => 'Oferta vigente de cursos del CERSEU.',
+                'url' => route('cursos.index'),
+                'categoria' => 'Cursos',
+                'peso' => 70,
+                'extra' => ['curso', 'formación continua', 'especialización'],
+            ],
+            [
+                'titulo' => 'Admisión de cursos',
+                'descripcion' => 'Requisitos, cronograma, pago e inscripción para los cursos.',
+                'url' => route('cursos.admision'),
                 'categoria' => 'Admisión',
                 'peso' => 60,
                 'extra' => ['postular', 'inscripción', 'convocatoria', 'requisitos'],
             ],
             [
                 'titulo' => 'Proceso de Admisión',
-                'descripcion' => 'Proceso de admisión a maestrías y doctorados: requisitos y etapas.',
+                'descripcion' => 'Proceso de admisión del CERSEU: requisitos y etapas.',
                 'url' => route('admision'),
                 'categoria' => 'Admisión',
                 'peso' => 55,
                 'extra' => ['postular', 'inscripción', 'convocatoria', 'vacantes', 'examen'],
-            ],
-            [
-                'titulo' => 'Maestrías',
-                'descripcion' => 'Programas de maestría de la Facultad de Letras y Ciencias Humanas.',
-                'url' => route('programas.index') . '?tipo=maestria',
-                'categoria' => 'Maestrías',
-                'peso' => 60,
-            ],
-            [
-                'titulo' => 'Doctorados',
-                'descripcion' => 'Programas de doctorado de la Facultad de Letras y Ciencias Humanas.',
-                'url' => route('programas.index') . '?tipo=doctorado',
-                'categoria' => 'Doctorados',
-                'peso' => 60,
             ],
             [
                 'titulo' => 'Trámites',

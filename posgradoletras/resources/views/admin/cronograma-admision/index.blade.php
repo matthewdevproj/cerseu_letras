@@ -50,7 +50,7 @@
             <h1 class="text-xl font-bold text-gray-800 mb-1">Cronograma de Admisión</h1>
             <p class="text-sm text-gray-500 mb-6">
                 Sección <code>Cronograma de Admisión</code> de la portada. Todo su contenido es editable:
-                puedes adaptarla a la convocatoria vigente (maestrías y doctorados, diplomados u otro periodo),
+                puedes adaptarla a la convocatoria vigente (cursos, talleres u otro periodo),
                 agregar, ocultar, eliminar o reordenar etapas, y cambiar el botón principal.
             </p>
 
@@ -65,7 +65,7 @@
                     :class="visible ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'">
                     <label class="flex items-start gap-3 cursor-pointer">
                         <input type="checkbox" name="is_visible" value="1" x-model="visible"
-                            class="mt-1 h-4 w-4 rounded border-gray-300 text-red-700 focus:ring-red-700">
+                            class="mt-1 h-4 w-4 rounded border-gray-300 text-unmsm-azul focus:ring-unmsm-azul">
                         <span>
                             <span class="block font-semibold text-gray-800 text-sm">Mostrar la sección en la portada</span>
                             <span class="block text-xs text-gray-600 mt-0.5"
@@ -117,7 +117,7 @@
                         </p>
                     </div>
                     <button type="button" @click="agregar()"
-                        class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm font-medium">
+                        class="px-4 py-2 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark text-sm font-medium">
                         <x-fas-plus class="mr-1" /> Agregar etapa
                     </button>
                 </div>
@@ -137,13 +137,13 @@
                                 {{-- Reordenar --}}
                                 <div class="flex flex-col items-center gap-1 pt-1">
                                     <button type="button" @click="mover(index, -1)" :disabled="index === 0"
-                                        class="text-gray-400 hover:text-red-700 disabled:opacity-30 disabled:hover:text-gray-400"
+                                        class="text-gray-400 hover:text-unmsm-azul disabled:opacity-30 disabled:hover:text-gray-400"
                                         aria-label="Subir etapa">
                                         <x-fas-chevron-up class="text-xs" />
                                     </button>
                                     <span class="text-xs font-bold text-gray-400" x-text="index + 1"></span>
                                     <button type="button" @click="mover(index, 1)" :disabled="index === pasos.length - 1"
-                                        class="text-gray-400 hover:text-red-700 disabled:opacity-30 disabled:hover:text-gray-400"
+                                        class="text-gray-400 hover:text-unmsm-azul disabled:opacity-30 disabled:hover:text-gray-400"
                                         aria-label="Bajar etapa">
                                         <x-fas-chevron-down class="text-xs" />
                                     </button>
@@ -179,9 +179,9 @@
                                         placeholder="+ Envío de expediente">
                                 </div>
                                 <div>
-                                    <label class="form-label block">Programa o público</label>
+                                    <label class="form-label block">Curso o público</label>
                                     <input type="text" x-model="paso.publico" class="form-control"
-                                        placeholder="Maestrías">
+                                        placeholder="Cursos">
                                 </div>
                             </div>
 
@@ -195,7 +195,7 @@
                                             @endforeach
                                         </select>
                                         {{-- Vista previa del ícono seleccionado --}}
-                                        <span class="flex-shrink-0 w-10 h-10 rounded-full bg-red-50 text-red-700 flex items-center justify-center">
+                                        <span class="flex-shrink-0 w-10 h-10 rounded-full bg-unmsm-azul/5 text-unmsm-azul flex items-center justify-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -208,13 +208,13 @@
                                 <div class="flex flex-wrap gap-5">
                                     <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
                                         <input type="checkbox" x-model="paso.is_visible"
-                                            class="h-4 w-4 rounded border-gray-300 text-red-700 focus:ring-red-700">
+                                            class="h-4 w-4 rounded border-gray-300 text-unmsm-azul focus:ring-unmsm-azul">
                                         Mostrar esta etapa
                                     </label>
                                     <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
                                         <input type="checkbox" @change="marcarDestacado(index, $event.target.checked)"
                                             :checked="paso.destacado"
-                                            class="h-4 w-4 rounded border-gray-300 text-red-700 focus:ring-red-700">
+                                            class="h-4 w-4 rounded border-gray-300 text-unmsm-azul focus:ring-unmsm-azul">
                                         Etapa en curso
                                         <span class="text-xs text-gray-400">(se resalta en blanco)</span>
                                     </label>
@@ -226,11 +226,11 @@
 
                 <div class="flex items-center justify-end gap-3 mt-8 pt-5 border-t border-gray-100">
                     <a href="{{ route('home') }}#admision" target="_blank" rel="noopener noreferrer"
-                        class="px-4 py-2 text-sm text-gray-600 hover:text-red-700">
+                        class="px-4 py-2 text-sm text-gray-600 hover:text-unmsm-azul">
                         <x-fas-eye class="mr-1" /> Ver en la portada
                     </a>
                     <button type="submit" :disabled="submitting"
-                        class="px-6 py-2.5 bg-red-700 text-white rounded-lg hover:bg-red-800 font-medium disabled:opacity-60">
+                        class="px-6 py-2.5 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark font-medium disabled:opacity-60">
                         <x-fas-save class="mr-1" />
                         <span x-text="submitting ? 'Guardando...' : 'Guardar cambios'"></span>
                     </button>

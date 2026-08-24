@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', $programa->titulo_completo . ' - Posgrado Letras UNMSM')
+@section('title', $programa->titulo_completo . ' - CERSEU Letras UNMSM')
 
 @section('content')
     <!-- HERO DE SECCIÓN -->
@@ -13,18 +13,11 @@
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="container mx-auto px-4 py-12">
-        @if($programa->grado === 'Diplomado')
-            <x-breadcrumbs :items="[
-                ['label' => 'Diplomados', 'url' => route('diplomados.index')],
-                ['label' => $programa->titulo_completo],
-            ]" />
-        @else
-            <x-breadcrumbs :items="[
-                ['label' => 'Programas', 'url' => route('programas.index')],
-                ['label' => $programa->grado . 's', 'url' => route('programas.index') . '?tipo=' . strtolower($programa->grado)],
-                ['label' => $programa->titulo_completo],
-            ]" />
-        @endif
+        @php $tipoFicha = $programa->tipoOferta() ?? \App\Models\TipoOferta::Curso; @endphp
+        <x-breadcrumbs :items="[
+            ['label' => $tipoFicha->plural(), 'url' => route($tipoFicha->slug() . '.index')],
+            ['label' => $programa->titulo_completo],
+        ]" />
         <div class="grid lg:grid-cols-3 gap-8">
 
             <!-- COLUMNA IZQUIERDA: Acordeones (2/3 ancho) -->
@@ -69,68 +62,65 @@
                         </div>
                     @else
                         <p class="text-sm text-gray-600 text-justify">
-                            Los objetivos académicos del programa se encuentran en proceso de actualización.
+                            Los objetivos académicos del curso se encuentran en proceso de actualización.
                         </p>
                     @endif
                     @endcomponent
 
-                    {{-- Perfil de Ingreso y Egreso --}}
+    {{-- Perfil de Ingreso y Egreso.
+
+         Los dos bloques traían un texto fijo para cuando la ficha no tenía
+         perfil cargado: uno pedía «grado de bachiller» y el otro hablaba de
+         proyectos de investigación originales y docencia universitaria. Eso
+         describía una maestría, no la oferta del CERSEU, que está abierta a
+         toda la comunidad — y se mostraba en toda ficha sin perfil, que son
+         casi todas. Ahora cada bloque aparece solo si hay algo que decir, y el
+         acordeón entero desaparece si no hay ninguno. --}}
+    @php
+        $perfilIngreso = $programa->perfil_ingresante;
+        $perfilGraduado = $programa->perfil_graduado;
+        $tieneIngreso = is_array($perfilIngreso) ? count($perfilIngreso) > 0 : filled($perfilIngreso);
+        $tieneGraduado = is_array($perfilGraduado) ? count($perfilGraduado) > 0 : filled($perfilGraduado);
+    @endphp
+
+    @if ($tieneIngreso || $tieneGraduado)
                     @component('components.accordion', [
                         'id' => 'perfil',
                         'title' => 'Perfil de Ingreso y Graduado'
                     ])
                     <div class="space-y-8">
-                        @if ($programa->perfil_ingresante && is_array($programa->perfil_ingresante) && count($programa->perfil_ingresante) > 0)
+                        @if ($tieneIngreso)
                             <div>
                                 <h3 class="font-bold text-gray-900 mb-3 border-b pb-2">Perfil de Ingreso</h3>
-                                <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">
-                                    @foreach ($programa->perfil_ingresante as $perfil)
-                                        <li class="text-justify">{{ $perfil }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @else
-                            <div>
-                                <h3 class="font-bold text-gray-900 mb-3 border-b pb-2">Perfil de Ingreso</h3>
-                                <p class="text-sm text-gray-600 text-justify">
-                                    Profesionales con grado de bachiller interesados en profundizar conocimientos en el área de especialización del programa.
-                                </p>
-                            </div>
-                        @endif
-
-                        <div>
-                            <h3 class="font-bold text-gray-900 mb-3 border-b pb-2">Perfil de Graduado</h3>
-                            @php
-                                $tienePerfilGraduado = false;
-                                if ($programa->perfil_graduado) {
-                                    if (is_array($programa->perfil_graduado) && count($programa->perfil_graduado) > 0) {
-                                        $tienePerfilGraduado = true;
-                                    } elseif (is_string($programa->perfil_graduado) && trim($programa->perfil_graduado) !== '') {
-                                        $tienePerfilGraduado = true;
-                                    }
-                                }
-                            @endphp
-
-                            @if($tienePerfilGraduado)
-                                @if(is_array($programa->perfil_graduado))
+                                @if (is_array($perfilIngreso))
                                     <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">
-                                        @foreach ($programa->perfil_graduado as $perfil)
+                                        @foreach ($perfilIngreso as $perfil)
                                             <li class="text-justify">{{ $perfil }}</li>
                                         @endforeach
                                     </ul>
                                 @else
-                                    <p class="text-sm text-gray-600 text-justify">
-                                        {{ $programa->perfil_graduado }}
-                                    </p>
+                                    <p class="text-sm text-gray-600 text-justify">{{ $perfilIngreso }}</p>
                                 @endif
-                            @else
-                                <p class="text-sm text-gray-600 text-justify">
-                                    El egresado estará capacitado para diseñar y ejecutar proyectos de investigación originales, ejercer la docencia universitaria especializada y gestionar proyectos académicos con una visión crítica y ética.
-                                </p>
-                            @endif
-                        </div>
+                            </div>
+                        @endif
+
+                        @if ($tieneGraduado)
+                            <div>
+                                <h3 class="font-bold text-gray-900 mb-3 border-b pb-2">Perfil de Graduado</h3>
+                                @if (is_array($perfilGraduado))
+                                    <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">
+                                        @foreach ($perfilGraduado as $perfil)
+                                            <li class="text-justify">{{ $perfil }}</li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p class="text-sm text-gray-600 text-justify">{{ $perfilGraduado }}</p>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                     @endcomponent
+    @endif
 
                     {{-- Currícula / Plan de Estudios --}}
                     @component('components.accordion', [
@@ -139,7 +129,7 @@
                     ])
                     <div class="text-gray-700">
                         @php
-                            $unidadPlan = $programa->grado === 'Diplomado' ? 'módulos' : 'semestres';
+                            $unidadPlan = 'módulos';
                         @endphp
                         <p class="mb-6">El plan de estudios consta de {{ $programa->duracion }} {{ $unidadPlan }} académicos con un
                             total de {{ $programa->creditos }} créditos.</p>
@@ -162,9 +152,9 @@
                             <div class="overflow-x-auto mb-8">
                                 <table class="w-full border-collapse border border-gray-300">
                                     <thead>
-                                        <tr class="bg-unmsm-guinda text-white">
+                                        <tr class="bg-unmsm-azul text-white">
                                             <th class="border border-gray-300 px-4 py-3 text-center w-24">
-                                                <span class="font-bold text-sm">{{ $programa->grado === 'Diplomado' ? 'Módulo' : 'Semestre' }}</span>
+                                                <span class="font-bold text-sm">Módulo</span>
                                             </th>
                                             <th class="border border-gray-300 px-4 py-3 text-center">
                                                 <span class="font-bold text-sm">Asignaturas</span>
@@ -180,7 +170,7 @@
                                                 <tr class="hover:bg-gray-50">
                                                     @if ($index === 0)
                                                         <td class="border border-gray-300 px-4 py-3 text-center bg-gray-50" rowspan="{{ count($cursos) }}">
-                                                            <span class="text-unmsm-guinda font-bold" style="font-size: 2rem;">{{ str_pad($ciclo, 2, '0', STR_PAD_LEFT) }}</span>
+                                                            <span class="text-unmsm-azul font-bold" style="font-size: 2rem;">{{ str_pad($ciclo, 2, '0', STR_PAD_LEFT) }}</span>
                                                         </td>
                                                     @endif
                                                     <td class="border border-gray-300 px-4 py-3">
@@ -196,10 +186,12 @@
                                 </table>
                             </div>
 
-                            {{-- Sumillas por Semestre (oculta para Diplomados; la información permanece en plan_estudios) --}}
-                            @if($programa->grado !== 'Diplomado')
+                            {{-- Sumillas: se muestran si el plan las trae. Antes se ocultaban
+                                 para diplomados; ahora talleres y cursos comparten estructura y
+                                 la única condición es que haya algo que mostrar. --}}
+                            @if(!empty($cursosPorCiclo))
                             <div class="mt-10">
-                                <h3 class="text-xl font-bold text-unmsm-guinda mb-6 border-b-2 border-unmsm-guinda pb-2">SUMILLAS</h3>
+                                <h3 class="text-xl font-bold text-unmsm-azul mb-6 border-b-2 border-unmsm-azul pb-2">SUMILLAS</h3>
 
                                 @foreach ($cursosPorCiclo as $ciclo => $cursos)
                                     <div class="mb-8">
@@ -247,8 +239,8 @@
                     </div>
                     @endcomponent
 
-                    {{-- Plana Docente (no aplica a Diplomados: solo se muestra el Coordinador, arriba) --}}
-                    @if ($programa->grado !== 'Diplomado' && $programa->docentes->count() > 0)
+                    {{-- Plana Docente: se muestra cuando hay docentes asignados. --}}
+                    @if ($programa->docentes->count() > 0)
                     @component('components.accordion', [
                         'id' => 'plana-docente',
                         'title' => 'Plana Docente'
@@ -291,18 +283,11 @@
                         'title' => 'Inversión Económica'
                     ])
                     <div class="space-y-4">
-                        @if(strtolower($programa->grado) === 'maestría' || strtolower($programa->grado) === 'maestria')
-                            @include('programas.inversion.maestria', ['programa' => $programa])
-                        @elseif(strtolower($programa->grado) === 'doctorado')
-                            @include('programas.inversion.doctorado', ['programa' => $programa])
-                        @elseif(strtolower($programa->grado) === 'diplomado')
-                            @include('programas.inversion.diplomado', ['programa' => $programa])
-                        @else
-                            <p class="text-gray-600">
-                                Para información detallada sobre costos y créditos, revise la página oficial de la Facultad
-                                o contacte a la coordinación del programa.
-                            </p>
-                        @endif
+                        {{-- Un solo bloque para los dos módulos: había uno por grado
+                             (maestría, doctorado, diplomado) cuando la oferta era de
+                             posgrado. Talleres y cursos comparten estructura, así que
+                             comparten también la presentación de la inversión. --}}
+                        @include('programas.inversion.oferta', ['programa' => $programa])
                     </div>
                     @endcomponent
 
@@ -331,15 +316,15 @@
                 <div class="sticky top-24 space-y-6">
 
                     <!-- Tarjeta Información Clave -->
-                    <div class="bg-white rounded-xl shadow-lg border-t-4 border-unmsm-guinda p-6">
+                    <div class="bg-white rounded-xl shadow-lg border-t-4 border-unmsm-azul p-6">
                         <h2 class="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
-                            <x-fas-circle-info class="text-unmsm-guinda" /> Información Clave
+                            <x-fas-circle-info class="text-unmsm-azul" /> Información Clave
                         </h2>
 
                         <!-- Ítem Créditos -->
                         <div class="flex items-center gap-4 mb-5">
                             <div
-                                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-unmsm-guinda">
+                                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-unmsm-azul">
                                 <x-fas-star />
                             </div>
                             <div>
@@ -354,7 +339,7 @@
                         @if($programa->horas_academicas)
                             <div class="flex items-center gap-4 mb-5">
                                 <div
-                                    class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-unmsm-guinda">
+                                    class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-unmsm-azul">
                                     <x-fas-hourglass-half />
                                 </div>
                                 <div>
@@ -367,16 +352,13 @@
                         <!-- Ítem Duración -->
                         <div class="flex items-center gap-4 mb-5">
                             <div
-                                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-unmsm-guinda">
+                                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-unmsm-azul">
                                 <x-far-clock />
                             </div>
                             <div>
                                 <p class="text-xs text-gray-500 uppercase font-bold">Duración</p>
                                 <p class="font-bold text-gray-900">
                                     {{ $programa->duracion_formateada }}
-                                    @if($programa->grado !== 'Diplomado')
-                                        ({{ $programa->duracion / 2 }} años)
-                                    @endif
                                 </p>
                             </div>
                         </div>
@@ -384,7 +366,7 @@
                         <!-- Ítem Modalidad -->
                         <div class="flex items-center gap-4 mb-5">
                             <div
-                                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-unmsm-guinda">
+                                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-unmsm-azul">
                                 <x-fas-laptop-file />
                             </div>
                             <div>
@@ -396,7 +378,7 @@
                         <!-- Ítem Inversión Total -->
                         <div class="flex items-center gap-4 mb-6">
                             <div
-                                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-unmsm-guinda">
+                                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-unmsm-azul">
                                 <x-fas-money-bill-wave />
                             </div>
                             <div>
@@ -420,7 +402,7 @@
                              todavía no tiene uno cargado, sin dejar hueco. --}}
                         @if ($programa->brochure_link)
                             <a href="{{ $programa->brochure_link }}" target="_blank" rel="noopener noreferrer"
-                                class="group/brochure flex w-full items-center justify-center gap-2 py-3 mb-3 rounded-lg bg-unmsm-dorado/15 border border-unmsm-dorado/50 text-unmsm-guinda text-center font-bold text-sm hover:bg-unmsm-dorado hover:text-white hover:border-unmsm-dorado focus-visible:bg-unmsm-dorado focus-visible:text-white transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-guinda focus-visible:outline-offset-2">
+                                class="group/brochure flex w-full items-center justify-center gap-2 py-3 mb-3 rounded-lg bg-unmsm-dorado/15 border border-unmsm-dorado/50 text-unmsm-azul text-center font-bold text-sm hover:bg-unmsm-dorado hover:text-white hover:border-unmsm-dorado focus-visible:bg-unmsm-dorado focus-visible:text-white transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-azul focus-visible:outline-offset-2">
                                 <x-fas-file-pdf aria-hidden="true" />
                                 Brochure
                                 <x-fas-arrow-up-right-from-square class="text-[0.7em] opacity-70 motion-safe:group-hover/brochure:translate-x-0.5 transition-transform" aria-hidden="true" />
@@ -429,7 +411,7 @@
                         @endif
 
                         <!-- Botón Principal -->
-                        <x-button href="{{ $programa->grado === 'Diplomado' ? route('diplomados.admision') : route('admision') }}"
+                        <x-button href="{{ route($tipoFicha->slug() . '.admision') }}"
                             :block="true" icon="fa-solid fa-pen-to-square" class="shadow-md mb-3 transform hover:scale-105 duration-200">
                             Postular Ahora
                         </x-button>
@@ -443,7 +425,7 @@
                     <!-- Tarjeta Contacto Rápido -->
                     <div class="bg-gray-900 rounded-xl p-6 text-white shadow-lg relative overflow-hidden">
                         <div
-                            class="absolute top-0 right-0 w-32 h-32 bg-unmsm-guinda opacity-20 rounded-full blur-2xl -mr-10 -mt-10">
+                            class="absolute top-0 right-0 w-32 h-32 bg-unmsm-azul opacity-20 rounded-full blur-2xl -mr-10 -mt-10">
                         </div>
                         <h2 class="font-bold mb-4 relative z-10">¿Necesitas ayuda?</h2>
                         <p class="text-sm text-gray-400 mb-4 relative z-10">Contáctanos directamente:</p>

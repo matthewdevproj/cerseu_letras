@@ -28,7 +28,7 @@
                            <li>Arrastra las filas para reordenar (próximamente).</li>
                        </ul>
                        
-                       <button onclick="openModal()" class="w-full px-4 py-3 bg-brand-red text-white rounded-lg hover:bg-red-800 font-medium shadow-sm transition-all flex items-center justify-center gap-2">
+                       <button onclick="openModal()" class="w-full px-4 py-3 bg-brand-azul text-white rounded-lg hover:bg-unmsm-azul-dark font-medium shadow-sm transition-all flex items-center justify-center gap-2">
                            <x-fas-plus /> Nuevo Documento
                        </button>
                     </div>
@@ -61,7 +61,7 @@
                                 @forelse($informativos as $categoria => $items)
                                     <!-- Category Header -->
                                     <tr class="bg-red-50/50">
-                                        <td colspan="3" class="px-4 py-2 font-bold text-red-800 text-sm uppercase tracking-wide border-l-4 border-red-700">
+                                        <td colspan="3" class="px-4 py-2 font-bold text-red-800 text-sm uppercase tracking-wide border-l-4 border-unmsm-azul">
                                             {{ $categoria }}
                                         </td>
                                     </tr>
@@ -94,10 +94,10 @@
                                             </td>
                                             <td class="px-3 py-3 text-center">
                                                 <div class="flex flex-col items-center gap-1">
-                                                    <button type="button" onclick="moveItem(this, 'up')" class="text-gray-400 hover:text-red-700 p-1">
+                                                    <button type="button" onclick="moveItem(this, 'up')" class="text-gray-400 hover:text-unmsm-azul p-1">
                                                         <x-fas-chevron-up class="text-xs" />
                                                     </button>
-                                                    <button type="button" onclick="moveItem(this, 'down')" class="text-gray-400 hover:text-red-700 p-1">
+                                                    <button type="button" onclick="moveItem(this, 'down')" class="text-gray-400 hover:text-unmsm-azul p-1">
                                                         <x-fas-chevron-down class="text-xs" />
                                                     </button>
                                                 </div>
@@ -145,7 +145,7 @@
                 <div class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                     
                     <!-- Header -->
-                    <div class="bg-red-700 px-4 py-3 sm:px-6">
+                    <div class="bg-unmsm-azul px-4 py-3 sm:px-6">
                         <div class="flex items-center justify-between">
                             <h3 class="text-base font-semibold leading-6 text-white" id="modal-title">Nuevo Documento</h3>
                             <button type="button" onclick="closeModal()" class="text-white hover:text-gray-200">
@@ -169,7 +169,7 @@
                                     
                                     <!-- Select Wrapper -->
                                     <div id="cat-select-wrapper">
-                                        <select id="cat_select" onchange="handleCatChange(this)" class="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6">
+                                        <select id="cat_select" onchange="handleCatChange(this)" class="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-unmsm-azul sm:text-sm sm:leading-6">
                                             <option value="">-- Seleccionar Categoría --</option>
                                             @foreach($categorias as $cat)
                                                 <option value="{{ $cat }}">{{ $cat }}</option>
@@ -182,7 +182,7 @@
                                     <div id="cat-input-wrapper" class="hidden flex gap-2">
                                         <input type="text" id="cat_text" placeholder="Nombre de la nueva categoría" 
                                             oninput="updateRealCat(this.value)"
-                                            class="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6">
+                                            class="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-unmsm-azul sm:text-sm sm:leading-6">
                                         <button type="button" onclick="cancelNewCat()" class="px-3 py-2 bg-gray-100 text-gray-600 rounded-md border border-gray-300 hover:bg-gray-200" title="Cancelar / Volver a lista" aria-label="Cancelar / Volver a lista">
                                             <x-fas-undo />
                                         </button>
@@ -195,7 +195,7 @@
                                 <label class="block text-sm font-medium leading-6 text-gray-900">Título *</label>
                                 <div class="mt-1">
                                     <input type="text" name="titulo" required
-                                        class="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6">
+                                        class="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-unmsm-azul sm:text-sm sm:leading-6">
                                 </div>
                             </div>
 
@@ -203,7 +203,7 @@
                             <div>
                                 <label class="block text-sm font-medium leading-6 text-gray-900 mb-2">Tipo de Recurso</label>
                                 <div class="grid grid-cols-2 gap-4">
-                                    <label class="cursor-pointer border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50 has-[:checked]:bg-red-50 has-[:checked]:border-red-200 has-[:checked]:text-red-700">
+                                    <label class="cursor-pointer border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50 has-[:checked]:bg-unmsm-azul/5 has-[:checked]:border-red-200 has-[:checked]:text-unmsm-azul">
                                         <input type="radio" name="tipo" value="0" checked onchange="toggleUploadType(0)" class="sr-only">
                                         <x-fas-file-pdf />
                                         <span class="text-sm font-medium">Archivo PDF</span>
@@ -240,7 +240,7 @@
                                 <label class="block text-sm font-medium leading-6 text-gray-900">URL del Recurso</label>
                                 <div class="mt-1">
                                     <input type="url" name="url" placeholder="https://..."
-                                        class="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6">
+                                        class="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-unmsm-azul sm:text-sm sm:leading-6">
                                 </div>
                             </div>
                         </div>

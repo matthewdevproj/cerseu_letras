@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AdmisionDiplomadoCronogramaItem extends Model
+class AdmisionCronogramaItem extends Model
 {
     protected $fillable = [
-        'admision_diplomado_setting_id',
+        'admision_setting_id',
         'programa',
         'convocatoria',
         'fecha_inscripcion',
@@ -22,6 +22,6 @@ class AdmisionDiplomadoCronogramaItem extends Model
 
     public function setting()
     {
-        return $this->belongsTo(AdmisionDiplomadoSetting::class, 'admision_diplomado_setting_id');
+        return $this->belongsTo(AdmisionSetting::class, 'admision_setting_id');
     }
 }

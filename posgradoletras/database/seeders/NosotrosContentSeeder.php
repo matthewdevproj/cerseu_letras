@@ -18,7 +18,7 @@ class NosotrosContentSeeder extends Seeder
             ['slug' => 'nosotros'],
             [
                 'titulo' => 'Nosotros',
-                'subtitulo' => 'La misión, la visión y los valores que guían a la Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas.',
+                'subtitulo' => 'La misión, la visión y los valores que guían al CERSEU de la Facultad de Letras y Ciencias Humanas.',
             ]
         );
 
@@ -37,7 +37,7 @@ class NosotrosContentSeeder extends Seeder
 
         $pagina->secciones()->create([
             'grupo' => 'vision', 'titulo' => 'Visión', 'orden' => $orden++, 'is_visible' => true,
-            'cuerpo' => '<p>Ser reconocidos como el programa de posgrado líder en el ámbito de las Letras y Humanidades en el Perú y Latinoamérica, destacando por la excelencia académica, la investigación de alto impacto y la formación de líderes intelectuales comprometidos con el desarrollo de la sociedad.</p>',
+            'cuerpo' => '<p>Ser reconocidos como el curso de posgrado líder en el ámbito de las Letras y Humanidades en el Perú y Latinoamérica, destacando por la excelencia académica, la investigación de alto impacto y la formación de líderes intelectuales comprometidos con el desarrollo de la sociedad.</p>',
         ]);
 
         foreach ([

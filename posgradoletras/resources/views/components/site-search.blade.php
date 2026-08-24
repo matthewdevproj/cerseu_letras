@@ -22,7 +22,7 @@
     <button type="button" @click="abrir()" x-ref="trigger" data-site-search-trigger
         :aria-expanded="open.toString()" aria-haspopup="dialog"
         aria-label="Buscar en el portal"
-        class="nav-item flex items-center justify-center w-10 h-10 rounded-full text-white hover:text-red-500 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2">
+        class="nav-item flex items-center justify-center w-10 h-10 rounded-full text-white hover:text-unmsm-azul-soft transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2">
         <x-fas-magnifying-glass aria-hidden="true" />
     </button>
 
@@ -47,13 +47,13 @@
                 x-transition:leave="transition ease-in duration-150"
                 x-transition:leave-start="opacity-100 translate-y-0"
                 x-transition:leave-end="opacity-0 -translate-y-4"
-                class="relative mx-auto mt-[6vh] sm:mt-[8vh] w-[94%] max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden border-t-4 border-unmsm-guinda">
+                class="relative mx-auto mt-[6vh] sm:mt-[8vh] w-[94%] max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden border-t-4 border-unmsm-azul">
 
                 {{-- Campo --}}
                 <form action="{{ route('search') }}" method="GET" @submit="if (!q.trim()) $event.preventDefault()"
                     class="flex items-center gap-3 px-4 sm:px-5 py-4 border-b border-gray-100">
-                    <x-fas-magnifying-glass class="text-unmsm-guinda text-lg flex-shrink-0" aria-hidden="true" />
-                    <label for="site-search-input" class="sr-only">Buscar programas, trámites e información</label>
+                    <x-fas-magnifying-glass class="text-unmsm-azul text-lg flex-shrink-0" aria-hidden="true" />
+                    <label for="site-search-input" class="sr-only">Buscar cursos, trámites e información</label>
                     <input id="site-search-input" type="search" name="q" x-ref="input" x-model="q"
                         @input.debounce.220ms="buscar()"
                         @keydown.arrow-down.prevent="mover(1)" @keydown.arrow-up.prevent="mover(-1)"
@@ -62,10 +62,10 @@
                         :aria-expanded="(resultados.length > 0).toString()"
                         aria-controls="site-search-results"
                         :aria-activedescendant="activo >= 0 ? 'site-search-opt-' + activo : null"
-                        placeholder="Buscar diplomados, maestrías, trámites…"
+                        placeholder="Buscar cursos, talleres, trámites…"
                         class="flex-1 min-w-0 border-0 p-0 text-base text-gray-900 placeholder-gray-400 focus:ring-0 focus:outline-none bg-transparent">
                     <button type="button" @click="cerrar()" aria-label="Cerrar búsqueda"
-                        class="flex-shrink-0 text-gray-400 hover:text-unmsm-guinda transition-colors p-1 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-guinda">
+                        class="flex-shrink-0 text-gray-400 hover:text-unmsm-azul transition-colors p-1 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-azul">
                         <x-fas-times aria-hidden="true" />
                     </button>
                 </form>
@@ -78,11 +78,11 @@
                         <div class="px-4 sm:px-5 py-6">
                             <p class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Accesos rápidos</p>
                             <div class="flex flex-wrap gap-2">
-                                <a href="{{ route('diplomados.index') }}" class="px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 hover:bg-unmsm-guinda hover:text-white transition-colors">Diplomados</a>
-                                <a href="{{ route('diplomados.admision') }}" class="px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 hover:bg-unmsm-guinda hover:text-white transition-colors">Admisión de diplomados</a>
-                                <a href="{{ route('programas.index') }}?tipo=maestria" class="px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 hover:bg-unmsm-guinda hover:text-white transition-colors">Maestrías</a>
-                                <a href="{{ route('programas.index') }}?tipo=doctorado" class="px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 hover:bg-unmsm-guinda hover:text-white transition-colors">Doctorados</a>
-                                <a href="{{ route('tramites') }}" class="px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 hover:bg-unmsm-guinda hover:text-white transition-colors">Trámites</a>
+                                <a href="{{ route('talleres.index') }}" class="px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 hover:bg-unmsm-azul hover:text-white transition-colors">Talleres</a>
+                                <a href="{{ route('talleres.admision') }}" class="px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 hover:bg-unmsm-azul hover:text-white transition-colors">Admisión de talleres</a>
+                                <a href="{{ route('cursos.index') }}" class="px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 hover:bg-unmsm-azul hover:text-white transition-colors">Cursos</a>
+                                <a href="{{ route('cursos.admision') }}" class="px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 hover:bg-unmsm-azul hover:text-white transition-colors">Admisión de cursos</a>
+                                <a href="{{ route('tramites') }}" class="px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700 hover:bg-unmsm-azul hover:text-white transition-colors">Trámites</a>
                             </div>
                         </div>
                     </template>
@@ -101,7 +101,7 @@
                             <p class="text-gray-700 font-semibold">No encontramos resultados para “<span x-text="q"></span>”</p>
                             <p class="text-sm text-gray-500 mt-1">
                                 Prueba con otras palabras o revisa la
-                                <a href="{{ route('programas.index') }}" class="text-unmsm-guinda font-semibold underline underline-offset-2">oferta académica completa</a>.
+                                <a href="{{ route('cursos.index') }}" class="text-unmsm-azul font-semibold underline underline-offset-2">oferta académica completa</a>.
                             </p>
                         </div>
                     </template>
@@ -113,7 +113,7 @@
                             <li role="option" :id="'site-search-opt-' + i" :aria-selected="(activo === i).toString()">
                                 <a :href="r.url" @mouseenter="activo = i"
                                     class="flex items-start gap-3 px-4 sm:px-5 py-3 transition-colors"
-                                    :class="activo === i ? 'bg-unmsm-guinda/[0.07]' : 'hover:bg-gray-50'">
+                                    :class="activo === i ? 'bg-unmsm-azul/[0.07]' : 'hover:bg-gray-50'">
                                     <span class="mt-2 flex-shrink-0 w-2 h-2 rounded-full bg-unmsm-dorado" aria-hidden="true"></span>
                                     <span class="min-w-0 flex-1">
                                         <span class="flex flex-wrap items-center gap-2">
@@ -138,7 +138,7 @@
                         <span><kbd class="px-1.5 py-0.5 bg-white border border-gray-300 rounded font-sans">Esc</kbd> cerrar</span>
                     </span>
                     <a x-show="q.trim().length >= 2" :href="'{{ route('search') }}?q=' + encodeURIComponent(q)"
-                        class="ml-auto font-semibold text-unmsm-guinda hover:underline underline-offset-2">
+                        class="ml-auto font-semibold text-unmsm-azul hover:underline underline-offset-2">
                         Ver todos los resultados →
                     </a>
                 </div>

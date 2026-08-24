@@ -10,7 +10,7 @@
     $webpRel = ltrim(parse_url($webpSrc, PHP_URL_PATH) ?? '', '/');
     $hasWebp = $webpSrc !== $bgImage && $webpRel !== '' && is_file(public_path($webpRel));
     // Placeholder tiny blur (20px width) para instant load
-    $tinyPlaceholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"%3E%3Cfilter id="b"%3E%3CfeGaussianBlur stdDeviation="12"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" fill="%236B1E20" filter="url(%23b)"/%3E%3C/svg%3E';
+    $tinyPlaceholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"%3E%3Cfilter id="b"%3E%3CfeGaussianBlur stdDeviation="12"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" fill="%23143B63" filter="url(%23b)"/%3E%3C/svg%3E';
 @endphp
 
 <section class="relative w-full min-h-[40vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden h-auto">
@@ -27,7 +27,7 @@
         </picture>
         {{-- Overlay guinda en degradado (más oscuro abajo): da profundidad y
              mejora el contraste del texto sobre la imagen sin recursos extra. --}}
-        <div class="absolute inset-0 bg-gradient-to-t from-[#6B1E20]/95 via-[#6B1E20]/80 to-[#6B1E20]/70"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#143B63]/95 via-[#143B63]/80 to-[#143B63]/70"></div>
     </div>
 
     {{-- Texto Hero --}}

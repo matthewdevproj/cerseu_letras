@@ -32,7 +32,7 @@
     <div class="mb-8">
         <div class="flex items-center gap-4">
             <div
-                class="w-14 h-14 rounded-full bg-gradient-to-br from-brand-red to-brand-red/80 flex items-center justify-center text-white shadow-lg">
+                class="w-14 h-14 rounded-full bg-gradient-to-br from-brand-azul to-brand-azul/80 flex items-center justify-center text-white shadow-lg">
                 <x-fas-user class="text-2xl" />
             </div>
             <div>
@@ -109,7 +109,7 @@
                                 </label>
                                 <input type="text" name="cargo" id="cargo" value="{{ old('cargo', $directorio->cargo) }}"
                                     class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:ring-brand-gold focus:border-brand-gold"
-                                    placeholder="Ej: Directora de la Unidad de Posgrado" required>
+                                    placeholder="Ej: Directora del CERSEU" required>
                                 @error('cargo')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -161,8 +161,8 @@
                         </div>
 
                         <!-- Unidad Info -->
-                        <div class="bg-brand-red/5 rounded-lg border border-brand-red/20 p-4">
-                            <h4 class="text-xs font-bold text-brand-red uppercase mb-2 flex items-center gap-2">
+                        <div class="bg-brand-azul/5 rounded-lg border border-brand-azul/20 p-4">
+                            <h4 class="text-xs font-bold text-brand-azul uppercase mb-2 flex items-center gap-2">
                                 <x-fas-building /> Unidad Actual
                             </h4>
                             <p class="text-sm text-gray-700 font-medium">{{ $directorio->unidad_nombre }}</p>

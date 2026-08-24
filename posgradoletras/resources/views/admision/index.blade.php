@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Admisión 2026-I - Posgrado Letras UNMSM')
+@section('title', 'Admisión 2026-I - CERSEU Letras UNMSM')
 
 {{-- ========================================================
 CORREOS DE CONTACTO - MODIFICAR AQUÍ
@@ -86,7 +86,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
         .cronograma-table thead th {
             background: #faf7f2;
             font-weight: 700;
-            color: #6B1E20;
+            color: #143B63;
             font-size: 0.7rem;
             letter-spacing: 0.04em;
             text-transform: uppercase;
@@ -116,7 +116,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
     <section class="container mx-auto px-6 py-16 fade-in">
 
         <!-- Fecha límite destacada -->
-        <div class="bg-gradient-to-r from-unmsm-guinda to-red-900 text-white rounded-2xl p-6 mb-12 shadow-xl">
+        <div class="bg-gradient-to-r from-unmsm-azul to-unmsm-azul-dark text-white rounded-2xl p-6 mb-12 shadow-xl">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
@@ -144,7 +144,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
 
                 <!-- Cronograma -->
                 <div class="bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-sm ring-1 ring-gray-900/[0.06] transition-shadow duration-300 hover:shadow-lg">
-                    <div class="relative overflow-hidden bg-gradient-to-br from-unmsm-guinda to-[#5a161a] text-white px-5 py-5">
+                    <div class="relative overflow-hidden bg-gradient-to-br from-unmsm-azul to-[#0F2B48] text-white px-5 py-5">
                         <div class="pointer-events-none absolute -right-6 -top-8 opacity-10">
                             <x-fas-calendar-days class="text-[7rem]" aria-hidden="true" />
                         </div>
@@ -156,12 +156,12 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                                 <h3 class="font-serif text-lg font-bold leading-tight">{{ ($secciones[0] ?? null)?->titulo }}</h3>
 {!! ($secciones[0] ?? null)?->cuerpo_renderizado !!}
 </div>
-                <div class="group bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif tracking-tight">{{ ($secciones[1] ?? null)?->titulo }}</h3>
+                <div class="group bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-azul/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-azul">
+                    <h3 class="font-bold text-lg text-unmsm-azul mb-4 font-serif tracking-tight">{{ ($secciones[1] ?? null)?->titulo }}</h3>
 {!! ($secciones[1] ?? null)?->cuerpo_renderizado !!}
 </div>
 
-                <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif mt-6">Procedimiento de pago de
+                <h3 class="font-bold text-lg text-unmsm-azul mb-4 font-serif mt-6">Procedimiento de pago de
                     inscripción</h3>
 
                 <div class="space-y-6">
@@ -169,7 +169,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                     <div class="border border-gray-200 rounded-lg p-4">
                         <div class="flex items-start gap-3 mb-3">
                             <span
-                                class="flex-shrink-0 w-8 h-8 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                                class="flex-shrink-0 w-8 h-8 bg-unmsm-azul text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
                             <div class="flex-1">
                                 <h4 class="font-bold text-gray-800 mb-2">Generar ticket en SanMarket-UNMSM</h4>
                                 <p class="text-sm text-gray-600 mb-3">Registrarse con correo de dominio Gmail.</p>
@@ -182,7 +182,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                     <div class="border border-gray-200 rounded-lg p-4">
                         <div class="flex items-start gap-3 mb-3">
                             <span
-                                class="flex-shrink-0 w-8 h-8 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                                class="flex-shrink-0 w-8 h-8 bg-unmsm-azul text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
                             <div class="flex-1">
                                 <h4 class="font-bold text-gray-800 mb-2">Realizar el pago en BCP o Yape</h4>
                                 <p class="text-sm text-gray-600 mb-3">Puedes pagar a través de la App BCP, en un agente
@@ -203,29 +203,29 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                  pegajosa esta tarjeta (1696 px) la congelaría en un viewport
                  de ~900 px dejando su mitad inferior fuera de alcance.
                  El hueco se queda: es el arreglo más barato de los cuatro. --}}
-            <div class="group bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
-                <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif tracking-tight">{{ ($secciones[3] ?? null)?->titulo }}</h3>
+            <div class="group bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-azul/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-azul">
+                <h3 class="font-bold text-lg text-unmsm-azul mb-4 font-serif tracking-tight">{{ ($secciones[3] ?? null)?->titulo }}</h3>
 {!! ($secciones[3] ?? null)?->cuerpo_renderizado !!}
 </div>
 
             <!-- Paso 3: Requisitos -->
-            <div class="group self-stretch bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
-                <h3 class="font-bold text-lg text-unmsm-guinda mb-6 font-serif">{{ ($secciones[2] ?? null)?->titulo }}</h3>
+            <div class="group self-stretch bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-azul/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-azul">
+                <h3 class="font-bold text-lg text-unmsm-azul mb-6 font-serif">{{ ($secciones[2] ?? null)?->titulo }}</h3>
 {!! ($secciones[2] ?? null)?->cuerpo_renderizado !!}
 </div>
 
             <!-- Envío de Expediente -->
-            <div class="group self-stretch bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
-                <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif tracking-tight">{{ ($secciones[4] ?? null)?->titulo }}</h3>
+            <div class="group self-stretch bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-azul/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-azul">
+                <h3 class="font-bold text-lg text-unmsm-azul mb-4 font-serif tracking-tight">{{ ($secciones[4] ?? null)?->titulo }}</h3>
 {!! ($secciones[4] ?? null)?->cuerpo_renderizado !!}
 </div>
 
             <!-- Resultados -->
-            <div class="group self-stretch bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 space-y-6 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
+            <div class="group self-stretch bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-azul/60 space-y-6 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-azul">
 
                 <!-- PASO 4 -->
                 <div>
-                    <h3 class="font-bold text-lg text-unmsm-guinda mb-4 font-serif tracking-tight">{{ ($secciones[5] ?? null)?->titulo }}</h3>
+                    <h3 class="font-bold text-lg text-unmsm-azul mb-4 font-serif tracking-tight">{{ ($secciones[5] ?? null)?->titulo }}</h3>
 {!! ($secciones[5] ?? null)?->cuerpo_renderizado !!}
 </div>
 
@@ -234,7 +234,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
 
         <div class="lg:col-span-1 space-y-6">
             <!-- Contacto -->
-            <div class="bg-unmsm-guinda text-white rounded-2xl p-6 shadow-xl sticky top-24">
+            <div class="bg-unmsm-azul text-white rounded-2xl p-6 shadow-xl sticky top-24">
                 <h3 class="font-bold mb-4 font-serif text-xl">¿Necesitas ayuda?</h3>
                 <p class="text-sm mb-4 text-white/80">Contáctanos para resolver cualquier duda sobre el proceso de
                     admisión.</p>
@@ -272,11 +272,11 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
             </div>
 
             <!-- Enlaces útiles -->
-            <div class="group bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-guinda/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-guinda">
+            <div class="group bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-sm ring-1 ring-gray-900/[0.06] border-l-[3px] border-unmsm-azul/60 transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:border-unmsm-azul">
                 <h4 class="font-bold text-gray-800 mb-4">Enlaces útiles</h4>
                 <div class="space-y-2">
                     <a href="https://posgrado.unmsm.edu.pe/admision/inscripcion/subir_Voucher/Subir/index.php"
-                        target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm text-unmsm-guinda hover:underline">
+                        target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm text-unmsm-azul hover:underline">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -285,7 +285,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                         Subir comprobante de pago
                     </a>
                     <a href="https://sanmarket.unmsm.edu.pe" target="_blank" rel="noopener noreferrer" 
-                        class="flex items-center gap-2 text-sm text-unmsm-guinda hover:underline">
+                        class="flex items-center gap-2 text-sm text-unmsm-azul hover:underline">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -294,7 +294,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
                         SanMarket UNMSM
                     </a>
                     <a href="https://posgrado.unmsm.edu.pe/" target="_blank" rel="noopener noreferrer" 
-                        class="flex items-center gap-2 text-sm text-unmsm-guinda hover:underline">
+                        class="flex items-center gap-2 text-sm text-unmsm-azul hover:underline">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -317,7 +317,7 @@ CORREOS DE CONTACTO - MODIFICAR AQUÍ
             document.querySelectorAll('.tab-btn').forEach(el => {
                 el.classList.remove('active');
                 el.classList.add('bg-gray-200', 'text-gray-700');
-                el.classList.remove('bg-unmsm-guinda', 'text-white');
+                el.classList.remove('bg-unmsm-azul', 'text-white');
             });
 
             document.getElementById('content-' + tab).classList.add('active');

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreDiplomadoLeadRequest;
-use App\Models\DiplomadoLead;
+use App\Http\Requests\StoreLeadRequest;
+use App\Models\Lead;
+use App\Models\TipoOferta;
 use App\Services\AvisoDeSolicitud;
 
-class DiplomadoLeadController extends Controller
+class LeadController extends Controller
 {
-    public function store(StoreDiplomadoLeadRequest $request)
+    public function store(StoreLeadRequest $request, TipoOferta $tipoOferta)
     {
-        $lead = DiplomadoLead::create($request->validated());
+        $lead = Lead::create($request->validated() + ['tipo' => $tipoOferta->value]);
 
         // Guardar primero y avisar después, en ese orden: el registro de la
         // solicitud no puede depender de que el correo funcione. Si el envío

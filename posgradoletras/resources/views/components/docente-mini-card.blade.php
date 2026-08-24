@@ -8,11 +8,11 @@
 
 <div @class([
     'rounded-xl p-4 md:p-5' => $isCoordinador,
-    'bg-gradient-to-r from-unmsm-guinda/5 to-unmsm-dorado/5 border border-unmsm-guinda/20' => $isCoordinador,
-    'group border border-gray-200 rounded-lg p-4 hover:shadow-lg hover:border-unmsm-guinda/30 transition-all duration-300 cursor-pointer relative' => !$isCoordinador,
+    'bg-gradient-to-r from-unmsm-azul/5 to-unmsm-dorado/5 border border-unmsm-azul/20' => $isCoordinador,
+    'group border border-gray-200 rounded-lg p-4 hover:shadow-lg hover:border-unmsm-azul/30 transition-all duration-300 cursor-pointer relative' => !$isCoordinador,
 ])>
     @unless($isCoordinador)
-        <a href="{{ route('profesores.show', $profesor->slug) }}" class="absolute inset-0 z-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-unmsm-guinda rounded-lg" aria-label="Ver perfil de {{ $profesor->nombre }}"></a>
+        <a href="{{ route('profesores.show', $profesor->slug) }}" class="absolute inset-0 z-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-unmsm-azul rounded-lg" aria-label="Ver perfil de {{ $profesor->nombre }}"></a>
     @endunless
 
     <div class="flex items-start gap-{{ $isCoordinador ? '3' : '4' }}">
@@ -22,8 +22,8 @@
         @else
             <div @class([
                 'rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300',
-                'w-12 h-12 bg-unmsm-guinda text-white' => $isCoordinador,
-                'w-12 h-12 bg-unmsm-guinda/10 group-hover:bg-unmsm-guinda group-hover:text-white text-unmsm-guinda font-bold text-lg' => !$isCoordinador,
+                'w-12 h-12 bg-unmsm-azul text-white' => $isCoordinador,
+                'w-12 h-12 bg-unmsm-azul/10 group-hover:bg-unmsm-azul group-hover:text-white text-unmsm-azul font-bold text-lg' => !$isCoordinador,
             ])>
                 @if($isCoordinador)
                     <x-fas-user-tie aria-hidden="true" />
@@ -38,23 +38,23 @@
                 {{-- Solo el encabezado: la etiqueta con la estrella que lo
                      repetía al lado se retiró por duplicar la denominación. --}}
                 <div class="flex items-center gap-2 mb-1">
-                    <h4 class="text-sm font-bold text-unmsm-guinda uppercase tracking-wide">{{ $denominacion }} del Programa</h4>
+                    <h4 class="text-sm font-bold text-unmsm-azul uppercase tracking-wide">{{ $denominacion }} del Curso</h4>
                 </div>
                 <p class="text-base font-semibold text-gray-900">{{ $profesor->nombre }}</p>
             @else
                 <div class="flex items-center justify-between gap-3 mb-2">
                     <div class="flex items-center gap-3 flex-1">
-                        <h5 class="font-bold text-gray-800 group-hover:text-unmsm-guinda text-base transition-colors duration-300">
+                        <h5 class="font-bold text-gray-800 group-hover:text-unmsm-azul text-base transition-colors duration-300">
                             {{ $profesor->nombre }}
                         </h5>
                         @if($esCoordinador)
-                            <span class="inline-flex items-center gap-1 px-2 py-1 bg-unmsm-guinda text-white text-xs font-semibold rounded flex-shrink-0">
+                            <span class="inline-flex items-center gap-1 px-2 py-1 bg-unmsm-azul text-white text-xs font-semibold rounded flex-shrink-0">
                                 <x-fas-star aria-hidden="true" /> {{ $denominacion }}
                             </span>
                         @endif
                     </div>
                     <a href="{{ route('profesores.show', $profesor->slug) }}"
-                       class="inline-flex items-center gap-2 px-3 py-1.5 bg-unmsm-guinda/5 text-unmsm-guinda hover:bg-unmsm-guinda hover:text-white focus-visible:bg-unmsm-guinda focus-visible:text-white text-xs font-semibold rounded-lg transition-all duration-300 relative z-10 group/btn flex-shrink-0">
+                       class="inline-flex items-center gap-2 px-3 py-1.5 bg-unmsm-azul/5 text-unmsm-azul hover:bg-unmsm-azul hover:text-white focus-visible:bg-unmsm-azul focus-visible:text-white text-xs font-semibold rounded-lg transition-all duration-300 relative z-10 group/btn flex-shrink-0">
                         <span class="whitespace-nowrap">Ver más información</span>
                         <x-fas-arrow-right class="text-xs group-hover/btn:translate-x-1 transition-transform" aria-hidden="true" />
                     </a>
@@ -80,7 +80,7 @@
                 @endif
                 @if($profesor->cti_vitae)
                     <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer"
-                       class="inline-flex items-center gap-1.5 px-{{ $isCoordinador ? '2.5' : '3' }} py-1{{ $isCoordinador ? '' : '.5' }} bg-unmsm-guinda/10 text-unmsm-guinda text-xs font-medium rounded-lg hover:bg-unmsm-guinda/20 transition-colors relative z-10"
+                       class="inline-flex items-center gap-1.5 px-{{ $isCoordinador ? '2.5' : '3' }} py-1{{ $isCoordinador ? '' : '.5' }} bg-unmsm-azul/10 text-unmsm-azul text-xs font-medium rounded-lg hover:bg-unmsm-azul/20 transition-colors relative z-10"
                        @unless($isCoordinador) onclick="event.stopPropagation();" @endunless>
                         <x-fas-user-graduate aria-hidden="true" /> <span>CTI Vitae</span>
                     </a>
@@ -94,7 +94,7 @@
                 @endif
                 @if($isCoordinador)
                     <a href="{{ route('profesores.show', $profesor->slug) }}"
-                       class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-guinda/5 text-unmsm-guinda hover:bg-unmsm-guinda hover:text-white focus-visible:bg-unmsm-guinda focus-visible:text-white text-xs font-semibold rounded-lg transition-all duration-300 ml-auto">
+                       class="inline-flex items-center gap-1.5 px-3 py-1 bg-unmsm-azul/5 text-unmsm-azul hover:bg-unmsm-azul hover:text-white focus-visible:bg-unmsm-azul focus-visible:text-white text-xs font-semibold rounded-lg transition-all duration-300 ml-auto">
                         Ver más información <x-fas-arrow-right class="text-xs" aria-hidden="true" />
                     </a>
                 @endif

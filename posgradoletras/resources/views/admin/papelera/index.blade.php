@@ -20,12 +20,12 @@
 
         <div class="mb-5 flex flex-wrap gap-2">
             <a href="{{ route('admin.papelera.index') }}"
-                class="rounded-full px-4 py-1.5 text-sm font-semibold {{ $tipoActivo ? 'bg-white text-gray-600 ring-1 ring-gray-300 hover:bg-gray-50' : 'bg-brand-red text-white' }}">
+                class="rounded-full px-4 py-1.5 text-sm font-semibold {{ $tipoActivo ? 'bg-white text-gray-600 ring-1 ring-gray-300 hover:bg-gray-50' : 'bg-brand-azul text-white' }}">
                 Todo
             </a>
             @foreach ($tipos as $clave => $etiqueta)
                 <a href="{{ route('admin.papelera.index', ['tipo' => $clave]) }}"
-                    class="rounded-full px-4 py-1.5 text-sm font-semibold {{ $tipoActivo === $clave ? 'bg-brand-red text-white' : 'bg-white text-gray-600 ring-1 ring-gray-300 hover:bg-gray-50' }}">
+                    class="rounded-full px-4 py-1.5 text-sm font-semibold {{ $tipoActivo === $clave ? 'bg-brand-azul text-white' : 'bg-white text-gray-600 ring-1 ring-gray-300 hover:bg-gray-50' }}">
                     {{ $etiqueta }}
                 </a>
             @endforeach

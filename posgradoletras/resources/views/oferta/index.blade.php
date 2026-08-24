@@ -1,19 +1,21 @@
 @extends('layouts.public')
 
-@section('title', 'Diplomados - Posgrado Letras UNMSM')
+@section('title', $tipo->plural() . ' - CERSEU Letras UNMSM')
 
 @section('content')
 
-    {{-- HERO DE DIPLOMADOS (con formulario de solicitud de información integrado) --}}
+    {{-- HERO DEL MÓDULO (con formulario de solicitud de información integrado).
+         La plantilla sirve talleres y cursos: lo único que cambia es $tipo. --}}
+    @php $hero = $tipo->prefijoHero(); @endphp
     <section class="relative w-full overflow-hidden">
         <div class="absolute inset-0">
             {{-- WebP en vez del JPG: esta cabecera no pasa por
                  <x-hero-section>, así que se quedó cargando el original de
                  963 KB con prioridad alta. El WebP pesa 279 KB. --}}
-            <img src="{{ $settings?->diplomados_hero_imagen ? asset('storage/' . $settings->diplomados_hero_imagen) : asset('images/campus-fachada.webp') }}"
-                alt="Diplomados" class="absolute inset-0 w-full h-full object-cover"
+            <img src="{{ $settings?->{$hero . '_hero_imagen'} ? asset('storage/' . $settings->{$hero . '_hero_imagen'}) : asset('images/campus-fachada.webp') }}"
+                alt="{{ $tipo->plural() }}" class="absolute inset-0 w-full h-full object-cover"
                 width="1600" height="900" fetchpriority="high" decoding="async">
-            <div class="absolute inset-0 bg-unmsm-guinda/85"></div>
+            <div class="absolute inset-0 bg-unmsm-azul/85"></div>
         </div>
 
         <div class="container mx-auto px-6 relative z-10 pt-32 pb-16 md:pt-40 md:pb-20">
@@ -23,20 +25,20 @@
                 <div class="text-white">
                     <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-sm mb-3">Oferta Académica</p>
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-4 drop-shadow-lg leading-tight">
-                        {{ $settings?->diplomados_hero_titulo ?? 'Diplomados' }}
+                        {{ $settings?->{$hero . '_hero_titulo'} ?: $tipo->plural() }}
                     </h1>
                     <p class="text-gray-200 max-w-xl font-normal text-lg leading-relaxed mb-4">
-                        {{ $settings?->diplomados_hero_texto ?? 'Especializa tus conocimientos con programas diseñados para responder a los desafíos contemporáneos desde las humanidades y las nuevas tecnologías.' }}
+                        {{ $settings?->{$hero . '_hero_texto'} ?: 'Especializa tus conocimientos con ' . mb_strtolower($tipo->plural()) . ' diseñados para responder a los desafíos contemporáneos desde las humanidades y las nuevas tecnologías.' }}
                     </p>
                     <p class="text-unmsm-dorado font-bold text-xl mb-8">
-                        {{ $settings?->diplomados_hero_claim ?? 'El conocimiento evoluciona. Tu formación también.' }}
+                        {{ $settings?->{$hero . '_hero_claim'} ?: 'El conocimiento evoluciona. Tu formación también.' }}
                     </p>
 
                     <div class="flex flex-wrap gap-4">
-                        <x-button href="{{ route('diplomados.admision') }}" target="_blank" rel="noopener noreferrer" icon="fa-solid fa-user-plus"
+                        <x-button href="{{ route($tipo->slug() . '.admision') }}" target="_blank" rel="noopener noreferrer" icon="fa-solid fa-user-plus"
                             class="border border-white/30 shadow-lg">Admisión</x-button>
-                        <x-button href="#oferta-diplomados" icon="fa-solid fa-arrow-down"
-                            class="!bg-white !text-unmsm-guinda hover:!bg-unmsm-dorado hover:!text-white shadow-lg">Conoce más</x-button>
+                        <x-button href="#oferta" icon="fa-solid fa-arrow-down"
+                            class="!bg-white !text-unmsm-azul hover:!bg-unmsm-dorado hover:!text-white shadow-lg">Conoce más</x-button>
                     </div>
                 </div>
 
@@ -47,7 +49,7 @@
 
                     <x-flash-message type="success" />
 
-                    <form method="POST" action="{{ route('diplomados.solicitud') }}" class="space-y-4"
+                    <form method="POST" action="{{ route($tipo->slug() . '.solicitud') }}" class="space-y-4"
                         x-data="{ submitting: false }" @submit="submitting = true">
                         @csrf
                         <div class="grid grid-cols-2 gap-4">
@@ -88,11 +90,11 @@
 
                         <x-floating-input name="telefono" label="Teléfono" type="tel" :required="true" autocomplete="tel" id="lead_telefono" />
 
-                        <x-floating-input name="programa_id" label="Diplomado de interés" type="select" :required="true" id="lead_programa_id">
+                        <x-floating-input name="programa_id" label="{{ $tipo->singular() }} de interés" type="select" :required="true" id="lead_programa_id">
                             <option value=""></option>
-                            @foreach($diplomados as $diplomado)
-                                <option value="{{ $diplomado->id }}" {{ old('programa_id') == $diplomado->id ? 'selected' : '' }}>
-                                    {{ $diplomado->titulo_completo }}
+                            @foreach($programas as $item)
+                                <option value="{{ $item->id }}" {{ old('programa_id') == $item->id ? 'selected' : '' }}>
+                                    {{ $item->titulo_completo }}
                                 </option>
                             @endforeach
                         </x-floating-input>
@@ -108,20 +110,21 @@
         </div>
     </section>
 
-    {{-- GRID DE DIPLOMADOS (mismo esquema de diseño que /programas) --}}
-    <section id="oferta-diplomados" class="container mx-auto px-6 py-16">
+    {{-- GRID DE LA OFERTA DEL MÓDULO --}}
+    <section id="oferta" class="container mx-auto px-6 py-16">
         <div class="mb-10 text-center">
-            <h2 class="text-3xl font-serif font-bold text-gray-900 mb-2">Nuestros Diplomados</h2>
-            <p class="text-gray-500">Conoce la oferta completa de diplomados de la Unidad de Posgrado.</p>
+            <h2 class="text-3xl font-serif font-bold text-gray-900 mb-2">Nuestros {{ $tipo->plural() }}</h2>
+            <p class="text-gray-500">Conoce la oferta completa de {{ mb_strtolower($tipo->plural()) }} del CERSEU.</p>
         </div>
 
         <div data-reveal class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @forelse($diplomados as $programa)
-                <x-program-card :programa="$programa" badge-label="Diplomado" badge-color="bg-amber-700"
-                    duracion-unit="módulos" primary-cta-label="Más información" :show-brochure="true" />
+            @forelse($programas as $programa)
+                <x-program-card :programa="$programa" :badge-label="$tipo->singular()" badge-color="bg-unmsm-azul-light"
+                    :duracion-unit="$tipo->unidadDuracion()"
+                    primary-cta-label="Más información" :show-brochure="true" />
             @empty
                 <x-empty-state class="col-span-full" icon="fa-graduation-cap" title="Próximamente"
-                    description="Muy pronto lanzaremos nuestra nueva oferta de diplomados." />
+                    description="Muy pronto lanzaremos nuestra nueva oferta de {{ mb_strtolower($tipo->plural()) }}." />
             @endforelse
         </div>
     </section>

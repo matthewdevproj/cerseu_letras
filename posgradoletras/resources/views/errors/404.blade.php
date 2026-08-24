@@ -4,7 +4,7 @@
 @section('meta_description', 'La página que buscas no existe o fue movida.')
 
 @section('content')
-    <section class="relative flex items-center justify-center overflow-hidden bg-unmsm-guinda text-white min-h-[80vh]">
+    <section class="relative flex items-center justify-center overflow-hidden bg-unmsm-azul text-white min-h-[80vh]">
         {{-- textura de puntos + resplandor dorado --}}
         <div class="absolute inset-0 opacity-[0.06]"
             style="background-image: radial-gradient(circle at 1px 1px, #fff 1.5px, transparent 0); background-size: 34px 34px;">
@@ -20,16 +20,16 @@
             <h1 class="text-3xl md:text-4xl font-serif font-bold mb-4">Página no encontrada</h1>
             <p class="text-white/85 max-w-xl mx-auto leading-relaxed mb-8">
                 La página que buscas no existe, cambió de dirección o ya no está disponible.
-                Te invitamos a volver al inicio o explorar nuestros programas.
+                Te invitamos a volver al inicio o explorar nuestros cursos.
             </p>
             <div class="flex flex-wrap gap-4 justify-center">
                 <a href="{{ route('home') }}"
-                    class="inline-flex items-center gap-2 px-7 py-3 rounded-lg bg-unmsm-dorado text-unmsm-guinda font-bold hover:bg-white transition-colors shadow-lg motion-safe:hover:-translate-y-0.5 duration-200">
+                    class="inline-flex items-center gap-2 px-7 py-3 rounded-lg bg-unmsm-dorado text-unmsm-azul font-bold hover:bg-white transition-colors shadow-lg motion-safe:hover:-translate-y-0.5 duration-200">
                     <x-fas-house aria-hidden="true" /> Volver al inicio
                 </a>
-                <a href="{{ route('programas.index') }}"
+                <a href="{{ route('cursos.index') }}"
                     class="inline-flex items-center gap-2 px-7 py-3 rounded-lg border border-white/70 text-white font-bold hover:bg-white/10 transition-colors">
-                    Ver programas <x-fas-arrow-right aria-hidden="true" />
+                    Ver cursos <x-fas-arrow-right aria-hidden="true" />
                 </a>
             </div>
         </div>

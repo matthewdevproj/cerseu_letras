@@ -1,21 +1,21 @@
 @extends('admin.layout.app')
 
-@section('title', 'Gestión de Programas')
+@section('title', 'Gestión de Cursos')
 
 @section('content')
     <!-- Header with Actions -->
     <div class="md:flex md:items-center md:justify-between mb-8">
         <div class="flex-1 min-w-0">
             <h2 class="text-2xl font-serif font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-                Programas Académicos
+                Cursos Académicos
             </h2>
-            <p class="mt-1 text-sm text-gray-500">Gestiona la oferta de Maestrías, Doctorados y Diplomados.</p>
+            <p class="mt-1 text-sm text-gray-500">Gestiona la oferta de Cursos y Talleres.</p>
         </div>
         <div class="mt-4 flex md:mt-0 md:ml-4">
             <a href="{{ route('admin.programas.create') }}"
-               class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-brand-red hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-red transition-colors">
+               class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-brand-azul hover:bg-unmsm-azul-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-azul transition-colors">
                 <x-fas-plus class="mr-2" />
-                Nuevo Programa
+                Nuevo Curso
             </a>
         </div>
     </div>
@@ -28,20 +28,20 @@
                     <x-fas-search class="text-gray-400" />
                 </div>
                 <input type="text" name="search" value="{{ request('search') }}"
-                       class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-brand-red focus:border-brand-red sm:text-sm transition duration-150 ease-in-out"
+                       class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-brand-azul focus:border-brand-azul sm:text-sm transition duration-150 ease-in-out"
                        placeholder="Buscar por nombre...">
             </div>
             <div class="w-full md:w-48">
                 <select name="tipo"
-                        class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-brand-red focus:border-brand-red sm:text-sm">
+                        class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-brand-azul focus:border-brand-azul sm:text-sm">
                     <option value="">Todos los tipos</option>
-                    <option value="maestria" {{ request('tipo') == 'maestria' ? 'selected' : '' }}>Maestrías</option>
-                    <option value="doctorado" {{ request('tipo') == 'doctorado' ? 'selected' : '' }}>Doctorados</option>
-                    <option value="diplomado" {{ request('tipo') == 'diplomado' ? 'selected' : '' }}>Diplomados</option>
+                    @foreach (\App\Models\TipoOferta::cases() as $t)
+                        <option value="{{ $t->value }}" {{ request('tipo') == $t->value ? 'selected' : '' }}>{{ $t->plural() }}</option>
+                    @endforeach
                 </select>
             </div>
             <button type="submit"
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-red">
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-azul">
                 <x-fas-filter class="mr-2" />
                 Filtrar
             </button>
@@ -55,7 +55,7 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
-                            Nombre del Programa
+                            Nombre del Curso
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
                             Tipo
@@ -106,7 +106,7 @@
 
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex justify-end gap-3">
-                                    <a href="{{ route('programas.show', $programa->slug) }}" target="_blank" rel="noopener noreferrer"
+                                    <a href="{{ $programa->url }}" target="_blank" rel="noopener noreferrer"
                                        class="text-brand-navy hover:text-brand-gold transition-colors" title="Ver en sitio web"
                                        aria-label="Ver «{{ $programa->nombre }}» en el sitio web">
                                         <x-fas-eye class="text-lg" />
@@ -145,9 +145,9 @@
                                     <div class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                                         <x-fas-graduation-cap class="text-2xl text-gray-400" />
                                     </div>
-                                    <p class="text-gray-500">No hay programas registrados</p>
-                                    <a href="{{ route('admin.programas.create') }}" class="mt-3 text-brand-red text-sm font-medium hover:underline">
-                                        Crear el primer programa
+                                    <p class="text-gray-500">No hay cursos registrados</p>
+                                    <a href="{{ route('admin.programas.create') }}" class="mt-3 text-brand-azul text-sm font-medium hover:underline">
+                                        Crear el primer curso
                                     </a>
                                 </div>
                             </td>

@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\NuevaSolicitudDiplomado;
-use App\Models\DiplomadoLead;
+use App\Mail\NuevaSolicitudInformacion;
+use App\Models\Lead;
 use App\Models\SiteSetting;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 /**
  * Comprueba que el correo sale de verdad.
  *
- * Envía una solicitud de ejemplo igual que la del formulario de diplomados,
+ * Envía una solicitud de ejemplo igual que la del formulario de talleres y cursos,
  * para verificar el transporte SMTP sin esperar a que escriba un visitante.
  * El registro de prueba no se guarda en la base.
  */
@@ -39,7 +39,7 @@ class ProbarCorreo extends Command
 
         // Un lead sin guardar: sirve para componer el mensaje igual que en
         // producción, pero no ensucia la tabla de solicitudes.
-        $lead = new DiplomadoLead([
+        $lead = new Lead([
             'nombres' => 'Prueba',
             'apellidos' => 'de Envío',
             'correo' => 'no-responder@ejemplo.pe',
@@ -49,7 +49,7 @@ class ProbarCorreo extends Command
         ]);
 
         try {
-            Mail::to($destino)->send(new NuevaSolicitudDiplomado($lead));
+            Mail::to($destino)->send(new NuevaSolicitudInformacion($lead));
         } catch (\Throwable $e) {
             $this->error('El envío falló: ' . $e->getMessage());
             $this->newLine();

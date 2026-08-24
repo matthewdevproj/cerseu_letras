@@ -41,7 +41,7 @@ class AnuncioPopupTest extends TestCase
 
         $this->get('/')->assertOk()->assertSee('posgrado-popup-overlay', false);
 
-        foreach (['/programas', '/admision', '/tramites', '/nosotros'] as $ruta) {
+        foreach (['/cursos', '/admision', '/tramites', '/nosotros'] as $ruta) {
             $this->get($ruta)->assertOk()->assertDontSee('posgrado-popup-overlay', false);
         }
     }

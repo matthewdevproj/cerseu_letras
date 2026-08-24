@@ -41,7 +41,7 @@ class MigracionPreservaDatosTest extends TestCase
         $id = DB::table('programas')->insertGetId([
             'nombre' => 'Maestría de prueba',
             'slug' => 'maestria-de-prueba',
-            'grado' => 'Maestría',
+            'grado' => 'Curso',
             'is_active' => true,
             'presentacion' => 'Texto de presentación del programa.',
             'descripcion' => 'Descripción larga del programa.',

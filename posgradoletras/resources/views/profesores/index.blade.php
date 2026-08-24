@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Plana Docente - Posgrado Letras UNMSM')
+@section('title', 'Plana Docente - CERSEU Letras UNMSM')
 
 @section('content')
 
@@ -16,21 +16,21 @@
         
         <!-- MOBILE: Selector Vertical Agrupado (Solo móvil) -->
         <div class="lg:hidden mb-8 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Seleccionar Programa</h3>
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Seleccionar Curso</h3>
             
-            <!-- Maestrías -->
+            <!-- Cursos -->
             <div class="mb-4">
                 <p class="text-xs font-bold text-unmsm-dorado mb-2 uppercase tracking-wider">
-                    <x-fas-graduation-cap class="mr-1" /> Maestrías
+                    <x-fas-graduation-cap class="mr-1" /> Cursos
                 </p>
                 <div class="flex flex-col gap-2">
-                    @foreach($maestrias as $prog)
+                    @foreach($cursos as $prog)
                         @php
                             $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
                         @endphp
                         <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}"
                             class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive
-                                ? 'bg-unmsm-guinda text-white shadow-md'
+                                ? 'bg-unmsm-azul text-white shadow-md'
                                 : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
                             <x-fas-book class="mr-2 text-xs" />{{ $prog->titulo_completo }}
                         </a>
@@ -38,39 +38,19 @@
                 </div>
             </div>
             
-            <!-- Doctorados -->
-            <div class="mb-4">
-                <p class="text-xs font-bold text-gray-800 mb-2 uppercase tracking-wider">
-                    <x-fas-user-graduate class="mr-1" /> Doctorados
-                </p>
-                <div class="flex flex-col gap-2">
-                    @foreach($doctorados as $prog)
-                        @php
-                            $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
-                        @endphp
-                        <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}"
-                            class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive
-                                ? 'bg-unmsm-guinda text-white shadow-md'
-                                : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
-                            <x-fas-book class="mr-2 text-xs" />{{ $prog->titulo_completo }}
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-
-            <!-- Diplomados -->
+            <!-- Talleres -->
             <div>
                 <p class="text-xs font-bold text-amber-600 mb-2 uppercase tracking-wider">
-                    <x-fas-scroll class="mr-1" /> Diplomados
+                    <x-fas-scroll class="mr-1" /> Talleres
                 </p>
                 <div class="flex flex-col gap-2">
-                    @foreach($diplomados as $prog)
+                    @foreach($talleres as $prog)
                         @php
                             $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
                         @endphp
                         <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}"
                             class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all {{ $isActive
-                                ? 'bg-unmsm-guinda text-white shadow-md'
+                                ? 'bg-unmsm-azul text-white shadow-md'
                                 : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100' }}">
                             <x-fas-scroll class="mr-2 text-xs" />{{ $prog->titulo_completo }}
                         </a>
@@ -85,66 +65,45 @@
             <aside class="hidden lg:block lg:col-span-1">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 sticky top-36">
                     <h2 class="text-xs font-bold text-gray-400 mb-4 uppercase tracking-widest border-b border-gray-100 pb-2">
-                        Programas
+                        Cursos
                     </h2>
                     
-                    <!-- Maestrías -->
+                    <!-- Cursos -->
                     <div class="mb-4">
                         <p class="text-xs font-bold text-unmsm-dorado mb-2 uppercase tracking-wider flex items-center gap-2">
-                            <x-fas-graduation-cap /> Maestrías
+                            <x-fas-graduation-cap /> Cursos
                         </p>
                         <div class="space-y-1">
-                            @foreach($maestrias as $prog)
+                            @foreach($cursos as $prog)
                                 @php
                                     $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
                                 @endphp
                                 <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}" 
                                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {{ $isActive 
-                                       ? 'bg-unmsm-guinda text-white shadow-md' 
-                                       : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
-                                    <x-fas-book class="text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}" />
+                                       ? 'bg-unmsm-azul text-white shadow-md' 
+                                       : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-azul group' }}">
+                                    <x-fas-book class="text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-azul' }}" />
                                     <span class="text-sm font-medium leading-tight">{{ $prog->titulo_completo }}</span>
                                 </a>
                             @endforeach
                         </div>
                     </div>
 
-                    <!-- Doctorados -->
-                    <div class="mb-4">
-                        <p class="text-xs font-bold text-gray-800 mb-2 uppercase tracking-wider flex items-center gap-2">
-                            <x-fas-user-graduate /> Doctorados
-                        </p>
-                        <div class="space-y-1">
-                            @foreach($doctorados as $prog)
-                                @php
-                                    $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
-                                @endphp
-                                <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}"
-                                   class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {{ $isActive
-                                       ? 'bg-unmsm-guinda text-white shadow-md'
-                                       : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
-                                    <x-fas-book class="text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}" />
-                                    <span class="text-sm font-medium leading-tight">{{ $prog->titulo_completo }}</span>
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <!-- Diplomados -->
+                    <!-- Talleres -->
                     <div>
                         <p class="text-xs font-bold text-amber-600 mb-2 uppercase tracking-wider flex items-center gap-2">
-                            <x-fas-scroll /> Diplomados
+                            <x-fas-scroll /> Talleres
                         </p>
                         <div class="space-y-1">
-                            @foreach($diplomados as $prog)
+                            @foreach($talleres as $prog)
                                 @php
                                     $isActive = isset($selectedPrograma) && $selectedPrograma && $selectedPrograma->id === $prog->id;
                                 @endphp
                                 <a href="{{ route('profesores.programa', ['slug' => $prog->slug]) }}"
                                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {{ $isActive
-                                       ? 'bg-unmsm-guinda text-white shadow-md'
-                                       : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-guinda group' }}">
-                                    <x-fas-scroll class="text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-guinda' }}" />
+                                       ? 'bg-unmsm-azul text-white shadow-md'
+                                       : 'text-gray-600 hover:bg-gray-50 hover:text-unmsm-azul group' }}">
+                                    <x-fas-scroll class="text-sm {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-unmsm-azul' }}" />
                                     <span class="text-sm font-medium leading-tight">{{ $prog->titulo_completo }}</span>
                                 </a>
                             @endforeach
@@ -189,10 +148,10 @@
                                         $hasGrupo = $nombreGrupo !== '';
                                     @endphp
                                     
-                                    <article class="bg-white border border-gray-200 rounded-2xl p-4 md:p-6 lg:p-8 hover:shadow-xl hover:border-unmsm-guinda/30 transition-all duration-300 group relative overflow-hidden max-w-full">
+                                    <article class="bg-white border border-gray-200 rounded-2xl p-4 md:p-6 lg:p-8 hover:shadow-xl hover:border-unmsm-azul/30 transition-all duration-300 group relative overflow-hidden max-w-full">
                                         
                                         <!-- Decoración Hover (barra izquierda) -->
-                                        <div class="absolute top-0 left-0 w-1 h-full bg-unmsm-guinda opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                        <div class="absolute top-0 left-0 w-1 h-full bg-unmsm-azul opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                                         <div class="flex flex-col md:flex-row gap-6">
                                             
@@ -205,7 +164,7 @@
                                                              alt="{{ $profesor->nombre_completo }}" loading="lazy" decoding="async"
                                                              class="relative w-full h-full rounded-full object-cover border-4 border-white shadow-md group-hover:scale-105 transition-transform duration-500">
                                                     @else
-                                                        <div class="relative w-full h-full rounded-full bg-gray-100 border-4 border-white shadow-md flex items-center justify-center text-unmsm-guinda group-hover:scale-105 transition-transform duration-500">
+                                                        <div class="relative w-full h-full rounded-full bg-gray-100 border-4 border-white shadow-md flex items-center justify-center text-unmsm-azul group-hover:scale-105 transition-transform duration-500">
                                                             <x-fas-user class="text-3xl" />
                                                         </div>
                                                     @endif
@@ -215,7 +174,7 @@
                                                 <div class="flex gap-2 justify-center w-full">
                                                     @if($profesor->cti_vitae)
                                                         <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer"
-                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-unmsm-guinda/10 text-unmsm-guinda hover:bg-unmsm-guinda hover:text-white transition-colors text-xs"
+                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-unmsm-azul/10 text-unmsm-azul hover:bg-unmsm-azul hover:text-white transition-colors text-xs"
                                                            title="CTI Vitae">
                                                             <x-fas-file-alt />
                                                         </a>
@@ -236,7 +195,7 @@
                                                     @endif
                                                     @if($profesor->email)
                                                         <a href="mailto:{{ $profesor->email }}" 
-                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-unmsm-guinda hover:text-white transition-colors text-xs" 
+                                                           class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-unmsm-azul hover:text-white transition-colors text-xs" 
                                                            title="Email">
                                                             <x-fas-envelope />
                                                         </a>
@@ -250,19 +209,19 @@
                                                 <!-- Header: Nombre + Link perfil -->
                                                 <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
                                                     <div>
-                                                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 font-serif group-hover:text-unmsm-guinda transition-colors">
+                                                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 font-serif group-hover:text-unmsm-azul transition-colors">
                                                             <a href="{{ route('profesores.show', $profesor->slug) }}" class="hover:underline">
                                                                 {{ $profesor->nombre_completo }}
                                                             </a>
                                                         </h3>
                                                         @if($profesor->grado)
-                                                            <span class="inline-block bg-unmsm-guinda/10 text-unmsm-guinda text-xs font-bold px-2 py-0.5 rounded mt-1">
+                                                            <span class="inline-block bg-unmsm-azul/10 text-unmsm-azul text-xs font-bold px-2 py-0.5 rounded mt-1">
                                                                 {{ $profesor->grado }}
                                                             </span>
                                                         @endif
                                                     </div>
                                                     <a href="{{ route('profesores.show', $profesor->slug) }}" 
-                                                       class="hidden md:inline-flex items-center text-xs font-semibold text-gray-500 hover:text-unmsm-guinda transition group/link">
+                                                       class="hidden md:inline-flex items-center text-xs font-semibold text-gray-500 hover:text-unmsm-azul transition group/link">
                                                         Ver perfil completo 
                                                         <x-fas-arrow-right class="ml-1 transform group-hover/link:translate-x-1 transition-transform" />
                                                     </a>
@@ -282,7 +241,7 @@
                                                             <div class="flex items-center gap-2">
                                                                 <span class="font-bold text-gray-500 w-16">CTI Vitae:</span>
                                                                 <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer"
-                                                                   class="flex items-center gap-1 text-unmsm-guinda hover:text-unmsm-dorado hover:underline max-w-full overflow-hidden">
+                                                                   class="flex items-center gap-1 text-unmsm-azul hover:text-unmsm-dorado hover:underline max-w-full overflow-hidden">
                                                                     <span class="truncate block max-w-full break-all">{{ $profesor->cti_vitae }}</span>
                                                                     <x-fas-external-link-alt class="text-[10px] opacity-60 flex-shrink-0" />
                                                                 </a>
@@ -312,7 +271,7 @@
                                                             <div class="flex items-center gap-2">
                                                                 <span class="font-bold text-gray-500 w-16">Email:</span>
                                                                 <a href="mailto:{{ $profesor->email }}" 
-                                                                   class="text-unmsm-guinda hover:text-unmsm-dorado hover:underline">
+                                                                   class="text-unmsm-azul hover:text-unmsm-dorado hover:underline">
                                                                     {{ $profesor->email }}
                                                                 </a>
                                                             </div>
@@ -349,7 +308,7 @@
 
                                                 <!-- Botón Móvil (solo visible en pantallas pequeñas) -->
                                                 <a href="{{ route('profesores.show', $profesor->slug) }}" 
-                                                   class="md:hidden w-full block text-center bg-gray-100 text-gray-700 font-bold py-2 rounded text-sm hover:bg-unmsm-guinda hover:text-white transition-colors">
+                                                   class="md:hidden w-full block text-center bg-gray-100 text-gray-700 font-bold py-2 rounded text-sm hover:bg-unmsm-azul hover:text-white transition-colors">
                                                     Ver perfil completo
                                                 </a>
 
@@ -364,7 +323,7 @@
                                     <x-fas-user-slash class="text-3xl text-gray-400" />
                                 </div>
                                 <h3 class="text-xl font-bold text-gray-800 mb-2">Sin asesores registrados</h3>
-                                <p class="text-gray-500">Aún no se han registrado asesores para este programa.</p>
+                                <p class="text-gray-500">Aún no se han registrado asesores para este curso.</p>
                             </div>
                         @endif
                     </div>
@@ -373,7 +332,7 @@
                     <div
                         class="flex flex-col items-center justify-center h-full text-gray-400 border-2 border-dashed border-gray-200 rounded-xl p-12 bg-gray-50">
                         <x-fas-chalkboard-teacher class="text-5xl mb-4 text-gray-300" />
-                        <p class="text-lg text-center">Selecciona un programa en el menú de la izquierda para ver su plana
+                        <p class="text-lg text-center">Selecciona un curso en el menú de la izquierda para ver su plana
                             docente.</p>
                     </div>
                 @endif

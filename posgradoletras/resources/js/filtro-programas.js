@@ -39,9 +39,9 @@ export function montarFiltroProgramas({
     botones = [],
     mensajeVacio = null,
     campoBusqueda = null,
-    filtroInicial = 'diplomado',
+    filtroInicial = 'taller',
     claseOculta = 'hidden',
-    clasesActivo = ['bg-unmsm-guinda', 'text-white', 'shadow-lg', 'scale-105'],
+    clasesActivo = ['bg-unmsm-azul', 'text-white', 'shadow-lg', 'scale-105'],
     clasesInactivo = ['bg-white', 'text-gray-600'],
     claseInactivoExtra = 'shadow-sm',
     ocultarGridVacio = false,
@@ -71,7 +71,7 @@ export function montarFiltroProgramas({
         });
 
         mensajeVacio?.classList.toggle('hidden', visibles > 0);
-        // En /programas la grilla vacía dejaba un hueco bajo el mensaje.
+        // En el listado la grilla vacia dejaba un hueco bajo el mensaje.
         if (ocultarGridVacio) grid.classList.toggle('hidden', visibles === 0 && cartas.length > 0);
 
         return visibles;

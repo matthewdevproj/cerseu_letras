@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', 'Solicitudes de Diplomados')
+@section('title', 'Solicitudes de Talleres')
 
 @section('content')
     <div class="max-w-7xl mx-auto">
@@ -27,7 +27,7 @@
                 </p>
             </div>
             <a href="{{ route('admin.leads.export', request()->only('programa')) }}"
-                class="inline-flex items-center gap-2 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm font-medium">
+                class="inline-flex items-center gap-2 px-4 py-2 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark text-sm font-medium">
                 <x-fas-file-csv aria-hidden="true" /> Exportar CSV
             </a>
         </div>
@@ -40,7 +40,7 @@
             </div>
             <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-5">
                 <p class="text-xs uppercase tracking-wider text-gray-500 font-bold mb-1">Últimos 7 días</p>
-                <p class="text-3xl font-bold text-unmsm-guinda">{{ $ultimos7 }}</p>
+                <p class="text-3xl font-bold text-unmsm-azul">{{ $ultimos7 }}</p>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                     class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
             </div>
             <div class="min-w-[220px]">
-                <label for="programa" class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Programa</label>
+                <label for="programa" class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Curso</label>
                 <select id="programa" name="programa" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
                     <option value="">Todos</option>
                     @foreach ($programas as $p)
@@ -65,7 +65,7 @@
                 Filtrar
             </button>
             @if (request()->hasAny(['q', 'programa']))
-                <a href="{{ route('admin.leads.index') }}" class="px-4 py-2 text-sm text-gray-500 hover:text-red-700">Limpiar</a>
+                <a href="{{ route('admin.leads.index') }}" class="px-4 py-2 text-sm text-gray-500 hover:text-unmsm-azul">Limpiar</a>
             @endif
         </form>
 
@@ -77,7 +77,7 @@
                     {{ request()->hasAny(['q', 'programa']) ? 'Ninguna solicitud coincide con el filtro' : 'Aún no hay solicitudes' }}
                 </p>
                 <p class="text-sm text-gray-500 mt-1">
-                    Las solicitudes del formulario de diplomados aparecerán aquí.
+                    Las solicitudes del formulario de talleres aparecerán aquí.
                 </p>
             </div>
         @else
@@ -90,7 +90,7 @@
                                 <th class="px-4 py-3 text-left font-bold">Contacto</th>
                                 <th class="px-4 py-3 text-left font-bold">Teléfono</th>
                                 <th class="px-4 py-3 text-left font-bold">Ubicación</th>
-                                <th class="px-4 py-3 text-left font-bold">Programa</th>
+                                <th class="px-4 py-3 text-left font-bold">Curso</th>
                                 <th class="px-4 py-3 text-right font-bold w-16">Acción</th>
                             </tr>
                         </thead>
@@ -113,7 +113,7 @@
                                             </span>
                                         @endif
                                         @if ($lead->correo)
-                                            <a href="mailto:{{ $lead->correo }}" class="text-xs text-unmsm-guinda hover:underline break-all">
+                                            <a href="mailto:{{ $lead->correo }}" class="text-xs text-unmsm-azul hover:underline break-all">
                                                 {{ $lead->correo }}
                                             </a>
                                         @endif
@@ -136,8 +136,8 @@
                                     </td>
                                     <td class="px-4 py-3">
                                         @if ($lead->programa)
-                                            <a href="{{ route('programas.show', $lead->programa->slug) }}" target="_blank"
-                                                rel="noopener noreferrer" class="text-gray-700 hover:text-unmsm-guinda">
+                                            <a href="{{ $lead->programa->url }}" target="_blank"
+                                                rel="noopener noreferrer" class="text-gray-700 hover:text-unmsm-azul">
                                                 {{ $lead->programa->titulo_completo }}
                                             </a>
                                         @else

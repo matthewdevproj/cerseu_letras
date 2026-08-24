@@ -19,7 +19,7 @@
     $error = $error ?? $errors->first($name);
 
     $control = 'peer w-full py-3 px-3 rounded-lg text-sm bg-white border transition-colors '
-        . 'focus:outline-none focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda '
+        . 'focus:outline-none focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul '
         . ($error ? 'is-invalid border-red-500' : 'border-gray-300');
 @endphp
 

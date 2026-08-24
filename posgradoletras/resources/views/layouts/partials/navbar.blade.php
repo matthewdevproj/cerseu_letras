@@ -15,9 +15,9 @@
                          tramos. El width/height declarado respeta la proporción
                          real del archivo (1862×380) para no provocar reflow. --}}
                     <img id="header-logo"
-                        src="{{ $navSettings?->logo_path ? asset('storage/' . $navSettings->logo_path) : asset('images/logo-letras.webp') }}"
+                        src="{{ $navSettings?->logo_path ? asset('storage/' . $navSettings->logo_path) : asset('images/logo-cerseu.webp') }}"
                         class="h-10 sm:h-12 lg:h-16 w-auto object-contain transition-all duration-300 brightness-0 invert"
-                        alt="{{ $navSettings?->site_name ?? 'Logo Letras' }}" width="314" height="64"
+                        alt="{{ $navSettings?->site_name ?? 'Logo CERSEU Letras' }}" width="1234" height="310"
                         fetchpriority="high" decoding="async">
                 </a>
             </div>
@@ -54,7 +54,7 @@
                  ">
                 <button @click="mobileMenuOpen = true" id="mobile-menu-btn" type="button"
                     aria-label="Abrir menú de navegación" :aria-expanded="mobileMenuOpen.toString()"
-                    class="text-white text-2xl p-2 relative z-50 transition-colors duration-200 hover:text-red-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 rounded">
+                    class="text-white text-2xl p-2 relative z-50 transition-colors duration-200 hover:text-unmsm-azul-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 rounded">
                     <x-fas-bars aria-hidden="true" />
                 </button>
 
@@ -73,18 +73,18 @@
                     x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
                     x-transition:leave="transition ease-in duration-300 transform"
                     x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
-                    class="fixed top-0 right-0 bottom-0 w-[320px] bg-white shadow-2xl z-[70] flex flex-col border-l-4 border-red-800 h-screen"
+                    class="fixed top-0 right-0 bottom-0 w-[320px] bg-white shadow-2xl z-[70] flex flex-col border-l-4 border-unmsm-azul h-screen"
                     role="dialog" aria-modal="true" aria-label="Menú de navegación"
                     style="display: none;">
 
                     {{-- Sidebar Header --}}
                     <div class="flex items-center justify-between p-5 border-b border-gray-100 bg-gray-50/50">
                         <div class="flex items-center gap-3">
-                            <img src="{{ $navSettings?->logo_path ? asset('storage/' . $navSettings->logo_path) : asset('images/logo-letras.webp') }}"
-                                alt="{{ $navSettings?->site_name ?? 'Logo FLCH' }}" class="h-12 w-auto object-contain">
+                            <img src="{{ $navSettings?->logo_path ? asset('storage/' . $navSettings->logo_path) : asset('images/logo-cerseu.webp') }}"
+                                alt="{{ $navSettings?->site_name ?? 'Logo CERSEU Letras' }}" class="h-12 w-auto object-contain">
                         </div>
                         <button @click="mobileMenuOpen = false" type="button" aria-label="Cerrar menú de navegación"
-                            class="text-gray-400 hover:text-red-700 hover:bg-red-50 rounded-full p-2 transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-red-700 focus-visible:outline-offset-2">
+                            class="text-gray-400 hover:text-unmsm-azul hover:bg-unmsm-azul/5 rounded-full p-2 transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-azul focus-visible:outline-offset-2">
                             <x-fas-times class="text-xl" aria-hidden="true" />
                         </button>
                     </div>
@@ -118,7 +118,7 @@
                             @if($navSettings?->youtube)<a href="{{ $navSettings->youtube }}" target="_blank" rel="noopener noreferrer" 
                                 class="text-gray-400 hover:text-red-600 transform hover:scale-110 transition-all"><x-fab-youtube class="text-lg" /></a>@endif
                         </div>
-                        <p class="text-xs text-gray-400 font-medium">&copy; {{ date('Y') }} Posgrado Letras UNMSM</p>
+                        <p class="text-xs text-gray-400 font-medium">&copy; {{ date('Y') }} CERSEU Letras UNMSM</p>
                     </div>
                 </div>
             </div>

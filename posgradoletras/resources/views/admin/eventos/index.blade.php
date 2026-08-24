@@ -9,10 +9,10 @@
             <h2 class="text-2xl font-serif font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
                 Eventos
             </h2>
-            <p class="mt-1 text-sm text-gray-500">Gestiona los eventos y actividades de la Unidad de Posgrado.</p>
+            <p class="mt-1 text-sm text-gray-500">Gestiona los eventos y actividades del CERSEU.</p>
         </div>
         <div class="mt-4 flex md:mt-0 md:ml-4">
-            <a href="{{ route('admin.eventos.create') }}" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-brand-red hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-red transition-colors">
+            <a href="{{ route('admin.eventos.create') }}" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-brand-azul hover:bg-unmsm-azul-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-azul transition-colors">
                 <x-fas-calendar-plus class="mr-2" />
                 Nuevo Evento
             </a>
@@ -121,7 +121,7 @@
                                         <x-fas-calendar-alt class="text-2xl text-gray-400" />
                                     </div>
                                     <p class="text-gray-500">No hay eventos registrados</p>
-                                    <a href="{{ route('admin.eventos.create') }}" class="mt-3 text-brand-red text-sm font-medium hover:underline">
+                                    <a href="{{ route('admin.eventos.create') }}" class="mt-3 text-brand-azul text-sm font-medium hover:underline">
                                         Agregar el primer evento
                                     </a>
                                 </div>

@@ -11,7 +11,7 @@
                 <x-fas-graduation-cap class="text-xl" />
             </div>
             <h2 class="text-3xl font-bold text-gray-800 font-serif">{{ $stats['total_programas'] }}</h2>
-            <p class="text-sm text-gray-500 mt-1">Programas publicados</p>
+            <p class="text-sm text-gray-500 mt-1">Cursos publicados</p>
         </div>
 
         <div class="stat-card stat-accent bg-white rounded-xl p-6 shadow-sm hover:-translate-y-1 transition-transform">
@@ -52,7 +52,7 @@
         <div class="lg:col-span-2">
             <div class="bg-white rounded-xl shadow-sm h-full">
                 <div class="p-6 border-b border-gray-100">
-                    <h5 class="font-bold text-lg text-[#761e23] flex items-center gap-2">
+                    <h5 class="font-bold text-lg text-[#143B63] flex items-center gap-2">
                         <x-fas-rocket />
                         Acciones Rápidas
                     </h5>
@@ -65,11 +65,11 @@
                             <a href="{{ route('admin.programas.index') }}"
                                 class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
                                 <div
-                                    class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-[#761e23] transition-all">
+                                    class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-[#143B63] transition-all">
                                     <x-fas-graduation-cap class="text-xl" />
                                 </div>
-                                <h6 class="font-bold text-gray-800">Programas</h6>
-                                <p class="text-xs text-gray-500">Maestrías, Doctorados y Diplomados</p>
+                                <h6 class="font-bold text-gray-800">Cursos</h6>
+                                <p class="text-xs text-gray-500">Cursos y Talleres</p>
                             </a>
                             <a href="{{ route('admin.programas.create') }}"
                                 class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
@@ -99,11 +99,11 @@
                             <a href="{{ route('admin.testimonios.index') }}"
                                 class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
                                 <div
-                                    class="action-icon-circle w-14 h-14 rounded-full bg-[#5a161a]/10 flex items-center justify-center mx-auto mb-3 text-[#5a161a] transition-all">
+                                    class="action-icon-circle w-14 h-14 rounded-full bg-[#0F2B48]/10 flex items-center justify-center mx-auto mb-3 text-[#0F2B48] transition-all">
                                     <x-fas-comments class="text-xl" />
                                 </div>
                                 <h6 class="font-bold text-gray-800">Testimonios</h6>
-                                <p class="text-xs text-gray-500">Experiencias egresados</p>
+                                <p class="text-xs text-gray-500">Experiencias de participantes</p>
                             </a>
                             <a href="{{ route('admin.testimonios.create') }}"
                                 class="btn-brand-outline text-center py-2 px-4 rounded-lg border text-sm font-semibold transition-colors">
@@ -116,7 +116,7 @@
                             <a href="{{ route('admin.directorio.index') }}"
                                 class="quick-action-card flex-1 p-5 rounded-xl border border-gray-100 text-center mb-3 transition-all hover:shadow-lg">
                                 <div
-                                    class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-[#761e23] transition-all">
+                                    class="action-icon-circle w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 text-[#143B63] transition-all">
                                     <x-fas-address-book class="text-xl" />
                                 </div>
                                 <h6 class="font-bold text-gray-800">Directorio</h6>
@@ -179,7 +179,7 @@
                             <x-fas-comment-dots class="text-gray-400" />
                             <div class="flex-1">
                                 <h6 class="font-bold text-sm text-gray-800">Testimonios</h6>
-                                <p class="text-xs text-gray-500">Experiencias de egresados</p>
+                                <p class="text-xs text-gray-500">Experiencias de participantes</p>
                             </div>
                             <x-fas-chevron-right class="text-gray-300 text-xs" />
                         </a>
@@ -211,23 +211,18 @@
                         Resumen Académico
                     </h6>
 
-                    <div class="p-3 rounded-lg mb-3 bg-[#761e23]/5 border-l-4 border-[#761e23]">
-                        <p class="text-xs font-bold text-[#761e23]">Maestrías</p>
-                        <p class="text-sm text-gray-600">{{ $stats['total_maestrias'] }} programas</p>
+                    <div class="p-3 rounded-lg mb-3 bg-[#143B63]/5 border-l-4 border-[#143B63]">
+                        <p class="text-xs font-bold text-[#143B63]">Cursos</p>
+                        <p class="text-sm text-gray-600">{{ $stats['total_cursos'] }} publicados</p>
                     </div>
 
-                    <div class="p-3 rounded-lg mb-3 bg-[#d4a017]/10 border-l-4 border-[#d4a017]">
-                        <p class="text-xs font-bold text-gray-800">Doctorados</p>
-                        <p class="text-sm text-gray-600">{{ $stats['total_doctorados'] }} programas</p>
-                    </div>
-
-                    <div class="p-3 rounded-lg bg-amber-50 border-l-4 border-amber-600">
-                        <p class="text-xs font-bold text-amber-700">Diplomados</p>
-                        <p class="text-sm text-gray-600">{{ $stats['total_diplomados'] }} programas</p>
+                    <div class="p-3 rounded-lg bg-[#d4a017]/10 border-l-4 border-[#d4a017]">
+                        <p class="text-xs font-bold text-gray-800">Talleres</p>
+                        <p class="text-sm text-gray-600">{{ $stats['total_talleres'] }} publicados</p>
                     </div>
                 </div>
                 <div class="p-4 text-center border-t border-gray-100">
-                    <p class="text-xs text-gray-400">Posgrado Letras Admin v1.0</p>
+                    <p class="text-xs text-gray-400">CERSEU Letras Admin v1.0</p>
                 </div>
             </div>
         </div>

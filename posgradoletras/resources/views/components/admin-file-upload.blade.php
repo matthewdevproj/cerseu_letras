@@ -13,7 +13,7 @@
     'previewSize' => 'w-24 h-24',
     'previewFit' => 'object-cover',
     'placeholderIcon' => 'fa-image',
-    'fileButtonClass' => 'file:bg-unmsm-guinda file:text-white hover:file:bg-unmsm-guinda/90',
+    'fileButtonClass' => 'file:bg-unmsm-azul file:text-white hover:file:bg-unmsm-azul/90',
     'stackOnNarrow' => false,
     'urlValue' => null,
     'uploadType' => null,
@@ -121,10 +121,10 @@
 @endonce
 
 @if($mode === 'ajax')
-    <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-red hover:shadow-sm transition-all">
+    <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-azul hover:shadow-sm transition-all">
         @if($label)
             <label class="form-label block mb-3">
-                @if($icon)<i class="{{ $icon }} text-brand-red mr-1"></i>@endif {{ $label }}
+                @if($icon)<i class="{{ $icon }} text-brand-azul mr-1"></i>@endif {{ $label }}
             </label>
         @endif
         @if($currentFileUrl)
@@ -144,13 +144,13 @@
             <div class="flex-1">
                 <label class="text-xs text-gray-500 mb-1 block">URL{{ $label ? ' del ' . $label : '' }}</label>
                 <input type="url" name="{{ $urlInputId }}" id="{{ $urlInputId }}" value="{{ $urlValue }}"
-                    class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:border-brand-red transition-colors"
+                    class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:border-brand-azul transition-colors"
                     placeholder="https://ejemplo.com/archivo">
             </div>
             <div class="flex gap-2">
                 <input type="file" id="{{ $fileInputId }}" accept="{{ $accept }}" class="hidden">
                 <button type="button" onclick="document.getElementById('{{ $fileInputId }}').click()"
-                    class="px-4 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-all flex items-center gap-2">
+                    class="px-4 py-2.5 bg-brand-azul text-white rounded-lg hover:bg-unmsm-azul transition-all flex items-center gap-2">
                     <x-fas-upload /> {{ $buttonLabel }}
                 </button>
             </div>
@@ -208,7 +208,7 @@
                     @if($currentPath && $removeCheckboxName)
                         <label class="inline-flex items-center mt-2 text-sm text-gray-600">
                             <input type="checkbox" name="{{ $removeCheckboxName }}" value="1"
-                                class="rounded border-gray-300 text-unmsm-guinda focus:ring-unmsm-guinda mr-2">
+                                class="rounded border-gray-300 text-unmsm-azul focus:ring-unmsm-azul mr-2">
                             {{ $removeLabel }}
                         </label>
                     @endif
@@ -226,7 +226,7 @@
                 </div>
             @endif
             <input type="file" name="{{ $name }}" accept="{{ $accept }}"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda @error($name) border-red-500 @enderror">
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul @error($name) border-red-500 @enderror">
             @error($name)
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror

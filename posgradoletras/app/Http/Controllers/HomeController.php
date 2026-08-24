@@ -10,9 +10,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $maestrias = Programa::visibles()->maestrias()->ordenPublicacion()->get();
-        $doctorados = Programa::visibles()->doctorados()->ordenPublicacion()->get();
-        $diplomados = Programa::visibles()->diplomados()->ordenPublicacion()->get();
+        $cursos = Programa::visibles()->cursos()->ordenPublicacion()->get();
+        $talleres = Programa::visibles()->talleres()->ordenPublicacion()->get();
 
         // Obtener docentes que son coordinadores de programa
         $docentes = Docente::activos()
@@ -37,6 +36,6 @@ class HomeController extends Controller
             ->with('programa')
             ->get();
 
-        return view('home', compact('maestrias', 'doctorados', 'diplomados', 'docentes', 'testimonios'));
+        return view('home', compact('cursos', 'talleres', 'docentes', 'testimonios'));
     }
 }

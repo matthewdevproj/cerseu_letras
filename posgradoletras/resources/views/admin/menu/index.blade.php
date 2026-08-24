@@ -15,7 +15,7 @@
                 </p>
             </div>
             <button type="submit" form="form-menu"
-                class="flex-shrink-0 bg-brand-red text-white px-5 py-2.5 rounded-lg font-semibold hover:opacity-90 transition">
+                class="flex-shrink-0 bg-brand-azul text-white px-5 py-2.5 rounded-lg font-semibold hover:opacity-90 transition">
                 <x-fas-save class="mr-1" aria-hidden="true" /> Guardar menú
             </button>
         </div>
@@ -59,12 +59,12 @@
 
                         <input type="text" :name="`items[${i}][etiqueta]`" x-model="item.etiqueta"
                             placeholder="Texto del menú" required maxlength="60"
-                            class="flex-1 min-w-[10rem] rounded-lg border-gray-300 text-sm font-semibold focus:border-brand-red focus:ring-brand-red">
+                            class="flex-1 min-w-[10rem] rounded-lg border-gray-300 text-sm font-semibold focus:border-brand-azul focus:ring-brand-azul">
                         <input type="hidden" :name="`items[${i}][id]`" :value="item.id">
 
                         <label class="flex items-center gap-1.5 text-xs text-gray-600">
                             <input type="checkbox" :name="`items[${i}][is_visible]`" x-model="item.is_visible"
-                                class="rounded border-gray-300 text-brand-red focus:ring-brand-red"> Visible
+                                class="rounded border-gray-300 text-brand-azul focus:ring-brand-azul"> Visible
                         </label>
 
                         <div class="flex items-center gap-1">
@@ -84,7 +84,7 @@
                         <label class="block">
                             <span class="mb-1 block text-xs font-semibold text-gray-500">Página del sitio</span>
                             <select :name="`items[${i}][route_name]`" x-model="item.route_name" @change="usarRuta(item)"
-                                class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-red focus:ring-brand-red">
+                                class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-azul focus:ring-brand-azul">
                                 <option value="">— ninguna —</option>
                                 @foreach ($rutas as $ruta)
                                     <option value="{{ $ruta }}">{{ $ruta }}</option>
@@ -96,26 +96,26 @@
                             <span class="mb-1 block text-xs font-semibold text-gray-500">…o dirección externa</span>
                             <input type="url" :name="`items[${i}][url]`" x-model="item.url" @input="usarUrl(item)"
                                 placeholder="https://…"
-                                class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-red focus:ring-brand-red">
+                                class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-azul focus:ring-brand-azul">
                         </label>
 
                         <label class="block">
                             <span class="mb-1 block text-xs font-semibold text-gray-500">Icono (móvil)</span>
                             <input type="text" :name="`items[${i}][icono]`" x-model="item.icono"
                                 placeholder="fas-info-circle"
-                                class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-red focus:ring-brand-red">
+                                class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-azul focus:ring-brand-azul">
                         </label>
 
                         <label class="block">
                             <span class="mb-1 block text-xs font-semibold text-gray-500">Retirar el (opcional)</span>
                             <input type="date" :name="`items[${i}][vigente_hasta]`" x-model="item.vigente_hasta"
-                                class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-red focus:ring-brand-red"
+                                class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-azul focus:ring-brand-azul"
                                 :class="item.caducado ? 'border-amber-400 bg-amber-50' : ''">
                         </label>
 
                         <label class="flex items-center gap-1.5 text-xs text-gray-600 md:col-span-3">
                             <input type="checkbox" :name="`items[${i}][nueva_pestana]`" x-model="item.nueva_pestana"
-                                class="rounded border-gray-300 text-brand-red focus:ring-brand-red">
+                                class="rounded border-gray-300 text-brand-azul focus:ring-brand-azul">
                             Abrir en una pestaña nueva
                         </label>
                     </div>
@@ -131,10 +131,10 @@
 
                                 <input type="text" :name="`items[${i}][hijos][${j}][etiqueta]`" x-model="hijo.etiqueta"
                                     placeholder="Texto" required maxlength="60"
-                                    class="min-w-[8rem] flex-1 rounded border-gray-300 text-sm focus:border-brand-red focus:ring-brand-red">
+                                    class="min-w-[8rem] flex-1 rounded border-gray-300 text-sm focus:border-brand-azul focus:ring-brand-azul">
 
                                 <select :name="`items[${i}][hijos][${j}][route_name]`" x-model="hijo.route_name" @change="usarRuta(hijo)"
-                                    class="rounded border-gray-300 text-xs focus:border-brand-red focus:ring-brand-red">
+                                    class="rounded border-gray-300 text-xs focus:border-brand-azul focus:ring-brand-azul">
                                     <option value="">— página —</option>
                                     @foreach ($rutas as $ruta)
                                         <option value="{{ $ruta }}">{{ $ruta }}</option>
@@ -143,24 +143,24 @@
 
                                 <input type="url" :name="`items[${i}][hijos][${j}][url]`" x-model="hijo.url" @input="usarUrl(hijo)"
                                     placeholder="https://…"
-                                    class="min-w-[10rem] flex-1 rounded border-gray-300 text-xs focus:border-brand-red focus:ring-brand-red">
+                                    class="min-w-[10rem] flex-1 rounded border-gray-300 text-xs focus:border-brand-azul focus:ring-brand-azul">
 
                                 <input type="text" :name="`items[${i}][hijos][${j}][icono]`" x-model="hijo.icono"
                                     placeholder="fas-link"
-                                    class="w-32 rounded border-gray-300 text-xs focus:border-brand-red focus:ring-brand-red">
+                                    class="w-32 rounded border-gray-300 text-xs focus:border-brand-azul focus:ring-brand-azul">
 
                                 <input type="date" :name="`items[${i}][hijos][${j}][vigente_hasta]`" x-model="hijo.vigente_hasta"
                                     title="Retirar el (opcional)"
-                                    class="w-36 rounded border-gray-300 text-xs focus:border-brand-red focus:ring-brand-red"
+                                    class="w-36 rounded border-gray-300 text-xs focus:border-brand-azul focus:ring-brand-azul"
                                     :class="hijo.caducado ? 'border-amber-400 bg-amber-50' : ''">
 
                                 <label class="flex items-center gap-1 text-xs text-gray-500">
                                     <input type="checkbox" :name="`items[${i}][hijos][${j}][nueva_pestana]`" x-model="hijo.nueva_pestana"
-                                        class="rounded border-gray-300 text-brand-red focus:ring-brand-red">↗
+                                        class="rounded border-gray-300 text-brand-azul focus:ring-brand-azul">↗
                                 </label>
                                 <label class="flex items-center gap-1 text-xs text-gray-500">
                                     <input type="checkbox" :name="`items[${i}][hijos][${j}][is_visible]`" x-model="hijo.is_visible"
-                                        class="rounded border-gray-300 text-brand-red focus:ring-brand-red">Visible
+                                        class="rounded border-gray-300 text-brand-azul focus:ring-brand-azul">Visible
                                 </label>
 
                                 <button type="button" @click="moverHijo(i, j, -1)" :disabled="j === 0"
@@ -176,7 +176,7 @@
                         </template>
 
                         <button type="button" @click="agregarHijo(i)"
-                            class="text-sm font-semibold text-brand-red hover:underline">
+                            class="text-sm font-semibold text-brand-azul hover:underline">
                             <x-fas-plus class="text-xs" aria-hidden="true" /> Añadir subentrada
                         </button>
                     </div>
@@ -184,7 +184,7 @@
             </template>
 
             <button type="button" @click="agregar()"
-                class="w-full rounded-xl border-2 border-dashed border-gray-300 py-4 font-semibold text-gray-500 transition hover:border-brand-red hover:text-brand-red">
+                class="w-full rounded-xl border-2 border-dashed border-gray-300 py-4 font-semibold text-gray-500 transition hover:border-brand-azul hover:text-brand-azul">
                 <x-fas-plus aria-hidden="true" /> Añadir entrada al menú
             </button>
         </form>

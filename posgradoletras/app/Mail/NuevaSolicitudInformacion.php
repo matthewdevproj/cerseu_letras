@@ -2,25 +2,29 @@
 
 namespace App\Mail;
 
-use App\Models\DiplomadoLead;
+use App\Models\Lead;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NuevaSolicitudDiplomado extends Mailable
+class NuevaSolicitudInformacion extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public DiplomadoLead $lead)
+    public function __construct(public Lead $lead)
     {
     }
 
     public function envelope(): Envelope
     {
+        // El asunto nombra el tipo para que quien recibe sepa de qué módulo
+        // viene la solicitud sin tener que abrir el correo.
+        $modulo = $this->lead->tipo?->plural() ?? 'Oferta académica';
+
         return new Envelope(
-            subject: 'Nueva solicitud de información - Diplomados Posgrado Letras',
+            subject: "Nueva solicitud de información - {$modulo} CERSEU Letras",
             replyTo: [$this->lead->correo],
         );
     }
@@ -28,7 +32,7 @@ class NuevaSolicitudDiplomado extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.diplomado-lead',
+            view: 'emails.solicitud-informacion',
         );
     }
 

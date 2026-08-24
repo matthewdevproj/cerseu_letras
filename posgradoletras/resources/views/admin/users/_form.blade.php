@@ -10,7 +10,7 @@
         <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
         <input id="name" type="text" name="name" required
             value="{{ old('name', $usuario?->name) }}"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda @error('name') border-red-500 @enderror">
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul @error('name') border-red-500 @enderror">
         @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
     </div>
 
@@ -18,7 +18,7 @@
         <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo *</label>
         <input id="email" type="email" name="email" required
             value="{{ old('email', $usuario?->email) }}"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda @error('email') border-red-500 @enderror">
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul @error('email') border-red-500 @enderror">
         @error('email') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
     </div>
 
@@ -28,7 +28,7 @@
         </label>
         <input id="password" type="password" name="password" autocomplete="new-password"
             {{ $editando ? '' : 'required' }}
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda @error('password') border-red-500 @enderror">
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul @error('password') border-red-500 @enderror">
         <p class="text-xs text-gray-400 mt-1">
             {{ $editando ? 'Déjala vacía para no cambiarla.' : 'Mínimo 8 caracteres.' }}
         </p>
@@ -39,12 +39,12 @@
         <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Repetir contraseña</label>
         <input id="password_confirmation" type="password" name="password_confirmation" autocomplete="new-password"
             {{ $editando ? '' : 'required' }}
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul">
     </div>
 
     <div>
         <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Rol *</label>
-        <select id="role" name="role" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+        <select id="role" name="role" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul">
             <option value="admin" @selected(old('role', $usuario?->role) === 'admin')>Administrador — acceso completo al panel</option>
             <option value="user" @selected(old('role', $usuario?->role ?? 'admin') === 'user')>Usuario — sin acceso al panel</option>
         </select>
@@ -56,7 +56,7 @@
             <input type="hidden" name="is_active" value="0">
             <input type="checkbox" name="is_active" value="1"
                 @checked(old('is_active', $usuario?->is_active ?? true))
-                class="h-5 w-5 text-unmsm-guinda border-gray-300 rounded focus:ring-unmsm-guinda">
+                class="h-5 w-5 text-unmsm-azul border-gray-300 rounded focus:ring-unmsm-azul">
             <span class="text-sm font-medium text-gray-700">Cuenta activa</span>
         </label>
     </div>

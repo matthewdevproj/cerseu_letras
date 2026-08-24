@@ -16,12 +16,12 @@
 @endphp
 
 {{-- Degradado de negro a rojo, enlazando con la sección oscura que lo precede
-     (`to-[#1a0e10]`) y descendiendo hasta el guinda de marca.
+     (`to-[#0C1217]`) y descendiendo hasta el guinda de marca.
 
      Los tres tonos comparten el mismo matiz rojo (~358°) y sólo varían en
      luminosidad: así no aparecen los reflejos metálicos que salían al pasar
-     por el guinda claro (#8B1114), más saturado y de matiz distinto. --}}
-<footer class="relative bg-gradient-to-b from-[#1A0E10] via-[#3A1214] to-unmsm-guinda text-white">
+     por el guinda claro (#1C5287), más saturado y de matiz distinto. --}}
+<footer class="relative bg-gradient-to-b from-[#0C1217] via-[#0A1F33] to-unmsm-azul text-white">
     {{-- Acento dorado degradado en el borde superior (más fino y elegante que el border-t-4 plano) --}}
     <div class="h-1 w-full bg-gradient-to-r from-transparent via-unmsm-dorado to-transparent" aria-hidden="true"></div>
 
@@ -40,11 +40,11 @@
                      desde el panel (caso de producción), salía oscuro sobre
                      oscuro y era casi ilegible. El filtro funciona con cualquier
                      logo que se cargue, sin exigir una variante blanca aparte. --}}
-                <img src="{{ $siteSettings?->logo_path ? asset('storage/' . $siteSettings->logo_path) : asset('images/logo-letras.webp') }}"
-                    alt="{{ $siteSettings?->site_name ?? 'Logo Letras UNMSM' }}"
-                    class="mb-4 h-16 w-auto brightness-0 invert" loading="lazy" decoding="async" width="314" height="64">
+                <img src="{{ $siteSettings?->logo_path ? asset('storage/' . $siteSettings->logo_path) : asset('images/logo-cerseu.webp') }}"
+                    alt="{{ $siteSettings?->site_name ?? 'Logo CERSEU Letras' }}"
+                    class="mb-4 h-16 w-auto brightness-0 invert" loading="lazy" decoding="async" width="1234" height="310">
                 <p class="mb-5 max-w-xs text-xs leading-relaxed text-white/70">
-                    {{ $siteSettings?->site_description ?? 'La Unidad de Posgrado forma profesionales humanistas especializados en investigación, con alta rigurosidad, ética y calidad académica.' }}
+                    {{ $siteSettings?->site_description ?? 'El CERSEU forma profesionales humanistas especializados en investigación, con alta rigurosidad, ética y calidad académica.' }}
                 </p>
                 @if(count($socials))
                     <div class="flex flex-wrap items-center gap-2.5">
@@ -120,7 +120,7 @@
                 <h4 class="footer-heading">Enlaces Rápidos</h4>
                 <ul class="space-y-2.5">
                     <li><a href="{{ route('home') }}" class="footer-link">Inicio</a></li>
-                    <li><a href="{{ route('programas.index') }}" class="footer-link">Programas</a></li>
+                    <li><a href="{{ route('cursos.index') }}" class="footer-link">Cursos</a></li>
                     <li><a href="{{ route('admision') }}" class="footer-link">Admisión</a></li>
                     <li><a href="{{ route('tramites') }}" class="footer-link">Trámites</a></li>
                     <li><a href="{{ route('nosotros') }}" class="footer-link">Nosotros</a></li>
@@ -144,7 +144,7 @@
 
         <div class="mt-12 flex flex-col items-center gap-1 border-t border-white/10 pt-6 text-center text-xs text-white/50">
             <p>&copy; {{ date('Y') }}
-                {{ $siteSettings?->site_name ?? 'Unidad de Posgrado - Facultad de Letras y Ciencias Humanas' }} —
+                {{ $siteSettings?->site_name ?? 'CERSEU - Facultad de Letras y Ciencias Humanas' }} —
                 Universidad Nacional Mayor de San Marcos
             </p>
             <p class="font-serif italic text-unmsm-dorado/80">{{ $siteSettings?->footer_text ?? 'Decana de América' }}</p>

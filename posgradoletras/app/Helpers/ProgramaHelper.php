@@ -11,14 +11,14 @@ class ProgramaHelper
         return Programa::activos()->orderBy('nombre')->get();
     }
 
-    public static function getMaestrias()
+    public static function getTalleres()
     {
-        return Programa::activos()->maestrias()->orderBy('nombre')->get();
+        return Programa::activos()->talleres()->orderBy('nombre')->get();
     }
 
-    public static function getDoctorados()
+    public static function getCursos()
     {
-        return Programa::activos()->doctorados()->orderBy('nombre')->get();
+        return Programa::activos()->cursos()->orderBy('nombre')->get();
     }
 
     public static function getProgramaBySlug($slug)

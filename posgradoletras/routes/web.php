@@ -11,8 +11,27 @@ use App\Http\Controllers\TestimonioController;
 use App\Http\Controllers\InstitucionalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DirectorioController;
-use App\Http\Controllers\DiplomadoController;
-use App\Http\Controllers\DiplomadoLeadController;
+use App\Http\Controllers\OfertaController;
+use App\Http\Controllers\LeadController;
+use App\Models\TipoOferta;
+
+/*
+ * El segmento {tipoOferta} de las rutas de oferta llega como slug en plural
+ * («talleres», «cursos»), mientras que el enum se respalda en el singular.
+ * El binding implícito de Laravel resuelve con tryFrom() sobre ese respaldo,
+ * así que sin este binder /talleres/... daba 404. Un slug desconocido también
+ * da 404, que es lo que se quiere.
+ *
+ * Se llama {tipoOferta} y no {tipo} porque la papelera ya usaba {tipo} para el
+ * tipo de contenido borrado, y un binder global con ese nombre la rompía.
+ */
+Route::bind('tipoOferta', function ($valor) {
+    if ($valor instanceof TipoOferta) {
+        return $valor;
+    }
+
+    return TipoOferta::desdeSlug((string) $valor) ?? abort(404);
+});
 
 // Página de inicio
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -21,19 +40,36 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/buscar', [App\Http\Controllers\SearchController::class, 'index'])->name('search');
 Route::get('/buscar/sugerencias', [App\Http\Controllers\SearchController::class, 'suggest'])->name('search.suggest');
 
-// Directorio de Posgrado
+// Directorio del CERSEU
 Route::get('/directorio', [DirectorioController::class, 'index'])->name('directorio');
 
 
 
-// Programas (Maestrías y Doctorados)
-Route::get('/programas', [ProgramaController::class, 'index'])->name('programas.index');
-Route::get('/programas/{slug}', [ProgramaController::class, 'show'])->name('programas.show');
+// Oferta del CERSEU: talleres y cursos.
+//
+// Los dos módulos tienen la misma estructura y se sirven con el mismo
+// controlador; el segmento de la URL resuelve el tipo. Se declaran uno por uno
+// en vez de con un parámetro {tipo} para que las rutas queden con nombre
+// propio —route('talleres.index')— y un segmento inventado dé 404 en el
+// enrutador, sin llegar al controlador.
+foreach (TipoOferta::cases() as $tipo) {
+    $slug = $tipo->slug();
 
-// Diplomados (sección exclusiva, separada de Maestrías y Doctorados)
-Route::get('/diplomados', [DiplomadoController::class, 'index'])->name('diplomados.index');
-Route::get('/diplomados/admision', [DiplomadoController::class, 'admision'])->name('diplomados.admision');
-Route::post('/diplomados/solicitud', [DiplomadoLeadController::class, 'store'])->name('diplomados.solicitud');
+    Route::get("/{$slug}", [OfertaController::class, 'index'])
+        ->defaults('tipoOferta', $slug)->name("{$slug}.index");
+    Route::get("/{$slug}/admision", [OfertaController::class, 'admision'])
+        ->defaults('tipoOferta', $slug)->name("{$slug}.admision");
+    Route::post("/{$slug}/solicitud", [LeadController::class, 'store'])
+        ->defaults('tipoOferta', $slug)->name("{$slug}.solicitud");
+    Route::get("/{$slug}/{slug}", [ProgramaController::class, 'show'])
+        ->defaults('tipoOferta', $slug)->name("{$slug}.show");
+}
+
+// Rutas anteriores. El sitio estuvo publicado como Unidad de Posgrado, así que
+// hay enlaces sueltos por ahí: se redirigen en vez de devolver 404.
+Route::permanentRedirect('/diplomados', '/talleres');
+Route::permanentRedirect('/diplomados/admision', '/talleres/admision');
+Route::permanentRedirect('/programas', '/cursos');
 
 // Profesores
 Route::get('/profesores', [ProfesorController::class, 'index'])->name('profesores.index');
@@ -129,11 +165,11 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::resource('users', App\Http\Controllers\Admin\AdminUserController::class)->except(['show']);
     Route::post('users/{user}/toggle', [App\Http\Controllers\Admin\AdminUserController::class, 'toggleActive'])->name('users.toggle');
 
-    // Solicitudes de información de diplomados (leads del formulario público)
-    Route::get('leads', [App\Http\Controllers\Admin\AdminDiplomadoLeadController::class, 'index'])->name('leads.index');
-    Route::get('leads/export', [App\Http\Controllers\Admin\AdminDiplomadoLeadController::class, 'export'])->name('leads.export');
-    Route::post('leads/{lead}/reenviar-aviso', [App\Http\Controllers\Admin\AdminDiplomadoLeadController::class, 'reenviarAviso'])->name('leads.reenviar');
-    Route::delete('leads/{lead}', [App\Http\Controllers\Admin\AdminDiplomadoLeadController::class, 'destroy'])->name('leads.destroy');
+    // Solicitudes de información de talleres y cursos (formulario público)
+    Route::get('leads', [App\Http\Controllers\Admin\AdminLeadController::class, 'index'])->name('leads.index');
+    Route::get('leads/export', [App\Http\Controllers\Admin\AdminLeadController::class, 'export'])->name('leads.export');
+    Route::post('leads/{lead}/reenviar-aviso', [App\Http\Controllers\Admin\AdminLeadController::class, 'reenviarAviso'])->name('leads.reenviar');
+    Route::delete('leads/{lead}', [App\Http\Controllers\Admin\AdminLeadController::class, 'destroy'])->name('leads.destroy');
 
     // Cronograma de Admisión (sección de la portada)
     // Papelera única: lo borrado en cualquier sección se recupera desde aquí.
@@ -154,9 +190,10 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('cronograma-admision', [App\Http\Controllers\Admin\AdminCronogramaAdmisionController::class, 'index'])->name('cronograma-admision.index');
     Route::put('cronograma-admision', [App\Http\Controllers\Admin\AdminCronogramaAdmisionController::class, 'update'])->name('cronograma-admision.update');
 
-    // Admisión Diplomados Management
-    Route::get('admision-diplomados', [App\Http\Controllers\Admin\AdminAdmisionDiplomadoController::class, 'index'])->name('admision-diplomados.index');
-    Route::put('admision-diplomados', [App\Http\Controllers\Admin\AdminAdmisionDiplomadoController::class, 'update'])->name('admision-diplomados.update');
+    // Admisión de cada módulo. El segmento {tipoOferta} vale «talleres» o «cursos»;
+    // TipoOferta lo resuelve y un valor inventado da 404.
+    Route::get('admision/{tipoOferta}', [App\Http\Controllers\Admin\AdminAdmisionController::class, 'index'])->name('admision.index');
+    Route::put('admision/{tipoOferta}', [App\Http\Controllers\Admin\AdminAdmisionController::class, 'update'])->name('admision.update');
 
     // Informativos Management
     Route::resource('informativos', App\Http\Controllers\Admin\AdminInformativoController::class);

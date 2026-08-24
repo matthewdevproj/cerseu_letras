@@ -14,10 +14,10 @@
                 @include('admin.users._form')
 
                 <div class="flex items-center justify-end gap-3 mt-8 pt-5 border-t border-gray-100">
-                    <a href="{{ route('admin.users.index') }}" class="px-4 py-2 text-sm text-gray-600 hover:text-red-700">
+                    <a href="{{ route('admin.users.index') }}" class="px-4 py-2 text-sm text-gray-600 hover:text-unmsm-azul">
                         Cancelar
                     </a>
-                    <button type="submit" class="px-6 py-2.5 bg-red-700 text-white rounded-lg hover:bg-red-800 font-medium">
+                    <button type="submit" class="px-6 py-2.5 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark font-medium">
                         <x-fas-save class="mr-1" aria-hidden="true" /> Crear usuario
                     </button>
                 </div>

@@ -33,7 +33,7 @@
                 <input id="titulo" type="text" name="titulo" required maxlength="120"
                     value="{{ old('titulo', $anuncio->titulo) }}"
                     placeholder="Convocatoria 2026-I"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul">
                 <p class="text-xs text-gray-500 mt-1">Solo para reconocerlo en la lista; no se muestra en el sitio.</p>
             </div>
 
@@ -74,7 +74,7 @@
                 <label for="alt" class="block text-sm font-medium text-gray-700 mb-1">Texto alternativo</label>
                 <input id="alt" type="text" name="alt" maxlength="255" value="{{ old('alt', $anuncio->alt) }}"
                     placeholder="Convocatoria de admisión 2026-I abierta"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul">
                 <p class="text-xs text-gray-500 mt-1">
                     Describe la imagen para quien usa lector de pantalla o no puede verla.
                     Si lo dejas vacío se usa el nombre interno.
@@ -86,13 +86,13 @@
                     <label for="link" class="block text-sm font-medium text-gray-700 mb-1">Enlace (opcional)</label>
                     <input id="link" type="url" name="link" maxlength="500" value="{{ old('link', $anuncio->link) }}"
                         placeholder="https://…"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul">
                 </div>
                 <div>
                     <label for="link_texto" class="block text-sm font-medium text-gray-700 mb-1">Texto del botón</label>
                     <input id="link_texto" type="text" name="link_texto" maxlength="60"
                         value="{{ old('link_texto', $anuncio->link_texto) }}" placeholder="Ver convocatoria"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul">
                 </div>
             </div>
 
@@ -101,13 +101,13 @@
                     <label for="visible_desde" class="block text-sm font-medium text-gray-700 mb-1">Mostrar desde</label>
                     <input id="visible_desde" type="date" name="visible_desde"
                         value="{{ old('visible_desde', $anuncio->visible_desde?->format('Y-m-d')) }}"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul">
                 </div>
                 <div>
                     <label for="visible_hasta" class="block text-sm font-medium text-gray-700 mb-1">Retirar el</label>
                     <input id="visible_hasta" type="date" name="visible_hasta"
                         value="{{ old('visible_hasta', $anuncio->visible_hasta?->format('Y-m-d')) }}"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul">
                 </div>
             </div>
             <p class="-mt-2 text-xs text-gray-500">
@@ -120,20 +120,20 @@
                     <label for="orden" class="block text-sm font-medium text-gray-700 mb-1">Orden</label>
                     <input id="orden" type="number" name="orden" min="0" max="999"
                         value="{{ old('orden', $anuncio->orden ?? 0) }}"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-guinda focus:border-unmsm-guinda">
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-unmsm-azul focus:border-unmsm-azul">
                     <p class="text-xs text-gray-500 mt-1">Con varios anuncios, el menor va primero.</p>
                 </div>
                 <label class="flex items-center gap-2 text-sm text-gray-700 sm:mt-5">
                     <input type="checkbox" name="is_visible" value="1"
                         @checked(old('is_visible', $anuncio->is_visible ?? true))
-                        class="rounded border-gray-300 text-brand-red focus:ring-brand-red">
+                        class="rounded border-gray-300 text-brand-azul focus:ring-brand-azul">
                     Visible
                 </label>
             </div>
 
             <div class="flex items-center justify-end gap-3 border-t border-gray-100 pt-5">
-                <a data-salir-sin-guardar href="{{ route('admin.anuncios.index') }}" class="px-4 py-2 text-sm text-gray-600 hover:text-red-700">Cancelar</a>
-                <button type="submit" class="bg-brand-red text-white px-6 py-2.5 rounded-lg font-semibold hover:opacity-90 transition">
+                <a data-salir-sin-guardar href="{{ route('admin.anuncios.index') }}" class="px-4 py-2 text-sm text-gray-600 hover:text-unmsm-azul">Cancelar</a>
+                <button type="submit" class="bg-brand-azul text-white px-6 py-2.5 rounded-lg font-semibold hover:opacity-90 transition">
                     {{ $anuncio->exists ? 'Guardar cambios' : 'Crear anuncio' }}
                 </button>
             </div>

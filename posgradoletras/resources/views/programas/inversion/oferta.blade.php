@@ -21,8 +21,8 @@
 
 @if(!$inversion)
     <p class="text-gray-600">
-        La información de inversión económica de este diplomado se encuentra en actualización.
-        Para más detalles, comuníquese con la Unidad de Posgrado.
+        La información de inversión económica de este taller se encuentra en actualización.
+        Para más detalles, comuníquese con el CERSEU.
     </p>
 @else
     <div class="space-y-8">
@@ -30,19 +30,19 @@
         {{-- Derecho de inscripción --}}
         @if(!empty($inversion['derecho_inscripcion']))
             <section class="space-y-4">
-                <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+                <h3 class="text-base md:text-lg font-semibold text-unmsm-azul flex items-center gap-2">
                     <x-fas-user-plus class="text-unmsm-dorado" />
                     Admisión
                 </h3>
 
                 <p class="text-sm text-gray-700">
-                    El pago por derecho de inscripción al diplomado es el siguiente:
+                    El pago por derecho de inscripción al taller es el siguiente:
                 </p>
 
                 <div class="grid sm:grid-cols-2 gap-4">
                     @if(isset($inversion['derecho_inscripcion']['bachiller_unmsm']))
                         <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <div class="bg-unmsm-guinda text-white text-center py-5">
+                            <div class="bg-unmsm-azul text-white text-center py-5">
                                 <span class="text-3xl font-bold">S/&nbsp;{{ number_format($inversion['derecho_inscripcion']['bachiller_unmsm'], 0) }}</span>
                             </div>
                             <div class="bg-white text-center py-4 px-4">
@@ -55,7 +55,7 @@
                     @endif
                     @if(isset($inversion['derecho_inscripcion']['otras_universidades']))
                         <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <div class="bg-unmsm-guinda text-white text-center py-5">
+                            <div class="bg-unmsm-azul text-white text-center py-5">
                                 <span class="text-3xl font-bold">S/&nbsp;{{ number_format($inversion['derecho_inscripcion']['otras_universidades'], 0) }}</span>
                             </div>
                             <div class="bg-white text-center py-4 px-4">
@@ -72,14 +72,14 @@
         {{-- 1. Costo total del diplomado --}}
         @if(!empty($inversion['costo_total']))
             <section class="space-y-4">
-                <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+                <h3 class="text-base md:text-lg font-semibold text-unmsm-azul flex items-center gap-2">
                     <x-fas-calculator class="text-unmsm-dorado" />
-                    Costo total del diplomado
+                    Costo total del taller
                 </h3>
 
                 <div class="flex justify-center">
                     <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm inline-block min-w-[220px]">
-                        <div class="bg-unmsm-guinda text-white text-center py-5 px-8">
+                        <div class="bg-unmsm-azul text-white text-center py-5 px-8">
                             <span class="text-3xl font-bold">S/&nbsp;{{ number_format($inversion['costo_total'], 0) }}</span>
                         </div>
                         <div class="bg-white text-center py-3 px-4">
@@ -97,7 +97,7 @@
         {{-- 2. Modalidades de pago --}}
         @if($modalidades !== [])
             <section class="space-y-4">
-                <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+                <h3 class="text-base md:text-lg font-semibold text-unmsm-azul flex items-center gap-2">
                     <x-fas-calendar-alt class="text-unmsm-dorado" />
                     Modalidades de pago
                 </h3>
@@ -109,7 +109,7 @@
                 <div class="space-y-5">
                     @foreach($modalidades as $modalidad)
                         <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-                            <div class="bg-unmsm-guinda text-white px-4 py-3">
+                            <div class="bg-unmsm-azul text-white px-4 py-3">
                                 <h4 class="font-semibold text-center">{{ $modalidad['nombre'] }}</h4>
                             </div>
 
@@ -124,7 +124,7 @@
                                         </p>
 
                                         @if($cuota['monto'] !== null)
-                                            <p class="px-3 pt-4 text-center text-2xl font-bold text-unmsm-guinda">
+                                            <p class="px-3 pt-4 text-center text-2xl font-bold text-unmsm-azul">
                                                 S/&nbsp;{{ number_format($cuota['monto'], 0) }}
                                             </p>
                                         @endif
@@ -151,14 +151,14 @@
         {{-- 3. Pago de diploma --}}
         @if(!empty($inversion['costo_diploma']))
             <section class="space-y-4">
-                <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+                <h3 class="text-base md:text-lg font-semibold text-unmsm-azul flex items-center gap-2">
                     <x-fas-certificate class="text-unmsm-dorado" />
                     Pago de diploma
                 </h3>
 
                 <div class="flex justify-center">
                     <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm inline-block min-w-[220px]">
-                        <div class="bg-unmsm-guinda text-white text-center py-5 px-8">
+                        <div class="bg-unmsm-azul text-white text-center py-5 px-8">
                             <span class="text-3xl font-bold">S/&nbsp;{{ number_format($inversion['costo_diploma'], 0) }}</span>
                         </div>
                         <div class="bg-white text-center py-3 px-4">
@@ -178,14 +178,14 @@
              resto de importes, solo aparece si el diplomado lo tiene cargado. --}}
         @if(!empty($inversion['costo_matricula']))
             <section class="space-y-4">
-                <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+                <h3 class="text-base md:text-lg font-semibold text-unmsm-azul flex items-center gap-2">
                     <x-fas-file-invoice-dollar class="text-unmsm-dorado" />
                     Costo por matrícula
                 </h3>
 
                 <div class="flex justify-center">
                     <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm inline-block min-w-[220px]">
-                        <div class="bg-unmsm-guinda text-white text-center py-5 px-8">
+                        <div class="bg-unmsm-azul text-white text-center py-5 px-8">
                             <span class="text-3xl font-bold">S/&nbsp;{{ number_format($inversion['costo_matricula'], 0) }}</span>
                         </div>
                         <div class="bg-white text-center py-3 px-4">
@@ -212,31 +212,31 @@
         @endif
 
         {{-- 5. Informes --}}
-        <section class="bg-unmsm-guinda/5 border border-unmsm-guinda/20 rounded-xl p-4 md:p-6">
+        <section class="bg-unmsm-azul/5 border border-unmsm-azul/20 rounded-xl p-4 md:p-6">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div>
-                    <h3 class="text-base md:text-lg font-semibold text-unmsm-guinda flex items-center gap-2">
+                    <h3 class="text-base md:text-lg font-semibold text-unmsm-azul flex items-center gap-2">
                         <x-fas-info-circle class="text-unmsm-dorado" />
                         Informes
                     </h3>
                     <p class="text-sm text-gray-700">
                         Para mayor detalle sobre pagos, cronogramas y matrícula,
-                        comuníquese con la Unidad de Posgrado.
+                        comuníquese con el CERSEU.
                     </p>
                 </div>
                 <div class="space-y-1 text-sm text-right md:text-left">
                     <p>
-                        <span class="font-semibold text-unmsm-guinda">Correo:&nbsp;</span>
+                        <span class="font-semibold text-unmsm-azul">Correo:&nbsp;</span>
                         <a href="mailto:{{ $emailContacto }}"
-                            class="text-gray-800 underline decoration-unmsm-guinda/60 decoration-2 underline-offset-2">
+                            class="text-gray-800 underline decoration-unmsm-azul/60 decoration-2 underline-offset-2">
                             {{ $emailContacto }}
                         </a>
                     </p>
                     <p>
-                        <span class="font-semibold text-unmsm-guinda">Teléfono / WhatsApp:&nbsp;</span>
+                        <span class="font-semibold text-unmsm-azul">Teléfono / WhatsApp:&nbsp;</span>
                         <a href="{{ \App\Models\SiteSetting::contacto('whatsapp') }}" target="_blank"
                             rel="noopener noreferrer"
-                            class="text-gray-800 underline decoration-unmsm-guinda/60 decoration-2 underline-offset-2">
+                            class="text-gray-800 underline decoration-unmsm-azul/60 decoration-2 underline-offset-2">
                             {{ \App\Models\SiteSetting::contacto('telefono') }}
                         </a>
                     </p>

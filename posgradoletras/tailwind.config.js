@@ -24,8 +24,14 @@ export default {
                 serif: ['Merriweather', ...defaultTheme.fontFamily.serif],
             },
             colors: {
-                'unmsm-guinda': '#6B1E20',
-                'unmsm-guinda-light': '#8B1114',
+                // Escala institucional derivada de #143B63 = hsl(210, 66%, 23%):
+                // -dark para gradientes/hover sobre el azul base, -soft como
+                // acento legible sobre fondo azul oscuro (contraste 5.5:1 con
+                // #143B63, donde un azul oscuro sería invisible).
+                'unmsm-azul': '#143B63',
+                'unmsm-azul-light': '#1C5287',
+                'unmsm-azul-dark': '#0F2B48',
+                'unmsm-azul-soft': '#88B8E7',
                 'unmsm-dorado': '#B6A350',
                 'unmsm-dorado-light': '#C9AA36',
             },

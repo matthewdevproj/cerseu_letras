@@ -20,7 +20,7 @@
             <div class="flex flex-wrap items-start justify-between gap-3 mb-1">
                 <h1 class="text-xl font-bold text-gray-800">Contenido · {{ \App\Models\ContentPage::PAGINAS[$pagina->slug] }}</h1>
                 <a href="{{ url('/' . $pagina->slug) }}" target="_blank" rel="noopener noreferrer"
-                    class="text-sm text-gray-600 hover:text-red-700">
+                    class="text-sm text-gray-600 hover:text-unmsm-azul">
                     <x-fas-eye class="mr-1" aria-hidden="true" /> Ver la página
                 </a>
             </div>
@@ -68,7 +68,7 @@
                         <p class="text-sm text-gray-500"><span x-text="secciones.length"></span> en total · el orden es el de la página</p>
                     </div>
                     <button type="button" @click="agregar()"
-                        class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm font-medium">
+                        class="px-4 py-2 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark text-sm font-medium">
                         <x-fas-plus class="mr-1" aria-hidden="true" /> Agregar sección
                     </button>
                 </div>
@@ -81,12 +81,12 @@
                             <div class="flex items-start gap-3 p-4 border-b border-gray-100">
                                 <div class="flex flex-col items-center gap-1 pt-1">
                                     <button type="button" @click="mover(index, -1)" :disabled="index === 0"
-                                        class="text-gray-400 hover:text-red-700 disabled:opacity-30" aria-label="Subir">
+                                        class="text-gray-400 hover:text-unmsm-azul disabled:opacity-30" aria-label="Subir">
                                         <x-fas-chevron-up class="text-xs" />
                                     </button>
                                     <span class="text-xs font-bold text-gray-400" x-text="index + 1"></span>
                                     <button type="button" @click="mover(index, 1)" :disabled="index === secciones.length - 1"
-                                        class="text-gray-400 hover:text-red-700 disabled:opacity-30" aria-label="Bajar">
+                                        class="text-gray-400 hover:text-unmsm-azul disabled:opacity-30" aria-label="Bajar">
                                         <x-fas-chevron-down class="text-xs" />
                                     </button>
                                 </div>
@@ -124,7 +124,7 @@
                                     <label class="flex items-center gap-1.5 text-xs text-gray-600 cursor-pointer whitespace-nowrap">
                                         <input type="checkbox" :name="`secciones[${index}][is_visible]`" value="1"
                                             x-model="s.is_visible"
-                                            class="h-4 w-4 rounded border-gray-300 text-red-700 focus:ring-red-700">
+                                            class="h-4 w-4 rounded border-gray-300 text-unmsm-azul focus:ring-unmsm-azul">
                                         Visible
                                     </label>
                                     <button type="button" @click="eliminar(index)"
@@ -147,9 +147,9 @@
                 </div>
 
                 <div class="flex items-center justify-end gap-3 mt-8 pt-5 border-t border-gray-100">
-                    <a data-salir-sin-guardar href="{{ route('admin.contenido.index') }}" class="px-4 py-2 text-sm text-gray-600 hover:text-red-700">Volver</a>
+                    <a data-salir-sin-guardar href="{{ route('admin.contenido.index') }}" class="px-4 py-2 text-sm text-gray-600 hover:text-unmsm-azul">Volver</a>
                     <button type="submit" :disabled="submitting"
-                        class="px-6 py-2.5 bg-red-700 text-white rounded-lg hover:bg-red-800 font-medium disabled:opacity-60">
+                        class="px-6 py-2.5 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark font-medium disabled:opacity-60">
                         <x-fas-save class="mr-1" aria-hidden="true" />
                         <span x-text="submitting ? 'Guardando...' : 'Guardar cambios'"></span>
                     </button>

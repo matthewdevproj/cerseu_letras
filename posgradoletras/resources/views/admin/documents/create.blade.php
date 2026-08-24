@@ -57,19 +57,19 @@
             <!-- File Upload -->
             <div class="border border-gray-200 rounded-lg p-4">
                 <label class="block text-sm font-medium text-gray-700 mb-3">
-                    <x-fas-file-upload class="text-brand-red mr-1" /> Archivo
+                    <x-fas-file-upload class="text-brand-azul mr-1" /> Archivo
                 </label>
                 <div class="flex gap-3 items-end">
                     <div class="flex-1">
                         <label class="text-xs text-gray-500 mb-1 block">Opción 1: URL externa</label>
                         <input type="url" name="url" id="url" value="{{ old('url') }}"
-                            class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:border-brand-red transition-colors"
+                            class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:border-brand-azul transition-colors"
                             placeholder="https://ejemplo.com/archivo.pdf">
                     </div>
                     <div class="flex gap-2">
                         <input type="file" name="file" id="file" class="hidden">
                         <button type="button" onclick="document.getElementById('file').click()"
-                            class="px-4 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-all flex items-center gap-2">
+                            class="px-4 py-2.5 bg-brand-azul text-white rounded-lg hover:bg-unmsm-azul transition-all flex items-center gap-2">
                             <x-fas-upload /> Subir Archivo
                         </button>
                     </div>

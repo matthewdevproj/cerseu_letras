@@ -3,38 +3,50 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AdmisionDiplomadoCronogramaItem;
-use App\Models\AdmisionDiplomadoSetting;
+use App\Models\AdmisionCronogramaItem;
+use App\Models\AdmisionSetting;
+use App\Models\TipoOferta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class AdminAdmisionDiplomadoController extends Controller
+class AdminAdmisionController extends Controller
 {
     /**
-     * Mostrar la configuración de la página de Admisión de Diplomados (registro único).
+     * Configuración de la página de admisión de un módulo.
+     *
+     * Hay un registro por tipo de oferta. La vista es la misma para talleres y
+     * cursos; arriba lleva un selector para pasar de uno a otro.
      */
-    public function index()
+    public function index(TipoOferta $tipoOferta)
     {
-        $settings = AdmisionDiplomadoSetting::with('cronogramaItems')->first();
+        $tipo = $tipoOferta;
+
+        $settings = AdmisionSetting::with('cronogramaItems')->deTipo($tipo)->first();
 
         if (!$settings) {
-            $settings = AdmisionDiplomadoSetting::create([
+            $settings = AdmisionSetting::create([
+                'tipo' => $tipo->value,
                 'hero_titulo' => 'Convocatoria 2026-I',
-                'hero_subtitulo' => 'Sección Diplomados · Unidad de Posgrado',
+                'hero_subtitulo' => 'Sección ' . $tipo->plural() . ' · CERSEU',
             ]);
             $settings->load('cronogramaItems');
         }
 
-        return view('admin.admision-diplomados.index', compact('settings'));
+        return view('admin.admision.index', compact('settings', 'tipo'));
     }
 
     /**
      * Actualizar la configuración y sus filas de cronograma.
      */
-    public function update(Request $request)
+    public function update(Request $request, TipoOferta $tipoOferta)
     {
-        $settings = AdmisionDiplomadoSetting::firstOrFail();
+        $tipo = $tipoOferta;
+
+        // firstOrCreate y no firstOrFail: la fila de un módulo puede no existir
+        // todavía (el tipo se añadió después, o nadie abrió su pantalla), y en ese
+        // caso guardar debía funcionar igual en vez de responder 404.
+        $settings = AdmisionSetting::firstOrCreate(['tipo' => $tipo->value]);
 
         $validated = $request->validate([
             'hero_titulo' => 'nullable|string|max:255',
@@ -75,7 +87,7 @@ class AdminAdmisionDiplomadoController extends Controller
                     if ($settings->hero_imagen && Storage::disk('public')->exists($settings->hero_imagen)) {
                         Storage::disk('public')->delete($settings->hero_imagen);
                     }
-                    $settings->hero_imagen = \App\Support\OptimizadorImagen::guardar($request->file('hero_imagen'), 'admision-diplomados');
+                    $settings->hero_imagen = \App\Support\OptimizadorImagen::guardar($request->file('hero_imagen'), 'admision-' . $tipo->slug());
                 } elseif ($request->boolean('remove_hero_imagen')) {
                     if ($settings->hero_imagen && Storage::disk('public')->exists($settings->hero_imagen)) {
                         Storage::disk('public')->delete($settings->hero_imagen);
@@ -87,7 +99,7 @@ class AdminAdmisionDiplomadoController extends Controller
                     if ($settings->contacto_qr_path && Storage::disk('public')->exists($settings->contacto_qr_path)) {
                         Storage::disk('public')->delete($settings->contacto_qr_path);
                     }
-                    $settings->contacto_qr_path = $request->file('qr')->store('admision-diplomados', 'public');
+                    $settings->contacto_qr_path = $request->file('qr')->store('admision-' . $tipo->slug(), 'public');
                 } elseif ($request->boolean('remove_qr')) {
                     if ($settings->contacto_qr_path && Storage::disk('public')->exists($settings->contacto_qr_path)) {
                         Storage::disk('public')->delete($settings->contacto_qr_path);
@@ -101,8 +113,8 @@ class AdminAdmisionDiplomadoController extends Controller
                 if ($request->has('deleted_cronograma_items')) {
                     $deletedIds = json_decode($request->input('deleted_cronograma_items'), true);
                     if (is_array($deletedIds) && !empty($deletedIds)) {
-                        AdmisionDiplomadoCronogramaItem::whereIn('id', $deletedIds)
-                            ->where('admision_diplomado_setting_id', $settings->id)
+                        AdmisionCronogramaItem::whereIn('id', $deletedIds)
+                            ->where('admision_setting_id', $settings->id)
                             ->delete();
                     }
                 }
@@ -123,8 +135,8 @@ class AdminAdmisionDiplomadoController extends Controller
                         if (!empty($itemData['is_new'])) {
                             $settings->cronogramaItems()->create($data);
                         } else {
-                            $item = AdmisionDiplomadoCronogramaItem::find($itemData['id']);
-                            if ($item && $item->admision_diplomado_setting_id == $settings->id) {
+                            $item = AdmisionCronogramaItem::find($itemData['id']);
+                            if ($item && $item->admision_setting_id == $settings->id) {
                                 $item->update($data);
                             }
                         }
@@ -132,12 +144,12 @@ class AdminAdmisionDiplomadoController extends Controller
                 }
             });
 
-            AdmisionDiplomadoSetting::clearCache();
+            AdmisionSetting::clearCache($tipo);
 
-            return redirect()->route('admin.admision-diplomados.index')
-                ->with('success', 'Página de Admisión de Diplomados actualizada correctamente.');
+            return redirect()->route('admin.admision.index', $tipo->slug())
+                ->with('success', 'Página de Admisión de ' . $tipo->plural() . ' actualizada correctamente.');
         } catch (\Exception $e) {
-            return redirect()->route('admin.admision-diplomados.index')
+            return redirect()->route('admin.admision.index', $tipo->slug())
                 ->with('error', 'Error al guardar: ' . $e->getMessage());
         }
     }

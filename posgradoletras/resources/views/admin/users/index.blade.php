@@ -13,7 +13,7 @@
                 </p>
             </div>
             <a href="{{ route('admin.users.create') }}"
-                class="inline-flex items-center gap-2 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm font-medium">
+                class="inline-flex items-center gap-2 px-4 py-2 bg-unmsm-azul text-white rounded-lg hover:bg-unmsm-azul-dark text-sm font-medium">
                 <x-fas-plus aria-hidden="true" /> Nuevo usuario
             </a>
         </div>
@@ -53,7 +53,7 @@
                                 </td>
                                 <td class="px-4 py-3">
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                        {{ $u->isAdmin() ? 'bg-unmsm-guinda/10 text-unmsm-guinda' : 'bg-gray-100 text-gray-700' }}">
+                                        {{ $u->isAdmin() ? 'bg-unmsm-azul/10 text-unmsm-azul' : 'bg-gray-100 text-gray-700' }}">
                                         {{ $u->isAdmin() ? 'Administrador' : 'Usuario' }}
                                     </span>
                                 </td>
@@ -67,7 +67,7 @@
                                 <td class="px-4 py-3 text-right">
                                     <div class="flex justify-end items-center gap-3">
                                         <a href="{{ route('admin.users.edit', $u) }}"
-                                            class="text-gray-400 hover:text-unmsm-guinda transition-colors"
+                                            class="text-gray-400 hover:text-unmsm-azul transition-colors"
                                             aria-label="Editar {{ $u->name }}">
                                             <x-fas-pen-to-square aria-hidden="true" />
                                         </a>

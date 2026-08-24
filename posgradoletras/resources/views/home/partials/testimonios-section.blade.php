@@ -10,10 +10,10 @@
             <div class="text-center mb-16">
                 <h2
                     class="section-title text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6 inline-block relative">
-                    Nuestros Egresados
+                    Testimonios
                 </h2>
                 <p class="text-gray-600 max-w-2xl mx-auto text-lg">
-                    Voces que inspiran y demuestran el impacto de nuestra formación académica.
+                    Voces de quienes han pasado por nuestros cursos y talleres.
                 </p>
             </div>
 
@@ -28,7 +28,7 @@
                                     class="bg-gray-50 rounded-2xl p-8 relative hover:shadow-xl transition-all duration-300 group border border-gray-100 h-full flex flex-col">
                                     <!-- Comillas decorativas -->
                                     <div
-                                        class="absolute top-6 right-8 text-6xl text-unmsm-guinda/10 font-serif leading-none group-hover:text-unmsm-guinda/20 transition-colors">
+                                        class="absolute top-6 right-8 text-6xl text-unmsm-azul/10 font-serif leading-none group-hover:text-unmsm-azul/20 transition-colors">
                                         &rdquo;
                                     </div>
 
@@ -47,14 +47,14 @@
                                                     class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md">
                                             @else
                                                 <div
-                                                    class="w-14 h-14 rounded-full bg-unmsm-guinda text-white flex items-center justify-center font-bold text-lg border-2 border-white shadow-md">
+                                                    class="w-14 h-14 rounded-full bg-unmsm-azul text-white flex items-center justify-center font-bold text-lg border-2 border-white shadow-md">
                                                     {{ strtoupper(substr($testimonio->nombre, 0, 2)) }}
                                                 </div>
                                             @endif
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <h4
-                                                class="font-bold text-gray-900 group-hover:text-unmsm-guinda transition-colors truncate">
+                                                class="font-bold text-gray-900 group-hover:text-unmsm-azul transition-colors truncate">
                                                 {{ $testimonio->nombre }}
                                             </h4>
                                             @if($testimonio->programa)
@@ -75,7 +75,7 @@
 
             <div class="text-center">
                 <a href="{{ route('testimonios.index') }}"
-                    class="inline-flex items-center gap-2 px-8 py-3 bg-white border-2 border-unmsm-guinda text-unmsm-guinda font-bold rounded-xl hover:bg-unmsm-guinda hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg group">
+                    class="inline-flex items-center gap-2 px-8 py-3 bg-white border-2 border-unmsm-azul text-unmsm-azul font-bold rounded-xl hover:bg-unmsm-azul hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg group">
                     Leer más historias
                     <x-fas-arrow-right class="group-hover:translate-x-1 transition-transform" />
                 </a>

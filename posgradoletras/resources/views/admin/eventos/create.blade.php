@@ -7,7 +7,7 @@
         <!-- Header -->
         <div class="mb-8">
             <a href="{{ route('admin.eventos.index') }}"
-                class="text-brand-red hover:underline text-sm mb-2 inline-flex items-center">
+                class="text-brand-azul hover:underline text-sm mb-2 inline-flex items-center">
                 <x-fas-arrow-left class="mr-2" /> Volver a Eventos
             </a>
             <h2 class="text-2xl font-serif font-bold text-gray-900">Nuevo Evento</h2>
@@ -27,7 +27,7 @@
                         Título del Evento <span class="text-red-500">*</span>
                     </label>
                     <input type="text" name="titulo" id="titulo" value="{{ old('titulo') }}" required
-                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red @error('titulo') border-red-300 @enderror"
+                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-azul focus:ring-brand-azul @error('titulo') border-red-300 @enderror"
                         placeholder="Ej: Conferencia de Literatura Peruana">
                     @error('titulo')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -40,7 +40,7 @@
                         Descripción (opcional)
                     </label>
                     <textarea name="descripcion" id="descripcion" rows="3"
-                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red"
+                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-azul focus:ring-brand-azul"
                         placeholder="Breve descripción del evento...">{{ old('descripcion') }}</textarea>
                 </div>
 
@@ -56,7 +56,7 @@
                             Fecha de Inicio <span class="text-red-500">*</span>
                         </label>
                         <input type="date" name="fecha_inicio" id="fecha_inicio" value="{{ old('fecha_inicio') }}" required
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red">
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-azul focus:ring-brand-azul">
                         @error('fecha_inicio')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -66,7 +66,7 @@
                             Fecha de Fin (opcional)
                         </label>
                         <input type="date" name="fecha_fin" id="fecha_fin" value="{{ old('fecha_fin') }}"
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red">
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-azul focus:ring-brand-azul">
                         @error('fecha_fin')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -80,7 +80,7 @@
                             Tipo de Enlace
                         </label>
                         <select name="tipo_url" id="tipo_url"
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red">
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-azul focus:ring-brand-azul">
                             <option value="">Sin enlace</option>
                             <option value="externo" {{ old('tipo_url') == 'externo' ? 'selected' : '' }}>Enlace externo
                             </option>
@@ -92,7 +92,7 @@
                             URL del Enlace
                         </label>
                         <input type="text" name="url" id="url" value="{{ old('url') }}"
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red"
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-azul focus:ring-brand-azul"
                             placeholder="https://ejemplo.com o URL del PDF">
                         @error('url')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -107,13 +107,13 @@
                             Orden (para home)
                         </label>
                         <input type="number" name="orden" id="orden" value="{{ old('orden', 0) }}" min="0"
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red">
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-azul focus:ring-brand-azul">
                         <p class="mt-1 text-xs text-gray-500">Menor número = aparece primero</p>
                     </div>
                     <div class="flex items-center pt-6">
                         <label class="flex items-center cursor-pointer">
                             <input type="checkbox" name="activo" value="1" {{ old('activo', true) ? 'checked' : '' }}
-                                class="rounded border-gray-300 text-brand-red shadow-sm focus:border-brand-red focus:ring-brand-red">
+                                class="rounded border-gray-300 text-brand-azul shadow-sm focus:border-brand-azul focus:ring-brand-azul">
                             <span class="ml-2 text-sm text-gray-700">Evento activo (visible en el sitio)</span>
                         </label>
                     </div>
@@ -127,7 +127,7 @@
                     Cancelar
                 </a>
                 <button type="submit" :disabled="submitting"
-                    class="px-6 py-2 bg-brand-red text-white rounded-lg hover:bg-red-800 font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
+                    class="px-6 py-2 bg-brand-azul text-white rounded-lg hover:bg-unmsm-azul-dark font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
                     <x-fas-spinner class="animate-spin mr-2" x-show="submitting" x-cloak aria-hidden="true" />
                     <x-fas-save class="mr-2" x-show="!submitting" aria-hidden="true" />
                     <span x-text="submitting ? 'Guardando...' : 'Guardar Evento'"></span>

@@ -4,7 +4,7 @@
     $cronogramaCode = $cronograma?->code ?? '2026-I';
 @endphp
 
-@section('title', "Cronograma Académico {$cronogramaCode} - Posgrado Letras UNMSM")
+@section('title', "Cronograma Académico {$cronogramaCode} - CERSEU Letras UNMSM")
 
 @push('styles')
     <style>
@@ -33,10 +33,10 @@
             background: #fef3f2;
         }
 
-        /* Mismo rojo institucional que el resto de la página (unmsm-guinda,
-           #6B1E20), para no mezclar dos tonos de rojo en un mismo archivo. */
+        /* Mismo rojo institucional que el resto de la página (unmsm-azul,
+           #143B63), para no mezclar dos tonos de rojo en un mismo archivo. */
         .section-heading td {
-            background: #6B1E20;
+            background: #143B63;
             color: white;
             font-weight: 700;
             font-size: 0.95rem;
@@ -47,7 +47,7 @@
         .docs-card {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border: 1px solid #e2e8f0;
-            border-left: 4px solid #6B1E20;
+            border-left: 4px solid #143B63;
         }
 
         .docs-card ul {
@@ -56,7 +56,7 @@
         }
 
         .docs-card li a {
-            color: #6B1E20;
+            color: #143B63;
             text-decoration: none;
             transition: all 0.2s;
         }
@@ -74,7 +74,7 @@
         }
 
         .nota-fuente a {
-            color: #6B1E20;
+            color: #143B63;
             font-weight: 500;
         }
     </style>
@@ -92,7 +92,7 @@
         <!-- Documentos -->
         <div class="docs-card rounded-xl p-6 mb-8 shadow-sm">
             <p class="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-unmsm-guinda" fill="none" viewBox="0 0 24 24"
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-unmsm-azul" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -102,7 +102,7 @@
             <ul class="space-y-2">
                 @foreach($cronograma->documents as $doc)
                 <li class="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-unmsm-guinda" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-unmsm-azul" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -119,7 +119,7 @@
         @if($cronograma && $cronograma->items->count() > 0)
         <!-- Cronograma Principal -->
         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-lg mb-8">
-            <div class="bg-unmsm-guinda text-white p-5">
+            <div class="bg-unmsm-azul text-white p-5">
                 <h2 class="font-bold text-xl font-serif flex items-center gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -176,8 +176,8 @@
             <x-button href="{{ route('admision') }}" variant="outline" size="lg" icon="fas fa-user-plus">
                 Proceso de Admisión
             </x-button>
-            <x-button href="{{ route('programas.index') }}" size="lg">
-                Ver Programas <x-fas-arrow-right aria-hidden="true" />
+            <x-button href="{{ route('cursos.index') }}" size="lg">
+                Ver Cursos <x-fas-arrow-right aria-hidden="true" />
             </x-button>
             <x-button href="{{ route('tramites') }}" variant="outline" size="lg" icon="fas fa-file-alt">
                 Trámites y Grados

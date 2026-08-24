@@ -24,7 +24,7 @@
                     <x-fas-eye class="mr-1" aria-hidden="true" /> Ver cómo queda
                 </a>
                 <a href="{{ route('admin.anuncios.create') }}"
-                    class="bg-brand-red text-white px-5 py-2.5 rounded-lg font-semibold hover:opacity-90 transition">
+                    class="bg-brand-azul text-white px-5 py-2.5 rounded-lg font-semibold hover:opacity-90 transition">
                     <x-fas-plus class="mr-1" aria-hidden="true" /> Nuevo anuncio
                 </a>
             </div>
@@ -52,7 +52,7 @@
                     <div class="flex items-center gap-2">
                         <input type="number" name="popup_retardo_ms" min="0" max="20000" step="100"
                             value="{{ old('popup_retardo_ms', $ajustes->popup_retardo_ms ?? 1200) }}"
-                            class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-red focus:ring-brand-red">
+                            class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-azul focus:ring-brand-azul">
                         <span class="text-xs text-gray-500">ms</span>
                     </div>
                     <span class="mt-1 block text-xs text-gray-500">1200 ms = 1,2 segundos</span>
@@ -62,7 +62,7 @@
                     <span class="mb-1 block text-xs font-semibold text-gray-600">Se vuelve a ver</span>
                     @php $frec = old('popup_frecuencia', $ajustes->popup_frecuencia ?? 'sesion'); @endphp
                     <select name="popup_frecuencia"
-                        class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-red focus:ring-brand-red">
+                        class="w-full rounded-lg border-gray-300 text-sm focus:border-brand-azul focus:ring-brand-azul">
                         <option value="sesion" @selected($frec === 'sesion')>Una vez por visita</option>
                         <option value="dia" @selected($frec === 'dia')>Una vez al día</option>
                         <option value="siempre" @selected($frec === 'siempre')>En cada carga</option>
@@ -73,7 +73,7 @@
                 <label class="flex items-start gap-2 sm:mt-6">
                     <input type="checkbox" name="popup_auto_avance" value="1"
                         @checked(old('popup_auto_avance', $ajustes->popup_auto_avance ?? false))
-                        class="mt-0.5 rounded border-gray-300 text-brand-red focus:ring-brand-red">
+                        class="mt-0.5 rounded border-gray-300 text-brand-azul focus:ring-brand-azul">
                     <span class="text-sm text-gray-700">
                         Pasar solo entre anuncios
                         <span class="block text-xs text-gray-500">Solo aplica con más de uno</span>

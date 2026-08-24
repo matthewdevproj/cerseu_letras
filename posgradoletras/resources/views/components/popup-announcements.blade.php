@@ -26,7 +26,7 @@
 <style>
 /* ── Variables ───────────────────────────────────────────────── */
 :root {
-    --pp-primary      : #6B1E20;
+    --pp-primary      : #143B63;
     --pp-accent       : #C9AA36;
     --pp-bg           : #FFFFFF;
     --pp-bg-alt       : #F9F9F9;

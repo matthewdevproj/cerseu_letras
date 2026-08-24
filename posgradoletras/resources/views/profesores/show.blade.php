@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', $profesor->nombre_completo . ' - Posgrado Letras UNMSM')
+@section('title', $profesor->nombre_completo . ' - CERSEU Letras UNMSM')
 
 @push('styles')
     <style>
@@ -35,7 +35,7 @@
                                  alt="{{ $profesor->nombre_completo }}" decoding="async" width="192" height="192"
                                  class="relative w-full h-full rounded-full object-cover border-4 border-white shadow-lg">
                         @else
-                            <div class="relative w-full h-full rounded-full bg-gray-100 border-4 border-white shadow-lg flex items-center justify-center text-unmsm-guinda">
+                            <div class="relative w-full h-full rounded-full bg-gray-100 border-4 border-white shadow-lg flex items-center justify-center text-unmsm-azul">
                                 <x-fas-user class="text-4xl" />
                             </div>
                         @endif
@@ -54,16 +54,16 @@
                         @if($profesor->email)
                             <a href="mailto:{{ $profesor->email }}"
                                class="flex items-center gap-3 text-sm border border-gray-200 px-4 py-3 rounded-xl
-                                      text-gray-700 hover:bg-unmsm-guinda hover:text-white hover:border-unmsm-guinda
+                                      text-gray-700 hover:bg-unmsm-azul hover:text-white hover:border-unmsm-azul
                                       transition-all group">
-                                <x-fas-envelope class="text-unmsm-guinda group-hover:text-white" />
+                                <x-fas-envelope class="text-unmsm-azul group-hover:text-white" />
                                 <span class="truncate">{{ $profesor->email }}</span>
                             </a>
                         @endif
 
                         @if($profesor->telefono)
                             <div class="flex items-center gap-3 text-sm border border-gray-200 px-4 py-3 rounded-xl text-gray-700 bg-gray-50">
-                                <x-fas-phone class="text-unmsm-guinda" />
+                                <x-fas-phone class="text-unmsm-azul" />
                                 <span>{{ $profesor->telefono }}</span>
                             </div>
                         @endif
@@ -78,7 +78,7 @@
                             <div class="flex flex-col gap-3">
                                 @if($profesor->cti_vitae)
                                     <a href="{{ $profesor->cti_vitae }}" target="_blank" rel="noopener noreferrer" 
-                                       class="flex items-center gap-3 text-sm border border-unmsm-guinda/20 bg-unmsm-guinda/5 px-4 py-2.5 rounded-xl text-unmsm-guinda hover:bg-unmsm-guinda hover:text-white hover:border-unmsm-guinda transition-all group">
+                                       class="flex items-center gap-3 text-sm border border-unmsm-azul/20 bg-unmsm-azul/5 px-4 py-2.5 rounded-xl text-unmsm-azul hover:bg-unmsm-azul hover:text-white hover:border-unmsm-azul transition-all group">
                                         <x-fas-file-alt class="text-lg w-6 text-center" />
                                         <span class="font-medium">CTI Vitae</span>
                                         <x-fas-external-link-alt class="ml-auto text-xs opacity-50 group-hover:opacity-100" />
@@ -107,7 +107,7 @@
                     <!-- Botón volver -->
                     <div class="w-full mt-6 pt-4 border-t border-gray-100">
                         <a href="{{ route('profesores.index') }}"
-                           class="inline-flex items-center text-sm font-medium text-unmsm-guinda hover:text-unmsm-dorado transition-colors group">
+                           class="inline-flex items-center text-sm font-medium text-unmsm-azul hover:text-unmsm-dorado transition-colors group">
                             <x-fas-arrow-left class="mr-2 transform group-hover:-translate-x-1 transition-transform" />
                             Volver al listado
                         </a>
@@ -121,8 +121,8 @@
                 <!-- Card Biografía -->
                 <article class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 hover:shadow-lg transition-shadow duration-300">
                     <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3 font-serif">
-                        <div class="w-10 h-10 rounded-full bg-unmsm-guinda/10 flex items-center justify-center">
-                            <x-fas-user-circle class="text-unmsm-guinda" />
+                        <div class="w-10 h-10 rounded-full bg-unmsm-azul/10 flex items-center justify-center">
+                            <x-fas-user-circle class="text-unmsm-azul" />
                         </div>
                         Biografía
                     </h2>
@@ -143,8 +143,8 @@
                 @if($hasLineas)
                     <article class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 hover:shadow-lg transition-shadow duration-300">
                         <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3 font-serif">
-                            <div class="w-10 h-10 rounded-full bg-unmsm-guinda/10 flex items-center justify-center">
-                                <x-fas-flask class="text-unmsm-guinda" />
+                            <div class="w-10 h-10 rounded-full bg-unmsm-azul/10 flex items-center justify-center">
+                                <x-fas-flask class="text-unmsm-azul" />
                             </div>
                             Líneas de Investigación
                         </h3>
@@ -185,16 +185,16 @@
                 @if($hasGrupo)
                     <article class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 hover:shadow-lg transition-shadow duration-300">
                         <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3 font-serif">
-                            <div class="w-10 h-10 rounded-full bg-unmsm-guinda/10 flex items-center justify-center">
-                                <x-fas-users class="text-unmsm-guinda" />
+                            <div class="w-10 h-10 rounded-full bg-unmsm-azul/10 flex items-center justify-center">
+                                <x-fas-users class="text-unmsm-azul" />
                             </div>
                             Grupo de Investigación
                         </h3>
-                        <div class="bg-gradient-to-r from-unmsm-guinda/5 to-transparent rounded-xl p-5 border-l-4 border-unmsm-guinda">
+                        <div class="bg-gradient-to-r from-unmsm-azul/5 to-transparent rounded-xl p-5 border-l-4 border-unmsm-azul">
                             <p class="text-gray-800 font-semibold flex items-center gap-2">
                                 <x-fas-bookmark class="text-unmsm-dorado" />
                                 @if($linkGrupo)
-                                    <a href="{{ $linkGrupo }}" target="_blank" rel="noopener noreferrer" class="hover:text-unmsm-guinda transition-colors underline decoration-unmsm-dorado/40">
+                                    <a href="{{ $linkGrupo }}" target="_blank" rel="noopener noreferrer" class="hover:text-unmsm-azul transition-colors underline decoration-unmsm-dorado/40">
                                         {{ $nombreGrupo }}
                                         <x-fas-external-link-alt class="text-[10px] ml-1 opacity-50" />
                                     </a>
@@ -206,28 +206,28 @@
                     </article>
                 @endif
 
-                <!-- Card Programas de Posgrado -->
+                <!-- Card Programas del CERSEU -->
                 @if($profesor->programas && $profesor->programas->count() > 0)
                     <article class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 hover:shadow-lg transition-shadow duration-300">
                         <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3 font-serif">
-                            <div class="w-10 h-10 rounded-full bg-unmsm-guinda/10 flex items-center justify-center">
-                                <x-fas-graduation-cap class="text-unmsm-guinda" />
+                            <div class="w-10 h-10 rounded-full bg-unmsm-azul/10 flex items-center justify-center">
+                                <x-fas-graduation-cap class="text-unmsm-azul" />
                             </div>
-                            Programas de Posgrado
+                            Cursos del CERSEU
                         </h3>
                         <div class="grid md:grid-cols-2 gap-4">
                             @foreach($profesor->programas as $programa)
-                                <a href="{{ route('programas.show', $programa->slug) }}"
-                                   class="flex items-center justify-between bg-gray-50 rounded-xl border border-gray-200 p-4 hover:border-unmsm-guinda hover:bg-white hover:shadow-md transition-all group">
+                                <a href="{{ $programa->url }}"
+                                   class="flex items-center justify-between bg-gray-50 rounded-xl border border-gray-200 p-4 hover:border-unmsm-azul hover:bg-white hover:shadow-md transition-all group">
                                     <div>
-                                        <p class="text-sm font-bold text-gray-800 group-hover:text-unmsm-guinda transition-colors">
+                                        <p class="text-sm font-bold text-gray-800 group-hover:text-unmsm-azul transition-colors">
                                             {{ $programa->titulo_completo }}
                                         </p>
                                         <div class="flex flex-wrap items-center gap-x-2 gap-y-1 mt-0.5">
                                             <p class="text-xs text-gray-500">{{ $programa->grado }}</p>
                                             @if($programa->pivot->rol)
                                                 <span class="text-[10px] text-gray-400">•</span>
-                                                <p class="text-xs font-medium text-unmsm-guinda/70 italic">{{ $programa->pivot->rol }}</p>
+                                                <p class="text-xs font-medium text-unmsm-azul/70 italic">{{ $programa->pivot->rol }}</p>
                                             @endif
                                         </div>
                                     </div>
@@ -236,7 +236,7 @@
                                             Coordinador
                                         </span>
                                     @else
-                                        <x-fas-arrow-right class="text-gray-400 group-hover:text-unmsm-guinda group-hover:translate-x-1 transition-all" />
+                                        <x-fas-arrow-right class="text-gray-400 group-hover:text-unmsm-azul group-hover:translate-x-1 transition-all" />
                                     @endif
                                 </a>
                             @endforeach

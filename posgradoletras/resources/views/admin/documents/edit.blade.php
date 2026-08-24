@@ -96,12 +96,12 @@
             <!-- Replace File -->
             <div class="border border-gray-200 rounded-lg p-4">
                 <label class="block text-sm font-medium text-gray-700 mb-3">
-                    <x-fas-sync class="text-brand-red mr-1" /> Reemplazar Archivo (opcional)
+                    <x-fas-sync class="text-brand-azul mr-1" /> Reemplazar Archivo (opcional)
                 </label>
                 <div class="flex gap-2">
                     <input type="file" name="file" id="file" class="hidden">
                     <button type="button" onclick="document.getElementById('file').click()"
-                        class="px-4 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-all flex items-center gap-2">
+                        class="px-4 py-2.5 bg-brand-azul text-white rounded-lg hover:bg-unmsm-azul transition-all flex items-center gap-2">
                         <x-fas-upload /> Subir Nuevo Archivo
                     </button>
                 </div>

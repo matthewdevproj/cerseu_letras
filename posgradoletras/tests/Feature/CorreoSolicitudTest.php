@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Mail\NuevaSolicitudDiplomado;
-use App\Models\DiplomadoLead;
+use App\Mail\NuevaSolicitudInformacion;
+use App\Models\Lead;
 use App\Models\Programa;
 use App\Models\SiteSetting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,7 +22,7 @@ class CorreoSolicitudTest extends TestCase
         return Programa::create([
             'nombre' => 'Diplomado de prueba',
             'slug' => 'diplomado-de-prueba',
-            'grado' => 'Diplomado',
+            'grado' => 'Taller',
             'is_active' => true,
         ]);
     }
@@ -44,10 +44,10 @@ class CorreoSolicitudTest extends TestCase
     {
         Mail::fake();
 
-        $this->post(route('diplomados.solicitud'), $this->solicitud())
+        $this->post(route('talleres.solicitud'), $this->solicitud())
             ->assertRedirect();
 
-        Mail::assertSent(NuevaSolicitudDiplomado::class);
+        Mail::assertSent(NuevaSolicitudInformacion::class);
     }
 
     public function test_el_aviso_va_al_correo_de_admision_del_panel(): void
@@ -60,10 +60,10 @@ class CorreoSolicitudTest extends TestCase
         $ajustes->update(['email_admision' => 'admisionposgrado.letras@unmsm.edu.pe']);
         SiteSetting::clearCache();
 
-        $this->post(route('diplomados.solicitud'), $this->solicitud());
+        $this->post(route('talleres.solicitud'), $this->solicitud());
 
         Mail::assertSent(
-            NuevaSolicitudDiplomado::class,
+            NuevaSolicitudInformacion::class,
             fn ($correo) => $correo->hasTo('admisionposgrado.letras@unmsm.edu.pe')
         );
     }
@@ -72,11 +72,11 @@ class CorreoSolicitudTest extends TestCase
     {
         Mail::fake();
 
-        $this->post(route('diplomados.solicitud'), $this->solicitud());
+        $this->post(route('talleres.solicitud'), $this->solicitud());
 
         // Sin esto habría que copiar el correo a mano desde el cuerpo.
         Mail::assertSent(
-            NuevaSolicitudDiplomado::class,
+            NuevaSolicitudInformacion::class,
             fn ($correo) => $correo->hasReplyTo('maria.quispe@ejemplo.pe')
         );
     }
@@ -95,9 +95,9 @@ class CorreoSolicitudTest extends TestCase
     {
         Mail::fake();
 
-        $this->post(route('diplomados.solicitud'), $this->solicitud());
+        $this->post(route('talleres.solicitud'), $this->solicitud());
 
-        Mail::assertSent(NuevaSolicitudDiplomado::class, function ($correo) {
+        Mail::assertSent(NuevaSolicitudInformacion::class, function ($correo) {
             $cuerpo = $correo->render();
 
             return str_contains($cuerpo, 'María')
@@ -113,20 +113,20 @@ class CorreoSolicitudTest extends TestCase
         // que se pierda la solicitud ni que el visitante vea un error.
         Mail::shouldReceive('to')->andThrow(new \RuntimeException('SMTP caído'));
 
-        $this->post(route('diplomados.solicitud'), $this->solicitud())
+        $this->post(route('talleres.solicitud'), $this->solicitud())
             ->assertRedirect()
             ->assertSessionHas('success');
 
-        $this->assertSame(1, DiplomadoLead::count());
+        $this->assertSame(1, Lead::count());
     }
 
     public function test_un_fallo_de_envio_queda_anotado_en_la_solicitud(): void
     {
         Mail::shouldReceive('to')->andThrow(new \RuntimeException('SMTP caído'));
 
-        $this->post(route('diplomados.solicitud'), $this->solicitud());
+        $this->post(route('talleres.solicitud'), $this->solicitud());
 
-        $lead = DiplomadoLead::firstOrFail();
+        $lead = Lead::firstOrFail();
 
         // Lo que hace visible el fallo en el panel. Sin esto, una solicitud sin
         // avisar es idéntica a una avisada.
@@ -138,9 +138,9 @@ class CorreoSolicitudTest extends TestCase
     {
         Mail::fake();
 
-        $this->post(route('diplomados.solicitud'), $this->solicitud());
+        $this->post(route('talleres.solicitud'), $this->solicitud());
 
-        $lead = DiplomadoLead::firstOrFail();
+        $lead = Lead::firstOrFail();
 
         $this->assertFalse($lead->avisoPendiente());
         $this->assertNotNull($lead->aviso_enviado_en);
@@ -152,14 +152,14 @@ class CorreoSolicitudTest extends TestCase
         // explícita el panel daría por avisadas solicitudes que nadie recibió.
         config(['mail.default' => 'log']);
 
-        $this->post(route('diplomados.solicitud'), $this->solicitud());
+        $this->post(route('talleres.solicitud'), $this->solicitud());
 
-        $this->assertTrue(DiplomadoLead::firstOrFail()->avisoPendiente());
+        $this->assertTrue(Lead::firstOrFail()->avisoPendiente());
     }
 
     public function test_se_puede_reenviar_el_aviso_desde_el_panel(): void
     {
-        $lead = DiplomadoLead::create($this->solicitud());
+        $lead = Lead::create($this->solicitud());
         $lead->forceFill(['aviso_error' => 'SMTP caído'])->save();
 
         Mail::fake();
@@ -168,13 +168,13 @@ class CorreoSolicitudTest extends TestCase
             ->post(route('admin.leads.reenviar', $lead))
             ->assertRedirect();
 
-        Mail::assertSent(NuevaSolicitudDiplomado::class);
+        Mail::assertSent(NuevaSolicitudInformacion::class);
         $this->assertFalse($lead->fresh()->avisoPendiente());
     }
 
     public function test_reenviar_el_aviso_exige_haber_entrado_al_panel(): void
     {
-        $lead = DiplomadoLead::create($this->solicitud());
+        $lead = Lead::create($this->solicitud());
 
         $this->post(route('admin.leads.reenviar', $lead))->assertRedirect(route('login'));
     }

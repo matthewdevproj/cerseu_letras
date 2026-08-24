@@ -34,10 +34,11 @@
                 </a>
                 <span class="text-white/30">|</span>
             @endif
-            <a href="{{ route('directorio') }}" class="flex items-center hover:text-gray-300 transition gap-2">
-                <x-fas-globe />
-                <span>Directorio Posgrado</span>
-            </a>
+            {{-- El enlace al directorio propio se retira mientras no haya un
+                 equipo del CERSEU cargado: el que venía sembrado era el de la
+                 Unidad de Posgrado. La ruta /directorio sigue existiendo y el
+                 panel permite cargarlo; al hacerlo, basta devolver este enlace
+                 (o añadirlo desde Panel → Menú). --}}
 
         </div>
 

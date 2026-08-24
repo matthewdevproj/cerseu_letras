@@ -18,20 +18,20 @@ class DatabaseSeeder extends Seeder
             // Configuración del sitio
             SiteSettingsSeeder::class,
             
-            // Datos principales
-            ProgramasSeeder::class,
-            DiplomadoSeeder::class,
-            DocentesSeeder::class,
-            DirectorioPosgradoSeeder::class,
-
-            // Relaciones
-            DocenteProgramaSeeder::class,
+            // Oferta real del CERSEU: la programación 2026 con sus cursos, sus
+            // docentes responsables y sus convocatorias. Sustituye a los
+            // seeders de demostración (maestrías, doctorados y diplomados
+            // inventados) y al reparto aleatorio de docentes por programa, que
+            // habría puesto profesores de mentira en fichas reales.
+            OfertaCerseuSeeder::class,
             
-            // Contenido adicional
-            TestimoniosSeeder::class,
+            // Contenido adicional. Sin testimonios: los que había eran de
+            // demostración y hablaban de maestrías y doctorados. La sección de
+            // la portada y /testimonios se ocultan solas mientras no haya
+            // ninguno, y el panel sigue permitiendo cargar los reales.
             DocumentsSeeder::class,
             CronogramasSeeder::class,
-            AdmisionDiplomadoSettingSeeder::class,
+            AdmisionSettingSeeder::class,
 
             // Sin estos tres, una instalación nueva arranca con el menú vacío
             // y con /tramites, /admision y /nosotros en blanco: ese contenido

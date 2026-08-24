@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', 'Editar Programa')
+@section('title', 'Editar Curso')
 
 @push('styles')
     <style>
@@ -44,12 +44,12 @@
         }
         .nav-tabs .nav-link:hover {
             color: var(--brand);
-            background: #fff5f5;
+            background: #F2F7FC;
         }
         .nav-tabs .nav-link.active {
             background: var(--brand) !important;
             color: white !important;
-            box-shadow: 0 8px 18px rgba(118, 30, 35, 0.25);
+            box-shadow: 0 8px 18px rgba(20, 59, 99, 0.25);
         }
         .nav-tabs .nav-link.active i {
             color: white !important;
@@ -209,7 +209,7 @@
         <!-- Header -->
         <div class="mb-8">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-lg bg-brand-red flex items-center justify-center text-white">
+                <div class="w-12 h-12 rounded-lg bg-brand-azul flex items-center justify-center text-white">
                     <x-fas-graduation-cap class="text-2xl" />
                 </div>
                 <div>
@@ -268,9 +268,9 @@
                                         Tipo <span class="text-red-500">*</span>
                                     </label>
                                     <select name="grado" id="grado" class="block w-full py-2.5 px-4" required>
-                                        <option value="Maestría" {{ old('grado', $programa->grado) == 'Maestría' ? 'selected' : '' }}>Maestría</option>
-                                        <option value="Doctorado" {{ old('grado', $programa->grado) == 'Doctorado' ? 'selected' : '' }}>Doctorado</option>
-                                        <option value="Diplomado" {{ old('grado', $programa->grado) == 'Diplomado' ? 'selected' : '' }}>Diplomado</option>
+                                        @foreach (\App\Models\TipoOferta::cases() as $t)
+                                            <option value="{{ $t->grado() }}" {{ old('grado', $programa->grado) == $t->grado() ? 'selected' : '' }}>{{ $t->singular() }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -338,7 +338,7 @@
                                         class="block w-full py-2.5 px-4" maxlength="255" placeholder="Diploma en Curaduría con Énfasis en...">
                                 </div>
                                 <p class="md:col-span-3 -mt-3 text-xs text-gray-400">
-                                    Se muestra bajo el título en la portada del programa, como «Rótulo: contenido».
+                                    Se muestra bajo el título en la portada del curso, como «Rótulo: contenido».
                                     Si dejas el contenido vacío no se muestra nada: no se completa solo con «Grado que otorga».
                                 </p>
                             </div>
@@ -357,10 +357,10 @@
                             <div class="space-y-6">
                                 <div>
                                     <label for="sumilla" class="form-label block">Sumilla</label>
-                                    <textarea name="sumilla" id="sumilla" rows="3" class="block w-full py-2.5 px-4" placeholder="Breve descripción del programa...">{{ old('sumilla', $programa->sumilla) }}</textarea>
+                                    <textarea name="sumilla" id="sumilla" rows="3" class="block w-full py-2.5 px-4" placeholder="Breve descripción del curso...">{{ old('sumilla', $programa->sumilla) }}</textarea>
                                 </div>
                                 <div>
-                                    <label for="por_que_text" class="form-label block">¿Por qué elegir este programa?</label>
+                                    <label for="por_que_text" class="form-label block">¿Por qué elegir este curso?</label>
                                     <textarea name="por_que_text" id="por_que_text" rows="4" class="block w-full py-2.5 px-4" placeholder="Razones para elegir...">{{ old('por_que_text', $programa->por_que_text) }}</textarea>
                                 </div>
 
@@ -371,7 +371,7 @@
                                     </label>
                                     <div id="objetivos-list" class="space-y-2"></div>
                                     <button type="button" onclick="agregarObjetivo()" 
-                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-azul text-brand-azul rounded-lg hover:bg-brand-azul hover:text-white transition-all">
                                         <x-fas-plus class="mr-1" /> Agregar Objetivo
                                     </button>
                                     <input type="hidden" id="objetivos_academicos" name="objetivos_academicos">
@@ -384,7 +384,7 @@
                                     </label>
                                     <div id="ingresante-list" class="space-y-2"></div>
                                     <button type="button" onclick="agregarIngresante()" 
-                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-azul text-brand-azul rounded-lg hover:bg-brand-azul hover:text-white transition-all">
                                         <x-fas-plus class="mr-1" /> Agregar Item
                                     </button>
                                     <input type="hidden" id="perfil_ingresante" name="perfil_ingresante">
@@ -397,7 +397,7 @@
                                     </label>
                                     <div id="graduado-list" class="space-y-2"></div>
                                     <button type="button" onclick="agregarGraduado()" 
-                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-brand-azul text-brand-azul rounded-lg hover:bg-brand-azul hover:text-white transition-all">
                                         <x-fas-plus class="mr-1" /> Agregar Item
                                     </button>
                                     <input type="hidden" id="perfil_graduado" name="perfil_graduado">
@@ -419,7 +419,7 @@
 
                             <div class="mt-4 flex flex-wrap gap-3">
                                 <button type="button" onclick="agregarCiclo()"
-                                    class="inline-flex items-center px-4 h-11 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                    class="inline-flex items-center px-4 h-11 border border-brand-azul text-brand-azul rounded-lg hover:bg-brand-azul hover:text-white transition-all">
                                     <x-fas-plus-circle class="mr-2" /> Agregar Ciclo
                                 </button>
                                 <button type="button" onclick="agregarSeccionElectivos()"
@@ -437,7 +437,7 @@
                                 <div class="flex items-center gap-2 text-blue-800">
                                     <x-fas-info-circle class="text-xl" />
                                     <p class="text-sm font-medium">
-                                        Asignación de Docentes: Selecciona los docentes que enseñan en este programa. Puedes indicar quién coordina, con qué denominación («Coordinador» o «Coordinadora»), su rol y el orden de visualización.
+                                        Asignación de Docentes: Selecciona los docentes que enseñan en este curso. Puedes indicar quién coordina, con qué denominación («Coordinador» o «Coordinadora»), su rol y el orden de visualización.
                                     </p>
                                 </div>
                             </div>
@@ -461,7 +461,7 @@
                             </div>
 
                             <button type="button" onclick="agregarDocente()"
-                                class="mt-4 inline-flex items-center px-4 h-11 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red hover:text-white transition-all">
+                                class="mt-4 inline-flex items-center px-4 h-11 border border-brand-azul text-brand-azul rounded-lg hover:bg-brand-azul hover:text-white transition-all">
                                 <x-fas-plus-circle class="mr-2" /> Agregar Docente
                             </button>
                         </div>
@@ -481,7 +481,7 @@
                                     current-file-label="Ver horario actual" />
 
                                 <!-- Brochure (Diplomados) -->
-                                <x-admin-file-upload mode="ajax" name="brochure" label="Brochure (Diplomados)" icon="fas fa-file-pdf"
+                                <x-admin-file-upload mode="ajax" name="brochure" label="Brochure (Talleres)" icon="fas fa-file-pdf"
                                     accept=".pdf,application/pdf"
                                     :url-value="old('brochure_url', filter_var($programa->brochure_url, FILTER_VALIDATE_URL) ? $programa->brochure_url : '')"
                                     :current-file-url="$programa->brochure_url ? (filter_var($programa->brochure_url, FILTER_VALIDATE_URL) ? $programa->brochure_url : asset('storage/' . $programa->brochure_url)) : null"
@@ -498,14 +498,14 @@
                                 {{-- Tarifas por periodo. Antes vivían escritas en las plantillas de
                                      maestría y doctorado y se recalculaban aparte en la ficha del
                                      programa; ahora salen de aquí y alimentan ambos sitios. --}}
-                                <div class="border border-gray-200 rounded-lg p-4 mb-4 hover:border-brand-red hover:shadow-sm transition-all"
+                                <div class="border border-gray-200 rounded-lg p-4 mb-4 hover:border-brand-azul hover:shadow-sm transition-all"
                                     x-data="inversionPeriodos(
                                         {{ (int) ($programa->costo_por_credito ?? 0) }},
                                         {{ Illuminate\Support\Js::from($programa->semestres_inversion ?? []) }},
-                                        '{{ $programa->grado === 'Diplomado' ? 'Módulo' : 'Semestre' }}'
+                                        'Módulo'
                                     )">
                                     <label class="form-label block mb-3">
-                                        <x-fas-calculator class="text-brand-red mr-1" /> Tarifas por {{ $programa->grado === 'Diplomado' ? 'módulo' : 'semestre' }}
+                                        <x-fas-calculator class="text-brand-azul mr-1" /> Tarifas por módulo
                                     </label>
 
                                     <input type="hidden" name="costo_por_credito" :value="costoCredito">
@@ -520,7 +520,7 @@
                                         <div class="flex items-end">
                                             <p class="text-sm text-gray-600">
                                                 Inversión total calculada:
-                                                <strong class="text-brand-red" x-text="'S/ ' + total.toLocaleString('es-PE')"></strong>
+                                                <strong class="text-brand-azul" x-text="'S/ ' + total.toLocaleString('es-PE')"></strong>
                                             </p>
                                         </div>
                                     </div>
@@ -529,7 +529,7 @@
                                         <table class="w-full text-sm">
                                             <thead class="bg-gray-50 text-xs text-gray-600 uppercase">
                                                 <tr>
-                                                    <th class="px-3 py-2 text-left">{{ $programa->grado === 'Diplomado' ? 'Módulo' : 'Semestre' }}</th>
+                                                    <th class="px-3 py-2 text-left">Módulo</th>
                                                     <th class="px-3 py-2 text-left">Matrícula (S/)</th>
                                                     <th class="px-3 py-2 text-left">Créditos</th>
                                                     <th class="px-3 py-2 text-left">Subtotal</th>
@@ -563,7 +563,7 @@
                                     </div>
 
                                     <button type="button" @click="agregar()"
-                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-red-700 text-red-700 rounded-lg hover:bg-red-50">
+                                        class="mt-3 inline-flex items-center px-3 py-1.5 text-sm border border-unmsm-azul text-unmsm-azul rounded-lg hover:bg-unmsm-azul/5">
                                         <x-fas-plus class="mr-1" /> Agregar periodo
                                     </button>
                                     <p class="text-xs text-gray-400 mt-2">
@@ -575,9 +575,9 @@
                                 @php
                                     $inv = $programa->inversion_economica ?? [];
                                 @endphp
-                                <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-red hover:shadow-sm transition-all">
+                                <div class="border border-gray-200 rounded-lg p-4 hover:border-brand-azul hover:shadow-sm transition-all">
                                     <label class="form-label block mb-3">
-                                        <x-fas-money-bill-wave class="text-brand-red mr-1" /> Inversión Económica (Diplomados)
+                                        <x-fas-money-bill-wave class="text-brand-azul mr-1" /> Inversión Económica (Talleres)
                                     </label>
 
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -592,7 +592,7 @@
                                                 class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="280">
                                         </div>
                                         <div>
-                                            <label class="text-xs text-gray-500 mb-1 block">Costo total del diplomado (S/)</label>
+                                            <label class="text-xs text-gray-500 mb-1 block">Costo total del taller (S/)</label>
                                             <input type="number" id="inv_costo_total" value="{{ $inv['costo_total'] ?? '' }}"
                                                 class="block w-full py-2.5 px-4 border border-gray-300 rounded-lg" min="0" placeholder="3000">
                                         </div>
@@ -640,7 +640,7 @@
                                 ])
 
                                 <!-- Imagen del Programa -->
-                                <x-admin-file-upload mode="ajax" name="imagen" label="Imagen del Programa" icon="fas fa-image"
+                                <x-admin-file-upload mode="ajax" name="imagen" label="Imagen del Curso" icon="fas fa-image"
                                     accept="image/*"
                                     :url-value="old('imagen_url', filter_var($programa->imagen, FILTER_VALIDATE_URL) ? $programa->imagen : '')"
                                     :current-file-url="$programa->imagen ? (filter_var($programa->imagen, FILTER_VALIDATE_URL) ? $programa->imagen : asset('storage/' . $programa->imagen)) : null"
@@ -1143,7 +1143,7 @@
             //   JSON ANTES DE ENVIAR
             // ============================
             function prepararPlanAntesDeEnviar() {
-                var form = document.getElementById('form-programa');
+                var form = document.getElementById('form-curso');
                 if (!form) return;
 
                 form.addEventListener('submit', function() {
@@ -1239,7 +1239,7 @@
                 });
 
                 // Serializar listas JSON antes de enviar
-                var form = document.getElementById('form-programa');
+                var form = document.getElementById('form-curso');
                 if (form) {
                     form.addEventListener('submit', function() {
                         document.getElementById('objetivos_academicos').value = recogerListaJSON('objetivos-list');

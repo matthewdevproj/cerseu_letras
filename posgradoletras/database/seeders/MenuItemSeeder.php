@@ -47,7 +47,6 @@ class MenuItemSeeder extends Seeder
                 'hijos' => [
                     ['etiqueta' => 'Quiénes somos', 'route_name' => 'nosotros', 'icono' => 'fas-info-circle'],
                     ['etiqueta' => 'Directorio FLCH', 'url' => 'https://letras.unmsm.edu.pe/directorio/', 'icono' => 'fas-address-book', 'nueva_pestana' => true],
-                    ['etiqueta' => 'Directorio Posgrado', 'route_name' => 'directorio', 'icono' => 'fas-users'],
                     ['etiqueta' => 'Documentos y Recursos', 'route_name' => 'informativos.index', 'icono' => 'fas-file-alt'],
                     ['etiqueta' => 'Grupos de Investigación', 'url' => 'https://letras.unmsm.edu.pe/unidad-de-investigacion', 'icono' => 'fas-flask', 'nueva_pestana' => true],
                 ],
@@ -61,17 +60,16 @@ class MenuItemSeeder extends Seeder
                     ['etiqueta' => 'Cronograma Académico', 'route_name' => 'cronograma', 'icono' => 'fas-calendar-alt'],
                 ],
             ],
+            // La oferta del CERSEU: cursos (meses) y talleres (semanas). Ninguno
+            // lleva desplegable porque cada uno es un solo destino; las
+            // maestrías y doctorados de la Unidad de Posgrado ya no existen.
             [
-                'etiqueta' => 'Programas', 'icono' => 'fas-graduation-cap',
-                'route_name' => 'programas.index',
-                'hijos' => [
-                    ['etiqueta' => 'Maestrías', 'route_name' => 'programas.index', 'route_params' => '{"tipo":"maestria"}', 'icono' => 'fas-graduation-cap'],
-                    ['etiqueta' => 'Doctorados', 'route_name' => 'programas.index', 'route_params' => '{"tipo":"doctorado"}', 'icono' => 'fas-book-reader'],
-                ],
+                'etiqueta' => 'Cursos', 'icono' => 'fas-graduation-cap',
+                'route_name' => 'cursos.index',
             ],
             [
-                'etiqueta' => 'Diplomados', 'icono' => 'fas-certificate',
-                'route_name' => 'diplomados.index',
+                'etiqueta' => 'Talleres', 'icono' => 'fas-certificate',
+                'route_name' => 'talleres.index',
             ],
             [
                 // Sin desplegable: su única subentrada apuntaba a esta misma

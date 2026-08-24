@@ -1,11 +1,11 @@
 @extends('layouts.public')
 
-@section('title', 'Eventos - Posgrado Letras UNMSM')
+@section('title', 'Eventos - CERSEU Letras UNMSM')
 
 @section('content')
     <!-- Hero Section -->
     <x-hero-section title="Eventos" label="Actividades Académicas"
-        subtitle="Conferencias, seminarios, talleres y actividades de la Unidad de Posgrado"
+        subtitle="Conferencias, seminarios, talleres y actividades del CERSEU"
         :image="asset('images/campus-aerea-2.jpg')" />
 
     <div class="container mx-auto px-4 py-12">
@@ -21,7 +21,7 @@
 
                             <!-- Badge de fecha -->
                             <div
-                                class="absolute top-4 left-4 bg-unmsm-guinda text-white px-3 py-2 rounded-lg text-center shadow-lg">
+                                class="absolute top-4 left-4 bg-unmsm-azul text-white px-3 py-2 rounded-lg text-center shadow-lg">
                                 <span class="block text-2xl font-bold leading-none">{{ $evento->fecha_inicio->format('d') }}</span>
                                 <span class="block text-xs uppercase">{{ $evento->fecha_inicio->translatedFormat('M') }}</span>
                             </div>
@@ -33,7 +33,7 @@
                                             <x-fas-file-pdf class="mr-1" /> PDF
                                         </span>
                                     @else
-                                        <span class="bg-unmsm-dorado text-unmsm-guinda px-2 py-1 rounded text-xs font-bold">
+                                        <span class="bg-unmsm-dorado text-unmsm-azul px-2 py-1 rounded text-xs font-bold">
                                             <x-fas-external-link-alt class="mr-1" /> Enlace
                                         </span>
                                     @endif
@@ -44,7 +44,7 @@
                         <!-- Contenido -->
                         <div class="p-5">
                             <h3
-                                class="text-lg font-bold text-gray-900 mb-2 group-hover:text-unmsm-guinda transition-colors line-clamp-2">
+                                class="text-lg font-bold text-gray-900 mb-2 group-hover:text-unmsm-azul transition-colors line-clamp-2">
                                 {{ $evento->titulo }}
                             </h3>
 
@@ -62,7 +62,7 @@
 
                                 @if($evento->tiene_url)
                                     <a href="{{ $evento->url }}" target="_blank" rel="noopener noreferrer"
-                                        class="inline-flex items-center gap-2 px-4 py-2 bg-unmsm-guinda text-white text-sm font-bold rounded-lg hover:bg-red-800 transition-colors">
+                                        class="inline-flex items-center gap-2 px-4 py-2 bg-unmsm-azul text-white text-sm font-bold rounded-lg hover:bg-unmsm-azul-dark transition-colors">
                                         {{ $evento->es_pdf ? 'Descargar' : 'Ver más' }}
                                         <x-fas-arrow-right class="text-xs" />
                                     </a>

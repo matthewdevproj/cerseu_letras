@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', ($admisionSettings->hero_titulo ?? 'Admisión Diplomados') . ' - Posgrado Letras UNMSM')
+@section('title', ($admisionSettings->hero_titulo ?: 'Admisión ' . $tipo->plural()) . ' - CERSEU Letras UNMSM')
 
 @push('styles')
     <style>
@@ -23,7 +23,7 @@
         }
 
         .admision-nav-link.is-active {
-            background: rgba(118, 30, 35, 0.08);
+            background: rgba(20, 59, 99, 0.08);
             border-left-color: var(--brand);
             color: var(--brand);
             font-weight: 700;
@@ -69,7 +69,7 @@
         .cronograma-table thead th {
             background: #faf7f2;
             font-weight: 700;
-            color: #6B1E20;
+            color: #143B63;
             font-size: 0.7rem;
             letter-spacing: 0.04em;
             text-transform: uppercase;
@@ -181,9 +181,9 @@
             : asset('images/campus-fachada.jpg');
     @endphp
 
-    <x-hero-section :title="$s->hero_titulo ?? 'Admisión Diplomados'"
+    <x-hero-section :title="$s->hero_titulo ?: 'Admisión ' . $tipo->plural()"
         label="Guía para el proceso de admisión"
-        :subtitle="$s->hero_subtitulo ?? 'Sección Diplomados · Unidad de Posgrado'"
+        :subtitle="$s->hero_subtitulo ?: 'Sección ' . $tipo->plural() . ' · CERSEU'"
         :image="$heroImagen" />
 
     {{-- Navegación móvil: barra horizontal pegajosa --}}
@@ -218,7 +218,7 @@
 
                 {{-- Sección 1: Guía para el proceso de admisión --}}
                 <section id="guia" class="admision-section bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h2 class="text-xl font-bold text-unmsm-guinda mb-6 font-serif">Guía para el proceso de admisión</h2>
+                    <h2 class="text-xl font-bold text-unmsm-azul mb-6 font-serif">Guía para el proceso de admisión</h2>
                     <div class="space-y-5">
                         @forelse($pasos as $paso)
                             <div class="step-card bg-gray-50 rounded-r-lg p-4 flex gap-4">
@@ -226,7 +226,7 @@
                                 <div>
                                     <h3 class="font-bold text-gray-800 mb-1 flex items-center gap-2">
                                         @if(!empty($paso['icono']))
-                                            <x-dynamic-component :component="'fas-' . str_replace('fa-', '', $paso['icono'])" class="text-unmsm-guinda text-sm" />
+                                            <x-dynamic-component :component="'fas-' . str_replace('fa-', '', $paso['icono'])" class="text-unmsm-azul text-sm" />
                                         @endif
                                         {{ $paso['titulo'] ?? '' }}
                                     </h3>
@@ -242,7 +242,7 @@
                 {{-- Sección 2: Cronograma de admisión --}}
                 <section id="cronograma" class="admision-section is-hidden bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md">
                     {{-- Encabezado con degradado, icono y leyenda de estados --}}
-                    <div class="relative overflow-hidden bg-gradient-to-br from-unmsm-guinda to-[#5a161a] text-white px-5 py-5">
+                    <div class="relative overflow-hidden bg-gradient-to-br from-unmsm-azul to-[#0F2B48] text-white px-5 py-5">
                         <div class="pointer-events-none absolute -right-6 -top-8 opacity-10">
                             <x-fas-calendar-days class="text-[7rem]" aria-hidden="true" />
                         </div>
@@ -252,7 +252,7 @@
                             </span>
                             <div>
                                 <h2 class="font-serif text-lg font-bold leading-tight">Cronograma de Admisión</h2>
-                                <p class="mt-0.5 text-xs text-white/70">Fechas de inscripción y cierre por convocatoria de diplomados.</p>
+                                <p class="mt-0.5 text-xs text-white/70">Fechas de inscripción y cierre por convocatoria de {{ mb_strtolower($tipo->plural()) }}.</p>
                             </div>
                         </div>
                         {{-- Leyenda --}}
@@ -268,7 +268,7 @@
                         <table class="cronograma-table">
                             <thead>
                                 <tr>
-                                    <th>Programa</th>
+                                    <th>Curso</th>
                                     <th>Convocatoria</th>
                                     <th>Inscripción</th>
                                     <th>Fecha límite</th>
@@ -287,7 +287,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="inline-flex items-center gap-1.5 font-semibold text-unmsm-guinda">
+                                            <span class="inline-flex items-center gap-1.5 font-semibold text-unmsm-azul">
                                                 <x-far-clock class="text-unmsm-dorado text-xs" aria-hidden="true" />
                                                 {{ $item->fecha_limite }}
                                             </span>
@@ -310,7 +310,7 @@
                     {{-- Tarjetas (móvil): evita el scroll horizontal de la tabla --}}
                     <div class="md:hidden divide-y divide-gray-100">
                         @forelse($cronogramaItems as $item)
-                            <div @class(['p-4', 'border-l-[3px] border-unmsm-guinda' => $item->estado === 'Activo'])>
+                            <div @class(['p-4', 'border-l-[3px] border-unmsm-azul' => $item->estado === 'Activo'])>
                                 <div class="flex items-start justify-between gap-3">
                                     <div class="min-w-0">
                                         <h3 class="font-bold text-gray-800 leading-tight">{{ $item->programa }}</h3>
@@ -327,11 +327,11 @@
                                         </p>
                                         <p class="mt-0.5 text-sm text-gray-700 break-words">{{ $item->fecha_inscripcion }}</p>
                                     </div>
-                                    <div class="min-w-0 rounded-lg bg-unmsm-guinda/5 px-3 py-2">
+                                    <div class="min-w-0 rounded-lg bg-unmsm-azul/5 px-3 py-2">
                                         <p class="flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-wide text-unmsm-dorado">
                                             <x-far-clock aria-hidden="true" /> Fecha límite
                                         </p>
-                                        <p class="mt-0.5 text-sm font-semibold text-unmsm-guinda break-words">{{ $item->fecha_limite }}</p>
+                                        <p class="mt-0.5 text-sm font-semibold text-unmsm-azul break-words">{{ $item->fecha_limite }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -343,18 +343,18 @@
 
                 {{-- Sección 3: Requisitos para postular --}}
                 <section id="requisitos" class="admision-section is-hidden bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h2 class="text-xl font-bold text-unmsm-guinda mb-4 font-serif">Requisitos para postular</h2>
+                    <h2 class="text-xl font-bold text-unmsm-azul mb-4 font-serif">Requisitos para postular</h2>
                     @if($s->requisitos_email)
                         <p class="text-gray-700 text-sm mb-4">
                             El postulante deberá enviar su expediente en archivo digital (formato PDF) al correo
-                            <a href="mailto:{{ $s->requisitos_email }}" class="text-unmsm-guinda font-semibold hover:underline">{{ $s->requisitos_email }}</a>
+                            <a href="mailto:{{ $s->requisitos_email }}" class="text-unmsm-azul font-semibold hover:underline">{{ $s->requisitos_email }}</a>
                             con los siguientes documentos adjuntos:
                         </p>
                     @endif
                     <ul class="space-y-2 text-sm text-gray-700">
                         @foreach($requisitos as $requisito)
                             <li class="relative pl-6">
-                                <span class="absolute left-0 text-unmsm-guinda font-bold">✓</span>{{ $requisito }}
+                                <span class="absolute left-0 text-unmsm-azul font-bold">✓</span>{{ $requisito }}
                             </li>
                         @endforeach
                     </ul>
@@ -370,21 +370,21 @@
 
                 {{-- Sección 4: Pago por derecho de inscripción --}}
                 <section id="pago" class="admision-section is-hidden bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h2 class="text-xl font-bold text-unmsm-guinda mb-4 font-serif">Pago por derecho de inscripción</h2>
+                    <h2 class="text-xl font-bold text-unmsm-azul mb-4 font-serif">Pago por derecho de inscripción</h2>
                     @if($s->pago_descripcion)
-                        <div class="bg-unmsm-guinda/5 border-l-4 border-unmsm-dorado p-4 mb-6">
+                        <div class="bg-unmsm-azul/5 border-l-4 border-unmsm-dorado p-4 mb-6">
                             <p class="text-gray-700 text-sm">{{ $s->pago_descripcion }}</p>
                         </div>
                     @endif
                     @if($s->pago_costo)
-                        <p class="text-2xl font-bold text-unmsm-guinda mb-6">{{ $s->pago_costo }}</p>
+                        <p class="text-2xl font-bold text-unmsm-azul mb-6">{{ $s->pago_costo }}</p>
                     @endif
 
                     <div class="space-y-6">
                         @foreach($pagoInstrucciones as $index => $instruccion)
                             <div class="border border-gray-200 rounded-lg p-4">
                                 <div class="flex items-start gap-3 mb-3">
-                                    <span class="flex-shrink-0 w-8 h-8 bg-unmsm-guinda text-white rounded-full flex items-center justify-center text-sm font-bold">{{ $index + 1 }}</span>
+                                    <span class="flex-shrink-0 w-8 h-8 bg-unmsm-azul text-white rounded-full flex items-center justify-center text-sm font-bold">{{ $index + 1 }}</span>
                                     <div class="flex-1">
                                         <h4 class="font-bold text-gray-800 mb-1">{{ $instruccion['titulo'] ?? '' }}</h4>
                                         @if(!empty($instruccion['descripcion']))
@@ -408,7 +408,7 @@
                     @if($s->pago_link_sanmarket)
                         <div class="text-center mt-6">
                             <a href="{{ $s->pago_link_sanmarket }}" target="_blank" rel="noopener noreferrer" 
-                                class="inline-flex items-center gap-2 px-6 py-3 bg-unmsm-guinda text-white font-bold rounded-lg hover:bg-red-900 transition-all shadow-md">
+                                class="inline-flex items-center gap-2 px-6 py-3 bg-unmsm-azul text-white font-bold rounded-lg hover:bg-unmsm-azul-dark transition-all shadow-md">
                                 <x-fas-external-link-alt /> Ir a San Market UNMSM
                             </a>
                         </div>
@@ -423,7 +423,7 @@
 
                 {{-- Sección 5: Publicación de resultados --}}
                 <section id="resultados" class="admision-section is-hidden bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h2 class="text-xl font-bold text-unmsm-guinda mb-4 font-serif">Publicación de resultados</h2>
+                    <h2 class="text-xl font-bold text-unmsm-azul mb-4 font-serif">Publicación de resultados</h2>
                     <div class="bg-green-50 border border-green-200 rounded-lg p-5">
                         <div class="flex items-start gap-4">
                             <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -435,13 +435,13 @@
                     <div class="flex flex-wrap gap-3 mt-5">
                         @if($s->resultados_enlace)
                             <a href="{{ $s->resultados_enlace }}" target="_blank" rel="noopener noreferrer" 
-                                class="inline-flex items-center gap-2 px-5 py-2.5 bg-unmsm-guinda text-white font-semibold rounded-lg hover:bg-red-900 transition-all text-sm">
+                                class="inline-flex items-center gap-2 px-5 py-2.5 bg-unmsm-azul text-white font-semibold rounded-lg hover:bg-unmsm-azul-dark transition-all text-sm">
                                 <x-fas-arrow-up-right-from-square /> Ver publicación
                             </a>
                         @endif
                         @if($s->resultados_pdf_url)
                             <a href="{{ $s->resultados_pdf_url }}" target="_blank" rel="noopener noreferrer" 
-                                class="inline-flex items-center gap-2 px-5 py-2.5 border border-unmsm-guinda text-unmsm-guinda font-semibold rounded-lg hover:bg-unmsm-guinda hover:text-white transition-all text-sm">
+                                class="inline-flex items-center gap-2 px-5 py-2.5 border border-unmsm-azul text-unmsm-azul font-semibold rounded-lg hover:bg-unmsm-azul hover:text-white transition-all text-sm">
                                 <x-fas-file-pdf /> Ver PDF de resultados
                             </a>
                         @endif
@@ -450,31 +450,31 @@
 
                 {{-- Sección 6: Para más información --}}
                 <section id="contacto" class="admision-section is-hidden bg-white border border-gray-200 rounded-xl p-6 shadow-md">
-                    <h2 class="text-xl font-bold text-unmsm-guinda mb-6 font-serif">Para más información</h2>
+                    <h2 class="text-xl font-bold text-unmsm-azul mb-6 font-serif">Para más información</h2>
                     <div class="grid md:grid-cols-2 gap-8">
                         <div class="space-y-4 text-sm">
                             @if($s->contacto_telefono)
                                 <div class="flex items-center gap-3">
-                                    <x-fas-phone class="text-unmsm-guinda" />
+                                    <x-fas-phone class="text-unmsm-azul" />
                                     <span class="text-gray-700">{{ $s->contacto_telefono }}</span>
                                 </div>
                             @endif
                             @if($s->contacto_correo)
                                 <div class="flex items-center gap-3">
-                                    <x-fas-envelope class="text-unmsm-guinda" />
-                                    <a href="mailto:{{ $s->contacto_correo }}" class="text-gray-700 hover:text-unmsm-guinda">{{ $s->contacto_correo }}</a>
+                                    <x-fas-envelope class="text-unmsm-azul" />
+                                    <a href="mailto:{{ $s->contacto_correo }}" class="text-gray-700 hover:text-unmsm-azul">{{ $s->contacto_correo }}</a>
                                 </div>
                             @endif
                             @if($s->contacto_direccion)
                                 <div class="flex items-start gap-3">
-                                    <x-fas-location-dot class="text-unmsm-guinda mt-0.5" />
+                                    <x-fas-location-dot class="text-unmsm-azul mt-0.5" />
                                     <span class="text-gray-700">{{ $s->contacto_direccion }}</span>
                                 </div>
                             @endif
                             @if($s->contacto_sitio_web)
                                 <div class="flex items-center gap-3">
-                                    <x-fas-globe class="text-unmsm-guinda" />
-                                    <a href="{{ $s->contacto_sitio_web }}" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-unmsm-guinda">{{ $s->contacto_sitio_web }}</a>
+                                    <x-fas-globe class="text-unmsm-azul" />
+                                    <a href="{{ $s->contacto_sitio_web }}" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-unmsm-azul">{{ $s->contacto_sitio_web }}</a>
                                 </div>
                             @endif
                             @if($s->contacto_whatsapp)
@@ -486,7 +486,7 @@
                         </div>
                         @if($s->contacto_qr_path)
                             <div class="flex flex-col items-center justify-center border border-gray-200 rounded-xl p-5 bg-gray-50">
-                                <img src="{{ asset('storage/' . $s->contacto_qr_path) }}" alt="Código QR WhatsApp Posgrado Letras"
+                                <img src="{{ asset('storage/' . $s->contacto_qr_path) }}" alt="Código QR WhatsApp CERSEU Letras"
                                     class="w-40 h-40 object-contain mb-2">
                                 <p class="text-xs text-gray-500 text-center">Escanea para mensajería instantánea</p>
                             </div>

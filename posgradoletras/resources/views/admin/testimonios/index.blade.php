@@ -7,7 +7,7 @@
     <div class="md:flex md:items-center md:justify-between mb-8">
         <div class="flex-1 min-w-0">
             <h2 class="text-2xl font-serif font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-                Testimonios de Egresados
+                Testimonios
             </h2>
             <p class="mt-1 text-sm text-gray-500">Gestiona las experiencias y comentarios de la comunidad estudiantil.</p>
         </div>
@@ -55,7 +55,7 @@
                             Testimonio
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
-                            Programa
+                            Curso
                         </th>
                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider font-serif">
                             Estado
@@ -98,7 +98,7 @@
                                         @endif
                                     </div>
                                 @else
-                                    <span class="text-sm text-gray-400">Sin programa</span>
+                                    <span class="text-sm text-gray-400">Sin curso</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">

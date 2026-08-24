@@ -98,7 +98,7 @@ class NosotrosEditableTest extends TestCase
             'home_hero_titulo' => 'Titular propio',
             'home_hero_texto' => 'Bajada propia.',
             'home_hero_cta1_texto' => 'Botón propio',
-            'home_hero_cta1_url' => '/programas',
+            'home_hero_cta1_url' => '/cursos',
         ]);
 
         $this->get('/')
@@ -118,7 +118,7 @@ class NosotrosEditableTest extends TestCase
             ->assertSee('Solo cambio el titular')
             // El resto sigue como estaba: se puede migrar campo a campo.
             ->assertSee('Decana de América')
-            ->assertSee('Ver diplomados');
+            ->assertSee('Ver talleres');
     }
 
     public function test_los_docentes_renacyt_se_editan_desde_el_panel(): void

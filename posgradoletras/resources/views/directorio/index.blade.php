@@ -1,14 +1,14 @@
 @extends('layouts.public')
 
-@section('title', 'Directorio de Posgrado - Posgrado Letras UNMSM')
+@section('title', 'Directorio del CERSEU - CERSEU Letras UNMSM')
 
 @section('content')
 
     <!-- HERO DE SECCIÓN -->
     <x-hero-section 
         title="Directorio" 
-        label="Unidad de Posgrado"
-        subtitle="Conoce al equipo que conforma la Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas."
+        label="CERSEU"
+        subtitle="Conoce al equipo que conforma el CERSEU de la Facultad de Letras y Ciencias Humanas."
         :image="asset('images/campus-aerea-2.jpg')" />
 
     <!-- CONTENIDO PRINCIPAL -->
@@ -19,7 +19,7 @@
                 <div class="mb-16 fade-in">
                     <!-- Título de la Sección -->
                     <div class="flex items-center gap-4 mb-8">
-                        <div class="w-12 h-12 bg-unmsm-guinda rounded-full flex items-center justify-center text-white">
+                        <div class="w-12 h-12 bg-unmsm-azul rounded-full flex items-center justify-center text-white">
                             @if($unidad == 'AUTORIDADES')
                                 <x-fas-user-tie class="text-xl" />
                             @else
@@ -61,7 +61,7 @@
                                             <td class="px-6 py-5">
                                                 @if($persona->correo_persona)
                                                     <a href="mailto:{{ $persona->correo_persona }}"
-                                                        class="text-sm text-unmsm-guinda hover:text-unmsm-dorado transition-colors flex items-center gap-2">
+                                                        class="text-sm text-unmsm-azul hover:text-unmsm-dorado transition-colors flex items-center gap-2">
                                                         <x-fas-envelope class="text-xs" />
                                                         {{ $persona->correo_persona }}
                                                     </a>

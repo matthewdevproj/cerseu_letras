@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Inicio - Posgrado Letras UNMSM')
+@section('title', 'Inicio - CERSEU Letras UNMSM')
 
 @push('styles')
     {{-- El CSS y el JS de Swiper ahora se empaquetan de forma modular vía Vite
@@ -168,17 +168,17 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     <div class="slide-bg" style="background-image: url('{{ asset('images/campus-aerea.jpg') }}'); background-image: image-set(url('{{ asset('images/campus-aerea.webp') }}') type('image/webp'), url('{{ asset('images/campus-aerea.jpg') }}') type('image/jpeg'));"></div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-azul/80 to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>
                 <div class="swiper-slide">
                     <div class="slide-bg" data-bg-diferido="{{ asset('images/campus-aerea-2.webp') }}" data-bg-respaldo="{{ asset('images/campus-aerea-2.jpg') }}"></div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-azul/80 to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>
                 <div class="swiper-slide">
                     <div class="slide-bg" data-bg-diferido="{{ asset('images/campus-fachada.webp') }}" data-bg-respaldo="{{ asset('images/campus-fachada.jpg') }}"></div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-guinda/80 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-unmsm-azul/80 to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 </div>
             </div>
@@ -198,13 +198,13 @@
                 $heroKicker = $ajustesHero?->home_hero_kicker
                     ?: 'Universidad Nacional Mayor de San Marcos · Decana de América';
                 $heroTitulo = $ajustesHero?->home_hero_titulo
-                    ?: 'Unidad de Posgrado de la Facultad de Letras y Ciencias Humanas';
+                    ?: 'CERSEU de la Facultad de Letras y Ciencias Humanas';
                 $heroTexto = $ajustesHero?->home_hero_texto
-                    ?: 'Formamos investigadores y profesionales comprometidos con el desarrollo cultural y social del país, mediante programas de Maestría, Doctorado y Diplomados de alto rigor académico.';
-                $heroCta1Texto = $ajustesHero?->home_hero_cta1_texto ?: 'Ver diplomados';
-                $heroCta1Url = $ajustesHero?->home_hero_cta1_url ?: route('diplomados.index');
-                $heroCta2Texto = $ajustesHero?->home_hero_cta2_texto ?: 'Admisión de diplomados';
-                $heroCta2Url = $ajustesHero?->home_hero_cta2_url ?: route('diplomados.admision');
+                    ?: 'Formamos profesionales comprometidos con el desarrollo cultural y social del país, mediante cursos y talleres de extensión universitaria.';
+                $heroCta1Texto = $ajustesHero?->home_hero_cta1_texto ?: 'Ver talleres';
+                $heroCta1Url = $ajustesHero?->home_hero_cta1_url ?: route('talleres.index');
+                $heroCta2Texto = $ajustesHero?->home_hero_cta2_texto ?: 'Admisión de talleres';
+                $heroCta2Url = $ajustesHero?->home_hero_cta2_url ?: route('talleres.admision');
             @endphp
             <div class="max-w-4xl animate-hero-in">
                 <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-[11px] sm:text-xs md:text-sm mb-3 md:mb-4 drop-shadow">
@@ -222,7 +222,7 @@
                 <div class="flex flex-wrap gap-4">
                     @if ($heroCta1Texto)
                         <a href="{{ $heroCta1Url }}"
-                            class="group inline-flex items-center gap-2 px-7 py-3 bg-unmsm-dorado text-unmsm-guinda font-bold rounded-lg hover:bg-yellow-400 transition shadow-lg motion-safe:hover:-translate-y-1 duration-200 text-sm md:text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2">
+                            class="group inline-flex items-center gap-2 px-7 py-3 bg-unmsm-dorado text-unmsm-azul font-bold rounded-lg hover:bg-yellow-400 transition shadow-lg motion-safe:hover:-translate-y-1 duration-200 text-sm md:text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2">
                             {{ $heroCta1Texto }}
                             <x-fas-arrow-right class="text-xs motion-safe:group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                         </a>
@@ -248,41 +248,29 @@
                      sección (Obs. N.º 1, sugerencia complementaria). Los dos últimos
                      son datos institucionales y se mantienen como texto. --}}
                 <div data-reveal class="grid grid-cols-2 stats-grid gap-2 sm:gap-3 text-center">
-                    <a href="{{ route('programas.index') }}?tipo=maestria"
+                    <a href="{{ route('cursos.index') }}"
                         class="stats-item stats-link group relative flex flex-col items-center p-2 sm:p-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-[-2px]">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                         </svg>
-                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($maestrias) }}">{{ count($maestrias) }}</div>
+                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($cursos) }}">{{ count($cursos) }}</div>
                         <div class="stats-label inline-flex items-center gap-1 text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">
-                            Maestrías
+                            Cursos
                             <x-fas-arrow-right class="stats-arrow text-[0.65em]" aria-hidden="true" />
                         </div>
-                        <span class="sr-only">Ver la sección general de maestrías</span>
+                        <span class="sr-only">Ver la sección general de cursos</span>
                     </a>
-                    <a href="{{ route('programas.index') }}?tipo=doctorado"
-                        class="stats-item stats-link group relative flex flex-col items-center p-2 sm:p-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-[-2px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.17 69.17 0 00-2.923.897M6 10.5v5.5a2.25 2.25 0 002.25 2.25h11.5a2.25 2.25 0 002.25-2.25v-5.5" />
-                        </svg>
-                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($doctorados) }}">{{ count($doctorados) }}</div>
-                        <div class="stats-label inline-flex items-center gap-1 text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">
-                            Doctorados
-                            <x-fas-arrow-right class="stats-arrow text-[0.65em]" aria-hidden="true" />
-                        </div>
-                        <span class="sr-only">Ver la sección general de doctorados</span>
-                    </a>
-                    <a href="{{ route('diplomados.index') }}"
+                    <a href="{{ route('talleres.index') }}"
                         class="stats-item stats-link group relative flex flex-col items-center p-2 sm:p-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-[-2px]">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                         </svg>
-                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($diplomados) }}">{{ count($diplomados) }}</div>
+                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white" data-count-to="{{ count($talleres) }}">{{ count($talleres) }}</div>
                         <div class="stats-label inline-flex items-center gap-1 text-[10px] md:text-xs text-gray-300 uppercase tracking-wider">
-                            Diplomados
+                            Talleres
                             <x-fas-arrow-right class="stats-arrow text-[0.65em]" aria-hidden="true" />
                         </div>
-                        <span class="sr-only">Ver la sección general de diplomados</span>
+                        <span class="sr-only">Ver la sección general de talleres</span>
                     </a>
                     <div class="flex flex-col items-center p-2 sm:p-3 rounded-xl stats-item">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-unmsm-dorado mb-0.5 sm:mb-1" aria-hidden="true">
@@ -328,13 +316,13 @@
 @endphp
 
 @if ($pasosAdmision->isNotEmpty())
-<section id="admision" class="relative py-16 md:py-20 bg-gradient-to-b from-gray-900 to-[#1a0e10] text-white overflow-hidden"
+<section id="admision" class="relative py-16 md:py-20 bg-gradient-to-b from-gray-900 to-[#0C1217] text-white overflow-hidden"
     aria-labelledby="cronograma-admision-titulo">
     {{-- textura de puntos + resplandor guinda (consistente con la banda institucional) --}}
     <div class="absolute inset-0 opacity-[0.05]"
         style="background-image: radial-gradient(circle at 1px 1px, #fff 1.5px, transparent 0); background-size: 34px 34px;">
     </div>
-    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[46rem] h-[46rem] rounded-full bg-unmsm-guinda/25 blur-3xl"></div>
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[46rem] h-[46rem] rounded-full bg-unmsm-azul/25 blur-3xl"></div>
 
     <div class="max-w-7xl mx-auto px-6 relative z-10">
         <div class="text-center mb-12">
@@ -355,16 +343,16 @@
                 <ol class="flex justify-between items-start gap-4 list-none" style="position: relative; z-index: 1;">
                     @foreach ($pasosAdmision as $paso)
                         <li class="flex-1 relative group" style="min-width: 0;">
-                            <div class="{{ $paso->destacado ? 'bg-white border-unmsm-guinda' : 'bg-white/[0.06] ring-1 ring-white/10 border-unmsm-dorado hover:bg-white/[0.1]' }} rounded-xl p-4 border-b-4 shadow-lg transition-all duration-300 motion-safe:hover:-translate-y-1 hover:shadow-xl h-full">
+                            <div class="{{ $paso->destacado ? 'bg-white border-unmsm-azul' : 'bg-white/[0.06] ring-1 ring-white/10 border-unmsm-dorado hover:bg-white/[0.1]' }} rounded-xl p-4 border-b-4 shadow-lg transition-all duration-300 motion-safe:hover:-translate-y-1 hover:shadow-xl h-full">
                                 <div class="text-center">
-                                    <div class="w-14 h-14 {{ $paso->destacado ? 'bg-unmsm-guinda text-white' : 'bg-unmsm-dorado/20 text-unmsm-dorado ring-1 ring-unmsm-dorado/30' }} rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg motion-safe:group-hover:scale-110 transition-transform duration-300">
+                                    <div class="w-14 h-14 {{ $paso->destacado ? 'bg-unmsm-azul text-white' : 'bg-unmsm-dorado/20 text-unmsm-dorado ring-1 ring-unmsm-dorado/30' }} rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg motion-safe:group-hover:scale-110 transition-transform duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="{{ $paso->icono_path }}" />
                                         </svg>
                                     </div>
                                     <h3 class="text-sm font-bold {{ $paso->destacado ? 'text-gray-800' : 'text-white' }} mb-1 leading-tight">{{ $paso->titulo }}</h3>
                                     @if ($paso->fecha_display)
-                                        <p class="{{ $paso->destacado ? 'text-unmsm-guinda' : 'text-unmsm-dorado' }} font-bold text-xs mb-1">{{ $paso->fecha_display }}</p>
+                                        <p class="{{ $paso->destacado ? 'text-unmsm-azul' : 'text-unmsm-dorado' }} font-bold text-xs mb-1">{{ $paso->fecha_display }}</p>
                                     @endif
                                     @if ($paso->detalle)
                                         <p class="{{ $paso->destacado ? 'text-gray-500' : 'text-gray-300' }} text-[10px] font-medium">{{ $paso->detalle }}</p>
@@ -374,7 +362,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="absolute" style="top: -8px; left: 50%; transform: translateX(-50%); width: 12px; height: 12px; background-color: #C9AA36; border-radius: 50%; border: 3px solid #1a0e10; box-shadow: 0 0 0 1px rgba(201,170,54,.4), 0 4px 6px -1px rgba(0, 0, 0, 0.3); z-index: 10;"></div>
+                            <div class="absolute" style="top: -8px; left: 50%; transform: translateX(-50%); width: 12px; height: 12px; background-color: #C9AA36; border-radius: 50%; border: 3px solid #0C1217; box-shadow: 0 0 0 1px rgba(201,170,54,.4), 0 4px 6px -1px rgba(0, 0, 0, 0.3); z-index: 10;"></div>
                         </li>
                     @endforeach
                 </ol>
@@ -388,18 +376,18 @@
             @foreach ($pasosAdmision as $paso)
                 <li class="relative mb-8 last:mb-0">
                     <div class="flex items-center">
-                        <div class="relative z-10 w-12 h-12 {{ $paso->destacado ? 'bg-unmsm-guinda text-white' : 'bg-unmsm-dorado/20 text-unmsm-dorado ring-1 ring-unmsm-dorado/30' }} rounded-full flex items-center justify-center shadow-lg flex-shrink-0 border-2 border-[#1a0e10]">
+                        <div class="relative z-10 w-12 h-12 {{ $paso->destacado ? 'bg-unmsm-azul text-white' : 'bg-unmsm-dorado/20 text-unmsm-dorado ring-1 ring-unmsm-dorado/30' }} rounded-full flex items-center justify-center shadow-lg flex-shrink-0 border-2 border-[#0C1217]">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $paso->icono_path }}" />
                             </svg>
                         </div>
                         <div class="ml-4 flex-1">
-                            <div class="{{ $paso->destacado ? 'bg-white border-unmsm-guinda text-gray-800' : 'bg-white/[0.06] ring-1 ring-white/10 border-unmsm-dorado' }} rounded-lg p-4 border-l-4 shadow-lg">
+                            <div class="{{ $paso->destacado ? 'bg-white border-unmsm-azul text-gray-800' : 'bg-white/[0.06] ring-1 ring-white/10 border-unmsm-dorado' }} rounded-lg p-4 border-l-4 shadow-lg">
                                 <h3 class="text-base font-bold {{ $paso->destacado ? 'text-gray-900' : 'text-white' }}">
                                     {{ $paso->titulo }}@if ($paso->publico) <span class="font-medium">· {{ $paso->publico }}</span>@endif
                                 </h3>
                                 @if ($paso->fecha_display)
-                                    <p class="{{ $paso->destacado ? 'text-unmsm-guinda' : 'text-unmsm-dorado' }} font-bold text-xs mt-0.5">{{ $paso->fecha_display }}</p>
+                                    <p class="{{ $paso->destacado ? 'text-unmsm-azul' : 'text-unmsm-dorado' }} font-bold text-xs mt-0.5">{{ $paso->fecha_display }}</p>
                                 @endif
                                 @if ($paso->detalle)
                                     <p class="{{ $paso->destacado ? 'text-gray-500' : 'text-gray-300' }} text-xs mt-0.5">{{ $paso->detalle }}</p>
@@ -415,7 +403,7 @@
         @if ($cronoAdmision->boton_texto && $cronoAdmision->boton_url)
             <div class="flex flex-col items-center mt-8">
                 <a href="{{ $cronoAdmision->boton_url }}"
-                    class="bg-gradient-to-r from-unmsm-guinda to-red-900 hover:from-red-800 hover:to-unmsm-guinda text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 motion-safe:transform motion-safe:hover:scale-105 shadow-2xl flex items-center gap-3 border border-red-800/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-2">
+                    class="bg-gradient-to-r from-unmsm-azul to-unmsm-azul-dark hover:from-unmsm-azul-dark hover:to-unmsm-azul text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 motion-safe:transform motion-safe:hover:scale-105 shadow-2xl flex items-center gap-3 border border-unmsm-azul-dark/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-dorado focus-visible:outline-offset-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-5 h-5" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -431,7 +419,7 @@
     
     {{-- FRANJA INSTITUCIONAL (compacta): identidad San Marcos + CTA a Nosotros.
          Misión/Visión completas viven en /nosotros; aquí solo el sello. --}}
-    <section class="relative py-12 md:py-14 bg-unmsm-guinda text-white overflow-hidden">
+    <section class="relative py-12 md:py-14 bg-unmsm-azul text-white overflow-hidden">
         {{-- textura de puntos sutil --}}
         <div class="absolute inset-0 opacity-[0.06]"
             style="background-image: radial-gradient(circle at 1px 1px, #fff 1.5px, transparent 0); background-size: 34px 34px;">
@@ -449,13 +437,13 @@
                         Tradición humanística, vocación de futuro
                     </h2>
                     <p class="text-white/85 leading-relaxed">
-                        En la universidad más antigua de América, la Unidad de Posgrado forma investigadores y líderes que
+                        En la universidad más antigua de América, el CERSEU forma investigadores y líderes que
                         piensan el país desde las letras y las ciencias humanas.
                     </p>
                 </div>
 
                 <a href="{{ route('nosotros') }}"
-                    class="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-unmsm-dorado text-unmsm-guinda font-bold hover:bg-white transition-colors shadow-lg motion-safe:hover:-translate-y-0.5 duration-200">
+                    class="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-unmsm-dorado text-unmsm-azul font-bold hover:bg-white transition-colors shadow-lg motion-safe:hover:-translate-y-0.5 duration-200">
                     Conócenos <x-fas-arrow-right aria-hidden="true" />
                 </a>
             </div>
@@ -465,33 +453,28 @@
     <section id="programas" class="py-20 bg-gray-50">
         <div class="container mx-auto px-4 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-unmsm-guinda mb-6 font-serif">Nuestros Programas</h2>
+                <h2 class="text-4xl md:text-5xl font-bold text-unmsm-azul mb-6 font-serif">Nuestros Cursos</h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                     Excelencia académica para investigadores y líderes en Humanidades.
                 </p>
             </div>
 
-            {{-- Filtros (Obs. N.º 3): el orden prioriza la oferta de diplomados y
-                 "Diplomados" queda activo al cargar la página. "Todos" se mantiene
-                 al final para poder ver la oferta académica completa. --}}
+            {{-- Filtros: "Talleres" queda activo al cargar la página y "Todos"
+                 al final, para poder ver la oferta completa del CERSEU. --}}
             @php
-                $filtroBase = 'filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-guinda focus-visible:outline-offset-2';
-                $filtroActivo = $filtroBase . ' bg-unmsm-guinda text-white shadow-lg scale-105';
+                $filtroBase = 'filter-btn flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-azul focus-visible:outline-offset-2';
+                $filtroActivo = $filtroBase . ' bg-unmsm-azul text-white shadow-lg scale-105';
                 $filtroInactivo = $filtroBase . ' bg-white text-gray-600 hover:bg-gray-100 shadow-sm';
             @endphp
             <div class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-12" role="group"
-                aria-label="Filtrar programas por tipo">
-                <button type="button" data-filter="diplomado" id="filter-diplomado" aria-pressed="true"
+                aria-label="Filtrar cursos por tipo">
+                <button type="button" data-filter="taller" id="filter-taller" aria-pressed="true"
                     class="{{ $filtroActivo }}">
-                    <x-fas-scroll aria-hidden="true" /> Diplomados
+                    <x-fas-scroll aria-hidden="true" /> Talleres
                 </button>
-                <button type="button" data-filter="maestria" id="filter-maestria" aria-pressed="false"
+                <button type="button" data-filter="curso" id="filter-curso" aria-pressed="false"
                     class="{{ $filtroInactivo }}">
-                    <x-fas-graduation-cap aria-hidden="true" /> Maestrías
-                </button>
-                <button type="button" data-filter="doctorado" id="filter-doctorado" aria-pressed="false"
-                    class="{{ $filtroInactivo }}">
-                    <x-fas-book-reader aria-hidden="true" /> Doctorados
+                    <x-fas-graduation-cap aria-hidden="true" /> Cursos
                 </button>
                 <button type="button" data-filter="todos" id="filter-todos" aria-pressed="false"
                     class="{{ $filtroInactivo }}">
@@ -502,31 +485,28 @@
             <!-- Grid de Programas -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="programas-grid">
                 {{-- Cards vía componente reutilizable <x-program-card> (mismo usado
-                     en /programas y /diplomados): DRY, accesible y consistente.
-                     Los diplomados se renderizan primero porque son los visibles
+                     en /cursos y /talleres): DRY, accesible y consistente.
+                     Los talleres se renderizan primero porque son los visibles
                      al cargar: así el navegador pinta antes lo que se ve. --}}
-                @foreach ($diplomados as $programa)
-                    <x-program-card :programa="$programa" tipo="diplomado"
-                        badge-label="Diplomado" badge-color="bg-amber-600"
-                        duracion-unit="módulos" primary-cta-label="Más información"
+                @foreach ($talleres as $programa)
+                    <x-program-card :programa="$programa" tipo="taller"
+                        badge-label="Taller" badge-color="bg-unmsm-azul-light"
+                        duracion-unit="semanas" primary-cta-label="Más información"
                         :show-brochure="true" />
                 @endforeach
 
-                @foreach ($maestrias as $programa)
-                    <x-program-card :programa="$programa" tipo="maestria" class="hidden"
-                        badge-label="Maestría" badge-color="bg-unmsm-guinda" />
-                @endforeach
-
-                @foreach ($doctorados as $programa)
-                    <x-program-card :programa="$programa" tipo="doctorado" class="hidden"
-                        badge-label="Doctorado" badge-color="bg-gray-900" />
+                @foreach ($cursos as $programa)
+                    <x-program-card :programa="$programa" tipo="curso" class="hidden"
+                        badge-label="Curso" badge-color="bg-unmsm-azul"
+                        duracion-unit="meses" primary-cta-label="Más información"
+                        :show-brochure="true" />
                 @endforeach
             </div>
 
             {{-- Mensaje para el caso en que un filtro no tenga programas vigentes. --}}
             <p id="programas-empty" role="status"
                 class="hidden text-center text-gray-500 py-12">
-                Por el momento no hay programas disponibles en esta categoría.
+                Por el momento no hay cursos disponibles en esta categoría.
             </p>
 
         </div>
@@ -545,17 +525,17 @@
                     @foreach ($docentes as $docente)
                         <div class="text-center group cursor-pointer">
                             <div
-                                class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-unmsm-guinda transition-colors relative">
+                                class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-unmsm-azul transition-colors relative">
                                 <img src="@if ($docente->foto){{ asset('storage/' . $docente->foto) }}@else{{ 'https://ui-avatars.com/api/?name=' . urlencode($docente->nombres . '+' . $docente->apellidos) . '&background=random' }}@endif"
                                     alt="{{ $docente->nombre_completo }}"
                                     class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
                                     loading="lazy" decoding="async" width="96" height="96">
                             </div>
-                            <h4 class="font-bold text-sm text-gray-800 group-hover:text-unmsm-guinda transition">
+                            <h4 class="font-bold text-sm text-gray-800 group-hover:text-unmsm-azul transition">
                                 {{ $docente->nombre_completo }}
                             </h4>
                             <p class="text-xs text-gray-500">Coordinador(a) de
-                                {{ $docente->programas->first()?->nombre ?? 'Programa' }}
+                                {{ $docente->programas->first()?->nombre ?? 'Curso' }}
                             </p>
                         </div>
                     @endforeach
@@ -580,7 +560,7 @@
         $contactoWhatsapp = \App\Models\SiteSetting::contacto('whatsapp');
         $contactoAdmision = \App\Models\SiteSetting::contacto('admision');
     @endphp
-    <section id="contacto" class="bg-gradient-to-b from-gray-900 to-[#1a0e10] text-gray-300 py-14 border-t border-white/10">
+    <section id="contacto" class="bg-gradient-to-b from-gray-900 to-[#0C1217] text-gray-300 py-14 border-t border-white/10">
         <div class="container mx-auto px-6">
             {{-- Encabezado y botones comparten fila en escritorio: con solo dos
                  CTA, apilarlos dejaba la mitad de la banda vacía. --}}
@@ -588,7 +568,7 @@
                 <div class="max-w-xl">
                     <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs mb-2">Estamos para ayudarte</p>
                     <h3 class="text-white text-2xl font-serif font-bold mb-3 section-title">Contáctanos</h3>
-                    <p class="font-normal">¿Dudas sobre admisión, programas o trámites? Escríbenos y te
+                    <p class="font-normal">¿Dudas sobre admisión, cursos o trámites? Escríbenos y te
                         respondemos en horario de oficina. Los datos completos de la Unidad están
                         al pie de esta página.</p>
                 </div>
@@ -678,17 +658,17 @@
                              en el centro exacto del bloque, que es el punto de las
                              coordenadas (ver la nota de la imagen). --}}
                         <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full flex flex-col items-center" aria-hidden="true">
-                            <span class="w-9 h-9 rounded-full bg-unmsm-guinda text-white flex items-center justify-center shadow-lg ring-4 ring-white/70 motion-safe:group-hover:scale-110 transition-transform">
+                            <span class="w-9 h-9 rounded-full bg-unmsm-azul text-white flex items-center justify-center shadow-lg ring-4 ring-white/70 motion-safe:group-hover:scale-110 transition-transform">
                                 <x-fas-location-dot class="text-sm" />
                             </span>
-                            <span class="w-0 h-0 border-x-[6px] border-x-transparent border-t-[8px] border-t-unmsm-guinda -mt-0.5"></span>
+                            <span class="w-0 h-0 border-x-[6px] border-x-transparent border-t-[8px] border-t-unmsm-azul -mt-0.5"></span>
                         </span>
 
                         {{-- Llamada a la acción sobre un velo inferior: deja ver el
                              mapa y mantiene el texto legible --}}
                         <span class="absolute inset-x-0 bottom-0 z-10 flex items-center justify-between gap-3 px-4 py-3 bg-gradient-to-t from-black/85 via-black/60 to-transparent text-left">
                             <span class="flex items-center gap-2.5 text-white">
-                                <span class="w-9 h-9 rounded-full bg-unmsm-guinda flex items-center justify-center shadow motion-safe:group-hover:scale-110 transition-transform flex-shrink-0">
+                                <span class="w-9 h-9 rounded-full bg-unmsm-azul flex items-center justify-center shadow motion-safe:group-hover:scale-110 transition-transform flex-shrink-0">
                                     <x-fas-map-location-dot class="text-sm" aria-hidden="true" />
                                 </span>
                                 <span>

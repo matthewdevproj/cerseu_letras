@@ -17,12 +17,12 @@
     <script>document.documentElement.classList.replace('no-js', 'js');</script>
 
     @php
-        $seoTitle = trim($__env->yieldContent('title', $siteSettings?->site_name ?? config('app.name', 'Posgrado Letras UNMSM')));
-        $seoDescription = trim($__env->yieldContent('meta_description', $siteSettings?->site_description ?? 'Posgrado de la Facultad de Letras y Ciencias Humanas UNMSM: maestrías, doctorados y diplomados.'));
+        $seoTitle = trim($__env->yieldContent('title', $siteSettings?->site_name ?? config('app.name', 'CERSEU Letras UNMSM')));
+        $seoDescription = trim($__env->yieldContent('meta_description', $siteSettings?->site_description ?? 'CERSEU de la Facultad de Letras y Ciencias Humanas UNMSM: cursos y talleres de extensión universitaria.'));
         $seoImage = trim($__env->yieldContent('og_image')) ?: ($siteSettings?->logo_path
             ? asset('storage/' . $siteSettings->logo_path)
-            : asset('images/logo-letras.png'));
-        $seoSiteName = $siteSettings?->site_name ?? 'Posgrado Letras UNMSM';
+            : asset('images/favicon-512.png'));
+        $seoSiteName = $siteSettings?->site_name ?? 'CERSEU Letras UNMSM';
         $seoStructuredData = json_encode([
             '@context' => 'https://schema.org',
             '@type' => 'EducationalOrganization',
@@ -76,10 +76,16 @@
         {!! $seoStructuredData !!}
     </script>
 
-    {{-- Favicon dinámico --}}
+    {{-- Favicon. El del panel manda; si no hay, se usa el del CERSEU que viene
+         con el sitio. Antes no había respaldo y la pestaña salía con el icono
+         genérico del navegador mientras nadie subiera uno. --}}
     @if($siteSettings?->favicon_path)
-        <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
-        <link rel="shortcut icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
+        <link rel="icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
+        <link rel="apple-touch-icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
+    @else
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon-32.png') }}">
+        <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('images/favicon-512.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicon-180.png') }}">
     @endif
 
     {{-- Tipografías (Inter + Merriweather) auto-alojadas vía @fontsource,
@@ -91,7 +97,7 @@
     {{-- Preload del logo LCP (auto-alojado; sin dependencia externa).
          Coincide con el src que usa el navbar para no precargar en balde. --}}
     <link rel="preload" as="image" fetchpriority="high"
-        href="{{ $siteSettings?->logo_path ? asset('storage/' . $siteSettings->logo_path) : asset('images/logo-letras.webp') }}">
+        href="{{ $siteSettings?->logo_path ? asset('storage/' . $siteSettings->logo_path) : asset('images/logo-cerseu.webp') }}">
 
     <!-- Scripts (Alpine.js + plugin Collapse ya empaquetados en app.js; [x-cloak] ya está en app.css) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -101,7 +107,7 @@
 
 <body class="font-sans antialiased bg-gray-50 overflow-x-hidden">
     <a href="#main-content"
-        class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-unmsm-guinda focus:font-bold focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-guinda">
+        class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-unmsm-azul focus:font-bold focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-unmsm-azul">
         Saltar al contenido principal
     </a>
 

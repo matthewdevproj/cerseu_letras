@@ -64,7 +64,7 @@ class ComponentesAlpineTest extends TestCase
         $programa = Programa::create([
             'nombre' => 'Maestría de prueba',
             'slug' => 'maestria-de-prueba',
-            'grado' => 'Maestría',
+            'grado' => 'Curso',
             'is_active' => true,
             'costo_por_credito' => 160,
         ]);
@@ -92,14 +92,16 @@ class ComponentesAlpineTest extends TestCase
     public function test_el_filtro_de_programas_ya_no_va_escrito_en_las_vistas(): void
     {
         $portada = $this->get('/')->assertOk()->getContent();
-        $listado = $this->get('/programas')->assertOk()->getContent();
+        $listado = $this->get('/cursos')->assertOk()->getContent();
 
         $this->assertStringNotContainsString('function filterPrograms', $portada);
         $this->assertStringNotContainsString('function filterPrograms', $listado);
 
-        // El listado sí conserva su configuración propia (clases y buscador).
-        $this->assertStringContainsString('montarFiltroProgramas({', $listado);
-        $this->assertStringContainsString("claseOculta: 'hidden-filter'", $listado);
+        // El listado de cada módulo ya no monta filtro propio: /cursos y
+        // /talleres muestran un solo tipo cada uno, así que no hay nada que
+        // filtrar. El único filtro que queda es el de la portada, que mezcla
+        // ambos y se monta desde el bundle (ver app.js).
+        $this->assertStringNotContainsString('montarFiltroProgramas({', $listado);
     }
 
     public function test_el_editor_de_contenido_ya_no_pide_html_a_mano(): void

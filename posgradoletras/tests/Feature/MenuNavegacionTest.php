@@ -179,15 +179,15 @@ class MenuNavegacionTest extends TestCase
     public function test_en_movil_el_desplegable_ofrece_el_destino_de_su_propia_cabecera(): void
     {
         // En escritorio la cabecera es un enlace, pero en móvil es el botón que
-        // despliega: sin esto no había forma de llegar a /programas desde el menú.
-        $padre = $this->entrada(['etiqueta' => 'Programas', 'route_name' => 'programas.index']);
+        // despliega: sin esto no habría forma de llegar a /cursos desde el menú.
+        $padre = $this->entrada(['etiqueta' => 'Cursos', 'route_name' => 'cursos.index']);
         MenuItem::create([
-            'parent_id' => $padre->id, 'etiqueta' => 'Maestrías',
-            'route_name' => 'programas.index', 'route_params' => '{"tipo":"maestria"}',
+            'parent_id' => $padre->id, 'etiqueta' => 'Admisión',
+            'route_name' => 'cursos.admision',
             'orden' => 0, 'is_visible' => true,
         ]);
 
-        $this->get('/')->assertOk()->assertSee('Ver todo: Programas');
+        $this->get('/')->assertOk()->assertSee('Ver todo: Cursos');
     }
 
     public function test_una_subentrada_que_repite_el_destino_del_padre_no_se_duplica(): void
@@ -207,13 +207,13 @@ class MenuNavegacionTest extends TestCase
 
     public function test_una_entrada_sin_hijos_es_un_enlace_simple_sin_desplegable(): void
     {
-        $this->entrada(['etiqueta' => 'Diplomados', 'route_name' => 'diplomados.index']);
+        $this->entrada(['etiqueta' => 'Talleres', 'route_name' => 'talleres.index']);
 
         $html = $this->get('/')->assertOk()->getContent();
 
-        $this->assertStringContainsString('Diplomados', $html);
+        $this->assertStringContainsString('Talleres', $html);
         // Sin hijos no se pinta el botón que despliega en móvil.
-        $this->assertStringNotContainsString('Ver todo: Diplomados', $html);
+        $this->assertStringNotContainsString('Ver todo: Talleres', $html);
     }
 
     public function test_un_enlace_caducado_se_retira_del_sitio_solo(): void

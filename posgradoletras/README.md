@@ -1,4 +1,8 @@
-# Documentación Técnica - Posgrado Letras UNMSM
+# Documentación Técnica — CERSEU Letras UNMSM
+
+Sitio del Centro de Responsabilidad Social y Extensión Universitaria de la
+Facultad de Letras y Ciencias Humanas. Para instalación y Docker, ver el
+[README de la raíz](../README.md).
 
 ## 1. Arquitectura del Sistema
 
@@ -59,12 +63,20 @@ Basado en `laravel/sail/runtimes/8.2/Dockerfile`:
 El sistema utiliza las siguientes tablas principales:
 
 #### Tablas de Contenido
-- **programas**: Almacena información de Maestrías y Doctorados.
-    - Campos: `id`, `nombre`, `slug`, `tipo` (maestria/doctorado), `descripcion`, `active`.
+- **programas**: la oferta del CERSEU. Pese al nombre heredado, una fila es un
+  curso o un taller; los distingue la columna `grado` (`Curso` / `Taller`).
+    - Campos: `id`, `nombre`, `slug`, `grado`, `mencion`, `modalidad`,
+      `horas_academicas`, `duracion`, `sumilla`, `plan_estudios`,
+      `inversion_economica`, `estado` (`publicado` / `proximamente` /
+      `borrador`), `deleted_at`.
+    - El enum `App\Models\TipoOferta` concentra lo único que cambia entre los
+      dos tipos: rótulo, segmento de URL, valor de `grado` y unidad de duración.
 - **docentes**: Información de los profesores.
     - Campos: `id`, `nombre`, `slug`, `grado_academico`, `categoria`, `dina_url`, `orcid`, `google_scholar`, `imagen_url`, `active`.
 - **docente_programa**: Tabla pivote para la relación Muchos-a-Muchos entre Docentes y Programas.
-- **testimonios**: Testimonios de alumnos/egresados.
+- **testimonios**: testimonios de participantes. Se administran desde el
+  panel; no vienen sembrados. La sección de la portada y `/testimonios` se
+  ocultan solas mientras la tabla esté vacía.
     - Campos: `id`, `nombre`, `contenido`, `cargo`, `programa_id`, `imagen_path`, `published`, `orden`.
 - **eventos**: Eventos y noticias académicas.
     - Campos: `id`, `titulo`, `slug`, `descripcion`, `fecha`, `hora`, `lugar`, `imagen_path`, `active`.
@@ -73,13 +85,30 @@ El sistema utiliza las siguientes tablas principales:
 - **cronogramas**: Fechas importantes y actividades del calendario académico.
     - Campos: `id`, `actividad`, `fecha_inicio`, `fecha_fin`, `active`.
 
+#### Tablas de Admisión y Solicitudes
+- **admision_settings**: una fila por tipo de oferta (`tipo` = `taller` |
+  `curso`, con índice único). Guarda el contenido completo de
+  `/{tipo}/admision`: hero, pasos, requisitos, pago, resultados y contacto.
+- **admision_cronograma_items**: convocatorias de cada módulo
+  (`admision_setting_id`, `programa`, `convocatoria`, fechas, `estado`). Aquí
+  vive la programación anual: un mismo curso puede dictarse varias veces.
+- **leads**: solicitudes de información del formulario público, con `tipo` para
+  saber de qué módulo vienen y `aviso_enviado_en` / `aviso_error` para dejar
+  constancia de si el correo de aviso salió.
+
 #### Tablas de Configuración y Sistema
 - **users**: Usuarios del sistema (Administradores).
     - Roles: definidos por columna `role` (ej. 'admin').
-- **site_settings**: Configuración global del sitio.
-    - Campos: `key`, `value` (Permite configuración dinámica de logos, textos, etc.).
-- **documents**: Gestión centralizada de documentos PDF.
-- **directorio_posgrado**: Información de contacto y personal administrativo.
+- **site_settings**: configuración global. Es una tabla de **una sola fila**
+  —el modelo lo impide en `creating`— con una columna por ajuste: logo,
+  favicon, correos por rol, redes, y los heros de portada, cursos y talleres
+  (`{talleres|cursos}_hero_{titulo|texto|claim|imagen}`).
+- **content_pages / content_sections**: contenido editable de `/tramites`,
+  `/admision` y `/nosotros`. `ContentPage::GRUPOS` define si una página se
+  divide en pestañas; `/tramites` ya no las usa.
+- **documents**: gestión centralizada de documentos PDF.
+- **directorio_posgrado**: directorio de contacto. Nombre heredado; a la espera
+  del equipo del CERSEU está vacía y su enlace no aparece en el menú.
 
 ---
 
@@ -90,21 +119,34 @@ El acceso está protegido por el middleware `auth` y `isAdmin`. Permite la gesti
 
 #### Funcionalidades Clave:
 1.  **Dashboard**: Vista general del sistema.
-2.  **Gestión de Programas**: Edición de información de maestrías y doctorados.
+2.  **Gestión de Cursos y Talleres**: edición de la oferta. El tipo se elige
+    en el desplegable «Grado».
 3.  **Gestión de Docentes**: Catálogo de profesores, asignación a programas y enlaces a perfiles académicos (ORCID, DINA).
 4.  **Configuración del Sitio**: Control de identidad visual (logos, favicon) y textos generales.
-5.  **Calendario/Cronograma**: Actualización de fechas de admisión y actividades.
+5.  **Calendario/Cronograma**: fechas de admisión y actividades.
+6.  **Admisión por módulo** (`/admin/admision/{talleres|cursos}`): una misma
+    pantalla sirve los dos, con un selector arriba. Cada tipo guarda sus
+    propios ajustes y su propio cronograma.
+7.  **Solicitudes** (`/admin/leads`): listado y exportación a CSV de las
+    solicitudes de información, filtrables por tipo, con reenvío del aviso por
+    correo cuando el envío falló.
 
 ### Frontend Público
 El sitio público presenta la información de manera responsiva y optimizada para SEO.
 
 #### Secciones Principales:
-1.  **Inicio**: Hero section, eventos destacados, accesos rápidos.
-2.  **Programas**: Listado y detalle de Maestrías y Doctorados.
-3.  **Admisión**: Guía paso a paso para postulantes (cronograma, requisitos y pagos).
-4.  **Trámites**: Información sobre obtención de grados (Magíster/Doctor).
-5.  **Plana Docente**: Buscador y perfiles de investigadores.
-6.  **Nosotros**: Autoridades y directorio de contacto.
+1.  **Inicio**: hero, indicadores, oferta destacada con filtro por tipo.
+2.  **Cursos** (`/cursos`) y **Talleres** (`/talleres`): mismo controlador y
+    mismas plantillas para los dos módulos. Cada uno trae listado, ficha
+    (`/{tipo}/{slug}`), admisión (`/{tipo}/admision`) y formulario de solicitud.
+3.  **Admisión**: guía general del proceso.
+4.  **Trámites**: constancias y certificados. La página se arma con tantas
+    secciones como se carguen desde el panel, sin número fijo.
+5.  **Plana Docente**: buscador y perfiles.
+6.  **Nosotros**: misión, visión, valores y autoridades.
+
+Las rutas anteriores `/programas` y `/diplomados` responden con 301 hacia
+`/cursos` y `/talleres`, para no romper enlaces ya publicados.
 
 ---
 
@@ -151,6 +193,11 @@ El sitio público presenta la información de manera responsiva y optimizada par
     php artisan migrate --force
     php artisan db:seed --class=DatabaseSeeder # (Solo si es primera instalación)
     ```
+    Los seeders dejan el sitio utilizable: menú, contenido de `/tramites`,
+    `/admision` y `/nosotros`, ajustes del sitio y la programación 2026 del
+    CERSEU. Son idempotentes en lo que importa —no pisan contenido ya editado
+    desde el panel— pero conviene no reejecutarlos sobre una instalación viva
+    sin mirar antes qué hace cada uno.
 
 5.  **Instalar Dependencias Frontend y Compilar:**
     ```bash
