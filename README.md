@@ -8,12 +8,11 @@ El CERSEU ofrece dos tipos de formación abierta a toda la comunidad —**cursos
 página de admisión y su formulario de solicitud de información. El contenido se
 administra desde el panel en `/admin`.
 
-> El sitio nació como portal de la Unidad de Posgrado. Quedan rastros de aquel
-> origen en nombres internos que no se renombraron a propósito, para no romper
-> datos ni URLs publicadas: la carpeta `posgradoletras/`, la base de datos
-> `posgradoletras`, el modelo `DirectorioPosgrado` y la tabla
-> `directorio_posgrado`. Las URLs `/programas` y `/diplomados` redirigen con 301
-> a `/cursos` y `/talleres`.
+> El sitio nació como portal de la Unidad de Posgrado y conserva de aquel origen
+> el nombre de la tabla `programas`, donde ahora viven cursos y talleres: los
+> distingue la columna `grado`. Las URLs anteriores `/programas` y `/diplomados`
+> redirigen con 301 a `/cursos` y `/talleres`, para no romper enlaces ya
+> publicados.
 
 ## Requisitos
 
@@ -29,7 +28,7 @@ administra desde el panel en `/admin`.
 │   │   └── Dockerfile
 │   └── nginx/
 │       └── default-ssl.conf
-└── posgradoletras/          ← Código Laravel 12 (ver su propio README)
+└── cerseuletras/          ← Código Laravel 12 (ver su propio README)
     ├── app/
     ├── routes/
     ├── resources/
@@ -41,7 +40,7 @@ administra desde el panel en `/admin`.
 ### 1. Configurar el archivo .env
 
 ```bash
-cd posgradoletras
+cd cerseuletras
 copy .env.docker .env
 ```
 
@@ -92,7 +91,7 @@ El servidor de desarrollo del host no alcanza al contenedor de MySQL —el host
 `db` solo resuelve dentro de Docker—, así que en local se usa SQLite:
 
 ```bash
-cd posgradoletras
+cd cerseuletras
 composer install && npm install && npm run build
 php artisan migrate:fresh --seed
 php artisan serve
@@ -159,14 +158,14 @@ plantilla.
 
 - **Host:** `db` (desde contenedores) / `localhost` (desde el host)
 - **Puerto:** 3306 dentro de la red de Docker, 3307 desde el host
-- **Base de datos:** `posgradoletras`
-- **Usuario:** `posgrado_user`
+- **Base de datos:** `cerseuletras`
+- **Usuario:** `cerseu_user`
 - **Contraseña:** la que pongas en `DB_PASSWORD`
 
 ## Identidad visual
 
 - **Azul institucional:** `#143B63`. La escala completa (`unmsm-azul`,
-  `-light`, `-dark`, `-soft`) está en `posgradoletras/tailwind.config.js`.
+  `-light`, `-dark`, `-soft`) está en `cerseuletras/tailwind.config.js`.
 - **Dorado UNMSM:** `#B6A350` y `#C9AA36`.
 - El rojo se reserva para lo semántico: errores de validación, botones de
   eliminar, iconos de PDF y la marca de YouTube.

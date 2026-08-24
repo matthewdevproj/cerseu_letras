@@ -6,10 +6,10 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    container_name: posgradoletras_app
+    container_name: cerseuletras_app
     working_dir: /var/www/html
     volumes:
-      - ./posgradoletras:/var/www/html
+      - ./cerseuletras:/var/www/html
     depends_on:
       - db
     networks:
@@ -17,18 +17,18 @@ services:
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
-      - APP_URL=https://posgradoletras.unmsm.edu.pe
+      - APP_URL=https://cerseuletras.unmsm.edu.pe
 
   # Nginx Web Server
   web:
     image: nginx:stable-alpine
-    container_name: posgradoletras_nginx
+    container_name: cerseuletras_nginx
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./posgradoletras:/var/www/html
+      - ./cerseuletras:/var/www/html
       - ./docker/nginx/default-ssl.conf:/etc/nginx/conf.d/default.conf
       - ./docker/nginx/ssl_sectigo:/etc/nginx/ssl_sectigo
       - ./docker/nginx/compression.conf:/etc/nginx/compression.conf
@@ -37,17 +37,17 @@ services:
     networks:
       - laravel-network
     environment:
-      - NGINX_HOST=posgradoletras.unmsm.edu.pe
+      - NGINX_HOST=cerseuletras.unmsm.edu.pe
 
   # MySQL Database
   db:
     image: mysql:8.0
-    container_name: posgradoletras_db
+    container_name: cerseuletras_db
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_password}
-      MYSQL_DATABASE: ${DB_DATABASE:-posgradoletras}
-      MYSQL_USER: ${DB_USERNAME:-posgrado_user}
+      MYSQL_DATABASE: ${DB_DATABASE:-cerseuletras}
+      MYSQL_USER: ${DB_USERNAME:-cerseu_user}
       MYSQL_PASSWORD: ${DB_PASSWORD:-user_password}
     ports:
       - "${DB_PORT:-3307}:3306"
