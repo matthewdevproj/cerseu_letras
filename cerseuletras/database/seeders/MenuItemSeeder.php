@@ -92,17 +92,19 @@ class MenuItemSeeder extends Seeder
                 ],
             ],
             [
-                'etiqueta' => 'Idiomas', 'icono' => 'fas-language',
-                'hijos' => [
-                    ['etiqueta' => 'CEID Letras', 'url' => 'https://ceidletras.unmsm.edu.pe/', 'icono' => 'fas-language', 'nueva_pestana' => true],
-                    ['etiqueta' => 'Examen de Suficiencia', 'url' => 'https://letras.unmsm.edu.pe/oficina-de-examen-de-suficiencia-en-idiomas/', 'icono' => 'fas-file-circle-check', 'nueva_pestana' => true],
-                    ['etiqueta' => 'Tarifario', 'url' => 'https://letras.unmsm.edu.pe/tarifario-centro-de-idiomas/', 'icono' => 'fas-tags', 'nueva_pestana' => true],
-                ],
-            ],
-            [
+                // Los sitios hermanos de la Facultad, agrupados aquí. Antes
+                // «Facultad» era un enlace suelto y CEID y OESI colían de un
+                // desplegable «Idiomas» aparte, que se retira: los cuatro son
+                // destinos externos del mismo ámbito.
                 'etiqueta' => 'Facultad', 'icono' => 'fas-university',
                 'url' => 'https://letras.unmsm.edu.pe',
                 'nueva_pestana' => true,
+                'hijos' => [
+                    ['etiqueta' => 'Web Letras', 'url' => 'https://letras.unmsm.edu.pe/', 'icono' => 'fas-university', 'nueva_pestana' => true],
+                    ['etiqueta' => 'Posgrado Letras', 'url' => 'https://posgradoletras.unmsm.edu.pe/', 'icono' => 'fas-graduation-cap', 'nueva_pestana' => true],
+                    ['etiqueta' => 'CEID', 'url' => 'https://ceidletras.unmsm.edu.pe/', 'icono' => 'fas-language', 'nueva_pestana' => true],
+                    ['etiqueta' => 'OESI', 'url' => 'https://letras.unmsm.edu.pe/oficina-de-examen-de-suficiencia-en-idiomas/', 'icono' => 'fas-file-circle-check', 'nueva_pestana' => true],
+                ],
             ],
         ];
     }
