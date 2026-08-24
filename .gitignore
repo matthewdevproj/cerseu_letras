@@ -32,6 +32,10 @@ backup_*.sql
 .env
 .env.*
 cerseuletras/.env*
+# …salvo las plantillas, que no llevan secretos y hacen falta para arrancar.
+!.env.example
+!cerseuletras/.env.example
+!cerseuletras/.env.docker
 
 # Temporary files
 *.tmp

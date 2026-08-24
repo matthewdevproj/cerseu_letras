@@ -25,10 +25,19 @@ administra desde el panel en `/admin`.
 ├── docker-compose.yml
 ├── docker/
 │   ├── php/
-│   │   └── Dockerfile
+│   │   ├── Dockerfile
+│   │   └── php.ini
+│   ├── mysql/
+│   │   ├── Dockerfile
+│   │   ├── my.cnf
+│   │   └── docker-entrypoint-initdb.d/
 │   └── nginx/
-│       └── default-ssl.conf
-└── cerseuletras/          ← Código Laravel 12 (ver su propio README)
+│       ├── default.conf          ← sin TLS (desarrollo)
+│       ├── default-ssl.conf      ← con TLS (producción)
+│       └── compression.conf
+├── docker-compose.dev.yml   ← capa de desarrollo (sin TLS, debug on)
+├── .env.example             ← variables de Compose (BD y su usuario)
+└── cerseuletras/            ← Código Laravel 12 (ver su propio README)
     ├── app/
     ├── routes/
     ├── resources/
@@ -37,25 +46,62 @@ administra desde el panel en `/admin`.
 
 ## Instalación Rápida
 
-### 1. Configurar el archivo .env
+### 1. Configurar los dos archivos .env
+
+Hay **dos**, y es fácil confundirlos porque los lee gente distinta:
+
+| Fichero | Lo lee | Para qué |
+|---|---|---|
+| `.env` (raíz) | Docker Compose | Crear la base de datos y su usuario |
+| `cerseuletras/.env` | Laravel | Conectarse a esa base, correo, etc. |
+
+Compose solo mira el `.env` que está junto al `docker-compose.yml`. Si pones la
+contraseña únicamente en el de Laravel, MySQL se creará con la de plantilla y
+la aplicación no podrá entrar.
 
 ```bash
-cd cerseuletras
-copy .env.docker .env
+cp .env.example .env
+cp cerseuletras/.env.docker cerseuletras/.env
 ```
 
-`.env.docker` trae credenciales de plantilla. Antes de levantar nada, pon las
-reales en `.env`: `DB_PASSWORD`, `DB_ROOT_PASSWORD` y, si vas a enviar correo,
-las de `MAIL_*`. `.env` no se versiona.
+Ahora edita los dos y **haz que coincidan** en `DB_DATABASE`, `DB_USERNAME` y
+`DB_PASSWORD`. En el de la raíz va además `DB_ROOT_PASSWORD`; en el de Laravel,
+las credenciales de `MAIL_*` si vas a enviar correo. Ninguno de los dos `.env`
+se versiona.
 
 ### 2. Construir e iniciar los contenedores
+
+**Producción** (nginx con TLS en los puertos 80 y 443):
 
 ```bash
 docker compose build
 docker compose up -d
 ```
 
+Necesita los certificados en `docker/nginx/ssl_sectigo/` (`fullchain.pem` y
+`privkey.pem`). No están en el repositorio —son secretos— y sin ellos el
+contenedor `web` no arranca.
+
+**Desarrollo** (sin TLS, con `APP_DEBUG` activo):
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+```
+
+La capa de desarrollo sirve por el puerto 80 sin certificados y devuelve
+`APP_ENV=local` y `APP_DEBUG=true`, que el compose base fija en `production`
+como variables del contenedor —y esas ganan sobre el `.env`, de modo que sin
+esta capa los errores salen como un 500 en blanco—. También publica el 5173
+para `npm run dev`.
+
+El fichero se llama `docker-compose.dev.yml` y no `docker-compose.override.yml`
+a propósito: con ese nombre Compose lo aplicaría solo, y el servidor acabaría
+con el modo depuración encendido tras un `git pull`.
+
 ### 3. Instalar dependencias y configurar Laravel
+
+En los comandos de abajo, si levantaste con la capa de desarrollo, añade los
+mismos `-f` a cada `docker compose run`.
 
 ```bash
 # Dependencias de PHP
@@ -64,7 +110,10 @@ docker compose run --rm app composer install
 # Key de la aplicación
 docker compose run --rm app php artisan key:generate
 
-# Migraciones y contenido inicial
+# Migraciones y contenido inicial.
+# En el primer arranque MySQL tarda unos segundos en aceptar conexiones y
+# `depends_on` no espera a que esté listo: si sale «Connection refused»,
+# repite el comando.
 docker compose run --rm app php artisan migrate --seed
 
 # Enlace de storage (imágenes subidas desde el panel)
@@ -81,9 +130,22 @@ docker compose run --rm app npm run build
 secciones salen en blanco porque su contenido es administrable y no vive en las
 vistas.
 
-### 4. Acceder a la aplicación
+### 4. Permisos de escritura
+
+Laravel escribe en `storage/` y `bootstrap/cache`; el contenedor corre como el
+usuario `laravel`. Si al cargar el sitio aparece un error de permisos:
+
+```bash
+docker compose run --rm app chmod -R 775 storage bootstrap/cache
+```
+
+### 5. Acceder a la aplicación
 
 Abre en tu navegador: [http://localhost](http://localhost)
+
+El panel está en `/admin`. Los seeders crean un administrador con contraseña de
+desarrollo —la verás impresa al sembrar—: **cámbiala antes de exponer el
+sitio**, porque está escrita en `database/seeders/UserSeeder.php`.
 
 ## Desarrollo sin Docker
 

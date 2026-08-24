@@ -1,0 +1,30 @@
+# Capa de desarrollo. Se aplica encima de docker-compose.yml:
+#
+#     docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+#
+# Deliberadamente NO se llama docker-compose.override.yml. Con ese nombre
+# Compose lo aplicaría solo, sin que nadie lo pida, y el servidor lo recogería
+# al hacer git pull: quedaría en producción con APP_DEBUG=true, escupiendo
+# trazas con credenciales en cada error. El nombre explícito obliga a pedirlo.
+services:
+  app:
+    environment:
+      # El compose base fija APP_ENV=production y APP_DEBUG=false como
+      # variables del contenedor, y esas ganan sobre el .env —el Dotenv de
+      # Laravel es inmutable y no pisa lo que ya viene del entorno—. Sin esto,
+      # desarrollar contra Docker daba páginas 500 en blanco, sin traza.
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_URL=http://localhost
+    ports:
+      # Servidor de Vite, para `npm run dev` con recarga en caliente.
+      - "5173:5173"
+
+  web:
+    volumes:
+      # La conf de producción pide los certificados de /etc/nginx/ssl_sectigo,
+      # que no están en el repositorio. Sin ellos nginx ni siquiera arranca, así
+      # que en desarrollo se sirve la variante sin TLS por el puerto 80.
+      # Compose fusiona los volúmenes por ruta de destino, de modo que esta
+      # línea sustituye a la del compose base en lugar de sumarse.
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
