@@ -55,8 +55,12 @@ class MenuItemSeeder extends Seeder
                 'etiqueta' => 'Admisión', 'icono' => 'fas-user-plus',
                 'hijos' => [
                     ['etiqueta' => 'Proceso de Admisión', 'route_name' => 'admision', 'icono' => 'fas-user-plus'],
-                    ['etiqueta' => 'Cuadro de Vacantes', 'url' => 'https://posgrado.unmsm.edu.pe/doc/cuadro-de-vacantes-2026-i-f-1-f-1765884106-0', 'icono' => 'fas-th-list', 'nueva_pestana' => true],
-                    ['etiqueta' => 'Criterios de Evaluación', 'url' => 'https://posgrado.unmsm.edu.pe/doc/criterios-evaluacion-admision-2025', 'icono' => 'fas-clipboard-check', 'nueva_pestana' => true],
+                    // Aqui colgaban «Cuadro de Vacantes» y «Criterios de
+                    // Evaluacion», dos PDF de posgrado.unmsm.edu.pe sobre la
+                    // admision a maestrias y doctorados. Salian en la cabecera
+                    // de todas las paginas de un sitio que no ofrece ninguna de
+                    // las dos. Cuando el CERSEU publique sus equivalentes se
+                    // anaden desde el panel, sin tocar este seeder.
                     ['etiqueta' => 'Cronograma Académico', 'route_name' => 'cronograma', 'icono' => 'fas-calendar-alt'],
                 ],
             ],
