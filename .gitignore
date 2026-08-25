@@ -56,4 +56,7 @@ docker/nginx/ssl/
 *.key
 *.pem
 *.crt
-Field
+
+# Ajustes locales de Claude Code: son de cada maquina y llevan rutas
+# absolutas del equipo de quien las genero.
+.claude/settings.local.json
