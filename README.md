@@ -3,13 +3,21 @@
 Sitio del **Centro de Responsabilidad Social y Extensión Universitaria** de la
 Facultad de Letras y Ciencias Humanas de la UNMSM.
 
-El CERSEU ofrece dos tipos de formación abierta a toda la comunidad —**cursos**
-(se miden en meses) y **talleres** (en semanas)—, cada uno con su listado, su
-página de admisión y su formulario de solicitud de información. El contenido se
+El CERSEU ofrece **tres tipos** de formación abierta a toda la comunidad. Cada
+uno se anuncia con la unidad que le es propia:
+
+| Tipo | Se mide en |
+|---|---|
+| **Talleres** | horas académicas |
+| **Cursos** | sesiones distribuidas y horas académicas |
+| **Especializaciones** | módulos y meses |
+
+Los tres funcionan igual: listado, ficha, página de admisión y formulario de
+solicitud de información, cada uno con su propio cronograma. El contenido se
 administra desde el panel en `/admin`.
 
 > El sitio nació como portal de la Unidad de Posgrado y conserva de aquel origen
-> el nombre de la tabla `programas`, donde ahora viven cursos y talleres: los
+> el nombre de la tabla `programas`, donde ahora viven los tres tipos: los
 > distingue la columna `grado`. Las URLs anteriores `/programas` y `/diplomados`
 > redirigen con 301 a `/cursos` y `/talleres`, para no romper enlaces ya
 > publicados.
@@ -37,6 +45,10 @@ administra desde el panel en `/admin`.
 │       └── compression.conf
 ├── docker-compose.dev.yml   ← capa de desarrollo (sin TLS, debug on)
 ├── .env.example             ← variables de Compose (BD y su usuario)
+├── .gitattributes           ← fuerza LF en los ficheros que ejecuta Linux
+├── scripts/
+│   ├── check_ssl_expiry.sh      ← días que le quedan al certificado
+│   └── migrar_bd_a_cerseu.sh    ← vuelca posgradoletras → cerseuletras
 └── cerseuletras/            ← Código Laravel 12 (ver su propio README)
     ├── app/
     ├── routes/

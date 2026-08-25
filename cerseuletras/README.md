@@ -21,30 +21,34 @@ El sistema está construido sobre el framework **Laravel** (v12.x), utilizando u
   - Motor: MySQL `8.0` (Recomendado/Estándar)
   - Driver: PDO MySQL (PHP `^8.2`)
 
-### Entorno Docker (Oficial)
-Basado en `laravel/sail/runtimes/8.2/Dockerfile`:
+### Entorno Docker
 
-- **Sistema Base:** Ubuntu 24.04 (Noble Numbat)
-- **Runtime:** PHP 8.2 (CLI & Dev)
-- **Extensiones PHP Instaladas:**
-  - `php8.2-mysql`, `php8.2-pgsql`, `php8.2-sqlite3`, `php8.2-mongodb`, `php8.2-redis`
-  - `php8.2-gd`, `php8.2-imagick`
-  - `php8.2-curl`, `php8.2-mbstring`, `php8.2-xml`, `php8.2-zip`
-  - `php8.2-bcmath`, `php8.2-soap`, `php8.2-intl`, `php8.2-readline`, `php8.2-ldap`
-  - `php8.2-msgpack`, `php8.2-igbinary`, `php8.2-swoole`, `php8.2-memcached`
-  - `php8.2-pcov`, `php8.2-xdebug`
-- **Node.js:** Versión 22.x
-- **Herramientas Adicionales:**
-  - Composer, NPM, RN, Bun, Yarn
-  - MySQL Client, PostgreSQL Client 18
-  - Supervisor, FFmpeg, Git, Nano, Unzip
+La imagen de PHP se construye desde `docker/php/Dockerfile`:
+
+- **Base:** `php:8.2-fpm` (Debian)
+- **Extensiones PHP:** `pdo_mysql`, `mbstring`, `exif`, `pcntl`, `bcmath`,
+  `gd`, `zip`, `intl`, `opcache`
+- **GD se compila con `--with-webp`** (además de freetype y jpeg). No es un
+  detalle menor: sin esa bandera `imagewebp()` no existe, `OptimizadorImagen`
+  falla y su plan B guarda la imagen subida tal cual —sin redimensionar ni
+  comprimir—. El fallo es silencioso y solo se nota en el peso de las páginas.
+- **Node.js:** 22.x, desde el repositorio de NodeSource
+- **Composer:** 2.x, copiado de la imagen oficial
+- **Usuario:** corre como `laravel`, no como root. Su UID/GID se fijan con los
+  argumentos de construcción `UID` y `GID` (ver el `.env` de la raíz). En Linux
+  deben coincidir con los del dueño del repositorio o el contenedor no podrá
+  escribir en `storage/`.
+
+MySQL 8.0 se construye desde `docker/mysql/Dockerfile`, que añade la
+configuración de `my.cnf` (utf8mb4, zona horaria de Lima) y un script de
+arranque que crea la base de pruebas `<base>_testing`.
 
 #### Servicios y Puertos Expuestos
-| Servicio | Puerto Local | Descripción |
-|----------|--------------|-------------|
-| **web**  | `8080`       | Nginx / Servidor Web |
-| **app**  | `9000`       | PHP-FPM 8.2 (Interno) |
-| **db**   | `3306`       | MySQL 8.0 |
+| Servicio | Puerto en el host | Descripción |
+|----------|-------------------|-------------|
+| **web**  | `80` y `443`      | Nginx. El 443 solo sirve con los certificados puestos; la capa de desarrollo usa el 80 sin TLS |
+| **app**  | —                 | PHP-FPM 8.2, solo dentro de la red de Docker. La capa de desarrollo publica además el `5173` de Vite |
+| **db**   | `3307` → `3306`   | MySQL 8.0. El puerto del host se cambia con `DB_PORT` en el `.env` de la raíz; dentro de la red siempre es el 3306 |
 
 ### Estructura de Directorios Clave
 - `app/Http/Controllers`: Lógica de negocio y manejo de peticiones.
@@ -64,15 +68,26 @@ El sistema utiliza las siguientes tablas principales:
 
 #### Tablas de Contenido
 - **programas**: la oferta del CERSEU. Pese al nombre heredado, una fila es un
-  curso o un taller; los distingue la columna `grado` (`Curso` / `Taller`).
+  taller, un curso o una especialización; los distingue la columna `grado`
+  (`Taller` / `Curso` / `Especialización`).
     - Campos: `id`, `nombre`, `slug`, `grado`, `mencion`, `modalidad`,
-      `horas_academicas`, `duracion`, `sumilla`, `plan_estudios`,
-      `inversion_economica`, `estado` (`publicado` / `proximamente` /
-      `borrador`), `deleted_at`.
+      `sumilla`, `plan_estudios`, `inversion_economica`, `estado`
+      (`publicado` / `proximamente` / `borrador`), `deleted_at`.
+    - Duración: hay una columna por unidad —`horas_academicas`, `sesiones`,
+      `modulos` y `duracion` (meses)— y cada tipo llena solo las suyas. Las
+      demás quedan en blanco y no se muestran.
     - El enum `App\Models\TipoOferta` concentra lo único que cambia entre los
-      dos tipos: rótulo, segmento de URL, valor de `grado` y unidad de duración.
+      tres tipos: rótulo, segmento de URL, valor de `grado` y —en `medidas()`—
+      qué columnas de duración usa cada uno y con qué nombre se rotulan:
+      **Taller** → `horas_academicas` («horas académicas»); **Curso** →
+      `sesiones` («sesiones») y `horas_academicas`; **Especialización** →
+      `modulos` («módulos») y `duracion` («meses»).
+    - Añadir un cuarto tipo es añadir un `case` al enum: rutas, menús, filtros
+      del panel y heros se generan recorriendo `TipoOferta::cases()`.
 - **docentes**: Información de los profesores.
-    - Campos: `id`, `nombre`, `slug`, `grado_academico`, `categoria`, `dina_url`, `orcid`, `google_scholar`, `imagen_url`, `active`.
+    - Campos: `id`, `slug`, `nombres`, `apellidos`, `grado`, `email`, `orcid`,
+      `cti_vitae`, `linkedin`, `biografia`, `foto`, `lineas_investigacion`,
+      `grupo_investigacion`, `estado`, `deleted_at`.
 - **docente_programa**: Tabla pivote para la relación Muchos-a-Muchos entre Docentes y Programas.
 - **testimonios**: testimonios de participantes. Se administran desde el
   panel; no vienen sembrados. La sección de la portada y `/testimonios` se
@@ -87,7 +102,7 @@ El sistema utiliza las siguientes tablas principales:
 
 #### Tablas de Admisión y Solicitudes
 - **admision_settings**: una fila por tipo de oferta (`tipo` = `taller` |
-  `curso`, con índice único). Guarda el contenido completo de
+  `curso` | `especializacion`, con índice único). Guarda el contenido completo de
   `/{tipo}/admision`: hero, pasos, requisitos, pago, resultados y contacto.
 - **admision_cronograma_items**: convocatorias de cada módulo
   (`admision_setting_id`, `programa`, `convocatoria`, fechas, `estado`). Aquí
@@ -101,14 +116,15 @@ El sistema utiliza las siguientes tablas principales:
     - Roles: definidos por columna `role` (ej. 'admin').
 - **site_settings**: configuración global. Es una tabla de **una sola fila**
   —el modelo lo impide en `creating`— con una columna por ajuste: logo,
-  favicon, correos por rol, redes, y los heros de portada, cursos y talleres
-  (`{talleres|cursos}_hero_{titulo|texto|claim|imagen}`).
+  favicon, correos por rol, teléfono y `anexo`, redes, y los heros de portada
+  y de cada tipo de oferta
+  (`{talleres|cursos|especializaciones}_hero_{titulo|texto|claim|imagen}`).
 - **content_pages / content_sections**: contenido editable de `/tramites`,
   `/admision` y `/nosotros`. `ContentPage::GRUPOS` define si una página se
   divide en pestañas; `/tramites` ya no las usa.
 - **documents**: gestión centralizada de documentos PDF.
-- **directorio_posgrado**: directorio de contacto. Nombre heredado; a la espera
-  del equipo del CERSEU está vacía y su enlace no aparece en el menú.
+- **directorio_cerseu**: directorio de contacto. A la espera del equipo del
+  CERSEU está vacía y su enlace no aparece en el menú.
 
 ---
 
@@ -119,14 +135,16 @@ El acceso está protegido por el middleware `auth` y `isAdmin`. Permite la gesti
 
 #### Funcionalidades Clave:
 1.  **Dashboard**: Vista general del sistema.
-2.  **Gestión de Cursos y Talleres**: edición de la oferta. El tipo se elige
-    en el desplegable «Grado».
+2.  **Gestión de la oferta**: talleres, cursos y especializaciones se editan
+    en la misma pantalla. El tipo se elige en el desplegable «Grado», y el
+    formulario muestra solo los campos de duración que ese tipo usa.
 3.  **Gestión de Docentes**: Catálogo de profesores, asignación a programas y enlaces a perfiles académicos (ORCID, DINA).
 4.  **Configuración del Sitio**: Control de identidad visual (logos, favicon) y textos generales.
 5.  **Calendario/Cronograma**: fechas de admisión y actividades.
-6.  **Admisión por módulo** (`/admin/admision/{talleres|cursos}`): una misma
-    pantalla sirve los dos, con un selector arriba. Cada tipo guarda sus
-    propios ajustes y su propio cronograma.
+6.  **Admisión por módulo**
+    (`/admin/admision/{talleres|cursos|especializaciones}`): una misma pantalla
+    sirve los tres, con un selector arriba. Cada tipo guarda sus propios
+    ajustes y su propio cronograma.
 7.  **Solicitudes** (`/admin/leads`): listado y exportación a CSV de las
     solicitudes de información, filtrables por tipo, con reenvío del aviso por
     correo cuando el envío falló.
@@ -136,9 +154,10 @@ El sitio público presenta la información de manera responsiva y optimizada par
 
 #### Secciones Principales:
 1.  **Inicio**: hero, indicadores, oferta destacada con filtro por tipo.
-2.  **Cursos** (`/cursos`) y **Talleres** (`/talleres`): mismo controlador y
-    mismas plantillas para los dos módulos. Cada uno trae listado, ficha
-    (`/{tipo}/{slug}`), admisión (`/{tipo}/admision`) y formulario de solicitud.
+2.  **Talleres** (`/talleres`), **Cursos** (`/cursos`) y **Especializaciones**
+    (`/especializaciones`): mismo controlador y mismas plantillas para los tres
+    módulos. Cada uno trae listado, ficha (`/{tipo}/{slug}`), admisión
+    (`/{tipo}/admision`) y formulario de solicitud.
 3.  **Admisión**: guía general del proceso.
 4.  **Trámites**: constancias y certificados. La página se arma con tantas
     secciones como se carguen desde el panel, sin número fijo.
@@ -155,8 +174,13 @@ Las rutas anteriores `/programas` y `/diplomados` responden con 301 hacia
 ### Software Requerido
 - **Servidor Web:** Apache o Nginx
 - **Lenguaje:** PHP >= 8.2
-    - Extensiones: BCMath, Ctype, Fileinfo, JSON, Mbstring, OpenSSL, PDO, Tokenizer, XML.
-- **Base de Datos:** MySQL 5.7+ o MariaDB 10.3+
+    - Extensiones: BCMath, Ctype, Fileinfo, JSON, Mbstring, OpenSSL, PDO,
+      Tokenizer, XML, Intl, Zip, Exif y **GD compilada con soporte WebP**.
+    - Comprueba el WebP con `php -r 'var_dump(function_exists("imagewebp"));'`.
+      Si sale `false`, las imágenes que se suban desde el panel se guardarán
+      sin optimizar y nadie avisará.
+- **Base de Datos:** MySQL 8.0 (es la que usan los contenedores; 5.7 o
+  MariaDB 10.3+ también sirven)
 - **Composer:** v2.x
 - **Node.js:** v18+ y NPM (para compilación de assets)
 - **Docker (Entorno de Desarrollo):**
@@ -184,8 +208,12 @@ Las rutas anteriores `/programas` y `/diplomados` responden con 301 hacia
     ```
 
 3.  **Configurar Entorno:**
-    - Copiar `.env.example` a `.env`
-    - Configurar credenciales de BD (`DB_DATABASE`, `DB_USERNAME`, etc.)
+    - Copiar `.env.docker` a `.env` (trae ya los valores del proyecto; el
+      `.env.example` es la plantilla genérica de Laravel)
+    - Configurar credenciales de BD (`DB_DATABASE`, `DB_USERNAME`, etc.) y las
+      de `MAIL_*`
+    - Si despliegas con Docker, esas credenciales de BD deben coincidir con las
+      del `.env` de la raíz del repositorio, que es el que lee Compose
     - Generar key: `php artisan key:generate`
 
 4.  **Base de Datos:**
