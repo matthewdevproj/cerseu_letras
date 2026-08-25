@@ -142,8 +142,23 @@ vistas.
 
 ### 4. Permisos de escritura
 
-Laravel escribe en `storage/` y `bootstrap/cache`; el contenedor corre como el
-usuario `laravel`. Si al cargar el sitio aparece un error de permisos:
+Laravel escribe en `storage/` y `bootstrap/cache`. El contenedor corre como un
+usuario no-root, y **en Linux el bind mount conserva el propietario real de los
+ficheros**: si el usuario del host no coincide con el del contenedor, la
+aplicación no puede escribir y revienta al primer log.
+
+Antes de construir, pon tus identificadores en el `.env` de la raíz:
+
+```bash
+id -u    # -> UID
+id -g    # -> GID
+```
+
+Con `UID=1000` y `GID=1000` —lo habitual en el primer usuario de una VM— no
+hay nada que cambiar. En Windows y macOS da igual: Docker Desktop no traslada
+los propietarios.
+
+Si aún así aparece un error de permisos:
 
 ```bash
 docker compose run --rm app chmod -R 775 storage bootstrap/cache
@@ -156,6 +171,25 @@ Abre en tu navegador: [http://localhost](http://localhost)
 El panel está en `/admin`. Los seeders crean un administrador con contraseña de
 desarrollo —la verás impresa al sembrar—: **cámbiala antes de exponer el
 sitio**, porque está escrita en `database/seeders/UserSeeder.php`.
+
+## Desplegar en una VM Linux
+
+Lo anterior está verificado clonando el repositorio en limpio y siguiendo estos
+pasos uno a uno. Al llevarlo a una VM hay tres diferencias:
+
+1. **`UID`/`GID`** (paso 4). Es el fallo más común y no se manifiesta en
+   Windows, porque allí Docker Desktop presenta todo el bind mount como `root`
+   con permisos 777.
+
+2. **Los volúmenes de `vendor/` y `node_modules/`** de la capa de desarrollo
+   existen para esquivar un fallo de Docker Desktop en Windows, donde
+   `readdir()` trunca los directorios grandes. En Linux no hacen falta, pero
+   tampoco estorban: dejarlos evita tener dos configuraciones distintas.
+
+3. **TLS**. La configuración de producción espera `fullchain.pem` y
+   `privkey.pem` en `docker/nginx/ssl_sectigo/`, emitidos para el dominio de
+   `NGINX_HOST`, y el DNS apuntando a la máquina. Sin eso, el contenedor `web`
+   no arranca; usa la capa de desarrollo mientras tanto.
 
 ## Desarrollo sin Docker
 

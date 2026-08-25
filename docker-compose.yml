@@ -6,6 +6,13 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
+      args:
+        # En Linux el bind mount conserva el propietario real: si el usuario
+        # del host no coincide con el del contenedor, este no puede escribir
+        # en storage/. Se ponen en el .env de la raiz, o al vuelo con
+        # UID=$(id -u) GID=$(id -g) docker compose build
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     container_name: cerseuletras_app
     working_dir: /var/www/html
     volumes:

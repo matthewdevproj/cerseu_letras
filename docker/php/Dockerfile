@@ -51,10 +51,22 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # 5. CONFIGURAR DIRECTORIO DE TRABAJO
 WORKDIR /var/www/html
 
-# 6. CREAR USUARIO NO-ROOT PARA EVITAR PROBLEMAS DE PERMISOS
-RUN useradd -G www-data,root -u 1000 -d /home/laravel laravel && \
+# 6. CREAR USUARIO NO-ROOT CON EL UID/GID DEL HOST
+# En Linux el bind mount conserva el propietario real de los ficheros, asi que
+# si el usuario del host no coincide con el del contenedor, este no puede
+# escribir en storage/ ni en bootstrap/cache y la aplicacion revienta al
+# primer log. (En Docker Desktop para Windows no pasa: alli todo se ve como
+# root y 777, de modo que el problema solo aparece al desplegar.)
+#
+#   UID=$(id -u) GID=$(id -g) docker compose build
+#
+# o dejandolos en el .env de la raiz, que es de donde Compose los toma.
+ARG UID=1000
+ARG GID=1000
+RUN groupadd -f -g ${GID} laravel && \
+    useradd -u ${UID} -g ${GID} -G www-data,root -d /home/laravel laravel && \
     mkdir -p /home/laravel/.composer && \
-    chown -R laravel:laravel /home/laravel
+    chown -R ${UID}:${GID} /home/laravel
 
 # 7. COPIAR CONFIGURACIÓN PHP PERSONALIZADA
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/99-custom.ini
@@ -64,7 +76,8 @@ COPY docker/php/php.ini /usr/local/etc/php/conf.d/99-custom.ini
 # incluido el propietario. Sin estas carpetas, Docker las crea vacías y como
 # root, y el usuario `laravel` no puede escribir dentro: `composer install`
 # muere con «/var/www/html/vendor/... does not exist and could not be created».
-RUN mkdir -p /var/www/html/vendor /var/www/html/node_modules     && chown -R laravel:laravel /var/www/html
+RUN mkdir -p /var/www/html/vendor /var/www/html/node_modules \
+    && chown -R ${UID}:${GID} /var/www/html
 
 # 9. CAMBIAR AL USUARIO LARAVEL
 USER laravel
