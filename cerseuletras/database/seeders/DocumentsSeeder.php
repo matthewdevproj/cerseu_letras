@@ -2,95 +2,32 @@
 
 namespace Database\Seeders;
 
-use App\Models\Document;
 use Illuminate\Database\Seeder;
 
+/**
+ * No siembra nada, a propósito.
+ *
+ * Hasta agosto de 2026 creaba diez documentos heredados de la Unidad de
+ * Posgrado —«Reglamento de Estudios de Posgrado», «Formato de Proyecto de
+ * Tesis», «Manual de Estilo para Tesis»…—, todos con `published => true` y
+ * apuntando a `/documents/*.pdf`. Ninguno de esos ficheros existe ni ha
+ * existido: no hay carpeta `public/documents/`. El resultado era que
+ * `/admision` publicaba cuatro enlaces de descarga que devolvían 404, con
+ * títulos que además hablaban de tesis y grados académicos, que no es lo que
+ * hace el CERSEU.
+ *
+ * Se quitan en lugar de sustituirse porque no hay documentos reales que poner:
+ * inventarlos repetiría el problema con otro texto. Los sube la Unidad desde
+ * `/admin/documentos` cuando los tenga, y mientras tanto las secciones que los
+ * listan muestran su estado vacío, que ya está resuelto en las plantillas.
+ *
+ * De paso, el seeder anterior llamaba a `Document::create()` en bucle sin
+ * comprobar nada, así que cada `db:seed` duplicaba los diez.
+ */
 class DocumentsSeeder extends Seeder
 {
     public function run(): void
     {
-        $documents = [
-            // Documentos de Admisión
-            [
-                'type' => 'admision',
-                'title' => 'Reglamento de Admisión 2026',
-                'original_name' => 'reglamento-admision-2026.pdf',
-                'url' => '/documents/reglamento-admision-2026.pdf',
-                'published' => true,
-            ],
-            [
-                'type' => 'admision',
-                'title' => 'Formato de Solicitud de Admisión',
-                'original_name' => 'formato-solicitud-admision.pdf',
-                'url' => '/documents/formato-solicitud-admision.pdf',
-                'published' => true,
-            ],
-            [
-                'type' => 'admision',
-                'title' => 'Guía del Postulante',
-                'original_name' => 'guia-postulante-2026.pdf',
-                'url' => '/documents/guia-postulante-2026.pdf',
-                'published' => true,
-            ],
-            
-            // Documentos Académicos
-            [
-                'type' => 'academico',
-                'title' => 'Reglamento de Estudios de Posgrado',
-                'original_name' => 'reglamento-estudios-posgrado.pdf',
-                'url' => '/documents/reglamento-estudios-posgrado.pdf',
-                'published' => true,
-            ],
-            [
-                'type' => 'academico',
-                'title' => 'Reglamento de Grados y Títulos',
-                'original_name' => 'reglamento-grados-titulos.pdf',
-                'url' => '/documents/reglamento-grados-titulos.pdf',
-                'published' => true,
-            ],
-            [
-                'type' => 'academico',
-                'title' => 'Formato de Proyecto de Tesis',
-                'original_name' => 'formato-proyecto-tesis.docx',
-                'url' => '/documents/formato-proyecto-tesis.docx',
-                'published' => true,
-            ],
-            
-            // Documentos de Investigación
-            [
-                'type' => 'investigacion',
-                'title' => 'Líneas de Investigación 2026',
-                'original_name' => 'lineas-investigacion-2026.pdf',
-                'url' => '/documents/lineas-investigacion-2026.pdf',
-                'published' => true,
-            ],
-            [
-                'type' => 'investigacion',
-                'title' => 'Manual de Estilo para Tesis',
-                'original_name' => 'manual-estilo-tesis.pdf',
-                'url' => '/documents/manual-estilo-tesis.pdf',
-                'published' => true,
-            ],
-            
-            // Otros Documentos
-            [
-                'type' => 'otro',
-                'title' => 'Calendario Académico 2026',
-                'original_name' => 'calendario-academico-2026.pdf',
-                'url' => '/documents/calendario-academico-2026.pdf',
-                'published' => true,
-            ],
-            [
-                'type' => 'otro',
-                'title' => 'Directorio de Docentes',
-                'original_name' => 'directorio-docentes.pdf',
-                'url' => '/documents/directorio-docentes.pdf',
-                'published' => true,
-            ],
-        ];
-
-        foreach ($documents as $document) {
-            Document::create($document);
-        }
+        //
     }
 }
