@@ -89,7 +89,20 @@ function initScrollReveal() {
                 obs.unobserve(el);
             });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -10% 0px' }
+        // threshold 0 y margen en pixeles, no en porcentaje.
+        //
+        // Con threshold 0.1 el umbral es una fraccion DEL ELEMENTO, no del
+        // viewport, asi que cuanto mas largo es el elemento menos alcanzable
+        // resulta: la grilla de /cursos mide 6143 px en escritorio (ratio
+        // maximo 0.137, se revelaba tarde), 9450 px en tablet (0.076) y
+        // 18428 px en movil a una columna (0.033). En los dos ultimos casos
+        // el 10% era inalcanzable y los 39 cursos no aparecian nunca.
+        //
+        // Con threshold 0 basta con que asome un pixel, y los -80 px de
+        // margen inferior evitan que se dispare por un elemento que apenas
+        // roza el borde. El comportamiento deja de depender de cuantas
+        // tarjetas haya dentro.
+        { threshold: 0, rootMargin: '0px 0px -80px 0px' }
     );
 
     simple.forEach((el) => observer.observe(el));
