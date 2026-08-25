@@ -94,17 +94,29 @@ Necesita los certificados en `docker/nginx/ssl_sectigo/` (`fullchain.pem` y
 `privkey.pem`). No están en el repositorio —son secretos— y sin ellos el
 contenedor `web` no arranca.
 
-**Desarrollo** (sin TLS, con `APP_DEBUG` activo):
+**Desarrollo** (sin TLS, por el puerto 80):
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 ```
 
-La capa de desarrollo sirve por el puerto 80 sin certificados y devuelve
-`APP_ENV=local` y `APP_DEBUG=true`, que el compose base fija en `production`
-como variables del contenedor —y esas ganan sobre el `.env`, de modo que sin
-esta capa los errores salen como un 500 en blanco—. También publica el 5173
-para `npm run dev`.
+Sirve por el puerto 80 sin certificados, apunta `APP_URL` a `http://localhost`
+y publica el 5173 para `npm run dev`.
+
+Lo que **no** hace es encender el modo depuración. `.env.docker` viene con
+`APP_ENV=production` y `APP_DEBUG=false`, que es lo que debe llegar a un
+servidor, así que si lo copiaste tal cual los errores saldrán como un 500 en
+blanco. Para ver las trazas, en `cerseuletras/.env`:
+
+```env
+APP_ENV=local
+APP_DEBUG=true
+```
+
+Va en el `.env` y no en el compose a propósito: exportarlas como variables del
+contenedor las mete en `$_SERVER`, donde PHPUnit no puede sobrescribirlas ni
+con `force="true"`, y la suite acaba corriendo contra la base de desarrollo en
+lugar de la de pruebas.
 
 El fichero se llama `docker-compose.dev.yml` y no `docker-compose.override.yml`
 a propósito: con ese nombre Compose lo aplicaría solo, y el servidor acabaría
@@ -199,9 +211,72 @@ pasos uno a uno. Al llevarlo a una VM hay tres diferencias:
    tampoco estorban: dejarlos evita tener dos configuraciones distintas.
 
 3. **TLS**. La configuración de producción espera `fullchain.pem` y
-   `privkey.pem` en `docker/nginx/ssl_sectigo/`, emitidos para el dominio de
-   `NGINX_HOST`, y el DNS apuntando a la máquina. Sin eso, el contenedor `web`
-   no arranca; usa la capa de desarrollo mientras tanto.
+   `privkey.pem` en `docker/nginx/ssl_sectigo/`, emitidos para
+   `cerseuletras.unmsm.edu.pe`, y el DNS apuntando a la máquina. Sin eso, el
+   contenedor `web` no arranca; usa la capa de desarrollo mientras tanto.
+
+   Si el dominio cambia, hay que editarlo en `docker/nginx/default-ssl.conf`
+   (dos `server_name`, uno por bloque). La variable `NGINX_HOST` del
+   `docker-compose.yml` **no** lo cambia: nginx no sustituye variables en las
+   confs de `conf.d/`, y ese `server_name` está escrito a mano. La misma línea
+   lleva la IP `172.16.40.172`, heredada del servidor anterior.
+
+### Antes de abrirlo al público
+
+Los pasos de «Instalación Rápida» dejan el sitio funcionando, pero en modo
+desarrollo. Para un servidor hay que añadir:
+
+```bash
+# Dependencias sin las de desarrollo, y autoload optimizado
+docker compose run --rm app composer install --no-dev --optimize-autoloader
+
+# Assets compilados para producción (no `npm run dev`)
+docker compose run --rm app npm run build
+
+# Migraciones sin la confirmación interactiva
+docker compose run --rm app php artisan migrate --force
+
+# Cachés de configuración, rutas y vistas
+docker compose run --rm app php artisan config:cache
+docker compose run --rm app php artisan route:cache
+docker compose run --rm app php artisan view:cache
+```
+
+Ojo con `config:cache`: a partir de ahí Laravel deja de leer el `.env` y usa la
+caché. Cada cambio en el `.env` obliga a repetirlo, y si algo deja de responder
+a la configuración, `php artisan config:clear` es lo primero que hay que probar.
+
+Y revisar en `cerseuletras/.env`:
+
+- `APP_ENV=production` y `APP_DEBUG=false`. Con el depurador encendido, una
+  excepción imprime en pantalla el `.env` entero, contraseña de base de datos
+  incluida.
+- `APP_KEY` generada (`php artisan key:generate`).
+- `APP_URL` con el dominio real y `https`.
+- `MAIL_*` con el buzón del CERSEU. Sin esto, los avisos de las solicitudes de
+  información no salen y quedan registrados en `leads.aviso_error`.
+- Las contraseñas de base de datos: que no sean las de plantilla, y que
+  coincidan con las del `.env` de la raíz.
+
+**Cambia la contraseña del administrador.** Los seeders crean
+`admin@cerseuletras.unmsm.edu.pe` con `admin123`, que está escrita en
+`database/seeders/UserSeeder.php` y por tanto es pública. Desde el propio panel,
+en el perfil del usuario, o por consola:
+
+```bash
+docker compose run --rm app php artisan tinker
+```
+
+```php
+$u = App\Models\User::where('email', 'admin@cerseuletras.unmsm.edu.pe')->first();
+$u->password = Hash::make('la-nueva-contrasena');
+$u->save();
+```
+
+Para vigilar el certificado, `scripts/check_ssl_expiry.sh` dice los días que le
+quedan; sirve para un cron. Si vas a traerte los datos del sitio anterior,
+`scripts/migrar_bd_a_cerseu.sh` vuelca `posgradoletras` a `cerseuletras` sin
+tocar la base de origen.
 
 ## Desarrollo sin Docker
 
