@@ -48,7 +48,8 @@ class MenuItemSeeder extends Seeder
                     ['etiqueta' => 'Quiénes somos', 'route_name' => 'nosotros', 'icono' => 'fas-info-circle'],
                     ['etiqueta' => 'Directorio FLCH', 'url' => 'https://letras.unmsm.edu.pe/directorio/', 'icono' => 'fas-address-book', 'nueva_pestana' => true],
                     ['etiqueta' => 'Documentos y Recursos', 'route_name' => 'informativos.index', 'icono' => 'fas-file-alt'],
-                    ['etiqueta' => 'Grupos de Investigación', 'url' => 'https://letras.unmsm.edu.pe/unidad-de-investigacion', 'icono' => 'fas-flask', 'nueva_pestana' => true],
+                    // «Grupos de Investigacion» apuntaba a la Unidad de
+                    // Investigacion de la Facultad. Es de Letras, no del CERSEU.
                 ],
             ],
             [
