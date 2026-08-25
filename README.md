@@ -323,22 +323,25 @@ docker compose run --rm app php artisan test
 docker compose run --rm app npm test          # Vitest
 ```
 
-**La suite de PHP termina con 8 fallos, y es lo esperado.** Conviene saberlo
-antes de perder una tarde: no los has provocado tú, vienen del andamiaje que
-Laravel Breeze dejó al instalarse y llevan ahí desde antes del rebrand.
+**Las dos suites pasan enteras.** Si algo falla, lo has roto tú: no hay fallos
+heredados que haya que aprender a ignorar, y ese es justamente el motivo de
+mantenerlas en verde.
 
-- **7 en `tests/Feature/Auth/`** — prueban registro público, verificación de
-  correo y confirmación de contraseña. Este sitio no tiene ninguna de las tres:
-  las rutas `register` y `verify-email` no existen, los usuarios se crean desde
-  `/admin/users`. Las pruebas piden URLs que nadie sirve y reciben un 404.
-- **1 en `tests/Feature/ExampleTest.php`** — es el ejemplo que trae Laravel, con
-  la línea `use RefreshDatabase` comentada. Sin base de datos, la portada no
-  encuentra la tabla `programas`.
+Hasta agosto de 2026 la suite de PHP terminaba con ocho fallos permanentes,
+todos del andamiaje que Laravel Breeze deja al instalarse. Se resolvieron
+mirando uno por uno en vez de silenciarlos:
 
-Lo que importa es que sigan siendo **exactamente 8**. Si aparece un noveno, es
-tuyo. Anota el número antes de empezar y compáralo al terminar.
-
-`npm test` (Vitest) sí pasa entero.
+- Las pruebas de **registro público** y **verificación de correo** se
+  eliminaron. Comprobaban rutas que este sitio no sirve —no hay alta pública,
+  los usuarios se crean desde `/admin/users`—, así que no cubrían nada.
+- La de **inicio de sesión** afirmaba una redirección a `route('dashboard')`,
+  que aquí no existe. Ahora cubre las dos ramas reales: un admin acaba en el
+  panel y cualquier otro usuario en la portada.
+- La de **confirmación de contraseña** destapó un fallo de verdad:
+  `ConfirmablePasswordController` redirigía también a `route('dashboard')` y
+  lanzaba `RouteNotFoundException`, o sea un 500.
+- El **ExampleTest** de Laravel venía con `RefreshDatabase` comentado, así que
+  pedía la portada sin base de datos.
 
 ### Ver logs
 

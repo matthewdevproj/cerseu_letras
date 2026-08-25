@@ -17,9 +17,29 @@ class AuthenticationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_users_can_authenticate_using_the_login_screen(): void
+    /**
+     * El destino depende del rol: el panel no es para todo el mundo.
+     *
+     * Esta prueba afirmaba un unico `route('dashboard')`, que en este proyecto
+     * no existe —el indice del panel se llama `admin.dashboard`—, asi que
+     * fallaba con RouteNotFoundException desde antes del rebrand.
+     */
+    public function test_un_admin_entra_al_panel_al_iniciar_sesion(): void
     {
-        $user = User::factory()->create();
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $response = $this->post('/login', [
+            'email' => $admin->email,
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(route('admin.dashboard', absolute: false));
+    }
+
+    public function test_un_usuario_sin_rol_admin_vuelve_a_la_portada(): void
+    {
+        $user = User::factory()->create(['role' => 'user']);
 
         $response = $this->post('/login', [
             'email' => $user->email,
@@ -27,7 +47,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(route('home', absolute: false));
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
