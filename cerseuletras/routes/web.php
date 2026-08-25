@@ -126,11 +126,17 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('dashboard');
 
     // Programas Management
-    Route::resource('programas', App\Http\Controllers\Admin\AdminProgramaController::class);
+    // Sin `show`: el panel edita, no expone fichas, y el controlador nunca
+    // tuvo ese metodo. Route::resource lo registraba igual, de modo que
+    // /admin/programas/{id} respondia 500 en vez de 404.
+    Route::resource('programas', App\Http\Controllers\Admin\AdminProgramaController::class)
+        ->except(['show']);
     Route::post('programas/{programa}/toggle', [App\Http\Controllers\Admin\AdminProgramaController::class, 'toggleActive'])->name('programas.toggle');
 
     // Docentes Management
-    Route::resource('docentes', App\Http\Controllers\Admin\AdminDocenteController::class);
+    // Sin `show`, por lo mismo que programas.
+    Route::resource('docentes', App\Http\Controllers\Admin\AdminDocenteController::class)
+        ->except(['show']);
     Route::post('docentes/{docente}/toggle', [App\Http\Controllers\Admin\AdminDocenteController::class, 'toggleActive'])->name('docentes.toggle');
 
     // Testimonios Management
@@ -196,7 +202,10 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::put('admision/{tipoOferta}', [App\Http\Controllers\Admin\AdminAdmisionController::class, 'update'])->name('admision.update');
 
     // Informativos Management
-    Route::resource('informativos', App\Http\Controllers\Admin\AdminInformativoController::class);
+    // Los informativos se crean y editan en linea desde el propio listado:
+    // no hay pantallas create/show/edit y el controlador no las implementa.
+    Route::resource('informativos', App\Http\Controllers\Admin\AdminInformativoController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
     Route::post('informativos/reorder', [App\Http\Controllers\Admin\AdminInformativoController::class, 'reorder'])->name('informativos.reorder');
 
     // Eventos Management
