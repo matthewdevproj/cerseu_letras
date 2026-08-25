@@ -171,6 +171,12 @@ docker compose run --rm app npm run build
 secciones salen en blanco porque su contenido es administrable y no vive en las
 vistas.
 
+Aun con `--seed` hay partes que salen vacías **a propósito**: los documentos
+descargables, el cronograma de `/cronograma`, el directorio y los
+testimonios. Lo que había en esas tablas era de la Unidad de Posgrado y no
+hay equivalente del CERSEU que poner, así que se cargan desde el panel. Las
+páginas afectadas traen su estado vacío: no es que la instalación fallara.
+
 ### 4. Permisos de escritura
 
 Laravel escribe en `storage/` y `bootstrap/cache`. El contenedor corre como un
@@ -316,6 +322,23 @@ docker compose run --rm app npm <comando>
 docker compose run --rm app php artisan test
 docker compose run --rm app npm test          # Vitest
 ```
+
+**La suite de PHP termina con 8 fallos, y es lo esperado.** Conviene saberlo
+antes de perder una tarde: no los has provocado tú, vienen del andamiaje que
+Laravel Breeze dejó al instalarse y llevan ahí desde antes del rebrand.
+
+- **7 en `tests/Feature/Auth/`** — prueban registro público, verificación de
+  correo y confirmación de contraseña. Este sitio no tiene ninguna de las tres:
+  las rutas `register` y `verify-email` no existen, los usuarios se crean desde
+  `/admin/users`. Las pruebas piden URLs que nadie sirve y reciben un 404.
+- **1 en `tests/Feature/ExampleTest.php`** — es el ejemplo que trae Laravel, con
+  la línea `use RefreshDatabase` comentada. Sin base de datos, la portada no
+  encuentra la tabla `programas`.
+
+Lo que importa es que sigan siendo **exactamente 8**. Si aparece un noveno, es
+tuyo. Anota el número antes de empezar y compáralo al terminar.
+
+`npm test` (Vitest) sí pasa entero.
 
 ### Ver logs
 

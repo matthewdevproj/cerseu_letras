@@ -93,12 +93,27 @@ El sistema utiliza las siguientes tablas principales:
   panel; no vienen sembrados. La sección de la portada y `/testimonios` se
   ocultan solas mientras la tabla esté vacía.
     - Campos: `id`, `nombre`, `contenido`, `cargo`, `programa_id`, `imagen_path`, `published`, `orden`.
-- **eventos**: Eventos y noticias académicas.
-    - Campos: `id`, `titulo`, `slug`, `descripcion`, `fecha`, `hora`, `lugar`, `imagen_path`, `active`.
-- **informativos**: Documentos informativos y recursos.
-    - Campos: `id`, `titulo`, `descripcion`, `archivo_path`, `categoria`, `orden`, `active`.
-- **cronogramas**: Fechas importantes y actividades del calendario académico.
-    - Campos: `id`, `actividad`, `fecha_inicio`, `fecha_fin`, `active`.
+- **eventos**: eventos y noticias académicas.
+    - Campos: `id`, `titulo`, `imagen`, `descripcion`, `fecha_inicio`,
+      `fecha_fin`, `url`, `tipo_url`, `orden`, `activo`, `deleted_at`.
+- **informativos**: enlaces a documentos y recursos, agrupados por `categoria`.
+    - Campos: `id`, `categoria`, `titulo`, `tipo`, `url`, `orden`, `deleted_at`.
+- **cronogramas / cronograma_items**: el calendario de `/cronograma`. La
+  cabecera lleva `code`, `title`, `description`, `effective_date` e
+  `is_active`; las filas van en `cronograma_items` (`section`,
+  `is_section_heading`, `actividad`, `fecha_text`, `orden`), de modo que una
+  fila puede ser un encabezado de bloque o una actividad con su fecha.
+    - **Se siembra vacío a propósito.** Antes traía trece filas heredadas del
+      proceso de maestrías y doctorados —examen de admisión, entrevista
+      personal, matrícula de ingresantes— con fechas concretas que el CERSEU
+      nunca tuvo. La vista muestra su estado vacío hasta que la Unidad cargue
+      las suyas.
+- **cronograma_admisiones / cronograma_admision_pasos**: el bloque «Cómo
+  inscribirte» de la portada, independiente del anterior. La cabecera lleva
+  `eyebrow`, `titulo`, `boton_texto`, `boton_url` e `is_visible`; cada paso,
+  `titulo`, `detalle`, `icono` (de `CronogramaAdmision::ICONOS`), `publico`,
+  `fecha_inicio`/`fecha_fin` opcionales, `orden`, `destacado` e `is_visible`.
+  La portada oculta la sección entera si no queda ningún paso visible.
 
 #### Tablas de Admisión y Solicitudes
 - **admision_settings**: una fila por tipo de oferta (`tipo` = `taller` |
@@ -122,7 +137,10 @@ El sistema utiliza las siguientes tablas principales:
 - **content_pages / content_sections**: contenido editable de `/tramites`,
   `/admision` y `/nosotros`. `ContentPage::GRUPOS` define si una página se
   divide en pestañas; `/tramites` ya no las usa.
-- **documents**: gestión centralizada de documentos PDF.
+- **documents**: documentos PDF publicables (`type`, `title`,
+  `original_name`, `url`, `published`). Se siembra vacía: las diez filas
+  que traía apuntaban a ficheros que nunca existieron y hablaban de tesis
+  y grados académicos. Se cargan desde `/admin/documents`.
 - **directorio_cerseu**: directorio de contacto. A la espera del equipo del
   CERSEU está vacía y su enlace no aparece en el menú.
 
@@ -140,7 +158,10 @@ El acceso está protegido por el middleware `auth` y `isAdmin`. Permite la gesti
     formulario muestra solo los campos de duración que ese tipo usa.
 3.  **Gestión de Docentes**: Catálogo de profesores, asignación a programas y enlaces a perfiles académicos (ORCID, DINA).
 4.  **Configuración del Sitio**: Control de identidad visual (logos, favicon) y textos generales.
-5.  **Calendario/Cronograma**: fechas de admisión y actividades.
+5.  **Cronogramas**: dos pantallas distintas, y se confunden con facilidad.
+    `/admin/cronograma` edita la tabla de `/cronograma`;
+    `/admin/cronograma-admision` edita el bloque «Cómo inscribirte» de la
+    portada, con sus pasos, iconos y botón.
 6.  **Admisión por módulo**
     (`/admin/admision/{talleres|cursos|especializaciones}`): una misma pantalla
     sirve los tres, con un selector arriba. Cada tipo guarda sus propios
@@ -148,6 +169,12 @@ El acceso está protegido por el middleware `auth` y `isAdmin`. Permite la gesti
 7.  **Solicitudes** (`/admin/leads`): listado y exportación a CSV de las
     solicitudes de información, filtrables por tipo, con reenvío del aviso por
     correo cuando el envío falló.
+
+`PanelHumoTest` recorre todas estas pantallas con un admin autenticado y
+falla si alguna pasa de 400. Se añadió después de encontrar tres rutas que
+`Route::resource` registraba para métodos que los controladores no
+implementan —`programas.show`, `docentes.show`, `informativos.create`— y que
+por eso devolvían un 500 en lugar de un 404.
 
 ### Frontend Público
 El sitio público presenta la información de manera responsiva y optimizada para SEO.
@@ -158,7 +185,11 @@ El sitio público presenta la información de manera responsiva y optimizada par
     (`/especializaciones`): mismo controlador y mismas plantillas para los tres
     módulos. Cada uno trae listado, ficha (`/{tipo}/{slug}`), admisión
     (`/{tipo}/admision`) y formulario de solicitud.
-3.  **Admisión**: guía general del proceso.
+3.  **Admisión** (`/admision`): reparte hacia el proceso de cada tipo, que
+    es donde vive el de verdad. No describe un proceso propio: las tarjetas
+    se generan recorriendo `TipoOferta::cases()` y solo el texto de entrada
+    es editable. Antes detallaba aquí el proceso de maestrías y doctorados
+    heredado de la Unidad de Posgrado.
 4.  **Trámites**: constancias y certificados. La página se arma con tantas
     secciones como se carguen desde el panel, sin número fijo.
 5.  **Plana Docente**: buscador y perfiles.
@@ -221,6 +252,12 @@ Las rutas anteriores `/programas` y `/diplomados` responden con 301 hacia
     php artisan migrate --force
     php artisan db:seed --class=DatabaseSeeder # (Solo si es primera instalación)
     ```
+    Varias tablas se siembran **vacías a propósito** —`documents`,
+    `cronograma_items`, `directorio_cerseu`, `testimonios`— porque lo que
+    contenían era de la Unidad de Posgrado y no hay equivalente del CERSEU
+    que poner. Las secciones que las muestran traen su estado vacío; no es
+    que la instalación haya fallado.
+
     Los seeders dejan el sitio utilizable: menú, contenido de `/tramites`,
     `/admision` y `/nosotros`, ajustes del sitio y la programación 2026 del
     CERSEU. Son idempotentes en lo que importa —no pisan contenido ya editado
