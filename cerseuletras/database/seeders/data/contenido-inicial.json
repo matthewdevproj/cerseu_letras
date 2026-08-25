@@ -128,61 +128,49 @@
     ],
     "cronograma": [
         {
-            "titulo": "Cronograma de Admisión",
+            "titulo": "Cómo inscribirte",
             "is_visible": true,
+            "eyebrow": "Formación abierta a la comunidad",
+            "boton_texto": "Ver la oferta",
+            "boton_url": "/cursos",
             "pasos": [
                 {
-                    "titulo": "Inscripción de postulantes",
-                    "fecha_inicio": "5 ene",
-                    "fecha_fin": "02 abr",
-                    "detalle": "+ Envío de expediente",
+                    "titulo": "Elige tu programa",
+                    "fecha_inicio": null,
+                    "fecha_fin": null,
+                    "detalle": "Talleres, cursos y especializaciones. Cada ficha indica duración, modalidad e inversión.",
                     "publico": null,
-                    "icono": "inscripcion",
-                    "orden": 0,
+                    "icono": "documento",
                     "destacado": true,
                     "is_visible": true
                 },
                 {
-                    "titulo": "Examen de conocimiento y entrevistas",
-                    "fecha_inicio": "06 de abril",
+                    "titulo": "Revisa la convocatoria",
+                    "fecha_inicio": null,
                     "fecha_fin": null,
-                    "detalle": null,
-                    "publico": "Maestrías",
-                    "icono": "examen",
-                    "orden": 1,
-                    "destacado": false,
-                    "is_visible": true
-                },
-                {
-                    "titulo": "Examen de conocimiento y entrevistas",
-                    "fecha_inicio": "07 de abril",
-                    "fecha_fin": null,
-                    "detalle": null,
-                    "publico": "Doctorados",
-                    "icono": "birrete",
-                    "orden": 2,
-                    "destacado": false,
-                    "is_visible": true
-                },
-                {
-                    "titulo": "Evaluación del expediente",
-                    "fecha_inicio": "Hasta el 06 de abril",
-                    "fecha_fin": null,
-                    "detalle": "Revisión de documentos",
+                    "detalle": "En la admisión de cada tipo están las convocatorias abiertas y sus fechas de inicio.",
                     "publico": null,
-                    "icono": "expediente",
-                    "orden": 3,
+                    "icono": "calendario",
                     "destacado": false,
                     "is_visible": true
                 },
                 {
-                    "titulo": "Publicación de Resultados",
-                    "fecha_inicio": "09 de abril",
+                    "titulo": "Envía tu solicitud",
+                    "fecha_inicio": null,
                     "fecha_fin": null,
-                    "detalle": "Lista oficial",
+                    "detalle": "Completa el formulario del programa que te interese y el CERSEU se comunica contigo.",
+                    "publico": null,
+                    "icono": "correo",
+                    "destacado": false,
+                    "is_visible": true
+                },
+                {
+                    "titulo": "Formaliza tu matrícula",
+                    "fecha_inicio": null,
+                    "fecha_fin": null,
+                    "detalle": "Realiza el pago según las condiciones indicadas en la ficha del programa.",
                     "publico": null,
                     "icono": "check",
-                    "orden": 4,
                     "destacado": false,
                     "is_visible": true
                 }

@@ -21,14 +21,22 @@ class ObservacionesPosgradoTest extends TestCase
         return User::factory()->create(['role' => 'admin']);
     }
 
-    /** Obs. N.º 1 — accesos de la portada orientados a diplomados. */
-    public function test_la_portada_ofrece_los_accesos_de_diplomados(): void
+    /**
+     * Obs. N.º 1 — la portada lleva a la oferta y a su inscripción.
+     *
+     * La observación original pedía que los accesos apuntaran a diplomados,
+     * que es lo que entonces ofrecía la Unidad. Se conserva la intención
+     * —que el visitante aterrice en algo que existe— con el destino que hoy
+     * tiene contenido: Cursos, la única de las tres secciones con programas
+     * publicados. Talleres y Especializaciones siguen vacías.
+     */
+    public function test_la_portada_ofrece_los_accesos_a_la_oferta(): void
     {
         $res = $this->get('/');
 
         $res->assertOk()
-            ->assertSee('Ver talleres')
-            ->assertSee('Admisión de talleres')
+            ->assertSee('Ver cursos')
+            ->assertSee('Cómo inscribirte')
             ->assertDontSee('>Ver Programas<', false);
 
         // Los indicadores de Maestrías/Doctorados/Diplomados enlazan a su sección.

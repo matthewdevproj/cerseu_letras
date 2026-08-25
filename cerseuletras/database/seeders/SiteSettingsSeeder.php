@@ -32,6 +32,14 @@ class SiteSettingsSeeder extends Seeder
             'home_hero_kicker' => 'Universidad Nacional Mayor de San Marcos · Decana de América',
             'home_hero_titulo' => 'CERSEU – Facultad de Letras',
             'home_hero_texto' => 'Abrimos nuestras puertas a toda la comunidad. Ofrecemos cursos de capacitación en humanidades, diseñados para fortalecer tu formación cultural, académica y profesional.',
+
+            // El destino principal es Cursos, no Talleres: es la unica de las
+            // tres secciones con oferta publicada. Mandar la portada a una
+            // seccion vacia es la peor primera impresion posible.
+            'home_hero_cta1_texto' => 'Ver cursos',
+            'home_hero_cta1_url' => '/cursos',
+            'home_hero_cta2_texto' => 'Cómo inscribirte',
+            'home_hero_cta2_url' => '/admision',
             'cursos_hero_titulo' => 'Cursos',
             'cursos_hero_texto' => 'CERSEU – Facultad de Letras, UNMSM abre sus puertas a toda la comunidad. Ofrecemos cursos de capacitación en humanidades, diseñados para fortalecer tu formación cultural, académica y profesional.',
             'cursos_hero_claim' => 'Con docentes de la UNMSM, el conocimiento humanístico al alcance de todos.',

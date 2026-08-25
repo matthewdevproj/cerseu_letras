@@ -201,10 +201,10 @@
                     ?: 'CERSEU de la Facultad de Letras y Ciencias Humanas';
                 $heroTexto = $ajustesHero?->home_hero_texto
                     ?: 'Formamos profesionales comprometidos con el desarrollo cultural y social del país, mediante cursos y talleres de extensión universitaria.';
-                $heroCta1Texto = $ajustesHero?->home_hero_cta1_texto ?: 'Ver talleres';
-                $heroCta1Url = $ajustesHero?->home_hero_cta1_url ?: route('talleres.index');
-                $heroCta2Texto = $ajustesHero?->home_hero_cta2_texto ?: 'Admisión de talleres';
-                $heroCta2Url = $ajustesHero?->home_hero_cta2_url ?: route('talleres.admision');
+                $heroCta1Texto = $ajustesHero?->home_hero_cta1_texto ?: 'Ver cursos';
+                $heroCta1Url = $ajustesHero?->home_hero_cta1_url ?: route('cursos.index');
+                $heroCta2Texto = $ajustesHero?->home_hero_cta2_texto ?: 'Cómo inscribirte';
+                $heroCta2Url = $ajustesHero?->home_hero_cta2_url ?: route('admision');
             @endphp
             <div class="max-w-4xl animate-hero-in">
                 <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-[11px] sm:text-xs md:text-sm mb-3 md:mb-4 drop-shadow">

@@ -91,7 +91,10 @@ class ContenidoInicialSeeder extends Seeder
 
         foreach ($cronogramas as $datos) {
             $cronograma = CronogramaAdmision::create([
+                'eyebrow' => $datos['eyebrow'] ?? null,
                 'titulo' => $datos['titulo'],
+                'boton_texto' => $datos['boton_texto'] ?? null,
+                'boton_url' => $datos['boton_url'] ?? null,
                 'is_visible' => $datos['is_visible'] ?? true,
             ]);
 

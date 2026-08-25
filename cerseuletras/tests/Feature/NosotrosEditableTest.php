@@ -118,7 +118,7 @@ class NosotrosEditableTest extends TestCase
             ->assertSee('Solo cambio el titular')
             // El resto sigue como estaba: se puede migrar campo a campo.
             ->assertSee('Decana de América')
-            ->assertSee('Ver talleres');
+            ->assertSee('Ver cursos');
     }
 
     public function test_los_docentes_renacyt_se_editan_desde_el_panel(): void

@@ -180,7 +180,7 @@
                 Ver Cursos <x-fas-arrow-right aria-hidden="true" />
             </x-button>
             <x-button href="{{ route('tramites') }}" variant="outline" size="lg" icon="fas fa-file-alt">
-                Trámites y Grados
+                Trámites
             </x-button>
         </div>
 
