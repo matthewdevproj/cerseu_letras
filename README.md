@@ -81,6 +81,22 @@ Ahora edita los dos y **haz que coincidan** en `DB_DATABASE`, `DB_USERNAME` y
 las credenciales de `MAIL_*` si vas a enviar correo. Ninguno de los dos `.env`
 se versiona.
 
+**Si esto es tu máquina de desarrollo**, cambia también estas dos líneas en
+`cerseuletras/.env`:
+
+```env
+APP_ENV=local
+APP_DEBUG=true
+```
+
+`.env.docker` trae los valores de producción (`production` y `false`), que es lo
+correcto para un servidor pero estorba en local por dos motivos: los errores
+salen como un 500 en blanco, y —más molesto— `php artisan migrate` detecta el
+entorno de producción y pide una confirmación por teclado que en
+`docker compose run` no hay quien conteste, así que el paso 3 se cancela solo
+con un «Command cancelled» y la base se queda vacía. Si prefieres dejarlo en
+`production`, añade `--force` a los comandos de migración.
+
 ### 2. Construir e iniciar los contenedores
 
 **Producción** (nginx con TLS en los puertos 80 y 443):
@@ -103,20 +119,11 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 Sirve por el puerto 80 sin certificados, apunta `APP_URL` a `http://localhost`
 y publica el 5173 para `npm run dev`.
 
-Lo que **no** hace es encender el modo depuración. `.env.docker` viene con
-`APP_ENV=production` y `APP_DEBUG=false`, que es lo que debe llegar a un
-servidor, así que si lo copiaste tal cual los errores saldrán como un 500 en
-blanco. Para ver las trazas, en `cerseuletras/.env`:
-
-```env
-APP_ENV=local
-APP_DEBUG=true
-```
-
-Va en el `.env` y no en el compose a propósito: exportarlas como variables del
-contenedor las mete en `$_SERVER`, donde PHPUnit no puede sobrescribirlas ni
-con `force="true"`, y la suite acaba corriendo contra la base de desarrollo en
-lugar de la de pruebas.
+Lo que **no** hace es encender el modo depuración: eso sale de `APP_ENV` y
+`APP_DEBUG` en `cerseuletras/.env` (paso 1). Están ahí y no en el compose a
+propósito —exportarlas como variables del contenedor las mete en `$_SERVER`,
+donde PHPUnit no puede sobrescribirlas ni con `force="true"`, y la suite acaba
+corriendo contra la base de desarrollo en lugar de la de pruebas—.
 
 El fichero se llama `docker-compose.dev.yml` y no `docker-compose.override.yml`
 a propósito: con ese nombre Compose lo aplicaría solo, y el servidor acabaría
