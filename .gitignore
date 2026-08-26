@@ -60,3 +60,7 @@ docker/nginx/ssl/
 # Ajustes locales de Claude Code: son de cada maquina y llevan rutas
 # absolutas del equipo de quien las genero.
 .claude/settings.local.json
+
+# Playwright
+sitio/test-results/
+sitio/playwright-report/

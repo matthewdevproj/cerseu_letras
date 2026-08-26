@@ -25,6 +25,12 @@ export default defineConfig({
     vite: {
         plugins: [tailwindcss()],
         server: {
+            // Vite rechaza las peticiones cuyo Host no reconoce —proteccion
+            // contra rebinding de DNS—. Dentro de Docker, el contenedor de
+            // pruebas pide por el nombre del servicio, `astro`, y recibia
+            // «Blocked request» en vez de la pagina: 16 pruebas rojas que
+            // parecian 16 fallos y eran uno.
+            allowedHosts: ['astro', 'localhost'],
             // Sondeo en vez de inotify. Docker Desktop en Windows no propaga
             // los eventos del sistema de ficheros a traves del bind mount, asi
             // que el watcher nunca se entera de un cambio hecho desde el host:

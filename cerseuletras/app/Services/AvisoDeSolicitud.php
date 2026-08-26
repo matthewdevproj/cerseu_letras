@@ -22,7 +22,13 @@ use Illuminate\Support\Str;
  */
 class AvisoDeSolicitud
 {
-    public static function enviar(Lead $lead): bool
+    /**
+     * @param bool $relanzar Vuelve a lanzar la excepcion de entrega tras
+     *                       anotarla, para que la cola pueda reintentar. Los
+     *                       fallos de configuracion no se relanzan nunca:
+     *                       reintentarlos no los arregla.
+     */
+    public static function enviar(Lead $lead, bool $relanzar = false): bool
     {
         // En modo `log` Laravel escribe el mensaje en el fichero de log y
         // devuelve éxito. Darlo por enviado en el panel sería mentir: nadie lo
@@ -42,7 +48,13 @@ class AvisoDeSolicitud
         } catch (\Throwable $e) {
             Log::error('No se pudo enviar el aviso de la solicitud #' . $lead->id . ': ' . $e->getMessage());
 
-            return self::anotarFallo($lead, $e->getMessage());
+            self::anotarFallo($lead, $e->getMessage());
+
+            if ($relanzar) {
+                throw $e;
+            }
+
+            return false;
         }
 
         $lead->forceFill([

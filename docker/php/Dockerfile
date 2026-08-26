@@ -41,17 +41,25 @@ RUN apt-get install -y \
     opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 3. ACTUALIZAR NPM A LA ÚLTIMA VERSIÓN
+# 3. EXTENSION DE REDIS
+# phpredis y no predis: es la que Laravel usa por defecto (REDIS_CLIENT) y
+# esta escrita en C. Con predis, cada operacion de cache y de cola pasa por
+# PHP, y la cache es justo lo que no debe costar.
+RUN pecl install redis \
+    && docker-php-ext-enable redis \
+    && rm -rf /tmp/pear
+
+# 4. ACTUALIZAR NPM A LA ÚLTIMA VERSIÓN
 RUN npm install -g npm@latest \
     && npm cache clean --force
 
-# 4. INSTALAR COMPOSER DESDE LA IMAGEN OFICIAL
+# 5. INSTALAR COMPOSER DESDE LA IMAGEN OFICIAL
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# 5. CONFIGURAR DIRECTORIO DE TRABAJO
+# 6. CONFIGURAR DIRECTORIO DE TRABAJO
 WORKDIR /var/www/html
 
-# 6. CREAR USUARIO NO-ROOT CON EL UID/GID DEL HOST
+# 7. CREAR USUARIO NO-ROOT CON EL UID/GID DEL HOST
 # En Linux el bind mount conserva el propietario real de los ficheros, asi que
 # si el usuario del host no coincide con el del contenedor, este no puede
 # escribir en storage/ ni en bootstrap/cache y la aplicacion revienta al
@@ -68,10 +76,10 @@ RUN groupadd -f -g ${GID} laravel && \
     mkdir -p /home/laravel/.composer && \
     chown -R ${UID}:${GID} /home/laravel
 
-# 7. COPIAR CONFIGURACIÓN PHP PERSONALIZADA
+# 8. COPIAR CONFIGURACIÓN PHP PERSONALIZADA
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/99-custom.ini
 
-# 8. PREPARAR vendor/ Y node_modules/ CON EL DUEÑO CORRECTO
+# 9. PREPARAR vendor/ Y node_modules/ CON EL DUEÑO CORRECTO
 # Un volumen nombrado se inicializa copiando lo que la imagen tenga en esa ruta,
 # incluido el propietario. Sin estas carpetas, Docker las crea vacías y como
 # root, y el usuario `laravel` no puede escribir dentro: `composer install`
@@ -79,10 +87,10 @@ COPY docker/php/php.ini /usr/local/etc/php/conf.d/99-custom.ini
 RUN mkdir -p /var/www/html/vendor /var/www/html/node_modules \
     && chown -R ${UID}:${GID} /var/www/html
 
-# 9. CAMBIAR AL USUARIO LARAVEL
+# 10. CAMBIAR AL USUARIO LARAVEL
 USER laravel
 
-# 10. EXPONER PUERTO 9000 PARA PHP-FPM
+# 11. EXPONER PUERTO 9000 PARA PHP-FPM
 EXPOSE 9000
 
 CMD ["php-fpm"]

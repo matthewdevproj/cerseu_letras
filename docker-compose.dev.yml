@@ -77,7 +77,35 @@ services:
     networks:
       - laravel-network
 
+
+  # Pruebas de navegador. Imagen oficial de Playwright: el contenedor de
+  # desarrollo es Alpine y Playwright no soporta Alpine —sus navegadores
+  # necesitan glibc—, y engordar la imagen de desarrollo para esto seria
+  # pagarlo en cada arranque.
+  #
+  # Bajo perfil: no arranca con `up -d`. Se pide cuando se quiere:
+  #
+  #   docker compose -f docker-compose.yml -f docker-compose.dev.yml \
+  #     --profile e2e run --rm e2e
+  e2e:
+    image: mcr.microsoft.com/playwright:v1.62.1-noble
+    profiles: [e2e]
+    working_dir: /app
+    environment:
+      # Se prueba contra el servidor de desarrollo, por el nombre del
+      # servicio: dentro de la red, `localhost` seria este contenedor.
+      - CERSEU_E2E=http://astro:4321
+    volumes:
+      - ./sitio:/app
+      - e2e-node-modules:/app/node_modules
+    depends_on:
+      - astro
+    networks:
+      - laravel-network
+    command: sh -c "npm install && npx playwright test"
+
 volumes:
   vendor-data:
   node-modules:
   astro-node-modules:
+  e2e-node-modules:
