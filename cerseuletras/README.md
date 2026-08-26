@@ -129,6 +129,12 @@ El sistema utiliza las siguientes tablas principales:
 #### Tablas de Configuración y Sistema
 - **users**: Usuarios del sistema (Administradores).
     - Roles: definidos por columna `role` (ej. 'admin').
+    - **No hay alta pública ni verificación de correo.** Las cuentas se crean
+      desde `/admin/users`, y las rutas `register` y `verify-email` no se
+      registran. Los controladores que Breeze dejó para eso se retiraron: eran
+      inalcanzables y arrastraban una referencia a una ruta inexistente.
+      Quedan los de inicio de sesión, cierre de sesión, cambio y recuperación
+      de contraseña, que sí se usan.
 - **site_settings**: configuración global. Es una tabla de **una sola fila**
   —el modelo lo impide en `creating`— con una columna por ajuste: logo,
   favicon, correos por rol, teléfono y `anexo`, redes, y los heros de portada

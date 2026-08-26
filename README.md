@@ -82,6 +82,10 @@ Ahora edita los dos y **haz que coincidan** en `DB_DATABASE`, `DB_USERNAME` y
 las credenciales de `MAIL_*` si vas a enviar correo. Ninguno de los dos `.env`
 se versiona.
 
+**Si vas a servir en un dominio** y no en `localhost`, pon también
+`NGINX_SERVER_NAMES` en el `.env` de la raíz —el dominio no está escrito en
+ninguna conf, ver [Desplegar en una VM Linux](#desplegar-en-una-vm-linux).
+
 **Si esto es tu máquina de desarrollo**, cambia también estas dos líneas en
 `cerseuletras/.env`:
 
@@ -383,7 +387,7 @@ docker compose down -v
 
 | Servicio | Puerto            | Descripción |
 |----------|-------------------|-------------|
-| web      | 80 y 443          | Nginx (con TLS) |
+| web      | 80 y 443          | Nginx (con TLS). Su conf se genera al arrancar desde `docker/nginx/templates/` |
 | app      | —                 | PHP-FPM 8.2 (interno, sin puerto publicado) |
 | db       | 3307 → 3306       | MySQL 8.0 (`DB_PORT` cambia el puerto del host) |
 
@@ -411,6 +415,28 @@ plantilla.
   un rectángulo blanco macizo bajo ese filtro.
 
 ## Solución de Problemas
+
+### El contenedor `web` no arranca, o el sitio responde 404 en el dominio
+
+Las confs de nginx son **plantillas**: viven en `docker/nginx/templates/` y el
+entrypoint de la imagen las rellena al arrancar, escribiendo el resultado en
+`/etc/nginx/conf.d/` dentro del contenedor. Eso implica dos cosas que
+despistan la primera vez:
+
+- Editar `/etc/nginx/conf.d/default.conf` dentro del contenedor **no sirve**:
+  se regenera en cada arranque. Edita la plantilla y recrea el servicio.
+- Si el sitio no responde en tu dominio, lo primero es mirar qué
+  `server_name` acabó generándose:
+
+```bash
+docker compose exec web cat /etc/nginx/conf.d/default.conf | head -5
+docker compose exec web nginx -t
+docker compose logs web | tail -20
+```
+
+Si ahí aparece `server_name ;` vacío, es que `NGINX_SERVER_NAMES` no llegó al
+contenedor: revísala en el `.env` de la raíz y recrea con
+`docker compose up -d --force-recreate web`.
 
 ### Permisos de storage/logs
 
