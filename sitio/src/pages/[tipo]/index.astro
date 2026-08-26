@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro';
+import TarjetaPrograma from '../../components/TarjetaPrograma.astro';
+import { obtenerTipos, obtenerProgramas } from '../../lib/api';
+
+// Una sola plantilla para talleres, cursos y especializaciones: las rutas
+// salen de la API, que a su vez las saca del enum TipoOferta. Añadir un cuarto
+// tipo en Laravel lo publica aquí sin tocar este fichero — la misma propiedad
+// que tiene el sitio en Blade, conservada al cruzar de stack.
+export async function getStaticPaths() {
+    const tipos = await obtenerTipos();
+
+    return Promise.all(
+        tipos.map(async (tipo) => ({
+            params: { tipo: tipo.slug },
+            props: { tipo, programas: await obtenerProgramas(tipo.slug) },
+        }))
+    );
+}
+
+const { tipo, programas } = Astro.props;
+---
+
+<Base
+    titulo={tipo.plural}
+    descripcion={`Oferta de ${tipo.plural.toLowerCase()} del CERSEU de la Facultad de Letras UNMSM.`}
+>
+    <section class="mx-auto max-w-6xl px-6 py-14">
+        <h1 class="text-3xl font-bold text-unmsm-azul">{tipo.plural}</h1>
+        <p class="mt-2 text-slate-600">
+            Se miden en {tipo.medidas.join(' y ')}.
+        </p>
+
+        {
+            programas.length === 0 ? (
+                <div class="mt-16 rounded-xl border border-dashed border-slate-300 px-6 py-16 text-center">
+                    <p class="text-lg font-semibold text-slate-700">Próximamente</p>
+                    <p class="mt-2 text-slate-500">
+                        Muy pronto anunciaremos nuestra oferta de {tipo.plural.toLowerCase()}.
+                    </p>
+                </div>
+            ) : (
+                <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {programas.map((programa) => (
+                        <TarjetaPrograma programa={programa} />
+                    ))}
+                </div>
+            )
+        }
+    </section>
+</Base>

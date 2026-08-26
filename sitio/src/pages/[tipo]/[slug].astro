@@ -1,0 +1,131 @@
+---
+import Base from '../../layouts/Base.astro';
+import { obtenerTipos, obtenerProgramas, obtenerPrograma } from '../../lib/api';
+
+// Una página por programa, generada en el build. Con 39 cursos son 39 ficheros
+// HTML que el visitante recibe sin que se ejecute nada del lado del servidor.
+export async function getStaticPaths() {
+    const tipos = await obtenerTipos();
+    const rutas = [];
+
+    for (const tipo of tipos) {
+        const programas = await obtenerProgramas(tipo.slug);
+        for (const programa of programas) {
+            // Se pide la ficha completa: el listado no trae docentes, para no
+            // pagar esa consulta 39 veces cuando solo hacen falta aquí.
+            rutas.push({
+                params: { tipo: tipo.slug, slug: programa.slug },
+                props: { tipo, programa: await obtenerPrograma(programa.slug) },
+            });
+        }
+    }
+
+    return rutas;
+}
+
+const { tipo, programa } = Astro.props;
+const docentes = programa.docentes ?? [];
+---
+
+<Base titulo={programa.nombre} descripcion={programa.sumilla ?? undefined}>
+    <article>
+        <header class="bg-linear-to-b from-unmsm-azul to-unmsm-azul-dark text-white">
+            <div class="mx-auto max-w-4xl px-6 py-16">
+                <nav class="text-sm text-unmsm-azul-soft" aria-label="Ruta de navegación">
+                    <a href="/" class="hover:text-white">Inicio</a>
+                    <span aria-hidden="true"> / </span>
+                    <a href={`/${tipo.slug}`} class="hover:text-white">{tipo.plural}</a>
+                </nav>
+
+                <p class="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-unmsm-dorado-light">
+                    {programa.tipo_label}
+                    {programa.mencion && ` · ${programa.mencion}`}
+                </p>
+
+                <h1 class="mt-3 text-3xl font-bold leading-tight sm:text-4xl">{programa.nombre}</h1>
+
+                <ul class="mt-6 flex flex-wrap gap-3 text-sm">
+                    {
+                        programa.medidas.map((medida) => (
+                            <li class="rounded-full bg-white/10 px-4 py-1.5">{medida}</li>
+                        ))
+                    }
+                    {programa.modalidad && (
+                        <li class="rounded-full bg-white/10 px-4 py-1.5">{programa.modalidad}</li>
+                    )}
+                </ul>
+            </div>
+        </header>
+
+        <div class="mx-auto grid max-w-4xl gap-10 px-6 py-14 lg:grid-cols-3">
+            <div class="lg:col-span-2">
+                {
+                    programa.sumilla && (
+                        <>
+                            <h2 class="text-xl font-bold text-unmsm-azul">Sobre el programa</h2>
+                            <p class="mt-3 leading-relaxed text-slate-700">{programa.sumilla}</p>
+                        </>
+                    )
+                }
+
+                {
+                    docentes.length > 0 && (
+                        <section class="mt-10">
+                            <h2 class="text-xl font-bold text-unmsm-azul">
+                                {docentes.length === 1 ? 'A cargo de' : 'Plana docente'}
+                            </h2>
+                            <ul class="mt-4 space-y-3">
+                                {docentes.map((docente) => (
+                                    <li class="rounded-lg border border-slate-200 px-4 py-3">
+                                        <p class="font-semibold text-slate-800">
+                                            {docente.grado && `${docente.grado} `}
+                                            {docente.nombre}
+                                        </p>
+                                        {docente.rol && (
+                                            <p class="text-sm text-slate-500">{docente.rol}</p>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    )
+                }
+            </div>
+
+            <aside class="lg:col-span-1">
+                <div class="rounded-xl border border-slate-200 bg-slate-50 p-6">
+                    <h2 class="font-bold text-unmsm-azul">Detalles</h2>
+                    <dl class="mt-4 space-y-3 text-sm">
+                        <div>
+                            <dt class="text-slate-500">Tipo</dt>
+                            <dd class="font-medium text-slate-800">{programa.tipo_label}</dd>
+                        </div>
+                        {
+                            programa.medidas.map((medida) => (
+                                <div>
+                                    <dt class="text-slate-500">Duración</dt>
+                                    <dd class="font-medium text-slate-800">{medida}</dd>
+                                </div>
+                            ))
+                        }
+                        {
+                            programa.inversion && (
+                                <div>
+                                    <dt class="text-slate-500">Inversión</dt>
+                                    <dd class="font-medium text-slate-800">{programa.inversion}</dd>
+                                </div>
+                            )
+                        }
+                    </dl>
+
+                    <a
+                        href={`/${tipo.slug}`}
+                        class="mt-6 block rounded-lg border border-unmsm-azul px-4 py-2.5 text-center text-sm font-semibold text-unmsm-azul transition hover:bg-unmsm-azul hover:text-white"
+                    >
+                        Ver todos los {tipo.plural.toLowerCase()}
+                    </a>
+                </div>
+            </aside>
+        </div>
+    </article>
+</Base>

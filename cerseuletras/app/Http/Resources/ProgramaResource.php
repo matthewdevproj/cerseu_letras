@@ -36,7 +36,22 @@ class ProgramaResource extends JsonResource
             'inversion' => $this->resource->inversion_economica ?: null,
             'estado' => $this->resource->estado,
             'imagen' => $this->resource->imagen ?: null,
-            'url' => $this->resource->url,
+
+            // Sin URL: la API entrega identidad (`tipo` + `slug`), no rutas.
+            // Devolver la URL del sitio en Blade ataba al consumidor a la
+            // estructura de enlaces de OTRO sitio, y el de Astro acababa
+            // expulsando al visitante en cada «Mas informacion». Cada
+            // frontend compone sus propias rutas.
+
+            // Solo cuando se han cargado: el listado no paga la consulta.
+            'docentes' => $this->whenLoaded('docentes', fn () => $this->resource->docentes
+                ->sortBy('pivot.orden')
+                ->map(fn ($docente) => [
+                    'nombre' => trim($docente->nombres . ' ' . $docente->apellidos),
+                    'grado' => $docente->grado ?: null,
+                    'rol' => $docente->pivot->rol ?: null,
+                    'es_coordinador' => (bool) $docente->pivot->es_coordinador,
+                ])->values()->all()),
         ];
     }
 }

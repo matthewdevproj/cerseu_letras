@@ -41,39 +41,47 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
                     <span class="block text-2xl font-bold tracking-tight">{sitio.nombre}</span>
                 </a>
 
-                <nav class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium">
+                <nav class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium" aria-label="Principal">
                     {
-                        menu.map((item) => (
-                            <div class="group relative">
-                                {item.enlace ? (
-                                    <a
-                                        href={item.enlace}
-                                        target={item.nueva_pestana ? '_blank' : undefined}
-                                        rel={item.nueva_pestana ? 'noopener noreferrer' : undefined}
-                                        class="hover:text-unmsm-dorado-light"
-                                    >
+                        menu.map((item) =>
+                            item.hijos.length > 0 ? (
+                                /* <details> en vez de :hover: funciona con teclado, con lector
+                                   de pantalla y con el dedo, y no necesita JavaScript. Un menu
+                                   que solo abre al pasar el raton deja fuera a quien navega
+                                   con tabulador y a cualquiera en un movil. */
+                                <details class="group relative">
+                                    <summary class="cursor-pointer list-none hover:text-unmsm-dorado-light [&::-webkit-details-marker]:hidden">
                                         {item.etiqueta}
-                                    </a>
-                                ) : (
-                                    <span class="cursor-default">{item.etiqueta}</span>
-                                )}
-
-                                {item.hijos.length > 0 && (
-                                    <div class="invisible absolute left-0 top-full z-10 min-w-56 rounded-lg bg-white py-2 text-slate-700 opacity-0 shadow-xl transition group-hover:visible group-hover:opacity-100">
+                                        <span aria-hidden="true" class="ml-1 inline-block transition group-open:rotate-180">
+                                            ▾
+                                        </span>
+                                    </summary>
+                                    <ul class="absolute left-0 top-full z-10 mt-1 min-w-56 rounded-lg bg-white py-2 text-slate-700 shadow-xl">
                                         {item.hijos.map((hijo) => (
-                                            <a
-                                                href={hijo.enlace ?? '#'}
-                                                target={hijo.nueva_pestana ? '_blank' : undefined}
-                                                rel={hijo.nueva_pestana ? 'noopener noreferrer' : undefined}
-                                                class="block px-4 py-2 text-sm hover:bg-slate-50 hover:text-unmsm-azul"
-                                            >
-                                                {hijo.etiqueta}
-                                            </a>
+                                            <li>
+                                                <a
+                                                    href={hijo.enlace ?? "#"}
+                                                    target={hijo.nueva_pestana ? "_blank" : undefined}
+                                                    rel={hijo.nueva_pestana ? "noopener noreferrer" : undefined}
+                                                    class="block px-4 py-2 text-sm hover:bg-slate-50 hover:text-unmsm-azul"
+                                                >
+                                                    {hijo.etiqueta}
+                                                </a>
+                                            </li>
                                         ))}
-                                    </div>
-                                )}
-                            </div>
-                        ))
+                                    </ul>
+                                </details>
+                            ) : (
+                                <a
+                                    href={item.enlace ?? "#"}
+                                    target={item.nueva_pestana ? "_blank" : undefined}
+                                    rel={item.nueva_pestana ? "noopener noreferrer" : undefined}
+                                    class="hover:text-unmsm-dorado-light"
+                                >
+                                    {item.etiqueta}
+                                </a>
+                            )
+                        )
                     }
                 </nav>
             </div>

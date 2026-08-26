@@ -27,7 +27,15 @@ export type Programa = {
     inversion: string | null;
     estado: string;
     imagen: string | null;
-    url: string;
+    // Solo en la ficha: el listado no los trae.
+    docentes?: DocentePrograma[];
+};
+
+export type DocentePrograma = {
+    nombre: string;
+    grado: string | null;
+    rol: string | null;
+    es_coordinador: boolean;
 };
 
 async function pedir<T>(ruta: string): Promise<T> {

@@ -74,7 +74,7 @@ class OfertaApiController extends Controller
      */
     public function show(string $slug): JsonResponse
     {
-        $programa = Programa::query()->visibles()->where('slug', $slug)->first();
+        $programa = Programa::query()->with('docentes')->visibles()->where('slug', $slug)->first();
 
         if (! $programa) {
             return response()->json(['message' => 'Programa no encontrado.'], 404);

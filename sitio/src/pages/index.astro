@@ -39,7 +39,10 @@ const tipos = await obtenerTipos();
         <div class="mt-8 grid gap-6 sm:grid-cols-3">
             {
                 tipos.map((tipo) => (
-                    <article class="rounded-xl border border-slate-200 border-l-4 border-l-unmsm-azul p-6 shadow-sm">
+                    <a
+                        href={`/${tipo.slug}`}
+                        class="block rounded-xl border border-slate-200 border-l-4 border-l-unmsm-azul p-6 shadow-sm transition hover:border-unmsm-azul/40 hover:shadow-md"
+                    >
                         <h3 class="text-lg font-bold text-unmsm-azul">{tipo.plural}</h3>
                         <p class="mt-2 text-sm text-slate-600">
                             Se miden en {tipo.medidas.join(' y ')}.
@@ -48,7 +51,7 @@ const tipos = await obtenerTipos();
                         <p class="text-xs uppercase tracking-wider text-slate-500">
                             {tipo.publicados === 1 ? 'programa publicado' : 'programas publicados'}
                         </p>
-                    </article>
+                    </a>
                 ))
             }
         </div>

@@ -59,7 +59,7 @@ class OfertaApiTest extends TestCase
             ->assertJsonCount(1, 'data')
             ->assertJsonStructure(['data' => [['slug', 'nombre', 'tipo', 'tipo_label',
                 'mencion', 'modalidad', 'sumilla', 'medidas', 'inversion', 'estado',
-                'imagen', 'url']]]);
+                'imagen']]]);
     }
 
     public function test_las_medidas_llegan_ya_formateadas(): void
@@ -98,6 +98,26 @@ class OfertaApiTest extends TestCase
             ->assertJsonPath('data.nombre', 'Curso de prueba');
 
         $this->getJson('/api/v1/programas/no-existe')->assertNotFound();
+    }
+
+    public function test_la_ficha_trae_los_docentes_y_el_listado_no(): void
+    {
+        $curso = $this->curso();
+        $docente = \App\Models\Docente::create([
+            'nombres' => 'Nora', 'apellidos' => 'Solis', 'slug' => 'nora-solis', 'estado' => 'activo',
+        ]);
+        $curso->docentes()->attach($docente->id, ['rol' => 'Responsable', 'es_coordinador' => true, 'orden' => 1]);
+
+        // En la ficha si: es donde hacen falta.
+        $this->getJson('/api/v1/programas/curso-de-prueba')
+            ->assertOk()
+            ->assertJsonPath('data.docentes.0.nombre', 'Nora Solis')
+            ->assertJsonPath('data.docentes.0.rol', 'Responsable');
+
+        // En el listado no: seria pagar esa consulta una vez por programa.
+        $this->getJson('/api/v1/programas')
+            ->assertOk()
+            ->assertJsonMissingPath('data.0.docentes');
     }
 
     public function test_no_expone_borradores(): void
