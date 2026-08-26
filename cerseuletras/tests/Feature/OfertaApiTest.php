@@ -138,6 +138,27 @@ class OfertaApiTest extends TestCase
         $this->assertStringNotContainsString('//web/', $imagen);
     }
 
+    public function test_cada_tipo_trae_el_hero_de_su_listado(): void
+    {
+        \App\Models\SiteSetting::get()->update([
+            'cursos_hero_titulo' => 'Cursos del CERSEU',
+            'cursos_hero_texto' => 'Bajada editada.',
+        ]);
+        \App\Models\SiteSetting::clearCache();
+
+        $tipos = collect($this->getJson('/api/v1/tipos-oferta')->assertOk()->json('data'));
+
+        $cursos = $tipos->firstWhere('slug', 'cursos');
+        $this->assertSame('Cursos del CERSEU', $cursos['hero']['titulo']);
+        $this->assertSame('Bajada editada.', $cursos['hero']['texto']);
+
+        // Sin titulo propio cae al plural del tipo, y sin imagen a una del
+        // campus: el listado nunca se queda sin cabecera.
+        $talleres = $tipos->firstWhere('slug', 'talleres');
+        $this->assertNotEmpty($talleres['hero']['titulo']);
+        $this->assertStringStartsWith(config('app.url'), $talleres['hero']['imagen']);
+    }
+
     public function test_no_expone_borradores(): void
     {
         $this->curso(['estado' => Programa::ESTADO_BORRADOR]);

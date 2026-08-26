@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProgramaResource;
 use App\Models\Programa;
+use App\Models\SiteSetting;
 use App\Models\TipoOferta;
 use Illuminate\Http\JsonResponse;
 
@@ -37,9 +38,33 @@ class OfertaApiController extends Controller
             'publicados' => Programa::deTipo($tipo)
                 ->where('estado', Programa::ESTADO_PUBLICADO)
                 ->count(),
+            // Hero del listado, editable en Configuracion. Sin esto, el titulo
+            // y la bajada de cada seccion tendrian que escribirse en la
+            // plantilla del sitio.
+            'hero' => $this->hero($tipo),
         ]);
 
         return response()->json(['data' => $tipos]);
+    }
+
+    /**
+     * Textos e imagen del hero de un tipo, desde `site_settings`.
+     */
+    private function hero(TipoOferta $tipo): array
+    {
+        $ajustes = SiteSetting::get();
+        $prefijo = $tipo->slug() . '_hero_';
+        $imagen = $ajustes?->{$prefijo . 'imagen'};
+
+        return [
+            'titulo' => $ajustes?->{$prefijo . 'titulo'} ?: $tipo->plural(),
+            'texto' => $ajustes?->{$prefijo . 'texto'} ?: null,
+            'claim' => $ajustes?->{$prefijo . 'claim'} ?: null,
+            // Sin imagen propia se cae a una del campus, la misma que usa el
+            // hero de la portada: mejor una foto institucional que un bloque
+            // de color plano.
+            'imagen' => $imagen ? asset('storage/' . $imagen) : asset('images/campus-fachada.webp'),
+        ];
     }
 
     /**

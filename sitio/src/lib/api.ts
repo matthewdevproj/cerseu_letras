@@ -13,6 +13,12 @@ export type TipoOferta = {
     plural: string;
     medidas: string[];
     publicados: number;
+    hero: {
+        titulo: string;
+        texto: string | null;
+        claim: string | null;
+        imagen: string;
+    };
 };
 
 export type Programa = {
