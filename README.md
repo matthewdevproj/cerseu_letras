@@ -40,8 +40,9 @@ administra desde el panel en `/admin`.
 │   │   ├── my.cnf
 │   │   └── docker-entrypoint-initdb.d/
 │   └── nginx/
-│       ├── default.conf          ← sin TLS (desarrollo)
-│       ├── default-ssl.conf      ← con TLS (producción)
+│       ├── templates/
+│       │   ├── default.conf.template      ← sin TLS (desarrollo)
+│       │   └── default-ssl.conf.template  ← con TLS (producción)
 │       └── compression.conf
 ├── docker-compose.dev.yml   ← capa de desarrollo (sin TLS, debug on)
 ├── .env.example             ← variables de Compose (BD y su usuario)
@@ -228,11 +229,20 @@ pasos uno a uno. Al llevarlo a una VM hay tres diferencias:
    `cerseuletras.unmsm.edu.pe`, y el DNS apuntando a la máquina. Sin eso, el
    contenedor `web` no arranca; usa la capa de desarrollo mientras tanto.
 
-   Si el dominio cambia, hay que editarlo en `docker/nginx/default-ssl.conf`
-   (dos `server_name`, uno por bloque). La variable `NGINX_HOST` del
-   `docker-compose.yml` **no** lo cambia: nginx no sustituye variables en las
-   confs de `conf.d/`, y ese `server_name` está escrito a mano. La misma línea
-   lleva la IP `172.16.40.172`, heredada del servidor anterior.
+   El dominio **no** está escrito en ninguna conf: se pasa en
+   `NGINX_SERVER_NAMES`, en el `.env` de la raíz. Las confs de
+   `docker/nginx/templates/` son plantillas que el entrypoint de nginx
+   rellena al arrancar, así que levantar el sistema en otro dominio es
+   cambiar una variable, no editar código.
+
+   ```env
+   NGINX_SERVER_NAMES=otra-unidad.unmsm.edu.pe www.otra-unidad.unmsm.edu.pe
+   ```
+
+   Solo se sustituyen las variables cuyo nombre empieza por `NGINX_` —lo fija
+   `NGINX_ENVSUBST_FILTER`—; sin ese filtro `envsubst` se llevaría por delante
+   `$server_name`, `$request_uri` y `$fastcgi_script_name`, y nginx no
+   arrancaría.
 
 ### Antes de abrirlo al público
 

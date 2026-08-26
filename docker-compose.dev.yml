@@ -37,13 +37,16 @@ services:
       - node-modules:/var/www/html/node_modules
 
   web:
+    environment:
+      # En desarrollo el sitio se sirve por localhost, no por el dominio.
+      - NGINX_SERVER_NAMES=localhost 127.0.0.1
     volumes:
       # La conf de producción pide los certificados de /etc/nginx/ssl_sectigo,
       # que no están en el repositorio. Sin ellos nginx ni siquiera arranca, así
       # que en desarrollo se sirve la variante sin TLS por el puerto 80.
       # Compose fusiona los volúmenes por ruta de destino, de modo que esta
       # línea sustituye a la del compose base en lugar de sumarse.
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/templates/default.conf.template:/etc/nginx/templates/default.conf.template
 
 volumes:
   vendor-data:

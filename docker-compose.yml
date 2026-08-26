@@ -38,7 +38,11 @@ services:
       - "443:443"
     volumes:
       - ./cerseuletras:/var/www/html
-      - ./docker/nginx/default-ssl.conf:/etc/nginx/conf.d/default.conf
+      # La conf va como PLANTILLA: el entrypoint de nginx sustituye las
+      # variables y escribe el resultado en /etc/nginx/conf.d/. Antes el
+      # dominio estaba escrito a mano dentro del .conf, de modo que
+      # levantar el sistema en otro dominio exigia editar codigo.
+      - ./docker/nginx/templates/default-ssl.conf.template:/etc/nginx/templates/default.conf.template
       - ./docker/nginx/ssl_sectigo:/etc/nginx/ssl_sectigo
       - ./docker/nginx/compression.conf:/etc/nginx/compression.conf
     depends_on:
@@ -46,7 +50,12 @@ services:
     networks:
       - laravel-network
     environment:
-      - NGINX_HOST=cerseuletras.unmsm.edu.pe
+      # Lista completa de server_name, separada por espacios.
+      - NGINX_SERVER_NAMES=${NGINX_SERVER_NAMES:-cerseuletras.unmsm.edu.pe www.cerseuletras.unmsm.edu.pe}
+      # Solo se sustituyen las variables cuyo NOMBRE empieza por NGINX_.
+      # Sin este filtro, envsubst se comeria tambien $$server_name,
+      # $$request_uri y $$fastcgi_script_name, y nginx no arrancaria.
+      - NGINX_ENVSUBST_FILTER=^NGINX_
 
   # MySQL Database
   # Base de Datos
