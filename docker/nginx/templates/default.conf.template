@@ -1,71 +1,10 @@
 server {
     listen 80;
+    listen [::]:80;
     server_name ${NGINX_SERVER_NAMES};
 
-    root /var/www/html/public;
-    index index.php index.html index.htm;
-
-    # Configuración de logs
-    access_log /var/log/nginx/access.log;
-    error_log /var/log/nginx/error.log;
-
-    # Tamaño máximo de subida de archivos
-    client_max_body_size 100M;
-    # Compresi贸n Gzip
-    gzip on;
-    gzip_vary on;
-    gzip_proxied any;
-    gzip_comp_level 6;
-    gzip_types text/plain text/css text/xml text/javascript application/json application/javascript application/x-javascript application/xml application/xml+rss application/xhtml+xml application/x-font-ttf application/x-font-opentype application/vnd.ms-fontobject image/svg+xml;
-    gzip_disable "msie6";
-    gzip_min_length 256;
-    gzip_buffers 16 8k;
-    gzip_http_version 1.1;
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    # Manejo de archivos PHP
-    location ~ \.php$ {
-        try_files $uri =404;
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass app:9000;
-        fastcgi_index index.php;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        fastcgi_param PATH_INFO $fastcgi_path_info;
-        fastcgi_buffers 16 16k;
-        fastcgi_buffer_size 32k;
-    }
-
-    # Denegar acceso a archivos .htaccess
-    location ~ /\.ht {
-        deny all;
-    }
-
-    # Denegar acceso a archivos ocultos (excepto .well-known)
-    location ~ /\.(?!well-known).* {
-        deny all;
-    }
-
-    # Cache para archivos est谩ticos con hash (inmutable)
-    location ~* ^/build/assets/.*\.(css|js)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-        access_log off;
-    }
-
-    # Cache para im谩genes
-    location ~* \.(jpg|jpeg|png|gif|ico|svg|webp|avif)$ {
-        expires 30d;
-        add_header Cache-Control "public";
-        access_log off;
-    }
-
-    # Cache para fuentes
-    location ~* \.(woff|woff2|ttf|eot)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-        access_log off;
-    }
+    # El reparto entre el sitio estático y Laravel vive en un solo fichero,
+    # compartido con la configuración de HTTPS. Aquí queda únicamente lo que de
+    # verdad distingue a un servidor del otro.
+    include /etc/nginx/sitio.conf;
 }

@@ -37,6 +37,8 @@ services:
       - node-modules:/var/www/html/node_modules
 
   web:
+    ports:
+      - "8080:8080"
     environment:
       # En desarrollo el sitio se sirve por localhost, no por el dominio.
       - NGINX_SERVER_NAMES=localhost 127.0.0.1
@@ -47,6 +49,9 @@ services:
       # Compose fusiona los volúmenes por ruta de destino, de modo que esta
       # línea sustituye a la del compose base en lugar de sumarse.
       - ./docker/nginx/templates/default.conf.template:/etc/nginx/templates/default.conf.template
+      # Blade servido aparte mientras dura la migracion: el dominio ya lo ocupa
+      # el sitio en Astro y hace falta poder comparar los dos.
+      - ./docker/nginx/blade-referencia.conf:/etc/nginx/conf.d/blade-referencia.conf
 
 
   # Sitio publico en Astro. Vive aparte del monolito: consume la API de
@@ -63,6 +68,11 @@ services:
       # `web` es el servicio de Nginx dentro de la red de Docker. No sirve
       # localhost: dentro de este contenedor seria el propio contenedor.
       - CERSEU_API=http://web/api/v1
+      # La que va en el HTML, para el formulario. En produccion Nginx sirve el
+      # sitio y la API bajo el mismo dominio y basta con la ruta relativa; el
+      # servidor de desarrollo corre en otro puerto, asi que aqui si hace falta
+      # decir donde esta la API.
+      - CERSEU_API_PUBLICA=http://localhost/api/v1
     ports:
       - "4321:4321"
     volumes:

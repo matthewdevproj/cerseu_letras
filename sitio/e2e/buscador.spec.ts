@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { abrirBuscador } from './utiles';
 
 /**
  * El buscador y, sobre todo, sus destinos.
@@ -67,10 +68,8 @@ test.describe('Buscador', () => {
     test('el buscador de la cabecera funciona con teclado', async ({ page }) => {
         await page.goto('/');
 
-        const campo = page.locator('#buscador-q');
-        // En móvil el menú va plegado, pero el buscador vive fuera del
-        // <details>: tiene que estar accesible en las dos anchuras.
-        await campo.click();
+        // La lupa despliega el campo, en las dos anchuras.
+        const campo = await abrirBuscador(page);
         await campo.fill('admis');
 
         const lista = page.locator('#buscador-sugerencias');
@@ -88,8 +87,7 @@ test.describe('Buscador', () => {
     test('Escape cierra las sugerencias', async ({ page }) => {
         await page.goto('/');
 
-        const campo = page.locator('#buscador-q');
-        await campo.click();
+        const campo = await abrirBuscador(page);
         await campo.fill('admis');
         await expect(page.locator('#buscador-sugerencias')).toBeVisible();
 

@@ -45,6 +45,13 @@ services:
       - ./docker/nginx/templates/default-ssl.conf.template:/etc/nginx/templates/default.conf.template
       - ./docker/nginx/ssl_sectigo:/etc/nginx/ssl_sectigo
       - ./docker/nginx/compression.conf:/etc/nginx/compression.conf
+      # El reparto entre el sitio estatico y Laravel, compartido por las dos
+      # plantillas. No va como plantilla porque no lleva variables: envsubst
+      # solo procesa /etc/nginx/templates/.
+      - ./docker/nginx/sitio.conf:/etc/nginx/sitio.conf
+      # El sitio publico: el `dist/` que genera Astro. Nginx lo sirve tal cual,
+      # sin pasar por PHP.
+      - ./sitio/dist:/var/www/sitio:ro
     depends_on:
       - app
     networks:

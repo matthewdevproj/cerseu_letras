@@ -38,8 +38,8 @@ class SitioApiController extends Controller
             'data' => [
                 'nombre' => $ajustes?->site_name,
                 'descripcion' => $ajustes?->site_description,
-                'logo' => $ajustes?->logo_path,
-                'favicon' => $ajustes?->favicon_path,
+                'logo' => $this->imagen($ajustes?->logo_path, 'images/logo-cerseu.webp'),
+                'favicon' => $this->imagen($ajustes?->favicon_path),
                 'contacto' => [
                     'email' => SiteSetting::contacto('general'),
                     'email_admision' => SiteSetting::contacto('admision'),
@@ -49,6 +49,13 @@ class SitioApiController extends Controller
                     'whatsapp' => SiteSetting::contacto('whatsapp'),
                     'direccion' => $ajustes?->direccion,
                     'horario' => $ajustes?->horario_atencion,
+                ],
+                // Accesos a la Facultad, que en Blade ocupan la barra superior.
+                // Se editan en Configuracion: un cambio de dominio de Letras no
+                // deberia obligar a tocar el sitio.
+                'facultad' => [
+                    'web' => $ajustes?->web_facultad,
+                    'directorio' => $ajustes?->directorio_facultad,
                 ],
                 // Hero de la portada. Los textos se editan en Configuracion;
                 // tenerlos en la plantilla del sitio obligaria a desplegar
@@ -162,6 +169,26 @@ class SitioApiController extends Controller
             'nueva_pestana' => (bool) $item->nueva_pestana,
             'hijos' => $hijos->all(),
         ];
+    }
+
+    /**
+     * URL de una imagen del panel, con el respaldo que ya usaba Blade.
+     *
+     * `logo_path` es una ruta DENTRO del disco publico —«settings/xxx.webp»—,
+     * no una direccion: entregarla tal cual dejaba a Astro con una cadena que
+     * no apunta a ninguna parte, y por eso la cabecera acababa escribiendo el
+     * nombre del CERSEU en texto en vez de pintar su logotipo.
+     *
+     * El respaldo es el mismo de la vista de Blade: sin logo subido se sirve el
+     * que viene con el proyecto, no un hueco.
+     */
+    private function imagen(?string $ruta, ?string $respaldo = null): ?string
+    {
+        if (filled($ruta)) {
+            return asset('storage/' . $ruta);
+        }
+
+        return $respaldo ? asset($respaldo) : null;
     }
 
     /**

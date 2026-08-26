@@ -6,7 +6,7 @@ import BandaIndicadores from '../components/BandaIndicadores.astro';
 import PasosInscripcion from '../components/PasosInscripcion.astro';
 import OfertaDestacada from '../components/OfertaDestacada.astro';
 import Boton from '../components/Boton.astro';
-import { faArrowRight, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 // Se resuelve en el build: el HTML sale ya con estos datos dentro y el
 // visitante no espera a ninguna petición.
@@ -24,8 +24,12 @@ const fondo = portada.imagenes[0];
 <Base
     titulo="Inicio"
     descripcion="Formación abierta a toda la comunidad: talleres, cursos y especializaciones del CERSEU de la Facultad de Letras."
+    sobreHero
 >
-    <section class="relative isolate overflow-hidden text-white">
+    {/* Alto y a sangre, con la cabecera montada encima: es lo primero que se
+        ve y lo que dice de que va el sitio. El `pt` deja libre la altura de la
+        cabecera superpuesta —barra de contacto mas navegacion—. */}
+    <section class="relative isolate flex min-h-[34rem] items-center overflow-hidden text-white lg:min-h-[42rem]">
         {
             fondo && (
                 <img
@@ -39,9 +43,9 @@ const fondo = portada.imagenes[0];
         }
         {/* Velo sobre la foto: sin el, el texto blanco pierde contraste sobre las
             zonas claras del campus y deja de cumplir AA. */}
-        <div class="absolute inset-0 -z-10 bg-linear-to-r from-unmsm-azul-dark/95 via-unmsm-azul/85 to-unmsm-azul/60"></div>
+        <div class="absolute inset-0 -z-10 bg-linear-to-r from-unmsm-azul-dark/95 via-unmsm-azul/75 to-unmsm-azul/25"></div>
 
-        <div class="mx-auto max-w-6xl px-6 py-24 sm:py-32">
+        <div class="mx-auto w-full max-w-7xl px-4 pb-16 pt-40 lg:px-8 lg:pb-24 lg:pt-44">
             {portada.kicker && (
                 <p class="text-xs font-semibold uppercase tracking-[0.18em] text-unmsm-dorado-light">
                     {portada.kicker}
@@ -49,13 +53,13 @@ const fondo = portada.imagenes[0];
             )}
 
             {portada.titulo && (
-                <h1 class="mt-4 max-w-3xl font-serif text-4xl font-bold leading-tight sm:text-5xl">
+                <h1 class="mt-4 max-w-[14ch] font-serif text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl">
                     {portada.titulo}
                 </h1>
             )}
 
             {portada.texto && (
-                <p class="mt-5 max-w-2xl text-lg text-slate-100">{portada.texto}</p>
+                <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-100">{portada.texto}</p>
             )}
 
             {portada.acciones.length > 0 && (
@@ -65,7 +69,8 @@ const fondo = portada.imagenes[0];
                             href={accion.url}
                             variante={i === 0 ? "dorado" : "contorno-claro"}
                             tamano="grande"
-                            icono={i === 0 ? faGraduationCap : undefined}
+                            icono={i === 0 ? faArrowRight : faUserPlus}
+                            iconoAlFinal={i === 0}
                         >
                             {accion.texto}
                         </Boton>

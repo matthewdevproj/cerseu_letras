@@ -111,6 +111,11 @@ export type ConfiguracionSitio = {
         direccion: string | null;
         horario: string | null;
     };
+    /** Accesos a la Facultad, los que ocupan la barra superior. */
+    facultad: {
+        web: string | null;
+        directorio: string | null;
+    };
     portada: {
         kicker: string | null;
         titulo: string | null;

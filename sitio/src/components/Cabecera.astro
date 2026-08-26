@@ -1,0 +1,351 @@
+---
+import BarraSuperior from './BarraSuperior.astro';
+import Buscador from './Buscador.astro';
+import Icono from './Icono.astro';
+import { faMagnifyingGlass, faXmark, faBars } from '@fortawesome/free-solid-svg-icons';
+import type { ConfiguracionSitio, ItemMenu } from '../lib/api';
+
+interface Props {
+    sitio: ConfiguracionSitio;
+    menu: ItemMenu[];
+    /**
+     * La página abre con una imagen a sangre y la cabecera se monta encima,
+     * como en la portada. Sin esto la cabecera es una banda azul sólida, que es
+     * lo que necesitan las páginas que no empiezan con un hero.
+     */
+    sobreHero?: boolean;
+}
+
+const { sitio, menu, sobreHero = false } = Astro.props;
+---
+
+{/* `sticky` en las páginas normales y superpuesta en las que abren con imagen.
+    El comportamiento al bajar es el mismo en las dos: la barra de contacto se
+    pliega y la navegación pasa a blanco, para que sobre el contenido claro los
+    enlaces se sigan leyendo. */}
+<header
+    class:list={[
+        'cabecera z-50',
+        // `fixed` y no `absolute`: superpuesta al hero tiene que seguir ahi al
+        // bajar —para eso cambia a blanco—, y en absolute se iba con el scroll
+        // y dejaba la pagina sin navegacion.
+        sobreHero ? 'fixed inset-x-0 top-0' : 'sticky top-0 bg-unmsm-azul',
+    ]}
+    data-sobre-hero={sobreHero ? '1' : undefined}
+>
+    <BarraSuperior sitio={sitio} />
+
+    <div
+        id="barra-navegacion"
+        class:list={[
+            'transition-[background-color,box-shadow,padding] duration-300',
+            sobreHero ? 'bg-transparent' : 'bg-unmsm-azul',
+        ]}
+    >
+        <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-4 lg:px-8">
+            <a href="/" class="flex-none" aria-label={`${sitio.nombre} — ir al inicio`}>
+                {
+                    sitio.logo ? (
+                        /* El logotipo es azul oscuro sobre transparente, así que
+                           sobre la cabecera oscura se fuerza a blanco con un
+                           filtro. Se hace igual en Blade, y funciona con
+                           cualquier logo que suba la Unidad sin exigirle una
+                           variante en blanco. */
+                        <img
+                            id="logo-cabecera"
+                            src={sitio.logo}
+                            alt={sitio.nombre ?? 'CERSEU'}
+                            width="1234"
+                            height="310"
+                            class="h-11 w-auto brightness-0 invert transition sm:h-14"
+                        />
+                    ) : (
+                        <span class="block font-serif text-xl font-bold leading-tight text-white">
+                            {sitio.nombre}
+                        </span>
+                    )
+                }
+            </a>
+
+            <nav
+                class="ml-auto hidden items-center gap-x-6 text-sm font-medium lg:flex"
+                aria-label="Principal"
+            >
+                {
+                    menu.map((item) =>
+                        item.hijos.length > 0 ? (
+                            /* <details> en vez de :hover: funciona con teclado, con
+                               lector de pantalla y con el dedo, y no necesita
+                               JavaScript. Un menú que solo abre al pasar el ratón
+                               deja fuera a quien navega con tabulador. */
+                            <details class="group relative">
+                                <summary class="nav-item flex cursor-pointer list-none items-center gap-1 text-white transition hover:text-unmsm-dorado-light [&::-webkit-details-marker]:hidden">
+                                    {item.etiqueta}
+                                    <span
+                                        aria-hidden="true"
+                                        class="inline-block text-[0.7em] transition group-open:rotate-180"
+                                    >
+                                        ▾
+                                    </span>
+                                </summary>
+                                <ul class="absolute left-0 top-full z-10 mt-3 min-w-56 rounded-lg bg-white py-2 text-slate-700 shadow-xl">
+                                    {item.hijos.map((hijo) => (
+                                        <li>
+                                            <a
+                                                href={hijo.enlace ?? '#'}
+                                                target={hijo.nueva_pestana ? '_blank' : undefined}
+                                                rel={hijo.nueva_pestana ? 'noopener noreferrer' : undefined}
+                                                class="block px-4 py-2 text-sm transition hover:bg-slate-50 hover:text-unmsm-azul"
+                                            >
+                                                {hijo.etiqueta}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </details>
+                        ) : (
+                            <a
+                                href={item.enlace ?? '#'}
+                                target={item.nueva_pestana ? '_blank' : undefined}
+                                rel={item.nueva_pestana ? 'noopener noreferrer' : undefined}
+                                class="nav-item text-white transition hover:text-unmsm-dorado-light"
+                            >
+                                {item.etiqueta}
+                            </a>
+                        )
+                    )
+                }
+            </nav>
+
+            <div class="ml-auto flex items-center gap-2 lg:ml-6">
+                <span aria-hidden="true" class="hidden h-6 w-px bg-white/25 lg:block"></span>
+
+                {/* La lupa abre el campo, como en el sitio anterior: una caja de
+                    búsqueda permanente le roba sitio al menú y al logotipo. */}
+                <button
+                    type="button"
+                    id="abrir-buscador"
+                    class="nav-item rounded-md p-2 text-white transition hover:text-unmsm-dorado-light"
+                    aria-expanded="false"
+                    aria-controls="caja-buscador"
+                >
+                    <Icono icono={faMagnifyingGlass} clase="h-5 w-5" etiqueta="Buscar en el sitio" />
+                </button>
+
+                <button
+                    type="button"
+                    id="abrir-menu"
+                    class="nav-item rounded-md p-2 text-white transition hover:text-unmsm-dorado-light lg:hidden"
+                    aria-expanded="false"
+                    aria-controls="menu-movil"
+                >
+                    <Icono icono={faBars} clase="h-5 w-5" etiqueta="Abrir el menú" />
+                </button>
+            </div>
+        </div>
+
+        {/* Fuera de la fila: al desplegarse ocupa el ancho completo y no
+            desplaza ni el logotipo ni el menú. */}
+        <div id="caja-buscador" class="hidden border-t border-white/10">
+            <div class="mx-auto max-w-7xl px-4 py-3 lg:px-8">
+                <Buscador />
+            </div>
+        </div>
+    </div>
+
+    {/* Menú en pantalla estrecha. Panel aparte y no el mismo marcado escondido:
+        el desplegable de escritorio se abre hacia abajo sobre el contenido, y
+        aquí tiene que empujar y poder recorrerse con el dedo. */}
+    <div id="menu-movil" class="hidden border-t border-white/10 bg-unmsm-azul lg:hidden">
+        <nav class="mx-auto max-w-7xl px-4 py-4" aria-label="Principal (móvil)">
+            <ul class="space-y-1">
+                {
+                    menu.map((item) => (
+                        <li>
+                            {item.hijos.length > 0 ? (
+                                <details class="group">
+                                    <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium text-white transition hover:bg-white/10 [&::-webkit-details-marker]:hidden">
+                                        {item.etiqueta}
+                                        <span
+                                            aria-hidden="true"
+                                            class="text-xs transition group-open:rotate-180"
+                                        >
+                                            ▾
+                                        </span>
+                                    </summary>
+                                    <ul class="mb-1 ml-3 border-l border-white/15 pl-3">
+                                        {item.hijos.map((hijo) => (
+                                            <li>
+                                                <a
+                                                    href={hijo.enlace ?? '#'}
+                                                    target={hijo.nueva_pestana ? '_blank' : undefined}
+                                                    rel={hijo.nueva_pestana ? 'noopener noreferrer' : undefined}
+                                                    class="block rounded-md px-3 py-2 text-sm text-white/80 transition hover:bg-white/10 hover:text-white"
+                                                >
+                                                    {hijo.etiqueta}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </details>
+                            ) : (
+                                <a
+                                    href={item.enlace ?? '#'}
+                                    target={item.nueva_pestana ? '_blank' : undefined}
+                                    rel={item.nueva_pestana ? 'noopener noreferrer' : undefined}
+                                    class="block rounded-md px-3 py-2.5 text-sm font-medium text-white transition hover:bg-white/10"
+                                >
+                                    {item.etiqueta}
+                                </a>
+                            )}
+                        </li>
+                    ))
+                }
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<style is:global>
+    /* Al bajar, la navegación pasa a blanco y lo que iba en blanco tiene que
+       oscurecerse o desaparece. Se hace con una clase en el contenedor y no
+       tocando cada elemento desde JavaScript: así el estado vive en un solo
+       sitio y las transiciones las resuelve el CSS. */
+    .cabecera.bajada #barra-superior {
+        height: 0;
+        opacity: 0;
+    }
+
+    .cabecera.bajada #barra-navegacion {
+        background-color: rgb(255 255 255 / 0.95);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    }
+
+    .cabecera.bajada .nav-item,
+    .cabecera.bajada .nav-item:hover {
+        color: var(--color-unmsm-azul);
+    }
+
+    .cabecera.bajada #logo-cabecera {
+        filter: none;
+    }
+
+    .cabecera.bajada #caja-buscador,
+    .cabecera.bajada #menu-movil {
+        border-color: rgb(0 0 0 / 0.08);
+    }
+
+    .cabecera.bajada #menu-movil {
+        background-color: #fff;
+    }
+
+    .cabecera.bajada #menu-movil a,
+    .cabecera.bajada #menu-movil summary {
+        color: var(--color-unmsm-azul);
+    }
+
+    /* El campo de búsqueda es blanco sobre azul; sobre la barra clara necesita
+       lo contrario o el texto no se lee. */
+    .cabecera.bajada #buscador-q {
+        background-color: #fff;
+        border-color: rgb(148 163 184);
+        color: rgb(30 41 59);
+    }
+
+    .cabecera.bajada #buscador-q::placeholder {
+        color: rgb(100 116 139);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .cabecera *,
+        .cabecera {
+            transition: none !important;
+        }
+    }
+</style>
+
+<script is:inline>
+    (function () {
+        function iniciar() {
+            var cabecera = document.querySelector('.cabecera');
+            // Con las transiciones de vista el script vuelve a ejecutarse y el
+            // oyente de `astro:page-load` tambien dispara: sin esta marca cada
+            // navegacion anadiria un juego mas de oyentes sobre los mismos
+            // botones, y el buscador se abriria y cerraria a la vez.
+            if (!cabecera || cabecera.dataset.listo === '1') return;
+            cabecera.dataset.listo = '1';
+
+            var caja = document.getElementById('caja-buscador');
+            var abrirBuscador = document.getElementById('abrir-buscador');
+            var menu = document.getElementById('menu-movil');
+            var abrirMenu = document.getElementById('abrir-menu');
+
+            function alternar(panel, boton) {
+                if (!panel || !boton) return;
+                var abierto = !panel.classList.contains('hidden');
+                panel.classList.toggle('hidden', abierto);
+                boton.setAttribute('aria-expanded', String(!abierto));
+                return !abierto;
+            }
+
+            abrirBuscador &&
+                abrirBuscador.addEventListener('click', function () {
+                    var abierto = alternar(caja, abrirBuscador);
+                    if (abierto) {
+                        var campo = document.getElementById('buscador-q');
+                        campo && campo.focus();
+                    }
+                });
+
+            abrirMenu &&
+                abrirMenu.addEventListener('click', function () {
+                    alternar(menu, abrirMenu);
+                });
+
+            // Escape cierra lo que esté abierto, empezando por el buscador.
+            document.addEventListener('keydown', function (e) {
+                if (e.key !== 'Escape') return;
+                if (caja && !caja.classList.contains('hidden')) {
+                    // Solo si el desplegable de sugerencias ya está cerrado: la
+                    // primera pulsación la usa el propio buscador.
+                    var campo = document.getElementById('buscador-q');
+                    if (campo && campo.getAttribute('aria-expanded') === 'true') return;
+                    alternar(caja, abrirBuscador);
+                    abrirBuscador && abrirBuscador.focus();
+                } else if (menu && !menu.classList.contains('hidden')) {
+                    alternar(menu, abrirMenu);
+                    abrirMenu && abrirMenu.focus();
+                }
+            });
+
+            // Estado según el desplazamiento. `requestAnimationFrame` para no
+            // hacer trabajo en cada evento de scroll.
+            var bajada = false;
+            var pendiente = false;
+
+            function revisar() {
+                var ahora = window.scrollY > 50;
+                if (ahora !== bajada) {
+                    bajada = ahora;
+                    cabecera.classList.toggle('bajada', bajada);
+                }
+                pendiente = false;
+            }
+
+            revisar();
+            window.addEventListener(
+                'scroll',
+                function () {
+                    if (pendiente) return;
+                    pendiente = true;
+                    window.requestAnimationFrame(revisar);
+                },
+                { passive: true }
+            );
+        }
+
+        iniciar();
+        document.addEventListener('astro:page-load', iniciar);
+    })();
+</script>

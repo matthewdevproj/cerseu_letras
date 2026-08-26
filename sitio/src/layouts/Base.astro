@@ -3,7 +3,7 @@ import '../styles/global.css';
 import { obtenerConfiguracion, obtenerMenu } from '../lib/api';
 import BotonWhatsapp from '../components/BotonWhatsapp.astro';
 import RedesSociales from '../components/RedesSociales.astro';
-import Buscador from '../components/Buscador.astro';
+import Cabecera from '../components/Cabecera.astro';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -18,9 +18,14 @@ interface Props {
      * contenido que ella misma enlaza.
      */
     sinIndexar?: boolean;
+    /**
+     * La página abre con una imagen a sangre y la cabecera se monta encima.
+     * Lo usa la portada; el resto lleva la cabecera como banda sólida.
+     */
+    sobreHero?: boolean;
 }
 
-const { titulo, descripcion, imagen, datos, sinIndexar = false } = Astro.props;
+const { titulo, descripcion, imagen, datos, sinIndexar = false, sobreHero = false } = Astro.props;
 
 // Nada de esto está escrito en la plantilla a propósito: el nombre, el menú y
 // los datos de contacto se editan desde el panel. Si estuvieran aquí, cambiar
@@ -91,95 +96,7 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
         <a href="#contenido" class="saltar-al-contenido rounded-lg bg-unmsm-azul px-4 py-2 font-semibold text-white">
             Saltar al contenido
         </a>
-        <header class="bg-unmsm-azul text-white">
-            <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-5">
-                <a href="/" class="leading-tight">
-                    <span class="block text-[0.6rem] uppercase tracking-[0.18em] text-unmsm-azul-soft">
-                        Centro de Responsabilidad Social y Extensión Universitaria
-                    </span>
-                    <span class="block text-2xl font-bold tracking-tight">{sitio.nombre}</span>
-                </a>
-
-                {/* Un solo <details> envuelve la navegacion en movil: cerrado por
-                   defecto, abierto siempre desde `sm`. Mismo marcado para las dos
-                   anchuras, sin duplicar el menu ni necesitar JavaScript. */}
-                {/* Abierto por defecto y cerrado por el script de abajo solo si la
-                   pantalla es estrecha. Al reves —cerrado y forzado a abrirse con
-                   CSS en escritorio— dependeria de anular el ocultado interno que
-                   hace el navegador, que cambia entre motores y que aqui no pude
-                   verificar en un viewport movil real. Sin JavaScript el menu
-                   queda desplegado: peor de aspecto, nunca inaccesible. */}
-                <details class="nav-plegable w-full sm:w-auto" open>
-                    <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md px-2 py-1 text-sm font-medium sm:hidden [&::-webkit-details-marker]:hidden">
-                        <span aria-hidden="true" class="text-lg leading-none">☰</span>
-                        Menú
-                    </summary>
-
-                <nav class="flex flex-col gap-y-2 pt-3 text-sm font-medium sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:pt-0" aria-label="Principal">
-                    {
-                        menu.map((item) =>
-                            item.hijos.length > 0 ? (
-                                /* <details> en vez de :hover: funciona con teclado, con lector
-                                   de pantalla y con el dedo, y no necesita JavaScript. Un menu
-                                   que solo abre al pasar el raton deja fuera a quien navega
-                                   con tabulador y a cualquiera en un movil. */
-                                <details class="group relative">
-                                    <summary class="cursor-pointer list-none hover:text-unmsm-dorado-light [&::-webkit-details-marker]:hidden">
-                                        {item.etiqueta}
-                                        <span aria-hidden="true" class="ml-1 inline-block transition group-open:rotate-180">
-                                            ▾
-                                        </span>
-                                    </summary>
-                                    <ul class="absolute left-0 top-full z-10 mt-1 min-w-56 rounded-lg bg-white py-2 text-slate-700 shadow-xl">
-                                        {item.hijos.map((hijo) => (
-                                            <li>
-                                                <a
-                                                    href={hijo.enlace ?? "#"}
-                                                    target={hijo.nueva_pestana ? "_blank" : undefined}
-                                                    rel={hijo.nueva_pestana ? "noopener noreferrer" : undefined}
-                                                    class="block px-4 py-2 text-sm hover:bg-slate-50 hover:text-unmsm-azul"
-                                                >
-                                                    {hijo.etiqueta}
-                                                </a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </details>
-                            ) : (
-                                <a
-                                    href={item.enlace ?? "#"}
-                                    target={item.nueva_pestana ? "_blank" : undefined}
-                                    rel={item.nueva_pestana ? "noopener noreferrer" : undefined}
-                                    class="hover:text-unmsm-dorado-light"
-                                >
-                                    {item.etiqueta}
-                                </a>
-                            )
-                        )
-                    }
-                </nav>
-                </details>
-
-                {/* Ultimo en el orden de tabulacion de la cabecera y ultimo en
-                    la fila: el menu es el camino principal y el buscador el
-                    atajo para quien ya sabe lo que busca. */}
-                <Buscador />
-            </div>
-        </header>
-
-        <script is:inline>
-            // Colapsa el menu en pantallas estrechas. Va inline y sin `defer`
-            // para que ocurra antes del primer pintado y no se vea abrirse y
-            // cerrarse.
-            (function () {
-                var estrecha = window.matchMedia("(max-width: 39.99rem)");
-                var menu = document.querySelector(".nav-plegable");
-                if (!menu) return;
-                function ajustar(e) { menu.open = !e.matches; }
-                ajustar(estrecha);
-                estrecha.addEventListener("change", ajustar);
-            })();
-        </script>
+        <Cabecera sitio={sitio} menu={menu} sobreHero={sobreHero} />
 
         <main id="contenido" class="flex-1">
             <slot />
@@ -193,7 +110,22 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
             <div class="mx-auto max-w-6xl px-6 py-14">
                 <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
                     <div class="lg:col-span-2">
-                        <p class="font-serif text-lg font-bold text-white">{sitio.nombre}</p>
+                        {/* Sobre el azul del pie el logotipo se fuerza a blanco
+                            con el mismo filtro que en la cabecera: servido tal
+                            cual saldria oscuro sobre oscuro. */}
+                        {sitio.logo ? (
+                            <img
+                                src={sitio.logo}
+                                alt={sitio.nombre ?? 'CERSEU'}
+                                width="1234"
+                                height="310"
+                                loading="lazy"
+                                decoding="async"
+                                class="h-14 w-auto brightness-0 invert"
+                            />
+                        ) : (
+                            <p class="font-serif text-lg font-bold text-white">{sitio.nombre}</p>
+                        )}
                         {sitio.descripcion && (
                             <p class="mt-3 max-w-md leading-relaxed">{sitio.descripcion}</p>
                         )}
@@ -242,9 +174,12 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
                     </div>
                 </div>
 
-                <p class="mt-12 border-t border-white/10 pt-6 text-xs text-slate-400">
-                    Prueba de concepto del sitio público en Astro, generado contra la API de
-                    contenido de Laravel. El sitio en producción sigue siendo el de Blade.
+                <p class="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-slate-400">
+                    <span>
+                        © {new Date().getFullYear()} {sitio.nombre} · Universidad Nacional Mayor de
+                        San Marcos
+                    </span>
+                    <a href="/buscar" class="hover:text-white">Buscar en el sitio</a>
                 </p>
             </div>
         </footer>

@@ -1,19 +1,16 @@
 import { expect, test } from '@playwright/test';
+import { abrirMenu } from './utiles';
 
 test.describe('Accesibilidad de la cabecera y el pie', () => {
     test('el desplegable abre con teclado, no solo al pasar el ratón', async ({ page }) => {
         await page.goto('/');
 
-        // En pantalla estrecha la navegación entera va plegada: hay que abrirla
-        // antes de poder llegar a los desplegables de dentro. Es el
-        // comportamiento correcto, y la prueba tiene que reproducir el camino
-        // real del visitante, no saltárselo.
-        const plegable = page.locator('header details.nav-plegable');
-        if (!(await plegable.evaluate((d) => (d as HTMLDetailsElement).open))) {
-            await plegable.locator('> summary').click();
-        }
+        // En pantalla estrecha la navegación vive en un panel que hay que
+        // abrir. La prueba reproduce el camino real del visitante, no se lo
+        // salta.
+        const navegacion = await abrirMenu(page);
 
-        const desplegable = page.locator('header nav details').first();
+        const desplegable = navegacion.locator('details').first();
         const resumen = desplegable.locator('summary');
 
         await resumen.focus();

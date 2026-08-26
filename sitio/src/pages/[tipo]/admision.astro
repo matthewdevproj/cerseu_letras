@@ -31,7 +31,12 @@ const { contacto } = await obtenerConfiguracion();
 // formulario se envía desde el cliente, y `http://web` no existe fuera de la
 // red de Docker. Es el mismo problema que resolvió ForzarUrlPublica, ahora del
 // lado del formulario.
-const apiPublica = import.meta.env.CERSEU_API_PUBLICA ?? 'http://localhost/api/v1';
+//
+// Relativa por defecto. Desde que Nginx sirve el sitio y la API bajo el mismo
+// dominio, el formulario ya no cruza orígenes: nada que negociar por CORS y
+// nada que reconfigurar si el dominio cambia. Solo el servidor de desarrollo
+// —que corre en :4321, aparte— necesita la variable con una URL absoluta.
+const apiPublica = import.meta.env.CERSEU_API_PUBLICA ?? '/api/v1';
 
 const hayPasos = admision.pasos.length > 0;
 const hayRequisitos = admision.requisitos.lista.length > 0;

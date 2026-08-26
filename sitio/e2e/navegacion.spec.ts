@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { abrirMenu } from './utiles';
 
 /**
  * El otro fallo: los enlaces internos de la cabecera apuntaban a la aplicación
@@ -30,13 +31,10 @@ test.describe('La navegación no saca del sitio', () => {
         await page.goto('/');
         const origen = new URL(page.url()).origin;
 
-        // En móvil el menú va plegado; se abre como lo haría el visitante.
-        const plegable = page.locator('header details.nav-plegable');
-        if (!(await plegable.evaluate((d) => (d as HTMLDetailsElement).open))) {
-            await plegable.locator('> summary').click();
-        }
+        // En móvil el menú va en un panel; se abre como lo haría el visitante.
+        const navegacion = await abrirMenu(page);
 
-        await page.locator('header nav a[href="/cursos"]').first().click();
+        await navegacion.locator('a[href="/cursos"]').first().click();
         await page.waitForURL('**/cursos');
 
         expect(new URL(page.url()).origin).toBe(origen);
