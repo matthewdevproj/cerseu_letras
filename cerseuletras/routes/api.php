@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ActualidadApiController;
+use App\Http\Controllers\Api\BuscadorApiController;
 use App\Http\Controllers\Api\DocenteApiController;
 use App\Http\Controllers\Api\OfertaApiController;
 use App\Http\Controllers\Api\PaginaApiController;
@@ -32,6 +33,9 @@ Route::prefix('v1')->group(function () {
     // Plana docente.
     Route::get('/docentes', [DocenteApiController::class, 'index']);
     Route::get('/docentes/{slug}', [DocenteApiController::class, 'show']);
+
+    // Indice del buscador: la lista entera, para buscar en el navegador.
+    Route::get('/buscador', [BuscadorApiController::class, 'index']);
 
     // Oferta formativa.
     Route::get('/tipos-oferta', [OfertaApiController::class, 'tipos']);

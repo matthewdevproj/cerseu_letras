@@ -1,0 +1,195 @@
+---
+import Base from '../layouts/Base.astro';
+import Icono from '../components/Icono.astro';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+
+/**
+ * Resultados de búsqueda.
+ *
+ * En un sitio estático no hay servidor que reciba `?q=`: la página se genera
+ * una vez y el término lo lee el navegador. A cambio, buscar no cuesta ni una
+ * petición —el índice ya está descargado— y escribir otra cosa actualiza los
+ * resultados sin recargar.
+ *
+ * Sin JavaScript no hay resultados, así que el formulario queda visible y
+ * utilizable, y el mensaje lo dice en vez de dejar la página en blanco.
+ */
+---
+
+<Base
+    titulo="Buscar"
+    descripcion="Busca en la oferta formativa, la plana docente y las páginas del CERSEU."
+    sinIndexar
+>
+    <div class="mx-auto max-w-4xl px-6 py-14 pb-24">
+        <h1 class="font-serif text-3xl font-bold text-unmsm-azul sm:text-4xl">Buscar</h1>
+        <div class="mt-3 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true"></div>
+
+        <form class="buscador-pagina mt-8" role="search" action="/buscar" method="get">
+            <label for="q" class="block text-sm font-medium text-slate-700">
+                ¿Qué estás buscando?
+            </label>
+            <div class="mt-2 flex gap-2">
+                <div class="relative flex-1">
+                    <span
+                        aria-hidden="true"
+                        class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                    >
+                        <Icono icono={faMagnifyingGlass} clase="h-4 w-4" />
+                    </span>
+                    <input
+                        id="q"
+                        name="q"
+                        type="search"
+                        autocomplete="off"
+                        placeholder="Talleres, redacción, Normas APA…"
+                        class="w-full rounded-lg border border-slate-300 py-3 pl-10 pr-3 focus:border-unmsm-azul focus:outline-none"
+                    />
+                </div>
+                <button
+                    type="submit"
+                    class="rounded-lg bg-unmsm-azul px-6 py-3 font-semibold text-white transition hover:bg-unmsm-azul-light"
+                >
+                    Buscar
+                </button>
+            </div>
+        </form>
+
+        {/* aria-live: quien usa lector de pantalla se entera de cuántos
+            resultados hay sin tener que ir a comprobarlo. */}
+        <p class="resumen-busqueda mt-8 text-sm text-slate-500" role="status" aria-live="polite">
+            Escribe al menos dos letras para buscar.
+        </p>
+
+        <div class="resultados-busqueda mt-6 space-y-10"></div>
+
+        <noscript>
+            <p class="mt-6 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                El buscador necesita JavaScript. Puedes llegar a lo mismo desde el menú:
+                <a href="/talleres" class="underline">talleres</a>,
+                <a href="/cursos" class="underline">cursos</a>,
+                <a href="/especializaciones" class="underline">especializaciones</a> y
+                <a href="/plana-docente" class="underline">plana docente</a>.
+            </p>
+        </noscript>
+    </div>
+</Base>
+
+<script>
+    import { buscar, porCategoria, cargarIndice, MINIMO } from '../lib/buscador';
+    import type { EntradaBuscador } from '../lib/api';
+
+    function iniciar() {
+        const form = document.querySelector<HTMLFormElement>('.buscador-pagina');
+        const campo = document.querySelector<HTMLInputElement>('#q');
+        const resumen = document.querySelector<HTMLElement>('.resumen-busqueda');
+        const salida = document.querySelector<HTMLElement>('.resultados-busqueda');
+
+        if (!form || !campo || !resumen || !salida) return;
+
+        let indice: EntradaBuscador[] | null = null;
+
+        const escapar = (texto: string) =>
+            texto.replace(/[&<>"']/g, (c) =>
+                ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!
+            );
+
+        function pintar(consulta: string) {
+            if (!indice) return;
+
+            if (consulta.trim().length < MINIMO) {
+                resumen!.textContent = 'Escribe al menos dos letras para buscar.';
+                salida!.innerHTML = '';
+                return;
+            }
+
+            const resultados = buscar(indice, consulta);
+
+            if (resultados.length === 0) {
+                resumen!.textContent = `Sin resultados para «${consulta}».`;
+                salida!.innerHTML = `
+                    <div class="rounded-2xl border border-dashed border-slate-300 px-6 py-12 text-center">
+                        <p class="text-slate-600">Prueba con menos palabras o con otro término.</p>
+                        <p class="mt-3 text-sm text-slate-500">
+                            También puedes ver toda la
+                            <a href="/talleres" class="text-unmsm-azul underline">oferta de talleres</a>,
+                            <a href="/cursos" class="text-unmsm-azul underline">de cursos</a> o
+                            <a href="/especializaciones" class="text-unmsm-azul underline">de especializaciones</a>.
+                        </p>
+                    </div>`;
+                return;
+            }
+
+            resumen!.textContent =
+                resultados.length === 1
+                    ? `1 resultado para «${consulta}».`
+                    : `${resultados.length} resultados para «${consulta}».`;
+
+            salida!.innerHTML = porCategoria(resultados)
+                .map(
+                    ([categoria, items]) => `
+                    <section aria-labelledby="cat-${escapar(categoria.replace(/\s+/g, '-').toLowerCase())}">
+                        <h2 id="cat-${escapar(categoria.replace(/\s+/g, '-').toLowerCase())}"
+                            class="font-serif text-lg font-bold text-unmsm-azul">${escapar(categoria)}</h2>
+                        <ul class="mt-3 divide-y divide-slate-100 rounded-xl border border-slate-200">
+                            ${items
+                                .map(
+                                    (item) => `
+                                <li>
+                                    <a href="${escapar(item.url)}"
+                                       class="block px-5 py-4 transition hover:bg-slate-50">
+                                        <span class="font-medium text-slate-800">${escapar(item.titulo)}</span>
+                                        ${
+                                            item.descripcion
+                                                ? `<span class="mt-1 block text-sm leading-relaxed text-slate-500">${escapar(item.descripcion)}</span>`
+                                                : ''
+                                        }
+                                    </a>
+                                </li>`
+                                )
+                                .join('')}
+                        </ul>
+                    </section>`
+                )
+                .join('');
+        }
+
+        // El término llega en la URL: desde el buscador de la cabecera, desde
+        // un enlace compartido o desde el historial del navegador.
+        const consultaInicial = new URLSearchParams(location.search).get('q') ?? '';
+        campo.value = consultaInicial;
+
+        if (consultaInicial) {
+            resumen.textContent = 'Buscando…';
+        }
+
+        cargarIndice()
+            .then((datos) => {
+                indice = datos;
+                pintar(campo.value);
+            })
+            .catch(() => {
+                resumen.textContent =
+                    'No se pudo cargar el buscador. Recarga la página o usa el menú.';
+            });
+
+        // Resultados mientras se escribe, sin recargar. El submit tampoco
+        // recarga: solo actualiza la URL, para que el enlace se pueda compartir
+        // y el botón «atrás» funcione.
+        campo.addEventListener('input', () => pintar(campo.value));
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const url = campo.value.trim()
+                ? `/buscar?q=${encodeURIComponent(campo.value.trim())}`
+                : '/buscar';
+            history.replaceState(null, '', url);
+            pintar(campo.value);
+        });
+    }
+
+    // `astro:page-load` se dispara tambien en la primera carga, asi que basta
+    // con escucharlo: llamar ademas a iniciar() aqui duplicaria los oyentes del
+    // formulario y cada tecla pintaria dos veces.
+    document.addEventListener('astro:page-load', iniciar);
+</script>

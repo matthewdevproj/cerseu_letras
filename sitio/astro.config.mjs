@@ -4,15 +4,22 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-    // Estático por defecto: las páginas se generan contra la API de Laravel en
-    // el build. La reconstrucción al publicar desde el panel está por definir
-    // —es uno de los costos de separar el sitio— y hasta entonces cada cambio
-    // de contenido exige un `npm run build`.
+    // Estatico por defecto: las paginas se generan contra la API de Laravel en
+    // el build. Publicar desde el panel encola un trabajo que pide la
+    // reconstruccion, asi que un cambio de contenido no exige tocar nada a
+    // mano (ver App\Jobs\ReconstruirSitio y sitio/herramientas).
     // Dominio publico del sitio. Hace falta para el sitemap y para las URLs
     // canonicas: sin el, Astro no puede componerlas. Se toma del entorno para
     // que un despliegue de otra unidad no exija tocar este fichero.
     site: process.env.CERSEU_SITE ?? 'https://cerseuletras.unmsm.edu.pe',
-    integrations: [sitemap()],
+    integrations: [
+        sitemap({
+            // /buscar es una herramienta, no contenido: va con `noindex`, y
+            // anunciarla en el sitemap seria pedirle a Google que indexe justo
+            // lo que la pagina le dice que no indexe.
+            filter: (pagina) => !pagina.includes('/buscar'),
+        }),
+    ],
 
     // Optimizacion de imagenes sobre las que sirve Laravel. Astro las descarga
     // en el build, genera varios anchos y las convierte a AVIF/WebP. Hace

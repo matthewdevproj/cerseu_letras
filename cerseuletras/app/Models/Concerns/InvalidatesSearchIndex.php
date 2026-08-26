@@ -2,7 +2,7 @@
 
 namespace App\Models\Concerns;
 
-use Illuminate\Support\Facades\Cache;
+use App\Support\IndiceDeBusqueda;
 
 /**
  * Invalida el índice del buscador global cuando el contenido cambia.
@@ -14,7 +14,8 @@ trait InvalidatesSearchIndex
 {
     protected static function bootInvalidatesSearchIndex(): void
     {
-        $olvidar = fn () => Cache::forget('search_index');
+        // Delegado: la clave del cache la conoce IndiceDeBusqueda y nadie mas.
+        $olvidar = fn () => IndiceDeBusqueda::olvidar();
 
         static::saved($olvidar);
         static::deleted($olvidar);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Docente;
+use App\Models\Programa;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -29,7 +30,7 @@ class DocenteApiController extends Controller
 
     public function show(string $slug): JsonResponse
     {
-        $docente = Docente::query()->activos()->where('slug', $slug)->first();
+        $docente = Docente::query()->activos()->with('programas')->where('slug', $slug)->first();
 
         if (! $docente) {
             return response()->json(['message' => 'Docente no encontrado.'], 404);
@@ -62,6 +63,18 @@ class DocenteApiController extends Controller
             'orcid' => $docente->orcid ?: null,
             'cti_vitae' => $docente->cti_vitae ?: null,
             'linkedin' => $docente->linkedin ?: null,
+            // Hoy es lo unico que la ficha tiene que contar: ninguno de los 20
+            // docentes registrados tiene biografia ni lineas de investigacion,
+            // pero todos dictan algo. Sin esta lista la ficha repetiria el
+            // nombre que ya se lee en el listado y nada mas.
+            'programas' => $docente->programas
+                ->filter(fn (Programa $p) => $p->estado === Programa::ESTADO_PUBLICADO)
+                ->map(fn (Programa $p) => [
+                    'nombre' => $p->nombre,
+                    'slug' => $p->slug,
+                    'tipo' => $p->tipoOferta()?->slug(),
+                ])
+                ->values(),
         ];
     }
 }

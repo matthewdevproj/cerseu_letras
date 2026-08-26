@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { obtenerConfiguracion, obtenerMenu } from '../lib/api';
 import BotonWhatsapp from '../components/BotonWhatsapp.astro';
 import RedesSociales from '../components/RedesSociales.astro';
+import Buscador from '../components/Buscador.astro';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -11,9 +12,15 @@ interface Props {
     imagen?: string;
     /** Objeto schema.org que se inyecta como JSON-LD en esta página. */
     datos?: Record<string, unknown>;
+    /**
+     * Deja la página fuera de los buscadores. Para las que no son contenido
+     * sino herramienta: una página de resultados indexada compite con el
+     * contenido que ella misma enlaza.
+     */
+    sinIndexar?: boolean;
 }
 
-const { titulo, descripcion, imagen, datos } = Astro.props;
+const { titulo, descripcion, imagen, datos, sinIndexar = false } = Astro.props;
 
 // Nada de esto está escrito en la plantilla a propósito: el nombre, el menú y
 // los datos de contacto se editan desde el panel. Si estuvieran aquí, cambiar
@@ -55,6 +62,7 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
         <title>{titulo} · {sitio.nombre}</title>
         <meta name="description" content={resumen} />
         <link rel="canonical" href={canonica} />
+        {sinIndexar && <meta name="robots" content="noindex, follow" />}
 
         {/* Transiciones entre páginas con la API nativa del navegador: se
             sustituye el documento sin recargar, así el encabezado no parpadea
@@ -151,6 +159,11 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
                     }
                 </nav>
                 </details>
+
+                {/* Ultimo en el orden de tabulacion de la cabecera y ultimo en
+                    la fila: el menu es el camino principal y el buscador el
+                    atajo para quien ya sabe lo que busca. */}
+                <Buscador />
             </div>
         </header>
 

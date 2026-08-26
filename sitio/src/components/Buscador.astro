@@ -1,0 +1,204 @@
+---
+import Icono from './Icono.astro';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+
+/**
+ * Buscador de la cabecera, con sugerencias mientras se escribe.
+ *
+ * El índice se descarga al primer uso —no al cargar la página—: quien nunca
+ * toca el buscador no paga sus 30 kB. A partir de ahí las sugerencias salen sin
+ * red, así que aparecen a la velocidad de escribir.
+ *
+ * Es un combobox de verdad, no una caja con un div debajo: flechas para
+ * recorrer, Enter para abrir, Escape para cerrar, y los atributos ARIA que
+ * hacen que un lector de pantalla anuncie cuántas opciones hay y cuál está
+ * seleccionada.
+ */
+---
+
+<form
+    class="buscador-cabecera relative w-full sm:w-64"
+    role="search"
+    action="/buscar"
+    method="get"
+>
+    <label for="buscador-q" class="sr-only">Buscar en el sitio</label>
+
+    <span
+        aria-hidden="true"
+        class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/60"
+    >
+        <Icono icono={faMagnifyingGlass} clase="h-4 w-4" />
+    </span>
+
+    <input
+        id="buscador-q"
+        name="q"
+        type="search"
+        autocomplete="off"
+        placeholder="Buscar…"
+        role="combobox"
+        aria-expanded="false"
+        aria-controls="buscador-sugerencias"
+        aria-autocomplete="list"
+        class="w-full rounded-full border border-white/25 bg-white/10 py-2 pl-9 pr-3 text-sm text-white placeholder:text-white/60 focus:border-unmsm-dorado focus:bg-white focus:text-slate-800 focus:outline-none focus:placeholder:text-slate-400"
+    />
+
+    <ul
+        id="buscador-sugerencias"
+        role="listbox"
+        aria-label="Sugerencias"
+        class="absolute left-0 right-0 top-full z-20 mt-2 hidden max-h-80 overflow-y-auto rounded-lg bg-white py-1 text-slate-700 shadow-xl"
+    >
+    </ul>
+
+    {/* El resultado se anuncia aunque el foco siga en el campo: sin esto, con
+        lector de pantalla el desplegable aparece en silencio. */}
+    <p class="sr-only" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+    import { buscar, cargarIndice, MINIMO } from '../lib/buscador';
+    import type { EntradaBuscador } from '../lib/api';
+
+    const MAXIMO = 8;
+
+    function iniciar() {
+        const form = document.querySelector<HTMLFormElement>('.buscador-cabecera');
+        if (!form || form.dataset.listo === '1') return;
+        form.dataset.listo = '1';
+
+        const campo = form.querySelector<HTMLInputElement>('#buscador-q')!;
+        const lista = form.querySelector<HTMLUListElement>('#buscador-sugerencias')!;
+        const aviso = form.querySelector<HTMLElement>('[role="status"]')!;
+
+        let indice: EntradaBuscador[] | null = null;
+        let opciones: { titulo: string; url: string }[] = [];
+        let activa = -1;
+
+        const escapar = (texto: string) =>
+            texto.replace(/[&<>"']/g, (c) =>
+                ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!
+            );
+
+        function cerrar() {
+            lista.classList.add('hidden');
+            lista.innerHTML = '';
+            campo.setAttribute('aria-expanded', 'false');
+            campo.removeAttribute('aria-activedescendant');
+            opciones = [];
+            activa = -1;
+        }
+
+        function marcar(indiceNuevo: number) {
+            activa = indiceNuevo;
+            [...lista.children].forEach((li, i) => {
+                const seleccionada = i === activa;
+                li.setAttribute('aria-selected', String(seleccionada));
+                li.classList.toggle('bg-slate-100', seleccionada);
+            });
+
+            if (activa >= 0) {
+                campo.setAttribute('aria-activedescendant', `sugerencia-${activa}`);
+                lista.children[activa]?.scrollIntoView({ block: 'nearest' });
+            } else {
+                campo.removeAttribute('aria-activedescendant');
+            }
+        }
+
+        function sugerir() {
+            if (!indice) return;
+
+            const resultados = buscar(indice, campo.value).slice(0, MAXIMO);
+
+            if (resultados.length === 0) {
+                cerrar();
+                aviso.textContent =
+                    campo.value.trim().length >= MINIMO ? 'Sin sugerencias.' : '';
+                return;
+            }
+
+            opciones = resultados.map((r) => ({ titulo: r.titulo, url: r.url }));
+            lista.innerHTML = resultados
+                .map(
+                    (r, i) => `
+                    <li id="sugerencia-${i}" role="option" aria-selected="false"
+                        class="cursor-pointer px-4 py-2 text-sm hover:bg-slate-50">
+                        <span class="block font-medium text-slate-800">${escapar(r.titulo)}</span>
+                        <span class="block text-xs text-slate-500">${escapar(r.categoria)}</span>
+                    </li>`
+                )
+                .join('');
+
+            lista.classList.remove('hidden');
+            campo.setAttribute('aria-expanded', 'true');
+            activa = -1;
+            aviso.textContent = `${resultados.length} sugerencias disponibles.`;
+        }
+
+        function irA(destino: string) {
+            cerrar();
+            location.href = destino;
+        }
+
+        // El índice se pide al primer contacto con el campo, no al cargar la
+        // página: la mayoría de visitas no usa el buscador.
+        const cargar = () => {
+            if (indice) return;
+            cargarIndice()
+                .then((datos) => {
+                    indice = datos;
+                    sugerir();
+                })
+                .catch(() => {
+                    // Sin índice el formulario sigue funcionando: envía a
+                    // /buscar, que lo intenta de nuevo por su cuenta.
+                });
+        };
+
+        campo.addEventListener('focus', cargar, { once: true });
+        campo.addEventListener('input', () => {
+            cargar();
+            sugerir();
+        });
+
+        campo.addEventListener('keydown', (e) => {
+            if (opciones.length === 0) return;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                marcar((activa + 1) % opciones.length);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                marcar(activa <= 0 ? opciones.length - 1 : activa - 1);
+            } else if (e.key === 'Escape') {
+                cerrar();
+            } else if (e.key === 'Enter' && activa >= 0) {
+                // Solo cuando hay una sugerencia elegida: con ninguna marcada,
+                // Enter envía el formulario y lleva a la página de resultados,
+                // que es lo que espera quien escribió y pulsó sin mirar.
+                e.preventDefault();
+                irA(opciones[activa]!.url);
+            }
+        });
+
+        lista.addEventListener('mousedown', (e) => {
+            const li = (e.target as HTMLElement).closest('li');
+            if (!li) return;
+            // `mousedown` y no `click`: al soltar el botón el campo ya perdió
+            // el foco y el desplegable se habría cerrado antes del clic.
+            e.preventDefault();
+            const i = [...lista.children].indexOf(li);
+            if (opciones[i]) irA(opciones[i]!.url);
+        });
+
+        campo.addEventListener('blur', () => {
+            // Con retardo para no cerrar antes de que llegue el clic.
+            setTimeout(cerrar, 150);
+        });
+
+        form.addEventListener('submit', () => cerrar());
+    }
+
+    document.addEventListener('astro:page-load', iniciar);
+</script>

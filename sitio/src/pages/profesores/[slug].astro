@@ -1,0 +1,195 @@
+---
+import Base from '../../layouts/Base.astro';
+import { obtenerDocentes, obtenerDocente, obtenerConfiguracion } from '../../lib/api';
+import type { Docente } from '../../lib/api';
+
+export async function getStaticPaths() {
+    const docentes = await obtenerDocentes();
+
+    return Promise.all(
+        docentes.map(async (docente) => ({
+            params: { slug: docente.slug },
+            props: { docente: await obtenerDocente(docente.slug) },
+        }))
+    );
+}
+
+interface Props {
+    docente: Docente;
+}
+
+const { docente } = Astro.props;
+const sitio = await obtenerConfiguracion();
+
+const programas = docente.programas ?? [];
+const tieneFotoPropia = !docente.foto.includes('profesor-default');
+
+const iniciales = docente.nombre
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase() ?? '')
+    .join('');
+
+const enlaces = [
+    { etiqueta: 'ORCID', url: docente.orcid },
+    { etiqueta: 'CTI Vitae', url: docente.cti_vitae },
+    { etiqueta: 'LinkedIn', url: docente.linkedin },
+].filter((e): e is { etiqueta: string; url: string } => Boolean(e.url));
+
+// La descripción de la página cuenta lo que dicta, no una frase genérica: es
+// lo que se lee en el resultado de un buscador y lo único que distingue una
+// ficha de otra mientras no haya biografías cargadas.
+const resumen =
+    programas.length > 0
+        ? `${docente.nombre_completo} dicta ${programas.length === 1 ? '' : programas.length + ' programas '}en el CERSEU: ${programas
+              .slice(0, 3)
+              .map((p) => p.nombre)
+              .join(', ')}.`
+        : `${docente.nombre_completo}, docente del CERSEU de la Facultad de Letras y Ciencias Humanas.`;
+
+const datos = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: docente.nombre_completo,
+    jobTitle: docente.grado ?? 'Docente',
+    worksFor: { '@type': 'EducationalOrganization', name: sitio.nombre },
+    ...(enlaces.length > 0 ? { sameAs: enlaces.map((e) => e.url) } : {}),
+};
+---
+
+<Base titulo={docente.nombre_completo} descripcion={resumen} datos={datos}>
+    <div class="border-b border-slate-200 bg-slate-50">
+        <div class="mx-auto max-w-4xl px-6 py-10">
+            <nav aria-label="Migas de pan" class="text-sm text-slate-500">
+                <ol class="flex flex-wrap items-center gap-2">
+                    <li><a href="/" class="hover:text-unmsm-azul">Inicio</a></li>
+                    <li aria-hidden="true">/</li>
+                    <li><a href="/plana-docente" class="hover:text-unmsm-azul">Plana docente</a></li>
+                    <li aria-hidden="true">/</li>
+                    <li aria-current="page" class="text-slate-700">{docente.nombre}</li>
+                </ol>
+            </nav>
+
+            <div class="mt-6 flex flex-wrap items-center gap-6">
+                {
+                    tieneFotoPropia ? (
+                        <img
+                            src={docente.foto}
+                            alt=""
+                            class="h-28 w-28 flex-none rounded-full object-cover shadow-sm"
+                        />
+                    ) : (
+                        <span
+                            aria-hidden="true"
+                            class="flex h-28 w-28 flex-none items-center justify-center rounded-full bg-unmsm-azul font-serif text-3xl font-bold text-white shadow-sm"
+                        >
+                            {iniciales}
+                        </span>
+                    )
+                }
+
+                <div>
+                    <h1 class="font-serif text-3xl font-bold text-unmsm-azul">
+                        {docente.nombre_completo}
+                    </h1>
+                    {docente.grado && <p class="mt-1 text-slate-600">{docente.grado}</p>}
+                    <p class="mt-1 text-sm text-slate-500">Docente del CERSEU</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mx-auto max-w-4xl space-y-12 px-6 py-12 pb-24">
+        {
+            docente.biografia && (
+                <section aria-labelledby="biografia">
+                    <h2 id="biografia" class="font-serif text-2xl font-bold text-unmsm-azul">
+                        Reseña
+                    </h2>
+                    <div class="mt-2 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true" />
+                    <div class="prose prose-slate mt-5 max-w-none" set:html={docente.biografia} />
+                </section>
+            )
+        }
+
+        {
+            docente.lineas_investigacion && (
+                <section aria-labelledby="lineas">
+                    <h2 id="lineas" class="font-serif text-2xl font-bold text-unmsm-azul">
+                        Líneas de investigación
+                    </h2>
+                    <div class="mt-2 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true" />
+                    <div
+                        class="prose prose-slate mt-5 max-w-none"
+                        set:html={docente.lineas_investigacion}
+                    />
+                </section>
+            )
+        }
+
+        {
+            programas.length > 0 && (
+                <section aria-labelledby="dicta">
+                    <h2 id="dicta" class="font-serif text-2xl font-bold text-unmsm-azul">
+                        {programas.length === 1 ? 'Dicta' : `Dicta ${programas.length} programas`}
+                    </h2>
+                    <div class="mt-2 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true" />
+
+                    <ul class="mt-6 divide-y divide-slate-100 rounded-xl border border-slate-200">
+                        {programas.map((programa) => (
+                            <li>
+                                <a
+                                    href={`/${programa.tipo ?? 'cursos'}/${programa.slug}`}
+                                    class="block px-5 py-4 transition hover:bg-slate-50"
+                                >
+                                    <span class="font-medium text-slate-800">{programa.nombre}</span>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )
+        }
+
+        {
+            enlaces.length > 0 && (
+                <section aria-labelledby="perfiles">
+                    <h2 id="perfiles" class="font-serif text-2xl font-bold text-unmsm-azul">
+                        Perfiles académicos
+                    </h2>
+                    <div class="mt-2 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true" />
+
+                    <ul class="mt-5 flex flex-wrap gap-3">
+                        {enlaces.map((enlace) => (
+                            <li>
+                                <a
+                                    href={enlace.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-unmsm-azul transition hover:border-unmsm-azul hover:bg-slate-50"
+                                >
+                                    {enlace.etiqueta}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )
+        }
+
+        {
+            programas.length === 0 && !docente.biografia && (
+                <p class="rounded-2xl border border-dashed border-slate-300 px-6 py-12 text-center text-slate-500">
+                    Todavía no hay más información publicada sobre este docente.
+                </p>
+            )
+        }
+
+        <p class="border-t border-slate-200 pt-8">
+            <a href="/plana-docente" class="text-sm font-medium text-unmsm-azul hover:underline">
+                ← Ver toda la plana docente
+            </a>
+        </p>
+    </div>
+</Base>

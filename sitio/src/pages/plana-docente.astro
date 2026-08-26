@@ -42,7 +42,11 @@ const tieneFotoPropia = (url: string) => !url.includes('profesor-default');
             ) : (
                 <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {docentes.map((docente) => (
-                        <li class="flex items-center gap-4 rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-unmsm-azul/40 hover:shadow-md">
+                        <li class="relative flex items-center gap-4 rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-unmsm-azul/40 hover:shadow-md focus-within:border-unmsm-azul">
+                            {/* La tarjeta entera es el area pulsable, pero el
+                                enlace es uno solo y esta en el nombre: repetir
+                                el enlace en la foto haria que un lector de
+                                pantalla anunciara dos veces el mismo destino. */}
                             {tieneFotoPropia(docente.foto) ? (
                                 <img
                                     src={docente.foto}
@@ -62,7 +66,12 @@ const tieneFotoPropia = (url: string) => !url.includes('profesor-default');
 
                             <div class="min-w-0">
                                 <p class="font-serif font-bold leading-snug text-unmsm-azul">
-                                    {docente.nombre}
+                                    <a
+                                        href={`/profesores/${docente.slug}`}
+                                        class="after:absolute after:inset-0 after:rounded-xl hover:underline focus-visible:outline-none"
+                                    >
+                                        {docente.nombre}
+                                    </a>
                                 </p>
                                 {docente.grado && (
                                     <p class="mt-0.5 text-sm text-slate-500">{docente.grado}</p>

@@ -168,9 +168,18 @@ export type Docente = {
     orcid?: string | null;
     cti_vitae?: string | null;
     linkedin?: string | null;
+    /**
+     * Lo que dicta. Es lo unico que hoy da contenido a la ficha: ninguno de
+     * los docentes registrados tiene biografia todavia, pero todos ensenan
+     * algo, y eso es lo que alguien busca al abrir su nombre.
+     */
+    programas?: { nombre: string; slug: string; tipo: string | null }[];
 };
 
 export const obtenerDocentes = () => pedir<Docente[]>('/docentes');
+
+export const obtenerDocente = (slug: string) =>
+    pedir<Docente>(`/docentes/${encodeURIComponent(slug)}`);
 
 export type Evento = {
     titulo: string;
@@ -231,3 +240,23 @@ export type Admision = {
 
 export const obtenerAdmision = (tipo: string) =>
     pedir<Admision>(`/admision/${encodeURIComponent(tipo)}`);
+
+/**
+ * Una entrada del indice del buscador.
+ *
+ * `t` y `c` son el titulo y el cuerpo ya normalizados —minusculas y sin
+ * tildes—, calculados en el servidor para que buscar «admision» encuentre
+ * «Admision» sin rehacer el trabajo en cada navegador. Los nombres son cortos
+ * porque se repiten en cada entrada y el indice entero viaja al cliente.
+ */
+export type EntradaBuscador = {
+    titulo: string;
+    descripcion: string;
+    url: string;
+    categoria: string;
+    peso: number;
+    t: string;
+    c: string;
+};
+
+export const obtenerIndiceBuscador = () => pedir<EntradaBuscador[]>('/buscador');
