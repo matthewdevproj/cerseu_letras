@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\OfertaApiController;
+use App\Http\Controllers\Api\PaginaApiController;
 use App\Http\Controllers\Api\SitioApiController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,9 @@ Route::prefix('v1')->group(function () {
     // Identidad y navegacion: lo que cambia entre unidades.
     Route::get('/sitio', [SitioApiController::class, 'configuracion']);
     Route::get('/menu', [SitioApiController::class, 'menu']);
+
+    // Contenido editable de las paginas largas.
+    Route::get('/paginas/{slug}', [PaginaApiController::class, 'mostrar']);
 
     // Oferta formativa.
     Route::get('/tipos-oferta', [OfertaApiController::class, 'tipos']);

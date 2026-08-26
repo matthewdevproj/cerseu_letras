@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import { obtenerPagina } from '../lib/api';
+
+const pagina = await obtenerPagina('nosotros');
+
+// El agrupado lo decide el panel, no esta plantilla: cada sección trae su
+// `grupo`, y aquí solo se reparten. Si la Unidad añade un valor más desde
+// /admin/contenido, aparece sin tocar código.
+const seccionesDe = (grupo: string) => pagina.secciones.filter((s) => s.grupo === grupo);
+
+const mision = seccionesDe('mision')[0];
+const vision = seccionesDe('vision')[0];
+const valores = seccionesDe('valor');
+---
+
+<Base
+    titulo={pagina.titulo ?? 'Nosotros'}
+    descripcion="Misión, visión y valores del CERSEU de la Facultad de Letras y Ciencias Humanas de la UNMSM."
+>
+    <section class="bg-linear-to-b from-unmsm-azul to-unmsm-azul-dark text-white">
+        <div class="mx-auto max-w-4xl px-6 py-16">
+            <h1 class="font-serif text-4xl font-bold">{pagina.titulo ?? 'Nosotros'}</h1>
+            {pagina.subtitulo && <p class="mt-4 text-lg text-slate-200">{pagina.subtitulo}</p>}
+        </div>
+    </section>
+
+    <div class="mx-auto max-w-4xl px-6 py-14">
+        <div class="grid gap-10 md:grid-cols-2">
+            {
+                [mision, vision].filter(Boolean).map((seccion) => (
+                    <section>
+                        <h2 class="font-serif text-2xl font-bold text-unmsm-azul">{seccion!.titulo}</h2>
+                        <div
+                            class="mt-4 leading-relaxed text-slate-700 [&_p]:mb-3"
+                            set:html={seccion!.cuerpo}
+                        />
+                    </section>
+                ))
+            }
+        </div>
+
+        {
+            valores.length > 0 && (
+                <section class="mt-16 rounded-2xl bg-unmsm-azul px-8 py-10 text-white">
+                    <h2 class="font-serif text-2xl font-bold">Valores</h2>
+                    <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+                        {valores.map((valor) => (
+                            <li class="flex items-start gap-3">
+                                <span
+                                    aria-hidden="true"
+                                    class="mt-1.5 h-2 w-2 flex-none rounded-full bg-unmsm-dorado-light"
+                                />
+                                <span class="leading-snug">{valor.titulo}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )
+        }
+    </div>
+</Base>

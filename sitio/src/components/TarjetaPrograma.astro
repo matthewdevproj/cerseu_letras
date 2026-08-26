@@ -13,8 +13,23 @@ const ruta = `/${programa.tipo}/${programa.slug}`;
 ---
 
 <article
-    class="flex flex-col rounded-xl border border-slate-200 p-6 shadow-sm transition hover:border-unmsm-azul/40 hover:shadow-md"
+    class="flex flex-col overflow-hidden rounded-xl border border-slate-200 shadow-sm transition hover:border-unmsm-azul/40 hover:shadow-md"
 >
+    {
+        programa.imagen && (
+            <a href={ruta} class="block" tabindex="-1" aria-hidden="true">
+                <img
+                    src={programa.imagen}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    class="h-44 w-full object-cover"
+                />
+            </a>
+        )
+    }
+
+    <div class="flex flex-1 flex-col p-6">
     <div class="flex flex-wrap gap-2">
         {
             programa.medidas.map((medida) => (
@@ -39,7 +54,7 @@ const ruta = `/${programa.tipo}/${programa.slug}`;
         }
     </div>
 
-    <h2 class="mt-4 text-lg font-bold leading-snug text-unmsm-azul">
+    <h2 class="mt-4 font-serif text-lg font-bold leading-snug text-unmsm-azul">
         <a href={ruta} class="hover:underline">{programa.nombre}</a>
     </h2>
 
@@ -49,4 +64,5 @@ const ruta = `/${programa.tipo}/${programa.slug}`;
         Más información <span aria-hidden="true">→</span>
         <span class="sr-only">sobre {programa.nombre}</span>
     </a>
+    </div>
 </article>

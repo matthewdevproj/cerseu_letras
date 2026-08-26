@@ -1,13 +1,38 @@
+/* Las mismas familias y pesos que el sitio en Blade, auto-alojadas: Inter para
+   el texto, Playfair Display para los titulos y Merriweather para los
+   destacados. Sin peticiones a Google Fonts en la ruta critica. */
+@import "@fontsource/inter/latin-400.css";
+@import "@fontsource/inter/latin-500.css";
+@import "@fontsource/inter/latin-600.css";
+@import "@fontsource/inter/latin-700.css";
+@import "@fontsource/playfair-display/latin-600.css";
+@import "@fontsource/playfair-display/latin-700.css";
+@import "@fontsource/merriweather/latin-700.css";
+
 @import "tailwindcss";
 
 /* Paleta institucional, la misma del sitio en Blade: #143B63 con su escala.
    Se declara aquí y no se importa de cerseuletras/ a propósito — el sitio no
    depende del árbol de Laravel para construirse. */
 @theme {
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-serif: "Playfair Display", Merriweather, ui-serif, Georgia, serif;
+
     --color-unmsm-azul: #143B63;
     --color-unmsm-azul-light: #1C5287;
     --color-unmsm-azul-dark: #0F2B48;
     --color-unmsm-azul-soft: #88B8E7;
     --color-unmsm-dorado: #B6A350;
     --color-unmsm-dorado-light: #C9AA36;
+}
+
+/*
+ * Menu plegable: el boton solo existe en pantallas estrechas. Abrir y cerrar
+ * lo hace el atributo `open` —ver el script del layout—, no CSS: `open` es un
+ * atributo y no se puede forzar desde una hoja de estilos.
+ */
+@media (min-width: 40rem) {
+    .nav-plegable > summary {
+        display: none;
+    }
 }

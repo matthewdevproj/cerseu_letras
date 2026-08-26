@@ -12,6 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // La API la consume Astro desde dentro de la red de Docker, donde el
+        // host de la peticion es `web`. Sin esto, las URLs absolutas que
+        // genera Laravel salen apuntando a ese host interno.
+        $middleware->api(append: [
+            \App\Http\Middleware\ForzarUrlPublica::class,
+        ]);
+
         $middleware->alias([
             'isAdmin' => \App\Http\Middleware\IsAdmin::class,
         ]);

@@ -88,3 +88,21 @@ export type ConfiguracionSitio = {
 export const obtenerConfiguracion = () => pedir<ConfiguracionSitio>('/sitio');
 
 export const obtenerMenu = () => pedir<ItemMenu[]>('/menu');
+
+export type SeccionContenido = {
+    grupo: string | null;
+    numeral: string | null;
+    titulo: string;
+    /** HTML ya resuelto por Laravel: tokens de contacto e iconos incluidos. */
+    cuerpo: string;
+};
+
+export type PaginaContenido = {
+    slug: string;
+    titulo: string | null;
+    subtitulo: string | null;
+    secciones: SeccionContenido[];
+};
+
+export const obtenerPagina = (slug: string) =>
+    pedir<PaginaContenido>(`/paginas/${encodeURIComponent(slug)}`);

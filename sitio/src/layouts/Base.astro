@@ -41,7 +41,22 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
                     <span class="block text-2xl font-bold tracking-tight">{sitio.nombre}</span>
                 </a>
 
-                <nav class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium" aria-label="Principal">
+                {/* Un solo <details> envuelve la navegacion en movil: cerrado por
+                   defecto, abierto siempre desde `sm`. Mismo marcado para las dos
+                   anchuras, sin duplicar el menu ni necesitar JavaScript. */}
+                {/* Abierto por defecto y cerrado por el script de abajo solo si la
+                   pantalla es estrecha. Al reves —cerrado y forzado a abrirse con
+                   CSS en escritorio— dependeria de anular el ocultado interno que
+                   hace el navegador, que cambia entre motores y que aqui no pude
+                   verificar en un viewport movil real. Sin JavaScript el menu
+                   queda desplegado: peor de aspecto, nunca inaccesible. */}
+                <details class="nav-plegable w-full sm:w-auto" open>
+                    <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md px-2 py-1 text-sm font-medium sm:hidden [&::-webkit-details-marker]:hidden">
+                        <span aria-hidden="true" class="text-lg leading-none">☰</span>
+                        Menú
+                    </summary>
+
+                <nav class="flex flex-col gap-y-2 pt-3 text-sm font-medium sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:pt-0" aria-label="Principal">
                     {
                         menu.map((item) =>
                             item.hijos.length > 0 ? (
@@ -84,8 +99,23 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
                         )
                     }
                 </nav>
+                </details>
             </div>
         </header>
+
+        <script is:inline>
+            // Colapsa el menu en pantallas estrechas. Va inline y sin `defer`
+            // para que ocurra antes del primer pintado y no se vea abrirse y
+            // cerrarse.
+            (function () {
+                var estrecha = window.matchMedia("(max-width: 39.99rem)");
+                var menu = document.querySelector(".nav-plegable");
+                if (!menu) return;
+                function ajustar(e) { menu.open = !e.matches; }
+                ajustar(estrecha);
+                estrecha.addEventListener("change", ajustar);
+            })();
+        </script>
 
         <main>
             <slot />

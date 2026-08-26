@@ -16,7 +16,7 @@ const tipos = await obtenerTipos();
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-unmsm-dorado-light">
                 Universidad Nacional Mayor de San Marcos · Decana de América
             </p>
-            <h1 class="mt-4 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl">
+            <h1 class="mt-4 max-w-3xl font-serif text-4xl font-bold leading-tight sm:text-5xl">
                 Formación abierta a toda la comunidad
             </h1>
             <p class="mt-5 max-w-2xl text-lg text-slate-200">
@@ -33,7 +33,7 @@ const tipos = await obtenerTipos();
     </section>
 
     <section class="mx-auto max-w-6xl px-6 py-16">
-        <h2 class="text-2xl font-bold text-unmsm-azul">Nuestra oferta</h2>
+        <h2 class="font-serif text-2xl font-bold text-unmsm-azul">Nuestra oferta</h2>
         <p class="mt-2 text-slate-600">Cada tipo se mide con la unidad que le es propia.</p>
 
         <div class="mt-8 grid gap-6 sm:grid-cols-3">
@@ -43,7 +43,7 @@ const tipos = await obtenerTipos();
                         href={`/${tipo.slug}`}
                         class="block rounded-xl border border-slate-200 border-l-4 border-l-unmsm-azul p-6 shadow-sm transition hover:border-unmsm-azul/40 hover:shadow-md"
                     >
-                        <h3 class="text-lg font-bold text-unmsm-azul">{tipo.plural}</h3>
+                        <h3 class="font-serif text-lg font-bold text-unmsm-azul">{tipo.plural}</h3>
                         <p class="mt-2 text-sm text-slate-600">
                             Se miden en {tipo.medidas.join(' y ')}.
                         </p>

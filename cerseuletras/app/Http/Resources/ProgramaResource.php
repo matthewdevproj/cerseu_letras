@@ -35,7 +35,11 @@ class ProgramaResource extends JsonResource
             'medidas' => $this->resource->medidasFormateadas(),
             'inversion' => $this->resource->inversion_economica ?: null,
             'estado' => $this->resource->estado,
-            'imagen' => $this->resource->imagen ?: null,
+            // URL absoluta y ya resuelta: el accesor aplica el mismo respaldo
+            // que el sitio en Blade (una foto del campus segun el tipo) cuando
+            // el programa no tiene imagen propia. Enviar `imagen` en crudo
+            // obligaria a reimplementar ese respaldo en cada consumidor.
+            'imagen' => $this->resource->imagen_url,
 
             // Sin URL: la API entrega identidad (`tipo` + `slug`), no rutas.
             // Devolver la URL del sitio en Blade ataba al consumidor a la

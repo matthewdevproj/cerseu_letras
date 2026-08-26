@@ -120,6 +120,24 @@ class OfertaApiTest extends TestCase
             ->assertJsonMissingPath('data.0.docentes');
     }
 
+    public function test_las_urls_no_dependen_del_host_de_la_peticion(): void
+    {
+        $this->curso();
+
+        // Astro pide desde dentro de la red de Docker, donde el host es `web`.
+        // Sin forzar la raiz publica, `asset()` devolvia
+        // http://web/images/... : valida para el contenedor, muerta para
+        // cualquier visitante. Es el fallo caracteristico de separar el
+        // frontend, y no se ve hasta que la imagen no carga en el navegador.
+        $imagen = $this->withHeader('Host', 'web')
+            ->getJson('/api/v1/programas')
+            ->assertOk()
+            ->json('data.0.imagen');
+
+        $this->assertStringStartsWith(config('app.url'), $imagen);
+        $this->assertStringNotContainsString('//web/', $imagen);
+    }
+
     public function test_no_expone_borradores(): void
     {
         $this->curso(['estado' => Programa::ESTADO_BORRADOR]);
