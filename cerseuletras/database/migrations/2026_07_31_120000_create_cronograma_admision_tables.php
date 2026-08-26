@@ -44,42 +44,21 @@ return new class extends Migration
             $table->index(['cronograma_admision_id', 'orden']);
         });
 
-        // Se siembra el contenido que la portada ya mostraba, para que la
-        // migración no cambie nada de cara al visitante.
-        $id = DB::table('cronograma_admisiones')->insertGetId([
-            'eyebrow' => 'Proceso de Admisión 2026-I',
-            'titulo' => 'Cronograma de Admisión',
-            'boton_texto' => 'Iniciar Inscripción',
-            'boton_url' => 'https://cerseuletras.unmsm.edu.pe/admision',
-            'is_visible' => true,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        $pasos = [
-            ['Inscripción de postulantes', '5 ene', '02 abr', '+ Envío de expediente', null, 'inscripcion', true],
-            ['Examen de conocimiento y entrevistas', '06 de abril', null, null, 'Cursos', 'examen', false],
-            ['Examen de conocimiento y entrevistas', '07 de abril', null, null, 'Talleres', 'birrete', false],
-            ['Evaluación del expediente', 'Hasta el 06 de abril', null, 'Revisión de documentos', null, 'expediente', false],
-            ['Publicación de Resultados', '09 de abril', null, 'Lista oficial', null, 'check', false],
-        ];
-
-        foreach ($pasos as $i => [$titulo, $inicio, $fin, $detalle, $publico, $icono, $destacado]) {
-            DB::table('cronograma_admision_pasos')->insert([
-                'cronograma_admision_id' => $id,
-                'titulo' => $titulo,
-                'fecha_inicio' => $inicio,
-                'fecha_fin' => $fin,
-                'detalle' => $detalle,
-                'publico' => $publico,
-                'icono' => $icono,
-                'orden' => $i,
-                'destacado' => $destacado,
-                'is_visible' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        // Aqui se sembraba el cronograma de admision de la Unidad de Posgrado:
+        // «Examen de conocimiento y entrevistas» los dias 6 y 7 de abril,
+        // evaluacion de expediente y publicacion de resultados. El renombrado
+        // del rebrand le cambio las etiquetas de publico a «Cursos» y
+        // «Talleres», con lo que la portada afirmaba que los cursos del CERSEU
+        // tienen examen de admision y entrevista. No los tienen.
+        //
+        // Se quita el sembrado entero, no solo el texto: una migracion crea
+        // estructura, no contenido. Mientras esto estuvo aqui, el seeder no
+        // podia corregirlo —ContenidoInicialSeeder se retira si ya existe un
+        // cronograma—, de modo que una instalacion limpia seguia levantandose
+        // con el cronograma de Posgrado por mucho que se arreglara el JSON.
+        //
+        // El contenido lo pone ahora ContenidoInicialSeeder, y se edita en
+        // /admin/cronograma-admision.
     }
 
     public function down(): void

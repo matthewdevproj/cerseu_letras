@@ -46,9 +46,9 @@ class ObservacionesPosgradoTest extends TestCase
     /** Obs. N.º 2 — la sección del cronograma es editable y ocultable. */
     public function test_el_cronograma_de_admision_se_administra_y_se_puede_ocultar(): void
     {
-        // La sección es un registro único (la migración ya lo siembra), así que
-        // se adapta el existente: es justo lo que hace el panel.
-        $cronograma = CronogramaAdmision::firstOrFail();
+        // La sección es un registro único. La migración ya no lo siembra —crea
+        // estructura, no contenido—, así que la prueba monta el suyo.
+        $cronograma = CronogramaAdmision::firstOrCreate([], ['is_visible' => true]);
         $cronograma->update([
             'eyebrow' => 'Proceso de Admisión de Diplomados 2026-II',
             'titulo' => 'Cronograma de Admisión',

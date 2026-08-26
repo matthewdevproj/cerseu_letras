@@ -18,10 +18,13 @@ class AdminCronogramaAdmisionController extends Controller
         $cronograma = CronogramaAdmision::with('pasos')->first();
 
         if (!$cronograma) {
+            // Titulos neutros. Antes decian «Proceso de Admision 2026-I» y
+            // «Cronograma de Admision», heredados de Posgrado: el CERSEU no
+            // toma examen de admision, solo inscribe.
             $cronograma = CronogramaAdmision::create([
-                'eyebrow' => 'Proceso de Admisión 2026-I',
-                'titulo' => 'Cronograma de Admisión',
-                'boton_texto' => 'Iniciar Inscripción',
+                'titulo' => 'Cómo inscribirte',
+                'boton_texto' => 'Ver la oferta',
+                'boton_url' => '/cursos',
                 'is_visible' => true,
             ]);
             $cronograma->load('pasos');
@@ -35,7 +38,10 @@ class AdminCronogramaAdmisionController extends Controller
 
     public function update(Request $request)
     {
-        $cronograma = CronogramaAdmision::firstOrFail();
+        // firstOrCreate y no firstOrFail: la fila ya no la siembra la
+        // migracion, asi que guardar desde el panel debe poder crearla igual
+        // que hace index().
+        $cronograma = CronogramaAdmision::firstOrCreate([], ['is_visible' => true]);
 
         $validated = $request->validate([
             'eyebrow' => 'nullable|string|max:255',
