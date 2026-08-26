@@ -1,12 +1,18 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
     // Estático por defecto: las páginas se generan contra la API de Laravel en
     // el build. La reconstrucción al publicar desde el panel está por definir
     // —es uno de los costos de separar el sitio— y hasta entonces cada cambio
     // de contenido exige un `npm run build`.
+    // Dominio publico del sitio. Hace falta para el sitemap y para las URLs
+    // canonicas: sin el, Astro no puede componerlas. Se toma del entorno para
+    // que un despliegue de otra unidad no exija tocar este fichero.
+    site: process.env.CERSEU_SITE ?? 'https://cerseuletras.unmsm.edu.pe',
+    integrations: [sitemap()],
     output: 'static',
     server: { host: true, port: 4321 },
     vite: {

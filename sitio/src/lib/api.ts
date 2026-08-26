@@ -113,3 +113,19 @@ export type PaginaContenido = {
 
 export const obtenerPagina = (slug: string) =>
     pedir<PaginaContenido>(`/paginas/${encodeURIComponent(slug)}`);
+
+export type Docente = {
+    slug: string;
+    nombre: string;
+    nombre_completo: string;
+    grado: string | null;
+    foto: string;
+    /** Solo en la ficha. */
+    biografia?: string | null;
+    lineas_investigacion?: string | null;
+    orcid?: string | null;
+    cti_vitae?: string | null;
+    linkedin?: string | null;
+};
+
+export const obtenerDocentes = () => pedir<Docente[]>('/docentes');

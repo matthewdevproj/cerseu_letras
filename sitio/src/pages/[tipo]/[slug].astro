@@ -25,9 +25,31 @@ export async function getStaticPaths() {
 
 const { tipo, programa } = Astro.props;
 const docentes = programa.docentes ?? [];
+
+// schema.org/Course: es lo que permite que un curso aparezca en los
+// resultados enriquecidos de un buscador en vez de como un enlace mas.
+const datosCurso = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: programa.nombre,
+    description: programa.sumilla ?? undefined,
+    inLanguage: "es",
+    provider: {
+        "@type": "EducationalOrganization",
+        name: "CERSEU · Facultad de Letras UNMSM",
+    },
+    ...(programa.modalidad
+        ? { hasCourseInstance: { "@type": "CourseInstance", courseMode: programa.modalidad } }
+        : {}),
+};
 ---
 
-<Base titulo={programa.nombre} descripcion={programa.sumilla ?? undefined}>
+<Base
+    titulo={programa.nombre}
+    descripcion={programa.sumilla ?? undefined}
+    imagen={programa.imagen ?? undefined}
+    datos={datosCurso}
+>
     <article>
         <header class="bg-linear-to-b from-unmsm-azul to-unmsm-azul-dark text-white">
             <div class="mx-auto max-w-4xl px-6 py-16">

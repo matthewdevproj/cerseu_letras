@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\DocenteApiController;
 use App\Http\Controllers\Api\OfertaApiController;
 use App\Http\Controllers\Api\PaginaApiController;
 use App\Http\Controllers\Api\SitioApiController;
@@ -20,6 +21,10 @@ Route::prefix('v1')->group(function () {
 
     // Contenido editable de las paginas largas.
     Route::get('/paginas/{slug}', [PaginaApiController::class, 'mostrar']);
+
+    // Plana docente.
+    Route::get('/docentes', [DocenteApiController::class, 'index']);
+    Route::get('/docentes/{slug}', [DocenteApiController::class, 'show']);
 
     // Oferta formativa.
     Route::get('/tipos-oferta', [OfertaApiController::class, 'tipos']);
