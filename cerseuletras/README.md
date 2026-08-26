@@ -63,6 +63,34 @@ arranque que crea la base de pruebas `<base>_testing`.
 
 ## 2. Base de Datos
 
+### Dónde no debe vivir el contenido
+
+CERSEU nació forkeando el sitio de la Unidad de Posgrado, y durante meses
+publicó cosas que no le correspondían: documentos de tesis y grados, un
+proceso de admisión de maestrías, y una portada afirmando que sus cursos
+tienen examen de admisión y entrevista. La causa no fue el fork en sí, sino
+que el contenido estaba escrito **dentro del código**, y aparecía en tres
+sitios distintos:
+
+| Dónde | Ejemplo real | Por qué costó verlo |
+|---|---|---|
+| **Seeder** | `DocumentsSeeder` sembraba diez PDF de Posgrado | Visible, pero solo si lo abres |
+| **Migración** | `..._create_cronograma_admision_tables` insertaba el cronograma de admisión de maestrías | Nadie busca contenido en una migración, y corre **antes** que los seeders |
+| **Fallback de un controlador** | `AdminCronogramaAdmisionController::index()` creaba la fila con los títulos de Posgrado si no existía | Solo se dispara cuando la tabla está vacía |
+
+El de la migración es el que más daño hizo: `ContenidoInicialSeeder` se retira
+si ya existe un cronograma, así que corregir el JSON del seeder **no cambiaba
+nada en una instalación nueva**. La corrección arreglaba las bases ya creadas
+y dejaba intacto el problema para quien instalara de cero. Se detectó clonando
+el repositorio en limpio y siguiendo el README, no revisando el código.
+
+**La regla, entonces:** el contenido institucional —programas, cronogramas,
+docentes, requisitos, textos— no se escribe en un seeder, ni en una migración,
+ni como valor por defecto de un controlador. Las migraciones crean estructura;
+los seeders, a lo sumo, el andamiaje mínimo para que el sitio arranque sin
+pantallas rotas; el contenido real entra por el panel. Si al instalar de cero
+aparece un texto que nadie escribió desde `/admin`, está mal por definición.
+
 ### Esquema Relacional
 El sistema utiliza las siguientes tablas principales:
 

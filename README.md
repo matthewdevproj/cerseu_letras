@@ -176,6 +176,11 @@ docker compose run --rm app npm run build
 secciones salen en blanco porque su contenido es administrable y no vive en las
 vistas.
 
+Si al instalar de cero aparece contenido institucional que nadie escribió
+desde `/admin`, es un fallo: el contenido no debe vivir en el código. Está
+explicado, con los tres sitios donde se coló contenido de Posgrado, en
+[«Dónde no debe vivir el contenido»](cerseuletras/README.md#dónde-no-debe-vivir-el-contenido).
+
 Aun con `--seed` hay partes que salen vacías **a propósito**: los documentos
 descargables, el cronograma de `/cronograma`, el directorio y los
 testimonios. Lo que había en esas tablas era de la Unidad de Posgrado y no
