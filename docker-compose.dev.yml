@@ -78,6 +78,30 @@ services:
       - laravel-network
 
 
+  # Servicio de reconstruccion. Escucha a Laravel y ejecuta `astro build`.
+  #
+  # Comparte el volumen del sitio con `astro`, asi que lo que construye queda
+  # en el mismo dist/. Aparte del servidor de desarrollo a proposito: un build
+  # no debe poder tumbar la vista previa.
+  build:
+    image: node:22-alpine
+    container_name: cerseuletras_build
+    working_dir: /app
+    environment:
+      - CERSEU_API=http://web/api/v1
+      - CERSEU_BUILD_TOKEN=${CERSEU_BUILD_TOKEN:-token-de-desarrollo}
+      - PUERTO_BUILD=4322
+    volumes:
+      - ./sitio:/app
+      - node-modules-build:/app/node_modules
+    ports:
+      - "4322:4322"
+    depends_on:
+      - web
+    networks:
+      - laravel-network
+    command: sh -c "npm install && node herramientas/servidor-de-build.mjs"
+
   # Pruebas de navegador. Imagen oficial de Playwright: el contenedor de
   # desarrollo es Alpine y Playwright no soporta Alpine —sus navegadores
   # necesitan glibc—, y engordar la imagen de desarrollo para esto seria
@@ -109,3 +133,4 @@ volumes:
   node-modules:
   astro-node-modules:
   e2e-node-modules:
+  node-modules-build:
