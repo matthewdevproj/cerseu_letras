@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import { obtenerPagina, obtenerTipos, obtenerConfiguracion } from '../lib/api';
+
+const pagina = await obtenerPagina('admision');
+const tipos = await obtenerTipos();
+const { contacto } = await obtenerConfiguracion();
+
+// La página no describe un proceso: reparte hacia el de cada tipo, que es
+// donde vive el de verdad. El texto de entrada sí es editable.
+const intro = pagina.secciones[0];
+---
+
+<Base
+    titulo="Admisión"
+    descripcion="Cómo inscribirse en los talleres, cursos y especializaciones del CERSEU."
+>
+    <section class="bg-linear-to-b from-unmsm-azul to-unmsm-azul-dark text-white">
+        <div class="mx-auto max-w-6xl px-6 py-16">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-unmsm-dorado-light">
+                Cómo inscribirse
+            </p>
+            <h1 class="mt-3 font-serif text-4xl font-bold">Admisión</h1>
+        </div>
+    </section>
+
+    <div class="mx-auto grid max-w-6xl gap-10 px-6 py-14 lg:grid-cols-3">
+        <div class="lg:col-span-2">
+            <h2 class="font-serif text-2xl font-bold text-unmsm-azul">
+                {intro?.titulo ?? 'Elige el tipo de formación'}
+            </h2>
+
+            {
+                intro?.cuerpo ? (
+                    <div class="mt-3 leading-relaxed text-slate-600" set:html={intro.cuerpo} />
+                ) : (
+                    <p class="mt-3 leading-relaxed text-slate-600">
+                        Cada tipo de oferta tiene su propio proceso. Entra en el que te
+                        interese para ver las convocatorias abiertas.
+                    </p>
+                )
+            }
+
+            <div class="mt-8 grid gap-5 sm:grid-cols-2">
+                {
+                    tipos.map((tipo) => (
+                        <a
+                            href={`/${tipo.slug}`}
+                            class="group block rounded-xl border border-slate-200 border-l-4 border-l-unmsm-azul/60 p-6 shadow-sm transition hover:border-l-unmsm-azul hover:shadow-md"
+                        >
+                            <h3 class="font-serif text-lg font-bold text-unmsm-azul">
+                                {tipo.plural}
+                            </h3>
+                            <p class="mt-2 text-sm text-slate-600">
+                                Se miden en {tipo.medidas.join(' y ')}.
+                            </p>
+                            <span class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-unmsm-azul transition-all group-hover:gap-3">
+                                Ver el proceso <span aria-hidden="true">→</span>
+                            </span>
+                        </a>
+                    ))
+                }
+            </div>
+        </div>
+
+        <aside class="lg:col-span-1">
+            <div class="rounded-2xl bg-unmsm-azul p-6 text-white shadow-xl">
+                <h2 class="font-serif text-xl font-bold">¿Necesitas ayuda?</h2>
+                <p class="mt-3 text-sm text-white/80">
+                    Escríbenos y resolvemos tus dudas sobre cualquiera de los procesos.
+                </p>
+                <dl class="mt-5 space-y-4 text-sm">
+                    {
+                        contacto.email_admision && (
+                            <div>
+                                <dt class="text-xs text-white/60">Email</dt>
+                                <dd class="font-medium break-all">
+                                    <a href={`mailto:${contacto.email_admision}`} class="hover:underline">
+                                        {contacto.email_admision}
+                                    </a>
+                                </dd>
+                            </div>
+                        )
+                    }
+                    {
+                        contacto.telefono && (
+                            <div>
+                                <dt class="text-xs text-white/60">WhatsApp</dt>
+                                <dd class="font-medium">
+                                    <a href={contacto.whatsapp ?? '#'} class="hover:underline">
+                                        {contacto.telefono}
+                                    </a>
+                                </dd>
+                            </div>
+                        )
+                    }
+                </dl>
+            </div>
+        </aside>
+    </div>
+</Base>

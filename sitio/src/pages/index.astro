@@ -1,34 +1,70 @@
 ---
 import Base from '../layouts/Base.astro';
-import { obtenerTipos } from '../lib/api';
+import { obtenerTipos, obtenerConfiguracion } from '../lib/api';
 
 // Se resuelve en el build: el HTML sale ya con estos datos dentro y el
 // visitante no espera a ninguna petición.
 const tipos = await obtenerTipos();
+
+// El hero se edita en Configuración, no aquí. Tener el titular en la
+// plantilla obligaría a desplegar para cambiar una palabra.
+const { portada } = await obtenerConfiguracion();
+const fondo = portada.imagenes[0];
 ---
 
 <Base
     titulo="Inicio"
     descripcion="Formación abierta a toda la comunidad: talleres, cursos y especializaciones del CERSEU de la Facultad de Letras."
 >
-    <section class="bg-linear-to-b from-unmsm-azul to-unmsm-azul-dark text-white">
-        <div class="mx-auto max-w-6xl px-6 py-20">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-unmsm-dorado-light">
-                Universidad Nacional Mayor de San Marcos · Decana de América
-            </p>
-            <h1 class="mt-4 max-w-3xl font-serif text-4xl font-bold leading-tight sm:text-5xl">
-                Formación abierta a toda la comunidad
-            </h1>
-            <p class="mt-5 max-w-2xl text-lg text-slate-200">
-                Cursos de capacitación en humanidades para fortalecer tu formación cultural,
-                académica y profesional.
-            </p>
-            <a
-                href="/cursos"
-                class="mt-8 inline-block rounded-lg bg-unmsm-dorado px-6 py-3 font-semibold text-unmsm-azul-dark transition hover:bg-unmsm-dorado-light"
-            >
-                Ver cursos
-            </a>
+    <section class="relative isolate overflow-hidden text-white">
+        {
+            fondo && (
+                <img
+                    src={fondo}
+                    alt=""
+                    fetchpriority="high"
+                    decoding="async"
+                    class="absolute inset-0 -z-10 h-full w-full object-cover"
+                />
+            )
+        }
+        {/* Velo sobre la foto: sin el, el texto blanco pierde contraste sobre las
+            zonas claras del campus y deja de cumplir AA. */}
+        <div class="absolute inset-0 -z-10 bg-linear-to-r from-unmsm-azul-dark/95 via-unmsm-azul/85 to-unmsm-azul/60"></div>
+
+        <div class="mx-auto max-w-6xl px-6 py-24 sm:py-32">
+            {portada.kicker && (
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-unmsm-dorado-light">
+                    {portada.kicker}
+                </p>
+            )}
+
+            {portada.titulo && (
+                <h1 class="mt-4 max-w-3xl font-serif text-4xl font-bold leading-tight sm:text-5xl">
+                    {portada.titulo}
+                </h1>
+            )}
+
+            {portada.texto && (
+                <p class="mt-5 max-w-2xl text-lg text-slate-100">{portada.texto}</p>
+            )}
+
+            {portada.acciones.length > 0 && (
+                <div class="mt-8 flex flex-wrap gap-4">
+                    {portada.acciones.map((accion, i) => (
+                        <a
+                            href={accion.url}
+                            class={
+                                i === 0
+                                    ? "rounded-lg bg-unmsm-dorado px-6 py-3 font-semibold text-unmsm-azul-dark transition hover:bg-unmsm-dorado-light"
+                                    : "rounded-lg border border-white/40 px-6 py-3 font-semibold transition hover:bg-white/10"
+                            }
+                        >
+                            {accion.texto}
+                        </a>
+                    ))}
+                </div>
+            )}
         </div>
     </section>
 

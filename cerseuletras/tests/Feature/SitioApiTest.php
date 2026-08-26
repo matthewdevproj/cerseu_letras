@@ -65,6 +65,25 @@ class SitioApiTest extends TestCase
         $this->assertSame(['facebook' => 'https://facebook.test/cerseu'], $redes);
     }
 
+    public function test_el_hero_de_la_portada_sale_de_configuracion(): void
+    {
+        SiteSetting::get()->update([
+            'home_hero_titulo' => 'Titular editado',
+            'home_hero_cta1_texto' => 'Ver cursos',
+            'home_hero_cta1_url' => '/cursos',
+            'home_hero_cta2_texto' => null,
+        ]);
+        SiteSetting::clearCache();
+
+        $portada = $this->getJson('/api/v1/sitio')->assertOk()->json('data.portada');
+
+        $this->assertSame('Titular editado', $portada['titulo']);
+        // Una accion sin texto no se publica como boton vacio.
+        $this->assertCount(1, $portada['acciones']);
+        $this->assertSame('/cursos', $portada['acciones'][0]['url']);
+        $this->assertNotEmpty($portada['imagenes']);
+    }
+
     public function test_el_menu_llega_anidado_y_con_las_urls_resueltas(): void
     {
         $padre = MenuItem::create([

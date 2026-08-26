@@ -82,6 +82,13 @@ export type ConfiguracionSitio = {
         direccion: string | null;
         horario: string | null;
     };
+    portada: {
+        kicker: string | null;
+        titulo: string | null;
+        texto: string | null;
+        acciones: { texto: string; url: string }[];
+        imagenes: string[];
+    };
     redes: Record<string, string>;
 };
 

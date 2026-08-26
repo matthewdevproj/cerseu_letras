@@ -49,6 +49,32 @@ class SitioApiController extends Controller
                     'direccion' => $ajustes?->direccion,
                     'horario' => $ajustes?->horario_atencion,
                 ],
+                // Hero de la portada. Los textos se editan en Configuracion;
+                // tenerlos en la plantilla del sitio obligaria a desplegar
+                // para cambiar un titular.
+                'portada' => [
+                    'kicker' => $ajustes?->home_hero_kicker,
+                    'titulo' => $ajustes?->home_hero_titulo,
+                    'texto' => $ajustes?->home_hero_texto,
+                    'acciones' => array_values(array_filter([
+                        $ajustes?->home_hero_cta1_texto ? [
+                            'texto' => $ajustes->home_hero_cta1_texto,
+                            'url' => $ajustes->home_hero_cta1_url ?: '/',
+                        ] : null,
+                        $ajustes?->home_hero_cta2_texto ? [
+                            'texto' => $ajustes->home_hero_cta2_texto,
+                            'url' => $ajustes->home_hero_cta2_url ?: '/',
+                        ] : null,
+                    ])),
+                    // Las mismas fotos del campus que rota el carrusel en
+                    // Blade. Van absolutas y en webp, resueltas contra la URL
+                    // publica por el middleware ForzarUrlPublica.
+                    'imagenes' => array_map(
+                        fn (string $f) => asset("images/{$f}"),
+                        ['campus-aerea.webp', 'campus-aerea-2.webp', 'campus-fachada.webp']
+                    ),
+                ],
+
                 'redes' => array_filter([
                     'facebook' => $ajustes?->facebook,
                     'instagram' => $ajustes?->instagram,

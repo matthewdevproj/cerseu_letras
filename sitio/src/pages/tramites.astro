@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+import { obtenerPagina, obtenerConfiguracion } from '../lib/api';
+
+const pagina = await obtenerPagina('tramites');
+const { contacto } = await obtenerConfiguracion();
+
+// Tantas secciones como cargue la Unidad desde el panel, sin número fijo: hoy
+// son tres (constancia, certificado, duplicado) y mañana pueden ser cinco.
+const secciones = pagina.secciones;
+const conCuerpo = secciones.filter((s) => s.cuerpo.trim() !== '');
+---
+
+<Base
+    titulo={pagina.titulo ?? 'Trámites'}
+    descripcion="Constancias, certificados y duplicados del CERSEU de la Facultad de Letras UNMSM."
+>
+    <section class="bg-linear-to-b from-unmsm-azul to-unmsm-azul-dark text-white">
+        <div class="mx-auto max-w-4xl px-6 py-16">
+            <h1 class="font-serif text-4xl font-bold">{pagina.titulo ?? 'Trámites'}</h1>
+            {pagina.subtitulo && <p class="mt-4 text-lg text-slate-200">{pagina.subtitulo}</p>}
+        </div>
+    </section>
+
+    <div class="mx-auto max-w-4xl px-6 py-14">
+        {
+            secciones.length === 0 ? (
+                <div class="rounded-xl border border-dashed border-slate-300 px-6 py-16 text-center">
+                    <p class="text-lg font-semibold text-slate-700">Próximamente</p>
+                    <p class="mt-2 text-slate-500">
+                        La información de trámites se publicará en breve.
+                    </p>
+                </div>
+            ) : (
+                <>
+                    {/* Índice: con tres o más trámites, bajar buscando el propio
+                        es peor que elegirlo de una lista. */}
+                    {secciones.length > 1 && (
+                        <nav aria-label="Trámites disponibles" class="mb-10">
+                            <ul class="flex flex-wrap gap-3">
+                                {secciones.map((s, i) => (
+                                    <li>
+                                        <a
+                                            href={`#tramite-${i}`}
+                                            class="inline-block rounded-full border border-unmsm-azul/30 px-4 py-1.5 text-sm font-medium text-unmsm-azul transition hover:bg-unmsm-azul hover:text-white"
+                                        >
+                                            {s.titulo}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </nav>
+                    )}
+
+                    <div class="space-y-8">
+                        {secciones.map((seccion, i) => (
+                            <section
+                                id={`tramite-${i}`}
+                                class="scroll-mt-24 rounded-xl border border-slate-200 p-6 shadow-sm"
+                            >
+                                <h2 class="font-serif text-xl font-bold text-unmsm-azul">
+                                    {seccion.numeral && (
+                                        <span class="mr-2 text-unmsm-dorado">{seccion.numeral}</span>
+                                    )}
+                                    {seccion.titulo}
+                                </h2>
+
+                                {seccion.cuerpo.trim() !== '' ? (
+                                    <div
+                                        class="mt-4 leading-relaxed text-slate-700 [&_a]:text-unmsm-azul [&_a]:underline [&_li]:mb-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5"
+                                        set:html={seccion.cuerpo}
+                                    />
+                                ) : (
+                                    /* Sin contenido cargado todavía. Se dice, en vez de
+                                       dejar un titular suelto que parece un fallo. */
+                                    <p class="mt-4 text-sm text-slate-500">
+                                        Los requisitos de este trámite se publicarán próximamente.
+                                        {contacto.email_tramites && (
+                                            <>
+                                                {' '}Mientras tanto, escribe a{' '}
+                                                <a
+                                                    href={`mailto:${contacto.email_tramites}`}
+                                                    class="text-unmsm-azul underline"
+                                                >
+                                                    {contacto.email_tramites}
+                                                </a>
+                                                .
+                                            </>
+                                        )}
+                                    </p>
+                                )}
+                            </section>
+                        ))}
+                    </div>
+
+                    {conCuerpo.length === 0 && (
+                        <p class="mt-10 text-center text-sm text-slate-400">
+                            {secciones.length} trámites anunciados, ninguno con requisitos
+                            publicados aún.
+                        </p>
+                    )}
+                </>
+            )
+        }
+    </div>
+</Base>
