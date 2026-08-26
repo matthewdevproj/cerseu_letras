@@ -1,8 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
-import { obtenerDocentes } from '../lib/api';
+import HeroPagina from '../components/HeroPagina.astro';
+import { obtenerDocentes, obtenerConfiguracion } from '../lib/api';
 
 const docentes = await obtenerDocentes();
+const sitio = await obtenerConfiguracion();
 
 // Ninguno tiene foto propia todavía, así que todos comparten el marcador por
 // defecto. Veinte veces la misma silueta se lee como un fallo; unas iniciales
@@ -23,14 +25,13 @@ const tieneFotoPropia = (url: string) => !url.includes('profesor-default');
     titulo="Plana docente"
     descripcion="Docentes del CERSEU de la Facultad de Letras y Ciencias Humanas de la UNMSM."
 >
-    <section class="bg-linear-to-b from-unmsm-azul to-unmsm-azul-dark text-white">
-        <div class="mx-auto max-w-6xl px-6 py-16">
-            <h1 class="font-serif text-4xl font-bold">Plana docente</h1>
-            <p class="mt-4 max-w-2xl text-lg text-slate-200">
-                {docentes.length} docentes a cargo de la oferta formativa del CERSEU.
-            </p>
-        </div>
-    </section>
+    <HeroPagina
+        titulo="Plana docente"
+        kicker="Quiénes enseñan"
+        bajada={`${docentes.length} docentes a cargo de la oferta formativa del CERSEU.`}
+        imagen={sitio.portada.imagenes[2]}
+        migas={[{ texto: "Inicio", url: "/" }, { texto: "Plana docente" }]}
+    />
 
     <section class="mx-auto max-w-6xl px-6 py-14 pb-24">
         {

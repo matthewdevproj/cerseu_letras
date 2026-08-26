@@ -7,6 +7,29 @@
  */
 const BASE = import.meta.env.CERSEU_API ?? 'http://web/api/v1';
 
+/**
+ * Traduce una URL publica a una alcanzable desde el proceso de build.
+ *
+ * La API devuelve las URLs con el dominio publico —correcto: son las que
+ * acabaran en el HTML y las que abre el navegador—. Pero <Image> descarga la
+ * imagen DURANTE el build, y ahi `localhost` es el contenedor de Astro, no
+ * Nginx: la descarga falla y el build entero se cae.
+ *
+ * Es el mismo problema que resolvio ForzarUrlPublica, visto del otro lado: al
+ * separar el frontend hay dos redes distintas, y una URL solo puede ser
+ * correcta en una de las dos. Aqui se traduce solo para descargar; Astro emite
+ * despues su propia ruta, asi que el origen interno no llega al HTML.
+ */
+const ORIGEN_PUBLICO = import.meta.env.CERSEU_PUBLICO ?? 'http://localhost';
+const ORIGEN_INTERNO = new URL(BASE).origin;
+
+export function paraDescargar(url: string): string {
+    if (ORIGEN_PUBLICO === ORIGEN_INTERNO) return url;
+    return url.startsWith(ORIGEN_PUBLICO)
+        ? ORIGEN_INTERNO + url.slice(ORIGEN_PUBLICO.length)
+        : url;
+}
+
 export type TipoOferta = {
     slug: string;
     singular: string;

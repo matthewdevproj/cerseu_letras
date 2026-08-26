@@ -11,6 +11,12 @@
 
 @import "tailwindcss";
 
+/* Tipografia para el HTML que llega del panel. Ese contenido se pinta con
+   set:html y no lleva clases: sin `prose`, los parrafos, listas y enlaces
+   salen sin estilo y habia que parchearlo con selectores sueltos por cada
+   pagina ([&_p]:mb-3 y compania), que se desincronizan entre si. */
+@plugin "@tailwindcss/typography";
+
 /* Paleta institucional, la misma del sitio en Blade: #143B63 con su escala.
    Se declara aquí y no se importa de cerseuletras/ a propósito — el sitio no
    depende del árbol de Laravel para construirse. */
@@ -81,4 +87,38 @@
 .saltar-al-contenido:focus {
     left: 1rem;
     top: 1rem;
+}
+
+/*
+ * Desvelado al entrar en pantalla, con animaciones ligadas al scroll del
+ * propio navegador.
+ *
+ * Sin IntersectionObserver y sin libreria: `animation-timeline: view()` lo
+ * resuelve el compositor, asi que no hay JavaScript en el hilo principal ni
+ * riesgo de repetir el fallo del umbral mal puesto que dejo invisibles los 39
+ * cursos en el sitio de Blade.
+ *
+ * Va dentro de @supports: donde el navegador no lo soporte, el contenido se
+ * ve sin mas. Nunca al reves —nada de ocultarlo primero y confiar en que algo
+ * lo revele—, que es como se llega a una pagina en blanco.
+ */
+@media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+        .aparece {
+            animation: aparecer linear both;
+            animation-timeline: view();
+            animation-range: entry 10% cover 28%;
+        }
+    }
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }

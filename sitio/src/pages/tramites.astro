@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import HeroPagina from '../components/HeroPagina.astro';
 import { obtenerPagina, obtenerConfiguracion } from '../lib/api';
 
 const pagina = await obtenerPagina('tramites');
@@ -15,12 +16,12 @@ const conCuerpo = secciones.filter((s) => s.cuerpo.trim() !== '');
     titulo={pagina.titulo ?? 'Trámites'}
     descripcion="Constancias, certificados y duplicados del CERSEU de la Facultad de Letras UNMSM."
 >
-    <section class="bg-linear-to-b from-unmsm-azul to-unmsm-azul-dark text-white">
-        <div class="mx-auto max-w-4xl px-6 py-16">
-            <h1 class="font-serif text-4xl font-bold">{pagina.titulo ?? 'Trámites'}</h1>
-            {pagina.subtitulo && <p class="mt-4 text-lg text-slate-200">{pagina.subtitulo}</p>}
-        </div>
-    </section>
+    <HeroPagina
+        titulo={pagina.titulo ?? "Trámites"}
+        bajada={pagina.subtitulo}
+        kicker="Constancias y certificados"
+        migas={[{ texto: "Inicio", url: "/" }, { texto: pagina.titulo ?? "Trámites" }]}
+    />
 
     <div class="mx-auto max-w-4xl px-6 py-14 pb-24">
         {
@@ -67,7 +68,7 @@ const conCuerpo = secciones.filter((s) => s.cuerpo.trim() !== '');
 
                                 {seccion.cuerpo.trim() !== '' ? (
                                     <div
-                                        class="mt-4 leading-relaxed text-slate-700 [&_a]:text-unmsm-azul [&_a]:underline [&_li]:mb-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5"
+                                        class="prose prose-slate mt-4 max-w-none prose-a:text-unmsm-azul"
                                         set:html={seccion.cuerpo}
                                     />
                                 ) : (

@@ -1,5 +1,6 @@
 ---
-import type { Programa } from '../lib/api';
+import { Image } from 'astro:assets';
+import { paraDescargar, type Programa } from '../lib/api';
 
 interface Props {
     programa: Programa;
@@ -13,14 +14,16 @@ const ruta = `/${programa.tipo}/${programa.slug}`;
 ---
 
 <article
-    class="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-unmsm-azul/30 hover:shadow-xl"
+    class="aparece group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-unmsm-azul/30 hover:shadow-xl"
 >
     <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
         {
             programa.imagen && (
-                <img
-                    src={programa.imagen}
+                <Image
+                    src={paraDescargar(programa.imagen)}
                     alt=""
+                    width={640}
+                    height={400}
                     loading="lazy"
                     decoding="async"
                     class="h-full w-full object-cover transition duration-500 group-hover:scale-105"

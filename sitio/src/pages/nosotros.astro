@@ -1,38 +1,55 @@
 ---
 import Base from '../layouts/Base.astro';
-import { obtenerPagina } from '../lib/api';
+import HeroPagina from '../components/HeroPagina.astro';
+import TituloSeccion from '../components/TituloSeccion.astro';
+import { obtenerPagina, obtenerConfiguracion } from '../lib/api';
 
 const pagina = await obtenerPagina('nosotros');
+const sitio = await obtenerConfiguracion();
 
 // El agrupado lo decide el panel, no esta plantilla: cada sección trae su
 // `grupo`, y aquí solo se reparten. Si la Unidad añade un valor más desde
 // /admin/contenido, aparece sin tocar código.
-const seccionesDe = (grupo: string) => pagina.secciones.filter((s) => s.grupo === grupo);
+const de = (grupo: string) => pagina.secciones.filter((s) => s.grupo === grupo);
 
-const mision = seccionesDe('mision')[0];
-const vision = seccionesDe('vision')[0];
-const valores = seccionesDe('valor');
+const mision = de('mision')[0];
+const vision = de('vision')[0];
+const valores = de('valor');
 ---
 
 <Base
     titulo={pagina.titulo ?? 'Nosotros'}
     descripcion="Misión, visión y valores del CERSEU de la Facultad de Letras y Ciencias Humanas de la UNMSM."
+    imagen={sitio.portada.imagenes[1]}
 >
-    <section class="bg-linear-to-b from-unmsm-azul to-unmsm-azul-dark text-white">
-        <div class="mx-auto max-w-4xl px-6 py-16">
-            <h1 class="font-serif text-4xl font-bold">{pagina.titulo ?? 'Nosotros'}</h1>
-            {pagina.subtitulo && <p class="mt-4 text-lg text-slate-200">{pagina.subtitulo}</p>}
-        </div>
-    </section>
+    <HeroPagina
+        titulo={pagina.titulo ?? 'Nosotros'}
+        bajada={pagina.subtitulo}
+        kicker="Quiénes somos"
+        imagen={sitio.portada.imagenes[1]}
+        migas={[{ texto: 'Inicio', url: '/' }, { texto: 'Nosotros' }]}
+    />
 
-    <div class="mx-auto max-w-4xl px-6 py-14 pb-24">
-        <div class="grid gap-10 md:grid-cols-2">
+    <div class="mx-auto max-w-6xl px-6 py-16 pb-24">
+        <div class="grid gap-8 lg:grid-cols-2">
             {
-                [mision, vision].filter(Boolean).map((seccion) => (
-                    <section>
-                        <h2 class="font-serif text-2xl font-bold text-unmsm-azul">{seccion!.titulo}</h2>
+                [mision, vision].filter(Boolean).map((seccion, i) => (
+                    <section
+                        aria-labelledby={`bloque-${i}`}
+                        class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-sm"
+                    >
+                        <span
+                            aria-hidden="true"
+                            class="absolute inset-y-0 left-0 w-1 bg-unmsm-dorado"
+                        />
+                        <h2
+                            id={`bloque-${i}`}
+                            class="font-serif text-2xl font-bold text-unmsm-azul"
+                        >
+                            {seccion!.titulo}
+                        </h2>
                         <div
-                            class="mt-4 leading-relaxed text-slate-700 [&_p]:mb-3"
+                            class="prose prose-slate mt-4 max-w-none prose-p:leading-relaxed"
                             set:html={seccion!.cuerpo}
                         />
                     </section>
@@ -42,16 +59,19 @@ const valores = seccionesDe('valor');
 
         {
             valores.length > 0 && (
-                <section class="mt-16 rounded-2xl bg-unmsm-azul px-8 py-10 text-white">
-                    <h2 class="font-serif text-2xl font-bold">Valores</h2>
-                    <ul class="mt-6 grid gap-4 sm:grid-cols-2">
-                        {valores.map((valor) => (
-                            <li class="flex items-start gap-3">
+                <section aria-labelledby="valores" class="mt-16">
+                    <TituloSeccion titulo="Valores" kicker="Lo que nos orienta" centrado />
+
+                    <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        {valores.map((valor, i) => (
+                            <li class="group flex items-start gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-unmsm-azul/30 hover:shadow-md">
                                 <span
                                     aria-hidden="true"
-                                    class="mt-1.5 h-2 w-2 flex-none rounded-full bg-unmsm-dorado-light"
-                                />
-                                <span class="leading-snug">{valor.titulo}</span>
+                                    class="flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-unmsm-azul/10 font-serif text-sm font-bold text-unmsm-azul transition group-hover:bg-unmsm-azul group-hover:text-white"
+                                >
+                                    {String(i + 1).padStart(2, '0')}
+                                </span>
+                                <p class="leading-snug font-medium text-slate-700">{valor.titulo}</p>
                             </li>
                         ))}
                     </ul>

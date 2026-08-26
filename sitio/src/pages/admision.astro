@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import HeroPagina from '../components/HeroPagina.astro';
 import { obtenerPagina, obtenerTipos, obtenerConfiguracion } from '../lib/api';
 
 const pagina = await obtenerPagina('admision');
@@ -15,14 +16,12 @@ const intro = pagina.secciones[0];
     titulo="Admisión"
     descripcion="Cómo inscribirse en los talleres, cursos y especializaciones del CERSEU."
 >
-    <section class="bg-linear-to-b from-unmsm-azul to-unmsm-azul-dark text-white">
-        <div class="mx-auto max-w-6xl px-6 py-16">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-unmsm-dorado-light">
-                Cómo inscribirse
-            </p>
-            <h1 class="mt-3 font-serif text-4xl font-bold">Admisión</h1>
-        </div>
-    </section>
+    <HeroPagina
+        titulo="Admisión"
+        kicker="Cómo inscribirse"
+        bajada="Cada tipo de oferta tiene su propio proceso, con requisitos y cronograma distintos."
+        migas={[{ texto: "Inicio", url: "/" }, { texto: "Admisión" }]}
+    />
 
     <div class="mx-auto grid max-w-6xl gap-10 px-6 py-14 pb-24 lg:grid-cols-3">
         <div class="lg:col-span-2">
@@ -32,7 +31,7 @@ const intro = pagina.secciones[0];
 
             {
                 intro?.cuerpo ? (
-                    <div class="mt-3 leading-relaxed text-slate-600" set:html={intro.cuerpo} />
+                    <div class="prose prose-slate mt-3 max-w-none" set:html={intro.cuerpo} />
                 ) : (
                     <p class="mt-3 leading-relaxed text-slate-600">
                         Cada tipo de oferta tiene su propio proceso. Entra en el que te

@@ -13,6 +13,13 @@ export default defineConfig({
     // que un despliegue de otra unidad no exija tocar este fichero.
     site: process.env.CERSEU_SITE ?? 'https://cerseuletras.unmsm.edu.pe',
     integrations: [sitemap()],
+
+    // Optimizacion de imagenes sobre las que sirve Laravel. Astro las descarga
+    // en el build, genera varios anchos y las convierte a AVIF/WebP. Hace
+    // falta autorizar el origen: por seguridad no procesa cualquier URL remota.
+    image: {
+        domains: ['localhost', 'web', 'cerseuletras.unmsm.edu.pe'],
+    },
     output: 'static',
     server: { host: true, port: 4321 },
     vite: {

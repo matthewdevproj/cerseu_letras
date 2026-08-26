@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { obtenerConfiguracion, obtenerMenu } from '../lib/api';
 import BotonWhatsapp from '../components/BotonWhatsapp.astro';
 import RedesSociales from '../components/RedesSociales.astro';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
     titulo: string;
@@ -54,6 +55,12 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
         <title>{titulo} · {sitio.nombre}</title>
         <meta name="description" content={resumen} />
         <link rel="canonical" href={canonica} />
+
+        {/* Transiciones entre páginas con la API nativa del navegador: se
+            sustituye el documento sin recargar, así el encabezado no parpadea
+            al navegar. Donde el navegador no la soporta, navega como siempre;
+            no hay nada que degradar. Respeta prefers-reduced-motion. */}
+        <ClientRouter />
 
         {/* Open Graph: lo que se ve al compartir el enlace. Sin esto, un
             enlace pegado en WhatsApp sale como texto pelado. */}
