@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProgramaResource;
 use App\Models\Programa;
+use App\Models\AdmisionSetting;
 use App\Models\SiteSetting;
 use App\Models\TipoOferta;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 /**
  * API de contenido de la oferta, de solo lectura.
@@ -91,6 +93,79 @@ class OfertaApiController extends Controller
 
         return response()->json([
             'data' => ProgramaResource::collection($consulta->get())->resolve(),
+        ]);
+    }
+
+    /**
+     * Contenido de la pagina de admision de un tipo.
+     *
+     * Sale entero de `admision_settings`, que edita la Unidad. Se entrega tal
+     * cual: si hoy dice «grado de bachiller» es porque eso es lo que hay
+     * guardado —un pendiente conocido, heredado de Posgrado— y corregirlo
+     * aqui seria maquillar el sintoma en vez del dato.
+     */
+    public function admision(string $slug): JsonResponse
+    {
+        $tipo = TipoOferta::desdeSlug($slug);
+
+        if (! $tipo) {
+            return response()->json(['message' => "Tipo de oferta desconocido: {$slug}."], 404);
+        }
+
+        $ajustes = AdmisionSetting::query()->where('tipo', $tipo->value)->first();
+
+        // El modelo ya castea estos campos a array; desde una consulta cruda
+        // llegarian como JSON. Se admiten los dos para no depender de por
+        // donde vino el dato.
+        $comoLista = function (mixed $valor): array {
+            if (is_array($valor)) {
+                return $valor;
+            }
+
+            $decodificado = json_decode((string) $valor, true);
+
+            return is_array($decodificado) ? $decodificado : [];
+        };
+
+        return response()->json([
+            'data' => [
+                'tipo' => $tipo->slug(),
+                'titulo' => $ajustes?->hero_titulo ?: ('Admisión · ' . $tipo->plural()),
+                'subtitulo' => $ajustes?->hero_subtitulo ?: null,
+                'pasos' => $comoLista($ajustes?->pasos),
+                'requisitos' => [
+                    'lista' => $comoLista($ajustes?->requisitos_lista),
+                    'observaciones' => $ajustes?->requisitos_observaciones ?: null,
+                    'notas' => $ajustes?->requisitos_notas ?: null,
+                    'correo' => $ajustes?->requisitos_email ?: null,
+                ],
+                'pago' => [
+                    'costo' => $ajustes?->pago_costo ?: null,
+                    'descripcion' => $ajustes?->pago_descripcion ?: null,
+                    'instrucciones' => $comoLista($ajustes?->pago_instrucciones),
+                    'observaciones' => $ajustes?->pago_observaciones ?: null,
+                    'enlace_sanmarket' => $ajustes?->pago_link_sanmarket ?: null,
+                ],
+                'resultados' => [
+                    'texto' => $ajustes?->resultados_texto ?: null,
+                    'enlace' => $ajustes?->resultados_enlace ?: null,
+                ],
+                // Convocatorias con sus fechas, que es lo que trae a alguien
+                // a esta pagina.
+                'convocatorias' => $ajustes
+                    ? DB::table('admision_cronograma_items')
+                        ->where('admision_setting_id', $ajustes->id)
+                        ->orderBy('id')
+                        ->get()
+                        ->map(fn ($c) => [
+                            'programa' => $c->programa,
+                            'convocatoria' => $c->convocatoria,
+                            'inscripcion' => $c->fecha_inscripcion ?? null,
+                            'limite' => $c->fecha_limite ?? null,
+                            'estado' => $c->estado ?? null,
+                        ])->all()
+                    : [],
+            ],
         ]);
     }
 

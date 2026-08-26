@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\DocenteApiController;
 use App\Http\Controllers\Api\OfertaApiController;
 use App\Http\Controllers\Api\PaginaApiController;
 use App\Http\Controllers\Api\SitioApiController;
+use App\Http\Controllers\Api\SolicitudApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,4 +37,11 @@ Route::prefix('v1')->group(function () {
     Route::get('/tipos-oferta', [OfertaApiController::class, 'tipos']);
     Route::get('/programas', [OfertaApiController::class, 'index']);
     Route::get('/programas/{slug}', [OfertaApiController::class, 'show']);
+    Route::get('/admision/{slug}', [OfertaApiController::class, 'admision']);
+
+    // Unico endpoint que escribe. El limite por IP es lo que sustituye a la
+    // autenticacion: un formulario publico no puede exigir credenciales, pero
+    // tampoco puede quedar abierto a que lo inunden.
+    Route::post('/solicitudes/{tipo}', [SolicitudApiController::class, 'store'])
+        ->middleware('throttle:5,1');
 });

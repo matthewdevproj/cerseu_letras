@@ -1,0 +1,198 @@
+---
+import type { Programa } from '../lib/api';
+
+interface Props {
+    tipo: string;
+    programas: Programa[];
+    apiPublica: string;
+}
+
+const { tipo, programas, apiPublica } = Astro.props;
+---
+
+<form
+    class="formulario-solicitud space-y-4"
+    data-endpoint={`${apiPublica}/solicitudes/${tipo}`}
+    novalidate
+>
+    <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+            <label for="nombres" class="block text-sm font-medium text-slate-700">
+                Nombres <span class="text-red-600" aria-hidden="true">*</span>
+            </label>
+            <input
+                id="nombres"
+                name="nombres"
+                type="text"
+                required
+                autocomplete="given-name"
+                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-unmsm-azul focus:outline-none"
+            />
+        </div>
+
+        <div>
+            <label for="apellidos" class="block text-sm font-medium text-slate-700">
+                Apellidos <span class="text-red-600" aria-hidden="true">*</span>
+            </label>
+            <input
+                id="apellidos"
+                name="apellidos"
+                type="text"
+                required
+                autocomplete="family-name"
+                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-unmsm-azul focus:outline-none"
+            />
+        </div>
+
+        <div>
+            <label for="correo" class="block text-sm font-medium text-slate-700">
+                Correo <span class="text-red-600" aria-hidden="true">*</span>
+            </label>
+            <input
+                id="correo"
+                name="correo"
+                type="email"
+                required
+                autocomplete="email"
+                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-unmsm-azul focus:outline-none"
+            />
+        </div>
+
+        <div>
+            <label for="telefono" class="block text-sm font-medium text-slate-700">
+                Teléfono <span class="text-red-600" aria-hidden="true">*</span>
+            </label>
+            <input
+                id="telefono"
+                name="telefono"
+                type="tel"
+                required
+                autocomplete="tel"
+                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-unmsm-azul focus:outline-none"
+            />
+        </div>
+
+        <div>
+            <label for="pais" class="block text-sm font-medium text-slate-700">
+                País <span class="text-red-600" aria-hidden="true">*</span>
+            </label>
+            <input
+                id="pais"
+                name="pais"
+                type="text"
+                required
+                value="Perú"
+                autocomplete="country-name"
+                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-unmsm-azul focus:outline-none"
+            />
+        </div>
+
+        <div>
+            <label for="region" class="block text-sm font-medium text-slate-700">
+                Región <span class="text-red-600" aria-hidden="true">*</span>
+            </label>
+            <input
+                id="region"
+                name="region"
+                type="text"
+                required
+                autocomplete="address-level1"
+                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-unmsm-azul focus:outline-none"
+            />
+        </div>
+    </div>
+
+    <div>
+        <label for="programa" class="block text-sm font-medium text-slate-700">
+            Programa de interés <span class="text-red-600" aria-hidden="true">*</span>
+        </label>
+        <select
+            id="programa"
+            name="programa"
+            required
+            class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-unmsm-azul focus:outline-none"
+        >
+            <option value="">Selecciona…</option>
+            {programas.map((p) => <option value={p.slug}>{p.nombre}</option>)}
+        </select>
+    </div>
+
+    {/* Señuelo anti-robots: fuera de la vista y fuera del recorrido de
+        tabulación, con aria-hidden para que ningún lector de pantalla lo
+        anuncie. Una persona no lo rellena nunca; un robot que completa todos
+        los campos, sí. */}
+    <div class="absolute left-[-9999px]" aria-hidden="true">
+        <label for="sitio_web">No rellenar</label>
+        <input id="sitio_web" name="sitio_web" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <button
+        type="submit"
+        class="w-full rounded-lg bg-unmsm-azul px-6 py-3 font-semibold text-white transition hover:bg-unmsm-azul-light disabled:cursor-not-allowed disabled:opacity-60"
+    >
+        Enviar solicitud
+    </button>
+
+    {/* aria-live: quien usa lector de pantalla se entera del resultado sin
+        tener que ir a buscarlo. */}
+    <p class="mensaje-solicitud hidden rounded-lg px-4 py-3 text-sm" role="status" aria-live="polite"></p>
+</form>
+
+<script is:inline>
+    document.querySelectorAll('.formulario-solicitud').forEach((form) => {
+        const mensaje = form.querySelector('.mensaje-solicitud');
+        const boton = form.querySelector('button[type="submit"]');
+
+        const avisar = (texto, ok) => {
+            mensaje.textContent = texto;
+            mensaje.className =
+                'mensaje-solicitud rounded-lg px-4 py-3 text-sm ' +
+                (ok ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800');
+        };
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!form.checkValidity()) {
+                avisar('Revisa los campos obligatorios.', false);
+                form.reportValidity();
+                return;
+            }
+
+            boton.disabled = true;
+            const textoOriginal = boton.textContent;
+            boton.textContent = 'Enviando…';
+
+            const datos = Object.fromEntries(new FormData(form).entries());
+
+            try {
+                const res = await fetch(form.dataset.endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                    body: JSON.stringify(datos),
+                });
+
+                const cuerpo = await res.json().catch(() => ({}));
+
+                if (res.ok) {
+                    form.reset();
+                    avisar(cuerpo.message ?? 'Solicitud registrada.', true);
+                } else if (res.status === 429) {
+                    avisar('Demasiados envíos seguidos. Espera un minuto e inténtalo de nuevo.', false);
+                } else if (res.status === 422) {
+                    const primero = Object.values(cuerpo.errors ?? {})[0];
+                    avisar(primero?.[0] ?? 'Revisa los datos del formulario.', false);
+                } else {
+                    avisar('No se pudo enviar. Inténtalo más tarde o escríbenos por correo.', false);
+                }
+            } catch {
+                // La solicitud no llegó: decirlo, en vez de dejar el botón
+                // girando para siempre.
+                avisar('No se pudo conectar. Revisa tu conexión e inténtalo de nuevo.', false);
+            } finally {
+                boton.disabled = false;
+                boton.textContent = textoOriginal;
+            }
+        });
+    });
+</script>

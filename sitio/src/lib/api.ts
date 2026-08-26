@@ -200,3 +200,34 @@ export type CronogramaAcademico = {
 export const obtenerEventos = () => pedir<Evento[]>('/eventos');
 export const obtenerInformativos = () => pedir<GrupoInformativos[]>('/informativos');
 export const obtenerCronograma = () => pedir<CronogramaAcademico>('/cronograma');
+
+export type Admision = {
+    tipo: string;
+    titulo: string;
+    subtitulo: string | null;
+    pasos: { numero?: number; titulo: string; descripcion?: string }[];
+    requisitos: {
+        lista: string[];
+        observaciones: string | null;
+        notas: string | null;
+        correo: string | null;
+    };
+    pago: {
+        costo: string | null;
+        descripcion: string | null;
+        instrucciones: unknown[];
+        observaciones: string | null;
+        enlace_sanmarket: string | null;
+    };
+    resultados: { texto: string | null; enlace: string | null };
+    convocatorias: {
+        programa: string;
+        convocatoria: string | null;
+        inscripcion: string | null;
+        limite: string | null;
+        estado: string | null;
+    }[];
+};
+
+export const obtenerAdmision = (tipo: string) =>
+    pedir<Admision>(`/admision/${encodeURIComponent(tipo)}`);

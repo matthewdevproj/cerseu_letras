@@ -1,0 +1,221 @@
+---
+import Base from '../../layouts/Base.astro';
+import HeroPagina from '../../components/HeroPagina.astro';
+import FormularioSolicitud from '../../components/FormularioSolicitud.astro';
+import {
+    obtenerTipos,
+    obtenerProgramas,
+    obtenerAdmision,
+    obtenerConfiguracion,
+} from '../../lib/api';
+
+export async function getStaticPaths() {
+    const tipos = await obtenerTipos();
+
+    return Promise.all(
+        tipos.map(async (tipo) => ({
+            params: { tipo: tipo.slug },
+            props: {
+                tipo,
+                admision: await obtenerAdmision(tipo.slug),
+                programas: await obtenerProgramas(tipo.slug),
+            },
+        }))
+    );
+}
+
+const { tipo, admision, programas } = Astro.props;
+const { contacto } = await obtenerConfiguracion();
+
+// La API que ve el NAVEGADOR, no la interna con la que se construye: el
+// formulario se envía desde el cliente, y `http://web` no existe fuera de la
+// red de Docker. Es el mismo problema que resolvió ForzarUrlPublica, ahora del
+// lado del formulario.
+const apiPublica = import.meta.env.CERSEU_API_PUBLICA ?? 'http://localhost/api/v1';
+
+const hayPasos = admision.pasos.length > 0;
+const hayRequisitos = admision.requisitos.lista.length > 0;
+const hayConvocatorias = admision.convocatorias.length > 0;
+---
+
+<Base
+    titulo={`Admisión · ${tipo.plural}`}
+    descripcion={`Cómo inscribirse en los ${tipo.plural.toLowerCase()} del CERSEU: requisitos, convocatorias y solicitud de información.`}
+>
+    <HeroPagina
+        titulo={admision.titulo}
+        kicker={`Admisión · ${tipo.plural}`}
+        bajada={admision.subtitulo}
+        imagen={tipo.hero.imagen}
+        migas={[
+            { texto: 'Inicio', url: '/' },
+            { texto: tipo.plural, url: `/${tipo.slug}` },
+            { texto: 'Admisión' },
+        ]}
+    />
+
+    <div class="mx-auto grid max-w-6xl gap-10 px-6 py-14 pb-24 lg:grid-cols-3">
+        <div class="space-y-12 lg:col-span-2">
+            {
+                hayPasos && (
+                    <section aria-labelledby="pasos">
+                        <h2 id="pasos" class="font-serif text-2xl font-bold text-unmsm-azul">
+                            El proceso paso a paso
+                        </h2>
+                        <div class="mt-2 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true" />
+
+                        <ol class="mt-6 space-y-4">
+                            {admision.pasos.map((paso, i) => (
+                                <li class="flex gap-4 rounded-xl border border-slate-200 p-5">
+                                    <span
+                                        aria-hidden="true"
+                                        class="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-unmsm-azul text-sm font-bold text-white"
+                                    >
+                                        {paso.numero ?? i + 1}
+                                    </span>
+                                    <div>
+                                        <h3 class="font-semibold text-slate-800">{paso.titulo}</h3>
+                                        {paso.descripcion && (
+                                            <p class="mt-1 text-sm leading-relaxed text-slate-600">
+                                                {paso.descripcion}
+                                            </p>
+                                        )}
+                                    </div>
+                                </li>
+                            ))}
+                        </ol>
+                    </section>
+                )
+            }
+
+            {
+                hayRequisitos && (
+                    <section aria-labelledby="requisitos">
+                        <h2 id="requisitos" class="font-serif text-2xl font-bold text-unmsm-azul">
+                            Requisitos
+                        </h2>
+                        <div class="mt-2 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true" />
+
+                        <ul class="mt-6 space-y-2">
+                            {admision.requisitos.lista.map((requisito) => (
+                                <li class="flex gap-3 text-slate-700">
+                                    <span aria-hidden="true" class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-unmsm-dorado" />
+                                    <span>{requisito}</span>
+                                </li>
+                            ))}
+                        </ul>
+
+                        {admision.requisitos.observaciones && (
+                            <p class="mt-4 rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                                {admision.requisitos.observaciones}
+                            </p>
+                        )}
+                    </section>
+                )
+            }
+
+            {
+                admision.pago.costo && (
+                    <section aria-labelledby="pago">
+                        <h2 id="pago" class="font-serif text-2xl font-bold text-unmsm-azul">
+                            Inversión
+                        </h2>
+                        <div class="mt-2 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true" />
+
+                        <p class="mt-6 text-lg font-semibold text-slate-800">{admision.pago.costo}</p>
+                        {admision.pago.descripcion && (
+                            <p class="mt-2 text-sm leading-relaxed text-slate-600">
+                                {admision.pago.descripcion}
+                            </p>
+                        )}
+                    </section>
+                )
+            }
+
+            {
+                hayConvocatorias && (
+                    <section aria-labelledby="convocatorias">
+                        <h2 id="convocatorias" class="font-serif text-2xl font-bold text-unmsm-azul">
+                            Convocatorias
+                        </h2>
+                        <div class="mt-2 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true" />
+
+                        <div class="mt-6 overflow-x-auto rounded-xl border border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <caption class="sr-only">
+                                    Convocatorias abiertas con sus fechas
+                                </caption>
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3 font-semibold text-unmsm-azul">Programa</th>
+                                        <th scope="col" class="px-4 py-3 font-semibold text-unmsm-azul">Convocatoria</th>
+                                        <th scope="col" class="px-4 py-3 font-semibold text-unmsm-azul">Inscripción</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    {admision.convocatorias.map((c) => (
+                                        <tr>
+                                            <td class="px-4 py-3 text-slate-700">{c.programa}</td>
+                                            <td class="px-4 py-3 text-slate-600">{c.convocatoria ?? '—'}</td>
+                                            <td class="px-4 py-3 text-slate-600">{c.inscripcion ?? '—'}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                )
+            }
+
+            {
+                !hayPasos && !hayRequisitos && !hayConvocatorias && (
+                    <div class="rounded-2xl border border-dashed border-slate-300 px-6 py-16 text-center">
+                        <p class="font-serif text-xl font-bold text-slate-700">
+                            El proceso se publicará próximamente
+                        </p>
+                        <p class="mx-auto mt-3 max-w-md text-slate-500">
+                            Puedes dejarnos tus datos y te avisamos en cuanto abra la convocatoria.
+                        </p>
+                    </div>
+                )
+            }
+        </div>
+
+        <aside class="lg:col-span-1">
+            <div class="lg:sticky lg:top-8">
+                <section
+                    aria-labelledby="solicitud"
+                    class="rounded-xl border border-slate-200 p-6 shadow-sm"
+                >
+                    <h2 id="solicitud" class="font-serif text-xl font-bold text-unmsm-azul">
+                        Solicita información
+                    </h2>
+                    <p class="mt-2 text-sm text-slate-600">
+                        Déjanos tus datos y el CERSEU se comunica contigo.
+                    </p>
+
+                    <div class="mt-5">
+                        {programas.length > 0 ? (
+                            <FormularioSolicitud
+                                tipo={tipo.slug}
+                                programas={programas}
+                                apiPublica={apiPublica}
+                            />
+                        ) : (
+                            /* Sin oferta publicada no hay nada que elegir: pedir
+                               datos para un programa inexistente sería recoger
+                               solicitudes que nadie puede atender. */
+                            <p class="rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                                Todavía no hay {tipo.plural.toLowerCase()} publicados. Escríbenos a{' '}
+                                <a href={`mailto:${contacto.email_admision}`} class="text-unmsm-azul underline">
+                                    {contacto.email_admision}
+                                </a>{' '}
+                                y te avisamos cuando abra la convocatoria.
+                            </p>
+                        )}
+                    </div>
+                </section>
+            </div>
+        </aside>
+    </div>
+</Base>
