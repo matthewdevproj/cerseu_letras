@@ -48,6 +48,36 @@ services:
       # línea sustituye a la del compose base en lugar de sumarse.
       - ./docker/nginx/templates/default.conf.template:/etc/nginx/templates/default.conf.template
 
+
+  # Sitio publico en Astro. Vive aparte del monolito: consume la API de
+  # contenido de Laravel por HTTP y no toca la base de datos.
+  #
+  # Solo esta en la capa de desarrollo. En produccion un sitio estatico no
+  # necesita un contenedor corriendo: se construye en CI y se sirven los
+  # ficheros. Ese pipeline esta por montar.
+  astro:
+    image: node:22-alpine
+    container_name: cerseuletras_astro
+    working_dir: /app
+    environment:
+      # `web` es el servicio de Nginx dentro de la red de Docker. No sirve
+      # localhost: dentro de este contenedor seria el propio contenedor.
+      - CERSEU_API=http://web/api/v1
+    ports:
+      - "4321:4321"
+    volumes:
+      - ./sitio:/app
+      # node_modules en volumen nombrado, por lo mismo que vendor/ en la app:
+      # sobre el bind mount de Docker Desktop readdir() trunca los
+      # directorios grandes.
+      - astro-node-modules:/app/node_modules
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    depends_on:
+      - web
+    networks:
+      - laravel-network
+
 volumes:
   vendor-data:
   node-modules:
+  astro-node-modules:

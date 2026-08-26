@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+
+interface Props {
+    titulo: string;
+    descripcion?: string;
+}
+
+const { titulo, descripcion } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{titulo} · CERSEU Letras UNMSM</title>
+        {descripcion && <meta name="description" content={descripcion} />}
+    </head>
+    <body class="min-h-screen bg-white text-slate-800 antialiased">
+        <header class="bg-unmsm-azul text-white">
+            <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-5">
+                <a href="/" class="leading-tight">
+                    <span class="block text-[0.6rem] uppercase tracking-[0.18em] text-unmsm-azul-soft">
+                        Centro de Responsabilidad Social y Extensión Universitaria
+                    </span>
+                    <span class="block text-2xl font-bold tracking-tight">CERSEU LETRAS</span>
+                </a>
+                <nav class="flex items-center gap-6 text-sm font-medium">
+                    <a href="/" class="hover:text-unmsm-dorado-light">Inicio</a>
+                    <a href="/cursos" class="hover:text-unmsm-dorado-light">Cursos</a>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <slot />
+        </main>
+
+        <footer class="mt-20 bg-unmsm-azul-dark text-sm text-slate-300">
+            <div class="mx-auto max-w-6xl px-6 py-10">
+                <p class="font-semibold text-white">CERSEU · Facultad de Letras y Ciencias Humanas UNMSM</p>
+                <p class="mt-2">cerseu.letras@unmsm.edu.pe · 914 033 129 · Anexo 2808</p>
+                <p class="mt-6 text-xs text-slate-400">
+                    Prueba de concepto del sitio público en Astro, generado contra la API de
+                    contenido de Laravel. El sitio en producción sigue siendo el de Blade.
+                </p>
+            </div>
+        </footer>
+    </body>
+</html>

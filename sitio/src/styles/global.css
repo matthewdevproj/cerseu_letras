@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* Paleta institucional, la misma del sitio en Blade: #143B63 con su escala.
+   Se declara aquí y no se importa de cerseuletras/ a propósito — el sitio no
+   depende del árbol de Laravel para construirse. */
+@theme {
+    --color-unmsm-azul: #143B63;
+    --color-unmsm-azul-light: #1C5287;
+    --color-unmsm-azul-dark: #0F2B48;
+    --color-unmsm-azul-soft: #88B8E7;
+    --color-unmsm-dorado: #B6A350;
+    --color-unmsm-dorado-light: #C9AA36;
+}

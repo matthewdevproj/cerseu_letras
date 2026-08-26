@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import { obtenerTipos } from '../lib/api';
+
+// Se resuelve en el build: el HTML sale ya con estos datos dentro y el
+// visitante no espera a ninguna petición.
+const tipos = await obtenerTipos();
+---
+
+<Base
+    titulo="Inicio"
+    descripcion="Formación abierta a toda la comunidad: talleres, cursos y especializaciones del CERSEU de la Facultad de Letras."
+>
+    <section class="bg-linear-to-b from-unmsm-azul to-unmsm-azul-dark text-white">
+        <div class="mx-auto max-w-6xl px-6 py-20">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-unmsm-dorado-light">
+                Universidad Nacional Mayor de San Marcos · Decana de América
+            </p>
+            <h1 class="mt-4 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl">
+                Formación abierta a toda la comunidad
+            </h1>
+            <p class="mt-5 max-w-2xl text-lg text-slate-200">
+                Cursos de capacitación en humanidades para fortalecer tu formación cultural,
+                académica y profesional.
+            </p>
+            <a
+                href="/cursos"
+                class="mt-8 inline-block rounded-lg bg-unmsm-dorado px-6 py-3 font-semibold text-unmsm-azul-dark transition hover:bg-unmsm-dorado-light"
+            >
+                Ver cursos
+            </a>
+        </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-6 py-16">
+        <h2 class="text-2xl font-bold text-unmsm-azul">Nuestra oferta</h2>
+        <p class="mt-2 text-slate-600">Cada tipo se mide con la unidad que le es propia.</p>
+
+        <div class="mt-8 grid gap-6 sm:grid-cols-3">
+            {
+                tipos.map((tipo) => (
+                    <article class="rounded-xl border border-slate-200 border-l-4 border-l-unmsm-azul p-6 shadow-sm">
+                        <h3 class="text-lg font-bold text-unmsm-azul">{tipo.plural}</h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Se miden en {tipo.medidas.join(' y ')}.
+                        </p>
+                        <p class="mt-4 text-3xl font-bold text-unmsm-azul">{tipo.publicados}</p>
+                        <p class="text-xs uppercase tracking-wider text-slate-500">
+                            {tipo.publicados === 1 ? 'programa publicado' : 'programas publicados'}
+                        </p>
+                    </article>
+                ))
+            }
+        </div>
+    </section>
+</Base>
