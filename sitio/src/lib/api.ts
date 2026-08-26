@@ -51,3 +51,32 @@ export const obtenerProgramas = (tipo?: string) =>
 
 export const obtenerPrograma = (slug: string) =>
     pedir<Programa>(`/programas/${encodeURIComponent(slug)}`);
+
+export type ItemMenu = {
+    etiqueta: string;
+    enlace: string | null;
+    nueva_pestana: boolean;
+    hijos: ItemMenu[];
+};
+
+export type ConfiguracionSitio = {
+    nombre: string | null;
+    descripcion: string | null;
+    logo: string | null;
+    favicon: string | null;
+    contacto: {
+        email: string | null;
+        email_admision: string | null;
+        email_tramites: string | null;
+        telefono: string | null;
+        anexo: string | null;
+        whatsapp: string | null;
+        direccion: string | null;
+        horario: string | null;
+    };
+    redes: Record<string, string>;
+};
+
+export const obtenerConfiguracion = () => pedir<ConfiguracionSitio>('/sitio');
+
+export const obtenerMenu = () => pedir<ItemMenu[]>('/menu');

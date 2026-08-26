@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\MenuItem;
+use App\Models\SiteSetting;
+use Illuminate\Http\JsonResponse;
+
+/**
+ * Identidad y navegación del sitio.
+ *
+ * Es la pieza que hace practicable la regla de la propuesta —«lo que cambia
+ * entre unidades sale de configuración, nunca del código»— también en el
+ * frontend. Sin esto, el sitio en Astro tendría el nombre, el correo, el
+ * teléfono y el menú escritos en una plantilla, que es el mismo error que se
+ * corrigió en los seeders y en la migración, solo que en otro lenguaje.
+ *
+ * Cambiar el CERSEU por otra unidad debería ser cambiar filas de
+ * `site_settings` y `menu_items`, no editar un `.astro`.
+ */
+class SitioApiController extends Controller
+{
+    /**
+     * Identidad, contacto y redes.
+     *
+     * El contacto sale de `SiteSetting::contacto()`, el mismo accesor que usa
+     * Blade, para que ambos sitios no puedan contradecirse: ahí está resuelta
+     * la cascada campo del panel → valor de respaldo, y la derivación del
+     * enlace de WhatsApp desde el teléfono.
+     */
+    public function configuracion(): JsonResponse
+    {
+        $ajustes = SiteSetting::get();
+
+        return response()->json([
+            'data' => [
+                'nombre' => $ajustes?->site_name,
+                'descripcion' => $ajustes?->site_description,
+                'logo' => $ajustes?->logo_path,
+                'favicon' => $ajustes?->favicon_path,
+                'contacto' => [
+                    'email' => SiteSetting::contacto('general'),
+                    'email_admision' => SiteSetting::contacto('admision'),
+                    'email_tramites' => SiteSetting::contacto('tramites'),
+                    'telefono' => SiteSetting::contacto('telefono'),
+                    'anexo' => $ajustes?->anexo,
+                    'whatsapp' => SiteSetting::contacto('whatsapp'),
+                    'direccion' => $ajustes?->direccion,
+                    'horario' => $ajustes?->horario_atencion,
+                ],
+                'redes' => array_filter([
+                    'facebook' => $ajustes?->facebook,
+                    'instagram' => $ajustes?->instagram,
+                    'tiktok' => $ajustes?->tiktok,
+                    'youtube' => $ajustes?->youtube,
+                    'linkedin' => $ajustes?->linkedin,
+                ]),
+            ],
+        ]);
+    }
+
+    /**
+     * El menú, ya resuelto y anidado.
+     *
+     * Las URLs salen del accesor `enlace`, que prefiere `route_name` sobre una
+     * URL escrita a mano —sobrevive a un cambio de ruta— y descarta las rutas
+     * que ya no existen. Resolverlo aquí y no en Astro evita que el sitio
+     * tenga que conocer el mapa de rutas de Laravel.
+     */
+    public function menu(): JsonResponse
+    {
+        $raiz = MenuItem::query()
+            ->visibles()
+            ->whereNull('parent_id')
+            ->with(['hijos' => fn ($q) => $q->visibles()])
+            ->orderBy('orden')
+            ->get();
+
+        return response()->json([
+            'data' => $raiz->map(fn (MenuItem $item) => $this->comoArray($item))->values(),
+        ]);
+    }
+
+    private function comoArray(MenuItem $item): array
+    {
+        $hijos = $item->hijos->map(fn (MenuItem $hijo) => $this->comoArray($hijo))->values();
+
+        return [
+            'etiqueta' => $item->etiqueta,
+            'enlace' => $item->enlace,
+            'nueva_pestana' => (bool) $item->nueva_pestana,
+            'hijos' => $hijos->all(),
+        ];
+    }
+}

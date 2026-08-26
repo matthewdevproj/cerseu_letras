@@ -11,5 +11,14 @@ export default defineConfig({
     server: { host: true, port: 4321 },
     vite: {
         plugins: [tailwindcss()],
+        server: {
+            // Sondeo en vez de inotify. Docker Desktop en Windows no propaga
+            // los eventos del sistema de ficheros a traves del bind mount, asi
+            // que el watcher nunca se entera de un cambio hecho desde el host:
+            // el fichero cambia dentro del contenedor y la pagina sigue
+            // sirviendo la version anterior, sin ningun error que lo delate.
+            // Es el mismo origen que el truncado de readdir() en vendor/.
+            watch: { usePolling: true, interval: 300 },
+        },
     },
 });

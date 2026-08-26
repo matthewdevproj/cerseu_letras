@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { obtenerConfiguracion, obtenerMenu } from '../lib/api';
 
 interface Props {
     titulo: string;
@@ -7,6 +8,19 @@ interface Props {
 }
 
 const { titulo, descripcion } = Astro.props;
+
+// Nada de esto está escrito en la plantilla a propósito: el nombre, el menú y
+// los datos de contacto se editan desde el panel. Si estuvieran aquí, cambiar
+// el correo del CERSEU exigiría tocar código y desplegar — y montar el sitio
+// para otra unidad exigiría un fork, que es justo lo que este proyecto vino a
+// dejar de hacer.
+const sitio = await obtenerConfiguracion();
+const menu = await obtenerMenu();
+
+const contacto = sitio.contacto;
+const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`]
+    .filter(Boolean)
+    .join(' · ');
 ---
 
 <!doctype html>
@@ -14,8 +28,8 @@ const { titulo, descripcion } = Astro.props;
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{titulo} · CERSEU Letras UNMSM</title>
-        {descripcion && <meta name="description" content={descripcion} />}
+        <title>{titulo} · {sitio.nombre}</title>
+        <meta name="description" content={descripcion ?? sitio.descripcion ?? ''} />
     </head>
     <body class="min-h-screen bg-white text-slate-800 antialiased">
         <header class="bg-unmsm-azul text-white">
@@ -24,11 +38,43 @@ const { titulo, descripcion } = Astro.props;
                     <span class="block text-[0.6rem] uppercase tracking-[0.18em] text-unmsm-azul-soft">
                         Centro de Responsabilidad Social y Extensión Universitaria
                     </span>
-                    <span class="block text-2xl font-bold tracking-tight">CERSEU LETRAS</span>
+                    <span class="block text-2xl font-bold tracking-tight">{sitio.nombre}</span>
                 </a>
-                <nav class="flex items-center gap-6 text-sm font-medium">
-                    <a href="/" class="hover:text-unmsm-dorado-light">Inicio</a>
-                    <a href="/cursos" class="hover:text-unmsm-dorado-light">Cursos</a>
+
+                <nav class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium">
+                    {
+                        menu.map((item) => (
+                            <div class="group relative">
+                                {item.enlace ? (
+                                    <a
+                                        href={item.enlace}
+                                        target={item.nueva_pestana ? '_blank' : undefined}
+                                        rel={item.nueva_pestana ? 'noopener noreferrer' : undefined}
+                                        class="hover:text-unmsm-dorado-light"
+                                    >
+                                        {item.etiqueta}
+                                    </a>
+                                ) : (
+                                    <span class="cursor-default">{item.etiqueta}</span>
+                                )}
+
+                                {item.hijos.length > 0 && (
+                                    <div class="invisible absolute left-0 top-full z-10 min-w-56 rounded-lg bg-white py-2 text-slate-700 opacity-0 shadow-xl transition group-hover:visible group-hover:opacity-100">
+                                        {item.hijos.map((hijo) => (
+                                            <a
+                                                href={hijo.enlace ?? '#'}
+                                                target={hijo.nueva_pestana ? '_blank' : undefined}
+                                                rel={hijo.nueva_pestana ? 'noopener noreferrer' : undefined}
+                                                class="block px-4 py-2 text-sm hover:bg-slate-50 hover:text-unmsm-azul"
+                                            >
+                                                {hijo.etiqueta}
+                                            </a>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))
+                    }
                 </nav>
             </div>
         </header>
@@ -39,9 +85,50 @@ const { titulo, descripcion } = Astro.props;
 
         <footer class="mt-20 bg-unmsm-azul-dark text-sm text-slate-300">
             <div class="mx-auto max-w-6xl px-6 py-10">
-                <p class="font-semibold text-white">CERSEU · Facultad de Letras y Ciencias Humanas UNMSM</p>
-                <p class="mt-2">cerseu.letras@unmsm.edu.pe · 914 033 129 · Anexo 2808</p>
-                <p class="mt-6 text-xs text-slate-400">
+                <p class="font-semibold text-white">{sitio.nombre}</p>
+                {sitio.descripcion && <p class="mt-2 max-w-2xl">{sitio.descripcion}</p>}
+
+                <ul class="mt-5 space-y-1">
+                    {contacto.direccion && <li>{contacto.direccion}</li>}
+                    {contacto.email && (
+                        <li>
+                            <a href={`mailto:${contacto.email}`} class="hover:text-white">
+                                {contacto.email}
+                            </a>
+                        </li>
+                    )}
+                    {telefono && (
+                        <li>
+                            {contacto.whatsapp ? (
+                                <a href={contacto.whatsapp} class="hover:text-white">{telefono}</a>
+                            ) : (
+                                telefono
+                            )}
+                        </li>
+                    )}
+                    {contacto.horario && <li>{contacto.horario}</li>}
+                </ul>
+
+                {
+                    Object.keys(sitio.redes).length > 0 && (
+                        <ul class="mt-5 flex gap-4">
+                            {Object.entries(sitio.redes).map(([red, url]) => (
+                                <li>
+                                    <a
+                                        href={url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="capitalize hover:text-white"
+                                    >
+                                        {red}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    )
+                }
+
+                <p class="mt-8 text-xs text-slate-400">
                     Prueba de concepto del sitio público en Astro, generado contra la API de
                     contenido de Laravel. El sitio en producción sigue siendo el de Blade.
                 </p>

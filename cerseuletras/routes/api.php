@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\OfertaApiController;
+use App\Http\Controllers\Api\SitioApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,11 @@ use Illuminate\Support\Facades\Route;
  * pidiendo la anterior mientras se reconstruye.
  */
 Route::prefix('v1')->group(function () {
+    // Identidad y navegacion: lo que cambia entre unidades.
+    Route::get('/sitio', [SitioApiController::class, 'configuracion']);
+    Route::get('/menu', [SitioApiController::class, 'menu']);
+
+    // Oferta formativa.
     Route::get('/tipos-oferta', [OfertaApiController::class, 'tipos']);
     Route::get('/programas', [OfertaApiController::class, 'index']);
     Route::get('/programas/{slug}', [OfertaApiController::class, 'show']);
