@@ -32,7 +32,17 @@ const { inscripcion } = Astro.props;
             claro
         />
 
-        <ol class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Línea de tiempo: la misma que conecta los pasos en Blade. Solo en
+            escritorio, donde las tarjetas van en fila; apiladas no significa
+            nada. */}
+        <div class="relative mt-12">
+            <div
+                aria-hidden="true"
+                class="absolute left-[12.5%] right-[12.5%] top-6 hidden h-px bg-linear-to-r from-unmsm-dorado/10 via-unmsm-dorado to-unmsm-dorado/10 lg:block"
+            >
+            </div>
+
+        <ol class="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {
                 inscripcion.pasos.map((paso, i) => (
                     <li
@@ -98,6 +108,7 @@ const { inscripcion } = Astro.props;
                 ))
             }
         </ol>
+        </div>
 
         {
             inscripcion.boton && (

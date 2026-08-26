@@ -1,9 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
-import { obtenerTipos, obtenerConfiguracion, obtenerDocentes } from '../lib/api';
+import { obtenerTipos, obtenerConfiguracion, obtenerDocentes, obtenerProgramas } from '../lib/api';
 import TituloSeccion from '../components/TituloSeccion.astro';
 import BandaIndicadores from '../components/BandaIndicadores.astro';
 import PasosInscripcion from '../components/PasosInscripcion.astro';
+import OfertaDestacada from '../components/OfertaDestacada.astro';
 
 // Se resuelve en el build: el HTML sale ya con estos datos dentro y el
 // visitante no espera a ninguna petición.
@@ -14,6 +15,7 @@ const tipos = await obtenerTipos();
 const sitio = await obtenerConfiguracion();
 const { portada, inscripcion } = sitio;
 const docentes = await obtenerDocentes();
+const programas = await obtenerProgramas();
 const fondo = portada.imagenes[0];
 ---
 
@@ -108,7 +110,13 @@ const fondo = portada.imagenes[0];
                 ))
             }
         </div>
-    </section>
+
+        {/* Muestra de la oferta, con filtro. La portada de Blade tiene esto y
+            la de Astro no lo tenía: se salía de la portada sin haber visto un
+            solo curso. */}
+        <div class="mt-20">
+            <OfertaDestacada tipos={tipos} programas={programas} />
+        </div>    </section>
 
     {inscripcion && <PasosInscripcion inscripcion={inscripcion} />}
 

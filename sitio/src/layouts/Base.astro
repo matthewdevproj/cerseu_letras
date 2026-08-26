@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { obtenerConfiguracion, obtenerMenu } from '../lib/api';
+import BotonWhatsapp from '../components/BotonWhatsapp.astro';
 
 interface Props {
     titulo: string;
@@ -162,6 +163,10 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
         <main id="contenido" class="flex-1">
             <slot />
         </main>
+
+        {contacto.whatsapp && (
+            <BotonWhatsapp url={contacto.whatsapp} telefono={contacto.telefono} />
+        )}
 
         <footer class="bg-unmsm-azul-dark text-sm text-slate-300">
             <div class="mx-auto max-w-6xl px-6 py-14">

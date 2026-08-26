@@ -1,0 +1,147 @@
+---
+import TarjetaPrograma from './TarjetaPrograma.astro';
+import type { Programa, TipoOferta } from '../lib/api';
+
+interface Props {
+    tipos: TipoOferta[];
+    programas: Programa[];
+    /** Cuántas tarjetas mostrar por tipo. */
+    porTipo?: number;
+}
+
+const { tipos, programas, porTipo = 3 } = Astro.props;
+
+// Solo los tipos que tienen algo que enseñar. Blade pinta también los vacíos y
+// además arranca en «Talleres», que hoy no tiene oferta: lo primero que ve el
+// visitante es «no hay cursos disponibles». Aquí la pestaña inicial es la del
+// primer tipo CON programas, así que la portada nunca abre en un vacío.
+const conOferta = tipos.filter((t) => t.publicados > 0);
+const inicial = conOferta[0]?.slug;
+
+const porSlug = (slug: string) => programas.filter((p) => p.tipo === slug).slice(0, porTipo);
+---
+
+{
+    conOferta.length > 0 && (
+        <div>
+            {/* Filtro sin JavaScript: radios ocultos y `:checked ~` para mostrar
+                el panel correspondiente. Funciona con teclado y sin esperar a
+                que cargue ningún script. */}
+            <div class="filtro-oferta">
+                {conOferta.length > 1 && (
+                    <fieldset class="mb-10 flex flex-wrap justify-center gap-3">
+                        <legend class="sr-only">Filtrar la oferta por tipo</legend>
+                        {conOferta.map((tipo) => (
+                            <>
+                                <input
+                                    type="radio"
+                                    name="tipo-oferta"
+                                    id={`filtro-${tipo.slug}`}
+                                    value={tipo.slug}
+                                    checked={tipo.slug === inicial}
+                                    class="sr-only"
+                                />
+                                <label
+                                    for={`filtro-${tipo.slug}`}
+                                    class="cursor-pointer rounded-full border border-slate-300 px-5 py-2 text-sm font-medium text-slate-600 transition hover:border-unmsm-azul hover:text-unmsm-azul"
+                                >
+                                    {tipo.plural}
+                                    <span class="ml-1.5 text-xs opacity-60">{tipo.publicados}</span>
+                                </label>
+                            </>
+                        ))}
+                    </fieldset>
+                )}
+
+                {conOferta.map((tipo) => (
+                    <div class="panel-oferta" data-tipo={tipo.slug}>
+                        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                            {porSlug(tipo.slug).map((programa) => (
+                                <TarjetaPrograma programa={programa} />
+                            ))}
+                        </div>
+
+                        {tipo.publicados > porTipo && (
+                            <div class="mt-10 text-center">
+                                <a
+                                    href={`/${tipo.slug}`}
+                                    class="inline-flex items-center gap-2 rounded-lg border-2 border-unmsm-azul px-6 py-3 font-semibold text-unmsm-azul transition hover:bg-unmsm-azul hover:text-white"
+                                >
+                                    Ver los {tipo.publicados} {tipo.plural.toLowerCase()}
+                                    <span aria-hidden="true">→</span>
+                                </a>
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+<style>
+    /* Cada panel se muestra solo si su radio hermano está marcado. El orden del
+       DOM lo permite: todos los inputs van antes que todos los paneles. */
+    .panel-oferta {
+        display: none;
+    }
+
+    .filtro-oferta:not(:has(input:checked)) .panel-oferta:first-of-type {
+        display: block;
+    }
+</style>
+
+<script is:inline>
+    // Alterna el panel visible. Va inline y sin dependencias: son diez líneas y
+    // el filtro es lo único interactivo de la portada.
+    (function () {
+        var caja = document.querySelector('.filtro-oferta');
+        if (!caja) return;
+
+        var radios = caja.querySelectorAll('input[name="tipo-oferta"]');
+        var paneles = caja.querySelectorAll('.panel-oferta');
+
+        function pintar() {
+            var elegido = caja.querySelector('input[name="tipo-oferta"]:checked');
+            // Con un solo tipo con oferta no se pintan los radios, asi que no
+            // hay ninguno marcado: se cae al primer panel en vez de ocultarlos
+            // todos y dejar un hueco donde deberia ir la oferta.
+            var slug = elegido
+                ? elegido.value
+                : paneles.length
+                  ? paneles[0].dataset.tipo
+                  : null;
+
+            paneles.forEach(function (panel) {
+                panel.style.display = panel.dataset.tipo === slug ? 'block' : 'none';
+            });
+
+            radios.forEach(function (radio) {
+                var etiqueta = caja.querySelector('label[for="' + radio.id + '"]');
+                if (!etiqueta) return;
+                etiqueta.classList.toggle('activa', radio.checked);
+            });
+        }
+
+        radios.forEach(function (radio) {
+            radio.addEventListener('change', pintar);
+        });
+
+        pintar();
+    })();
+</script>
+
+<style is:global>
+    .filtro-oferta label.activa {
+        background-color: var(--color-unmsm-azul);
+        border-color: var(--color-unmsm-azul);
+        color: #fff;
+    }
+
+    /* Sin JavaScript no hay clase `activa`, así que el foco del radio tiene que
+       verse en la etiqueta o no se sabría cuál está elegido al tabular. */
+    .filtro-oferta input:focus-visible + label {
+        outline: 3px solid var(--color-unmsm-azul);
+        outline-offset: 3px;
+    }
+</style>
