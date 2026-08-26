@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ActualidadApiController;
 use App\Http\Controllers\Api\DocenteApiController;
 use App\Http\Controllers\Api\OfertaApiController;
 use App\Http\Controllers\Api\PaginaApiController;
@@ -21,6 +22,11 @@ Route::prefix('v1')->group(function () {
 
     // Contenido editable de las paginas largas.
     Route::get('/paginas/{slug}', [PaginaApiController::class, 'mostrar']);
+
+    // Secciones de actualidad y recursos.
+    Route::get('/eventos', [ActualidadApiController::class, 'eventos']);
+    Route::get('/informativos', [ActualidadApiController::class, 'informativos']);
+    Route::get('/cronograma', [ActualidadApiController::class, 'cronograma']);
 
     // Plana docente.
     Route::get('/docentes', [DocenteApiController::class, 'index']);

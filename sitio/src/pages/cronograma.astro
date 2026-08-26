@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroPagina from '../components/HeroPagina.astro';
+import EstadoVacio from '../components/EstadoVacio.astro';
+import { obtenerCronograma } from '../lib/api';
+
+const cronograma = await obtenerCronograma();
+const items = cronograma?.items ?? [];
+---
+
+<Base
+    titulo={cronograma?.titulo ?? 'Cronograma académico'}
+    descripcion="Fechas de las convocatorias del CERSEU de la Facultad de Letras."
+>
+    <HeroPagina
+        titulo={cronograma?.titulo ?? 'Cronograma académico'}
+        kicker="Fechas"
+        bajada={cronograma?.descripcion}
+        migas={[{ texto: 'Inicio', url: '/' }, { texto: 'Cronograma' }]}
+    />
+
+    <section class="mx-auto max-w-4xl px-6 py-16 pb-24">
+        {
+            items.length === 0 ? (
+                <EstadoVacio
+                    titulo="El cronograma aún no está publicado"
+                    texto="Cada taller, curso y especialización publica sus fechas en su propia página de admisión mientras tanto."
+                    accion={{ texto: 'Ver cómo inscribirte', url: '/admision' }}
+                />
+            ) : (
+                <div class="overflow-hidden rounded-xl border border-slate-200">
+                    <table class="w-full text-left text-sm">
+                        <caption class="sr-only">
+                            Actividades del cronograma con sus fechas
+                        </caption>
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th scope="col" class="px-5 py-3 font-semibold text-unmsm-azul">
+                                    Actividad
+                                </th>
+                                <th scope="col" class="px-5 py-3 font-semibold text-unmsm-azul">
+                                    Fecha
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            {items.map((item) =>
+                                item.es_encabezado ? (
+                                    <tr class="bg-unmsm-azul/5">
+                                        {/* Un encabezado de bloque abarca las dos columnas:
+                                            no es una actividad con fecha. */}
+                                        <th
+                                            scope="colgroup"
+                                            colspan="2"
+                                            class="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-unmsm-azul"
+                                        >
+                                            {item.actividad}
+                                        </th>
+                                    </tr>
+                                ) : (
+                                    <tr>
+                                        <td class="px-5 py-3 text-slate-700">{item.actividad}</td>
+                                        <td class="px-5 py-3 font-medium text-slate-800">
+                                            {item.fecha ?? '—'}
+                                        </td>
+                                    </tr>
+                                )
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
+    </section>
+</Base>

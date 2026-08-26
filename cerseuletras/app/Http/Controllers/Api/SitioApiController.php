@@ -158,9 +158,38 @@ class SitioApiController extends Controller
 
         return [
             'etiqueta' => $item->etiqueta,
-            'enlace' => $item->enlace,
+            'enlace' => $this->enlace($item),
             'nueva_pestana' => (bool) $item->nueva_pestana,
             'hijos' => $hijos->all(),
         ];
+    }
+
+    /**
+     * Ruta relativa si es interna; URL completa si apunta fuera.
+     *
+     * `route()` devuelve la URL absoluta de ESTA aplicacion, y eso saca al
+     * visitante del sitio que esta viendo: en el frontend desacoplado, pulsar
+     * «Cursos» en la cabecera te llevaba al sitio en Blade. Una ruta interna
+     * es una ruta, no una direccion: cada frontend la resuelve contra su
+     * propio origen.
+     */
+    private function enlace(MenuItem $item): ?string
+    {
+        $enlace = $item->enlace;
+
+        if (! $enlace) {
+            return null;
+        }
+
+        // Solo las que genero `route()`; una URL escrita a mano en el panel
+        // apunta a donde quiso quien la escribio y se respeta tal cual.
+        if (! $item->route_name) {
+            return $enlace;
+        }
+
+        $ruta = parse_url($enlace, PHP_URL_PATH) ?: '/';
+        $consulta = parse_url($enlace, PHP_URL_QUERY);
+
+        return $consulta ? $ruta . '?' . $consulta : $ruta;
     }
 }

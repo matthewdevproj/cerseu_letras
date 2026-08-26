@@ -171,3 +171,32 @@ export type Docente = {
 };
 
 export const obtenerDocentes = () => pedir<Docente[]>('/docentes');
+
+export type Evento = {
+    titulo: string;
+    descripcion: string | null;
+    fecha_inicio: string | null;
+    fecha_fin: string | null;
+    url: string | null;
+    imagen: string | null;
+};
+
+export type GrupoInformativos = {
+    categoria: string;
+    recursos: { titulo: string; tipo: string | null; url: string }[];
+};
+
+export type CronogramaAcademico = {
+    titulo: string | null;
+    descripcion: string | null;
+    items: {
+        seccion: string | null;
+        es_encabezado: boolean;
+        actividad: string;
+        fecha: string | null;
+    }[];
+} | null;
+
+export const obtenerEventos = () => pedir<Evento[]>('/eventos');
+export const obtenerInformativos = () => pedir<GrupoInformativos[]>('/informativos');
+export const obtenerCronograma = () => pedir<CronogramaAcademico>('/cronograma');

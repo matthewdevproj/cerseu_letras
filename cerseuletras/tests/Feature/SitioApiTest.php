@@ -100,8 +100,32 @@ class SitioApiTest extends TestCase
         $this->assertNotNull($oferta);
         $this->assertCount(1, $oferta['hijos']);
 
-        // La URL se resuelve aquí: el sitio no conoce el mapa de rutas.
-        $this->assertSame(route('cursos.index'), $oferta['hijos'][0]['enlace']);
+        // Ruta RELATIVA, no la URL absoluta que devuelve route(): esa apunta a
+        // esta aplicacion, y en un frontend desacoplado sacaba al visitante del
+        // sitio que estaba viendo —pulsar «Cursos» en la cabecera del sitio en
+        // Astro te llevaba al de Blade—. Una ruta interna es una ruta, no una
+        // direccion: cada frontend la resuelve contra su propio origen.
+        $this->assertSame('/cursos', $oferta['hijos'][0]['enlace']);
+        $this->assertStringStartsNotWith('http', $oferta['hijos'][0]['enlace']);
+    }
+
+    public function test_los_enlaces_externos_del_menu_se_respetan_tal_cual(): void
+    {
+        MenuItem::create([
+            'etiqueta' => 'Web Letras',
+            'url' => 'https://letras.unmsm.edu.pe/',
+            'nueva_pestana' => true,
+            'orden' => 0,
+            'is_visible' => true,
+        ]);
+
+        // Una URL escrita a mano en el panel apunta a donde quiso quien la
+        // escribio: no se toca.
+        $item = collect($this->getJson('/api/v1/menu')->json('data'))
+            ->firstWhere('etiqueta', 'Web Letras');
+
+        $this->assertSame('https://letras.unmsm.edu.pe/', $item['enlace']);
+        $this->assertTrue($item['nueva_pestana']);
     }
 
     public function test_el_menu_omite_lo_oculto(): void

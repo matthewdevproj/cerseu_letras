@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroPagina from '../components/HeroPagina.astro';
+import EstadoVacio from '../components/EstadoVacio.astro';
+import { obtenerConfiguracion } from '../lib/api';
+
+const { contacto } = await obtenerConfiguracion();
+---
+
+<Base titulo="Directorio" descripcion="Directorio de contacto del CERSEU de la Facultad de Letras.">
+    <HeroPagina
+        titulo="Directorio"
+        kicker="Contacto"
+        bajada="Cómo comunicarte con el CERSEU."
+        migas={[{ texto: 'Inicio', url: '/' }, { texto: 'Directorio' }]}
+    />
+
+    <section class="mx-auto max-w-4xl px-6 py-16 pb-24">
+        <EstadoVacio
+            titulo="El directorio por áreas aún no está publicado"
+            texto="Mientras tanto, estos son los datos generales de contacto del centro."
+        />
+
+        <dl class="mt-10 grid gap-5 sm:grid-cols-2">
+            {contacto.email && (
+                <div class="rounded-xl border border-slate-200 p-6">
+                    <dt class="text-xs font-semibold uppercase tracking-wider text-slate-500">Correo</dt>
+                    <dd class="mt-1 font-medium break-all text-unmsm-azul">
+                        <a href={`mailto:${contacto.email}`} class="hover:underline">{contacto.email}</a>
+                    </dd>
+                </div>
+            )}
+            {contacto.telefono && (
+                <div class="rounded-xl border border-slate-200 p-6">
+                    <dt class="text-xs font-semibold uppercase tracking-wider text-slate-500">Teléfono</dt>
+                    <dd class="mt-1 font-medium text-slate-800">
+                        {contacto.telefono}{contacto.anexo && ` · Anexo ${contacto.anexo}`}
+                    </dd>
+                </div>
+            )}
+            {contacto.direccion && (
+                <div class="rounded-xl border border-slate-200 p-6">
+                    <dt class="text-xs font-semibold uppercase tracking-wider text-slate-500">Dirección</dt>
+                    <dd class="mt-1 text-slate-800">{contacto.direccion}</dd>
+                </div>
+            )}
+            {contacto.horario && (
+                <div class="rounded-xl border border-slate-200 p-6">
+                    <dt class="text-xs font-semibold uppercase tracking-wider text-slate-500">Atención</dt>
+                    <dd class="mt-1 text-slate-800">{contacto.horario}</dd>
+                </div>
+            )}
+        </dl>
+    </section>
+</Base>

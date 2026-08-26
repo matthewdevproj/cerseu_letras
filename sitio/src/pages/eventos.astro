@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroPagina from '../components/HeroPagina.astro';
+import EstadoVacio from '../components/EstadoVacio.astro';
+import { obtenerEventos } from '../lib/api';
+
+const eventos = await obtenerEventos();
+
+const fecha = (valor: string | null) =>
+    valor
+        ? new Date(valor).toLocaleDateString('es-PE', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+          })
+        : null;
+---
+
+<Base
+    titulo="Eventos"
+    descripcion="Eventos y actividades académicas del CERSEU de la Facultad de Letras."
+>
+    <HeroPagina
+        titulo="Eventos"
+        kicker="Actualidad"
+        bajada="Actividades académicas y culturales del CERSEU."
+        migas={[{ texto: 'Inicio', url: '/' }, { texto: 'Eventos' }]}
+    />
+
+    <section class="mx-auto max-w-6xl px-6 py-16 pb-24">
+        {
+            eventos.length === 0 ? (
+                <EstadoVacio
+                    titulo="Aún no hay eventos publicados"
+                    texto="Cuando el CERSEU programe una actividad aparecerá aquí, con su fecha y su enlace."
+                    accion={{ texto: 'Ver la oferta formativa', url: '/cursos' }}
+                />
+            ) : (
+                <ul class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {eventos.map((evento) => (
+                        <li class="aparece flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                            {fecha(evento.fecha_inicio) && (
+                                <time
+                                    datetime={evento.fecha_inicio!}
+                                    class="text-xs font-semibold uppercase tracking-wider text-unmsm-dorado"
+                                >
+                                    {fecha(evento.fecha_inicio)}
+                                </time>
+                            )}
+
+                            <h2 class="mt-2 font-serif text-lg font-bold text-unmsm-azul">
+                                {evento.url ? (
+                                    <a
+                                        href={evento.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="hover:underline"
+                                    >
+                                        {evento.titulo}
+                                    </a>
+                                ) : (
+                                    evento.titulo
+                                )}
+                            </h2>
+
+                            {evento.descripcion && (
+                                <p class="mt-3 line-clamp-3 text-sm text-slate-600">
+                                    {evento.descripcion}
+                                </p>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            )
+        }
+    </section>
+</Base>

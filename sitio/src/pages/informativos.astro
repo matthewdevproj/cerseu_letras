@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroPagina from '../components/HeroPagina.astro';
+import EstadoVacio from '../components/EstadoVacio.astro';
+import { obtenerInformativos, obtenerConfiguracion } from '../lib/api';
+
+const grupos = await obtenerInformativos();
+const { contacto } = await obtenerConfiguracion();
+---
+
+<Base
+    titulo="Documentos y Recursos"
+    descripcion="Reglamentos, directivas e información institucional del CERSEU."
+>
+    <HeroPagina
+        titulo="Documentos y Recursos"
+        kicker="Información institucional"
+        bajada="Reglamentos, directivas y material de consulta."
+        migas={[{ texto: 'Inicio', url: '/' }, { texto: 'Documentos y Recursos' }]}
+    />
+
+    <section class="mx-auto max-w-4xl px-6 py-16 pb-24">
+        {
+            grupos.length === 0 ? (
+                <EstadoVacio
+                    titulo="Aún no hay documentos publicados"
+                    texto={`Los reglamentos y directivas del CERSEU se publicarán aquí. Mientras tanto puedes escribir a ${contacto.email ?? 'la Unidad'}.`}
+                    accion={{ texto: 'Ir a Trámites', url: '/tramites' }}
+                />
+            ) : (
+                <div class="space-y-10">
+                    {grupos.map((grupo, i) => (
+                        <section aria-labelledby={`grupo-${i}`}>
+                            <h2 id={`grupo-${i}`} class="font-serif text-xl font-bold text-unmsm-azul">
+                                {grupo.categoria}
+                            </h2>
+                            <div class="mt-2 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true" />
+
+                            <ul class="mt-5 divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-200">
+                                {grupo.recursos.map((recurso) => (
+                                    <li>
+                                        <a
+                                            href={recurso.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="flex items-center justify-between gap-4 px-5 py-4 transition hover:bg-slate-50"
+                                        >
+                                            <span class="font-medium text-slate-700">{recurso.titulo}</span>
+                                            {recurso.tipo && (
+                                                <span class="rounded bg-slate-100 px-2 py-1 text-xs font-semibold uppercase text-slate-500">
+                                                    {recurso.tipo}
+                                                </span>
+                                            )}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    ))}
+                </div>
+            )
+        }
+    </section>
+</Base>
