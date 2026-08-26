@@ -89,6 +89,19 @@ export type ConfiguracionSitio = {
         acciones: { texto: string; url: string }[];
         imagenes: string[];
     };
+    inscripcion: {
+        eyebrow: string | null;
+        titulo: string | null;
+        boton: { texto: string; url: string } | null;
+        pasos: {
+            titulo: string;
+            detalle: string | null;
+            fecha: string | null;
+            publico: string | null;
+            destacado: boolean;
+            icono_path: string;
+        }[];
+    } | null;
     redes: Record<string, string>;
 };
 

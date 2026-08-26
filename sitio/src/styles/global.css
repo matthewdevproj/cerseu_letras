@@ -36,3 +36,49 @@
         display: none;
     }
 }
+
+/*
+ * Foco visible en todo lo enfocable.
+ *
+ * Tailwind quita el contorno por defecto del navegador y no lo repone: quien
+ * navega con tabulador se queda sin saber donde esta. Es un requisito de WCAG
+ * (2.4.7), no un detalle estetico, y en el sitio de una entidad publica suele
+ * ser exigible.
+ *
+ * `:focus-visible` y no `:focus`: el anillo aparece al tabular, no al hacer
+ * clic con el raton.
+ */
+:where(a, button, summary, [tabindex]):focus-visible {
+    outline: 3px solid var(--color-unmsm-dorado-light);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+/* Sobre fondo azul el dorado se ve; sobre fondo claro, el azul contrasta mas. */
+:where(.bg-white, .bg-slate-50) :where(a, button, summary):focus-visible {
+    outline-color: var(--color-unmsm-azul);
+}
+
+/* Respeta a quien pide menos movimiento en el sistema. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Salto al contenido: primer tabulador de la pagina, oculto hasta enfocarse. */
+.saltar-al-contenido {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+}
+
+.saltar-al-contenido:focus {
+    left: 1rem;
+    top: 1rem;
+}

@@ -1,6 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-import { obtenerTipos, obtenerConfiguracion } from '../lib/api';
+import { obtenerTipos, obtenerConfiguracion, obtenerDocentes } from '../lib/api';
+import TituloSeccion from '../components/TituloSeccion.astro';
+import BandaIndicadores from '../components/BandaIndicadores.astro';
+import PasosInscripcion from '../components/PasosInscripcion.astro';
 
 // Se resuelve en el build: el HTML sale ya con estos datos dentro y el
 // visitante no espera a ninguna petición.
@@ -8,7 +11,9 @@ const tipos = await obtenerTipos();
 
 // El hero se edita en Configuración, no aquí. Tener el titular en la
 // plantilla obligaría a desplegar para cambiar una palabra.
-const { portada } = await obtenerConfiguracion();
+const sitio = await obtenerConfiguracion();
+const { portada, inscripcion } = sitio;
+const docentes = await obtenerDocentes();
 const fondo = portada.imagenes[0];
 ---
 
@@ -68,28 +73,67 @@ const fondo = portada.imagenes[0];
         </div>
     </section>
 
-    <section class="mx-auto max-w-6xl px-6 py-16">
-        <h2 class="font-serif text-2xl font-bold text-unmsm-azul">Nuestra oferta</h2>
-        <p class="mt-2 text-slate-600">Cada tipo se mide con la unidad que le es propia.</p>
+    <BandaIndicadores tipos={tipos} docentes={docentes.length} />
 
-        <div class="mt-8 grid gap-6 sm:grid-cols-3">
+    <section class="mx-auto max-w-6xl px-6 py-20">
+        <TituloSeccion
+            titulo="Nuestra oferta"
+            kicker="Formación abierta"
+            bajada="Cada tipo se mide con la unidad que le es propia."
+            centrado
+        />
+
+        <div class="mt-12 grid gap-6 sm:grid-cols-3">
             {
                 tipos.map((tipo) => (
                     <a
                         href={`/${tipo.slug}`}
-                        class="block rounded-xl border border-slate-200 border-l-4 border-l-unmsm-azul p-6 shadow-sm transition hover:border-unmsm-azul/40 hover:shadow-md"
+                        class="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:border-unmsm-azul/30 hover:shadow-xl"
                     >
-                        <h3 class="font-serif text-lg font-bold text-unmsm-azul">{tipo.plural}</h3>
-                        <p class="mt-2 text-sm text-slate-600">
-                            Se miden en {tipo.medidas.join(' y ')}.
+                        <span
+                            aria-hidden="true"
+                            class="absolute inset-x-0 top-0 h-1 bg-unmsm-dorado opacity-0 transition group-hover:opacity-100"
+                        />
+                        <h3 class="font-serif text-xl font-bold text-unmsm-azul">{tipo.plural}</h3>
+                        <p class="mt-3 text-sm leading-relaxed text-slate-600">
+                            Se miden en {tipo.medidas.join(" y ")}.
                         </p>
-                        <p class="mt-4 text-3xl font-bold text-unmsm-azul">{tipo.publicados}</p>
-                        <p class="text-xs uppercase tracking-wider text-slate-500">
-                            {tipo.publicados === 1 ? 'programa publicado' : 'programas publicados'}
+                        <p class="mt-auto pt-6 text-sm font-semibold text-unmsm-azul">
+                            {tipo.publicados > 0
+                                ? `Ver ${tipo.publicados} ${tipo.publicados === 1 ? "programa" : "programas"}`
+                                : "Próximamente"}
+                            <span aria-hidden="true" class="ml-1 inline-block transition group-hover:translate-x-1">→</span>
                         </p>
                     </a>
                 ))
             }
+        </div>
+    </section>
+
+    {inscripcion && <PasosInscripcion inscripcion={inscripcion} />}
+
+    {/* Banda institucional, como en Blade: da respiro entre bloques y sitúa al
+        CERSEU dentro de la Universidad. */}
+    <section class="bg-unmsm-azul py-16 text-white">
+        <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 md:flex-row md:items-center md:justify-between">
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-unmsm-dorado-light">
+                    {portada.kicker}
+                </p>
+                <h2 class="mt-2 font-serif text-2xl font-bold sm:text-3xl">
+                    Tradición humanística, vocación de futuro
+                </h2>
+                <p class="mt-3 max-w-2xl text-slate-200">
+                    En la universidad más antigua de América, el CERSEU acerca las letras y
+                    las ciencias humanas a toda la comunidad.
+                </p>
+            </div>
+            <a
+                href="/nosotros"
+                class="inline-block flex-none rounded-lg border border-white/40 px-6 py-3 font-semibold transition hover:bg-white/10"
+            >
+                Conócenos
+            </a>
         </div>
     </section>
 </Base>

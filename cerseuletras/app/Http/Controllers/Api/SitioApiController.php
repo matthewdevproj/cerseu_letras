@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\CronogramaAdmision;
 use App\Models\MenuItem;
 use App\Models\SiteSetting;
 use Illuminate\Http\JsonResponse;
@@ -75,6 +76,9 @@ class SitioApiController extends Controller
                     ),
                 ],
 
+                // Bloque «Como inscribirte» de la portada, con sus pasos.
+                'inscripcion' => $this->inscripcion(),
+
                 'redes' => array_filter([
                     'facebook' => $ajustes?->facebook,
                     'instagram' => $ajustes?->instagram,
@@ -106,6 +110,46 @@ class SitioApiController extends Controller
         return response()->json([
             'data' => $raiz->map(fn (MenuItem $item) => $this->comoArray($item))->values(),
         ]);
+    }
+
+    /**
+     * Los pasos que la Unidad edita en /admin/cronograma-admision.
+     *
+     * Devuelve null si no hay ninguno visible, para que el sitio pueda omitir
+     * la seccion entera en vez de pintar un titulo sobre un hueco.
+     */
+    private function inscripcion(): ?array
+    {
+        $bloque = CronogramaAdmision::get();
+
+        if (! $bloque || ! $bloque->is_visible) {
+            return null;
+        }
+
+        $pasos = $bloque->pasos->where('is_visible', true)->sortBy('orden')->values();
+
+        if ($pasos->isEmpty()) {
+            return null;
+        }
+
+        return [
+            'eyebrow' => $bloque->eyebrow,
+            'titulo' => $bloque->titulo,
+            'boton' => $bloque->boton_texto ? [
+                'texto' => $bloque->boton_texto,
+                'url' => $bloque->boton_url ?: '/',
+            ] : null,
+            'pasos' => $pasos->map(fn ($paso) => [
+                'titulo' => $paso->titulo,
+                'detalle' => $paso->detalle ?: null,
+                'fecha' => $paso->fecha_display ?: null,
+                'publico' => $paso->publico ?: null,
+                'destacado' => (bool) $paso->destacado,
+                // El SVG ya resuelto: el catalogo de iconos vive en el modelo,
+                // y duplicarlo en el frontend seria mantenerlo dos veces.
+                'icono_path' => $paso->icono_path,
+            ])->all(),
+        ];
     }
 
     private function comoArray(MenuItem $item): array

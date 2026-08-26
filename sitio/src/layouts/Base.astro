@@ -68,7 +68,12 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
         <script type="application/ld+json" set:html={JSON.stringify(organizacion)} />
         {datos && <script type="application/ld+json" set:html={JSON.stringify(datos)} />}
     </head>
-    <body class="min-h-screen bg-white text-slate-800 antialiased">
+    <body class="flex min-h-screen flex-col bg-white text-slate-800 antialiased">
+        {/* Primer tabulador de la página: permite saltarse el menú entero, que
+            son 20 enlaces antes de llegar al contenido. */}
+        <a href="#contenido" class="saltar-al-contenido rounded-lg bg-unmsm-azul px-4 py-2 font-semibold text-white">
+            Saltar al contenido
+        </a>
         <header class="bg-unmsm-azul text-white">
             <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-5">
                 <a href="/" class="leading-tight">
@@ -154,56 +159,77 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
             })();
         </script>
 
-        <main>
+        <main id="contenido" class="flex-1">
             <slot />
         </main>
 
-        <footer class="mt-20 bg-unmsm-azul-dark text-sm text-slate-300">
-            <div class="mx-auto max-w-6xl px-6 py-10">
-                <p class="font-semibold text-white">{sitio.nombre}</p>
-                {sitio.descripcion && <p class="mt-2 max-w-2xl">{sitio.descripcion}</p>}
+        <footer class="bg-unmsm-azul-dark text-sm text-slate-300">
+            <div class="mx-auto max-w-6xl px-6 py-14">
+                <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+                    <div class="lg:col-span-2">
+                        <p class="font-serif text-lg font-bold text-white">{sitio.nombre}</p>
+                        {sitio.descripcion && (
+                            <p class="mt-3 max-w-md leading-relaxed">{sitio.descripcion}</p>
+                        )}
 
-                <ul class="mt-5 space-y-1">
-                    {contacto.direccion && <li>{contacto.direccion}</li>}
-                    {contacto.email && (
-                        <li>
-                            <a href={`mailto:${contacto.email}`} class="hover:text-white">
-                                {contacto.email}
-                            </a>
-                        </li>
-                    )}
-                    {telefono && (
-                        <li>
-                            {contacto.whatsapp ? (
-                                <a href={contacto.whatsapp} class="hover:text-white">{telefono}</a>
-                            ) : (
-                                telefono
-                            )}
-                        </li>
-                    )}
-                    {contacto.horario && <li>{contacto.horario}</li>}
-                </ul>
+                        {Object.keys(sitio.redes).length > 0 && (
+                            <ul class="mt-6 flex gap-3">
+                                {Object.entries(sitio.redes).map(([red, url]) => (
+                                    <li>
+                                        <a
+                                            href={url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="inline-block rounded-lg border border-white/20 px-4 py-2 text-xs font-medium capitalize transition hover:border-unmsm-dorado hover:text-white"
+                                        >
+                                            {red}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
 
-                {
-                    Object.keys(sitio.redes).length > 0 && (
-                        <ul class="mt-5 flex gap-4">
-                            {Object.entries(sitio.redes).map(([red, url]) => (
+                    <div>
+                        <h2 class="text-xs font-semibold uppercase tracking-wider text-white">Contacto</h2>
+                        <ul class="mt-4 space-y-2">
+                            {contacto.direccion && <li>{contacto.direccion}</li>}
+                            {contacto.email && (
                                 <li>
-                                    <a
-                                        href={url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="capitalize hover:text-white"
-                                    >
-                                        {red}
+                                    <a href={`mailto:${contacto.email}`} class="hover:text-white">
+                                        {contacto.email}
                                     </a>
                                 </li>
-                            ))}
+                            )}
+                            {telefono && (
+                                <li>
+                                    {contacto.whatsapp ? (
+                                        <a href={contacto.whatsapp} class="hover:text-white">{telefono}</a>
+                                    ) : (
+                                        telefono
+                                    )}
+                                </li>
+                            )}
+                            {contacto.horario && <li class="text-slate-400">{contacto.horario}</li>}
                         </ul>
-                    )
-                }
+                    </div>
 
-                <p class="mt-8 text-xs text-slate-400">
+                    <div>
+                        <h2 class="text-xs font-semibold uppercase tracking-wider text-white">Enlaces</h2>
+                        <ul class="mt-4 space-y-2">
+                            {menu
+                                .filter((i) => i.enlace && !i.nueva_pestana)
+                                .slice(0, 6)
+                                .map((i) => (
+                                    <li>
+                                        <a href={i.enlace!} class="hover:text-white">{i.etiqueta}</a>
+                                    </li>
+                                ))}
+                        </ul>
+                    </div>
+                </div>
+
+                <p class="mt-12 border-t border-white/10 pt-6 text-xs text-slate-400">
                     Prueba de concepto del sitio público en Astro, generado contra la API de
                     contenido de Laravel. El sitio en producción sigue siendo el de Blade.
                 </p>
