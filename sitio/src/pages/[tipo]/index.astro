@@ -1,6 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import TarjetaPrograma from '../../components/TarjetaPrograma.astro';
+import Boton from '../../components/Boton.astro';
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { obtenerTipos, obtenerProgramas } from '../../lib/api';
 
 // Una sola plantilla para talleres, cursos y especializaciones: las rutas
@@ -62,12 +64,7 @@ const { tipo, programas } = Astro.props;
             </p>
 
             <div class="mt-8 flex flex-wrap gap-4">
-                <a
-                    href="/admision"
-                    class="rounded-lg bg-unmsm-dorado px-6 py-3 font-semibold text-unmsm-azul-dark transition hover:bg-unmsm-dorado-light"
-                >
-                    Cómo inscribirte
-                </a>
+                <Boton href="/admision" icono={faUserPlus}>Cómo inscribirte</Boton>
                 {tipo.hero.claim && (
                     <p class="max-w-sm self-center text-sm text-slate-200">{tipo.hero.claim}</p>
                 )}

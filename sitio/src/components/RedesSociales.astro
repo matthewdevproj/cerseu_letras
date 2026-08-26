@@ -1,0 +1,76 @@
+---
+import Icono from './Icono.astro';
+import {
+    faFacebookF,
+    faInstagram,
+    faTiktok,
+    faYoutube,
+    faLinkedinIn,
+} from '@fortawesome/free-brands-svg-icons';
+
+interface Props {
+    redes: Record<string, string>;
+    /** `pastilla` en el pie; `circulo` cuando va suelto. */
+    forma?: 'pastilla' | 'circulo';
+}
+
+const { redes, forma = 'pastilla' } = Astro.props;
+
+// Cada red con su icono de marca y su color real. El degradado de Instagram no
+// es un adorno: su identidad ES un degradado, y resolverlo con un azul plano se
+// nota. Los demás usan su color de marca, que es lo que hace que el logotipo se
+// reconozca antes de leer nada.
+const catalogo: Record<
+    string,
+    { icono: typeof faFacebookF; nombre: string; fondo: string }
+> = {
+    facebook: { icono: faFacebookF, nombre: 'Facebook', fondo: 'from-[#1877F2] to-[#0C63D4]' },
+    instagram: {
+        icono: faInstagram,
+        nombre: 'Instagram',
+        fondo: 'from-[#F58529] via-[#DD2A7B] to-[#8134AF]',
+    },
+    tiktok: { icono: faTiktok, nombre: 'TikTok', fondo: 'from-[#25F4EE] via-[#000000] to-[#FE2C55]' },
+    youtube: { icono: faYoutube, nombre: 'YouTube', fondo: 'from-[#FF0000] to-[#C4302B]' },
+    linkedin: { icono: faLinkedinIn, nombre: 'LinkedIn', fondo: 'from-[#0A66C2] to-[#004182]' },
+};
+
+const enlaces = Object.entries(redes)
+    .map(([clave, url]) => ({ clave, url, ...catalogo[clave.toLowerCase()] }))
+    .filter((r) => r.icono);
+---
+
+{
+    enlaces.length > 0 && (
+        <ul class="flex flex-wrap gap-3">
+            {enlaces.map((red) => (
+                <li>
+                    <a
+                        href={red.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${red.nombre} del CERSEU (se abre en una pestaña nueva)`}
+                        class:list={[
+                            'group relative isolate flex items-center gap-2 overflow-hidden border border-white/20 font-medium transition duration-300 hover:border-transparent hover:text-white',
+                            forma === 'circulo'
+                                ? 'h-11 w-11 justify-center rounded-full'
+                                : 'rounded-lg px-4 py-2 text-xs',
+                        ]}
+                    >
+                        {/* El degradado entra por opacidad, no por cambio de fondo:
+                            así la transición es suave y no un parpadeo. */}
+                        <span
+                            aria-hidden="true"
+                            class:list={[
+                                'absolute inset-0 -z-10 bg-linear-to-br opacity-0 transition-opacity duration-300 group-hover:opacity-100',
+                                red.fondo,
+                            ]}
+                        />
+                        <Icono icono={red.icono} clase="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                        {forma === 'pastilla' && <span>{red.nombre}</span>}
+                    </a>
+                </li>
+            ))}
+        </ul>
+    )
+}

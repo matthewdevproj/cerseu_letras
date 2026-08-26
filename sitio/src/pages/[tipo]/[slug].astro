@@ -1,6 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
 import TarjetaPrograma from '../../components/TarjetaPrograma.astro';
+import Boton from '../../components/Boton.astro';
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import {
     obtenerTipos,
     obtenerProgramas,
@@ -213,22 +216,18 @@ const iniciales = (nombre: string) =>
                         </dl>
 
                         <div class="space-y-3 p-5 pt-4">
-                            <a
-                                href="/admision"
-                                class="block rounded-lg bg-unmsm-azul px-4 py-3 text-center font-semibold text-white transition hover:bg-unmsm-azul-light"
-                            >
-                                Cómo inscribirte
-                            </a>
+                            <Boton href="/admision" variante="azul" icono={faUserPlus} ancho>Cómo inscribirte</Boton>
                             {
                                 contacto.whatsapp && (
-                                    <a
+                                    <Boton
                                         href={contacto.whatsapp}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="block rounded-lg border-2 border-slate-200 px-4 py-3 text-center font-semibold text-slate-700 transition hover:border-unmsm-azul hover:text-unmsm-azul"
+                                        variante="contorno"
+                                        icono={faWhatsapp}
+                                        ancho
+                                        nuevaPestana
                                     >
                                         Consultar por WhatsApp
-                                    </a>
+                                    </Boton>
                                 )
                             }
                         </div>

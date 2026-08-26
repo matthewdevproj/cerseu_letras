@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { obtenerConfiguracion, obtenerMenu } from '../lib/api';
 import BotonWhatsapp from '../components/BotonWhatsapp.astro';
+import RedesSociales from '../components/RedesSociales.astro';
 
 interface Props {
     titulo: string;
@@ -177,22 +178,9 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
                             <p class="mt-3 max-w-md leading-relaxed">{sitio.descripcion}</p>
                         )}
 
-                        {Object.keys(sitio.redes).length > 0 && (
-                            <ul class="mt-6 flex gap-3">
-                                {Object.entries(sitio.redes).map(([red, url]) => (
-                                    <li>
-                                        <a
-                                            href={url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            class="inline-block rounded-lg border border-white/20 px-4 py-2 text-xs font-medium capitalize transition hover:border-unmsm-dorado hover:text-white"
-                                        >
-                                            {red}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                        <div class="mt-6">
+                            <RedesSociales redes={sitio.redes} />
+                        </div>
                     </div>
 
                     <div>
