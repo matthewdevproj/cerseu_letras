@@ -1,7 +1,19 @@
-# CERSEU Letras — Laravel 12 con Docker
+# CERSEU Letras — Laravel 12 + Astro, con Docker
 
 Sitio del **Centro de Responsabilidad Social y Extensión Universitaria** de la
 Facultad de Letras y Ciencias Humanas de la UNMSM.
+
+El sitio son **dos piezas**, y conviene tenerlo claro desde el principio:
+
+| | Qué es | Dónde vive |
+|---|---|---|
+| **Laravel** | El panel y la API de contenido | `cerseuletras/` |
+| **Astro** | El sitio público, ficheros estáticos | `sitio/` |
+
+Astro se construye contra la API y Nginx entrega el resultado. Laravel solo
+responde HTML en `/admin`, `/login` y `/profile`; todo lo demás son ficheros.
+Publicar desde el panel encola un trabajo que pide reconstruir el sitio, así
+que un cambio de contenido no exige tocar nada a mano.
 
 El CERSEU ofrece **tres tipos** de formación abierta a toda la comunidad. Cada
 uno se anuncia con la unidad que le es propia:
@@ -50,11 +62,17 @@ administra desde el panel en `/admin`.
 ├── scripts/
 │   ├── check_ssl_expiry.sh      ← días que le quedan al certificado
 │   └── migrar_bd_a_cerseu.sh    ← vuelca posgradoletras → cerseuletras
-└── cerseuletras/            ← Código Laravel 12 (ver su propio README)
-    ├── app/
-    ├── routes/
-    ├── resources/
-    └── ...
+├── cerseuletras/            ← Laravel 12: panel y API (ver su propio README)
+│   ├── app/
+│   ├── routes/api.php       ← el contrato con el sitio
+│   ├── routes/web.php       ← solo el panel y la sesión
+│   └── ...
+└── sitio/                   ← Astro: el sitio público
+    ├── src/pages/           ← una página, una ruta
+    ├── src/lib/api.ts       ← el único sitio que habla con la API
+    ├── e2e/                 ← pruebas de navegador (Playwright)
+    ├── herramientas/        ← servicio que reconstruye al publicar
+    └── dist/                ← lo que sirve Nginx (no versionado)
 ```
 
 ## Instalación Rápida
@@ -165,10 +183,23 @@ docker compose run --rm app php artisan migrate --seed
 # Enlace de storage (imágenes subidas desde el panel)
 docker compose run --rm app php artisan storage:link
 
-# Frontend
+# Assets del panel
 docker compose run --rm app npm install
 docker compose run --rm app npm run build
 ```
+
+Y el sitio público, que se construye contra la API que acabas de sembrar:
+
+```bash
+docker compose run --rm astro npm install
+docker compose run --rm -e CERSEU_API=http://web/api/v1 astro npm run build
+```
+
+`http://web` es el nombre del servicio de Nginx dentro de la red de Docker.
+No sirve `localhost`: ahí dentro sería el propio contenedor de Astro.
+
+Sin este paso `sitio/dist/` está vacío y el dominio responde 404 —Nginx sirve
+ficheros y todavía no hay ninguno—, aunque `/admin` y `/api` funcionen.
 
 `--seed` deja el sitio utilizable desde el primer arranque: menú, textos de
 `/nosotros`, `/tramites` y `/admision`, ajustes del sitio y la programación
@@ -213,16 +244,27 @@ docker compose run --rm app chmod -R 775 storage bootstrap/cache
 
 ### 5. Acceder a la aplicación
 
-Abre en tu navegador: [http://localhost](http://localhost)
+| | Dirección | Qué es |
+|---|---|---|
+| Sitio | [http://localhost](http://localhost) | El `dist/` de Astro servido por Nginx |
+| Panel | [http://localhost/admin](http://localhost/admin) | Laravel |
+| API | [http://localhost/api/v1/sitio](http://localhost/api/v1/sitio) | El contrato entre ambos |
+| Sitio en desarrollo | [http://localhost:4321](http://localhost:4321) | Servidor de Astro con recarga en caliente |
 
-El panel está en `/admin`. Los seeders crean un administrador con contraseña de
-desarrollo —la verás impresa al sembrar—: **cámbiala antes de exponer el
-sitio**, porque está escrita en `database/seeders/UserSeeder.php`.
+Los dos últimos solo en la capa de desarrollo.
+
+El de :4321 recarga al guardar y es con el que se trabaja; el del puerto 80 es
+lo que se publica, y solo cambia al construir. Cuando algo se vea distinto en
+uno y otro, el que manda es el del 80.
+
+Los seeders crean un administrador con contraseña de desarrollo —la verás
+impresa al sembrar—: **cámbiala antes de exponer el sitio**, porque está
+escrita en `database/seeders/UserSeeder.php`.
 
 ## Desplegar en una VM Linux
 
 Lo anterior está verificado clonando el repositorio en limpio y siguiendo estos
-pasos uno a uno. Al llevarlo a una VM hay tres diferencias:
+pasos uno a uno. Al llevarlo a una VM hay cuatro diferencias:
 
 1. **`UID`/`GID`** (paso 4). Es el fallo más común y no se manifiesta en
    Windows, porque allí Docker Desktop presenta todo el bind mount como `root`
@@ -253,6 +295,19 @@ pasos uno a uno. Al llevarlo a una VM hay tres diferencias:
    `$server_name`, `$request_uri` y `$fastcgi_script_name`, y nginx no
    arrancaría.
 
+   El dominio del sitio va aparte, en `CERSEU_SITE`: de ahí salen el sitemap
+   y las URL canónicas, que Astro necesita al construir.
+
+   ```env
+   CERSEU_SITE=https://otra-unidad.unmsm.edu.pe
+   ```
+
+4. **Reconstruir al publicar**. El servicio `build` recibe la petición que
+   encola Laravel cuando alguien publica desde el panel. Comparten un token
+   —`CERSEU_BUILD_TOKEN`— que hay que poner en los dos `.env`. Sin él, el
+   trabajo se descarta en silencio y el sitio se queda con el contenido de la
+   última construcción manual.
+
 ### Antes de abrirlo al público
 
 Los pasos de «Instalación Rápida» dejan el sitio funcionando, pero en modo
@@ -262,8 +317,11 @@ desarrollo. Para un servidor hay que añadir:
 # Dependencias sin las de desarrollo, y autoload optimizado
 docker compose run --rm app composer install --no-dev --optimize-autoloader
 
-# Assets compilados para producción (no `npm run dev`)
+# Assets del panel compilados para producción (no `npm run dev`)
 docker compose run --rm app npm run build
+
+# El sitio público, contra la API ya sembrada
+docker compose run --rm -e CERSEU_API=http://web/api/v1 astro npm run build
 
 # Migraciones sin la confirmación interactiva
 docker compose run --rm app php artisan migrate --force
@@ -338,13 +396,24 @@ docker compose run --rm app npm <comando>
 ### Pruebas
 
 ```bash
+# Laravel: el panel, la API y las reglas de contenido
 docker compose run --rm app php artisan test
-docker compose run --rm app npm test          # Vitest
+
+# Los componentes del panel (Vitest)
+docker compose run --rm app npm test
+
+# El sitio, en un navegador de verdad (Playwright).
+# Corre contra Nginx, así que hay que construir antes.
+docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile e2e run --rm e2e
 ```
 
-**Las dos suites pasan enteras.** Si algo falla, lo has roto tú: no hay fallos
-heredados que haya que aprender a ignorar, y ese es justamente el motivo de
-mantenerlas en verde.
+**Las tres suites pasan enteras.** Si algo falla, lo has roto tú: no hay
+fallos heredados que haya que aprender a ignorar, y ese es justamente el
+motivo de mantenerlas en verde.
+
+La de navegador apunta a Nginx y no al servidor de desarrollo a propósito: lo
+que se publica es el `dist/`, y hay comportamiento que solo existe ahí —los
+301 heredados, la página 404, las cabeceras de caché—.
 
 Hasta agosto de 2026 la suite de PHP terminaba con ocho fallos permanentes,
 todos del andamiaje que Laravel Breeze deja al instalarse. Se resolvieron
@@ -354,13 +423,14 @@ mirando uno por uno en vez de silenciarlos:
   eliminaron. Comprobaban rutas que este sitio no sirve —no hay alta pública,
   los usuarios se crean desde `/admin/users`—, así que no cubrían nada.
 - La de **inicio de sesión** afirmaba una redirección a `route('dashboard')`,
-  que aquí no existe. Ahora cubre las dos ramas reales: un admin acaba en el
-  panel y cualquier otro usuario en la portada.
+  que aquí no existe. Ahora comprueba lo que de verdad pasa: quien se
+  autentica acaba en el panel, porque es lo único para lo que hay sesión.
 - La de **confirmación de contraseña** destapó un fallo de verdad:
   `ConfirmablePasswordController` redirigía también a `route('dashboard')` y
   lanzaba `RouteNotFoundException`, o sea un 500.
 - El **ExampleTest** de Laravel venía con `RefreshDatabase` comentado, así que
-  pedía la portada sin base de datos.
+  pedía la portada sin base de datos. Se retiró al migrar el sitio: la portada
+  ya no la sirve Laravel.
 
 ### Ver logs
 
@@ -390,11 +460,21 @@ docker compose down -v
 
 ## Servicios
 
-| Servicio | Puerto            | Descripción |
-|----------|-------------------|-------------|
-| web      | 80 y 443          | Nginx (con TLS). Su conf se genera al arrancar desde `docker/nginx/templates/` |
-| app      | —                 | PHP-FPM 8.2 (interno, sin puerto publicado) |
-| db       | 3307 → 3306       | MySQL 8.0 (`DB_PORT` cambia el puerto del host) |
+| Servicio | Puerto | Descripción |
+|---|---|---|
+| web | 80 y 443 | Nginx. Sirve el `dist/` de Astro y pasa a PHP solo `/admin`, `/api`, la sesión y los ficheros subidos |
+| app | — | PHP-FPM 8.2 (interno, sin puerto publicado) |
+| db | 3307 → 3306 | MySQL 8.0 (`DB_PORT` cambia el puerto del host) |
+| redis | — | Caché, sesiones y colas |
+| queue | — | Procesa la cola: avisos de solicitud y reconstrucción del sitio |
+| astro | 4321 | Servidor de desarrollo del sitio (solo en la capa de desarrollo) |
+| build | 4322 | Recibe la petición de reconstruir cuando se publica desde el panel |
+| e2e | — | Playwright. Solo con `--profile e2e` |
+
+El reparto entre el sitio y Laravel está en `docker/nginx/sitio.conf`, en un
+solo fichero incluido por las dos plantillas —HTTP y HTTPS— para que no puedan
+divergir. Lo que no esté en esa lista es sitio estático: añadir una página a
+Astro no exige tocar Nginx.
 
 ## Base de Datos
 

@@ -109,6 +109,39 @@ services:
 
   # MySQL Database
   # Base de Datos
+  # Construccion del sitio publico.
+  #
+  # Dos oficios en un solo contenedor, y por eso vive aqui y no en la capa de
+  # desarrollo:
+  #
+  #   - Escucha en /reconstruir. Publicar desde el panel encola un trabajo que
+  #     pide una reconstruccion, y este servicio la ejecuta: sin el, el sitio
+  #     se queda con el contenido de la ultima construccion manual.
+  #   - Es donde se lanza el build a mano:
+  #       docker compose run --rm build npm run build
+  #
+  # `CERSEU_API` apunta al nombre del servicio de Nginx dentro de la red. No
+  # sirve localhost: ahi dentro seria este mismo contenedor.
+  build:
+    image: node:22-alpine
+    container_name: cerseuletras_build
+    restart: unless-stopped
+    working_dir: /app
+    environment:
+      - CERSEU_API=http://web/api/v1
+      - CERSEU_SITE=${CERSEU_SITE:-https://cerseuletras.unmsm.edu.pe}
+      - CERSEU_BUILD_TOKEN=${CERSEU_BUILD_TOKEN:-token-de-desarrollo}
+      - PUERTO_BUILD=4322
+    volumes:
+      - ./sitio:/app
+      # node_modules en volumen nombrado, por lo mismo que vendor/ en la app.
+      - node-modules-build:/app/node_modules
+    depends_on:
+      - web
+    networks:
+      - laravel-network
+    command: sh -c "npm install && node herramientas/servidor-de-build.mjs"
+
   db:
     build:
       context: ./docker/mysql
@@ -130,6 +163,7 @@ services:
 
 volumes:
   redis-data:
+  node-modules-build:
   db-data:
 
 networks:
