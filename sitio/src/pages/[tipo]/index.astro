@@ -135,7 +135,7 @@ const apiPublica = import.meta.env.CERSEU_API_PUBLICA ?? '/api/v1';
                     </p>
                 </div>
             ) : (
-                <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div data-revelar-grupo class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {programas.map((programa) => (
                         <TarjetaPrograma programa={programa} />
                     ))}

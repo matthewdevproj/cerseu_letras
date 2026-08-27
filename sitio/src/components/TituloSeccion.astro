@@ -38,13 +38,16 @@ const { titulo, bajada, centrado = false, kicker, claro = false, id } = Astro.pr
         {titulo}
     </h2>
 
-    {/* La regla dorada bajo el título es el gesto que identifica al sitio en
-        Blade. Se conserva aquí para que las dos versiones se reconozcan. */}
+    {/* La regla bajo el título es el gesto que identifica al sitio. Deja de ser
+        un dorado plano: recorre el degradado de marca —azul a dorado— y se
+        ensancha al entrar la sección, que es lo que la hace parecer parte del
+        movimiento y no un adorno pegado. */}
     <div
         class:list={[
-            'mt-3 h-1 w-16 rounded-full bg-unmsm-dorado',
+            'regla-marca marca-degradado mt-3 h-1 rounded-full',
             centrado ? 'mx-auto' : '',
         ]}
+        data-revelar
         aria-hidden="true"
     >
     </div>
@@ -63,3 +66,29 @@ const { titulo, bajada, centrado = false, kicker, claro = false, id } = Astro.pr
         )
     }
 </header>
+
+<style>
+    .regla-marca {
+        width: 4rem;
+    }
+
+    /* Al pasar por la cabecera de la seccion la regla se estira: un gesto
+       corto, sobre un elemento decorativo, que no mueve el texto de sitio. */
+    header:hover .regla-marca {
+        width: 6rem;
+    }
+
+    .regla-marca {
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .regla-marca {
+            transition: none;
+        }
+
+        header:hover .regla-marca {
+            width: 4rem;
+        }
+    }
+</style>

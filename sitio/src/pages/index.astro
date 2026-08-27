@@ -9,9 +9,11 @@ import {
     obtenerEventos,
     obtenerInformativos,
     obtenerTestimonios,
+    obtenerDocente,
 } from '../lib/api';
 import AnunciosPopup from '../components/AnunciosPopup.astro';
 import SeccionesPortada from '../components/SeccionesPortada.astro';
+import Coordinadores from '../components/Coordinadores.astro';
 import TituloSeccion from '../components/TituloSeccion.astro';
 import BandaIndicadores from '../components/BandaIndicadores.astro';
 import PasosInscripcion from '../components/PasosInscripcion.astro';
@@ -28,6 +30,13 @@ const tipos = await obtenerTipos();
 const sitio = await obtenerConfiguracion();
 const { portada, inscripcion } = sitio;
 const docentes = await obtenerDocentes();
+
+// Los seis primeros con su detalle: la sección de coordinadores anuncia lo que
+// dicta cada uno, y el listado no lo trae. Se resuelve en el build, así que no
+// cuesta ninguna petición al visitante.
+const coordinadores = await Promise.all(
+    docentes.slice(0, 6).map((d) => obtenerDocente(d.slug))
+);
 const programas = await obtenerProgramas();
 const fondo = portada.imagenes[0];
 
@@ -105,7 +114,11 @@ const [eventos, informativos, testimonios] = await Promise.all([
 
     <BandaIndicadores tipos={tipos} docentes={portada.docentes ?? docentes.length} />
 
-    <section class="mx-auto max-w-6xl px-6 py-20">
+    {/* Fondo gris, como `#programas` en el sitio anterior: la portada alterna
+        oscuro, azul, gris y blanco, y ese ritmo es lo que la hace leerse como
+        una página y no como bloques blancos apilados. */}
+    <section class="bg-slate-50 py-20">
+      <div class="mx-auto max-w-6xl px-6">
         <TituloSeccion
             titulo="Nuestra oferta"
             kicker="Formación abierta"
@@ -113,38 +126,13 @@ const [eventos, informativos, testimonios] = await Promise.all([
             centrado
         />
 
-        <div class="mt-12 grid gap-6 sm:grid-cols-3">
-            {
-                tipos.map((tipo) => (
-                    <a
-                        href={`/${tipo.slug}`}
-                        class="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:border-unmsm-azul/30 hover:shadow-xl"
-                    >
-                        <span
-                            aria-hidden="true"
-                            class="absolute inset-x-0 top-0 h-1 bg-unmsm-dorado opacity-0 transition group-hover:opacity-100"
-                        />
-                        <h3 class="font-serif text-xl font-bold text-unmsm-azul">{tipo.plural}</h3>
-                        <p class="mt-3 text-sm leading-relaxed text-slate-600">
-                            Se miden en {tipo.medidas.join(" y ")}.
-                        </p>
-                        <p class="mt-auto pt-6 text-sm font-semibold text-unmsm-azul">
-                            {tipo.publicados > 0
-                                ? `Ver ${tipo.publicados} ${tipo.publicados === 1 ? "programa" : "programas"}`
-                                : "Próximamente"}
-                            <span aria-hidden="true" class="ml-1 inline-block transition group-hover:translate-x-1">→</span>
-                        </p>
-                    </a>
-                ))
-            }
-        </div>
-
-        {/* Muestra de la oferta, con filtro. La portada de Blade tiene esto y
-            la de Astro no lo tenía: se salía de la portada sin haber visto un
-            solo curso. */}
-        <div class="mt-20">
+        <div class="mt-12">
             <OfertaDestacada tipos={tipos} programas={programas} />
-        </div>    </section>
+        </div>
+      </div>
+    </section>
+
+    <Coordinadores docentes={coordinadores} />
 
     <AnunciosPopup anuncios={anuncios} />
 
@@ -174,3 +162,4 @@ const [eventos, informativos, testimonios] = await Promise.all([
         </div>
     </section>
 </Base>
+

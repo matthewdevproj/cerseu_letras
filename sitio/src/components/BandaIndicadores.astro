@@ -41,7 +41,14 @@ const cifras = [
     >
     </div>
 
-    <dl class="mx-auto grid max-w-6xl grid-cols-2 gap-y-6 px-6 py-10 sm:grid-cols-3 lg:grid-cols-5 lg:divide-x lg:divide-white/10">
+    {/* La regla de marca cierra la banda por arriba, como el filo dorado que
+        separaba el pie en el sitio anterior. */}
+    <div class="marca-regla h-px w-full opacity-70" aria-hidden="true"></div>
+
+    <dl
+        data-revelar-grupo
+        class="mx-auto grid max-w-6xl grid-cols-2 gap-y-6 px-6 py-10 sm:grid-cols-3 lg:grid-cols-5 lg:divide-x lg:divide-white/10"
+    >
         {
             cifras.map((cifra) => {
                 const Etiqueta = cifra.enlace ? 'a' : 'div';
@@ -57,10 +64,18 @@ const cifras = [
                             mismos que usa el sitio anterior: los de contorno
                             fino que habia aqui se leian como hexagonos sueltos
                             al tamano al que se pintan. */}
-                        <span class="mx-auto flex h-7 items-center justify-center text-unmsm-dorado">
+                        <span
+                            data-revelar
+                            class="mx-auto flex h-7 items-center justify-center text-unmsm-dorado"
+                        >
                             <Icono icono={cifra.icono} clase="h-6 w-6" />
                         </span>
-                        <dd class="mt-2 font-serif text-3xl font-bold">{cifra.valor}</dd>
+                        <dd
+                            class="mt-2 font-serif text-3xl font-bold"
+                            data-contador={cifra.valor}
+                        >
+                            {cifra.valor}
+                        </dd>
                         <dt class="mt-1 text-[0.7rem] font-medium uppercase tracking-wider text-slate-300">
                             {cifra.etiqueta}
                         </dt>

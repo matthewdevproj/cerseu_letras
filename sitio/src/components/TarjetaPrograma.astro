@@ -13,8 +13,12 @@ const { programa } = Astro.props;
 const ruta = `/${programa.tipo}/${programa.slug}`;
 ---
 
+{/* El filo se pinta con el degradado de marca —azul a dorado— y solo aparece
+    al pasar por encima: es el gesto que identificaba al sitio anterior, que
+    lo tenia escrito a mano en tres plantillas. */}
 <article
-    class="aparece group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-unmsm-azul/30 hover:shadow-xl"
+    data-revelar
+    class="tarjeta-programa group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
 >
     <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
         {
@@ -98,5 +102,42 @@ const ruta = `/${programa.tipo}/${programa.slug}`;
 <style>
     article {
         position: relative;
+    }
+</style>
+
+<style>
+    .tarjeta-programa::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        border-radius: inherit;
+        padding: 1.5px;
+        background: var(--degradado-marca);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        /* La mascara recorta el interior: queda solo el filo, y la tarjeta
+           conserva su fondo blanco sin envolverla en otro elemento. */
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+    }
+
+    .tarjeta-programa:hover::after,
+    .tarjeta-programa:focus-within::after {
+        opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .tarjeta-programa,
+        .tarjeta-programa::after {
+            transition: none;
+        }
     }
 </style>

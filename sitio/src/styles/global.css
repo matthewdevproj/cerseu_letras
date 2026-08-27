@@ -30,6 +30,66 @@
     --color-unmsm-azul-soft: #88B8E7;
     --color-unmsm-dorado: #B6A350;
     --color-unmsm-dorado-light: #C9AA36;
+
+    /* El gesto que identificaba al sitio anterior: azul institucional a
+       dorado, a 135°. Estaba escrito a mano en tres plantillas —los avatares
+       de autoridades y de profesores— con los mismos valores repetidos; aquí
+       se declara una vez y se usa por nombre. */
+    --degradado-marca: linear-gradient(135deg, var(--color-unmsm-azul-dark) 0%, var(--color-unmsm-dorado) 100%);
+    --degradado-marca-suave: linear-gradient(
+        135deg,
+        color-mix(in oklab, var(--color-unmsm-azul) 6%, transparent) 0%,
+        color-mix(in oklab, var(--color-unmsm-dorado) 10%, transparent) 100%
+    );
+    /* La regla dorada que separaba secciones en el pie: se desvanece por los
+       dos extremos en vez de cortarse en seco. */
+    --regla-dorada: linear-gradient(90deg, transparent, var(--color-unmsm-dorado), transparent);
+}
+
+/*
+ * Utilidades del degradado de marca.
+ *
+ * Se declaran como clases y no se repiten en cada componente: el sitio en
+ * Blade tenía el mismo `linear-gradient(135deg, #103050, #B6A350)` copiado en
+ * tres plantillas, y cambiarlo exigía acordarse de las tres.
+ */
+@utility marca-degradado {
+    background-image: var(--degradado-marca);
+}
+
+@utility marca-degradado-suave {
+    background-image: var(--degradado-marca-suave);
+}
+
+@utility marca-regla {
+    background-image: var(--regla-dorada);
+}
+
+/*
+ * Borde degradado sin envolver el elemento en otro: el fondo pinta el borde y
+ * una máscara recorta el interior. Es lo que permite que una tarjeta tenga
+ * filo dorado sin perder su fondo blanco ni añadir marcado.
+ */
+@utility marca-filo {
+    position: relative;
+}
+
+@utility marca-filo-borde {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--degradado-marca);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
 }
 
 /*

@@ -5,143 +5,132 @@ import type { Programa, TipoOferta } from '../lib/api';
 interface Props {
     tipos: TipoOferta[];
     programas: Programa[];
-    /** Cuántas tarjetas mostrar por tipo. */
-    porTipo?: number;
+    /** Cuántas tarjetas mostrar en cada panel. */
+    porPanel?: number;
 }
 
-const { tipos, programas, porTipo = 3 } = Astro.props;
+const { tipos, programas, porPanel = 6 } = Astro.props;
 
-// Solo los tipos que tienen algo que enseñar. Blade pinta también los vacíos y
-// además arranca en «Talleres», que hoy no tiene oferta: lo primero que ve el
-// visitante es «no hay cursos disponibles». Aquí la pestaña inicial es la del
-// primer tipo CON programas, así que la portada nunca abre en un vacío.
-const conOferta = tipos.filter((t) => t.publicados > 0);
-const inicial = conOferta[0]?.slug;
+// Un botón por tipo más «Todos», en el mismo orden que tenía el sitio anterior:
+// los tipos como los da el enum y «Todos» al final.
+const filtros = [
+    ...tipos.map((t) => ({
+        slug: t.slug,
+        etiqueta: t.plural,
+        cuenta: t.publicados,
+        programas: programas.filter((p) => p.tipo === t.slug).slice(0, porPanel),
+    })),
+    {
+        slug: 'todos',
+        etiqueta: 'Todos',
+        cuenta: programas.length,
+        programas: programas.slice(0, porPanel),
+    },
+];
 
-const porSlug = (slug: string) => programas.filter((p) => p.tipo === slug).slice(0, porTipo);
+// Arranca en el primer tipo CON oferta, no en el primero a secas. El sitio
+// anterior abría en «Talleres», que hoy no tiene ninguna, así que lo primero
+// que veía el visitante era un aviso de que no hay nada.
+const inicial = tipos.find((t) => t.publicados > 0)?.slug ?? 'todos';
 ---
 
 {
-    conOferta.length > 0 && (
-        <div>
-            {/* Filtro sin JavaScript: radios ocultos y `:checked ~` para mostrar
-                el panel correspondiente. Funciona con teclado y sin esperar a
-                que cargue ningún script. */}
-            <div class="filtro-oferta">
-                {conOferta.length > 1 && (
-                    <fieldset class="mb-10 flex flex-wrap justify-center gap-3">
-                        <legend class="sr-only">Filtrar la oferta por tipo</legend>
-                        {conOferta.map((tipo) => (
-                            <>
-                                <input
-                                    type="radio"
-                                    name="tipo-oferta"
-                                    id={`filtro-${tipo.slug}`}
-                                    value={tipo.slug}
-                                    checked={tipo.slug === inicial}
-                                    class="sr-only"
-                                />
-                                <label
-                                    for={`filtro-${tipo.slug}`}
-                                    class="cursor-pointer rounded-full border border-slate-300 px-5 py-2 text-sm font-medium text-slate-600 transition hover:border-unmsm-azul hover:text-unmsm-azul"
-                                >
-                                    {tipo.plural}
-                                    <span class="ml-1.5 text-xs opacity-60">{tipo.publicados}</span>
-                                </label>
-                            </>
-                        ))}
-                    </fieldset>
-                )}
-
-                {conOferta.map((tipo) => (
-                    <div class="panel-oferta" data-tipo={tipo.slug}>
-                        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                            {porSlug(tipo.slug).map((programa) => (
-                                <TarjetaPrograma programa={programa} />
-                            ))}
-                        </div>
-
-                        {tipo.publicados > porTipo && (
-                            <div class="mt-10 text-center">
-                                <a
-                                    href={`/${tipo.slug}`}
-                                    class="inline-flex items-center gap-2 rounded-lg border-2 border-unmsm-azul px-6 py-3 font-semibold text-unmsm-azul transition hover:bg-unmsm-azul hover:text-white"
-                                >
-                                    Ver los {tipo.publicados} {tipo.plural.toLowerCase()}
-                                    <span aria-hidden="true">→</span>
-                                </a>
-                            </div>
-                        )}
-                    </div>
+    programas.length > 0 && (
+        /* El estado del filtro vive en el marcado, con Alpine, y no en un
+           script que busca elementos por clase: al renombrar una clase el
+           script dejaba de encontrarlos sin que nada avisara. */
+        <div x-data={`{ tipo: '${inicial}' }`}>
+            <div
+                role="tablist"
+                aria-label="Filtrar la oferta por tipo"
+                class="mb-10 flex flex-wrap justify-center gap-3"
+            >
+                {filtros.map((filtro) => (
+                    <button
+                        type="button"
+                        role="tab"
+                        id={`filtro-${filtro.slug}`}
+                        aria-controls={`panel-${filtro.slug}`}
+                        x-bind:aria-selected={`tipo === '${filtro.slug}' ? 'true' : 'false'`}
+                        x-bind:tabindex={`tipo === '${filtro.slug}' ? 0 : -1`}
+                        x-on:click={`tipo = '${filtro.slug}'`}
+                        x-bind:class={`tipo === '${filtro.slug}'
+                            ? 'marca-degradado border-transparent text-white shadow-md'
+                            : 'border-slate-300 text-slate-600 hover:border-unmsm-azul hover:text-unmsm-azul'`}
+                        class="cursor-pointer rounded-full border px-5 py-2 text-sm font-medium transition duration-300"
+                    >
+                        {filtro.etiqueta}
+                        <span class="ml-1.5 text-xs opacity-70">{filtro.cuenta}</span>
+                    </button>
                 ))}
             </div>
+
+            {filtros.map((filtro) => (
+                <div
+                    id={`panel-${filtro.slug}`}
+                    role="tabpanel"
+                    aria-labelledby={`filtro-${filtro.slug}`}
+                    x-show={`tipo === '${filtro.slug}'`}
+                    x-transition:enter="transition duration-300 ease-out"
+                    x-transition:enter-start="opacity-0 translate-y-2"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-cloak
+                >
+                    {filtro.programas.length > 0 ? (
+                        <>
+                            <div data-revelar-grupo class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                {filtro.programas.map((programa) => (
+                                    <TarjetaPrograma programa={programa} />
+                                ))}
+                            </div>
+
+                            {filtro.cuenta > porPanel && (
+                                <div class="mt-10 text-center">
+                                    <a
+                                        href={filtro.slug === 'todos' ? '/cursos' : `/${filtro.slug}`}
+                                        class="inline-flex items-center gap-2 rounded-lg border-2 border-unmsm-azul px-6 py-3 font-semibold text-unmsm-azul transition duration-300 hover:bg-unmsm-azul hover:text-white"
+                                    >
+                                        Ver {filtro.slug === 'todos' ? 'toda la oferta' : `los ${filtro.cuenta} ${filtro.etiqueta.toLowerCase()}`}
+                                        <span aria-hidden="true">→</span>
+                                    </a>
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        /* Un tipo sin oferta se explica, en vez de dejar el
+                           panel en blanco. El botón sigue estando: que el
+                           CERSEU ofrezca tres tipos es parte de lo que la
+                           portada cuenta, aunque dos estén por empezar. */
+                        <p class="rounded-2xl border border-dashed border-slate-300 px-6 py-16 text-center text-slate-500">
+                            Todavía no hay {filtro.etiqueta.toLowerCase()} publicados. Muy pronto
+                            anunciaremos esta parte de la oferta.
+                        </p>
+                    )}
+                </div>
+            ))}
+
+            {/* Sin JavaScript, Alpine no evalúa nada: `x-cloak` no se retira y
+                los paneles se quedarían todos ocultos, con la sección vacía.
+                Aquí se devuelve la visibilidad al panel inicial —por id, que
+                gana en especificidad al `[x-cloak]`— y se retiran las pestañas,
+                que sin JavaScript no cambiarían nada. */}
+            <noscript>
+                <style
+                    set:html={`#panel-${inicial} { display: block }
+                               [role="tablist"] { display: none }`}
+                />
+            </noscript>
         </div>
     )
 }
 
-<style>
-    /* Cada panel se muestra solo si su radio hermano está marcado. El orden del
-       DOM lo permite: todos los inputs van antes que todos los paneles. */
-    .panel-oferta {
-        display: none;
-    }
-
-    .filtro-oferta:not(:has(input:checked)) .panel-oferta:first-of-type {
-        display: block;
-    }
-</style>
-
-<script is:inline>
-    // Alterna el panel visible. Va inline y sin dependencias: son diez líneas y
-    // el filtro es lo único interactivo de la portada.
-    (function () {
-        var caja = document.querySelector('.filtro-oferta');
-        if (!caja) return;
-
-        var radios = caja.querySelectorAll('input[name="tipo-oferta"]');
-        var paneles = caja.querySelectorAll('.panel-oferta');
-
-        function pintar() {
-            var elegido = caja.querySelector('input[name="tipo-oferta"]:checked');
-            // Con un solo tipo con oferta no se pintan los radios, asi que no
-            // hay ninguno marcado: se cae al primer panel en vez de ocultarlos
-            // todos y dejar un hueco donde deberia ir la oferta.
-            var slug = elegido
-                ? elegido.value
-                : paneles.length
-                  ? paneles[0].dataset.tipo
-                  : null;
-
-            paneles.forEach(function (panel) {
-                panel.style.display = panel.dataset.tipo === slug ? 'block' : 'none';
-            });
-
-            radios.forEach(function (radio) {
-                var etiqueta = caja.querySelector('label[for="' + radio.id + '"]');
-                if (!etiqueta) return;
-                etiqueta.classList.toggle('activa', radio.checked);
-            });
-        }
-
-        radios.forEach(function (radio) {
-            radio.addEventListener('change', pintar);
-        });
-
-        pintar();
-    })();
-</script>
-
 <style is:global>
-    .filtro-oferta label.activa {
-        background-color: var(--color-unmsm-azul);
-        border-color: var(--color-unmsm-azul);
-        color: #fff;
-    }
-
-    /* Sin JavaScript no hay clase `activa`, así que el foco del radio tiene que
-       verse en la etiqueta o no se sabría cuál está elegido al tabular. */
-    .filtro-oferta input:focus-visible + label {
-        outline: 3px solid var(--color-unmsm-azul);
-        outline-offset: 3px;
+    /* Evita el parpadeo: los paneles no se ven hasta que Alpine decide cuál
+       toca. Sin esto se pintan todos durante un fotograma.
+       Sin `!important` a propósito: el bloque de <noscript> lo anula por
+       especificidad para devolver el panel inicial, y con `!important` no
+       podría. */
+    [x-cloak] {
+        display: none;
     }
 </style>

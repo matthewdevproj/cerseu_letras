@@ -102,6 +102,15 @@ const telefono = [contacto.telefono, contacto.anexo && `Anexo ${contacto.anexo}`
             <slot />
         </main>
 
+        <script>
+            import { iniciarAnimaciones } from '../lib/animacion';
+
+            // `astro:page-load` cubre tambien la primera carga, asi que basta
+            // con escucharlo. GSAP no se descarga hasta que alguna pagina
+            // tiene algo que animar, y nunca si se pidio menos movimiento.
+            document.addEventListener('astro:page-load', iniciarAnimaciones);
+        </script>
+
         {contacto.whatsapp && (
             <BotonWhatsapp url={contacto.whatsapp} telefono={contacto.telefono} />
         )}

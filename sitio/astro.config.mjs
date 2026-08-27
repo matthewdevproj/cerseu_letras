@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import alpine from '@astrojs/alpinejs';
 
 export default defineConfig({
     // Estatico por defecto: las paginas se generan contra la API de Laravel en
@@ -13,6 +14,15 @@ export default defineConfig({
     // que un despliegue de otra unidad no exija tocar este fichero.
     site: process.env.CERSEU_SITE ?? 'https://cerseuletras.unmsm.edu.pe',
     integrations: [
+        // Alpine para la interactividad pequena y declarativa —desplegables,
+        // filtros, estados de un formulario—. Se declara en el marcado, junto
+        // a lo que gobierna, en vez de en un script que busca elementos por
+        // clase y se desincroniza del HTML al renombrar una.
+        //
+        // No sustituye a lo que ya funciona sin el: la cabecera y el buscador
+        // se quedan en JavaScript propio, porque reescribirlos seria churn sin
+        // ganancia. Alpine entra en lo nuevo.
+        alpine({ entrypoint: '/src/alpine.ts' }),
         sitemap({
             // /buscar es una herramienta, no contenido: va con `noindex`, y
             // anunciarla en el sitemap seria pedirle a Google que indexe justo
