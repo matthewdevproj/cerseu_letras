@@ -10,14 +10,28 @@ test.describe('Accesibilidad de la cabecera y el pie', () => {
         // salta.
         const navegacion = await abrirMenu(page);
 
-        const desplegable = navegacion.locator('details').first();
-        const resumen = desplegable.locator('summary');
+        // En movil el desplegable sigue siendo un <details> —pulsar es el gesto
+        // correcto con el dedo—; en escritorio es un boton con su lista, para
+        // poder abrir tambien al pasar el raton. El teclado tiene que funcionar
+        // en los dos.
+        const details = navegacion.locator('details').first();
 
-        await resumen.focus();
+        if (await details.count()) {
+            await details.locator('summary').focus();
+            await page.keyboard.press('Enter');
+            await expect(details).toHaveAttribute('open', '');
+            await expect(details.locator('ul a').first()).toBeVisible();
+            return;
+        }
+
+        const boton = navegacion.getByRole('button').first();
+        await boton.focus();
         await page.keyboard.press('Enter');
 
-        await expect(desplegable).toHaveAttribute('open', '');
-        await expect(desplegable.locator('ul a').first()).toBeVisible();
+        await expect(boton).toHaveAttribute('aria-expanded', 'true');
+        await expect(
+            boton.locator('xpath=following-sibling::ul').getByRole('link').first()
+        ).toBeVisible();
     });
 
     test('el primer tabulador ofrece saltar al contenido', async ({ page }) => {

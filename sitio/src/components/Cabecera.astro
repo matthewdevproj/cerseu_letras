@@ -38,7 +38,13 @@ const { sitio, menu, sobreHero = false } = Astro.props;
     <div
         id="barra-navegacion"
         class:list={[
-            'transition-[background-color,box-shadow,padding] duration-300',
+            'relative transition-[background-color,box-shadow,padding] duration-300',
+            // El desenfoque va como utilidad y no escrito a mano en el CSS de
+            // abajo: alli el minificador dejaba solo `-webkit-backdrop-filter`
+            // y Firefox se quedaba con la barra translucida y sin desenfoque,
+            // con el texto de la navegacion sobre el contenido en movimiento.
+            // La utilidad de Tailwind emite las dos formas.
+            '[.bajada_&]:backdrop-blur-lg [.bajada_&]:backdrop-saturate-150',
             sobreHero ? 'bg-transparent' : 'bg-unmsm-azul',
         ]}
     >
@@ -74,35 +80,82 @@ const { sitio, menu, sobreHero = false } = Astro.props;
                 {
                     menu.map((item) =>
                         item.hijos.length > 0 ? (
-                            /* <details> en vez de :hover: funciona con teclado, con
-                               lector de pantalla y con el dedo, y no necesita
-                               JavaScript. Un menú que solo abre al pasar el ratón
-                               deja fuera a quien navega con tabulador. */
-                            <details class="group relative">
-                                <summary class="nav-item flex cursor-pointer list-none items-center gap-1 text-white transition hover:text-unmsm-dorado-light [&::-webkit-details-marker]:hidden">
+                            /* Abre al pasar el ratón —donde hay ratón— y no se
+                               queda abierto al irse, que es lo que hacía el
+                               <details> anterior. Con teclado funciona igual sin
+                               depender del ratón: Enter o flecha abajo abren,
+                               Escape cierra devolviendo el foco, y salir con el
+                               tabulador cierra solo. */
+                            <div
+                                x-data="desplegable"
+                                x-on:mouseenter="entra()"
+                                x-on:mouseleave="sale()"
+                                x-on:focusout="alSalirElFoco()"
+                                x-on:keydown.escape.prevent="cerrar(true)"
+                                class="relative"
+                            >
+                                <button
+                                    type="button"
+                                    x-ref="boton"
+                                    x-on:click="alternar()"
+                                    x-on:keydown.arrow-down.prevent="abierto = true"
+                                    x-bind:aria-expanded="abierto ? 'true' : 'false'"
+                                    class="nav-item flex cursor-pointer items-center gap-1 text-white transition hover:text-unmsm-dorado-light"
+                                >
                                     {item.etiqueta}
                                     <span
                                         aria-hidden="true"
-                                        class="inline-block text-[0.7em] transition group-open:rotate-180"
+                                        x-bind:class="abierto ? 'rotate-180' : ''"
+                                        class="inline-block text-[0.7em] transition-transform duration-200"
                                     >
                                         ▾
                                     </span>
-                                </summary>
-                                <ul class="absolute left-0 top-full z-10 mt-3 min-w-56 rounded-lg bg-white py-2 text-slate-700 shadow-xl">
+                                </button>
+
+                                {/* Puente invisible hasta el panel: sin él, el
+                                    hueco de 12 px entre el botón y la lista
+                                    dispara `mouseleave` al bajar el ratón y el
+                                    menú se cierra justo cuando ibas a usarlo. */}
+                                <div
+                                    x-show="abierto"
+                                    x-cloak
+                                    aria-hidden="true"
+                                    class="absolute left-0 top-full h-3 w-full"
+                                />
+
+                                <ul
+                                    x-show="abierto"
+                                    x-cloak
+                                    x-transition:enter="transition duration-150 ease-out"
+                                    x-transition:enter-start="opacity-0 -translate-y-1"
+                                    x-transition:enter-end="opacity-100 translate-y-0"
+                                    x-transition:leave="transition duration-100 ease-in"
+                                    x-transition:leave-start="opacity-100"
+                                    x-transition:leave-end="opacity-0"
+                                    class="absolute left-0 top-full z-20 mt-3 min-w-56 overflow-hidden rounded-xl bg-white py-2 text-slate-700 shadow-2xl ring-1 ring-black/5"
+                                >
+                                    {/* Filo dorado arriba: el mismo gesto de marca
+                                        que separa las secciones. */}
+                                    <span
+                                        aria-hidden="true"
+                                        class="marca-degradado absolute inset-x-0 top-0 h-0.5"
+                                    />
+
                                     {item.hijos.map((hijo) => (
                                         <li>
                                             <a
                                                 href={hijo.enlace ?? '#'}
                                                 target={hijo.nueva_pestana ? '_blank' : undefined}
                                                 rel={hijo.nueva_pestana ? 'noopener noreferrer' : undefined}
-                                                class="block px-4 py-2 text-sm transition hover:bg-slate-50 hover:text-unmsm-azul"
+                                                x-on:click="cerrar()"
+                                                class="block border-l-2 border-transparent px-4 py-2 text-sm transition hover:border-unmsm-dorado hover:bg-slate-50 hover:text-unmsm-azul"
                                             >
                                                 {hijo.etiqueta}
                                             </a>
                                         </li>
                                     ))}
                                 </ul>
-                            </details>
+                            </div>
                         ) : (
                             <a
                                 href={item.enlace ?? '#'}
@@ -216,10 +269,40 @@ const { sitio, menu, sobreHero = false } = Astro.props;
         opacity: 0;
     }
 
+    /*
+     * Cristal al bajar. La opacidad estaba en 0.95, que es casi opaco: el
+     * `backdrop-filter` estaba puesto pero no se veía, porque no quedaba fondo
+     * que desenfocar. A 0.72 el desenfoque se lee y el contenido sigue pasando
+     * la barra sin competir con el texto de la navegación.
+     */
     .cabecera.bajada #barra-navegacion {
-        background-color: rgb(255 255 255 / 0.95);
-        backdrop-filter: blur(12px);
-        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        background-color: rgb(255 255 255 / 0.72);
+        box-shadow:
+            0 1px 0 0 rgb(15 43 72 / 0.06),
+            0 10px 30px -12px rgb(15 43 72 / 0.25);
+    }
+
+    /* Donde no hay `backdrop-filter` el fondo translúcido dejaría el texto
+       ilegible sobre el contenido que pasa por detrás: allí se vuelve opaco.
+       Se comprueba solo la forma sin prefijo porque es la única que emite la
+       utilidad de Tailwind — así el Safari antiguo, que únicamente entiende
+       `-webkit-`, cae al fondo opaco en vez de quedarse sin desenfoque. */
+    @supports not (backdrop-filter: blur(1px)) {
+        .cabecera.bajada #barra-navegacion {
+            background-color: rgb(255 255 255 / 0.97);
+        }
+    }
+
+    /* Filo de marca bajo la barra al bajar: cierra el cristal con el mismo
+       gesto —azul a dorado— que separa las secciones. */
+    .cabecera.bajada #barra-navegacion::after {
+        content: "";
+        position: absolute;
+        inset-inline: 0;
+        bottom: 0;
+        height: 1px;
+        background: var(--degradado-marca);
+        opacity: 0.6;
     }
 
     .cabecera.bajada .nav-item,
