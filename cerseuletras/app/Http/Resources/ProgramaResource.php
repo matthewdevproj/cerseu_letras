@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Programa;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -40,7 +41,14 @@ class ProgramaResource extends JsonResource
             'modalidad' => $this->resource->modalidad ?: null,
             'sumilla' => $this->resource->sumilla ?: null,
             'medidas' => $this->resource->medidasFormateadas(),
-            'inversion' => $this->resource->inversion_economica ?: null,
+            // Inversión económica, con el orden y los rótulos que fijó la
+            // Unidad (Obs. N.º 2): costo total, modalidades de pago, diploma,
+            // matrícula y condiciones. Sale ya resuelta por los accesores del
+            // modelo, que son el punto único donde conviven el formato que
+            // carga el panel y las cuotas planas de la versión anterior:
+            // recomponerlo en el sitio sería mantener esa regla dos veces, en
+            // dos lenguajes.
+            'inversion' => $this->inversion(),
             'estado' => $this->resource->estado,
 
             // Contenido largo de la ficha. Se envía siempre —también en el
@@ -53,17 +61,24 @@ class ProgramaResource extends JsonResource
             'por_que' => $this->resource->por_que_text ?: null,
             'vacantes' => $this->resource->vacantes ?: null,
             'duracion' => $this->resource->duracion ?: null,
-            'grado_otorga' => $this->resource->grado_otorga_label ?: null,
+            // Rotulo y contenido por separado (Obs. N.o 4): «Grado que otorga»
+            // es incorrecto en un taller, que no otorga ningun grado, y ambos
+            // se editan. Null cuando no hay nada que anunciar, para que la
+            // ficha omita el dato en vez de dejar una etiqueta suelta.
+            'grado_otorga' => $this->resource->denominacion_otorga['texto'] ?? null,
+            'grado_otorga_label' => $this->resource->denominacion_otorga['label'] ?? null,
             'fecha_limite' => $this->resource->fecha_limite_inscripcion
                 ? $this->resource->fecha_limite_inscripcion->toDateString()
                 : null,
 
             // Documentos descargables, tal como los sube el panel.
             'documentos' => array_values(array_filter([
-                $this->resource->plan_url ? ['titulo' => 'Plan de estudios', 'url' => $this->resource->plan_url] : null,
-                $this->resource->horario_url ? ['titulo' => 'Horario', 'url' => $this->resource->horario_url] : null,
-                $this->resource->brochure_url ? ['titulo' => 'Brochure', 'url' => $this->resource->brochure_url] : null,
-                $this->resource->admision_pdf_url ? ['titulo' => 'Admisión', 'url' => $this->resource->admision_pdf_url] : null,
+                $this->documento('Plan de estudios', $this->resource->plan_url),
+                $this->documento('Horario', $this->resource->horario_url),
+                // Del accesor: reancla al host actual un enlace que el panel
+                // guardo como absoluto en otro entorno, y respeta los externos.
+                $this->resource->brochure_link ? ['titulo' => 'Brochure', 'url' => $this->resource->brochure_link] : null,
+                $this->documento('Admisión', $this->resource->admision_pdf_url),
             ])),
             // URL absoluta y ya resuelta: el accesor aplica el mismo respaldo
             // que el sitio en Blade (una foto del campus segun el tipo) cuando
@@ -82,10 +97,95 @@ class ProgramaResource extends JsonResource
                 ->sortBy('pivot.orden')
                 ->map(fn ($docente) => [
                     'nombre' => trim($docente->nombres . ' ' . $docente->apellidos),
+                    'slug' => $docente->slug,
                     'grado' => $docente->grado ?: null,
                     'rol' => $docente->pivot->rol ?: null,
                     'es_coordinador' => (bool) $docente->pivot->es_coordinador,
+                    // «Coordinador» o «Coordinadora», según se configure en
+                    // cada programa (Obs. N.º 1). Antes la ficha lo rotulaba
+                    // siempre en masculino y no había forma de cambiarlo.
+                    'denominacion' => $docente->pivot->es_coordinador
+                        ? Programa::denominacionCoordinador($docente->pivot->coordinador_denominacion ?? null)
+                        : null,
                 ])->values()->all()),
         ];
+    }
+
+    /**
+     * Inversión económica, o null si el programa no tiene ninguna cargada.
+     *
+     * Devolver null y no una estructura vacía permite que la ficha omita el
+     * bloque entero en lugar de pintar un encabezado sobre un hueco.
+     *
+     * @return array<string, mixed>|null
+     */
+    private function inversion(): ?array
+    {
+        $inversion = (array) ($this->resource->inversion_economica ?? []);
+
+        // `data_get` para poder alcanzar tambien los anidados, como
+        // derecho_inscripcion.bachiller_unmsm.
+        $importe = function (string $clave) use ($inversion) {
+            $valor = data_get($inversion, $clave);
+
+            return is_numeric($valor) ? (float) $valor : null;
+        };
+
+        $bloque = [
+            // Del accesor y no del array en crudo: prioriza el importe cerrado
+            // que carga el panel y, si no lo hay, lo calcula desde las tarifas.
+            // Leerlo de `inversion_economica` dejaba sin total a los programas
+            // que lo tienen calculado.
+            'costo_total' => $this->resource->costo_total !== null
+                ? (float) $this->resource->costo_total
+                : null,
+            'costo_diploma' => $importe('costo_diploma'),
+            'costo_matricula' => $importe('costo_matricula'),
+            'derecho_inscripcion' => array_filter([
+                'bachiller_unmsm' => $importe('derecho_inscripcion.bachiller_unmsm'),
+                'otras_universidades' => $importe('derecho_inscripcion.otras_universidades'),
+            ], fn ($v) => $v !== null) ?: null,
+            'modalidades' => $this->resource->modalidades_de_pago,
+            'condiciones' => $this->resource->condiciones_de_pago,
+        ];
+
+        // Se decide sobre los valores ya resueltos y no sobre el array en
+        // crudo: hay programas sin `inversion_economica` cuyo total sale del
+        // calculo por creditos, y devolver null los dejaba sin bloque.
+        $hayAlgo = collect($bloque)->contains(
+            fn ($valor) => $valor !== null && $valor !== []
+        );
+
+        return $hayAlgo ? $bloque : null;
+    }
+
+    /**
+     * Un documento del programa, o null si no lo tiene cargado.
+     *
+     * La ruta puede venir como URL absoluta —el panel guarda asi las subidas,
+     * congelando el host del entorno donde se subio— o como ruta del disco
+     * publico. Se normaliza aqui para que el sitio reciba siempre algo que
+     * pueda abrir.
+     *
+     * @return array{titulo: string, url: string}|null
+     */
+    private function documento(string $titulo, ?string $ruta): ?array
+    {
+        $ruta = trim((string) $ruta);
+
+        if ($ruta === '') {
+            return null;
+        }
+
+        if (str_starts_with($ruta, 'http://') || str_starts_with($ruta, 'https://')) {
+            $camino = parse_url($ruta, PHP_URL_PATH) ?? '';
+
+            return [
+                'titulo' => $titulo,
+                'url' => str_starts_with($camino, '/storage/') ? asset(ltrim($camino, '/')) : $ruta,
+            ];
+        }
+
+        return ['titulo' => $titulo, 'url' => asset('storage/' . ltrim($ruta, '/'))];
     }
 }

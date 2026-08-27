@@ -18,10 +18,10 @@ use Illuminate\Support\Str;
  * listas se separan: se añade un tipo de oferta y aparece en un buscador y no
  * en el otro. Aquí queda una sola, y cada frontend decide cómo la usa.
  *
- * Las URL son rutas relativas, no absolutas. `route()` devuelve la dirección de
- * ESTA aplicación, y en un frontend desacoplado eso saca al visitante del sitio
- * que está viendo. Una ruta interna es una ruta: cada frontend la resuelve
- * contra su propio origen. En Blade el resultado es idéntico al de antes.
+ * Las URL son rutas del sitio, no direcciones de Laravel: las compone
+ * DestinosPublicos. `route()` devolvía la dirección de ESTA aplicación, que en
+ * un frontend desacoplado saca al visitante del sitio que está viendo — y que
+ * desde que las vistas de Blade se retiraron ni siquiera existe.
  */
 class IndiceDeBusqueda
 {
@@ -45,7 +45,7 @@ class IndiceDeBusqueda
                 $items[] = self::item(
                     titulo: $programa->titulo_completo,
                     descripcion: Str::limit(strip_tags((string) $programa->sumilla), 160),
-                    url: self::ruta($programa->url),
+                    url: $programa->url,
                     categoria: $programa->tipoOferta()?->plural() ?? 'Oferta académica',
                     peso: $programa->esTaller() ? 25 : 15,
                     // El grado va en el cuerpo para que «taller» o «curso»
@@ -61,7 +61,7 @@ class IndiceDeBusqueda
                     // lo que identifica a cada uno es lo que dicta. También
                     // hace que buscar un curso encuentre a quien lo enseña.
                     descripcion: Str::limit($docente->programas->pluck('nombre')->implode(' · '), 160),
-                    url: '/profesores/' . $docente->slug,
+                    url: DestinosPublicos::docente($docente->slug),
                     categoria: 'Docentes',
                     peso: 5,
                     extra: [$docente->grado],
@@ -197,14 +197,6 @@ class IndiceDeBusqueda
                 'extra' => ['conferencia', 'coloquio', 'actividad', 'agenda'],
             ],
         ]);
-    }
-
-    /**
-     * De la URL absoluta que devuelve `route()` a la ruta que la contiene.
-     */
-    private static function ruta(string $url): string
-    {
-        return parse_url($url, PHP_URL_PATH) ?: '/';
     }
 
     /**

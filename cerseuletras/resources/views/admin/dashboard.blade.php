@@ -194,7 +194,7 @@
                             <x-fas-chevron-right class="text-gray-300 text-xs" />
                         </a>
 
-                        <a href="{{ route('home') }}" target="_blank" rel="noopener noreferrer"
+                        <a href="{{ url('/') }}" target="_blank" rel="noopener noreferrer"
                             class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
                             <x-fas-globe class="text-gray-400" />
                             <div class="flex-1">

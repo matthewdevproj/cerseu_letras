@@ -103,7 +103,7 @@ const [eventos, informativos, testimonios] = await Promise.all([
         </div>
     </section>
 
-    <BandaIndicadores tipos={tipos} docentes={docentes.length} />
+    <BandaIndicadores tipos={tipos} docentes={portada.docentes ?? docentes.length} />
 
     <section class="mx-auto max-w-6xl px-6 py-20">
         <TituloSeccion

@@ -32,7 +32,9 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 
-        return redirect()->intended(route('home', absolute: false));
+        // Al panel, no a la portada: el sitio publico es estatico y no tiene
+        // sesion, asi que quien se autentica lo hace para administrar.
+        return redirect()->intended(route('admin.dashboard', absolute: false));
     }
 
     /**

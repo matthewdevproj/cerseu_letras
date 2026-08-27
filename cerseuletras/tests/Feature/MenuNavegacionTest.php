@@ -9,6 +9,12 @@ use Tests\TestCase;
 
 /**
  * Menú de navegación administrable.
+ *
+ * Lo que llega al sitio se comprueba contra /api/v1/menu, que es por donde
+ * viaja desde que el sitio público es estático: antes se leía el HTML que
+ * pintaba Blade. Las reglas no cambian —lo oculto no sale, lo caducado se
+ * retira solo, un destino que ya no existe se omite sin tumbar la barra—,
+ * solo el sitio donde se miran.
  */
 class MenuNavegacionTest extends TestCase
 {
@@ -40,19 +46,22 @@ class MenuNavegacionTest extends TestCase
             'is_visible' => true,
         ]);
 
-        $html = $this->get('/')->assertOk()->getContent();
+        $menu = $this->getJson('/api/v1/menu')->assertOk()->json('data');
 
-        // Aparece dos veces: una en el menú de escritorio y otra en el de móvil,
-        // que es justo lo que antes obligaba a mantener dos copias del marcado.
-        $this->assertSame(2, substr_count($html, 'Vida Universitaria'));
-        $this->assertSame(2, substr_count($html, 'Quiénes somos'));
+        // El árbol llega entero: la cabecera del desplegable y lo que cuelga
+        // de ella. Antes esto se contaba dos veces en el HTML, una por cada
+        // copia del menú; el sitio nuevo pinta las dos desde un solo recorrido.
+        $this->assertSame('Vida Universitaria', $menu[0]['etiqueta']);
+        $this->assertSame('Quiénes somos', $menu[0]['hijos'][0]['etiqueta']);
+        $this->assertSame('/nosotros', $menu[0]['hijos'][0]['enlace']);
     }
 
     public function test_una_entrada_oculta_no_llega_al_sitio(): void
     {
         $this->entrada(['etiqueta' => 'Borrador interno', 'is_visible' => false]);
 
-        $this->get('/')->assertOk()->assertDontSee('Borrador interno');
+        $this->getJson('/api/v1/menu')->assertOk()
+            ->assertJsonMissing(['etiqueta' => 'Borrador interno']);
     }
 
     public function test_un_hijo_oculto_no_llega_aunque_su_padre_sea_visible(): void
@@ -63,15 +72,19 @@ class MenuNavegacionTest extends TestCase
             'url' => 'https://ejemplo.pe/viejo', 'orden' => 0, 'is_visible' => false,
         ]);
 
-        $this->get('/')->assertOk()->assertDontSee('Vacantes 2019');
+        $this->getJson('/api/v1/menu')->assertOk()
+            ->assertJsonMissing(['etiqueta' => 'Vacantes 2019']);
     }
 
     public function test_una_ruta_que_ya_no_existe_no_tumba_la_barra(): void
     {
         $this->entrada(['etiqueta' => 'Sección retirada', 'route_name' => 'ruta.que.no.existe']);
 
-        // Sin destino resoluble el elemento se omite, pero la página responde.
-        $this->get('/')->assertOk()->assertDontSee('Sección retirada');
+        // Sin destino resoluble el elemento se omite, pero el menú responde:
+        // una entrada rota no puede dejar al sitio sin navegación.
+        $menu = $this->getJson('/api/v1/menu')->assertOk()->json('data');
+
+        $this->assertSame([], $menu);
     }
 
     public function test_el_enlace_externo_abre_en_pestana_nueva_con_rel_seguro(): void
@@ -83,13 +96,13 @@ class MenuNavegacionTest extends TestCase
             'nueva_pestana' => true, 'orden' => 0, 'is_visible' => true,
         ]);
 
-        $html = $this->get('/')->assertOk()->getContent();
+        $menu = $this->getJson('/api/v1/menu')->assertOk()->json('data');
+        $hijo = $menu[0]['hijos'][0];
 
-        $this->assertStringContainsString('https://posgrado.unmsm.edu.pe/doc/vacantes', $html);
-        $this->assertMatchesRegularExpression(
-            '~href="https://posgrado\.unmsm\.edu\.pe/doc/vacantes"[^>]*rel="noopener noreferrer"~',
-            $html
-        );
+        $this->assertSame('https://posgrado.unmsm.edu.pe/doc/vacantes', $hijo['enlace']);
+        // El `rel="noopener noreferrer"` lo pone el sitio; lo que tiene que
+        // viajar por la API es la señal de que el destino es externo.
+        $this->assertTrue($hijo['nueva_pestana']);
     }
 
     public function test_el_panel_guarda_el_arbol_completo(): void
@@ -160,7 +173,8 @@ class MenuNavegacionTest extends TestCase
     public function test_guardar_invalida_la_cache_del_menu(): void
     {
         $this->entrada(['etiqueta' => 'Antes']);
-        $this->get('/')->assertSee('Antes');   // deja el árbol en caché
+        // Deja el árbol en caché.
+        $this->getJson('/api/v1/menu')->assertJsonFragment(['etiqueta' => 'Antes']);
 
         $this->actingAs($this->admin())->put('/admin/menu', [
             'items' => [
@@ -168,7 +182,9 @@ class MenuNavegacionTest extends TestCase
             ],
         ]);
 
-        $this->get('/')->assertSee('Después')->assertDontSee('Antes');
+        $this->getJson('/api/v1/menu')
+            ->assertJsonFragment(['etiqueta' => 'Después'])
+            ->assertJsonMissing(['etiqueta' => 'Antes']);
     }
 
     public function test_el_panel_exige_sesion_de_administrador(): void
@@ -176,10 +192,11 @@ class MenuNavegacionTest extends TestCase
         $this->get('/admin/menu')->assertRedirect();
     }
 
-    public function test_en_movil_el_desplegable_ofrece_el_destino_de_su_propia_cabecera(): void
+    public function test_una_cabecera_con_hijos_conserva_su_propio_destino(): void
     {
-        // En escritorio la cabecera es un enlace, pero en móvil es el botón que
-        // despliega: sin esto no habría forma de llegar a /cursos desde el menú.
+        // La cabecera de un desplegable puede llevar a algún sitio además de
+        // desplegar: sin su enlace no habría forma de llegar a /cursos desde el
+        // menú, solo a sus subpáginas.
         $padre = $this->entrada(['etiqueta' => 'Cursos', 'route_name' => 'cursos.index']);
         MenuItem::create([
             'parent_id' => $padre->id, 'etiqueta' => 'Admisión',
@@ -187,33 +204,20 @@ class MenuNavegacionTest extends TestCase
             'orden' => 0, 'is_visible' => true,
         ]);
 
-        $this->get('/')->assertOk()->assertSee('Ver todo: Cursos');
+        $menu = $this->getJson('/api/v1/menu')->assertOk()->json('data');
+
+        $this->assertSame('/cursos', $menu[0]['enlace']);
+        $this->assertSame('/cursos/admision', $menu[0]['hijos'][0]['enlace']);
     }
 
-    public function test_una_subentrada_que_repite_el_destino_del_padre_no_se_duplica(): void
-    {
-        $padre = $this->entrada(['etiqueta' => 'Trámites', 'route_name' => 'tramites']);
-        MenuItem::create([
-            'parent_id' => $padre->id, 'etiqueta' => 'Trámites y Procedimientos',
-            'route_name' => 'tramites', 'orden' => 0, 'is_visible' => true,
-        ]);
-
-        $html = $this->get('/')->assertOk()->getContent();
-
-        // Solo aparece en el desplegable de escritorio; en móvil la sustituye
-        // «Ver todo», que ya lleva al mismo sitio.
-        $this->assertSame(1, substr_count($html, 'Trámites y Procedimientos'));
-    }
-
-    public function test_una_entrada_sin_hijos_es_un_enlace_simple_sin_desplegable(): void
+    public function test_una_entrada_sin_hijos_llega_como_enlace_simple(): void
     {
         $this->entrada(['etiqueta' => 'Talleres', 'route_name' => 'talleres.index']);
 
-        $html = $this->get('/')->assertOk()->getContent();
+        $menu = $this->getJson('/api/v1/menu')->assertOk()->json('data');
 
-        $this->assertStringContainsString('Talleres', $html);
-        // Sin hijos no se pinta el botón que despliega en móvil.
-        $this->assertStringNotContainsString('Ver todo: Talleres', $html);
+        $this->assertSame('/talleres', $menu[0]['enlace']);
+        $this->assertSame([], $menu[0]['hijos']);
     }
 
     public function test_un_enlace_caducado_se_retira_del_sitio_solo(): void
@@ -227,21 +231,24 @@ class MenuNavegacionTest extends TestCase
             'vigente_hasta' => now()->subMonths(8),
         ]);
 
-        $this->get('/')->assertOk()->assertDontSee('Criterios de Evaluación 2025');
+        $this->getJson('/api/v1/menu')->assertOk()
+            ->assertJsonMissing(['etiqueta' => 'Criterios de Evaluación 2025']);
     }
 
     public function test_el_ultimo_dia_de_vigencia_el_enlace_sigue_activo(): void
     {
         $this->entrada(['etiqueta' => 'Vence hoy', 'vigente_hasta' => now()]);
 
-        $this->get('/')->assertOk()->assertSee('Vence hoy');
+        $this->getJson('/api/v1/menu')->assertOk()
+            ->assertJsonFragment(['etiqueta' => 'Vence hoy']);
     }
 
     public function test_sin_fecha_de_retirada_el_enlace_no_caduca(): void
     {
         $this->entrada(['etiqueta' => 'Permanente']);
 
-        $this->get('/')->assertOk()->assertSee('Permanente');
+        $this->getJson('/api/v1/menu')->assertOk()
+            ->assertJsonFragment(['etiqueta' => 'Permanente']);
     }
 
     public function test_una_subentrada_caducada_se_retira_sin_tocar_a_sus_hermanas(): void
@@ -257,9 +264,9 @@ class MenuNavegacionTest extends TestCase
             'vigente_hasta' => now()->subYear(),
         ]);
 
-        $this->get('/')->assertOk()
-            ->assertSee('Vacantes vigentes')
-            ->assertDontSee('Vacantes del año pasado');
+        $this->getJson('/api/v1/menu')->assertOk()
+            ->assertJsonFragment(['etiqueta' => 'Vacantes vigentes'])
+            ->assertJsonMissing(['etiqueta' => 'Vacantes del año pasado']);
     }
 
     public function test_el_panel_si_muestra_lo_caducado_para_poder_arreglarlo(): void

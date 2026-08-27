@@ -1,17 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Services\GeografiaService;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Países y regiones para el formulario de diplomados.
+ * Países y regiones para el formulario de solicitud.
  *
  * El navegador habla con el sitio, no con el servicio externo: así el
  * formulario no añade peticiones a terceros y las respuestas se cachean.
+ *
+ * Estaba en /geografia/v2, fuera de la API, porque nació para una vista de
+ * Blade. Ahora que el formulario vive en el sitio estático el único camino
+ * hasta aquí es la API, y ahí es donde tiene que estar.
  */
-class GeografiaController extends Controller
+class GeografiaApiController extends Controller
 {
     public function paises(): JsonResponse
     {

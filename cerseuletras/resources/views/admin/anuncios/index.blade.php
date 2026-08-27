@@ -19,7 +19,7 @@
                         <x-fas-trash-arrow-up class="mr-1" aria-hidden="true" /> Papelera ({{ $enPapelera }})
                     </a>
                 @endif
-                <a href="{{ route('home') }}?previsualizar_anuncios=1" target="_blank" rel="noopener noreferrer"
+                <a href="{{ url('/') }}?previsualizar_anuncios=1" target="_blank" rel="noopener noreferrer"
                     class="px-4 py-2.5 rounded-lg border border-gray-300 text-sm font-semibold text-gray-600 hover:bg-gray-50">
                     <x-fas-eye class="mr-1" aria-hidden="true" /> Ver cómo queda
                 </a>

@@ -443,7 +443,7 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="{{ route('home') }}" target="_blank" rel="noopener noreferrer"
+                <a href="{{ url('/') }}" target="_blank" rel="noopener noreferrer"
                     class="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors">
                     <x-fas-external-link-alt />
                     <span>Ver Web Pública</span>

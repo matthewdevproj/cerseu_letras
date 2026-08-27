@@ -37,8 +37,6 @@ services:
       - node-modules:/var/www/html/node_modules
 
   web:
-    ports:
-      - "8080:8080"
     environment:
       # En desarrollo el sitio se sirve por localhost, no por el dominio.
       - NGINX_SERVER_NAMES=localhost 127.0.0.1
@@ -49,9 +47,6 @@ services:
       # Compose fusiona los volúmenes por ruta de destino, de modo que esta
       # línea sustituye a la del compose base en lugar de sumarse.
       - ./docker/nginx/templates/default.conf.template:/etc/nginx/templates/default.conf.template
-      # Blade servido aparte mientras dura la migracion: el dominio ya lo ocupa
-      # el sitio en Astro y hace falta poder comparar los dos.
-      - ./docker/nginx/blade-referencia.conf:/etc/nginx/conf.d/blade-referencia.conf
 
 
   # Sitio publico en Astro. Vive aparte del monolito: consume la API de
@@ -128,7 +123,11 @@ services:
     environment:
       # Se prueba contra el servidor de desarrollo, por el nombre del
       # servicio: dentro de la red, `localhost` seria este contenedor.
-      - CERSEU_E2E=http://astro:4321
+      # Contra Nginx y no contra el servidor de desarrollo: lo que se publica
+      # es el `dist/` que sirve Nginx, y hay comportamiento que solo existe
+      # ahi —los 301 heredados, la pagina 404, las cabeceras de cache—. El
+      # sitio tiene que estar construido antes de lanzar las pruebas.
+      - CERSEU_E2E=http://web
     volumes:
       - ./sitio:/app
       - e2e-node-modules:/app/node_modules

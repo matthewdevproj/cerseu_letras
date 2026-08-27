@@ -37,7 +37,11 @@ class PapeleraTest extends TestCase
         $this->actingAs($this->admin())->delete("/admin/programas/{$programa->id}");
 
         $this->assertSoftDeleted($programa);
-        $this->get('/cursos')->assertOk()->assertDontSee('Maestría en Lingüística');
+        // Fuera del sitio quiere decir fuera de lo que la API publica: es de
+        // ahi de donde se genera, y una ficha borrada no debe volver a
+        // aparecer en la siguiente reconstruccion.
+        $this->getJson('/api/v1/programas')->assertOk()
+            ->assertJsonMissing(['nombre' => 'Maestría en Lingüística']);
     }
 
     public function test_lo_borrado_aparece_en_la_papelera(): void
@@ -61,7 +65,8 @@ class PapeleraTest extends TestCase
             ->assertRedirect(route('admin.papelera.index'));
 
         $this->assertNull($programa->fresh()->deleted_at);
-        $this->get('/cursos')->assertOk()->assertSee('Maestría en Lingüística');
+        $this->getJson('/api/v1/programas')->assertOk()
+            ->assertJsonFragment(['nombre' => 'Maestría en Lingüística']);
     }
 
     public function test_la_papelera_junta_lo_borrado_de_varias_secciones(): void

@@ -1,37 +1,68 @@
-@extends('layouts.public')
+{{--
+    404 de Laravel.
 
-@section('title', 'Página no encontrada (404)')
-@section('meta_description', 'La página que buscas no existe o fue movida.')
+    Ya no es la del sitio: el sitio público lo sirve Nginx desde el `dist/` de
+    Astro y su 404 está allí (sitio/src/pages/404.astro). Aquí solo llegan las
+    direcciones que Laravel sigue atendiendo —/admin y la sesión—, así que la
+    página se dirige a quien administra y no al visitante.
 
-@section('content')
-    <section class="relative flex items-center justify-center overflow-hidden bg-unmsm-azul text-white min-h-[80vh]">
-        {{-- textura de puntos + resplandor dorado --}}
-        <div class="absolute inset-0 opacity-[0.06]"
-            style="background-image: radial-gradient(circle at 1px 1px, #fff 1.5px, transparent 0); background-size: 34px 34px;">
+    Autocontenida, como las de 500 y 503: una plantilla de error que hereda de
+    un layout se cae cuando el layout es justo lo que falta, y devuelve un 500
+    en lugar del 404 que se pedía.
+--}}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Página no encontrada — {{ config('app.name') }}</title>
+    <meta name="robots" content="noindex">
+    <style>
+        :root { color-scheme: light; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0f2744;
+            color: #fff;
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .codigo { font-size: 4rem; font-weight: 700; color: #b6a350; margin: 0; }
+        h1 { font-size: 1.5rem; margin: .5rem 0 0; }
+        p { color: #cbd5e1; margin: 1rem 0 2rem; }
+        .enlaces { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+
+        a {
+            border-radius: .5rem;
+            padding: .7rem 1.4rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid rgb(255 255 255 / .3);
+            color: #fff;
+        }
+
+        a.principal { background: #b6a350; border-color: #b6a350; color: #0f2744; }
+    </style>
+</head>
+
+<body>
+    <main>
+        <p class="codigo">404</p>
+        <h1>Esta dirección no existe</h1>
+        <p>Puede que el enlace esté mal escrito o que la pantalla se haya retirado.</p>
+
+        <div class="enlaces">
+            <a class="principal" href="{{ route('admin.dashboard') }}">Ir al panel</a>
+            <a href="{{ url('/') }}">Ir al sitio</a>
         </div>
-        <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-unmsm-dorado/20 blur-3xl"></div>
-        <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-black/20 blur-3xl"></div>
+    </main>
+</body>
 
-        <div class="container mx-auto px-6 relative z-10 text-center py-24">
-            <p class="font-serif font-bold text-unmsm-dorado leading-none text-7xl md:text-9xl mb-2 drop-shadow-lg">404</p>
-            <p class="text-unmsm-dorado font-bold tracking-widest uppercase text-xs md:text-sm mb-3">
-                Universidad Nacional Mayor de San Marcos
-            </p>
-            <h1 class="text-3xl md:text-4xl font-serif font-bold mb-4">Página no encontrada</h1>
-            <p class="text-white/85 max-w-xl mx-auto leading-relaxed mb-8">
-                La página que buscas no existe, cambió de dirección o ya no está disponible.
-                Te invitamos a volver al inicio o explorar nuestros cursos.
-            </p>
-            <div class="flex flex-wrap gap-4 justify-center">
-                <a href="{{ route('home') }}"
-                    class="inline-flex items-center gap-2 px-7 py-3 rounded-lg bg-unmsm-dorado text-unmsm-azul font-bold hover:bg-white transition-colors shadow-lg motion-safe:hover:-translate-y-0.5 duration-200">
-                    <x-fas-house aria-hidden="true" /> Volver al inicio
-                </a>
-                <a href="{{ route('cursos.index') }}"
-                    class="inline-flex items-center gap-2 px-7 py-3 rounded-lg border border-white/70 text-white font-bold hover:bg-white/10 transition-colors">
-                    Ver cursos <x-fas-arrow-right aria-hidden="true" />
-                </a>
-            </div>
-        </div>
-    </section>
-@endsection
+</html>

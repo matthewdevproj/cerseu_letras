@@ -11,7 +11,12 @@ use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 /**
- * Aviso por correo de las solicitudes de diplomado.
+ * Aviso por correo de las solicitudes.
+ *
+ * El formulario dejo de ser una vista de Blade y pasa por la API, que es la
+ * unica puerta que queda: el sitio publico es estatico. Lo que se comprueba
+ * aqui no cambia —a donde llega el aviso, a quien responde, que la solicitud
+ * se guarde aunque el correo falle—, solo por donde entra.
  */
 class CorreoSolicitudTest extends TestCase
 {
@@ -24,7 +29,14 @@ class CorreoSolicitudTest extends TestCase
             'slug' => 'diplomado-de-prueba',
             'grado' => 'Taller',
             'is_active' => true,
+            'estado' => Programa::ESTADO_PUBLICADO,
         ]);
+    }
+
+    /** La API identifica el programa por slug, no por id. */
+    private function enviar(array $extra = [])
+    {
+        return $this->postJson('/api/v1/solicitudes/talleres', $this->solicitud($extra));
     }
 
     private function solicitud(array $extra = []): array
@@ -36,7 +48,7 @@ class CorreoSolicitudTest extends TestCase
             'pais' => 'PE',
             'region' => 'Cusco',
             'telefono' => '987 654 321',
-            'programa_id' => $this->programa()->id,
+            'programa' => $this->programa()->slug,
         ];
     }
 
@@ -44,8 +56,7 @@ class CorreoSolicitudTest extends TestCase
     {
         Mail::fake();
 
-        $this->post(route('talleres.solicitud'), $this->solicitud())
-            ->assertRedirect();
+        $this->enviar()->assertCreated();
 
         Mail::assertSent(NuevaSolicitudInformacion::class);
     }
@@ -60,7 +71,7 @@ class CorreoSolicitudTest extends TestCase
         $ajustes->update(['email_admision' => 'admisionposgrado.letras@unmsm.edu.pe']);
         SiteSetting::clearCache();
 
-        $this->post(route('talleres.solicitud'), $this->solicitud());
+        $this->enviar();
 
         Mail::assertSent(
             NuevaSolicitudInformacion::class,
@@ -72,7 +83,7 @@ class CorreoSolicitudTest extends TestCase
     {
         Mail::fake();
 
-        $this->post(route('talleres.solicitud'), $this->solicitud());
+        $this->enviar();
 
         // Sin esto habría que copiar el correo a mano desde el cuerpo.
         Mail::assertSent(
@@ -95,7 +106,7 @@ class CorreoSolicitudTest extends TestCase
     {
         Mail::fake();
 
-        $this->post(route('talleres.solicitud'), $this->solicitud());
+        $this->enviar();
 
         Mail::assertSent(NuevaSolicitudInformacion::class, function ($correo) {
             $cuerpo = $correo->render();
@@ -113,9 +124,11 @@ class CorreoSolicitudTest extends TestCase
         // que se pierda la solicitud ni que el visitante vea un error.
         Mail::shouldReceive('to')->andThrow(new \RuntimeException('SMTP caído'));
 
-        $this->post(route('talleres.solicitud'), $this->solicitud())
-            ->assertRedirect()
-            ->assertSessionHas('success');
+        // Sin sesion que comprobar: la API responde 201 y el mensaje va en el
+        // cuerpo, que es lo que lee el formulario del sitio estatico.
+        $this->enviar()
+            ->assertCreated()
+            ->assertJsonStructure(['message']);
 
         $this->assertSame(1, Lead::count());
     }
@@ -124,7 +137,7 @@ class CorreoSolicitudTest extends TestCase
     {
         Mail::shouldReceive('to')->andThrow(new \RuntimeException('SMTP caído'));
 
-        $this->post(route('talleres.solicitud'), $this->solicitud());
+        $this->enviar();
 
         $lead = Lead::firstOrFail();
 
@@ -138,7 +151,7 @@ class CorreoSolicitudTest extends TestCase
     {
         Mail::fake();
 
-        $this->post(route('talleres.solicitud'), $this->solicitud());
+        $this->enviar();
 
         $lead = Lead::firstOrFail();
 
@@ -152,7 +165,7 @@ class CorreoSolicitudTest extends TestCase
         // explícita el panel daría por avisadas solicitudes que nadie recibió.
         config(['mail.default' => 'log']);
 
-        $this->post(route('talleres.solicitud'), $this->solicitud());
+        $this->enviar();
 
         $this->assertTrue(Lead::firstOrFail()->avisoPendiente());
     }

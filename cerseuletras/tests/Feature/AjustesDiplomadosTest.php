@@ -13,6 +13,15 @@ use Tests\TestCase;
  * Cubre el documento «Ajustes para la página web de Diplomados» (observaciones
  * N.º 1 a 7). Los ajustes de Admisión que menciona el mismo documento quedan
  * fuera: están pendientes de una RD.
+ *
+ * Se comprueba contra /api/v1/programas/{slug}, que es por donde estos datos
+ * llegan al sitio desde que el público es estático. Lo que se pidió no cambia
+ * —la denominación de quien coordina, los importes, qué se descarta— solo el
+ * sitio donde se mira.
+ *
+ * El ORDEN de los bloques de inversión, que también fijó el documento, ya no
+ * es cosa de la API: lo decide el marcado de InversionPrograma.astro y lo
+ * comprueba sitio/e2e sobre el sitio construido.
  */
 class AjustesDiplomadosTest extends TestCase
 {
@@ -60,9 +69,9 @@ class AjustesDiplomadosTest extends TestCase
         $programa = $this->diplomado();
         $this->coordinador($programa, null);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('Coordinador del Curso');
+        $ficha = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data');
+
+        $this->assertSame('Coordinador', $ficha['docentes'][0]['denominacion']);
     }
 
     public function test_la_denominacion_puede_ser_coordinadora_en_cada_programa(): void
@@ -70,10 +79,9 @@ class AjustesDiplomadosTest extends TestCase
         $programa = $this->diplomado();
         $this->coordinador($programa, 'Coordinadora');
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('Coordinadora del Curso')
-            ->assertDontSee('Coordinador del Curso');
+        $ficha = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data');
+
+        $this->assertSame('Coordinadora', $ficha['docentes'][0]['denominacion']);
     }
 
     public function test_no_queda_la_etiqueta_que_repetia_la_denominacion(): void
@@ -81,12 +89,12 @@ class AjustesDiplomadosTest extends TestCase
         $programa = $this->diplomado();
         $this->coordinador($programa, 'Coordinadora');
 
-        $html = $this->get($programa->url)->assertOk()->getContent();
+        $ficha = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data');
 
-        // El encabezado aparece una sola vez y ya no le acompaña la etiqueta
-        // con la estrella que repetía la denominación.
-        $this->assertSame(1, substr_count($html, 'Coordinadora del Curso'));
-        $this->assertStringNotContainsString('Coordinadora</span>', $html);
+        // La denominación viaja una sola vez, en el docente que coordina: la
+        // etiqueta suelta que la repetía se fue con la vista que la pintaba.
+        $denominaciones = array_filter(array_column($ficha['docentes'], 'denominacion'));
+        $this->assertSame(['Coordinadora'], array_values($denominaciones));
     }
 
     public function test_un_valor_de_denominacion_invalido_cae_al_predeterminado(): void
@@ -139,47 +147,36 @@ class AjustesDiplomadosTest extends TestCase
             ],
         ]);
 
-        $html = $this->get($programa->url)->assertOk()->getContent();
+        // La API entrega las piezas; el orden en que se pintan lo decide
+        // InversionPrograma.astro y lo comprueba sitio/e2e. Aquí se vigila que
+        // no falte ninguna: sin dato no hay bloque que ordenar.
+        $inversion = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion'];
 
-        $posiciones = [
-            'Costo total del taller' => strpos($html, 'Costo total del taller'),
-            'Modalidades de pago' => strpos($html, 'Modalidades de pago'),
-            'Pago de diploma' => strpos($html, 'Pago de diploma'),
-            'Condiciones de pago' => strpos($html, 'Condiciones de pago'),
-            'Informes' => strpos($html, 'Informes'),
-        ];
-
-        foreach ($posiciones as $bloque => $posicion) {
-            $this->assertNotFalse($posicion, "No se encontró el bloque «{$bloque}»");
-        }
-
-        $this->assertSame(array_keys($posiciones), array_keys(collect($posiciones)->sort()->all()));
+        $this->assertEquals(3650, $inversion['costo_total']);
+        $this->assertEquals(650, $inversion['costo_diploma']);
+        $this->assertCount(1, $inversion['modalidades']);
+        $this->assertContains('Descuento por pago adelantado.', $inversion['condiciones']);
     }
 
     public function test_el_costo_total_lleva_la_nota_de_lo_que_incluye(): void
     {
         $programa = $this->diplomado(['inversion_economica' => ['costo_total' => 3650]]);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('3,650')
-            ->assertSee('Incluye la totalidad de los derechos de enseñanza y el costo del diploma.');
+        // La nota «incluye la totalidad de los derechos de enseñanza…» la
+        // pone la ficha junto al importe; lo que viaja es el importe.
+        $this->assertEquals(3650, $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion']['costo_total']);
     }
 
     public function test_el_pago_de_diploma_dice_costo_del_diploma_y_su_plazo(): void
     {
         $programa = $this->diplomado(['inversion_economica' => ['costo_diploma' => 650]]);
 
-        $html = $this->get($programa->url)->assertOk()->getContent();
+        $inversion = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion'];
 
-        $this->assertStringContainsString('Costo del diploma', $html);
-        $this->assertStringContainsString(
-            'El pago por derecho de diploma deberá efectuarse dentro de los cinco días hábiles posteriores',
-            $html,
-        );
-        // El rótulo «Costo total» pertenece al bloque del costo total, que aquí
-        // no existe: no debe reaparecer bajo el importe del diploma.
-        $this->assertStringNotContainsString('Costo total', $html);
+        $this->assertEquals(650, $inversion['costo_diploma']);
+        // Sin costo total no llega ninguno: el bloque no puede reaparecer bajo
+        // el importe del diploma porque no hay importe que pintar.
+        $this->assertNull($inversion['costo_total']);
     }
 
     public function test_el_costo_por_matricula_va_debajo_del_pago_de_diploma(): void
@@ -192,29 +189,18 @@ class AjustesDiplomadosTest extends TestCase
             ],
         ]);
 
-        $html = $this->get($programa->url)->assertOk()->getContent();
+        $inversion = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion'];
 
-        $this->assertStringContainsString('Costo por matrícula', $html);
-        $this->assertStringContainsString('S/&nbsp;200', $html);
-        $this->assertLessThan(
-            strpos($html, 'Costo por matrícula'),
-            strpos($html, 'Pago de diploma'),
-            'El costo por matrícula debe ir después del bloque de pago de diploma',
-        );
-        // Y antes de las condiciones, que cierran el apartado junto a Informes.
-        $this->assertLessThan(
-            strpos($html, 'Informes'),
-            strpos($html, 'Costo por matrícula'),
-        );
+        $this->assertEquals(200, $inversion['costo_matricula']);
+        $this->assertEquals(650, $inversion['costo_diploma']);
     }
 
     public function test_sin_costo_por_matricula_no_se_muestra_el_bloque(): void
     {
         $programa = $this->diplomado(['inversion_economica' => ['costo_total' => 3650]]);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertDontSee('Costo por matrícula');
+        // Sin importe no hay bloque: la ficha omite lo que llega en null.
+        $this->assertNull($this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion']['costo_matricula']);
     }
 
     public function test_el_panel_guarda_el_costo_por_matricula(): void
@@ -257,19 +243,16 @@ class AjustesDiplomadosTest extends TestCase
             ],
         ]);
 
-        $html = $this->get($programa->url)->assertOk()->getContent();
+        $modalidades = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion']['modalidades'];
 
-        foreach (['Pago único', 'Cuota única', '3,000', '16, 17 y 18 de septiembre',
-                  'Pago fraccionado', 'Cuota 1', 'Cuota 2', '1,500',
-                  'Del 16 al 18 de septiembre', 'Hasta el 30 de noviembre'] as $texto) {
-            $this->assertStringContainsString($texto, $html, "Falta «{$texto}»");
-        }
+        $this->assertSame('Pago único', $modalidades[0]['nombre']);
+        $this->assertSame('Cuota única', $modalidades[0]['cuotas'][0]['etiqueta']);
+        $this->assertEquals(3000, $modalidades[0]['cuotas'][0]['monto']);
+        $this->assertSame('16, 17 y 18 de septiembre', $modalidades[0]['cuotas'][0]['fecha']);
 
-        // La fecha se imprime después del monto dentro de cada cuota.
-        $this->assertLessThan(
-            strpos($html, '16, 17 y 18 de septiembre'),
-            strpos($html, '3,000'),
-        );
+        $this->assertSame('Pago fraccionado', $modalidades[1]['nombre']);
+        $this->assertCount(2, $modalidades[1]['cuotas']);
+        $this->assertSame('Hasta el 30 de noviembre', $modalidades[1]['cuotas'][1]['fecha']);
     }
 
     public function test_admite_mas_de_dos_cuotas_por_modalidad(): void
@@ -288,10 +271,11 @@ class AjustesDiplomadosTest extends TestCase
 
         $this->assertCount(3, $programa->modalidades_de_pago[0]['cuotas']);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('Cuota 3')
-            ->assertSee('Noviembre');
+        $cuotas = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion']['modalidades'][0]['cuotas'];
+
+        $this->assertCount(3, $cuotas);
+        $this->assertSame('Cuota 3', $cuotas[2]['etiqueta']);
+        $this->assertSame('Noviembre', $cuotas[2]['fecha']);
     }
 
     public function test_las_cuotas_planas_anteriores_se_siguen_mostrando(): void
@@ -312,10 +296,10 @@ class AjustesDiplomadosTest extends TestCase
         $this->assertSame('Pago fraccionado', $modalidades[0]['nombre']);
         $this->assertSame('Cuota 1', $modalidades[0]['cuotas'][0]['etiqueta']);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('1,500')
-            ->assertSee('Marzo');
+        $cuotas = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion']['modalidades'][0]['cuotas'];
+
+        $this->assertEquals(1500, $cuotas[0]['monto']);
+        $this->assertSame('Marzo', $cuotas[0]['fecha']);
     }
 
     public function test_las_cuotas_sin_monto_ni_fecha_no_llegan_a_la_ficha(): void
@@ -332,9 +316,12 @@ class AjustesDiplomadosTest extends TestCase
 
         $this->assertSame([], $programa->modalidades_de_pago);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertDontSee('Modalidades de pago');
+        // Filas que el panel deja al añadir y no completar: no llegan. Y como
+        // era lo único que tenía este programa, tampoco llega bloque de
+        // inversión: la ficha lo omite en vez de pintar el título solo.
+        $this->assertNull(
+            $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data.inversion'),
+        );
     }
 
     public function test_el_panel_guarda_las_modalidades_junto_al_resto_de_la_inversion(): void
@@ -381,17 +368,10 @@ class AjustesDiplomadosTest extends TestCase
 
         $this->assertCount(3, $programa->condiciones_de_pago);
 
-        $html = $this->get($programa->url)->assertOk()->getContent();
+        $condiciones = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion']['condiciones'];
 
-        $this->assertStringContainsString('Condiciones de pago', $html);
-        foreach ($programa->condiciones_de_pago as $condicion) {
-            $this->assertStringContainsString(e($condicion), $html);
-        }
-        // Se respeta el orden en que se administraron.
-        $this->assertLessThan(
-            strpos($html, 'La matrícula se habilita'),
-            strpos($html, 'Descuento del 10'),
-        );
+        // Llegan las tres y en el orden en que se administraron.
+        $this->assertSame($programa->condiciones_de_pago, $condiciones);
     }
 
     public function test_los_campos_sueltos_anteriores_siguen_apareciendo_como_lista(): void
@@ -411,10 +391,10 @@ class AjustesDiplomadosTest extends TestCase
             'Pagos vía SanMarket',
         ], $programa->condiciones_de_pago);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('10 % por pago adelantado')
-            ->assertSee('Pagos vía SanMarket');
+        $this->assertSame(
+            $programa->condiciones_de_pago,
+            $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion']['condiciones'],
+        );
     }
 
     public function test_la_lista_manda_sobre_los_campos_anteriores(): void
@@ -428,10 +408,10 @@ class AjustesDiplomadosTest extends TestCase
 
         $this->assertSame(['Única condición vigente.'], $programa->condiciones_de_pago);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('Única condición vigente.')
-            ->assertDontSee('Texto antiguo que no debe mostrarse');
+        $this->assertSame(
+            ['Única condición vigente.'],
+            $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion']['condiciones'],
+        );
     }
 
     public function test_sin_condiciones_no_se_muestra_el_bloque(): void
@@ -440,9 +420,7 @@ class AjustesDiplomadosTest extends TestCase
 
         $this->assertSame([], $programa->condiciones_de_pago);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertDontSee('Condiciones de pago');
+        $this->assertSame([], $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['inversion']['condiciones']);
     }
 
     public function test_el_panel_guarda_la_lista_de_condiciones(): void
@@ -500,9 +478,7 @@ class AjustesDiplomadosTest extends TestCase
         $this->assertNull($programa->denominacion_otorga);
         $this->assertNull($programa->denominacion_otorga_texto);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertDontSee('Grado que otorga');
+        $this->assertNull($this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['grado_otorga']);
     }
 
     public function test_la_denominacion_y_su_rotulo_son_editables(): void
@@ -517,9 +493,11 @@ class AjustesDiplomadosTest extends TestCase
             $programa->denominacion_otorga_texto,
         );
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('Otorga: Diploma en Curaduría con Énfasis en Arte Peruano');
+        // El rótulo y el contenido viajan por separado: la ficha los junta.
+        $this->assertSame(
+            'Diploma en Curaduría con Énfasis en Arte Peruano',
+            $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['grado_otorga'],
+        );
     }
 
     public function test_sin_rotulo_se_muestra_solo_el_contenido(): void
@@ -560,13 +538,28 @@ class AjustesDiplomadosTest extends TestCase
 
     public function test_la_portada_de_diplomados_no_menciona_ciencias_sociales(): void
     {
+        $this->seed(\Database\Seeders\SiteSettingsSeeder::class);
+        SiteSetting::clearCache();
+
+        $hero = collect($this->getJson('/api/v1/tipos-oferta')->assertOk()->json('data'))
+            ->firstWhere('slug', 'talleres')['hero'];
+
+        // Lo que pidió la Unidad: la descripción no menciona las ciencias
+        // sociales, que el CERSEU no ofrece. El texto se edita en
+        // Configuración; ya no hay ninguno escrito en una plantilla que pueda
+        // reaparecer por detrás.
+        $this->assertStringNotContainsString('ciencias sociales', (string) $hero['texto']);
+        $this->assertNotEmpty($hero['texto']);
+
+        // Y si la Unidad lo vacía, no reaparece nada: el sitio omite el
+        // párrafo en vez de rellenarlo por su cuenta.
         SiteSetting::query()->update(['talleres_hero_texto' => null]);
         SiteSetting::clearCache();
 
-        $this->get(route('talleres.index'))
-            ->assertOk()
-            ->assertDontSee('ciencias sociales')
-            ->assertSee('Especializa tus conocimientos con talleres diseñados para responder a los desafíos contemporáneos desde las humanidades y las nuevas tecnologías.');
+        $vacio = collect($this->getJson('/api/v1/tipos-oferta')->json('data'))
+            ->firstWhere('slug', 'talleres')['hero'];
+
+        $this->assertNull($vacio['texto']);
     }
 
     // Obs. N.º 6 — Horas académicas
@@ -575,21 +568,19 @@ class AjustesDiplomadosTest extends TestCase
     {
         $programa = $this->diplomado(['horas_academicas' => 480]);
 
-        $html = $this->get($programa->url)->assertOk()->getContent();
-
-        $this->assertStringContainsString('Horas académicas', $html);
-        $this->assertStringContainsString('480 horas', $html);
-        $this->assertLessThan(strpos($html, 'Horas académicas'), strpos($html, 'Créditos'));
-        $this->assertLessThan(strpos($html, 'Duración'), strpos($html, 'Horas académicas'));
+        // Las medidas llegan ya formateadas y en el orden que le corresponde
+        // a cada tipo: la regla vive en TipoOferta, no en la plantilla.
+        $this->assertContains('480 horas académicas', $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['medidas']);
     }
 
     public function test_sin_horas_academicas_no_se_muestra_el_bloque(): void
     {
         $programa = $this->diplomado(['horas_academicas' => null]);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertDontSee('Horas académicas');
+        $this->assertNotContains(
+            'horas académicas',
+            $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data')['medidas'],
+        );
     }
 
     public function test_el_panel_guarda_las_horas_academicas(): void
@@ -610,14 +601,14 @@ class AjustesDiplomadosTest extends TestCase
 
     public function test_la_portada_de_diplomados_ya_no_duplica_el_contacto(): void
     {
-        $html = $this->get(route('talleres.index'))->assertOk()->getContent();
+        // El bloque duplicado vivía en la plantilla del listado, que ya no
+        // existe: el sitio nuevo nunca lo tuvo. Lo que sí tiene que seguir
+        // llegando son los datos de contacto, que alimentan el pie.
+        $contacto = $this->getJson('/api/v1/sitio')->assertOk()->json('data.contacto');
 
-        $this->assertStringNotContainsString('| Contáctanos', $html);
-        $this->assertStringNotContainsString('Horario de atención', $html);
-
-        // El pie de página sigue siendo el punto de contacto.
-        $this->assertStringContainsString('Enlaces Rápidos', $html);
-        $this->assertStringContainsString('Institucional', $html);
+        // El correo es el dato que sostiene el pie; el horario es opcional y
+        // aquí la tabla está recién creada, sin nada sembrado.
+        $this->assertNotNull($contacto['email']);
     }
 
     // Compatibilidad: los demás grados no cambian
@@ -637,10 +628,9 @@ class AjustesDiplomadosTest extends TestCase
             'semestres_inversion' => [['matricula' => 310, 'creditos' => 14]],
         ]);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('Grado que otorga: Magíster en Lingüística')
-            ->assertSee('Cursos')
-            ->assertSee('Postular Ahora');
+        $ficha = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data');
+
+        $this->assertSame('Magíster en Lingüística', $ficha['grado_otorga']);
+        $this->assertSame('cursos', $ficha['tipo']);
     }
 }

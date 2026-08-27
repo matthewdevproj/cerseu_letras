@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import InversionPrograma from '../../components/InversionPrograma.astro';
 import TarjetaPrograma from '../../components/TarjetaPrograma.astro';
 import Boton from '../../components/Boton.astro';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
@@ -52,8 +53,13 @@ const datosClave = [
     ...programa.medidas.map((m) => ({ etiqueta: 'Duración', valor: m })),
     { etiqueta: 'Modalidad', valor: programa.modalidad },
     { etiqueta: 'Mención', valor: programa.mencion },
-    { etiqueta: 'Inversión', valor: programa.inversion },
+    { etiqueta: programa.grado_otorga_label ?? 'Otorga', valor: programa.grado_otorga },
+    { etiqueta: 'Vacantes', valor: programa.vacantes ? String(programa.vacantes) : null },
 ].filter((d): d is { etiqueta: string; valor: string } => Boolean(d.valor));
+
+// La inversión ya no cabe en una fila: son hasta cinco bloques con el orden
+// que fijó la Unidad. Va en su propia sección.
+const inversion = programa.inversion;
 
 const datosCurso = {
     '@context': 'https://schema.org',
@@ -152,7 +158,9 @@ const iniciales = (nombre: string) =>
                             </span>
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                                    {coordinador.rol ?? 'A cargo de'}
+                                    {coordinador.denominacion
+                                        ? `${coordinador.denominacion} del ${programa.tipo_label ?? 'programa'}`
+                                        : (coordinador.rol ?? 'A cargo de')}
                                 </p>
                                 <p class="font-serif font-bold text-unmsm-azul">
                                     {coordinador.grado && `${coordinador.grado} `}
@@ -249,6 +257,20 @@ const iniciales = (nombre: string) =>
                                         />
                                     </div>
                                 )}
+                            </div>
+                        </section>
+                    )
+                }
+
+                {
+                    inversion && (
+                        <section>
+                            <h2 class="font-serif text-2xl font-bold text-unmsm-azul">
+                                Inversión económica
+                            </h2>
+                            <div class="mt-2 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true" />
+                            <div class="mt-6">
+                                <InversionPrograma inversion={inversion} />
                             </div>
                         </section>
                     )

@@ -13,6 +13,7 @@ const { tipo, programas, apiPublica } = Astro.props;
 <form
     class="formulario-solicitud space-y-4"
     data-endpoint={`${apiPublica}/solicitudes/${tipo}`}
+    data-api={apiPublica}
     novalidate
 >
     <div class="grid gap-4 sm:grid-cols-2">
@@ -72,33 +73,40 @@ const { tipo, programas, apiPublica } = Astro.props;
             />
         </div>
 
+        {/* País y región como listas y no como texto libre, igual que el
+            formulario anterior: escribiéndolo a mano llegan «Peru», «perú» y
+            «PE» a la misma columna, y la Unidad no puede filtrar por región.
+            Las listas se piden a la API al cargar; si no llegan, los campos se
+            quedan como texto y el formulario se sigue pudiendo enviar. */}
         <div>
             <label for="pais" class="block text-sm font-medium text-slate-700">
                 País <span class="text-red-600" aria-hidden="true">*</span>
             </label>
-            <input
+            <select
                 id="pais"
                 name="pais"
-                type="text"
                 required
-                value="Perú"
                 autocomplete="country-name"
-                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-unmsm-azul focus:outline-none"
-            />
+                class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-unmsm-azul focus:outline-none"
+            >
+                <option value="Perú" data-codigo="PE" selected>Perú</option>
+            </select>
         </div>
 
         <div>
             <label for="region" class="block text-sm font-medium text-slate-700">
-                Región <span class="text-red-600" aria-hidden="true">*</span>
+                <span class="etiqueta-region">Departamento</span>
+                <span class="text-red-600" aria-hidden="true">*</span>
             </label>
-            <input
+            <select
                 id="region"
                 name="region"
-                type="text"
                 required
                 autocomplete="address-level1"
-                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-unmsm-azul focus:outline-none"
-            />
+                class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-unmsm-azul focus:outline-none"
+            >
+                <option value="">Cargando…</option>
+            </select>
         </div>
     </div>
 
@@ -140,6 +148,78 @@ const { tipo, programas, apiPublica } = Astro.props;
 
 <script is:inline>
     document.querySelectorAll('.formulario-solicitud').forEach((form) => {
+        const api = form.dataset.api;
+        const pais = form.querySelector('#pais');
+        const region = form.querySelector('#region');
+        const etiquetaRegion = form.querySelector('.etiqueta-region');
+
+        // Sin listas el formulario tiene que seguir sirviendo: se degradan a
+        // campos de texto en vez de dejar dos desplegables vacios.
+        function aTexto(select, etiqueta) {
+            const campo = document.createElement('input');
+            campo.type = 'text';
+            campo.id = select.id;
+            campo.name = select.name;
+            campo.required = true;
+            campo.className = select.className;
+            campo.placeholder = etiqueta;
+            select.replaceWith(campo);
+            return campo;
+        }
+
+        async function cargarRegiones(codigo) {
+            region.innerHTML = '<option value="">Cargando…</option>';
+            try {
+                const res = await fetch(`${api}/geografia/v2/paises/${codigo}/regiones`);
+                const datos = await res.json();
+
+                if (etiquetaRegion && datos.etiqueta) {
+                    etiquetaRegion.textContent = datos.etiqueta;
+                }
+
+                const lista = datos.regiones ?? [];
+                if (lista.length === 0) {
+                    // Paises sin subdivisiones publicadas: pedir una region que
+                    // no existe seria pedir un dato imposible.
+                    aTexto(region, 'Ciudad o región');
+                    return;
+                }
+
+                region.innerHTML =
+                    '<option value="">Selecciona…</option>' +
+                    lista.map((r) => `<option value="${r}">${r}</option>`).join('');
+            } catch {
+                aTexto(region, 'Región');
+            }
+        }
+
+        (async function cargarPaises() {
+            if (!pais || !region) return;
+            try {
+                const res = await fetch(`${api}/geografia/v2/paises`);
+                const datos = await res.json();
+                const lista = datos.paises ?? [];
+                if (lista.length === 0) throw new Error('sin paises');
+
+                pais.innerHTML = lista
+                    .map(
+                        (p) =>
+                            `<option value="${p.nombre}" data-codigo="${p.codigo}"${p.codigo === 'PE' ? ' selected' : ''}>${p.nombre}</option>`
+                    )
+                    .join('');
+
+                pais.addEventListener('change', () => {
+                    const opcion = pais.options[pais.selectedIndex];
+                    cargarRegiones(opcion.dataset.codigo);
+                });
+
+                await cargarRegiones('PE');
+            } catch {
+                aTexto(pais, 'País');
+                aTexto(region, 'Región');
+            }
+        })();
+
         const mensaje = form.querySelector('.mensaje-solicitud');
         const boton = form.querySelector('button[type="submit"]');
 

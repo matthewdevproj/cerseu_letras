@@ -60,10 +60,10 @@ class OfertaPorTipoTest extends TestCase
         $otro = collect(TipoOferta::cases())->first(fn ($t) => $t !== $tipo);
         $ajeno = $this->programa($otro, 'Lo ajeno de ' . $otro->plural());
 
-        $this->get(route($tipo->slug() . '.index'))
+        $this->getJson('/api/v1/programas?tipo=' . $tipo->slug())
             ->assertOk()
-            ->assertSee($propio->nombre)
-            ->assertDontSee($ajeno->nombre);
+            ->assertJsonFragment(['nombre' => $propio->nombre])
+            ->assertJsonMissing(['nombre' => $ajeno->nombre]);
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('tipos')]
@@ -76,9 +76,9 @@ class OfertaPorTipoTest extends TestCase
             );
         }
 
-        $this->get(route($tipo->slug() . '.admision'))
+        $this->getJson('/api/v1/admision/' . $tipo->slug())
             ->assertOk()
-            ->assertSee('Convocatoria de ' . $tipo->plural());
+            ->assertJsonPath('data.titulo', 'Convocatoria de ' . $tipo->plural());
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('tipos')]
@@ -86,15 +86,15 @@ class OfertaPorTipoTest extends TestCase
     {
         $programa = $this->programa($tipo, 'Oferta de ' . $tipo->plural());
 
-        $this->post(route($tipo->slug() . '.solicitud'), [
+        $this->postJson('/api/v1/solicitudes/' . $tipo->slug(), [
             'nombres' => 'Ana',
             'apellidos' => 'Ruiz',
             'correo' => 'ana@example.test',
             'pais' => 'Perú',
             'region' => 'Lima',
             'telefono' => '999999999',
-            'programa_id' => $programa->id,
-        ])->assertSessionHasNoErrors();
+            'programa' => $programa->slug,
+        ])->assertCreated();
 
         $lead = Lead::firstOrFail();
         $this->assertSame($tipo, $lead->tipo);
@@ -106,8 +106,15 @@ class OfertaPorTipoTest extends TestCase
     {
         $programa = $this->programa($tipo, 'Ficha de ' . $tipo->plural());
 
-        $this->assertStringContainsString('/' . $tipo->slug() . '/', $programa->url);
-        $this->get($programa->url)->assertOk()->assertSee($programa->nombre);
+        // La ficha ya no la sirve Laravel: la genera el sitio a partir de la
+        // ruta que compone el modelo. Lo que se comprueba aquí es que la ruta
+        // cuelgue del módulo correcto y que la API sirva esa ficha.
+        $this->assertSame('/' . $tipo->slug() . '/' . $programa->slug, $programa->url);
+
+        $this->getJson('/api/v1/programas/' . $programa->slug)
+            ->assertOk()
+            ->assertJsonPath('data.nombre', $programa->nombre)
+            ->assertJsonPath('data.tipo', $tipo->slug());
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('tipos')]
@@ -152,14 +159,16 @@ class OfertaPorTipoTest extends TestCase
 
     public function test_las_rutas_anteriores_redirigen_en_vez_de_romperse(): void
     {
-        $this->get('/diplomados')->assertRedirect('/talleres');
-        $this->get('/diplomados/admision')->assertRedirect('/talleres/admision');
-        $this->get('/programas')->assertRedirect('/cursos');
+        // Las redirecciones se mudaron a Nginx, que es quien recibe ahora
+        // esas direcciones: Laravel ya no ve el espacio público de URLs. Se
+        // comprueban en las pruebas de navegador, contra el sitio servido.
+        $this->markTestSkipped('Los 301 heredados los sirve Nginx (ver sitio/e2e/navegacion.spec.ts).');
     }
 
     public function test_un_modulo_inventado_da_404(): void
     {
-        $this->get('/seminarios')->assertNotFound();
+        $this->getJson('/api/v1/admision/seminarios')->assertNotFound();
+        $this->getJson('/api/v1/programas?tipo=seminarios')->assertNotFound();
         $this->actingAs($this->admin())->get('/admin/admision/seminarios')->assertNotFound();
     }
 }

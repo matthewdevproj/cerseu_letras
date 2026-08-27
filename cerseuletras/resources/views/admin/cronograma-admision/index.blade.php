@@ -225,7 +225,7 @@
                 </div>
 
                 <div class="flex items-center justify-end gap-3 mt-8 pt-5 border-t border-gray-100">
-                    <a href="{{ route('home') }}#admision" target="_blank" rel="noopener noreferrer"
+                    <a href="{{ url('/') }}#admision" target="_blank" rel="noopener noreferrer"
                         class="px-4 py-2 text-sm text-gray-600 hover:text-unmsm-azul">
                         <x-fas-eye class="mr-1" /> Ver en la portada
                     </a>

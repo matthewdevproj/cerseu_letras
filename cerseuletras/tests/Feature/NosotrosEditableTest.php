@@ -9,6 +9,11 @@ use Tests\TestCase;
 
 /**
  * Contenido editable de /nosotros y del hero de la portada.
+ *
+ * Se comprueba contra la API, que es por donde viaja al sitio desde que el
+ * público es estático. Lo que se vigila no cambia: que lo que se escribe en el
+ * panel llegue, que lo oculto no llegue y que un campo vacío caiga al texto de
+ * respaldo en lugar de dejar un hueco.
  */
 class NosotrosEditableTest extends TestCase
 {
@@ -53,21 +58,21 @@ class NosotrosEditableTest extends TestCase
     {
         $this->paginaNosotros();
 
-        $this->get('/nosotros')
+        $this->getJson('/api/v1/paginas/nosotros')
             ->assertOk()
-            ->assertSee('Misión editada desde el panel.', false)
-            ->assertSee('Visión editada desde el panel.', false)
-            ->assertSee('Valor de prueba');
+            ->assertJsonFragment(['cuerpo' => '<p>Misión editada desde el panel.</p>'])
+            ->assertJsonFragment(['cuerpo' => '<p>Visión editada desde el panel.</p>'])
+            ->assertJsonFragment(['titulo' => 'Valor de prueba']);
     }
 
     public function test_el_encabezado_toma_titulo_y_subtitulo_de_la_pagina(): void
     {
         $this->paginaNosotros();
 
-        $this->get('/nosotros')
-            ->assertOk()
-            ->assertSee('Quiénes somos')
-            ->assertSee('Subtítulo desde el panel');
+        $pagina = $this->getJson('/api/v1/paginas/nosotros')->assertOk()->json('data');
+
+        $this->assertSame('Quiénes somos', $pagina['titulo']);
+        $this->assertSame('Subtítulo desde el panel', $pagina['subtitulo']);
     }
 
     public function test_un_valor_oculto_no_aparece(): void
@@ -78,16 +83,32 @@ class NosotrosEditableTest extends TestCase
         ]);
         ContentPage::clearCache('nosotros');
 
-        $this->get('/nosotros')->assertOk()->assertDontSee('Valor retirado');
+        $this->getJson('/api/v1/paginas/nosotros')->assertOk()
+            ->assertJsonMissing(['titulo' => 'Valor retirado']);
     }
 
-    public function test_sin_pagina_creada_se_muestran_los_textos_de_respaldo(): void
+    public function test_una_instalacion_nueva_trae_la_pagina_sembrada(): void
     {
-        // Una instalación nueva no debe quedarse con la sección en blanco.
-        $this->get('/nosotros')
-            ->assertOk()
-            ->assertSee('responsabilidad social universitaria', false)
-            ->assertSee('Pensamiento crítico');
+        // Una instalación nueva no debe quedarse con la sección en blanco. El
+        // texto de respaldo estaba escrito dentro del controlador de Blade
+        // —contenido de una unidad dentro del código— y se fue con él: ahora
+        // lo pone el seeder, que es un dato y se edita desde el panel.
+        $this->seed(\Database\Seeders\NosotrosContentSeeder::class);
+        ContentPage::clearCache('nosotros');
+
+        $pagina = $this->getJson('/api/v1/paginas/nosotros')->assertOk()->json('data');
+        $texto = json_encode($pagina, JSON_UNESCAPED_UNICODE);
+
+        $this->assertStringContainsString('responsabilidad social universitaria', $texto);
+        $this->assertStringContainsString('Pensamiento crítico', $texto);
+    }
+
+    public function test_una_pagina_que_no_existe_no_tumba_la_construccion(): void
+    {
+        // El sitio se genera contra la API: un 404 aquí detendría el build
+        // entero. La API dice la verdad —no existe— y es el sitio quien decide
+        // seguir sin esa sección (ver obtenerPaginaOpcional en sitio/src/lib).
+        $this->getJson('/api/v1/paginas/nosotros')->assertNotFound();
     }
 
     public function test_el_hero_de_la_portada_usa_los_textos_del_panel(): void
@@ -101,47 +122,42 @@ class NosotrosEditableTest extends TestCase
             'home_hero_cta1_url' => '/cursos',
         ]);
 
-        $this->get('/')
-            ->assertOk()
-            ->assertSee('Antetítulo propio')
-            ->assertSee('Titular propio')
-            ->assertSee('Bajada propia.')
-            ->assertSee('Botón propio');
+        $portada = $this->getJson('/api/v1/sitio')->assertOk()->json('data.portada');
+
+        $this->assertSame('Antetítulo propio', $portada['kicker']);
+        $this->assertSame('Titular propio', $portada['titulo']);
+        $this->assertSame('Bajada propia.', $portada['texto']);
+        $this->assertSame('Botón propio', $portada['acciones'][0]['texto']);
     }
 
     public function test_un_campo_vacio_del_hero_cae_al_texto_original(): void
     {
+        $this->seed(\Database\Seeders\SiteSettingsSeeder::class);
         $this->ajustes(['home_hero_titulo' => 'Solo cambio el titular']);
 
-        $this->get('/')
-            ->assertOk()
-            ->assertSee('Solo cambio el titular')
-            // El resto sigue como estaba: se puede migrar campo a campo.
-            ->assertSee('Decana de América')
-            ->assertSee('Ver cursos');
+        $portada = $this->getJson('/api/v1/sitio')->assertOk()->json('data.portada');
+
+        $this->assertSame('Solo cambio el titular', $portada['titulo']);
+        // El resto sigue como estaba: se puede migrar campo a campo. Lo que
+        // no se ha tocado conserva lo que sembró SiteSettingsSeeder, donde
+        // vive ahora el texto que antes estaba escrito en la plantilla.
+        $this->assertStringContainsString('Decana de América', $portada['kicker']);
+        $this->assertSame('Ver cursos', $portada['acciones'][0]['texto']);
     }
 
     public function test_los_docentes_renacyt_se_editan_desde_el_panel(): void
     {
         $this->ajustes(['home_stat_docentes' => 34]);
 
-        $this->get('/')->assertOk()->assertSee('data-count-to="34"', false);
+        // La cifra sale del panel y no del conteo de fichas: la Unidad anuncia
+        // los docentes RENACYT, que no son todos los registrados.
+        $this->assertSame(34, $this->getJson('/api/v1/sitio')->json('data.portada.docentes'));
     }
 
     public function test_sin_valor_los_docentes_renacyt_caen_al_de_siempre(): void
     {
-        $this->get('/')->assertOk()->assertSee('data-count-to="20"', false);
-    }
-
-    public function test_los_anios_de_historia_se_calculan_desde_la_fundacion(): void
-    {
-        // Estaba fijado en 473 —correcto en 2024— y envejecía solo cada 12 de mayo.
-        $esperado = (int) \Carbon\Carbon::create(1551, 5, 12)->diffInYears(now());
-
-        $this->get('/')
-            ->assertOk()
-            ->assertSee('data-count-to="' . $esperado . '"', false)
-            // Y sin decimales: `diffInYears` devuelve float en Carbon 3.
-            ->assertDontSee('data-count-to="' . $esperado . '.', false);
+        // Sin valor la API no inventa uno: el sitio cae al número de fichas
+        // publicadas, que es el dato que sí puede comprobar.
+        $this->assertNull($this->getJson('/api/v1/sitio')->json('data.portada.docentes'));
     }
 }

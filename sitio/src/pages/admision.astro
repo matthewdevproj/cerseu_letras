@@ -1,9 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import HeroPagina from '../components/HeroPagina.astro';
-import { obtenerPagina, obtenerTipos, obtenerConfiguracion } from '../lib/api';
+import { obtenerPaginaOpcional, obtenerTipos, obtenerConfiguracion } from '../lib/api';
 
-const pagina = await obtenerPagina('admision');
+const pagina = await obtenerPaginaOpcional('admision');
 const tipos = await obtenerTipos();
 const { contacto } = await obtenerConfiguracion();
 

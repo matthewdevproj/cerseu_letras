@@ -12,6 +12,14 @@ use Tests\TestCase;
 
 /**
  * Popup de anuncios de la portada.
+ *
+ * Se parte en dos: lo que el panel guarda —que sigue igual— y lo que llega al
+ * sitio, que ahora viaja por /api/v1/anuncios en lugar de pintarse dentro del
+ * HTML de Blade. Las reglas de vigencia no cambian.
+ *
+ * Lo que era marcado —la proporción del marco, que la imagen llene sin bandas,
+ * que el popup no se cuele fuera de la portada— se comprueba ahora contra el
+ * sitio, en sitio/e2e: es donde vive ese componente.
  */
 class AnuncioPopupTest extends TestCase
 {
@@ -35,35 +43,25 @@ class AnuncioPopupTest extends TestCase
         ]);
     }
 
-    public function test_el_popup_solo_aparece_en_la_portada(): void
+    public function test_sin_anuncios_vigentes_la_lista_llega_vacia(): void
     {
-        $this->anuncio();
-
-        $this->get('/')->assertOk()->assertSee('cerseu-popup-overlay', false);
-
-        foreach (['/cursos', '/admision', '/tramites', '/nosotros'] as $ruta) {
-            $this->get($ruta)->assertOk()->assertDontSee('cerseu-popup-overlay', false);
-        }
-    }
-
-    public function test_sin_anuncios_vigentes_la_portada_no_pinta_nada_del_popup(): void
-    {
-        // Ni marcado, ni CSS, ni JS: el componente entero se salta.
-        $this->get('/')->assertOk()->assertDontSee('cerseu-popup-overlay', false);
+        // Con la lista vacía el sitio no pinta nada: ni marcado, ni CSS, ni
+        // JS. Que el popup viva solo en la portada lo comprueba sitio/e2e.
+        $this->getJson('/api/v1/anuncios')->assertOk()->assertJsonPath('data.items', []);
     }
 
     public function test_un_anuncio_caducado_no_se_muestra(): void
     {
         $this->anuncio(['alt' => 'Ya pasó', 'visible_hasta' => now()->subDay()]);
 
-        $this->get('/')->assertOk()->assertDontSee('Ya pasó');
+        $this->getJson('/api/v1/anuncios')->assertOk()->assertJsonPath('data.items', []);
     }
 
     public function test_un_anuncio_programado_todavia_no_se_muestra(): void
     {
         $this->anuncio(['alt' => 'Aún no toca', 'visible_desde' => now()->addWeek()]);
 
-        $this->get('/')->assertOk()->assertDontSee('Aún no toca');
+        $this->getJson('/api/v1/anuncios')->assertOk()->assertJsonPath('data.items', []);
     }
 
     public function test_el_ultimo_dia_de_vigencia_todavia_cuenta(): void
@@ -71,21 +69,23 @@ class AnuncioPopupTest extends TestCase
         // La comparación es por día, no por instante: si caduca hoy, hoy se ve.
         $this->anuncio(['alt' => 'Último día', 'visible_hasta' => now()]);
 
-        $this->get('/')->assertOk()->assertSee('Último día');
+        $this->getJson('/api/v1/anuncios')->assertOk()
+            ->assertJsonFragment(['alt' => 'Último día']);
     }
 
     public function test_un_anuncio_sin_fechas_se_muestra_siempre(): void
     {
         $this->anuncio(['alt' => 'Permanente']);
 
-        $this->get('/')->assertOk()->assertSee('Permanente');
+        $this->getJson('/api/v1/anuncios')->assertOk()
+            ->assertJsonFragment(['alt' => 'Permanente']);
     }
 
     public function test_un_anuncio_oculto_no_se_muestra_aunque_esté_en_fecha(): void
     {
         $this->anuncio(['alt' => 'Apagado', 'is_visible' => false]);
 
-        $this->get('/')->assertOk()->assertDontSee('Apagado');
+        $this->getJson('/api/v1/anuncios')->assertOk()->assertJsonPath('data.items', []);
     }
 
     public function test_el_panel_crea_un_anuncio_con_imagen(): void
@@ -145,14 +145,15 @@ class AnuncioPopupTest extends TestCase
 
         // Fuera del sitio, pero no perdido.
         $this->assertSoftDeleted($anuncio);
-        $this->get('/')->assertOk()->assertDontSee('Recuperable');
+        $this->getJson('/api/v1/anuncios')->assertOk()->assertJsonPath('data.items', []);
 
         $this->actingAs($this->admin())
             ->post("/admin/anuncios/{$anuncio->id}/restaurar")
             ->assertRedirect(route('admin.anuncios.index'));
 
         Anuncio::clearCache();
-        $this->get('/')->assertOk()->assertSee('Recuperable');
+        $this->getJson('/api/v1/anuncios')->assertOk()
+            ->assertJsonFragment(['alt' => 'Recuperable']);
     }
 
     public function test_editar_sin_subir_imagen_conserva_la_que_habia(): void
@@ -194,9 +195,8 @@ class AnuncioPopupTest extends TestCase
 
         // Sin medidas reales el navegador reservaba un hueco inventado y la
         // ventana daba un salto de 260 px al cargar la imagen.
-        $this->get('/')->assertOk()
-            ->assertSee('width="900"', false)
-            ->assertSee('height="1273"', false);
+        $this->getJson('/api/v1/anuncios')->assertOk()
+            ->assertJsonFragment(['ancho' => 900, 'alto' => 1273]);
     }
 
     public function test_los_ajustes_del_popup_se_guardan_sin_tocar_el_resto(): void
@@ -235,56 +235,10 @@ class AnuncioPopupTest extends TestCase
         $ajustes->update(['popup_retardo_ms' => 4500]);
         SiteSetting::clearCache();
 
-        $this->get('/')->assertOk()->assertSee('4500', false);
-    }
-
-    public function test_la_vista_previa_solo_funciona_para_administradores(): void
-    {
-        $this->anuncio();
-
-        // Un visitante cualquiera no puede saltarse el «una vez por sesión».
-        $sinEspacios = fn (string $h) => str_replace([' ', "
-"], '', $h);
-
-        $html = $this->get('/?previsualizar_anuncios=1')->assertOk()->getContent();
-        $this->assertStringContainsString('session:true', $sinEspacios($html));
-
-        $htmlAdmin = $this->actingAs($this->admin())
-            ->get('/?previsualizar_anuncios=1')->assertOk()->getContent();
-        $this->assertStringContainsString('session:false', $sinEspacios($htmlAdmin));
-    }
-
-    public function test_el_marco_del_anuncio_mantiene_la_proporcion_4_5(): void
-    {
-        $this->anuncio();
-
-        $html = $this->get('/')->assertOk()->getContent();
-
-        // Fija a propósito: con el marco adaptándose a cada imagen, la ventana
-        // cambiaba de tamaño y de posición al pasar de un anuncio a otro.
-        $this->assertStringContainsString('aspect-ratio     : 4 / 5;', $html);
-    }
-
-    public function test_la_imagen_llena_el_marco_sin_dejar_margen(): void
-    {
-        $this->anuncio();
-
-        $html = $this->get('/')->assertOk()->getContent();
-
-        // `cover`: llena el marco recortando lo que sobre. Es lo que evita
-        // cualquier banda, a cambio de perder parte de la imagen.
-        $this->assertStringContainsString('object-fit       : cover;', $html);
-        $this->assertStringNotContainsString('cerseu-popup-img-fondo', $html);
-    }
-
-    public function test_cada_anuncio_carga_su_imagen_una_sola_vez(): void
-    {
-        $this->anuncio(['imagen' => 'https://ejemplo.pe/cartel.jpg']);
-
-        $html = $this->get('/')->assertOk()->getContent();
-
-        // El relleno difuminado duplicaba la descarga por anuncio.
-        $this->assertSame(1, substr_count($html, 'https://ejemplo.pe/cartel.jpg'));
+        // El retardo viaja junto a los anuncios: separarlos obligaría al
+        // sitio a decidirlo por su cuenta y dejaría de ser administrable.
+        $this->getJson('/api/v1/anuncios')->assertOk()
+            ->assertJsonPath('data.ajustes.retardo', 4500);
     }
 
     public function test_calcula_cuanto_se_recortara_de_cada_imagen(): void

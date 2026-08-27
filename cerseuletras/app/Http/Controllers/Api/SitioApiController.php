@@ -78,6 +78,11 @@ class SitioApiController extends Controller
                     // Las mismas fotos del campus que rota el carrusel en
                     // Blade. Van absolutas y en webp, resueltas contra la URL
                     // publica por el middleware ForzarUrlPublica.
+                    // Cuantos docentes se anuncian en la banda de cifras. Es
+                    // un campo del panel y no el conteo real: la Unidad cuenta
+                    // los docentes RENACYT, que no son todos los registrados.
+                    // Sin valor, el sitio cae al numero de fichas publicadas.
+                    'docentes' => $ajustes?->home_stat_docentes ?: null,
                     'imagenes' => array_map(
                         fn (string $f) => asset("images/{$f}"),
                         ['campus-aerea.webp', 'campus-aerea-2.webp', 'campus-fachada.webp']
@@ -116,7 +121,15 @@ class SitioApiController extends Controller
             ->get();
 
         return response()->json([
-            'data' => $raiz->map(fn (MenuItem $item) => $this->comoArray($item))->values(),
+            'data' => $raiz
+                ->map(fn (MenuItem $item) => $this->comoArray($item))
+                // Se omite lo que no lleva a ninguna parte: una entrada sin
+                // destino y sin hijos apuntaria a un enlace vacio en la barra.
+                // Pasa cuando el destino guardado ya no existe —una seccion
+                // retirada—, y es preferible que falte una entrada a que el
+                // menu ofrezca un enlace muerto.
+                ->reject(fn (array $item) => $item['enlace'] === null && $item['hijos'] === [])
+                ->values(),
         ]);
     }
 
@@ -162,7 +175,10 @@ class SitioApiController extends Controller
 
     private function comoArray(MenuItem $item): array
     {
-        $hijos = $item->hijos->map(fn (MenuItem $hijo) => $this->comoArray($hijo))->values();
+        $hijos = $item->hijos
+            ->map(fn (MenuItem $hijo) => $this->comoArray($hijo))
+            ->reject(fn (array $hijo) => $hijo['enlace'] === null && $hijo['hijos'] === [])
+            ->values();
 
         return [
             'etiqueta' => $item->etiqueta,

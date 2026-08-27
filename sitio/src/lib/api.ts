@@ -53,7 +53,25 @@ export type Programa = {
     modalidad: string | null;
     sumilla: string | null;
     medidas: string[];
-    inversion: string | null;
+    /**
+     * Inversion economica con el orden y los rotulos que fijo la Unidad
+     * (Obs. N.o 2). Sale ya resuelta del modelo: recomponerla aqui seria
+     * mantener esa regla dos veces, en dos lenguajes.
+     */
+    inversion: {
+        costo_total: number | null;
+        costo_diploma: number | null;
+        costo_matricula: number | null;
+        derecho_inscripcion: {
+            bachiller_unmsm?: number;
+            otras_universidades?: number;
+        } | null;
+        modalidades: {
+            nombre: string | null;
+            cuotas: { etiqueta: string; monto: number | null; fecha: string | null }[];
+        }[];
+        condiciones: string[];
+    } | null;
     estado: string;
     imagen: string | null;
 
@@ -70,6 +88,7 @@ export type Programa = {
     vacantes: string | number | null;
     duracion: string | number | null;
     grado_otorga: string | null;
+    grado_otorga_label: string | null;
     fecha_limite: string | null;
     documentos: { titulo: string; url: string }[];
 
@@ -79,9 +98,15 @@ export type Programa = {
 
 export type DocentePrograma = {
     nombre: string;
+    slug: string;
     grado: string | null;
     rol: string | null;
     es_coordinador: boolean;
+    /**
+     * «Coordinador» o «Coordinadora», segun se configure en cada programa
+     * (Obs. N.o 1). Antes la ficha lo rotulaba siempre en masculino.
+     */
+    denominacion: string | null;
 };
 
 async function pedir<T>(ruta: string): Promise<T> {
@@ -138,6 +163,12 @@ export type ConfiguracionSitio = {
         titulo: string | null;
         texto: string | null;
         acciones: { texto: string; url: string }[];
+        /**
+         * Cuantos docentes anuncia la banda de cifras. Lo edita el panel —la
+         * Unidad cuenta los RENACYT, que no son todos los registrados—; sin
+         * valor se cae al numero de fichas publicadas.
+         */
+        docentes: number | null;
         imagenes: string[];
     };
     inscripcion: {
@@ -189,6 +220,23 @@ export type PaginaContenido = {
     titulo: string | null;
     subtitulo: string | null;
     secciones: SeccionContenido[];
+};
+
+/**
+ * Como obtenerPagina, pero devuelve una pagina vacia si no existe.
+ *
+ * El sitio se genera contra la API y `pedir()` detiene el build ante cualquier
+ * respuesta que no sea 2xx —lo correcto: mejor un despliegue parado que un
+ * sitio publicado con secciones en blanco—. Pero una pagina de contenido que
+ * alguien borra desde el panel no deberia tumbar la construccion entera: la
+ * seccion se queda sin texto y se arregla desde el panel, que es donde vive.
+ */
+export const obtenerPaginaOpcional = async (slug: string): Promise<PaginaContenido> => {
+    try {
+        return await obtenerPagina(slug);
+    } catch {
+        return { slug, titulo: null, subtitulo: null, secciones: [] };
+    }
 };
 
 export const obtenerPagina = (slug: string) =>

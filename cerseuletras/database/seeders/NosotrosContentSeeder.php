@@ -6,9 +6,19 @@ use App\Models\ContentPage;
 use Illuminate\Database\Seeder;
 
 /**
- * Vuelca a la base de datos el texto de /nosotros que estaba escrito en
- * `NosotrosController`. Las autoridades ya salían del directorio, así que aquí
- * solo van misión, visión y valores.
+ * Contenido inicial de /nosotros: misión, visión y valores.
+ *
+ * Es el texto que estaba escrito dentro de `NosotrosController` como respaldo.
+ * Al retirar las vistas de Blade ese respaldo se fue con ellas, así que una
+ * instalación nueva depende de este seeder para no abrir la página en blanco;
+ * a partir de ahí se edita desde el panel, como el resto del contenido.
+ *
+ * La misión y los valores que había aquí eran los de la Unidad de Posgrado
+ * —«formar profesionales e investigadores de alto nivel»— y no coincidían con
+ * lo que el sitio publica: la base de datos ya llevaba los del CERSEU. Un
+ * despliegue nuevo habría sembrado la misión de otra unidad.
+ *
+ * Las autoridades salen del directorio, no de aquí.
  */
 class NosotrosContentSeeder extends Seeder
 {
@@ -32,7 +42,7 @@ class NosotrosContentSeeder extends Seeder
 
         $pagina->secciones()->create([
             'grupo' => 'mision', 'titulo' => 'Misión', 'orden' => $orden++, 'is_visible' => true,
-            'cuerpo' => '<p>Formar profesionales e investigadores de alto nivel académico en el campo de las Letras y las Humanidades, capaces de contribuir al desarrollo cultural, científico y social del país, con una visión crítica, ética y comprometida con la realidad nacional e internacional.</p>',
+            'cuerpo' => '<p>Promover, coordinar y ejecutar acciones de responsabilidad social universitaria, articulando la formación académica, la investigación y la extensión cultural al servicio de la sociedad peruana.</p>',
         ]);
 
         $pagina->secciones()->create([
@@ -41,12 +51,12 @@ class NosotrosContentSeeder extends Seeder
         ]);
 
         foreach ([
-            'Excelencia académica',
-            'Integridad y ética profesional',
-            'Compromiso social',
-            'Investigación e innovación',
-            'Respeto a la diversidad cultural',
-            'Responsabilidad y servicio a la comunidad',
+            'Responsabilidad social universitaria',
+            'Interculturalidad y diálogo con las comunidades',
+            'Acceso democrático al conocimiento',
+            'Pensamiento crítico',
+            'Justicia y equidad',
+            'Compromiso con el desarrollo sostenible',
         ] as $valor) {
             $pagina->secciones()->create([
                 'grupo' => 'valor', 'titulo' => $valor, 'cuerpo' => null,

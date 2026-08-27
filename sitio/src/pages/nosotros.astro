@@ -2,9 +2,9 @@
 import Base from '../layouts/Base.astro';
 import HeroPagina from '../components/HeroPagina.astro';
 import TituloSeccion from '../components/TituloSeccion.astro';
-import { obtenerPagina, obtenerConfiguracion, obtenerDirectorio } from '../lib/api';
+import { obtenerPaginaOpcional, obtenerConfiguracion, obtenerDirectorio } from '../lib/api';
 
-const pagina = await obtenerPagina('nosotros');
+const pagina = await obtenerPaginaOpcional('nosotros');
 const sitio = await obtenerConfiguracion();
 
 // Las autoridades son la unidad «AUTORIDADES» del directorio, como en el sitio

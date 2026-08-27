@@ -22,7 +22,7 @@ class ColaDeAvisosTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** El formulario exige `programa_id`: la solicitud es siempre sobre algo. */
+    /** La API exige el programa por slug: la solicitud es siempre sobre algo. */
     private function programa(): \App\Models\Programa
     {
         return \App\Models\Programa::create([
@@ -62,7 +62,7 @@ class ColaDeAvisosTest extends TestCase
     {
         Queue::fake();
 
-        $this->post('/cursos/solicitud', $this->formulario(['programa_id' => $this->programa()->id]));
+        $this->postJson('/api/v1/solicitudes/cursos', $this->formulario(['programa' => $this->programa()->slug]));
 
         // El visitante no espera a que responda un servidor de correo.
         Queue::assertPushed(EnviarAvisoDeSolicitud::class);
@@ -73,7 +73,7 @@ class ColaDeAvisosTest extends TestCase
         Mail::shouldReceive('to')->andThrow(new \RuntimeException('SMTP caído'));
         config(['mail.default' => 'smtp']);
 
-        $this->post('/cursos/solicitud', $this->formulario(['programa_id' => $this->programa()->id]));
+        $this->postJson('/api/v1/solicitudes/cursos', $this->formulario(['programa' => $this->programa()->slug]));
 
         // Lo que no puede perderse es la solicitud; el aviso es secundario.
         $this->assertDatabaseHas('leads', ['correo' => 'ana@ejemplo.test']);

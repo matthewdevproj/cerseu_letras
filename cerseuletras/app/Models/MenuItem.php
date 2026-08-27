@@ -97,22 +97,17 @@ class MenuItem extends Model
     /**
      * Destino final del elemento.
      *
-     * Se prefiere `route_name` porque sobrevive a un cambio de URL; si la ruta
-     * ya no existe (se renombró o se retiró) se devuelve null en lugar de
-     * reventar la barra de navegación entera.
+     * Se prefiere `route_name` porque sobrevive a un cambio de URL; si el
+     * destino ya no existe (se renombró o se retiró) se devuelve null en lugar
+     * de reventar la barra de navegación entera.
+     *
+     * Quien traduce el nombre ya no es `route()`: el sitio público es estático
+     * y esas rutas no viven en Laravel. La tabla está en DestinosPublicos.
      */
     public function getEnlaceAttribute(): ?string
     {
         if ($this->route_name) {
-            if (! \Illuminate\Support\Facades\Route::has($this->route_name)) {
-                return null;
-            }
-
-            $params = $this->route_params
-                ? json_decode($this->route_params, true) ?: []
-                : [];
-
-            return route($this->route_name, $params);
+            return \App\Support\DestinosPublicos::ruta($this->route_name);
         }
 
         return $this->url ?: null;
@@ -124,15 +119,21 @@ class MenuItem extends Model
         return $this->hijos->isNotEmpty();
     }
 
-    /** Marca el menú activo comparando con la ruta actual. */
+    /**
+     * Marca el menú activo comparando con la dirección actual.
+     *
+     * Antes se comparaba con `routeIs()`, que solo sabe de rutas de Laravel.
+     * El sitio que pinta este menú ya no las tiene, así que se compara la
+     * ruta: es el dato que ambos lados comparten.
+     */
     public function getEstaActivoAttribute(): bool
     {
-        if ($this->route_name && request()->routeIs($this->route_name)) {
+        $actual = '/' . ltrim(request()->path(), '/');
+
+        if ($this->enlace && $this->enlace === $actual) {
             return true;
         }
 
-        return $this->hijos->contains(
-            fn (self $h) => $h->route_name && request()->routeIs($h->route_name)
-        );
+        return $this->hijos->contains(fn (self $h) => $h->enlace && $h->enlace === $actual);
     }
 }

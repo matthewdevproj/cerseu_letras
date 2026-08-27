@@ -215,7 +215,10 @@ class Programa extends Model
     {
         $tipo = $this->tipoOferta() ?? TipoOferta::Curso;
 
-        return route($tipo->slug() . '.show', $this->slug);
+        // Ruta, no URL absoluta: el sitio publico es estatico y Laravel ya no
+        // conoce estas direcciones. `route()` daba un error de ruta inexistente
+        // y se llevaba por delante al buscador, que las compone desde aqui.
+        return \App\Support\DestinosPublicos::programa($tipo, $this->slug);
     }
 
     /** El tipo de oferta al que pertenece, o null si el grado es de antes. */

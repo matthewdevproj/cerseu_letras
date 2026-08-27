@@ -1,9 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import HeroPagina from '../components/HeroPagina.astro';
-import { obtenerPagina, obtenerConfiguracion } from '../lib/api';
+import { obtenerPaginaOpcional, obtenerConfiguracion } from '../lib/api';
 
-const pagina = await obtenerPagina('tramites');
+const pagina = await obtenerPaginaOpcional('tramites');
 const { contacto } = await obtenerConfiguracion();
 
 // Tantas secciones como cargue la Unidad desde el panel, sin número fijo: hoy

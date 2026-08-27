@@ -1,0 +1,216 @@
+---
+import Icono from './Icono.astro';
+import {
+    faCalculator,
+    faCalendarAlt,
+    faCertificate,
+    faFileInvoiceDollar,
+    faPercentage,
+    faUserPlus,
+} from '@fortawesome/free-solid-svg-icons';
+import type { Programa } from '../lib/api';
+
+interface Props {
+    inversion: NonNullable<Programa['inversion']>;
+}
+
+const { inversion } = Astro.props;
+
+/**
+ * Inversión económica de un programa.
+ *
+ * El orden de los bloques lo fijó la Unidad (Obs. N.º 2): costo total,
+ * modalidades de pago, pago de diploma, costo por matrícula y condiciones. El
+ * derecho de inscripción va delante porque es un pago previo a la matrícula y
+ * no forma parte de los derechos de enseñanza.
+ *
+ * Cada bloque aparece solo si el programa tiene ese importe cargado: la ficha
+ * de un curso corto y la de una especialización larga no tienen por qué llevar
+ * los mismos.
+ */
+const soles = (monto: number) =>
+    'S/ ' + new Intl.NumberFormat('es-PE', { maximumFractionDigits: 0 }).format(monto);
+
+const { derecho_inscripcion: inscripcion, modalidades, condiciones } = inversion;
+---
+
+<div class="space-y-10">
+    {
+        inscripcion && (
+            <section>
+                <h3 class="flex items-center gap-2 font-serif text-lg font-bold text-unmsm-azul">
+                    <Icono icono={faUserPlus} clase="h-4 w-4 text-unmsm-dorado" />
+                    Admisión
+                </h3>
+                <p class="mt-2 text-sm text-slate-600">
+                    El pago por derecho de inscripción es el siguiente:
+                </p>
+
+                <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+                    {inscripcion.bachiller_unmsm != null && (
+                        <li class="rounded-xl border border-slate-200 p-5">
+                            <p class="font-serif text-2xl font-bold text-unmsm-azul">
+                                {soles(inscripcion.bachiller_unmsm)}
+                            </p>
+                            <p class="mt-1 text-sm text-slate-600">
+                                Bachiller UNMSM, personal administrativo UNMSM, docentes de
+                                universidades nacionales y magisterio nacional
+                            </p>
+                        </li>
+                    )}
+                    {inscripcion.otras_universidades != null && (
+                        <li class="rounded-xl border border-slate-200 p-5">
+                            <p class="font-serif text-2xl font-bold text-unmsm-azul">
+                                {soles(inscripcion.otras_universidades)}
+                            </p>
+                            <p class="mt-1 text-sm text-slate-600">
+                                Bachiller de universidad nacional o particular
+                            </p>
+                        </li>
+                    )}
+                </ul>
+            </section>
+        )
+    }
+
+    {
+        inversion.costo_total != null && (
+            <section>
+                <h3 class="flex items-center gap-2 font-serif text-lg font-bold text-unmsm-azul">
+                    <Icono icono={faCalculator} clase="h-4 w-4 text-unmsm-dorado" />
+                    Costo total
+                </h3>
+
+                <p class="mt-4 rounded-xl border border-slate-200 p-5">
+                    <span class="block font-serif text-3xl font-bold text-unmsm-azul">
+                        {soles(inversion.costo_total)}
+                    </span>
+                    <span class="mt-1 block text-sm text-slate-600">Costo total (*)</span>
+                </p>
+
+                <p class="mt-3 text-xs text-slate-500">
+                    (*) Incluye la totalidad de los derechos de enseñanza y el costo del diploma.
+                </p>
+            </section>
+        )
+    }
+
+    {
+        modalidades.length > 0 && (
+            <section>
+                <h3 class="flex items-center gap-2 font-serif text-lg font-bold text-unmsm-azul">
+                    <Icono icono={faCalendarAlt} clase="h-4 w-4 text-unmsm-dorado" />
+                    Modalidades de pago
+                </h3>
+                <p class="mt-2 text-sm text-slate-600">
+                    Los derechos de enseñanza pueden abonarse en cualquiera de las siguientes
+                    modalidades:
+                </p>
+
+                <div class="mt-4 space-y-4">
+                    {modalidades.map((modalidad) => (
+                        <div class="overflow-hidden rounded-xl border border-slate-200">
+                            {modalidad.nombre && (
+                                <h4 class="bg-slate-50 px-5 py-3 font-semibold text-slate-800">
+                                    {modalidad.nombre}
+                                </h4>
+                            )}
+
+                            {/* Flexible a propósito: una modalidad puede tener
+                                una cuota o varias, y cada bloque se reparte el
+                                ancho sin depender de un número fijo. */}
+                            <ul class="grid divide-y divide-slate-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-3">
+                                {modalidad.cuotas.map((cuota) => (
+                                    <li class="px-5 py-4">
+                                        <p class="text-xs font-medium uppercase tracking-wider text-slate-500">
+                                            {cuota.etiqueta}
+                                        </p>
+                                        {cuota.monto != null && (
+                                            <p class="mt-1 font-serif text-xl font-bold text-unmsm-azul">
+                                                {soles(cuota.monto)}
+                                            </p>
+                                        )}
+                                        {/* La fecha va debajo del monto, tal
+                                            como se pidió en el documento. */}
+                                        {cuota.fecha && (
+                                            <p class="mt-1 text-xs text-slate-500">
+                                                <span class="block">Fecha de pago</span>
+                                                <span class="font-medium text-slate-700">
+                                                    {cuota.fecha}
+                                                </span>
+                                            </p>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </div>
+            </section>
+        )
+    }
+
+    {
+        inversion.costo_diploma != null && (
+            <section>
+                <h3 class="flex items-center gap-2 font-serif text-lg font-bold text-unmsm-azul">
+                    <Icono icono={faCertificate} clase="h-4 w-4 text-unmsm-dorado" />
+                    Pago de diploma
+                </h3>
+
+                <p class="mt-4 rounded-xl border border-slate-200 p-5">
+                    <span class="block font-serif text-2xl font-bold text-unmsm-azul">
+                        {soles(inversion.costo_diploma)}
+                    </span>
+                    <span class="mt-1 block text-sm text-slate-600">Costo del diploma</span>
+                </p>
+
+                <p class="mt-3 text-xs text-slate-500">
+                    * El pago por derecho de diploma deberá efectuarse dentro de los cinco días
+                    hábiles posteriores a la publicación de las notas finales.
+                </p>
+            </section>
+        )
+    }
+
+    {
+        inversion.costo_matricula != null && (
+            <section>
+                <h3 class="flex items-center gap-2 font-serif text-lg font-bold text-unmsm-azul">
+                    <Icono icono={faFileInvoiceDollar} clase="h-4 w-4 text-unmsm-dorado" />
+                    Costo por matrícula
+                </h3>
+
+                <p class="mt-4 rounded-xl border border-slate-200 p-5">
+                    <span class="block font-serif text-2xl font-bold text-unmsm-azul">
+                        {soles(inversion.costo_matricula)}
+                    </span>
+                    <span class="mt-1 block text-sm text-slate-600">Costo por matrícula</span>
+                </p>
+            </section>
+        )
+    }
+
+    {
+        condiciones.length > 0 && (
+            <section>
+                <h3 class="flex items-center gap-2 font-serif text-lg font-bold text-unmsm-azul">
+                    <Icono icono={faPercentage} clase="h-4 w-4 text-unmsm-dorado" />
+                    Condiciones de pago
+                </h3>
+
+                <ul class="mt-4 space-y-2">
+                    {condiciones.map((condicion) => (
+                        <li class="flex gap-3 text-sm text-slate-700">
+                            <span
+                                aria-hidden="true"
+                                class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-unmsm-dorado"
+                            />
+                            <span>{condicion}</span>
+                        </li>
+                    ))}
+                </ul>
+            </section>
+        )
+    }
+</div>

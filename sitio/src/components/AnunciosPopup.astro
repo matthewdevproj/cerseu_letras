@@ -172,10 +172,16 @@ const horas = ajustes.frecuencia === 'dia' ? 24 : 1;
                 display: none;
             }
 
+            /* Marco de proporcion fija a proposito. Adaptandose a cada imagen,
+               la ventana cambiaba de tamano y de posicion al pasar de un
+               anuncio al siguiente. `cover` llena el marco recortando lo que
+               sobre: es lo que evita las bandas, a cambio de perder parte de
+               la imagen. */
             .anuncios-lamina img {
                 display: block;
                 width: 100%;
-                height: auto;
+                aspect-ratio: 4 / 5;
+                object-fit: cover;
                 border-radius: 16px 16px 0 0;
             }
 
@@ -341,7 +347,22 @@ const horas = ajustes.frecuencia === 'dia' ? 24 : 1;
                         }, 4000);
                     }
 
-                    if (yaVisto()) return;
+                    // Vista previa desde el panel: se salta el «ya visto»,
+                    // que si no obliga a limpiar el navegador para volver a
+                    // ver el anuncio. No comprueba que sea administrador
+                    // —un sitio estatico no tiene sesion—, pero lo unico que
+                    // consigue quien escriba el parametro es volver a ver un
+                    // anuncio que ya es publico.
+                    var previsualizando = new URLSearchParams(location.search).has(
+                        'previsualizar_anuncios'
+                    );
+
+                    if (!previsualizando && yaVisto()) return;
+
+                    if (previsualizando) {
+                        setTimeout(abrir, 0);
+                        return;
+                    }
 
                     setTimeout(abrir, Number(popup.dataset.retardo || 1200));
                 }

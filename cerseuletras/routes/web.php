@@ -1,123 +1,40 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProgramaController;
-use App\Http\Controllers\ProfesorController;
-use App\Http\Controllers\AdmisionController;
-use App\Http\Controllers\TramiteController;
-use App\Http\Controllers\NosotrosController;
-use App\Http\Controllers\TestimonioController;
-use App\Http\Controllers\InstitucionalController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DirectorioController;
-use App\Http\Controllers\OfertaController;
-use App\Http\Controllers\LeadController;
-use App\Models\TipoOferta;
 
 /*
- * El segmento {tipoOferta} de las rutas de oferta llega como slug en plural
- * («talleres», «cursos»), mientras que el enum se respalda en el singular.
- * El binding implícito de Laravel resuelve con tryFrom() sobre ese respaldo,
- * así que sin este binder /talleres/... daba 404. Un slug desconocido también
- * da 404, que es lo que se quiere.
+ * Lo que queda de Laravel en el navegador: el panel y la sesion.
  *
- * Se llama {tipoOferta} y no {tipo} porque la papelera ya usaba {tipo} para el
+ * El sitio publico ya no pasa por aqui. Lo sirve Nginx desde el `dist/` que
+ * genera Astro contra la API de contenido (routes/api.php), asi que estas
+ * rutas son las unicas que devuelven HTML: /admin para quien administra,
+ * /login y el flujo de contrasenas para llegar hasta el, y /profile para la
+ * cuenta propia.
+ *
+ * Las redirecciones de las direcciones antiguas —/diplomados, /programas—
+ * viven ahora en docker/nginx/sitio.conf, que es quien las recibe.
+ */
+
+/*
+ * El segmento {tipoOferta} llega como slug en plural («talleres», «cursos»),
+ * mientras que el enum se respalda en el singular. El binding implícito de
+ * Laravel resuelve con tryFrom() sobre ese respaldo, así que sin este binder
+ * /admin/admision/talleres da 404.
+ *
+ * Se declaraba junto a las rutas públicas; al retirarlas se fue con ellas y
+ * la pantalla de admisión del panel dejó de abrirse. Vive aquí porque el panel
+ * es el único que sigue usando ese parámetro.
+ *
+ * Se llama {tipoOferta} y no {tipo} porque la papelera ya usa {tipo} para el
  * tipo de contenido borrado, y un binder global con ese nombre la rompía.
  */
 Route::bind('tipoOferta', function ($valor) {
-    if ($valor instanceof TipoOferta) {
+    if ($valor instanceof App\Models\TipoOferta) {
         return $valor;
     }
 
-    return TipoOferta::desdeSlug((string) $valor) ?? abort(404);
-});
-
-// Página de inicio
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// Buscador global
-Route::get('/buscar', [App\Http\Controllers\SearchController::class, 'index'])->name('search');
-Route::get('/buscar/sugerencias', [App\Http\Controllers\SearchController::class, 'suggest'])->name('search.suggest');
-
-// Directorio del CERSEU
-Route::get('/directorio', [DirectorioController::class, 'index'])->name('directorio');
-
-
-
-// Oferta del CERSEU: talleres y cursos.
-//
-// Los dos módulos tienen la misma estructura y se sirven con el mismo
-// controlador; el segmento de la URL resuelve el tipo. Se declaran uno por uno
-// en vez de con un parámetro {tipo} para que las rutas queden con nombre
-// propio —route('talleres.index')— y un segmento inventado dé 404 en el
-// enrutador, sin llegar al controlador.
-foreach (TipoOferta::cases() as $tipo) {
-    $slug = $tipo->slug();
-
-    Route::get("/{$slug}", [OfertaController::class, 'index'])
-        ->defaults('tipoOferta', $slug)->name("{$slug}.index");
-    Route::get("/{$slug}/admision", [OfertaController::class, 'admision'])
-        ->defaults('tipoOferta', $slug)->name("{$slug}.admision");
-    Route::post("/{$slug}/solicitud", [LeadController::class, 'store'])
-        ->defaults('tipoOferta', $slug)->name("{$slug}.solicitud");
-    Route::get("/{$slug}/{slug}", [ProgramaController::class, 'show'])
-        ->defaults('tipoOferta', $slug)->name("{$slug}.show");
-}
-
-// Rutas anteriores. El sitio estuvo publicado como Unidad de Posgrado, así que
-// hay enlaces sueltos por ahí: se redirigen en vez de devolver 404.
-Route::permanentRedirect('/diplomados', '/talleres');
-Route::permanentRedirect('/diplomados/admision', '/talleres/admision');
-Route::permanentRedirect('/programas', '/cursos');
-
-// Profesores
-Route::get('/profesores', [ProfesorController::class, 'index'])->name('profesores.index');
-Route::get('/profesores/programa/{slug}', [ProfesorController::class, 'byPrograma'])->name('profesores.programa');
-Route::get('/profesores/{slug}', [ProfesorController::class, 'show'])->name('profesores.show');
-
-// Admisión
-Route::get('/admision', [AdmisionController::class, 'index'])->name('admision');
-
-// Trámites
-Route::get('/tramites', [TramiteController::class, 'index'])->name('tramites');
-
-// Cronograma Académico
-Route::get('/cronograma', function () {
-    $cronograma = \App\Models\Cronograma::getActive();
-    return view('cronograma.index', compact('cronograma'));
-})->name('cronograma');
-
-// Nosotros
-// Países y regiones del formulario de diplomados. El sitio hace de
-// intermediario con el servicio externo para no añadir peticiones a terceros
-// desde el navegador del visitante (ver App\Services\GeografiaService).
-// La ruta lleva versión: al cambiar el formato de los datos —como el paso de
-// códigos ISO3 a ISO2— las respuestas ya cacheadas en los navegadores no
-// colisionan con las nuevas. Subir el número invalida todo de golpe.
-Route::get('/geografia/v2/paises', [App\Http\Controllers\GeografiaController::class, 'paises'])->name('geografia.paises');
-Route::get('/geografia/v2/paises/{codigo}/regiones', [App\Http\Controllers\GeografiaController::class, 'regiones'])->name('geografia.regiones');
-
-Route::get('/nosotros', [NosotrosController::class, 'index'])->name('nosotros');
-
-// Rutas de Testimonios
-Route::prefix('testimonios')->group(function () {
-    Route::get('/', [TestimonioController::class, 'index'])->name('testimonios.index');
-    Route::get('/recientes/{limit?}', [TestimonioController::class, 'recientes'])->name('testimonios.recientes');
-});
-
-// Informativos (Documentos y Recursos)
-Route::get('/informativos', [\App\Http\Controllers\InformativoController::class, 'index'])->name('informativos.index');
-
-// Eventos
-Route::get('/eventos', [\App\Http\Controllers\EventoController::class, 'index'])->name('eventos.index');
-
-// Rutas Institucionales (adicionales)
-Route::prefix('institucional')->group(function () {
-    Route::get('/', [InstitucionalController::class, 'index'])->name('institucional.index');
-    Route::get('/autoridades', [InstitucionalController::class, 'autoridades'])->name('institucional.autoridades');
-    Route::get('/profesores', [InstitucionalController::class, 'profesores'])->name('institucional.profesores');
-    Route::get('/profesores/{id}', [InstitucionalController::class, 'showProfesor'])->name('institucional.profesor');
+    return App\Models\TipoOferta::desdeSlug((string) $valor) ?? abort(404);
 });
 
 // Admin Routes - Protected by auth and isAdmin middleware

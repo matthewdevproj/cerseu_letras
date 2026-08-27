@@ -135,7 +135,7 @@ class GeografiaTest extends TestCase
 
     public function test_el_sitio_sirve_los_paises_sin_llamar_a_terceros(): void
     {
-        $respuesta = $this->get('/geografia/v2/paises')->assertOk();
+        $respuesta = $this->get('/api/v1/geografia/v2/paises')->assertOk();
 
         $respuesta->assertJsonStructure(['paises' => [['nombre', 'codigo']]]);
         $this->assertGreaterThan(240, count($respuesta->json('paises')));
@@ -143,7 +143,7 @@ class GeografiaTest extends TestCase
 
     public function test_el_sitio_sirve_las_regiones_con_su_etiqueta(): void
     {
-        $this->get('/geografia/v2/paises/PE/regiones')
+        $this->get('/api/v1/geografia/v2/paises/PE/regiones')
             ->assertOk()
             ->assertJsonPath('etiqueta', 'Departamento')
             ->assertJsonCount(25, 'regiones');

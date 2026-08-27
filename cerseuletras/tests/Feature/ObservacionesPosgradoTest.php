@@ -10,7 +10,12 @@ use Tests\TestCase;
 
 /**
  * Cubre las observaciones del documento de requerimientos de Posgrado
- * ("Ajustes para la página web de Diplomados").
+ * («Ajustes para la página web de Diplomados»).
+ *
+ * Se comprueban contra la API, que es por donde estos datos llegan al sitio
+ * desde que el público es estático. Lo que era marcado —el orden de dos
+ * botones, qué filtro arranca marcado— lo comprueba ahora sitio/e2e sobre el
+ * sitio construido.
  */
 class ObservacionesPosgradoTest extends TestCase
 {
@@ -32,15 +37,18 @@ class ObservacionesPosgradoTest extends TestCase
      */
     public function test_la_portada_ofrece_los_accesos_a_la_oferta(): void
     {
-        $res = $this->get('/');
+        $this->seed(\Database\Seeders\SiteSettingsSeeder::class);
+        \App\Models\SiteSetting::clearCache();
 
-        $res->assertOk()
-            ->assertSee('Ver cursos')
-            ->assertSee('Cómo inscribirte')
-            ->assertDontSee('>Ver Programas<', false);
+        $portada = $this->getJson('/api/v1/sitio')->assertOk()->json('data.portada');
+        $acciones = collect($portada['acciones']);
 
-        // Los indicadores de Maestrías/Doctorados/Diplomados enlazan a su sección.
-        $res->assertSee('stats-link', false);
+        // Los dos accesos del hero llevan a algo que existe, y sus destinos
+        // son rutas del sitio y no direcciones de Laravel.
+        $this->assertSame('Ver cursos', $acciones[0]['texto']);
+        $this->assertStringStartsWith('/', $acciones[0]['url']);
+        $this->assertSame('Cómo inscribirte', $acciones[1]['texto']);
+        $this->assertStringStartsWith('/', $acciones[1]['url']);
     }
 
     /** Obs. N.º 2 — la sección del cronograma es editable y ocultable. */
@@ -69,20 +77,20 @@ class ObservacionesPosgradoTest extends TestCase
         ]);
         CronogramaAdmision::clearCache();
 
-        $this->get('/')
-            ->assertOk()
-            ->assertSee('Proceso de Admisión de Diplomados 2026-II')
-            ->assertSee('Inscripción de postulantes')
-            ->assertSee('5 ene - 02 abr')
-            ->assertSee('https://ejemplo.test/inscripcion', false);
+        $inscripcion = $this->getJson('/api/v1/sitio')->assertOk()->json('data.inscripcion');
 
-        // Ocultar la sección completa cuando no hay convocatoria activa.
+        $this->assertSame('Proceso de Admisión de Diplomados 2026-II', $inscripcion['eyebrow']);
+        $this->assertSame('https://ejemplo.test/inscripcion', $inscripcion['boton']['url']);
+        $this->assertSame('Inscripción de postulantes', $inscripcion['pasos'][0]['titulo']);
+        $this->assertSame('5 ene - 02 abr', $inscripcion['pasos'][0]['fecha']);
+
+        // Ocultar la sección completa cuando no hay convocatoria activa. La
+        // API devuelve null y el sitio omite el bloque entero, en vez de
+        // pintar un título sobre un hueco.
         $cronograma->update(['is_visible' => false]);
         CronogramaAdmision::clearCache();
 
-        $this->get('/')
-            ->assertOk()
-            ->assertDontSee('Proceso de Admisión de Diplomados 2026-II');
+        $this->assertNull($this->getJson('/api/v1/sitio')->json('data.inscripcion'));
     }
 
     /** Obs. N.º 2 — el panel guarda encabezado, etapas, orden y botón. */
@@ -136,17 +144,15 @@ class ObservacionesPosgradoTest extends TestCase
     /** Obs. N.º 3 — filtros reordenados y "Diplomados" activo por defecto. */
     public function test_los_filtros_priorizan_talleres(): void
     {
-        $html = $this->get('/')->assertOk()->getContent();
+        // El orden de los filtros sale del enum, no de la plantilla: la
+        // portada los recorre tal como llegan. Cuál arranca marcado lo decide
+        // el sitio —el primero CON oferta, para no abrir en un vacío— y lo
+        // comprueba sitio/e2e.
+        $tipos = collect($this->getJson('/api/v1/tipos-oferta')->assertOk()->json('data'))
+            ->pluck('slug')
+            ->all();
 
-        $orden = [];
-        preg_match_all('/data-filter="([a-z]+)"/', $html, $m);
-        $orden = $m[1];
-
-        $this->assertSame(['taller', 'curso', 'especializacion', 'todos'], $orden);
-        $this->assertStringContainsString(
-            'data-filter="taller" id="filter-taller" aria-pressed="true"',
-            $html,
-        );
+        $this->assertSame(['talleres', 'cursos', 'especializaciones'], $tipos);
     }
 
     /** Obs. N.º 4 — botón Brochure antes de Postular, oculto si no hay archivo. */
@@ -162,19 +168,22 @@ class ObservacionesPosgradoTest extends TestCase
             'brochure_url' => 'documents/brochure.pdf',
         ]);
 
-        $html = $this->get($programa->url)->assertOk()->getContent();
-
-        $posBrochure = strpos($html, 'Brochure');
-        $posPostular = strpos($html, 'Postular Ahora');
-        $this->assertNotFalse($posBrochure, 'No se encontró el botón Brochure');
-        $this->assertLessThan($posPostular, $posBrochure, 'Brochure debe ir antes de Postular Ahora');
-        $this->assertStringContainsString('storage/documents/brochure.pdf', $html);
-
-        // Sin brochure el botón desaparece por completo.
-        $programa->update(['brochure_url' => null]);
-        $this->get($programa->url)
+        $documentos = $this->getJson('/api/v1/programas/' . $programa->slug)
             ->assertOk()
-            ->assertDontSee('Brochure');
+            ->json('data.documentos');
+
+        $brochure = collect($documentos)->firstWhere('titulo', 'Brochure');
+        $this->assertNotNull($brochure, 'El brochure no llega a la ficha');
+        $this->assertStringContainsString('storage/documents/brochure.pdf', $brochure['url']);
+
+        // Sin brochure no llega nada: la ficha no puede pintar un botón que
+        // no lleve a ningún archivo.
+        $programa->update(['brochure_url' => null]);
+
+        $this->assertSame(
+            [],
+            $this->getJson('/api/v1/programas/' . $programa->slug)->json('data.documentos'),
+        );
     }
 
     /** Obs. N.º 5 — buscador: resultados con categoría, relevancia y vacío. */
@@ -185,24 +194,26 @@ class ObservacionesPosgradoTest extends TestCase
             'modalidad' => 'Virtual', 'duracion' => 2, 'creditos' => 12, 'is_active' => true,
         ]);
 
-        $res = $this->getJson('/buscar/sugerencias?q=linguistica')->assertOk();
-        $primero = $res->json('resultados.0');
+        // La búsqueda ya no la resuelve el servidor: la API entrega el índice
+        // entero y busca el navegador, que es lo único que puede hacer un
+        // sitio estático. Aquí se comprueba que el índice llegue completo y
+        // con lo que la puntuación necesita; que ordene y agrupe bien lo
+        // comprueba sitio/e2e.
+        $indice = collect($this->getJson('/api/v1/buscador')->assertOk()->json('data'));
 
-        $this->assertStringContainsString('Lingüística Forense', $primero['titulo']);
-        $this->assertSame('Talleres', $primero['categoria']);
-        $this->assertArrayHasKey('url', $primero);
-        // Los campos internos de puntuación no deben filtrarse al JSON.
-        $this->assertArrayNotHasKey('_titulo_norm', $primero);
+        $entrada = $indice->firstWhere('titulo', 'Taller en Lingüística Forense');
 
-        // Sin acentos también encuentra ("admision" → "Admisión").
-        $this->assertGreaterThan(0, $this->getJson('/buscar/sugerencias?q=admision')->json('total'));
+        $this->assertNotNull($entrada, 'El taller no aparece en el índice');
+        $this->assertSame('Talleres', $entrada['categoria']);
+        $this->assertStringStartsWith('/talleres/', $entrada['url']);
 
-        // Sin coincidencias: respuesta vacía y mensaje en la página.
-        $this->getJson('/buscar/sugerencias?q=zzzqqq')->assertOk()->assertJsonPath('total', 0);
-        $this->get('/buscar?q=zzzqqq')->assertOk()->assertSee('No encontramos resultados');
+        // Normalizado en el servidor: es lo que permite que «linguistica»
+        // encuentre «Lingüística» sin rehacer el trabajo en cada navegador.
+        $this->assertSame('taller en linguistica forense', $entrada['t']);
 
-        // La página de resultados agrupa por categoría.
-        $this->get('/buscar?q=linguistica')->assertOk()->assertSee('Talleres');
+        // Y la página de admisión sigue en el índice, que es lo que más se
+        // busca.
+        $this->assertNotNull($indice->firstWhere('url', '/admision'));
     }
 
     /** Obs. N.º 4 — el enlace del brochure no depende del entorno donde se subió. */
@@ -249,10 +260,12 @@ class ObservacionesPosgradoTest extends TestCase
         // Total = (300 + 1000) + (400 + 2000)
         $this->assertSame(3700, $programa->costo_total);
 
-        // La ficha muestra ese mismo total, sin recalcularlo por su cuenta.
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('3,700');
+        // La ficha recibe ese mismo total ya calculado, sin rehacerlo por su
+        // cuenta: la regla vive en el modelo y no puede duplicarse en el sitio.
+        $this->assertEquals(
+            3700,
+            $this->getJson('/api/v1/programas/' . $programa->slug)->json('data.inversion.costo_total'),
+        );
     }
 
     /** Inversión: un importe cerrado (caso diplomados) tiene prioridad. */
@@ -282,9 +295,12 @@ class ObservacionesPosgradoTest extends TestCase
         ]);
 
         $this->assertNull($programa->costo_total);
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('Por definir');
+
+        // Sin tarifas no llega bloque de inversión: la ficha lo omite en vez
+        // de pintar ceros o un «por definir» que no dice nada.
+        $this->assertNull(
+            $this->getJson('/api/v1/programas/' . $programa->slug)->json('data.inversion'),
+        );
     }
 
     /** Estados: borrador responde 404 aunque se conozca la URL. */
@@ -296,12 +312,12 @@ class ObservacionesPosgradoTest extends TestCase
             'estado' => Programa::ESTADO_BORRADOR,
         ]);
 
-        $this->get($programa->url)->assertNotFound();
+        // No hay ficha que generar: el sitio se construye contra la API.
+        $this->getJson('/api/v1/programas/' . $programa->slug)->assertNotFound();
 
-        // Tampoco aparece en listados ni en el buscador.
-        $this->get('/')->assertOk()->assertDontSee('Diplomado Secreto');
-        $this->get(route('talleres.index'))->assertOk()->assertDontSee('Diplomado Secreto');
-        $this->getJson('/buscar/sugerencias?q=secreto')->assertJsonPath('total', 0);
+        // Tampoco aparece en listados ni en el índice del buscador.
+        $this->getJson('/api/v1/programas')->assertJsonMissing(['nombre' => 'Diplomado Secreto']);
+        $this->getJson('/api/v1/buscador')->assertJsonMissing(['titulo' => 'Diplomado Secreto']);
 
         // `is_active` se mantiene sincronizado con el estado.
         $this->assertFalse($programa->fresh()->is_active);
@@ -316,19 +332,17 @@ class ObservacionesPosgradoTest extends TestCase
             'estado' => Programa::ESTADO_PROXIMAMENTE,
         ]);
 
-        // Su página avisa en lugar de mostrar una ficha vacía.
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('Pronto publicaremos la información de este curso')
-            ->assertSee('Diplomado en Archivística')
-            ->assertSee('noindex', false)
-            ->assertDontSee('Postular Ahora');
+        // Sigue teniendo ficha, y llega marcado: es el estado lo que le dice
+        // al sitio que avise en lugar de mostrar una ficha vacía.
+        $ficha = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data');
 
-        // Sí se anuncia en los listados, con su etiqueta.
-        $this->get(route('talleres.index'))
+        $this->assertSame('proximamente', $ficha['estado']);
+        $this->assertSame('Diplomado en Archivística', $ficha['nombre']);
+
+        // Y sí se anuncia en el listado de su módulo.
+        $this->getJson('/api/v1/programas?tipo=talleres')
             ->assertOk()
-            ->assertSee('Diplomado en Archivística')
-            ->assertSee('Próximamente');
+            ->assertJsonFragment(['nombre' => 'Diplomado en Archivística']);
 
         $this->assertFalse($programa->fresh()->is_active);
     }
@@ -342,11 +356,10 @@ class ObservacionesPosgradoTest extends TestCase
             'estado' => Programa::ESTADO_PUBLICADO,
         ]);
 
-        $this->get($programa->url)
-            ->assertOk()
-            ->assertSee('Diplomado Vigente')
-            ->assertSee('Postular Ahora')
-            ->assertDontSee('Pronto publicaremos la información');
+        $ficha = $this->getJson('/api/v1/programas/' . $programa->slug)->assertOk()->json('data');
+
+        $this->assertSame('Diplomado Vigente', $ficha['nombre']);
+        $this->assertSame('publicado', $ficha['estado']);
 
         $this->assertTrue($programa->fresh()->is_active);
     }
@@ -385,15 +398,21 @@ class ObservacionesPosgradoTest extends TestCase
     /** Obs. N.º 5 — el índice se refresca al cambiar el contenido, sin esperar al TTL. */
     public function test_el_indice_del_buscador_se_actualiza_al_editar_contenido(): void
     {
-        $this->getJson('/buscar/sugerencias?q=paleografia')->assertJsonPath('total', 0);
+        $this->getJson('/api/v1/buscador')
+            ->assertOk()
+            ->assertJsonMissing(['titulo' => 'Diplomado en Paleografía']);
 
         Programa::create([
             'grado' => 'Taller', 'nombre' => 'Diplomado en Paleografía',
-            'modalidad' => 'Virtual', 'duracion' => 2, 'creditos' => 12, 'is_active' => true,
+            'modalidad' => 'Virtual', 'duracion' => 2, 'creditos' => 12,
+            'estado' => Programa::ESTADO_PUBLICADO,
         ]);
 
-        $this->getJson('/buscar/sugerencias?q=paleografia')
+        // Sin esperar al TTL: guardar invalida el índice. Importa más que
+        // antes, porque publicar también dispara la reconstrucción del sitio
+        // y el índice se congela en ese build.
+        $this->getJson('/api/v1/buscador')
             ->assertOk()
-            ->assertJsonPath('total', 1);
+            ->assertJsonFragment(['titulo' => 'Diplomado en Paleografía']);
     }
 }

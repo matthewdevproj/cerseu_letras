@@ -56,4 +56,23 @@ test.describe('La navegación no saca del sitio', () => {
             expect(respuesta.status(), `${ruta} respondió ${respuesta.status()}`).toBeLessThan(400);
         }
     });
+
+    test('las direcciones anteriores redirigen en vez de romperse', async ({ request }) => {
+        // El sitio estuvo publicado como Unidad de Posgrado y hay enlaces
+        // sueltos por ahí. Los redirigía Laravel; desde que Nginx sirve el
+        // sitio, los redirige quien los recibe, y esto es lo único que puede
+        // comprobarlo: en las pruebas de PHP esas direcciones ya no existen.
+        const casos = [
+            ['/diplomados', '/talleres'],
+            ['/diplomados/admision', '/talleres/admision'],
+            ['/programas', '/cursos'],
+        ];
+
+        for (const [antigua, nueva] of casos) {
+            const respuesta = await request.get(antigua, { maxRedirects: 0 });
+
+            expect(respuesta.status(), `${antigua} debería redirigir`).toBe(301);
+            expect(respuesta.headers()['location']).toContain(nueva);
+        }
+    });
 });

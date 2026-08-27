@@ -15,6 +15,11 @@ use Tests\TestCase;
  * `app.js`. Estas pruebas vigilan el contrato entre ambas mitades: que la vista
  * siga invocando la fábrica con los argumentos que la fábrica espera, y que no
  * haya vuelto a colarse una definición inline que la sombree.
+ *
+ * Quedan solo las del panel. Las dos que vigilaban el buscador y el filtro de
+ * la portada se fueron con las vistas de Blade: ese marcado ya no existe, y lo
+ * que hacen ahora esas dos piezas lo comprueban las pruebas de navegador
+ * (sitio/e2e).
  */
 class ComponentesAlpineTest extends TestCase
 {
@@ -79,29 +84,6 @@ class ComponentesAlpineTest extends TestCase
         // La vista ya no manipula el array a mano: delega en el repetidor.
         $this->assertStringContainsString('@click="agregar()"', $html);
         $this->assertStringContainsString('@click="eliminar(i)"', $html);
-    }
-
-    public function test_el_buscador_recibe_la_ruta_de_sugerencias_desde_la_plantilla(): void
-    {
-        $html = $this->get('/')->assertOk()->getContent();
-
-        $this->assertStringContainsString('x-data="siteSearch(\'' . route('search.suggest') . '\')"', $html);
-        $this->assertStringNotContainsString('function siteSearch', $html);
-    }
-
-    public function test_el_filtro_de_programas_ya_no_va_escrito_en_las_vistas(): void
-    {
-        $portada = $this->get('/')->assertOk()->getContent();
-        $listado = $this->get('/cursos')->assertOk()->getContent();
-
-        $this->assertStringNotContainsString('function filterPrograms', $portada);
-        $this->assertStringNotContainsString('function filterPrograms', $listado);
-
-        // El listado de cada módulo ya no monta filtro propio: /cursos y
-        // /talleres muestran un solo tipo cada uno, así que no hay nada que
-        // filtrar. El único filtro que queda es el de la portada, que mezcla
-        // ambos y se monta desde el bundle (ver app.js).
-        $this->assertStringNotContainsString('montarFiltroProgramas({', $listado);
     }
 
     public function test_el_editor_de_contenido_ya_no_pide_html_a_mano(): void

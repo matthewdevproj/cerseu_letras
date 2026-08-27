@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ActualidadApiController;
 use App\Http\Controllers\Api\BuscadorApiController;
 use App\Http\Controllers\Api\DocenteApiController;
+use App\Http\Controllers\Api\GeografiaApiController;
 use App\Http\Controllers\Api\OfertaApiController;
 use App\Http\Controllers\Api\PaginaApiController;
 use App\Http\Controllers\Api\SitioApiController;
@@ -47,6 +48,12 @@ Route::prefix('v1')->group(function () {
     Route::get('/programas', [OfertaApiController::class, 'index']);
     Route::get('/programas/{slug}', [OfertaApiController::class, 'show']);
     Route::get('/admision/{slug}', [OfertaApiController::class, 'admision']);
+
+    // Paises y regiones del formulario. La ruta lleva version: al cambiar el
+    // formato de los datos —como el paso de codigos ISO3 a ISO2— las
+    // respuestas ya cacheadas en los navegadores no colisionan con las nuevas.
+    Route::get('/geografia/v2/paises', [GeografiaApiController::class, 'paises']);
+    Route::get('/geografia/v2/paises/{codigo}/regiones', [GeografiaApiController::class, 'regiones']);
 
     // Unico endpoint que escribe. El limite por IP es lo que sustituye a la
     // autenticacion: un formulario publico no puede exigir credenciales, pero
