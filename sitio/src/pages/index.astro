@@ -114,34 +114,13 @@ const [eventos, informativos, testimonios] = await Promise.all([
 
     <BandaIndicadores tipos={tipos} docentes={portada.docentes ?? docentes.length} />
 
-    {/* Fondo gris, como `#programas` en el sitio anterior: la portada alterna
-        oscuro, azul, gris y blanco, y ese ritmo es lo que la hace leerse como
-        una página y no como bloques blancos apilados. */}
-    <section class="bg-slate-50 py-20">
-      <div class="mx-auto max-w-6xl px-6">
-        <TituloSeccion
-            titulo="Nuestra oferta"
-            kicker="Formación abierta"
-            bajada="Cada tipo se mide con la unidad que le es propia."
-            centrado
-        />
 
-        <div class="mt-12">
-            <OfertaDestacada tipos={tipos} programas={programas} />
-        </div>
-      </div>
-    </section>
-
-    <Coordinadores docentes={coordinadores} />
-
-    <AnunciosPopup anuncios={anuncios} />
-
+    {/* El orden es el que tenia la portada anterior: primero como se entra,
+        despues quienes somos, y solo entonces la oferta. Se recupera porque
+        era una decision, no un accidente: quien llega buscando inscribirse no
+        tiene que recorrer el catalogo entero para encontrar el camino. */}
     {inscripcion && <PasosInscripcion inscripcion={inscripcion} />}
 
-    <SeccionesPortada eventos={eventos} informativos={informativos} testimonios={testimonios} />
-
-    {/* Banda institucional, como en Blade: da respiro entre bloques y sitúa al
-        CERSEU dentro de la Universidad. */}
     <section class="bg-unmsm-azul py-16 text-white">
         <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 md:flex-row md:items-center md:justify-between">
             <div>
@@ -161,5 +140,26 @@ const [eventos, informativos, testimonios] = await Promise.all([
             </Boton>
         </div>
     </section>
+
+    <section class="bg-slate-50 py-20">
+      <div class="mx-auto max-w-6xl px-6">
+        <TituloSeccion
+            titulo="Nuestra oferta"
+            kicker="Formación abierta"
+            bajada="Cada tipo se mide con la unidad que le es propia."
+            centrado
+        />
+
+        <div class="mt-12">
+            <OfertaDestacada tipos={tipos} programas={programas} />
+        </div>
+      </div>
+    </section>
+
+    <Coordinadores docentes={coordinadores} />
+
+    <SeccionesPortada eventos={eventos} informativos={informativos} testimonios={testimonios} />
+
+    <AnunciosPopup anuncios={anuncios} />
 </Base>
 

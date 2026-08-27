@@ -11,7 +11,12 @@ interface Props {
 const { inscripcion } = Astro.props;
 ---
 
-<section class="relative isolate overflow-hidden bg-unmsm-azul-dark py-20 text-white">
+{/* Degradado y no color plano: es lo que tenia la seccion equivalente en el
+    sitio anterior —`from-gray-900 to-[#0C1217]`— y lo que hace que la banda no
+    corte la pagina en dos bloques de color. */}
+<section
+    class="relative isolate overflow-hidden bg-linear-to-b from-[#111827] to-[#0C1217] py-20 text-white"
+>
     {/* Textura de puntos: el mismo recurso que usa la banda equivalente en
         Blade, para que las dos versiones se reconozcan. */}
     <div
@@ -34,32 +39,35 @@ const { inscripcion } = Astro.props;
             claro
         />
 
-        {/* Línea de tiempo: la misma que conecta los pasos en Blade. Solo en
-            escritorio, donde las tarjetas van en fila; apiladas no significa
-            nada. */}
-        <div class="relative mt-12">
-            <div
-                aria-hidden="true"
-                class="absolute left-[12.5%] right-[12.5%] top-6 hidden h-px bg-linear-to-r from-unmsm-dorado/10 via-unmsm-dorado to-unmsm-dorado/10 lg:block"
-            >
-            </div>
-
-        <ol class="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* La linea que une los pasos nace de cada tarjeta y no de una barra
+            suelta por encima: aquella estaba a 24 px del borde, mientras el
+            centro de los iconos cae a 48 px —`p-6` mas media altura del
+            circulo—, asi que cruzaba a una altura que no correspondia a nada y
+            asomaba en los huecos como un trazo perdido. Al colgarla del `li`
+            queda alineada por construccion, y solo aparece entre tarjetas. */}
+        <ol class="pasos-inscripcion relative mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {
                 inscripcion.pasos.map((paso, i) => (
                     <li
+                        data-revelar
                         class:list={[
-                            'aparece relative rounded-xl border-b-4 p-6 transition',
+                            /* Las cuatro tarjetas comparten tratamiento. El
+                               destacado invertia a blanco sobre el fondo
+                               oscuro, y en una fila de cuatro eso no se leia
+                               como enfasis sino como un fallo de pintado: la
+                               distingue el filo degradado y algo mas de
+                               fondo, no un color opuesto. */
+                            'paso relative rounded-xl p-6 ring-1 transition',
                             paso.destacado
-                                ? 'border-unmsm-azul bg-white text-slate-800 shadow-xl'
-                                : 'border-unmsm-dorado bg-white/[0.06] ring-1 ring-white/10 hover:bg-white/[0.1]',
+                                ? 'paso-destacado bg-white/[0.12] ring-white/20'
+                                : 'bg-white/[0.06] ring-white/10 hover:bg-white/[0.1]',
                         ]}
                     >
                         <div
                             class:list={[
                                 'flex h-12 w-12 items-center justify-center rounded-full',
                                 paso.destacado
-                                    ? 'bg-unmsm-azul text-white'
+                                    ? 'marca-degradado text-white shadow-lg'
                                     : 'bg-unmsm-dorado/20 text-unmsm-dorado-light ring-1 ring-unmsm-dorado/30',
                             ]}
                         >
@@ -83,10 +91,7 @@ const { inscripcion } = Astro.props;
 
                         {paso.fecha && (
                             <p
-                                class:list={[
-                                    'mt-2 text-sm font-bold',
-                                    paso.destacado ? 'text-unmsm-azul' : 'text-unmsm-dorado-light',
-                                ]}
+                                class="mt-2 text-sm font-bold text-unmsm-dorado-light"
                             >
                                 {paso.fecha}
                             </p>
@@ -110,7 +115,6 @@ const { inscripcion } = Astro.props;
                 ))
             }
         </ol>
-        </div>
 
         {
             inscripcion.boton && (
@@ -123,3 +127,52 @@ const { inscripcion } = Astro.props;
         }
     </div>
 </section>
+
+<style>
+    /*
+     * El trazo entre pasos. `top: 3rem` es exactamente el centro del icono:
+     * 1.5rem de `p-6` mas 1.5rem de media altura del circulo. Si cambia
+     * cualquiera de los dos, cambia aqui — por eso va escrito con esa cuenta a
+     * la vista y no con un numero magico.
+     */
+    @media (min-width: 64rem) {
+        .paso::after {
+            content: "";
+            position: absolute;
+            top: 3rem;
+            left: 100%;
+            width: 1.25rem; /* el `gap-5` de la rejilla */
+            height: 1px;
+            background: linear-gradient(
+                90deg,
+                var(--color-unmsm-dorado),
+                color-mix(in oklab, var(--color-unmsm-dorado) 30%, transparent)
+            );
+        }
+
+        /* El ultimo de la fila no conecta con nada. */
+        .paso:last-child::after {
+            display: none;
+        }
+    }
+
+    /* El paso destacado se distingue por un filo degradado —el mismo gesto que
+       las tarjetas de programa— y no por invertir el color. */
+    .paso-destacado::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1.5px;
+        background: var(--degradado-marca);
+        pointer-events: none;
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+    }
+</style>
