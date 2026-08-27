@@ -1,0 +1,186 @@
+---
+import TituloSeccion from './TituloSeccion.astro';
+import Boton from './Boton.astro';
+import Icono from './Icono.astro';
+import { faArrowRight, faCalendarDay, faFilePdf, faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
+import type { Evento, GrupoInformativos, Testimonio } from '../lib/api';
+
+interface Props {
+    eventos: Evento[];
+    informativos: GrupoInformativos[];
+    testimonios: Testimonio[];
+}
+
+const { eventos, informativos, testimonios } = Astro.props;
+
+// Cada sección se oculta si no hay nada que enseñar, igual que en el sitio
+// anterior. Una portada con tres bloques vacíos —«Próximamente», «Sin
+// documentos»— cuenta peor que una portada sin ellos, y hoy las tres tablas
+// están vacías. En cuanto la Unidad publique algo, aparecen solas.
+const recursos = informativos.flatMap((grupo) =>
+    grupo.recursos.map((recurso) => ({ ...recurso, categoria: grupo.categoria }))
+);
+
+const fecha = (valor: string | null) =>
+    valor
+        ? new Date(valor).toLocaleDateString('es-PE', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+          })
+        : null;
+---
+
+{
+    testimonios.length > 0 && (
+        <section class="bg-slate-50 py-20" aria-labelledby="testimonios">
+            <div class="mx-auto max-w-7xl px-4 lg:px-8">
+                <TituloSeccion
+                    id="testimonios"
+                    titulo="Lo que dicen quienes ya pasaron"
+                    kicker="Testimonios"
+                    centrado
+                />
+
+                <ul class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {testimonios.slice(0, 6).map((testimonio) => (
+                        <li class="flex flex-col rounded-2xl bg-white p-6 shadow-sm">
+                            <span aria-hidden="true" class="text-unmsm-dorado">
+                                <Icono icono={faQuoteLeft} clase="h-6 w-6" />
+                            </span>
+                            <blockquote class="mt-4 flex-1 leading-relaxed text-slate-700">
+                                {testimonio.contenido}
+                            </blockquote>
+                            <div class="mt-6 flex items-center gap-3 border-t border-slate-100 pt-4">
+                                <img
+                                    src={testimonio.foto}
+                                    alt=""
+                                    loading="lazy"
+                                    decoding="async"
+                                    class="h-11 w-11 rounded-full object-cover"
+                                />
+                                <div>
+                                    <p class="font-semibold text-unmsm-azul">{testimonio.nombre}</p>
+                                    {testimonio.programa && (
+                                        <p class="text-xs text-slate-500">{testimonio.programa}</p>
+                                    )}
+                                </div>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+    )
+}
+
+{
+    eventos.length > 0 && (
+        <section class="py-20" aria-labelledby="eventos">
+            <div class="mx-auto max-w-7xl px-4 lg:px-8">
+                <TituloSeccion
+                    id="eventos"
+                    titulo="Eventos y actividades"
+                    kicker="Actualidad"
+                    bajada="Conferencias, coloquios y actividades abiertas del CERSEU."
+                    centrado
+                />
+
+                <ul class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {eventos.slice(0, 3).map((evento) => (
+                        <li class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-lg">
+                            {evento.imagen && (
+                                <img
+                                    src={evento.imagen}
+                                    alt=""
+                                    loading="lazy"
+                                    decoding="async"
+                                    class="h-44 w-full object-cover"
+                                />
+                            )}
+                            <div class="flex flex-1 flex-col p-6">
+                                {fecha(evento.fecha_inicio) && (
+                                    <p class="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-unmsm-dorado">
+                                        <Icono icono={faCalendarDay} clase="h-3.5 w-3.5" />
+                                        {fecha(evento.fecha_inicio)}
+                                    </p>
+                                )}
+                                <h3 class="mt-2 font-serif text-lg font-bold leading-snug text-unmsm-azul">
+                                    {evento.titulo}
+                                </h3>
+                                {evento.descripcion && (
+                                    <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
+                                        {evento.descripcion}
+                                    </p>
+                                )}
+                                {evento.url && (
+                                    <a
+                                        href={evento.url}
+                                        class="mt-4 text-sm font-semibold text-unmsm-azul hover:underline"
+                                    >
+                                        Ver más
+                                        <span aria-hidden="true"> →</span>
+                                    </a>
+                                )}
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+
+                <div class="mt-10 text-center">
+                    <Boton href="/eventos" variante="contorno" icono={faArrowRight} iconoAlFinal>
+                        Ver todos los eventos
+                    </Boton>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+{
+    recursos.length > 0 && (
+        <section class="bg-slate-50 py-20" aria-labelledby="documentos">
+            <div class="mx-auto max-w-7xl px-4 lg:px-8">
+                <TituloSeccion
+                    id="documentos"
+                    titulo="Documentos y Recursos"
+                    kicker="Información institucional"
+                    bajada="Reglamentos, formatos y documentos de consulta."
+                    centrado
+                />
+
+                <ul class="mx-auto mt-12 max-w-3xl divide-y divide-slate-200 overflow-hidden rounded-2xl bg-white shadow-sm">
+                    {recursos.slice(0, 6).map((recurso) => (
+                        <li>
+                            <a
+                                href={recurso.url}
+                                class="flex items-center gap-4 px-6 py-4 transition hover:bg-slate-50"
+                            >
+                                <span aria-hidden="true" class="flex-none text-unmsm-dorado">
+                                    <Icono icono={faFilePdf} clase="h-5 w-5" />
+                                </span>
+                                <span class="min-w-0 flex-1">
+                                    <span class="block font-medium text-slate-800">
+                                        {recurso.titulo}
+                                    </span>
+                                    <span class="block text-xs text-slate-500">
+                                        {recurso.categoria}
+                                    </span>
+                                </span>
+                                <span aria-hidden="true" class="text-slate-400">
+                                    →
+                                </span>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+
+                <div class="mt-10 text-center">
+                    <Boton href="/informativos" variante="contorno" icono={faArrowRight} iconoAlFinal>
+                        Ver todos los documentos
+                    </Boton>
+                </div>
+            </div>
+        </section>
+    )
+}

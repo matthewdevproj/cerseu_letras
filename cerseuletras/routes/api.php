@@ -25,10 +25,14 @@ Route::prefix('v1')->group(function () {
     // Contenido editable de las paginas largas.
     Route::get('/paginas/{slug}', [PaginaApiController::class, 'mostrar']);
 
+    // Anuncios de la portada, con los ajustes del popup que los acompanan.
+    Route::get('/anuncios', [ActualidadApiController::class, 'anuncios']);
+
     // Secciones de actualidad y recursos.
     Route::get('/eventos', [ActualidadApiController::class, 'eventos']);
     Route::get('/informativos', [ActualidadApiController::class, 'informativos']);
     Route::get('/cronograma', [ActualidadApiController::class, 'cronograma']);
+    Route::get('/testimonios', [ActualidadApiController::class, 'testimonios']);
 
     // Plana docente.
     Route::get('/docentes', [DocenteApiController::class, 'index']);

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Anuncio;
 use App\Models\Cronograma;
+use App\Models\SiteSetting;
+use App\Models\Testimonio;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
@@ -83,6 +86,50 @@ class ActualidadApiController extends Controller
                     'fecha' => $i->fecha_text,
                 ])->values(),
             ],
+        ]);
+    }
+
+    /**
+     * Anuncios de la portada y los ajustes con los que se muestran.
+     *
+     * Van juntos porque se usan juntos: sin el retardo y la frecuencia, el
+     * sitio tendria que decidirlos por su cuenta y dejarian de ser
+     * administrables. Si no hay ninguno vigente la lista viene vacia y el
+     * sitio no pinta nada —ni marcado, ni CSS, ni JS—.
+     */
+    public function anuncios(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'items' => Anuncio::paraPopup(),
+                'ajustes' => SiteSetting::ajustesPopup(),
+            ],
+        ]);
+    }
+
+    /**
+     * Testimonios publicados.
+     *
+     * Hoy no hay ninguno cargado, y por eso mismo el endpoint existe: sin el,
+     * el dia que la Unidad publique el primero no aparecerian en ninguna parte
+     * y habria que volver a tocar codigo. La seccion se oculta sola cuando la
+     * lista viene vacia.
+     */
+    public function testimonios(): JsonResponse
+    {
+        $testimonios = Testimonio::query()
+            ->publicados()
+            ->recientes()
+            ->with('programa')
+            ->get();
+
+        return response()->json([
+            'data' => $testimonios->map(fn (Testimonio $t) => [
+                'nombre' => $t->nombre,
+                'contenido' => $t->contenido,
+                'foto' => $t->photo_url,
+                'programa' => $t->programa?->nombre,
+            ])->values(),
         ]);
     }
 }

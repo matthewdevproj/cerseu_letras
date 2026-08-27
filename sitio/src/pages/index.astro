@@ -1,6 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
-import { obtenerTipos, obtenerConfiguracion, obtenerDocentes, obtenerProgramas } from '../lib/api';
+import {
+    obtenerTipos,
+    obtenerConfiguracion,
+    obtenerDocentes,
+    obtenerProgramas,
+    obtenerAnuncios,
+    obtenerEventos,
+    obtenerInformativos,
+    obtenerTestimonios,
+} from '../lib/api';
+import AnunciosPopup from '../components/AnunciosPopup.astro';
+import SeccionesPortada from '../components/SeccionesPortada.astro';
 import TituloSeccion from '../components/TituloSeccion.astro';
 import BandaIndicadores from '../components/BandaIndicadores.astro';
 import PasosInscripcion from '../components/PasosInscripcion.astro';
@@ -19,6 +30,18 @@ const { portada, inscripcion } = sitio;
 const docentes = await obtenerDocentes();
 const programas = await obtenerProgramas();
 const fondo = portada.imagenes[0];
+
+// Solo en la portada, como en el sitio anterior: asi no puede colarse en el
+// resto de las paginas.
+const anuncios = await obtenerAnuncios();
+
+// Las tres secciones de mas abajo. Cada una se oculta si no tiene nada que
+// ensenar, igual que en el sitio anterior: hoy las tres tablas estan vacias.
+const [eventos, informativos, testimonios] = await Promise.all([
+    obtenerEventos(),
+    obtenerInformativos(),
+    obtenerTestimonios(),
+]);
 ---
 
 <Base
@@ -123,7 +146,11 @@ const fondo = portada.imagenes[0];
             <OfertaDestacada tipos={tipos} programas={programas} />
         </div>    </section>
 
+    <AnunciosPopup anuncios={anuncios} />
+
     {inscripcion && <PasosInscripcion inscripcion={inscripcion} />}
+
+    <SeccionesPortada eventos={eventos} informativos={informativos} testimonios={testimonios} />
 
     {/* Banda institucional, como en Blade: da respiro entre bloques y sitúa al
         CERSEU dentro de la Universidad. */}

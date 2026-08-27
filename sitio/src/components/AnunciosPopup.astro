@@ -1,0 +1,354 @@
+---
+import type { Anuncios } from '../lib/api';
+
+interface Props {
+    anuncios: Anuncios;
+}
+
+const { anuncios } = Astro.props;
+const { items, ajustes } = anuncios;
+
+// Sin anuncios vigentes no se pinta nada: ni marcado, ni estilos, ni script.
+// La Unidad apaga el aviso desde el panel, no editando código.
+const hay = items.length > 0;
+
+// «una vez por sesión» o «una vez al día», tal como se elige en Configuración.
+const porSesion = ajustes.frecuencia === 'sesion';
+const horas = ajustes.frecuencia === 'dia' ? 24 : 1;
+---
+
+{
+    hay && (
+        <div
+            id="anuncios-popup"
+            class="anuncios-popup"
+            data-retardo={ajustes.retardo}
+            data-por-sesion={porSesion ? '1' : '0'}
+            data-horas={horas}
+            data-auto={ajustes.autoAvance ? '1' : '0'}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="anuncios-titulo"
+            hidden
+        >
+            <div class="anuncios-caja">
+                <h2 id="anuncios-titulo" class="sr-only">
+                    Anuncios del CERSEU
+                </h2>
+
+                <button type="button" class="anuncios-cerrar" aria-label="Cerrar los anuncios">
+                    <span aria-hidden="true">×</span>
+                </button>
+
+                <div class="anuncios-carrusel">
+                    {items.map((anuncio, i) => (
+                        <figure class="anuncios-lamina" data-indice={i} hidden={i !== 0}>
+                            {anuncio.link ? (
+                                <a href={anuncio.link} class="anuncios-enlace">
+                                    <img
+                                        src={anuncio.imagen}
+                                        alt={anuncio.alt}
+                                        width={anuncio.ancho ?? undefined}
+                                        height={anuncio.alto ?? undefined}
+                                        loading={i === 0 ? 'eager' : 'lazy'}
+                                        decoding="async"
+                                    />
+                                </a>
+                            ) : (
+                                <img
+                                    src={anuncio.imagen}
+                                    alt={anuncio.alt}
+                                    width={anuncio.ancho ?? undefined}
+                                    height={anuncio.alto ?? undefined}
+                                    loading={i === 0 ? 'eager' : 'lazy'}
+                                    decoding="async"
+                                />
+                            )}
+
+                            {anuncio.link && anuncio.link_texto && (
+                                <figcaption>
+                                    <a href={anuncio.link} class="anuncios-boton">
+                                        {anuncio.link_texto}
+                                    </a>
+                                </figcaption>
+                            )}
+                        </figure>
+                    ))}
+                </div>
+
+                {items.length > 1 && (
+                    <div class="anuncios-controles">
+                        <button type="button" class="anuncios-anterior" aria-label="Anuncio anterior">
+                            ‹
+                        </button>
+                        <div class="anuncios-puntos" role="tablist" aria-label="Anuncios">
+                            {items.map((_, i) => (
+                                <button
+                                    type="button"
+                                    class="anuncios-punto"
+                                    data-ir={i}
+                                    role="tab"
+                                    aria-selected={i === 0 ? 'true' : 'false'}
+                                    aria-label={`Anuncio ${i + 1} de ${items.length}`}
+                                />
+                            ))}
+                        </div>
+                        <button type="button" class="anuncios-siguiente" aria-label="Anuncio siguiente">
+                            ›
+                        </button>
+                    </div>
+                )}
+            </div>
+        </div>
+    )
+}
+
+{
+    hay && (
+        <style>
+            .anuncios-popup {
+                position: fixed;
+                inset: 0;
+                z-index: 9990;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem;
+                background: rgb(15 23 42 / 0.5);
+                backdrop-filter: blur(5px);
+                opacity: 0;
+                transition: opacity 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .anuncios-popup[hidden] {
+                display: none;
+            }
+
+            .anuncios-popup.abierto {
+                opacity: 1;
+            }
+
+            .anuncios-caja {
+                position: relative;
+                max-width: min(42rem, 100%);
+                max-height: 90vh;
+                overflow: auto;
+                border-radius: 16px;
+                background: #fff;
+                box-shadow:
+                    0 24px 64px rgb(15 23 42 / 0.2),
+                    0 4px 16px rgb(15 23 42 / 0.1);
+                transform: scale(0.96);
+                transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .anuncios-popup.abierto .anuncios-caja {
+                transform: scale(1);
+            }
+
+            .anuncios-cerrar {
+                position: absolute;
+                right: 0.5rem;
+                top: 0.5rem;
+                z-index: 1;
+                display: flex;
+                height: 2.25rem;
+                width: 2.25rem;
+                align-items: center;
+                justify-content: center;
+                border-radius: 9999px;
+                background: rgb(255 255 255 / 0.9);
+                font-size: 1.5rem;
+                line-height: 1;
+                color: #1f2937;
+                cursor: pointer;
+            }
+
+            .anuncios-cerrar:hover {
+                background: #fff;
+            }
+
+            .anuncios-lamina[hidden] {
+                display: none;
+            }
+
+            .anuncios-lamina img {
+                display: block;
+                width: 100%;
+                height: auto;
+                border-radius: 16px 16px 0 0;
+            }
+
+            .anuncios-lamina figcaption {
+                padding: 1rem 1.25rem 1.25rem;
+                text-align: center;
+            }
+
+            .anuncios-boton {
+                display: inline-block;
+                border-radius: 0.5rem;
+                background: var(--color-unmsm-azul);
+                padding: 0.65rem 1.5rem;
+                font-weight: 600;
+                color: #fff;
+            }
+
+            .anuncios-controles {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.75rem;
+                padding: 0.75rem 1rem 1rem;
+            }
+
+            .anuncios-anterior,
+            .anuncios-siguiente {
+                cursor: pointer;
+                border-radius: 9999px;
+                padding: 0.25rem 0.75rem;
+                font-size: 1.5rem;
+                line-height: 1;
+                color: var(--color-unmsm-azul);
+            }
+
+            .anuncios-puntos {
+                display: flex;
+                gap: 0.4rem;
+            }
+
+            .anuncios-punto {
+                height: 0.55rem;
+                width: 0.55rem;
+                cursor: pointer;
+                border-radius: 9999px;
+                background: #cbd5e1;
+            }
+
+            .anuncios-punto[aria-selected='true'] {
+                background: var(--color-unmsm-azul);
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .anuncios-popup,
+                .anuncios-caja {
+                    transition: none;
+                }
+            }
+        </style>
+    )
+}
+
+{
+    hay && (
+        <script is:inline>
+            (function () {
+                function iniciar() {
+                    var popup = document.getElementById('anuncios-popup');
+                    if (!popup || popup.dataset.listo === '1') return;
+                    popup.dataset.listo = '1';
+
+                    var laminas = popup.querySelectorAll('.anuncios-lamina');
+                    var puntos = popup.querySelectorAll('.anuncios-punto');
+                    var actual = 0;
+
+                    var clave = 'cerseu-anuncios-vistos';
+
+                    function yaVisto() {
+                        try {
+                            if (popup.dataset.porSesion === '1') {
+                                return sessionStorage.getItem(clave) === '1';
+                            }
+                            var hasta = Number(localStorage.getItem(clave) || 0);
+                            return Date.now() < hasta;
+                        } catch (e) {
+                            // Navegador con el almacenamiento bloqueado: se
+                            // muestra. Es preferible repetir un aviso a
+                            // ocultarlo por un error del navegador.
+                            return false;
+                        }
+                    }
+
+                    function marcarVisto() {
+                        try {
+                            if (popup.dataset.porSesion === '1') {
+                                sessionStorage.setItem(clave, '1');
+                            } else {
+                                var horas = Number(popup.dataset.horas || 1);
+                                localStorage.setItem(clave, String(Date.now() + horas * 3600000));
+                            }
+                        } catch (e) {}
+                    }
+
+                    function mostrar(i) {
+                        actual = (i + laminas.length) % laminas.length;
+                        laminas.forEach(function (l, j) {
+                            l.hidden = j !== actual;
+                        });
+                        puntos.forEach(function (p, j) {
+                            p.setAttribute('aria-selected', String(j === actual));
+                        });
+                    }
+
+                    var devolverFoco = null;
+
+                    function abrir() {
+                        devolverFoco = document.activeElement;
+                        popup.hidden = false;
+                        // Un fotograma de margen para que la transicion tenga
+                        // un estado inicial desde el que animar.
+                        requestAnimationFrame(function () {
+                            popup.classList.add('abierto');
+                        });
+                        var cerrar = popup.querySelector('.anuncios-cerrar');
+                        cerrar && cerrar.focus();
+                        marcarVisto();
+                    }
+
+                    function cerrar() {
+                        popup.classList.remove('abierto');
+                        setTimeout(function () {
+                            popup.hidden = true;
+                        }, 320);
+                        // El foco vuelve a donde estaba: quien navega con
+                        // teclado no se queda al principio del documento.
+                        devolverFoco && devolverFoco.focus && devolverFoco.focus();
+                    }
+
+                    popup.querySelector('.anuncios-cerrar').addEventListener('click', cerrar);
+
+                    popup.addEventListener('click', function (e) {
+                        if (e.target === popup) cerrar();
+                    });
+
+                    popup.addEventListener('keydown', function (e) {
+                        if (e.key === 'Escape') cerrar();
+                        if (laminas.length < 2) return;
+                        if (e.key === 'ArrowRight') mostrar(actual + 1);
+                        if (e.key === 'ArrowLeft') mostrar(actual - 1);
+                    });
+
+                    var anterior = popup.querySelector('.anuncios-anterior');
+                    var siguiente = popup.querySelector('.anuncios-siguiente');
+                    anterior && anterior.addEventListener('click', function () { mostrar(actual - 1); });
+                    siguiente && siguiente.addEventListener('click', function () { mostrar(actual + 1); });
+                    puntos.forEach(function (p) {
+                        p.addEventListener('click', function () { mostrar(Number(p.dataset.ir)); });
+                    });
+
+                    if (popup.dataset.auto === '1' && laminas.length > 1) {
+                        setInterval(function () {
+                            if (!popup.hidden) mostrar(actual + 1);
+                        }, 4000);
+                    }
+
+                    if (yaVisto()) return;
+
+                    setTimeout(abrir, Number(popup.dataset.retardo || 1200));
+                }
+
+                iniciar();
+                document.addEventListener('astro:page-load', iniciar);
+            })();
+        </script>
+    )
+}

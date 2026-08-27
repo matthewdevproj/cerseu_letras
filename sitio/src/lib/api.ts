@@ -211,6 +211,15 @@ export type CronogramaAcademico = {
     }[];
 } | null;
 
+export type Testimonio = {
+    nombre: string;
+    contenido: string;
+    foto: string;
+    programa: string | null;
+};
+
+export const obtenerTestimonios = () => pedir<Testimonio[]>('/testimonios');
+
 export const obtenerEventos = () => pedir<Evento[]>('/eventos');
 export const obtenerInformativos = () => pedir<GrupoInformativos[]>('/informativos');
 export const obtenerCronograma = () => pedir<CronogramaAcademico>('/cronograma');
@@ -265,3 +274,27 @@ export type EntradaBuscador = {
 };
 
 export const obtenerIndiceBuscador = () => pedir<EntradaBuscador[]>('/buscador');
+
+/**
+ * Anuncios de la portada, con los ajustes con los que se muestran.
+ *
+ * Van juntos porque se usan juntos: el retardo y la frecuencia se editan en el
+ * panel, y separarlos obligaria al sitio a decidirlos por su cuenta.
+ */
+export type Anuncios = {
+    items: {
+        imagen: string;
+        alt: string;
+        link: string;
+        link_texto: string;
+        ancho: number | null;
+        alto: number | null;
+    }[];
+    ajustes: {
+        retardo: number;
+        frecuencia: 'sesion' | 'dia' | 'siempre';
+        autoAvance: boolean;
+    };
+};
+
+export const obtenerAnuncios = () => pedir<Anuncios>('/anuncios');

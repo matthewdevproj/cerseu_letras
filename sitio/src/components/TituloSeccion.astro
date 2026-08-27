@@ -7,9 +7,15 @@ interface Props {
     /** Texto pequeño en versalitas doradas sobre el título. */
     kicker?: string;
     claro?: boolean;
+    /**
+     * Va al <h2>. Lo necesitan las secciones que se anuncian con
+     * `aria-labelledby`: sin el, el atributo apunta a un id que no existe y el
+     * lector de pantalla anuncia la seccion sin nombre.
+     */
+    id?: string;
 }
 
-const { titulo, bajada, centrado = false, kicker, claro = false } = Astro.props;
+const { titulo, bajada, centrado = false, kicker, claro = false, id } = Astro.props;
 ---
 
 <header class={centrado ? 'text-center' : ''}>
@@ -22,6 +28,7 @@ const { titulo, bajada, centrado = false, kicker, claro = false } = Astro.props;
     }
 
     <h2
+        id={id}
         class:list={[
             'font-serif text-3xl font-bold tracking-tight',
             kicker ? 'mt-2' : '',
