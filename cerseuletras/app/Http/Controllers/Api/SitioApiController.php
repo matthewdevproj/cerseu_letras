@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\CronogramaAdmision;
+use App\Models\DirectorioCerseu;
 use App\Models\MenuItem;
 use App\Models\SiteSetting;
 use Illuminate\Http\JsonResponse;
@@ -169,6 +170,36 @@ class SitioApiController extends Controller
             'nueva_pestana' => (bool) $item->nueva_pestana,
             'hijos' => $hijos->all(),
         ];
+    }
+
+    /**
+     * Directorio del CERSEU, agrupado por unidad.
+     *
+     * Lo administra el panel y hoy esta vacio. El endpoint existe igual: sin
+     * el, el dia que la Unidad cargue su equipo no apareceria en ninguna parte
+     * y habria que volver a tocar codigo. El orden —autoridades primero,
+     * despues personal administrativo— lo decide el modelo, el mismo que usaba
+     * la vista anterior.
+     */
+    public function directorio(): JsonResponse
+    {
+        $grupos = DirectorioCerseu::agrupadosPorUnidad();
+
+        return response()->json([
+            'data' => $grupos
+                ->map(fn ($personas, $unidad) => [
+                    'unidad' => $unidad,
+                    'personas' => $personas->map(fn (DirectorioCerseu $p) => [
+                        'nombre' => $p->nombre_persona,
+                        'cargo' => $p->cargo,
+                        'anexo' => $p->anexo ?: null,
+                        // El correo si se publica: es el dato por el que se
+                        // consulta un directorio, y ya esta en el pie.
+                        'correo' => $p->correo_persona ?: null,
+                    ])->values(),
+                ])
+                ->values(),
+        ]);
     }
 
     /**

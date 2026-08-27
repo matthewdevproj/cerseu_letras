@@ -10,9 +10,16 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *
  * Se declara campo a campo a propósito, sin `$this->resource->toArray()`: la
  * tabla `programas` arrastra columnas de la etapa de Posgrado —`creditos`,
- * `costo_por_credito`, `semestres_inversion`, `perfil_graduado`— que no
- * pintan nada en la oferta del CERSEU. Volcar el modelo entero las publicaría
- * en la API y ataría el frontend a un esquema que queremos poder limpiar.
+ * `costo_por_credito`, `semestres_inversion`— que no pintan nada en la oferta
+ * del CERSEU. Volcar el modelo entero las publicaría en la API y ataría el
+ * frontend a un esquema que queremos poder limpiar.
+ *
+ * El resto del contenido largo —objetivos, plan de estudios, perfiles, los
+ * documentos— sí va, aunque hoy los 39 programas lo tengan vacío: son campos
+ * que el panel edita, y no exponerlos significaría que el día que la Unidad
+ * escriba los objetivos de un curso no aparecerían en ninguna parte. La ficha
+ * oculta cada bloque que llegue vacío, así que no cuesta nada mientras no se
+ * usen.
  *
  * `medidas` sale ya formateada («12 horas académicas») porque la regla de qué
  * unidad corresponde a cada tipo vive en TipoOferta, no en la plantilla: si
@@ -35,6 +42,29 @@ class ProgramaResource extends JsonResource
             'medidas' => $this->resource->medidasFormateadas(),
             'inversion' => $this->resource->inversion_economica ?: null,
             'estado' => $this->resource->estado,
+
+            // Contenido largo de la ficha. Se envía siempre —también en el
+            // listado— porque son unos pocos kB y el sitio se genera una vez,
+            // no una petición por visita.
+            'objetivos' => $this->resource->objetivos_academicos ?: null,
+            'plan_estudios' => $this->resource->plan_estudios ?: null,
+            'perfil_ingresante' => $this->resource->perfil_ingresante ?: null,
+            'perfil_graduado' => $this->resource->perfil_graduado ?: null,
+            'por_que' => $this->resource->por_que_text ?: null,
+            'vacantes' => $this->resource->vacantes ?: null,
+            'duracion' => $this->resource->duracion ?: null,
+            'grado_otorga' => $this->resource->grado_otorga_label ?: null,
+            'fecha_limite' => $this->resource->fecha_limite_inscripcion
+                ? $this->resource->fecha_limite_inscripcion->toDateString()
+                : null,
+
+            // Documentos descargables, tal como los sube el panel.
+            'documentos' => array_values(array_filter([
+                $this->resource->plan_url ? ['titulo' => 'Plan de estudios', 'url' => $this->resource->plan_url] : null,
+                $this->resource->horario_url ? ['titulo' => 'Horario', 'url' => $this->resource->horario_url] : null,
+                $this->resource->brochure_url ? ['titulo' => 'Brochure', 'url' => $this->resource->brochure_url] : null,
+                $this->resource->admision_pdf_url ? ['titulo' => 'Admisión', 'url' => $this->resource->admision_pdf_url] : null,
+            ])),
             // URL absoluta y ya resuelta: el accesor aplica el mismo respaldo
             // que el sitio en Blade (una foto del campus segun el tipo) cuando
             // el programa no tiene imagen propia. Enviar `imagen` en crudo

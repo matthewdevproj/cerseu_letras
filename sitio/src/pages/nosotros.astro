@@ -2,10 +2,17 @@
 import Base from '../layouts/Base.astro';
 import HeroPagina from '../components/HeroPagina.astro';
 import TituloSeccion from '../components/TituloSeccion.astro';
-import { obtenerPagina, obtenerConfiguracion } from '../lib/api';
+import { obtenerPagina, obtenerConfiguracion, obtenerDirectorio } from '../lib/api';
 
 const pagina = await obtenerPagina('nosotros');
 const sitio = await obtenerConfiguracion();
+
+// Las autoridades son la unidad «AUTORIDADES» del directorio, como en el sitio
+// anterior: se cargan en un solo sitio del panel y salen en los dos. Hoy el
+// directorio esta vacio y la seccion no se pinta.
+const directorio = await obtenerDirectorio();
+const autoridades =
+    directorio.find((u) => u.unidad.toUpperCase() === 'AUTORIDADES')?.personas ?? [];
 
 // El agrupado lo decide el panel, no esta plantilla: cada sección trae su
 // `grupo`, y aquí solo se reparten. Si la Unidad añade un valor más desde
@@ -72,6 +79,42 @@ const valores = de('valor');
                                     {String(i + 1).padStart(2, '0')}
                                 </span>
                                 <p class="leading-snug font-medium text-slate-700">{valor.titulo}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )
+        }
+
+        {
+            autoridades.length > 0 && (
+                <section aria-labelledby="autoridades" class="mt-16">
+                    <TituloSeccion
+                        id="autoridades"
+                        titulo="Autoridades"
+                        kicker="Equipo directivo del CERSEU"
+                        centrado
+                    />
+
+                    <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        {autoridades.map((persona) => (
+                            <li class="rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+                                {persona.cargo && (
+                                    <p class="text-xs font-semibold uppercase tracking-wider text-unmsm-dorado">
+                                        {persona.cargo}
+                                    </p>
+                                )}
+                                <p class="mt-2 font-serif text-lg font-bold text-unmsm-azul">
+                                    {persona.nombre}
+                                </p>
+                                {persona.correo && (
+                                    <a
+                                        href={`mailto:${persona.correo}`}
+                                        class="mt-2 block break-all text-sm text-slate-600 hover:text-unmsm-azul hover:underline"
+                                    >
+                                        {persona.correo}
+                                    </a>
+                                )}
                             </li>
                         ))}
                     </ul>

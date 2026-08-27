@@ -2,9 +2,14 @@
 import Base from '../layouts/Base.astro';
 import HeroPagina from '../components/HeroPagina.astro';
 import EstadoVacio from '../components/EstadoVacio.astro';
-import { obtenerConfiguracion } from '../lib/api';
+import { obtenerConfiguracion, obtenerDirectorio } from '../lib/api';
 
 const { contacto } = await obtenerConfiguracion();
+
+// El equipo por unidades, si la Unidad lo ha cargado. Mientras no lo esté, la
+// página sigue sirviendo para lo que se entra a un directorio: encontrar cómo
+// contactar. Por eso los datos generales van siempre, no como sustituto.
+const unidades = await obtenerDirectorio();
 ---
 
 <Base titulo="Directorio" descripcion="Directorio de contacto del CERSEU de la Facultad de Letras.">
@@ -16,12 +21,56 @@ const { contacto } = await obtenerConfiguracion();
     />
 
     <section class="mx-auto max-w-4xl px-6 py-16 pb-24">
-        <EstadoVacio
-            titulo="El directorio por áreas aún no está publicado"
-            texto="Mientras tanto, estos son los datos generales de contacto del centro."
-        />
+        {
+            unidades.length > 0 ? (
+                <div class="space-y-12">
+                    {unidades.map((unidad) => (
+                        <section aria-labelledby={`unidad-${unidad.unidad.replace(/\s+/g, '-').toLowerCase()}`}>
+                            <h2
+                                id={`unidad-${unidad.unidad.replace(/\s+/g, '-').toLowerCase()}`}
+                                class="font-serif text-2xl font-bold text-unmsm-azul"
+                            >
+                                {unidad.unidad}
+                            </h2>
+                            <div class="mt-2 h-1 w-16 rounded-full bg-unmsm-dorado" aria-hidden="true" />
 
-        <dl class="mt-10 grid gap-5 sm:grid-cols-2">
+                            <ul class="mt-6 divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-200">
+                                {unidad.personas.map((persona) => (
+                                    <li class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 px-5 py-4">
+                                        <div>
+                                            <p class="font-medium text-slate-800">{persona.nombre}</p>
+                                            {persona.cargo && (
+                                                <p class="text-sm text-slate-500">{persona.cargo}</p>
+                                            )}
+                                        </div>
+                                        <div class="text-sm text-slate-600">
+                                            {persona.correo && (
+                                                <a
+                                                    href={`mailto:${persona.correo}`}
+                                                    class="text-unmsm-azul hover:underline"
+                                                >
+                                                    {persona.correo}
+                                                </a>
+                                            )}
+                                            {persona.anexo && (
+                                                <span class="ml-3">Anexo {persona.anexo}</span>
+                                            )}
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    ))}
+                </div>
+            ) : (
+                <EstadoVacio
+                    titulo="El directorio por áreas aún no está publicado"
+                    texto="Mientras tanto, estos son los datos generales de contacto del centro."
+                />
+            )
+        }
+
+        <dl class="mt-12 grid gap-5 sm:grid-cols-2">
             {contacto.email && (
                 <div class="rounded-xl border border-slate-200 p-6">
                     <dt class="text-xs font-semibold uppercase tracking-wider text-slate-500">Correo</dt>

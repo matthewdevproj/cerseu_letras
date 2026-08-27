@@ -56,6 +56,23 @@ export type Programa = {
     inversion: string | null;
     estado: string;
     imagen: string | null;
+
+    /**
+     * Contenido largo de la ficha. Hoy los 39 programas lo tienen vacio, pero
+     * el panel lo edita: la ficha oculta cada bloque que llegue vacio, asi que
+     * aparecen solos el dia que se escriban.
+     */
+    objetivos: string | null;
+    plan_estudios: string | null;
+    perfil_ingresante: string | null;
+    perfil_graduado: string | null;
+    por_que: string | null;
+    vacantes: string | number | null;
+    duracion: string | number | null;
+    grado_otorga: string | null;
+    fecha_limite: string | null;
+    documentos: { titulo: string; url: string }[];
+
     // Solo en la ficha: el listado no los trae.
     docentes?: DocentePrograma[];
 };
@@ -142,6 +159,22 @@ export type ConfiguracionSitio = {
 export const obtenerConfiguracion = () => pedir<ConfiguracionSitio>('/sitio');
 
 export const obtenerMenu = () => pedir<ItemMenu[]>('/menu');
+
+/**
+ * Directorio del CERSEU, agrupado por unidad. Hoy viene vacio: se administra
+ * en el panel y todavia no se ha cargado el equipo.
+ */
+export type UnidadDirectorio = {
+    unidad: string;
+    personas: {
+        nombre: string;
+        cargo: string | null;
+        anexo: string | null;
+        correo: string | null;
+    }[];
+};
+
+export const obtenerDirectorio = () => pedir<UnidadDirectorio[]>('/directorio');
 
 export type SeccionContenido = {
     grupo: string | null;
